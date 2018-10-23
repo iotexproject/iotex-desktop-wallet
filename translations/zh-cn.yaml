@@ -1,0 +1,178 @@
+meta.title: Title
+meta.description: Description
+meta.address: Address
+meta.id: Id
+meta.transfers: Transfers
+meta.transactions: Transactions
+meta.transfer: Transfer
+meta.height: Height
+meta.timestamp: Timestamp
+meta.amount: Amount
+meta.error: Error
+meta.notFound: Not Found
+meta.page: Page
+meta.next: Next
+meta.previous: Previous
+meta.loading: Loading
+meta.all: All
+meta.block: Block
+meta.blocks: Blocks
+meta.vote: Vote
+meta.votes: Votes
+address.title: Address Summary
+address.totalBalance: Total Balance
+address.nonce: Nonce
+address.voteDetails: Vote Details
+address.listOfTransfers: List of Transfers
+block.title: Block Details
+block.id: Block Id
+block.totalForged: Total Forged
+block.totalAmount: Total Amount
+block.generatedBy: Producer Public Key
+block.size: Size (in Bytes)
+block.listOfTransfers: List of Transfers
+block.listOfVotes: List of Votes
+dashboard.epochs: '# of Epochs'
+dashboard.blocks: '# of Blocks'
+dashboard.transfers: '# of Transfers'
+dashboard.votes: '# of Votes'
+dashboard.faps: FTPS
+dashboard.bbh: BBH
+dashboard.epochsMsg: >-
+  Total number of Epochs that have been running on IoTeX blockchain. Epoch
+  refers to a period when the same set of elected delegates take turns to
+  produce the blocks on behalf of the whole network.
+dashboard.blocksMsg: Total number of blocks built on IoTeX blockchain.
+dashboard.transfersMsg: Total number of token transfer created/recorded on IoTeX blockchain.
+dashboard.votesMsg: Total number of votes for delegates on IoTeX blockchain.
+dashboard.fapsMsg: >-
+  Finalized Transaction Rate (FTPS) - The number of finalized actions (transfers
+  + votes) per second.
+dashboard.bbhMsg: >-
+  Block Building History - How long the IoTeX blockchain has been running
+  (timestamp of the latest block - timestamp of the first block)
+latestBlocks.title: Latest Blocks
+latestTransfers.title: Latest Transfers
+latestVotes.title: Latest Votes
+blocks.title: Blocks
+blocks.forged: Forged
+blockchainExplorer.title: Blockchain Explorer
+transfers.title: Transactions
+transfer.title: Transfer Details
+transfer.sender: Sender
+transfer.recipient: Recipient
+transfer.fee: Fee
+transfer.hash: Transfer Hash
+transfer.coinBase: Coinbase
+footer.website: Website
+footer.blog: Blog
+footer.chat: Chat
+votes.title: Votes
+empty.no: 'No'
+empty.noMore: No More
+empty.yet: Yet
+error.unknown: Something Went Wrong
+vote.title: Vote Details
+vote.id: Vote Hash
+vote.votee: Votee
+vote.voter: Voter
+vote.voters: Voters
+vote.blockId: Block ID
+vote.nonce: Nonce
+votes.out: Vote sent out
+votes.in: Vote received
+'rolldpos:title': Roll-DPoS
+'rolldpos:msg': >-
+  A randomized delegated proof of stake algorithm, which inherits all the
+  advantages of the original DPoS consensus framework and further enhances its
+  capability in terms of decentralization as well as extensibility to complex
+  blockchain architectures. The colored dots represent the delegates, and the
+  flashing dot represents the selected producer.
+breadcrumbs.home: home
+breadcrumbs.votes: votes
+breadcrumbs.transfers: transfers
+breadcrumbs.blocks: blocks
+breadcrumbs.address: address
+base.message.close: base.message.close
+wallet.title.wallet: Wallet
+wallet.tab.newWallet: New Wallet
+wallet.tab.transactions: Transactions
+wallet.tab.smartContract: Smart Contract
+wallet.transactionDetail.title: Transaction Detail
+wallet.transactionDetail.raw: Raw Transaction
+wallet.transactionDetail.signed: Signed Transaction Hash
+wallet.account.hidden: '******************************************************************'
+wallet.account.header: Unlock / Create new wallet
+wallet.account.enterPrivateKey: Enter Private Key
+wallet.account.addressPlaceHolder: IoTeX Address...
+wallet.account.gkp: Generate Key Pair
+wallet.account.generate: Generate
+wallet.account.secureMessage: >-
+  We do not store your private key on the server. The private key generation is
+  handled on your browser only. Back up your private key if you want to reuse it
+  in the future. If you lose your private key, it cannot be recovered.
+wallet.account.wallet: Wallet
+wallet.account.raw: Raw Address
+wallet.account.private: Private Key
+wallet.account.show: Show
+wallet.account.hide: Hide
+wallet.account.unlock: Unlock
+wallet.error.tab: Please select a tab
+wallet.error.required: This field is required
+wallet.error.private: Private Key is missing
+wallet.error.fix: Please fix form errors
+wallet.error.unknown: Something went wrong...
+wallet.input.to: To address
+wallet.input.amount: Amount
+wallet.input.nonce: Nonce
+wallet.input.gasPrice: Gas Price
+wallet.input.gasLimit: Gas Limit
+wallet.input.dib: Data in Bytes (optional)
+wallet.input.generate: Generate Transaction
+wallet.input.contract: Contract Address
+wallet.input.abi: ABI / JSON Interface
+wallet.input.byteCode: Byte Code
+wallet.transactions.header: Actions
+wallet.transactions.transfer: Create Transfer
+wallet.transactions.vote: Create Vote
+wallet.transactions.send: Send Transaction
+wallet.transaction.title: Transaction
+wallet.interact.abiTemplate: >-
+  [{ "type":"contructor", "inputs": [{ "name":"param1", "type":"uint256",
+  "indexed":true }], "name":"Event" }, { "type":"function", "inputs":
+  [{"name":"a", "type":"uint256"}], "name":"foo", "outputs": [] }]
+wallet.interact.invalidABI: Invalid JSON ABI
+wallet.interact.header: Read / Write Contract
+wallet.interact.access: Access
+wallet.abi.read: Read
+wallet.abi.write: Write
+wallet.contract.title: Contract
+wallet.contract.header: Actions
+wallet.contract.interact: Interact
+wallet.contract.deploy: Deploy
+wallet.deploy.deploy: Deploy Contract
+wallet.deploy.signTransaction: Sign Transaction
+input.bool.true: true
+input.bool.false: false
+wallet.input.solidity: wallet.input.solidity
+wallet.deploy.generateByteCode: wallet.deploy.generateByteCode
+meta.executions: meta.executions
+meta.account: meta.account
+meta.execution: meta.execution
+execution.title: execution.title
+execution.timestamp: Minted At
+wallet.tab.transfer: wallet.tab.transfer
+wallet.tab.vote: wallet.tab.vote
+wallet.tab.contract: wallet.tab.contract
+wallet.account.placehold.privateKey: wallet.account.placehold.privateKey
+account.testnet.token: account.testnet.token
+wallet.unlock.new.title: wallet.unlock.new.title
+wallet.unlock.new.yes: wallet.unlock.new.yes
+wallet.unlock.new.p1: wallet.unlock.new.p1
+wallet.unlock.new.p2: wallet.unlock.new.p2
+unlock-wallet.title: unlock-wallet.title
+unlock-wallet.warn.message: unlock-wallet.warn.message
+'': ''
+unlock-wallet.no-wallet: unlock-wallet.no-wallet
+unlock-wallet.create: unlock-wallet.create
+account.empty.unlock: account.empty.unlock

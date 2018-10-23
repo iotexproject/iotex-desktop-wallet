@@ -1,0 +1,10 @@
+[ignore]
+.*/node_modules/fbjs/.*
+
+[include]
+
+[libs]
+./node_modules/fbjs/flow/lib/dev.js
+./flow-typed/.*
+
+[options]

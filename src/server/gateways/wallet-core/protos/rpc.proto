@@ -1,0 +1,123 @@
+// Copyright (c) 2018 IoTeX
+// This is an alpha (internal) release and is not suitable for production. This source code is provided 'as is' and no
+// warranties are given as to title or non-infringement, merchantability or fitness for purpose and, to the extent
+// permitted by law, all liability for your use of the code is disclaimed. This source code is governed by Apache
+// License 2.0 that can be found in the LICENSE file.
+
+// To compile the proto, run:
+// cd ../wallet-core-protos
+// npm install -g grpc-tools
+// grpc_tools_node_protoc --js_out=import_style=commonjs,binary:../ --grpc_out=../ --plugin=protoc-gen-grpc=`which grpc_tools_node_protoc_plugin` rpc.proto
+syntax = "proto3";
+package pb;
+
+// The wallet service definition
+service walletService {
+    rpc NewWallet (NewWalletRequest) returns (NewWalletResponse) {}
+    rpc Unlock (UnlockRequest) returns (UnlockResponse) {}
+    rpc SignTransfer (SignTransferRequest) returns (SignTransferResponse) {}
+    rpc SignVote (SignVoteRequest) returns (SignVoteResponse) {}
+    rpc SignExecution (SignExecutionRequest) returns (SignExecutionResponse) {}
+    rpc DecodeAddress (DecodeAddressRequest) returns (DecodeAddressResponse) {}
+}
+
+message NewWalletRequest {
+}
+
+message NewWalletResponse {
+    Address address = 1;
+}
+
+message UnlockRequest {
+    string privateKey = 1;
+}
+
+message UnlockResponse {
+    Address address = 1;
+}
+
+message SignTransferRequest {
+    Address address = 1;
+    Transfer transfer = 2;
+}
+
+message SignTransferResponse {
+    Transfer transfer = 1;
+}
+
+message SignVoteRequest {
+    Address address = 1;
+    Vote vote = 2;
+}
+
+message SignVoteResponse {
+    Vote vote = 1;
+}
+
+message DecodeAddressRequest {
+    string address = 1;
+}
+
+message DecodeAddressResponse {
+    string hash = 1;
+    string chainID = 2;
+    bool isTestnet = 3;
+}
+
+message Address {
+    string publicKey = 1;
+    string privateKey = 2;
+    string rawAddress = 3;
+}
+
+message SignExecutionRequest {
+    Address address = 1;
+    Execution execution = 2;
+}
+
+message SignExecutionResponse {
+    Execution execution = 1;
+}
+
+message Transfer {
+    // TransferPb should share these three fields with other Actions
+    // TODO: extract these three fields to ActionPb
+    int64 version = 1;
+    int64 nonce = 2;
+    string signature = 3;
+
+    // used by state-based model
+    int64 amount  = 4;
+    string sender = 5;
+    string recipient = 6;
+    string payload  = 7;
+    string senderPubKey = 8;
+    bool isCoinbase = 9;
+}
+
+message Vote {
+    // VotePb should share these three fields with other Actions
+    // TODO: extract these three fields to ActionPb
+    int64 version = 1;
+    int64 nonce = 2;
+    string signature = 3;
+
+    int64 timestamp = 4;
+    string selfPubkey = 5;
+    string voterAddress = 6;  // the address of this node
+    string voteeAddress = 7;  // the address this node is voting for
+}
+
+message Execution {
+    int64 version = 1;
+    int64 nonce = 2;
+    string signature = 3;
+
+    int64 amount = 4;
+    string executor = 5;
+    string contract = 6;
+    string executorPubKey = 7;
+    int64 gas = 8;
+    int64 gasPrice = 9;
+    string data = 10;
+}
