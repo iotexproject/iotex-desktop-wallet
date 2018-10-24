@@ -21,7 +21,8 @@
     "update-idl": "barrister -t \"Explorer Interface\" -d explorer.html -j explorer.json explorer.idl",
     "changelog-major": "build-changelog --major",
     "changelog-minor": "build-changelog --minor",
-    "changelog-patch": "build-changelog --patch"
+    "changelog-patch": "build-changelog --patch",
+    "kill": "lsof -n -i4TCP:4004 | grep LISTEN | awk '{ print $2 }' | xargs kill"
   },
   "ava": {
     "require": [
