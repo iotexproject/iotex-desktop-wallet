@@ -22,6 +22,14 @@ We use [inferno-test-utils](https://www.npmjs.com/package/inferno-test-utils/v/3
 
 ## Build and Run in Production
 
+Prepare environment variables.
+
+```
+cp ./.env.tmpl ./.env
+```
+
+And specify environment variables in `.env` file.
+
 ```
 npm run bp
 NODE_ENV=production npm run start
@@ -32,8 +40,10 @@ NODE_ENV=production npm run start
 - `npm run test` to run all tests
 - `npm run ava <path/to/file>` to run a specific test
 
-### Dockerize
+### Run with Docker if you want
+
 ##### Please install Docker: `https://docs.docker.com/install/`
+
 Building your image:
 `docker build -t <your username>/explorer .`
 
@@ -41,6 +51,7 @@ Your image is now listed by Docker:
 `docker images`
 
 ##### Run the image
+
 `docker run -p <port>:4004 -d <your username>/explorer`
 the `-p` flag redirects a public prot to a private port inside the container.
 Just choose any port ex) 49160
