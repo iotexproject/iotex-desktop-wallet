@@ -30,7 +30,7 @@ export function setJsonRpcRoutes(server: any) {
           jsonrpc,
           error: {
             code: -32600,
-            message: e.message,
+            message: JSON.stringify(e),
           },
         };
       }

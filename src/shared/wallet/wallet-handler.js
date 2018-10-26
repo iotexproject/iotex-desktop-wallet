@@ -35,7 +35,7 @@ export function setWalletRoutes(server) {
         wallet: await walletCore.generateWallet(),
       };
     } catch (error) {
-      logger.error('FAIL_GENERATE_KEY_PAIR', error);
+      logger.error('FAIL_GENERATE_KEY_PAIR', error.stack);
       ctx.body = {ok: false, error: {code: 'FAIL_GENERATE_KEY_PAIR', message: error}};
     }
   }
