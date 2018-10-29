@@ -80,44 +80,39 @@ message SignExecutionResponse {
 }
 
 message Transfer {
-    // TransferPb should share these three fields with other Actions
-    // TODO: extract these three fields to ActionPb
-    int64 version = 1;
-    int64 nonce = 2;
-    string signature = 3;
-
-    // used by state-based model
-    int64 amount  = 4;
-    string sender = 5;
-    string recipient = 6;
-    string payload  = 7;
-    string senderPubKey = 8;
-    bool isCoinbase = 9;
+    int64 nonce = 1;
+    string signature = 2;
+    string amount  = 3;
+    string sender = 4;
+    string recipient = 5;
+    string payload  = 6;
+    int64 gasLimit = 7;
+    string gasPrice = 8;
+    int64 version = 9;
+    bool isCoinbase = 10;
+    string senderPubKey = 11;
 }
 
 message Vote {
-    // VotePb should share these three fields with other Actions
-    // TODO: extract these three fields to ActionPb
-    int64 version = 1;
-    int64 nonce = 2;
-    string signature = 3;
-
-    int64 timestamp = 4;
-    string selfPubkey = 5;
-    string voterAddress = 6;  // the address of this node
-    string voteeAddress = 7;  // the address this node is voting for
+    int64 nonce = 1;
+    string signature = 2;
+    string voterAddress = 3;  // the address of this node
+    string voteeAddress = 4;  // the address this node is voting for
+    int64 gasLimit = 5;
+    string gasPrice = 6;
+    int64 version = 7;
+    string selfPubKey = 8;
 }
 
 message Execution {
-    int64 version = 1;
-    int64 nonce = 2;
-    string signature = 3;
-
-    int64 amount = 4;
-    string executor = 5;
-    string contract = 6;
-    string executorPubKey = 7;
-    int64 gas = 8;
-    int64 gasPrice = 9;
-    string data = 10;
+    int64 nonce = 1;
+    string signature = 2;
+    string amount = 3;
+    string executor = 4;
+    string contract = 5;
+    int64 gasLimit = 6;
+    string gasPrice = 7;
+    string data = 8;
+    int64 version = 9;
+    string executorPubKey = 10;
 }

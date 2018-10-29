@@ -2272,15 +2272,17 @@ proto.pb.Transfer.prototype.toObject = function(opt_includeInstance) {
  */
 proto.pb.Transfer.toObject = function(includeInstance, msg) {
   var f, obj = {
-    version: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    nonce: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    signature: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    amount: jspb.Message.getFieldWithDefault(msg, 4, 0),
-    sender: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    recipient: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    payload: jspb.Message.getFieldWithDefault(msg, 7, ""),
-    senderpubkey: jspb.Message.getFieldWithDefault(msg, 8, ""),
-    iscoinbase: jspb.Message.getFieldWithDefault(msg, 9, false)
+    nonce: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    signature: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    amount: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    sender: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    recipient: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    payload: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    gaslimit: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    gasprice: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    version: jspb.Message.getFieldWithDefault(msg, 9, 0),
+    iscoinbase: jspb.Message.getFieldWithDefault(msg, 10, false),
+    senderpubkey: jspb.Message.getFieldWithDefault(msg, 11, "")
   };
 
   if (includeInstance) {
@@ -2319,39 +2321,47 @@ proto.pb.Transfer.deserializeBinaryFromReader = function(msg, reader) {
     switch (field) {
     case 1:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setVersion(value);
-      break;
-    case 2:
-      var value = /** @type {number} */ (reader.readInt64());
       msg.setNonce(value);
       break;
-    case 3:
+    case 2:
       var value = /** @type {string} */ (reader.readString());
       msg.setSignature(value);
       break;
-    case 4:
-      var value = /** @type {number} */ (reader.readInt64());
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
       msg.setAmount(value);
       break;
-    case 5:
+    case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setSender(value);
       break;
-    case 6:
+    case 5:
       var value = /** @type {string} */ (reader.readString());
       msg.setRecipient(value);
       break;
-    case 7:
+    case 6:
       var value = /** @type {string} */ (reader.readString());
       msg.setPayload(value);
       break;
+    case 7:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setGaslimit(value);
+      break;
     case 8:
       var value = /** @type {string} */ (reader.readString());
-      msg.setSenderpubkey(value);
+      msg.setGasprice(value);
       break;
     case 9:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setVersion(value);
+      break;
+    case 10:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setIscoinbase(value);
+      break;
+    case 11:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSenderpubkey(value);
       break;
     default:
       reader.skipField();
@@ -2382,66 +2392,80 @@ proto.pb.Transfer.prototype.serializeBinary = function() {
  */
 proto.pb.Transfer.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getVersion();
+  f = message.getNonce();
   if (f !== 0) {
     writer.writeInt64(
       1,
       f
     );
   }
-  f = message.getNonce();
-  if (f !== 0) {
-    writer.writeInt64(
+  f = message.getSignature();
+  if (f.length > 0) {
+    writer.writeString(
       2,
       f
     );
   }
-  f = message.getSignature();
+  f = message.getAmount();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
-  f = message.getAmount();
-  if (f !== 0) {
-    writer.writeInt64(
-      4,
-      f
-    );
-  }
   f = message.getSender();
   if (f.length > 0) {
     writer.writeString(
-      5,
+      4,
       f
     );
   }
   f = message.getRecipient();
   if (f.length > 0) {
     writer.writeString(
-      6,
+      5,
       f
     );
   }
   f = message.getPayload();
   if (f.length > 0) {
     writer.writeString(
+      6,
+      f
+    );
+  }
+  f = message.getGaslimit();
+  if (f !== 0) {
+    writer.writeInt64(
       7,
       f
     );
   }
-  f = message.getSenderpubkey();
+  f = message.getGasprice();
   if (f.length > 0) {
     writer.writeString(
       8,
       f
     );
   }
+  f = message.getVersion();
+  if (f !== 0) {
+    writer.writeInt64(
+      9,
+      f
+    );
+  }
   f = message.getIscoinbase();
   if (f) {
     writer.writeBool(
-      9,
+      10,
+      f
+    );
+  }
+  f = message.getSenderpubkey();
+  if (f.length > 0) {
+    writer.writeString(
+      11,
       f
     );
   }
@@ -2449,139 +2473,169 @@ proto.pb.Transfer.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional int64 version = 1;
+ * optional int64 nonce = 1;
  * @return {number}
  */
-proto.pb.Transfer.prototype.getVersion = function() {
+proto.pb.Transfer.prototype.getNonce = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /** @param {number} value */
-proto.pb.Transfer.prototype.setVersion = function(value) {
+proto.pb.Transfer.prototype.setNonce = function(value) {
   jspb.Message.setField(this, 1, value);
 };
 
 
 /**
- * optional int64 nonce = 2;
- * @return {number}
- */
-proto.pb.Transfer.prototype.getNonce = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
-};
-
-
-/** @param {number} value */
-proto.pb.Transfer.prototype.setNonce = function(value) {
-  jspb.Message.setField(this, 2, value);
-};
-
-
-/**
- * optional string signature = 3;
+ * optional string signature = 2;
  * @return {string}
  */
 proto.pb.Transfer.prototype.getSignature = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
 proto.pb.Transfer.prototype.setSignature = function(value) {
+  jspb.Message.setField(this, 2, value);
+};
+
+
+/**
+ * optional string amount = 3;
+ * @return {string}
+ */
+proto.pb.Transfer.prototype.getAmount = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.Transfer.prototype.setAmount = function(value) {
   jspb.Message.setField(this, 3, value);
 };
 
 
 /**
- * optional int64 amount = 4;
- * @return {number}
- */
-proto.pb.Transfer.prototype.getAmount = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
-};
-
-
-/** @param {number} value */
-proto.pb.Transfer.prototype.setAmount = function(value) {
-  jspb.Message.setField(this, 4, value);
-};
-
-
-/**
- * optional string sender = 5;
+ * optional string sender = 4;
  * @return {string}
  */
 proto.pb.Transfer.prototype.getSender = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /** @param {string} value */
 proto.pb.Transfer.prototype.setSender = function(value) {
-  jspb.Message.setField(this, 5, value);
+  jspb.Message.setField(this, 4, value);
 };
 
 
 /**
- * optional string recipient = 6;
+ * optional string recipient = 5;
  * @return {string}
  */
 proto.pb.Transfer.prototype.getRecipient = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
 /** @param {string} value */
 proto.pb.Transfer.prototype.setRecipient = function(value) {
-  jspb.Message.setField(this, 6, value);
+  jspb.Message.setField(this, 5, value);
 };
 
 
 /**
- * optional string payload = 7;
+ * optional string payload = 6;
  * @return {string}
  */
 proto.pb.Transfer.prototype.getPayload = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
 
 /** @param {string} value */
 proto.pb.Transfer.prototype.setPayload = function(value) {
+  jspb.Message.setField(this, 6, value);
+};
+
+
+/**
+ * optional int64 gasLimit = 7;
+ * @return {number}
+ */
+proto.pb.Transfer.prototype.getGaslimit = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.Transfer.prototype.setGaslimit = function(value) {
   jspb.Message.setField(this, 7, value);
 };
 
 
 /**
- * optional string senderPubKey = 8;
+ * optional string gasPrice = 8;
  * @return {string}
  */
-proto.pb.Transfer.prototype.getSenderpubkey = function() {
+proto.pb.Transfer.prototype.getGasprice = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
 };
 
 
 /** @param {string} value */
-proto.pb.Transfer.prototype.setSenderpubkey = function(value) {
+proto.pb.Transfer.prototype.setGasprice = function(value) {
   jspb.Message.setField(this, 8, value);
 };
 
 
 /**
- * optional bool isCoinbase = 9;
+ * optional int64 version = 9;
+ * @return {number}
+ */
+proto.pb.Transfer.prototype.getVersion = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.Transfer.prototype.setVersion = function(value) {
+  jspb.Message.setField(this, 9, value);
+};
+
+
+/**
+ * optional bool isCoinbase = 10;
  * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
  * You should avoid comparisons like {@code val === true/false} in those cases.
  * @return {boolean}
  */
 proto.pb.Transfer.prototype.getIscoinbase = function() {
-  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 9, false));
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 10, false));
 };
 
 
 /** @param {boolean} value */
 proto.pb.Transfer.prototype.setIscoinbase = function(value) {
-  jspb.Message.setField(this, 9, value);
+  jspb.Message.setField(this, 10, value);
+};
+
+
+/**
+ * optional string senderPubKey = 11;
+ * @return {string}
+ */
+proto.pb.Transfer.prototype.getSenderpubkey = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.Transfer.prototype.setSenderpubkey = function(value) {
+  jspb.Message.setField(this, 11, value);
 };
 
 
@@ -2632,13 +2686,14 @@ proto.pb.Vote.prototype.toObject = function(opt_includeInstance) {
  */
 proto.pb.Vote.toObject = function(includeInstance, msg) {
   var f, obj = {
-    version: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    nonce: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    signature: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    timestamp: jspb.Message.getFieldWithDefault(msg, 4, 0),
-    selfpubkey: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    voteraddress: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    voteeaddress: jspb.Message.getFieldWithDefault(msg, 7, "")
+    nonce: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    signature: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    voteraddress: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    voteeaddress: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    gaslimit: jspb.Message.getFieldWithDefault(msg, 5, 0),
+    gasprice: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    version: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    selfpubkey: jspb.Message.getFieldWithDefault(msg, 8, "")
   };
 
   if (includeInstance) {
@@ -2677,31 +2732,35 @@ proto.pb.Vote.deserializeBinaryFromReader = function(msg, reader) {
     switch (field) {
     case 1:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setVersion(value);
-      break;
-    case 2:
-      var value = /** @type {number} */ (reader.readInt64());
       msg.setNonce(value);
       break;
-    case 3:
+    case 2:
       var value = /** @type {string} */ (reader.readString());
       msg.setSignature(value);
       break;
-    case 4:
-      var value = /** @type {number} */ (reader.readInt64());
-      msg.setTimestamp(value);
-      break;
-    case 5:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setSelfpubkey(value);
-      break;
-    case 6:
+    case 3:
       var value = /** @type {string} */ (reader.readString());
       msg.setVoteraddress(value);
       break;
-    case 7:
+    case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setVoteeaddress(value);
+      break;
+    case 5:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setGaslimit(value);
+      break;
+    case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setGasprice(value);
+      break;
+    case 7:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setVersion(value);
+      break;
+    case 8:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSelfpubkey(value);
       break;
     default:
       reader.skipField();
@@ -2732,52 +2791,59 @@ proto.pb.Vote.prototype.serializeBinary = function() {
  */
 proto.pb.Vote.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getVersion();
+  f = message.getNonce();
   if (f !== 0) {
     writer.writeInt64(
       1,
       f
     );
   }
-  f = message.getNonce();
-  if (f !== 0) {
-    writer.writeInt64(
-      2,
-      f
-    );
-  }
   f = message.getSignature();
   if (f.length > 0) {
     writer.writeString(
-      3,
-      f
-    );
-  }
-  f = message.getTimestamp();
-  if (f !== 0) {
-    writer.writeInt64(
-      4,
-      f
-    );
-  }
-  f = message.getSelfpubkey();
-  if (f.length > 0) {
-    writer.writeString(
-      5,
+      2,
       f
     );
   }
   f = message.getVoteraddress();
   if (f.length > 0) {
     writer.writeString(
-      6,
+      3,
       f
     );
   }
   f = message.getVoteeaddress();
   if (f.length > 0) {
     writer.writeString(
+      4,
+      f
+    );
+  }
+  f = message.getGaslimit();
+  if (f !== 0) {
+    writer.writeInt64(
+      5,
+      f
+    );
+  }
+  f = message.getGasprice();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
+      f
+    );
+  }
+  f = message.getVersion();
+  if (f !== 0) {
+    writer.writeInt64(
       7,
+      f
+    );
+  }
+  f = message.getSelfpubkey();
+  if (f.length > 0) {
+    writer.writeString(
+      8,
       f
     );
   }
@@ -2785,107 +2851,122 @@ proto.pb.Vote.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional int64 version = 1;
+ * optional int64 nonce = 1;
  * @return {number}
  */
-proto.pb.Vote.prototype.getVersion = function() {
+proto.pb.Vote.prototype.getNonce = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /** @param {number} value */
-proto.pb.Vote.prototype.setVersion = function(value) {
+proto.pb.Vote.prototype.setNonce = function(value) {
   jspb.Message.setField(this, 1, value);
 };
 
 
 /**
- * optional int64 nonce = 2;
- * @return {number}
- */
-proto.pb.Vote.prototype.getNonce = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
-};
-
-
-/** @param {number} value */
-proto.pb.Vote.prototype.setNonce = function(value) {
-  jspb.Message.setField(this, 2, value);
-};
-
-
-/**
- * optional string signature = 3;
+ * optional string signature = 2;
  * @return {string}
  */
 proto.pb.Vote.prototype.getSignature = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
 proto.pb.Vote.prototype.setSignature = function(value) {
-  jspb.Message.setField(this, 3, value);
+  jspb.Message.setField(this, 2, value);
 };
 
 
 /**
- * optional int64 timestamp = 4;
- * @return {number}
- */
-proto.pb.Vote.prototype.getTimestamp = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
-};
-
-
-/** @param {number} value */
-proto.pb.Vote.prototype.setTimestamp = function(value) {
-  jspb.Message.setField(this, 4, value);
-};
-
-
-/**
- * optional string selfPubkey = 5;
- * @return {string}
- */
-proto.pb.Vote.prototype.getSelfpubkey = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
-};
-
-
-/** @param {string} value */
-proto.pb.Vote.prototype.setSelfpubkey = function(value) {
-  jspb.Message.setField(this, 5, value);
-};
-
-
-/**
- * optional string voterAddress = 6;
+ * optional string voterAddress = 3;
  * @return {string}
  */
 proto.pb.Vote.prototype.getVoteraddress = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
 proto.pb.Vote.prototype.setVoteraddress = function(value) {
-  jspb.Message.setField(this, 6, value);
+  jspb.Message.setField(this, 3, value);
 };
 
 
 /**
- * optional string voteeAddress = 7;
+ * optional string voteeAddress = 4;
  * @return {string}
  */
 proto.pb.Vote.prototype.getVoteeaddress = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /** @param {string} value */
 proto.pb.Vote.prototype.setVoteeaddress = function(value) {
+  jspb.Message.setField(this, 4, value);
+};
+
+
+/**
+ * optional int64 gasLimit = 5;
+ * @return {number}
+ */
+proto.pb.Vote.prototype.getGaslimit = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.Vote.prototype.setGaslimit = function(value) {
+  jspb.Message.setField(this, 5, value);
+};
+
+
+/**
+ * optional string gasPrice = 6;
+ * @return {string}
+ */
+proto.pb.Vote.prototype.getGasprice = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.Vote.prototype.setGasprice = function(value) {
+  jspb.Message.setField(this, 6, value);
+};
+
+
+/**
+ * optional int64 version = 7;
+ * @return {number}
+ */
+proto.pb.Vote.prototype.getVersion = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.Vote.prototype.setVersion = function(value) {
   jspb.Message.setField(this, 7, value);
+};
+
+
+/**
+ * optional string selfPubKey = 8;
+ * @return {string}
+ */
+proto.pb.Vote.prototype.getSelfpubkey = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.Vote.prototype.setSelfpubkey = function(value) {
+  jspb.Message.setField(this, 8, value);
 };
 
 
@@ -2936,16 +3017,16 @@ proto.pb.Execution.prototype.toObject = function(opt_includeInstance) {
  */
 proto.pb.Execution.toObject = function(includeInstance, msg) {
   var f, obj = {
-    version: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    nonce: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    signature: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    amount: jspb.Message.getFieldWithDefault(msg, 4, 0),
-    executor: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    contract: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    executorpubkey: jspb.Message.getFieldWithDefault(msg, 7, ""),
-    gas: jspb.Message.getFieldWithDefault(msg, 8, 0),
-    gasprice: jspb.Message.getFieldWithDefault(msg, 9, 0),
-    data: jspb.Message.getFieldWithDefault(msg, 10, "")
+    nonce: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    signature: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    amount: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    executor: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    contract: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    gaslimit: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    gasprice: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    data: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    version: jspb.Message.getFieldWithDefault(msg, 9, 0),
+    executorpubkey: jspb.Message.getFieldWithDefault(msg, 10, "")
   };
 
   if (includeInstance) {
@@ -2984,43 +3065,43 @@ proto.pb.Execution.deserializeBinaryFromReader = function(msg, reader) {
     switch (field) {
     case 1:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setVersion(value);
-      break;
-    case 2:
-      var value = /** @type {number} */ (reader.readInt64());
       msg.setNonce(value);
       break;
-    case 3:
+    case 2:
       var value = /** @type {string} */ (reader.readString());
       msg.setSignature(value);
       break;
-    case 4:
-      var value = /** @type {number} */ (reader.readInt64());
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
       msg.setAmount(value);
       break;
-    case 5:
+    case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setExecutor(value);
       break;
-    case 6:
+    case 5:
       var value = /** @type {string} */ (reader.readString());
       msg.setContract(value);
       break;
+    case 6:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setGaslimit(value);
+      break;
     case 7:
       var value = /** @type {string} */ (reader.readString());
-      msg.setExecutorpubkey(value);
+      msg.setGasprice(value);
       break;
     case 8:
-      var value = /** @type {number} */ (reader.readInt64());
-      msg.setGas(value);
+      var value = /** @type {string} */ (reader.readString());
+      msg.setData(value);
       break;
     case 9:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setGasprice(value);
+      msg.setVersion(value);
       break;
     case 10:
       var value = /** @type {string} */ (reader.readString());
-      msg.setData(value);
+      msg.setExecutorpubkey(value);
       break;
     default:
       reader.skipField();
@@ -3051,70 +3132,70 @@ proto.pb.Execution.prototype.serializeBinary = function() {
  */
 proto.pb.Execution.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getVersion();
+  f = message.getNonce();
   if (f !== 0) {
     writer.writeInt64(
       1,
       f
     );
   }
-  f = message.getNonce();
-  if (f !== 0) {
-    writer.writeInt64(
+  f = message.getSignature();
+  if (f.length > 0) {
+    writer.writeString(
       2,
       f
     );
   }
-  f = message.getSignature();
+  f = message.getAmount();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
-  f = message.getAmount();
-  if (f !== 0) {
-    writer.writeInt64(
-      4,
-      f
-    );
-  }
   f = message.getExecutor();
   if (f.length > 0) {
     writer.writeString(
-      5,
+      4,
       f
     );
   }
   f = message.getContract();
   if (f.length > 0) {
     writer.writeString(
+      5,
+      f
+    );
+  }
+  f = message.getGaslimit();
+  if (f !== 0) {
+    writer.writeInt64(
       6,
       f
     );
   }
-  f = message.getExecutorpubkey();
+  f = message.getGasprice();
   if (f.length > 0) {
     writer.writeString(
       7,
       f
     );
   }
-  f = message.getGas();
-  if (f !== 0) {
-    writer.writeInt64(
+  f = message.getData();
+  if (f.length > 0) {
+    writer.writeString(
       8,
       f
     );
   }
-  f = message.getGasprice();
+  f = message.getVersion();
   if (f !== 0) {
     writer.writeInt64(
       9,
       f
     );
   }
-  f = message.getData();
+  f = message.getExecutorpubkey();
   if (f.length > 0) {
     writer.writeString(
       10,
@@ -3125,151 +3206,151 @@ proto.pb.Execution.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional int64 version = 1;
+ * optional int64 nonce = 1;
  * @return {number}
  */
-proto.pb.Execution.prototype.getVersion = function() {
+proto.pb.Execution.prototype.getNonce = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /** @param {number} value */
-proto.pb.Execution.prototype.setVersion = function(value) {
+proto.pb.Execution.prototype.setNonce = function(value) {
   jspb.Message.setField(this, 1, value);
 };
 
 
 /**
- * optional int64 nonce = 2;
- * @return {number}
- */
-proto.pb.Execution.prototype.getNonce = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
-};
-
-
-/** @param {number} value */
-proto.pb.Execution.prototype.setNonce = function(value) {
-  jspb.Message.setField(this, 2, value);
-};
-
-
-/**
- * optional string signature = 3;
+ * optional string signature = 2;
  * @return {string}
  */
 proto.pb.Execution.prototype.getSignature = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
 proto.pb.Execution.prototype.setSignature = function(value) {
+  jspb.Message.setField(this, 2, value);
+};
+
+
+/**
+ * optional string amount = 3;
+ * @return {string}
+ */
+proto.pb.Execution.prototype.getAmount = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.Execution.prototype.setAmount = function(value) {
   jspb.Message.setField(this, 3, value);
 };
 
 
 /**
- * optional int64 amount = 4;
- * @return {number}
- */
-proto.pb.Execution.prototype.getAmount = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
-};
-
-
-/** @param {number} value */
-proto.pb.Execution.prototype.setAmount = function(value) {
-  jspb.Message.setField(this, 4, value);
-};
-
-
-/**
- * optional string executor = 5;
+ * optional string executor = 4;
  * @return {string}
  */
 proto.pb.Execution.prototype.getExecutor = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /** @param {string} value */
 proto.pb.Execution.prototype.setExecutor = function(value) {
-  jspb.Message.setField(this, 5, value);
+  jspb.Message.setField(this, 4, value);
 };
 
 
 /**
- * optional string contract = 6;
+ * optional string contract = 5;
  * @return {string}
  */
 proto.pb.Execution.prototype.getContract = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
 /** @param {string} value */
 proto.pb.Execution.prototype.setContract = function(value) {
+  jspb.Message.setField(this, 5, value);
+};
+
+
+/**
+ * optional int64 gasLimit = 6;
+ * @return {number}
+ */
+proto.pb.Execution.prototype.getGaslimit = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.Execution.prototype.setGaslimit = function(value) {
   jspb.Message.setField(this, 6, value);
 };
 
 
 /**
- * optional string executorPubKey = 7;
+ * optional string gasPrice = 7;
  * @return {string}
  */
-proto.pb.Execution.prototype.getExecutorpubkey = function() {
+proto.pb.Execution.prototype.getGasprice = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
 
 /** @param {string} value */
-proto.pb.Execution.prototype.setExecutorpubkey = function(value) {
+proto.pb.Execution.prototype.setGasprice = function(value) {
   jspb.Message.setField(this, 7, value);
 };
 
 
 /**
- * optional int64 gas = 8;
- * @return {number}
- */
-proto.pb.Execution.prototype.getGas = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
-};
-
-
-/** @param {number} value */
-proto.pb.Execution.prototype.setGas = function(value) {
-  jspb.Message.setField(this, 8, value);
-};
-
-
-/**
- * optional int64 gasPrice = 9;
- * @return {number}
- */
-proto.pb.Execution.prototype.getGasprice = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
-};
-
-
-/** @param {number} value */
-proto.pb.Execution.prototype.setGasprice = function(value) {
-  jspb.Message.setField(this, 9, value);
-};
-
-
-/**
- * optional string data = 10;
+ * optional string data = 8;
  * @return {string}
  */
 proto.pb.Execution.prototype.getData = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
 };
 
 
 /** @param {string} value */
 proto.pb.Execution.prototype.setData = function(value) {
+  jspb.Message.setField(this, 8, value);
+};
+
+
+/**
+ * optional int64 version = 9;
+ * @return {number}
+ */
+proto.pb.Execution.prototype.getVersion = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.Execution.prototype.setVersion = function(value) {
+  jspb.Message.setField(this, 9, value);
+};
+
+
+/**
+ * optional string executorPubKey = 10;
+ * @return {string}
+ */
+proto.pb.Execution.prototype.getExecutorpubkey = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.Execution.prototype.setExecutorpubkey = function(value) {
   jspb.Message.setField(this, 10, value);
 };
 
