@@ -73,15 +73,15 @@ export class AbiFunctions extends Component {
 
     const rawTransaction: GExecution = {
       ID: '',
-      amount: 0,
+      amount: '0',
       version: 0x1,
       nonce: parseInt(nonce, 10),
       signature: '',
       executor: wallet.rawAddress,
       contract: contractAddress,
       executorPubKey: wallet.publicKey,
-      gas: parseInt(gas, 10),
-      gasPrice: 0,
+      gasPrice: '0',
+      gasLimit: parseInt(gas, 10),
       data,
       timestamp: 0,
       blockID: '',

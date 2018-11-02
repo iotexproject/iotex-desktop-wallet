@@ -19,6 +19,8 @@ export class TransferInput extends Component {
     wallet: TWallet,
     address: TAddressDetails,
     updateWalletInfo: any,
+    gasPrice: string,
+    gasLimit: number,
   };
 
   constructor(props: any) {
@@ -26,12 +28,16 @@ export class TransferInput extends Component {
     this.state = {
       recipient: '',
       amount: '',
+      gasPrice: this.props.gasPrice || '0',
+      gasLimit: this.props.gasLimit || 10000,
       nonce: this.props.address ? this.props.address.pendingNonce : 1,
       currentNonce: this.props.address ? this.props.address.nonce : 1,
       nonceMessage: t('wallet.input.nonce.suggestion', {nonce: this.props.address ? this.props.address.nonce : 0}),
       dataInBytes: '',
       errors_recipient: '',
       errors_amount: '',
+      errors_gasPrice: '',
+      errors_gasLimit: '',
       errors_nonce: '',
       errors_dataInBytes: '',
       message: '',
@@ -71,7 +77,7 @@ export class TransferInput extends Component {
     this.hasErrors();
   }
 
-  // eslint-disable-next-line max-statements
+  // eslint-disable-next-line max-statements,complexity
   checkFormErrors(name: string, value: ?string) {
     const {currentNonce} = this.state;
 
@@ -93,6 +99,14 @@ export class TransferInput extends Component {
       break;
     }
     case 'amount': {
+      this.updateFormState(name, value, value && onlyNumber(value));
+      break;
+    }
+    case 'gasPrice': {
+      this.updateFormState(name, value, '');
+      break;
+    }
+    case 'gasLimit': {
       this.updateFormState(name, value, value && onlyNumber(value));
       break;
     }
@@ -139,7 +153,7 @@ export class TransferInput extends Component {
 
   generateTransfer() {
     const {wallet} = this.props;
-    const {recipient, amount, nonce, dataInBytes} = this.state;
+    const {recipient, amount, nonce, dataInBytes, gasPrice, gasLimit} = this.state;
 
     this.setState({generating: true});
     const rawTransfer: TRawTransferRequest = {
@@ -150,6 +164,8 @@ export class TransferInput extends Component {
       recipient,
       payload: dataInBytes.replace(/^(0x)/, ''),
       isCoinbase: false,
+      gasPrice,
+      gasLimit,
     };
     fetchPost(WALLET.GENERATE_TRANSFER, {rawTransfer, wallet}).then(res => {
       this.receiveResponse(res);
@@ -188,6 +204,24 @@ export class TransferInput extends Component {
             error={t(this.state.errors_nonce)}
             placeholder='10'
             extra={this.state.nonceMessage}
+            update={(name, value) => this.handleInputChange(name, value)}
+          />
+
+          <TextInputField
+            label={t('wallet.input.gasPrice')}
+            name='gasPrice'
+            value={this.state.gasPrice}
+            error={t(this.state.errors_gasPrice)}
+            placeholder='0'
+            update={(name, value) => this.handleInputChange(name, value)}
+          />
+
+          <TextInputField
+            label={t('wallet.input.gasLimit')}
+            name='gasLimit'
+            value={this.state.gasLimit}
+            error={t(this.state.errors_gasLimit)}
+            placeholder={0}
             update={(name, value) => this.handleInputChange(name, value)}
           />
 

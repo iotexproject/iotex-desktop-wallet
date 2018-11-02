@@ -208,6 +208,7 @@ export class WalletCore {
             voterPubKey: res.getSelfpubkey(),
             gasLimit: res.getGaslimit(),
             gasPrice: res.getGasprice(),
+            version: res.getVersion(),
           };
           resolve(signedVote);
         } else {

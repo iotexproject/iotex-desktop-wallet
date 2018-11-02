@@ -18,6 +18,7 @@ import type {GExecution} from '../../../server/gateways/iotex-core/iotex-core-ty
 import {clearButton, greenButton} from '../../common/buttons';
 
 const window = require('global/window');
+const VERSION = 0x1;
 
 export function DeployPreloadHeader() {
   return (
@@ -38,6 +39,8 @@ export class Deploy extends Component {
     wallet: TWallet,
     address: TAddressDetails,
     updateWalletInfo: any,
+    gasPrice: string,
+    gasLimit: number,
   };
 
   constructor(props: any) {
@@ -49,7 +52,9 @@ export class Deploy extends Component {
       errors_abi: '',
       byteCode: '',
       errors_byteCode: '',
-      gasLimit: '1000000',
+      gasPrice: this.props.gasPrice || '0',
+      gasLimit: this.props.gasLimit || 10000,
+      errors_gasPrice: '',
       errors_gasLimit: '',
       nonce: this.props.address ? this.props.address.pendingNonce : 1,
       currentNonce: this.props.address ? this.props.address.nonce : 1,
@@ -78,7 +83,10 @@ export class Deploy extends Component {
 
   componentWillReceiveProps(nextProps: { address: TAddressDetails }, nextContext: any) {
     if (this.state.nonce <= nextProps.address.nonce) {
-      this.setState({nonceMessage: t('wallet.input.nonce.suggestion', {nonce: nextProps.address.nonce}), currentNonce: nextProps.address.nonce});
+      this.setState({
+        nonceMessage: t('wallet.input.nonce.suggestion', {nonce: nextProps.address.nonce}),
+        currentNonce: nextProps.address.nonce,
+      });
     }
   }
 
@@ -86,6 +94,7 @@ export class Deploy extends Component {
     this.checkFormErrors(name, value);
   }
 
+  // eslint-disable-next-line max-statements
   checkFormErrors(name: string, value: ?string) {
     const {currentNonce} = this.state;
 
@@ -96,6 +105,10 @@ export class Deploy extends Component {
     }
     case 'gasLimit': {
       this.updateFormState(name, value, value && onlyNumber(value));
+      break;
+    }
+    case 'gasPrice': {
+      this.updateFormState(name, value);
       break;
     }
     case 'solidity': {
@@ -142,15 +155,18 @@ export class Deploy extends Component {
 
   deploy() {
     const {wallet} = this.props;
-    const {byteCode, nonce, gasLimit} = this.state;
+    const {byteCode, nonce, gasLimit, gasPrice} = this.state;
 
     const rawSmartContractRequest: TRawExecutionRequest = {
       byteCode: byteCode.replace(/^(0x)/, ''),
       nonce,
       gasLimit,
-      version: 0x1,
+      gasPrice,
+      // TODO(tian): those fields are strange
+      version: VERSION,
       contract: '',
-      amount: 0,
+      amount: '0',
+      ID: 'ID',
     };
 
     this.setState({deploying: true});
@@ -163,7 +179,11 @@ export class Deploy extends Component {
           });
           this.setState({message: t('wallet.input.fix'), deploying: false, rawTransaction: null});
         } else {
-          this.setState({message: t(res.error ? res.error.message : 'error.unknown'), deploying: false, rawTransaction: null});
+          this.setState({
+            message: t(res.error ? res.error.message : 'error.unknown'),
+            deploying: false,
+            rawTransaction: null,
+          });
         }
       } else {
         this.setState({rawTransaction: res.rawTransaction, deploying: false});
@@ -171,11 +191,21 @@ export class Deploy extends Component {
     });
   }
 
+  // eslint-disable-next-line max-statements
   displayRawSmartContract(rawSmartContract: GExecution) {
     const signature = rawSmartContract.signature;
     const cleanedSmartContract = {
       ...rawSmartContract,
       data: `0x${rawSmartContract.data}`,
+    };
+    rawSmartContract = {
+      ...rawSmartContract,
+      version: VERSION,
+      // TODO(tian): those fields are stange
+      ID: 'ID',
+      timestamp: 0,
+      blockID: 'blockID',
+      isPending: false,
     };
     delete cleanedSmartContract.signature;
     delete cleanedSmartContract.contract;
@@ -332,7 +362,17 @@ export class Deploy extends Component {
             error={t(this.state.errors_byteCode)}
             placeholder='0x1234...'
             textArea={true}
-            update={(name, value) => this.handleInputChange(name, value)}/>
+            update={(name, value) => this.handleInputChange(name, value)}
+          />
+
+          <TextInputField
+            label={t('wallet.input.gasPrice')}
+            name='gasPrice'
+            value={this.state.gasPrice}
+            error={t(this.state.errors_gasPrice)}
+            placeholder='0'
+            update={(name, value) => this.handleInputChange(name, value)}
+          />
 
           <TextInputField
             label={t('wallet.input.gasLimit')}
@@ -340,7 +380,8 @@ export class Deploy extends Component {
             value={this.state.gasLimit}
             error={t(this.state.errors_gasLimit)}
             placeholder='100000'
-            update={(name, value) => this.handleInputChange(name, value)}/>
+            update={(name, value) => this.handleInputChange(name, value)}
+          />
 
           <TextInputField
             label={t('wallet.input.nonce')}

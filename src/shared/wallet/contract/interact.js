@@ -20,6 +20,8 @@ export class Interact extends Component {
     address: TAddressDetails,
     updateWalletInfo: any,
     serverUrl: string,
+    gasPrice: string,
+    gasLimit: number,
   };
 
   constructor(props: any) {
@@ -33,7 +35,9 @@ export class Interact extends Component {
       nonceMessage: t('wallet.input.nonce.suggestion', {nonce: this.props.address ? this.props.address.nonce : 0}),
       abi: '',
       errors_abi: '',
-      gasLimit: '100000',
+      gasPrice: this.props.gasPrice || '0',
+      gasLimit: this.props.gasLimit || 10000,
+      errors_gasPrice: '',
       errors_gasLimit: '',
       amount: '0',
       errors_amount: '',
@@ -84,6 +88,10 @@ export class Interact extends Component {
       break;
     }
     case 'gasLimit': {
+      this.updateFormState(name, value, value && onlyNumber(value));
+      break;
+    }
+    case 'gasPrice': {
       this.updateFormState(name, value, value && onlyNumber(value));
       break;
     }
@@ -207,8 +215,16 @@ export class Interact extends Component {
 
   signTransaction() {
     const {wallet} = this.props;
-    const {rawTransaction, amount} = this.state;
-    rawTransaction.amount = amount;
+    let {rawTransaction} = this.state;
+    const {amount} = this.state;
+    rawTransaction = {
+      ...rawTransaction,
+      amount,
+      // TODO(tian): those fields are strange
+      version: 0x1,
+      contract: '',
+      ID: 'ID',
+    };
 
     this.setState({signing: true});
     fetchPost(WALLET.SIGN_CONTRACT_ABI, {rawTransaction, wallet}).then(res => {
@@ -273,12 +289,13 @@ export class Interact extends Component {
   }
 
   writeData(data: string) {
-    const {nonce, gasLimit, contractAddress, amount} = this.state;
+    const {nonce, gasLimit, gasPrice, contractAddress, amount} = this.state;
 
     const rawTransaction: TRawExecutionRequest = {
       byteCode: data.replace(/^(0x)/, ''),
       nonce,
       gasLimit,
+      gasPrice,
       version: 0x1,
       contract: contractAddress,
       amount,
@@ -336,7 +353,7 @@ export class Interact extends Component {
               name='amount'
               value={this.state.amount}
               error={t(this.state.errors_amount)}
-              placeholder={0}
+              placeholder={'0'}
               readOnly={signed}
               update={(name, value) => this.handleInputChange(name, value)}/>
             <br/>
@@ -355,7 +372,8 @@ export class Interact extends Component {
             value={this.state.contractAddress}
             error={t(this.state.errors_contractAddress)}
             placeholder='io...'
-            update={(name, value) => this.handleInputChange(name, value)}/>
+            update={(name, value) => this.handleInputChange(name, value)}
+          />
 
           <TextInputField
             label={t('wallet.input.nonce')}
@@ -364,7 +382,17 @@ export class Interact extends Component {
             error={t(this.state.errors_nonce)}
             placeholder='1'
             extra={this.state.nonceMessage}
-            update={(name, value) => this.handleInputChange(name, value)}/>
+            update={(name, value) => this.handleInputChange(name, value)}
+          />
+
+          <TextInputField
+            label={t('wallet.input.gasPrice')}
+            name='gasPrice'
+            value={this.state.gasPrice}
+            error={t(this.state.errors_gasPrice)}
+            placeholder='0'
+            update={(name, value) => this.handleInputChange(name, value)}
+          />
 
           <TextInputField
             label={t('wallet.input.gasLimit')}
@@ -372,7 +400,8 @@ export class Interact extends Component {
             value={this.state.gasLimit}
             error={t(this.state.errors_gasLimit)}
             placeholder='100000'
-            update={(name, value) => this.handleInputChange(name, value)}/>
+            update={(name, value) => this.handleInputChange(name, value)}
+          />
 
           <TextInputField
             label={t('wallet.input.abi')}
@@ -381,7 +410,8 @@ export class Interact extends Component {
             error={t(this.state.errors_abi)}
             placeholder={t('wallet.interact.abiTemplate')}
             textArea={true}
-            update={(name, value) => this.handleInputChange(name, value)}/>
+            update={(name, value) => this.handleInputChange(name, value)}
+          />
           <br/>
           {greenButton(t('wallet.interact.access'), this.state.hasErrors, this.handleAccess, false)}
         </div>
