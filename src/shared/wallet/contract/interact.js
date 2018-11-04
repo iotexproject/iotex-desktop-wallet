@@ -222,8 +222,8 @@ export class Interact extends Component {
       amount,
       // TODO(tian): those fields are strange
       version: 0x1,
-      contract: '',
       ID: 'ID',
+      blockID: 'blockID',
     };
 
     this.setState({signing: true});
@@ -275,7 +275,17 @@ export class Interact extends Component {
   }
 
   sendTransaction() {
-    const {rawTransaction} = this.state;
+    let {rawTransaction} = this.state;
+
+    rawTransaction = {
+      ...rawTransaction,
+      // TODO(tian): those fields are strange
+      version: 0x1,
+      ID: 'ID',
+      timestamp: 123,
+      blockID: 'blockID',
+      isPending: false,
+    };
 
     fetchPost(WALLET.SEND_TRANSACTION, {rawTransaction, type: 'contract'}).then(res => {
       if (!res.ok) {
@@ -296,9 +306,11 @@ export class Interact extends Component {
       nonce,
       gasLimit,
       gasPrice,
-      version: 0x1,
       contract: contractAddress,
       amount,
+      // TODO(tian): those fields are strange
+      version: 0x1,
+      ID: 'ID',
     };
 
     this.setState({rawTransaction, signed: false});
