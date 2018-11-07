@@ -8,7 +8,6 @@ import {fonts} from '../common/styles/style-font';
 import {colors} from '../common/styles/style-color';
 import {Footer} from '../common/footer';
 import {NavContainer} from '../common/nav/nav-container';
-import {ProgressBar} from '../common/progress-bar';
 
 export class WalletApp extends Component {
   constructor(props) {
@@ -43,9 +42,6 @@ export class WalletApp extends Component {
           script={[
             {defer: true, src: 'https://use.fontawesome.com/releases/v5.0.7/js/all.js'},
           ]}
-        />
-        <ProgressBar
-          fetching={this.props.fetching}
         />
         <NavContainer/>
 

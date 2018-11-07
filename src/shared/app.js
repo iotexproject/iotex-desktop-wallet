@@ -9,7 +9,6 @@ import {colors} from './common/styles/style-color';
 import {Footer} from './common/footer';
 import {NavContainer} from './common/nav/nav-container';
 import {Breadcrumbs} from './common/breadcrumbs';
-import {ProgressBar} from './common/progress-bar';
 import {IotexExplorerTitle} from './common/iotex-explorer-title';
 
 export class App extends Component {
@@ -45,9 +44,6 @@ export class App extends Component {
           script={[
             {defer: true, src: 'https://use.fontawesome.com/releases/v5.0.7/js/all.js'},
           ]}
-        />
-        <ProgressBar
-          fetching={this.props.fetching}
         />
         <NavContainer/>
         <Breadcrumbs
