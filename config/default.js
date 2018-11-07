@@ -1,5 +1,6 @@
 /* eslint-disable no-process-env */
 import process from 'global/process';
+
 require('dotenv').config();
 
 module.exports = {
@@ -33,4 +34,5 @@ module.exports = {
   analytics: {
     googleTid: process.env.GOOGLE_TID || 'UA-XXXXXXXXX-1',
   },
+  chains: JSON.parse(process.env.CHAINS || '[{"name":"mainchain","url":"http://localhost:4004/"},{"name":"subchain","url":"http://localhost:4005/"}]'),
 };

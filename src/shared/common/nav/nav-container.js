@@ -10,6 +10,8 @@ export const NavContainer = connect(
       price: state.nav.price,
       fetching: state.nav.fetching,
       error: state.nav.error,
+      chains: state.nav.chains,
+      href: state.nav.href,
     };
   },
   dispatch => ({
