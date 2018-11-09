@@ -35,10 +35,10 @@ export function setServerRoutes(server: Server) {
     }
   );
 
-  server.use((ctx, next) => {
+  server.use(async(ctx, next) => {
     ctx.setState('nav.chains', config.chains);
     ctx.setState('nav.href', ctx.href);
-    next();
+    await next();
   });
 
   setJsonRpcRoutes(server);
