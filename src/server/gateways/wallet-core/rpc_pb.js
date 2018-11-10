@@ -12,13 +12,19 @@ var goog = jspb;
 var global = Function('return this')();
 
 goog.exportSymbol('proto.pb.Address', null, global);
+goog.exportSymbol('proto.pb.CreateDeposit', null, global);
 goog.exportSymbol('proto.pb.DecodeAddressRequest', null, global);
 goog.exportSymbol('proto.pb.DecodeAddressResponse', null, global);
 goog.exportSymbol('proto.pb.Execution', null, global);
 goog.exportSymbol('proto.pb.NewWalletRequest', null, global);
 goog.exportSymbol('proto.pb.NewWalletResponse', null, global);
+goog.exportSymbol('proto.pb.SettleDeposit', null, global);
+goog.exportSymbol('proto.pb.SignCreateDepositRequest', null, global);
+goog.exportSymbol('proto.pb.SignCreateDepositResponse', null, global);
 goog.exportSymbol('proto.pb.SignExecutionRequest', null, global);
 goog.exportSymbol('proto.pb.SignExecutionResponse', null, global);
+goog.exportSymbol('proto.pb.SignSettleDepositRequest', null, global);
+goog.exportSymbol('proto.pb.SignSettleDepositResponse', null, global);
 goog.exportSymbol('proto.pb.SignTransferRequest', null, global);
 goog.exportSymbol('proto.pb.SignTransferResponse', null, global);
 goog.exportSymbol('proto.pb.SignVoteRequest', null, global);
@@ -349,7 +355,8 @@ proto.pb.UnlockRequest.prototype.toObject = function(opt_includeInstance) {
  */
 proto.pb.UnlockRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    privatekey: jspb.Message.getFieldWithDefault(msg, 1, "")
+    privatekey: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    chainid: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
   if (includeInstance) {
@@ -390,6 +397,10 @@ proto.pb.UnlockRequest.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {string} */ (reader.readString());
       msg.setPrivatekey(value);
       break;
+    case 2:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setChainid(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -426,6 +437,13 @@ proto.pb.UnlockRequest.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
+  f = message.getChainid();
+  if (f !== 0) {
+    writer.writeInt64(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -441,6 +459,21 @@ proto.pb.UnlockRequest.prototype.getPrivatekey = function() {
 /** @param {string} value */
 proto.pb.UnlockRequest.prototype.setPrivatekey = function(value) {
   jspb.Message.setField(this, 1, value);
+};
+
+
+/**
+ * optional int64 chainID = 2;
+ * @return {number}
+ */
+proto.pb.UnlockRequest.prototype.getChainid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.UnlockRequest.prototype.setChainid = function(value) {
+  jspb.Message.setField(this, 2, value);
 };
 
 
@@ -2236,6 +2269,730 @@ proto.pb.SignExecutionResponse.prototype.hasExecution = function() {
  * @extends {jspb.Message}
  * @constructor
  */
+proto.pb.SignCreateDepositRequest = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.pb.SignCreateDepositRequest, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.pb.SignCreateDepositRequest.displayName = 'proto.pb.SignCreateDepositRequest';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.pb.SignCreateDepositRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.pb.SignCreateDepositRequest.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.pb.SignCreateDepositRequest} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.pb.SignCreateDepositRequest.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    address: (f = msg.getAddress()) && proto.pb.Address.toObject(includeInstance, f),
+    createdeposit: (f = msg.getCreatedeposit()) && proto.pb.CreateDeposit.toObject(includeInstance, f)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.pb.SignCreateDepositRequest}
+ */
+proto.pb.SignCreateDepositRequest.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.pb.SignCreateDepositRequest;
+  return proto.pb.SignCreateDepositRequest.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.pb.SignCreateDepositRequest} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.pb.SignCreateDepositRequest}
+ */
+proto.pb.SignCreateDepositRequest.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new proto.pb.Address;
+      reader.readMessage(value,proto.pb.Address.deserializeBinaryFromReader);
+      msg.setAddress(value);
+      break;
+    case 2:
+      var value = new proto.pb.CreateDeposit;
+      reader.readMessage(value,proto.pb.CreateDeposit.deserializeBinaryFromReader);
+      msg.setCreatedeposit(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.pb.SignCreateDepositRequest.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.pb.SignCreateDepositRequest.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.pb.SignCreateDepositRequest} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.pb.SignCreateDepositRequest.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getAddress();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      proto.pb.Address.serializeBinaryToWriter
+    );
+  }
+  f = message.getCreatedeposit();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      proto.pb.CreateDeposit.serializeBinaryToWriter
+    );
+  }
+};
+
+
+/**
+ * optional Address address = 1;
+ * @return {?proto.pb.Address}
+ */
+proto.pb.SignCreateDepositRequest.prototype.getAddress = function() {
+  return /** @type{?proto.pb.Address} */ (
+    jspb.Message.getWrapperField(this, proto.pb.Address, 1));
+};
+
+
+/** @param {?proto.pb.Address|undefined} value */
+proto.pb.SignCreateDepositRequest.prototype.setAddress = function(value) {
+  jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+proto.pb.SignCreateDepositRequest.prototype.clearAddress = function() {
+  this.setAddress(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.pb.SignCreateDepositRequest.prototype.hasAddress = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional CreateDeposit createDeposit = 2;
+ * @return {?proto.pb.CreateDeposit}
+ */
+proto.pb.SignCreateDepositRequest.prototype.getCreatedeposit = function() {
+  return /** @type{?proto.pb.CreateDeposit} */ (
+    jspb.Message.getWrapperField(this, proto.pb.CreateDeposit, 2));
+};
+
+
+/** @param {?proto.pb.CreateDeposit|undefined} value */
+proto.pb.SignCreateDepositRequest.prototype.setCreatedeposit = function(value) {
+  jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+proto.pb.SignCreateDepositRequest.prototype.clearCreatedeposit = function() {
+  this.setCreatedeposit(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.pb.SignCreateDepositRequest.prototype.hasCreatedeposit = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.pb.SignCreateDepositResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.pb.SignCreateDepositResponse, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.pb.SignCreateDepositResponse.displayName = 'proto.pb.SignCreateDepositResponse';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.pb.SignCreateDepositResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.pb.SignCreateDepositResponse.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.pb.SignCreateDepositResponse} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.pb.SignCreateDepositResponse.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    createdeposit: (f = msg.getCreatedeposit()) && proto.pb.CreateDeposit.toObject(includeInstance, f)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.pb.SignCreateDepositResponse}
+ */
+proto.pb.SignCreateDepositResponse.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.pb.SignCreateDepositResponse;
+  return proto.pb.SignCreateDepositResponse.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.pb.SignCreateDepositResponse} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.pb.SignCreateDepositResponse}
+ */
+proto.pb.SignCreateDepositResponse.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new proto.pb.CreateDeposit;
+      reader.readMessage(value,proto.pb.CreateDeposit.deserializeBinaryFromReader);
+      msg.setCreatedeposit(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.pb.SignCreateDepositResponse.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.pb.SignCreateDepositResponse.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.pb.SignCreateDepositResponse} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.pb.SignCreateDepositResponse.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getCreatedeposit();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      proto.pb.CreateDeposit.serializeBinaryToWriter
+    );
+  }
+};
+
+
+/**
+ * optional CreateDeposit createDeposit = 1;
+ * @return {?proto.pb.CreateDeposit}
+ */
+proto.pb.SignCreateDepositResponse.prototype.getCreatedeposit = function() {
+  return /** @type{?proto.pb.CreateDeposit} */ (
+    jspb.Message.getWrapperField(this, proto.pb.CreateDeposit, 1));
+};
+
+
+/** @param {?proto.pb.CreateDeposit|undefined} value */
+proto.pb.SignCreateDepositResponse.prototype.setCreatedeposit = function(value) {
+  jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+proto.pb.SignCreateDepositResponse.prototype.clearCreatedeposit = function() {
+  this.setCreatedeposit(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.pb.SignCreateDepositResponse.prototype.hasCreatedeposit = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.pb.SignSettleDepositRequest = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.pb.SignSettleDepositRequest, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.pb.SignSettleDepositRequest.displayName = 'proto.pb.SignSettleDepositRequest';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.pb.SignSettleDepositRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.pb.SignSettleDepositRequest.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.pb.SignSettleDepositRequest} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.pb.SignSettleDepositRequest.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    address: (f = msg.getAddress()) && proto.pb.Address.toObject(includeInstance, f),
+    settledeposit: (f = msg.getSettledeposit()) && proto.pb.SettleDeposit.toObject(includeInstance, f)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.pb.SignSettleDepositRequest}
+ */
+proto.pb.SignSettleDepositRequest.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.pb.SignSettleDepositRequest;
+  return proto.pb.SignSettleDepositRequest.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.pb.SignSettleDepositRequest} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.pb.SignSettleDepositRequest}
+ */
+proto.pb.SignSettleDepositRequest.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new proto.pb.Address;
+      reader.readMessage(value,proto.pb.Address.deserializeBinaryFromReader);
+      msg.setAddress(value);
+      break;
+    case 2:
+      var value = new proto.pb.SettleDeposit;
+      reader.readMessage(value,proto.pb.SettleDeposit.deserializeBinaryFromReader);
+      msg.setSettledeposit(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.pb.SignSettleDepositRequest.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.pb.SignSettleDepositRequest.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.pb.SignSettleDepositRequest} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.pb.SignSettleDepositRequest.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getAddress();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      proto.pb.Address.serializeBinaryToWriter
+    );
+  }
+  f = message.getSettledeposit();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      proto.pb.SettleDeposit.serializeBinaryToWriter
+    );
+  }
+};
+
+
+/**
+ * optional Address address = 1;
+ * @return {?proto.pb.Address}
+ */
+proto.pb.SignSettleDepositRequest.prototype.getAddress = function() {
+  return /** @type{?proto.pb.Address} */ (
+    jspb.Message.getWrapperField(this, proto.pb.Address, 1));
+};
+
+
+/** @param {?proto.pb.Address|undefined} value */
+proto.pb.SignSettleDepositRequest.prototype.setAddress = function(value) {
+  jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+proto.pb.SignSettleDepositRequest.prototype.clearAddress = function() {
+  this.setAddress(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.pb.SignSettleDepositRequest.prototype.hasAddress = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional SettleDeposit settleDeposit = 2;
+ * @return {?proto.pb.SettleDeposit}
+ */
+proto.pb.SignSettleDepositRequest.prototype.getSettledeposit = function() {
+  return /** @type{?proto.pb.SettleDeposit} */ (
+    jspb.Message.getWrapperField(this, proto.pb.SettleDeposit, 2));
+};
+
+
+/** @param {?proto.pb.SettleDeposit|undefined} value */
+proto.pb.SignSettleDepositRequest.prototype.setSettledeposit = function(value) {
+  jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+proto.pb.SignSettleDepositRequest.prototype.clearSettledeposit = function() {
+  this.setSettledeposit(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.pb.SignSettleDepositRequest.prototype.hasSettledeposit = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.pb.SignSettleDepositResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.pb.SignSettleDepositResponse, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.pb.SignSettleDepositResponse.displayName = 'proto.pb.SignSettleDepositResponse';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.pb.SignSettleDepositResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.pb.SignSettleDepositResponse.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.pb.SignSettleDepositResponse} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.pb.SignSettleDepositResponse.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    settledeposit: (f = msg.getSettledeposit()) && proto.pb.SettleDeposit.toObject(includeInstance, f)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.pb.SignSettleDepositResponse}
+ */
+proto.pb.SignSettleDepositResponse.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.pb.SignSettleDepositResponse;
+  return proto.pb.SignSettleDepositResponse.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.pb.SignSettleDepositResponse} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.pb.SignSettleDepositResponse}
+ */
+proto.pb.SignSettleDepositResponse.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new proto.pb.SettleDeposit;
+      reader.readMessage(value,proto.pb.SettleDeposit.deserializeBinaryFromReader);
+      msg.setSettledeposit(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.pb.SignSettleDepositResponse.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.pb.SignSettleDepositResponse.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.pb.SignSettleDepositResponse} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.pb.SignSettleDepositResponse.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getSettledeposit();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      proto.pb.SettleDeposit.serializeBinaryToWriter
+    );
+  }
+};
+
+
+/**
+ * optional SettleDeposit settleDeposit = 1;
+ * @return {?proto.pb.SettleDeposit}
+ */
+proto.pb.SignSettleDepositResponse.prototype.getSettledeposit = function() {
+  return /** @type{?proto.pb.SettleDeposit} */ (
+    jspb.Message.getWrapperField(this, proto.pb.SettleDeposit, 1));
+};
+
+
+/** @param {?proto.pb.SettleDeposit|undefined} value */
+proto.pb.SignSettleDepositResponse.prototype.setSettledeposit = function(value) {
+  jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+proto.pb.SignSettleDepositResponse.prototype.clearSettledeposit = function() {
+  this.setSettledeposit(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.pb.SignSettleDepositResponse.prototype.hasSettledeposit = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
 proto.pb.Transfer = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
@@ -3351,6 +4108,749 @@ proto.pb.Execution.prototype.getExecutorpubkey = function() {
 
 /** @param {string} value */
 proto.pb.Execution.prototype.setExecutorpubkey = function(value) {
+  jspb.Message.setField(this, 10, value);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.pb.CreateDeposit = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.pb.CreateDeposit, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.pb.CreateDeposit.displayName = 'proto.pb.CreateDeposit';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.pb.CreateDeposit.prototype.toObject = function(opt_includeInstance) {
+  return proto.pb.CreateDeposit.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.pb.CreateDeposit} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.pb.CreateDeposit.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    nonce: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    signature: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    amount: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    sender: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    recipient: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    gaslimit: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    gasprice: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    version: jspb.Message.getFieldWithDefault(msg, 8, 0),
+    senderpubkey: jspb.Message.getFieldWithDefault(msg, 9, "")
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.pb.CreateDeposit}
+ */
+proto.pb.CreateDeposit.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.pb.CreateDeposit;
+  return proto.pb.CreateDeposit.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.pb.CreateDeposit} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.pb.CreateDeposit}
+ */
+proto.pb.CreateDeposit.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setNonce(value);
+      break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSignature(value);
+      break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setAmount(value);
+      break;
+    case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSender(value);
+      break;
+    case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setRecipient(value);
+      break;
+    case 6:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setGaslimit(value);
+      break;
+    case 7:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setGasprice(value);
+      break;
+    case 8:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setVersion(value);
+      break;
+    case 9:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSenderpubkey(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.pb.CreateDeposit.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.pb.CreateDeposit.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.pb.CreateDeposit} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.pb.CreateDeposit.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getNonce();
+  if (f !== 0) {
+    writer.writeInt64(
+      1,
+      f
+    );
+  }
+  f = message.getSignature();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
+  f = message.getAmount();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
+  f = message.getSender();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
+      f
+    );
+  }
+  f = message.getRecipient();
+  if (f.length > 0) {
+    writer.writeString(
+      5,
+      f
+    );
+  }
+  f = message.getGaslimit();
+  if (f !== 0) {
+    writer.writeInt64(
+      6,
+      f
+    );
+  }
+  f = message.getGasprice();
+  if (f.length > 0) {
+    writer.writeString(
+      7,
+      f
+    );
+  }
+  f = message.getVersion();
+  if (f !== 0) {
+    writer.writeInt64(
+      8,
+      f
+    );
+  }
+  f = message.getSenderpubkey();
+  if (f.length > 0) {
+    writer.writeString(
+      9,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional int64 nonce = 1;
+ * @return {number}
+ */
+proto.pb.CreateDeposit.prototype.getNonce = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.CreateDeposit.prototype.setNonce = function(value) {
+  jspb.Message.setField(this, 1, value);
+};
+
+
+/**
+ * optional string signature = 2;
+ * @return {string}
+ */
+proto.pb.CreateDeposit.prototype.getSignature = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.CreateDeposit.prototype.setSignature = function(value) {
+  jspb.Message.setField(this, 2, value);
+};
+
+
+/**
+ * optional string amount = 3;
+ * @return {string}
+ */
+proto.pb.CreateDeposit.prototype.getAmount = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.CreateDeposit.prototype.setAmount = function(value) {
+  jspb.Message.setField(this, 3, value);
+};
+
+
+/**
+ * optional string sender = 4;
+ * @return {string}
+ */
+proto.pb.CreateDeposit.prototype.getSender = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.CreateDeposit.prototype.setSender = function(value) {
+  jspb.Message.setField(this, 4, value);
+};
+
+
+/**
+ * optional string recipient = 5;
+ * @return {string}
+ */
+proto.pb.CreateDeposit.prototype.getRecipient = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.CreateDeposit.prototype.setRecipient = function(value) {
+  jspb.Message.setField(this, 5, value);
+};
+
+
+/**
+ * optional int64 gasLimit = 6;
+ * @return {number}
+ */
+proto.pb.CreateDeposit.prototype.getGaslimit = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.CreateDeposit.prototype.setGaslimit = function(value) {
+  jspb.Message.setField(this, 6, value);
+};
+
+
+/**
+ * optional string gasPrice = 7;
+ * @return {string}
+ */
+proto.pb.CreateDeposit.prototype.getGasprice = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.CreateDeposit.prototype.setGasprice = function(value) {
+  jspb.Message.setField(this, 7, value);
+};
+
+
+/**
+ * optional int64 version = 8;
+ * @return {number}
+ */
+proto.pb.CreateDeposit.prototype.getVersion = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.CreateDeposit.prototype.setVersion = function(value) {
+  jspb.Message.setField(this, 8, value);
+};
+
+
+/**
+ * optional string senderPubKey = 9;
+ * @return {string}
+ */
+proto.pb.CreateDeposit.prototype.getSenderpubkey = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.CreateDeposit.prototype.setSenderpubkey = function(value) {
+  jspb.Message.setField(this, 9, value);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.pb.SettleDeposit = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.pb.SettleDeposit, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.pb.SettleDeposit.displayName = 'proto.pb.SettleDeposit';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.pb.SettleDeposit.prototype.toObject = function(opt_includeInstance) {
+  return proto.pb.SettleDeposit.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.pb.SettleDeposit} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.pb.SettleDeposit.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    nonce: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    signature: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    amount: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    index: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    sender: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    recipient: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    gaslimit: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    gasprice: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    version: jspb.Message.getFieldWithDefault(msg, 9, 0),
+    senderpubkey: jspb.Message.getFieldWithDefault(msg, 10, "")
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.pb.SettleDeposit}
+ */
+proto.pb.SettleDeposit.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.pb.SettleDeposit;
+  return proto.pb.SettleDeposit.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.pb.SettleDeposit} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.pb.SettleDeposit}
+ */
+proto.pb.SettleDeposit.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setNonce(value);
+      break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSignature(value);
+      break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setAmount(value);
+      break;
+    case 4:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setIndex(value);
+      break;
+    case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSender(value);
+      break;
+    case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setRecipient(value);
+      break;
+    case 7:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setGaslimit(value);
+      break;
+    case 8:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setGasprice(value);
+      break;
+    case 9:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setVersion(value);
+      break;
+    case 10:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSenderpubkey(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.pb.SettleDeposit.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.pb.SettleDeposit.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.pb.SettleDeposit} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.pb.SettleDeposit.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getNonce();
+  if (f !== 0) {
+    writer.writeInt64(
+      1,
+      f
+    );
+  }
+  f = message.getSignature();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
+  f = message.getAmount();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
+  f = message.getIndex();
+  if (f !== 0) {
+    writer.writeInt64(
+      4,
+      f
+    );
+  }
+  f = message.getSender();
+  if (f.length > 0) {
+    writer.writeString(
+      5,
+      f
+    );
+  }
+  f = message.getRecipient();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
+      f
+    );
+  }
+  f = message.getGaslimit();
+  if (f !== 0) {
+    writer.writeInt64(
+      7,
+      f
+    );
+  }
+  f = message.getGasprice();
+  if (f.length > 0) {
+    writer.writeString(
+      8,
+      f
+    );
+  }
+  f = message.getVersion();
+  if (f !== 0) {
+    writer.writeInt64(
+      9,
+      f
+    );
+  }
+  f = message.getSenderpubkey();
+  if (f.length > 0) {
+    writer.writeString(
+      10,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional int64 nonce = 1;
+ * @return {number}
+ */
+proto.pb.SettleDeposit.prototype.getNonce = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.SettleDeposit.prototype.setNonce = function(value) {
+  jspb.Message.setField(this, 1, value);
+};
+
+
+/**
+ * optional string signature = 2;
+ * @return {string}
+ */
+proto.pb.SettleDeposit.prototype.getSignature = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.SettleDeposit.prototype.setSignature = function(value) {
+  jspb.Message.setField(this, 2, value);
+};
+
+
+/**
+ * optional string amount = 3;
+ * @return {string}
+ */
+proto.pb.SettleDeposit.prototype.getAmount = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.SettleDeposit.prototype.setAmount = function(value) {
+  jspb.Message.setField(this, 3, value);
+};
+
+
+/**
+ * optional int64 index = 4;
+ * @return {number}
+ */
+proto.pb.SettleDeposit.prototype.getIndex = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.SettleDeposit.prototype.setIndex = function(value) {
+  jspb.Message.setField(this, 4, value);
+};
+
+
+/**
+ * optional string sender = 5;
+ * @return {string}
+ */
+proto.pb.SettleDeposit.prototype.getSender = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.SettleDeposit.prototype.setSender = function(value) {
+  jspb.Message.setField(this, 5, value);
+};
+
+
+/**
+ * optional string recipient = 6;
+ * @return {string}
+ */
+proto.pb.SettleDeposit.prototype.getRecipient = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.SettleDeposit.prototype.setRecipient = function(value) {
+  jspb.Message.setField(this, 6, value);
+};
+
+
+/**
+ * optional int64 gasLimit = 7;
+ * @return {number}
+ */
+proto.pb.SettleDeposit.prototype.getGaslimit = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.SettleDeposit.prototype.setGaslimit = function(value) {
+  jspb.Message.setField(this, 7, value);
+};
+
+
+/**
+ * optional string gasPrice = 8;
+ * @return {string}
+ */
+proto.pb.SettleDeposit.prototype.getGasprice = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.SettleDeposit.prototype.setGasprice = function(value) {
+  jspb.Message.setField(this, 8, value);
+};
+
+
+/**
+ * optional int64 version = 9;
+ * @return {number}
+ */
+proto.pb.SettleDeposit.prototype.getVersion = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.SettleDeposit.prototype.setVersion = function(value) {
+  jspb.Message.setField(this, 9, value);
+};
+
+
+/**
+ * optional string senderPubKey = 10;
+ * @return {string}
+ */
+proto.pb.SettleDeposit.prototype.getSenderpubkey = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.SettleDeposit.prototype.setSenderpubkey = function(value) {
   jspb.Message.setField(this, 10, value);
 };
 

@@ -18,6 +18,8 @@ service walletService {
     rpc SignTransfer (SignTransferRequest) returns (SignTransferResponse) {}
     rpc SignVote (SignVoteRequest) returns (SignVoteResponse) {}
     rpc SignExecution (SignExecutionRequest) returns (SignExecutionResponse) {}
+    rpc SignCreateDeposit (SignCreateDepositRequest) returns (SignCreateDepositResponse) {}
+    rpc SignSettleDeposit (SignSettleDepositRequest) returns (SignSettleDepositResponse) {}
     rpc DecodeAddress (DecodeAddressRequest) returns (DecodeAddressResponse) {}
 }
 
@@ -30,6 +32,7 @@ message NewWalletResponse {
 
 message UnlockRequest {
     string privateKey = 1;
+    int64 chainID = 2;
 }
 
 message UnlockResponse {
@@ -79,6 +82,24 @@ message SignExecutionResponse {
     Execution execution = 1;
 }
 
+message SignCreateDepositRequest {
+    Address address = 1;
+    CreateDeposit createDeposit = 2;
+}
+
+message SignCreateDepositResponse {
+    CreateDeposit createDeposit = 1;
+}
+
+message SignSettleDepositRequest {
+    Address address = 1;
+    SettleDeposit settleDeposit = 2;
+}
+
+message SignSettleDepositResponse {
+    SettleDeposit settleDeposit = 1;
+}
+
 message Transfer {
     int64 nonce = 1;
     string signature = 2;
@@ -115,4 +136,29 @@ message Execution {
     string data = 8;
     int64 version = 9;
     string executorPubKey = 10;
+}
+
+message CreateDeposit {
+    int64 nonce = 1;
+    string signature = 2;
+    string amount = 3;
+    string sender = 4;
+    string recipient = 5;
+    int64 gasLimit = 6;
+    string gasPrice = 7;
+    int64 version = 8;
+    string senderPubKey = 9;
+}
+
+message SettleDeposit {
+    int64 nonce = 1;
+    string signature = 2;
+    string amount = 3;
+    int64  index = 4;
+    string sender = 5;
+    string recipient = 6;
+    int64 gasLimit = 7;
+    string gasPrice = 8;
+    int64 version = 9;
+    string senderPubKey = 10;
 }

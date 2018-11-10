@@ -1,6 +1,12 @@
 // @flow
 
-import type {TWallet, TRawTransfer, TRawVote, TRawExecutionRequest} from '../../../entities/wallet-types';
+import type {
+  TWallet,
+  TRawTransfer,
+  TRawVote,
+  TRawExecutionRequest,
+  TCreateDeposit, TSettleDeposit,
+} from '../../../entities/wallet-types';
 import {logger} from '../../../lib/integrated-gateways/logger';
 import type {GExecution} from '../iotex-core/iotex-core-types';
 
@@ -101,6 +107,35 @@ function makeMessagesExecution(smartContract: WalletSmartContract, executor: str
   return sc;
 }
 
+function makeCreateDeposit(cd: TCreateDeposit): any {
+  const c = new messages.CreateDeposit();
+  c.setNonce(cd.nonce);
+  c.setSignature(cd.signature);
+  c.setAmount(cd.amount);
+  c.setSender(cd.sender);
+  c.setRecipient(cd.recipient);
+  c.setGaslimit(cd.gasLimit);
+  c.setGasprice(cd.gasPrice);
+  c.setVersion(cd.version);
+  c.setSenderpubkey(cd.senderPubKey);
+  return c;
+}
+
+function makeSettleDeposit(sd: TSettleDeposit): any {
+  const s = new messages.SettleDeposit();
+  s.setNonce(sd.nonce);
+  s.setSignature(sd.signature);
+  s.setAmount(sd.amount);
+  s.setIndex(sd.index);
+  s.setSender(sd.sender);
+  s.setRecipient(sd.recipient);
+  s.setGaslimit(sd.gasLimit);
+  s.setGasprice(sd.gasPrice);
+  s.setVersion(sd.version);
+  s.setSenderpubkey(sd.senderPubKey);
+  return s;
+}
+
 export class WalletCore {
   client: any;
   logger: any;
@@ -137,6 +172,7 @@ export class WalletCore {
   async unlockWallet(priKey: string): Promise<TWallet> {
     const request = new messages.UnlockRequest();
     request.setPrivatekey(priKey);
+    request.setChainid();
 
     return new Promise((resolve, reject) => {
       this.client.unlock(request, (error, response) => {
@@ -249,5 +285,70 @@ export class WalletCore {
         }
       });
     });
+  }
+
+  async signCreateDeposit({createDeposit, address}: { createDeposit: TCreateDeposit, address: TWallet }): Promise<{ createDeposit: TCreateDeposit }> {
+    const request = new messages.SignCreateDepositRequest();
+    const convertedAddress = makeMessagesAddress(address);
+    const convertedCreateDeposit = makeCreateDeposit(createDeposit);
+    request.setAddress(convertedAddress);
+    request.setCreatedeposit(convertedCreateDeposit);
+
+    return new Promise((resolve, reject) => {
+      this.client.signCreateDeposit(request, (err, resp) => {
+        if (!err) {
+          logger.error(`failed to signCreateDeposit: ${err.stack}`);
+          return reject(err);
+        }
+
+        const res = resp.getCreatedeposit();
+        resolve({
+          createDeposit: {
+            nonce: res.getNonce(),
+            signature: res.getSignature(),
+            amount: res.getAmount(),
+            sender: res.getSender(),
+            recipient: res.getRecipient(),
+            gasLimit: res.getGaslimit(),
+            gasPrice: res.getGasprice(),
+            version: res.getVersion(),
+            senderPubKey: res.getSenderpubkey(),
+          },
+        });
+      });
+    });
+  }
+
+  async signSettleDeposit({settleDeposit, address}: { settleDeposit: TSettleDeposit, address: TWallet }): Promise<{ settleDeposit: TSettleDeposit }> {
+    const request = new messages.SignSettleDepositRequest();
+    const convertedAddress = makeMessagesAddress(address);
+    const convertedSettleDeposit = makeSettleDeposit(settleDeposit);
+    request.setAddress(convertedAddress);
+    request.setSettledeposit(convertedSettleDeposit);
+
+    return new Promise(((resolve, reject) => {
+      this.client.signSettleDeposit(request, (err, resp) => {
+        if (!err) {
+          logger.error(`failed to signSettleDeposit: ${err.stack}`);
+          return reject(err);
+        }
+
+        const res = resp.getSettledeposit();
+        resolve({
+          settleDeposit: {
+            nonce: res.getNonce(),
+            signature: res.getSignature(),
+            amount: res.getAmount(),
+            index: res.getIndex(),
+            sender: res.getSender(),
+            recipient: res.getRecipient(),
+            gasLimit: res.getGaslimit(),
+            gasPrice: res.getGasprice(),
+            version: res.getVersion(),
+            senderPubKey: res.getSenderpubkey(),
+          },
+        });
+      });
+    }));
   }
 }

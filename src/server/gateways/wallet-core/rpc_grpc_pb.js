@@ -59,6 +59,28 @@ function deserialize_pb_NewWalletResponse(buffer_arg) {
   return rpc_pb.NewWalletResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_pb_SignCreateDepositRequest(arg) {
+  if (!(arg instanceof rpc_pb.SignCreateDepositRequest)) {
+    throw new Error('Expected argument of type pb.SignCreateDepositRequest');
+  }
+  return new Buffer(arg.serializeBinary());
+}
+
+function deserialize_pb_SignCreateDepositRequest(buffer_arg) {
+  return rpc_pb.SignCreateDepositRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_pb_SignCreateDepositResponse(arg) {
+  if (!(arg instanceof rpc_pb.SignCreateDepositResponse)) {
+    throw new Error('Expected argument of type pb.SignCreateDepositResponse');
+  }
+  return new Buffer(arg.serializeBinary());
+}
+
+function deserialize_pb_SignCreateDepositResponse(buffer_arg) {
+  return rpc_pb.SignCreateDepositResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_pb_SignExecutionRequest(arg) {
   if (!(arg instanceof rpc_pb.SignExecutionRequest)) {
     throw new Error('Expected argument of type pb.SignExecutionRequest');
@@ -79,6 +101,28 @@ function serialize_pb_SignExecutionResponse(arg) {
 
 function deserialize_pb_SignExecutionResponse(buffer_arg) {
   return rpc_pb.SignExecutionResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_pb_SignSettleDepositRequest(arg) {
+  if (!(arg instanceof rpc_pb.SignSettleDepositRequest)) {
+    throw new Error('Expected argument of type pb.SignSettleDepositRequest');
+  }
+  return new Buffer(arg.serializeBinary());
+}
+
+function deserialize_pb_SignSettleDepositRequest(buffer_arg) {
+  return rpc_pb.SignSettleDepositRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_pb_SignSettleDepositResponse(arg) {
+  if (!(arg instanceof rpc_pb.SignSettleDepositResponse)) {
+    throw new Error('Expected argument of type pb.SignSettleDepositResponse');
+  }
+  return new Buffer(arg.serializeBinary());
+}
+
+function deserialize_pb_SignSettleDepositResponse(buffer_arg) {
+  return rpc_pb.SignSettleDepositResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_pb_SignTransferRequest(arg) {
@@ -204,6 +248,28 @@ var walletServiceService = exports.walletServiceService = {
     requestDeserialize: deserialize_pb_SignExecutionRequest,
     responseSerialize: serialize_pb_SignExecutionResponse,
     responseDeserialize: deserialize_pb_SignExecutionResponse,
+  },
+  signCreateDeposit: {
+    path: '/pb.walletService/SignCreateDeposit',
+    requestStream: false,
+    responseStream: false,
+    requestType: rpc_pb.SignCreateDepositRequest,
+    responseType: rpc_pb.SignCreateDepositResponse,
+    requestSerialize: serialize_pb_SignCreateDepositRequest,
+    requestDeserialize: deserialize_pb_SignCreateDepositRequest,
+    responseSerialize: serialize_pb_SignCreateDepositResponse,
+    responseDeserialize: deserialize_pb_SignCreateDepositResponse,
+  },
+  signSettleDeposit: {
+    path: '/pb.walletService/SignSettleDeposit',
+    requestStream: false,
+    responseStream: false,
+    requestType: rpc_pb.SignSettleDepositRequest,
+    responseType: rpc_pb.SignSettleDepositResponse,
+    requestSerialize: serialize_pb_SignSettleDepositRequest,
+    requestDeserialize: deserialize_pb_SignSettleDepositRequest,
+    responseSerialize: serialize_pb_SignSettleDepositResponse,
+    responseDeserialize: deserialize_pb_SignSettleDepositResponse,
   },
   decodeAddress: {
     path: '/pb.walletService/DecodeAddress',
