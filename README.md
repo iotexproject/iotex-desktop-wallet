@@ -6,6 +6,14 @@ Frontend website for [IoTeX blockchain](https://github.com/iotexproject/iotex-co
 
 ## Development
 
+Prepare environment variables.
+
+```
+cp ./.env.tmpl ./.env
+```
+
+And specify environment variables in `.env` file.
+
 ```
 nvm install 8.11.3
 npm install
@@ -21,14 +29,6 @@ npm run test
 We use [inferno-test-utils](https://www.npmjs.com/package/inferno-test-utils/v/3.10.1) for the view test.
 
 ## Build and Run in Production
-
-Prepare environment variables.
-
-```
-cp ./.env.tmpl ./.env
-```
-
-And specify environment variables in `.env` file.
 
 ```
 npm run bp
