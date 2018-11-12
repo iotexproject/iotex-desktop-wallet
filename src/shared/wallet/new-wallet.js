@@ -7,11 +7,12 @@ import {LabelInputField} from '../common/inputfields/text-input-field';
 import type {TWallet} from '../../entities/wallet-types';
 import {WALLET} from '../common/site-url';
 import {t} from '../../lib/iso-i18n';
-import {fetchGet} from '../../lib/fetch-get';
+import {fetchPost} from '../../lib/fetch-post';
 
 export class NewWallet extends Component {
   props: {
     setWallet: any,
+    chainId: number,
   };
 
   constructor(props: any) {
@@ -29,8 +30,9 @@ export class NewWallet extends Component {
   }
 
   generateKeyPair() {
+    const {chainId} = this.props;
     this.setState({fetching: true});
-    fetchGet(WALLET.GENERATE_KEY_PAIR).then(res => {
+    fetchPost(WALLET.GENERATE_KEY_PAIR, {chainId}).then(res => {
       if (!res.ok) {
         this.setState({message: res.error.message, fetching: false});
       } else {

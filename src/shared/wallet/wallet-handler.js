@@ -29,10 +29,11 @@ export function setWalletRoutes(server) {
   }
 
   async function generateKeyPair(ctx, next) {
+    const {chainId} = ctx.request.body;
     try {
       ctx.body = {
         ok: true,
-        wallet: await walletCore.generateWallet(),
+        wallet: await walletCore.generateWallet(chainId),
       };
     } catch (error) {
       logger.error('FAIL_GENERATE_KEY_PAIR', error.stack);
@@ -41,12 +42,12 @@ export function setWalletRoutes(server) {
   }
 
   async function unlockWallet(ctx, next) {
-    const {priKey} = ctx.request.body;
+    const {priKey, chainId} = ctx.request.body;
 
     try {
       ctx.body = {
         ok: true,
-        wallet: await walletCore.unlockWallet(priKey),
+        wallet: await walletCore.unlockWallet(priKey, chainId),
       };
     } catch (error) {
       logger.error('FAIL_UNLOCK_WALLET', error);
@@ -132,7 +133,7 @@ export function setWalletRoutes(server) {
   }
 
   server.get('wallet', WALLET.INDEX, walletHandler);
-  server.get('generate key pair', WALLET.GENERATE_KEY_PAIR, generateKeyPair);
+  server.post('generate key pair', WALLET.GENERATE_KEY_PAIR, generateKeyPair);
   server.post('unlock wallet', WALLET.UNLOCK_WALLET, unlockWallet);
   server.post('generate transfer', WALLET.GENERATE_TRANSFER, generateTransfer);
   server.post('generate vote', WALLET.GENERATE_VOTE, generateVote);

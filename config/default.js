@@ -34,5 +34,5 @@ module.exports = {
   analytics: {
     googleTid: process.env.GOOGLE_TID || 'UA-XXXXXXXXX-1',
   },
-  chains: JSON.parse(process.env.CHAINS || '[{"name":"mainchain","url":"http://localhost:4004/"},{"name":"subchain","url":"http://localhost:4005/"}]'),
+  chains: JSON.parse(process.env.CHAINS || '[{"id":1,"name":"mainchain","url":"http://localhost:4004/"},{"id":2,"name":"subchain","url":"http://localhost:4005/"}]'),
 };

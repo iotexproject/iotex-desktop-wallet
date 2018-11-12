@@ -36,8 +36,8 @@ export function setServerRoutes(server: Server) {
   );
 
   server.use(async(ctx, next) => {
-    ctx.setState('nav.chains', config.chains);
-    ctx.setState('nav.href', ctx.href);
+    ctx.setState('base.chains', config.chains);
+    ctx.setState('base.href', ctx.href);
     await next();
   });
 

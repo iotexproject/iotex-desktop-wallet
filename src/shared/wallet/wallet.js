@@ -25,6 +25,7 @@ export class Wallet extends Component {
     fetchAddressId: fetchAddressId,
     address: TAddressDetails,
     serverUrl: string,
+    chainId: number,
   };
 
   constructor(props: any) {
@@ -71,7 +72,7 @@ export class Wallet extends Component {
   }
 
   tabs() {
-    const {serverUrl} = this.props;
+    const {serverUrl, chainId} = this.props;
     const {selectedTab, wallet, createNew} = this.state;
     const tabs = (
       <div className='tabs'>
@@ -122,6 +123,7 @@ export class Wallet extends Component {
                   updateWalletInfo={this.updateWalletInfo}
                   createNew={this.state.createNew}
                   setCreateNew={() => this.setState({createNew: true})}
+                  chainId={chainId}
                 />
               )
             }

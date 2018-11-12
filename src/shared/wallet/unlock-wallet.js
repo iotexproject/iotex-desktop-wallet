@@ -17,6 +17,7 @@ export class UnlockWallet extends Component {
     setWallet: any,
     createNew: boolean,
     setCreateNew: any,
+    chainId: number,
   };
 
   constructor(props: any) {
@@ -47,10 +48,11 @@ export class UnlockWallet extends Component {
   }
 
   unlockWallet() {
+    const {chainId} = this.props;
     const {priKey} = this.state;
     this.setState({fetching: true});
 
-    fetchPost(WALLET.UNLOCK_WALLET, {priKey}).then(res => {
+    fetchPost(WALLET.UNLOCK_WALLET, {priKey, chainId}).then(res => {
       if (!res.ok) {
         this.setState({priKeyError: res.error.message, message: res.error.message, fetching: false});
       } else {
@@ -108,12 +110,12 @@ export class UnlockWallet extends Component {
   }
 
   render() {
-    const {wallet, setWallet, createNew} = this.props;
+    const {wallet, setWallet, createNew, chainId} = this.props;
     const {priKey, message, priKeyError, fetching} = this.state;
 
     if (createNew && !wallet) {
       return (
-        <NewWallet setWallet={setWallet}/>
+        <NewWallet setWallet={setWallet} chainId={chainId}/>
       );
     }
 
