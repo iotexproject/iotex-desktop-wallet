@@ -35,9 +35,14 @@ export function setServerRoutes(server: Server) {
     }
   );
 
-  server.use(async(ctx, next) => {
-    ctx.setState('base.chains', config.chains);
-    ctx.setState('base.href', ctx.href);
+  server.use(async function globalConfig(ctx, next) {
+    const chains = config.chains;
+    const href = ctx.href;
+    ctx.setState('base.chains', chains);
+    ctx.setState('base.href', href);
+    const curChain = chains.find(c => String(c.url).indexOf(href) === 0);
+    const chainId = curChain ? curChain.id : 1;
+    ctx.setState('base.chainId', chainId);
     await next();
   });
 
