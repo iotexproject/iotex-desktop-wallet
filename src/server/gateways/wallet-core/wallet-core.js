@@ -169,10 +169,10 @@ export class WalletCore {
   }
 
   // get list of transfers by start block height, transfer offset and limit
-  async unlockWallet(priKey: string): Promise<TWallet> {
+  async unlockWallet(priKey: string, chainId: number): Promise<TWallet> {
     const request = new messages.UnlockRequest();
     request.setPrivatekey(priKey);
-    request.setChainid();
+    request.setChainid(chainId);
 
     return new Promise((resolve, reject) => {
       this.client.unlock(request, (error, response) => {
@@ -296,7 +296,7 @@ export class WalletCore {
 
     return new Promise((resolve, reject) => {
       this.client.signCreateDeposit(request, (err, resp) => {
-        if (!err) {
+        if (err) {
           logger.error(`failed to signCreateDeposit: ${err.stack}`);
           return reject(err);
         }
@@ -328,7 +328,7 @@ export class WalletCore {
 
     return new Promise(((resolve, reject) => {
       this.client.signSettleDeposit(request, (err, resp) => {
-        if (!err) {
+        if (err) {
           logger.error(`failed to signSettleDeposit: ${err.stack}`);
           return reject(err);
         }
