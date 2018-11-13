@@ -121,6 +121,7 @@ export class BlockSummary extends Component {
     fetchBlockTransfersId: fetchBlockTransfersId,
     fetchBlockVotesId: fetchBlockVotesId,
     width: number,
+    chainId: number,
   };
 
   constructor(props: PropsType) {
@@ -217,6 +218,27 @@ export class BlockSummary extends Component {
         c2: b.generateBy ? b.generateBy.name || b.generateBy.address : '',
       },
     ];
+    const votes = this.props.chainId !== 1 ? null : (
+      <div className='column'>
+        <SingleColTable
+          title={t('block.listOfVotes')}
+          items={this.props.votes.items}
+          fetching={this.props.votes.fetching}
+          error={this.props.votes.error}
+          offset={this.props.votes.offset}
+          count={this.props.votes.count}
+          fetch={this.props.fetchBlockVotesId}
+          name={t('votes.title')}
+          displayPagination={true}
+          id={this.props.id}>
+          <VotesListOnlyId
+            votes={this.props.votes.items}
+            width={this.props.width}
+            isHome={false}
+          />
+        </SingleColTable>
+      </div>
+    );
     return (
       <div>
         <SingleItemTable
@@ -265,26 +287,7 @@ export class BlockSummary extends Component {
               />
             </SingleColTable>
           </div>
-          <div className='column'>
-            <SingleColTable
-              title={t('block.listOfVotes')}
-              items={this.props.votes.items}
-              fetching={this.props.votes.fetching}
-              error={this.props.votes.error}
-              offset={this.props.votes.offset}
-              count={this.props.votes.count}
-              fetch={this.props.fetchBlockVotesId}
-              name={t('votes.title')}
-              displayPagination={true}
-              id={this.props.id}
-            >
-              <VotesListOnlyId
-                votes={this.props.votes.items}
-                width={this.props.width}
-                isHome={false}
-              />
-            </SingleColTable>
-          </div>
+          {votes}
         </div>
       </div>
     );

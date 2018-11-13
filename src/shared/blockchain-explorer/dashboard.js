@@ -6,70 +6,25 @@ import {ToolTip} from '../common/tooltip';
 
 export class Dashboard extends Component {
   props: {
-    epochs: number,
-    blocks: number,
-    executions: number,
-    transfers: number,
-    votes: number,
-    faps: number,
-    bbh: number,
+    stats: Array<any>,
   };
 
   render() {
-    const stats = [
-      [
-        {
-          title: t('dashboard.blocks'),
-          subtitle: this.props.blocks,
-          icon: 'fas fa-question-circle',
-          msg: 'dashboard.blocksMsg',
-        },
-      ], [
-        {
-          title: t('dashboard.transfers'),
-          subtitle: this.props.transfers,
-          icon: 'fas fa-question-circle',
-          msg: 'dashboard.transfersMsg',
-        },
-        {
-          title: t('dashboard.epochs'),
-          subtitle: this.props.epochs,
-          icon: 'fas fa-question-circle',
-          msg: 'dashboard.epochsMsg',
-        },
-      ], [
-        {
-          title: `${t('dashboard.executions')}`,
-          subtitle: this.props.executions,
-          icon: 'fas fa-question-circle',
-          msg: 'dashboard.executionsMsg',
-        },
-        {
-          title: t('dashboard.faps'),
-          subtitle: this.props.faps,
-          icon: 'fas fa-question-circle',
-          msg: 'dashboard.fapsMsg',
-        },
-      ], [
-        {
-          title: t('dashboard.votes'),
-          subtitle: this.props.votes,
-          icon: 'fas fa-question-circle',
-          msg: 'dashboard.votesMsg',
-        },
-        {
-          title: t('dashboard.bbh'),
-          subtitle: this.props.bbh,
-          icon: 'fas fa-question-circle',
-          msg: 'dashboard.bbhMsg',
-        },
-      ],
-    ];
-
+    const stats = this.props.stats;
+    let ss = [];
+    let idx = 0;
+    if (stats.length % 2) {
+      idx = 1;
+      ss.push([stats[0]]);
+    }
+    while (idx < stats.length) {
+      ss.push([stats[idx], stats[idx + 1]]);
+      idx += 2;
+    }
     return (
       <div className='column dashboard-wrap'>
         {
-          stats.map(row => {
+          ss.map(row => {
             return (
               <div className='tile is-ancestor'>
                 {row.map(s => (

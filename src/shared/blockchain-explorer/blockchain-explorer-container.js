@@ -17,6 +17,7 @@ export const BlockchainExplorerContainer = connect(
       consensus: state.consensus,
       width: state.app.width,
       statistic: state.nav.statistic,
+      chainId: state.base.chainId,
     };
   },
   dispatch => ({

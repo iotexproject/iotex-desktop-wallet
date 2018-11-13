@@ -8,6 +8,7 @@ export const BlockContainer = connect(
     return {
       state: state.block,
       width: state.app.width,
+      chainId: state.base.chainId,
     };
   },
   dispatch => ({

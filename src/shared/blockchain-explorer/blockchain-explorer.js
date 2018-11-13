@@ -72,6 +72,7 @@ export class BlockchainExplorer extends Component {
     consensus: {
       metrics: TConsensusMetrics,
     },
+    chainId: number,
   };
 
   constructor(props: any) {
@@ -80,6 +81,7 @@ export class BlockchainExplorer extends Component {
       fetchConsensusMetricsId: 0,
       height: 0,
     };
+    this.formStats = this.formStats.bind(this);
   }
 
   componentWillMount() {
@@ -119,14 +121,111 @@ export class BlockchainExplorer extends Component {
     window.removeEventListener('resize', this.updateWindowDimensions);
   }
 
+  formStats(chainId: number, latestEpoch: number, stats: TCoinStatistic) {
+    const epochs = Number(latestEpoch).toLocaleString();
+    if (!stats) {
+      return [{
+        title: t('dashboard.epochs'),
+        subtitle: epochs,
+        icon: 'fas fa-question-circle',
+        msg: 'dashboard.epochsMsg',
+      }];
+    }
+    const retval = [];
+    retval.push({
+      title: t('dashboard.blocks'),
+      subtitle: Number((stats.height || 0) + 1).toLocaleString(),
+      icon: 'fas fa-question-circle',
+      msg: 'dashboard.blocksMsg',
+    });
+    retval.push({
+      title: t('dashboard.transfers'),
+      subtitle: Number(stats.transfers || 0).toLocaleString(),
+      icon: 'fas fa-question-circle',
+      msg: 'dashboard.transfersMsg',
+    });
+    retval.push({
+      title: t('dashboard.epochs'),
+      subtitle: epochs,
+      icon: 'fas fa-question-circle',
+      msg: 'dashboard.epochsMsg',
+    });
+    retval.push({
+      title: `${t('dashboard.executions')}`,
+      subtitle: Number(stats.executions || 0).toLocaleString(),
+      icon: 'fas fa-question-circle',
+      msg: 'dashboard.executionsMsg',
+    });
+    retval.push({
+      title: t('dashboard.faps'),
+      subtitle: Number(stats.aps || 0).toLocaleString(),
+      icon: 'fas fa-question-circle',
+      msg: 'dashboard.fapsMsg',
+    });
+    if (chainId === 1) {
+      retval.push({
+        title: t('dashboard.votes'),
+        subtitle: Number(stats.votes || 0).toLocaleString(),
+        icon: 'fas fa-question-circle',
+        msg: 'dashboard.votesMsg',
+      });
+    }
+    retval.push({
+      title: t('dashboard.bbh'),
+      subtitle: stats.bh || 0,
+      icon: 'fas fa-question-circle',
+      msg: 'dashboard.bbhMsg',
+    });
+
+    return retval;
+  }
+
   // eslint-disable-next-line complexity
   render() {
-    const stats = this.props.statistic;
-
     const consensusMetrics = this.props.consensus && this.props.consensus.metrics || {};
     const delegates = consensusMetrics.latestDelegates || [];
     const currentProducer = consensusMetrics.latestBlockProducer;
     const candidates = consensusMetrics.candidates || [];
+    let plasmaBall = null;
+    let votes = null;
+    if (this.props.chainId === 1) {
+      plasmaBall = (
+        <div className='column is-half'>
+          <div className='box-custom' style='width: 100%;height:100%;min-height:300px'>
+            <div>
+              <h1 className='title roll-dpos-title'>{t('rolldpos:title')}</h1>
+              <ToolTip
+                iconClass={'fas fa-question-circle'}
+                message={t('rolldpos:msg')}
+                customPadClass={'rollDpos-tooltip'}
+              />
+            </div>
+            <PlasmaBall delegates={delegates} currentProducer={currentProducer} offline={[]} candidates={candidates}/>
+          </div>
+        </div>
+      );
+      votes = (
+        <div className='column'>
+          <SingleColTable
+            title={t('latestVotes.title')}
+            items={this.props.votes.items}
+            fetching={this.props.votes.fetching}
+            error={this.props.votes.error}
+            offset={this.props.votes.offset}
+            count={this.props.votes.count}
+            fetch={this.props.fetchVotes}
+            tip={this.props.votes.tip}
+            name={t('votes.title')}
+            displayViewMore={true}>
+            <VotesListOnlyId
+              votes={this.props.votes.items}
+              width={this.props.width}
+              isHome={true}
+            />
+          </SingleColTable>
+        </div>
+      );
+    }
 
     return (
       <div className='container'>
@@ -135,27 +234,13 @@ export class BlockchainExplorer extends Component {
         />
         <div className='column'>
           <div className='columns'>
-            <div className='column is-half'>
-              <div className='box-custom' style='width: 100%;height:100%;min-height:300px'>
-                <div>
-                  <h1 className='title roll-dpos-title'>{t('rolldpos:title')}</h1>
-                  <ToolTip
-                    iconClass={'fas fa-question-circle'}
-                    message={t('rolldpos:msg')}
-                    customPadClass={'rollDpos-tooltip'}
-                  />
-                </div>
-                <PlasmaBall delegates={delegates} currentProducer={currentProducer} offline={[]} candidates={candidates}/>
-              </div>
-            </div>
+            {plasmaBall}
             <Dashboard
-              epochs={Number(consensusMetrics ? (consensusMetrics.latestEpoch || 0) : 0).toLocaleString()}
-              blocks={Number(stats ? (stats.height || 0) + 1 : 0).toLocaleString()}
-              executions={Number(stats ? stats.executions || 0 : 0).toLocaleString()}
-              transfers={Number(stats ? stats.transfers || 0 : 0).toLocaleString()}
-              votes={Number(stats ? stats.votes || 0 : 0).toLocaleString()}
-              faps={Number(stats ? stats.aps || 0 : 0).toLocaleString()}
-              bbh={stats ? stats.bh || 0 : 0}
+              stats={this.formStats(
+                this.props.chainId,
+                consensusMetrics ? (consensusMetrics.latestEpoch || 0) : 0,
+                this.props.statistic,
+              )}
             />
           </div>
         </div>
@@ -173,8 +258,7 @@ export class BlockchainExplorer extends Component {
                 fetch={this.props.fetchBlocks}
                 tip={this.props.blocks.tip}
                 name={t('blocks.title')}
-                displayViewMore={true}
-              >
+                displayViewMore={true}>
                 <BlocksListOnlyId
                   blocks={this.props.blocks.items}
                   width={this.props.width}
@@ -193,8 +277,7 @@ export class BlockchainExplorer extends Component {
                 fetch={this.props.executions}
                 tip={this.props.executions.tip}
                 name={t('meta.executions')}
-                displayViewMore={true}
-              >
+                displayViewMore={true}>
                 <ExecutionsListOnlyId
                   executions={this.props.executions.items}
                   width={this.props.width}
@@ -213,8 +296,7 @@ export class BlockchainExplorer extends Component {
                 fetch={this.props.transfers}
                 tip={this.props.transfers.tip}
                 name={t('meta.transfers')}
-                displayViewMore={true}
-              >
+                displayViewMore={true}>
                 <TransfersListOnlyId
                   transfers={this.props.transfers.items}
                   width={this.props.width}
@@ -222,29 +304,9 @@ export class BlockchainExplorer extends Component {
                 />
               </SingleColTable>
             </div>
-            <div className='column'>
-              <SingleColTable
-                title={t('latestVotes.title')}
-                items={this.props.votes.items}
-                fetching={this.props.votes.fetching}
-                error={this.props.votes.error}
-                offset={this.props.votes.offset}
-                count={this.props.votes.count}
-                fetch={this.props.fetchVotes}
-                tip={this.props.votes.tip}
-                name={t('votes.title')}
-                displayViewMore={true}
-              >
-                <VotesListOnlyId
-                  votes={this.props.votes.items}
-                  width={this.props.width}
-                  isHome={true}
-                />
-              </SingleColTable>
-            </div>
+            {votes}
           </div>
         </div>
-
         <CommonMargin/>
       </div>
     );
