@@ -13,6 +13,7 @@ export class Transfer extends Component {
     wallet: TWallet,
     address: TAddressDetails,
     updateWalletInfo: any,
+    chainId: number,
   };
 
   setWallet(wallet: TWallet) {
@@ -20,7 +21,7 @@ export class Transfer extends Component {
   }
 
   render() {
-    const {wallet, address} = this.props;
+    const {wallet, address, chainId} = this.props;
 
     if (!wallet) {
       return null;
@@ -32,7 +33,7 @@ export class Transfer extends Component {
           title={`${t('wallet.transfer.title')} - IoTeX`}
         />
         <div>
-          <TransferInput wallet={wallet} address={address} updateWalletInfo={this.props.updateWalletInfo}/>
+          <TransferInput chainId={chainId} wallet={wallet} address={address} updateWalletInfo={this.props.updateWalletInfo}/>
         </div>
         <CommonMargin/>
       </div>

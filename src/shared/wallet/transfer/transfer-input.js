@@ -13,6 +13,12 @@ import {acceptableNonce, isValidBytes, isValidRawAddress, onlyNumber} from '../v
 import type {TRawTransferRequest} from '../../../entities/explorer-types';
 import {BroadcastFail, BroadcastSuccess} from '../broadcastedTransaction';
 import {clearButton, greenButton} from '../../common/buttons';
+import {decodeAddress} from '../../../lib/decode-address';
+
+function getChainId(rawAddress) {
+  const addr = decodeAddress(rawAddress);
+  return addr.chainId;
+}
 
 export class TransferInput extends Component {
   props: {
@@ -21,6 +27,7 @@ export class TransferInput extends Component {
     updateWalletInfo: any,
     gasPrice: string,
     gasLimit: number,
+    chainId: number,
   };
 
   constructor(props: any) {
@@ -45,6 +52,8 @@ export class TransferInput extends Component {
       broadcast: null,
       generating: false,
       hasErrors: false,
+      isCrossChainTransfer: false,
+      targetChainId: props.chainId,
     };
 
     (this: any).generateTransfer = this.generateTransfer.bind(this);
@@ -65,6 +74,15 @@ export class TransferInput extends Component {
   }
 
   handleInputChange(name: string, value: string) {
+    if (name === 'recipient') {
+      const {chainId} = this.props;
+      const targetChainId = getChainId(value);
+      if (chainId !== targetChainId) {
+        this.setState({isCrossChainTransfer: true, targetChainId});
+      } else {
+        this.setState({isCrossChainTransfer: false, targetChainId: chainId});
+      }
+    }
     this.checkFormErrors(name, value);
   }
 
@@ -300,8 +318,8 @@ export class TransferInput extends Component {
   }
 
   render() {
-    const {wallet, address} = this.props;
-    const {generating} = this.state;
+    const {wallet, address, chainId} = this.props;
+    const {generating, isCrossChainTransfer, targetChainId} = this.state;
 
     if (!wallet) {
       return null;
@@ -321,6 +339,7 @@ export class TransferInput extends Component {
       <div>
         <p className='wallet-title'>{`${t('wallet.transfer.send')} ${t('account.testnet.token')}`}</p>
         {message && <div className='notification is-danger'>{message}</div>}
+        {isCrossChainTransfer && <div className='notification is-info'>{t('wallet.transfer.crossChain', {chainId, targetChainId})}</div>}
         {this.inputFields(generating)}
         {rawTransaction ? this.displayRawTransfer(rawTransaction, address.totalBalance) : null}
       </div>

@@ -11,7 +11,7 @@ export class Dashboard extends Component {
 
   render() {
     const stats = this.props.stats;
-    let ss = [];
+    const ss = [];
     let idx = 0;
     if (stats.length % 2) {
       idx = 1;

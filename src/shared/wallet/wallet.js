@@ -105,7 +105,7 @@ export class Wallet extends Component {
       break;
     }
     default: {
-      tab = <Transfer wallet={wallet} address={this.props.address} updateWalletInfo={this.updateWalletInfo}/>;
+      tab = <Transfer chainId={chainId} wallet={wallet} address={this.props.address} updateWalletInfo={this.updateWalletInfo}/>;
       break;
     }
     }

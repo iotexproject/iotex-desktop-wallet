@@ -40,7 +40,9 @@ export function setServerRoutes(server: Server) {
     const href = ctx.href;
     ctx.setState('base.chains', chains);
     ctx.setState('base.href', href);
-    const curChain = chains.find(c => String(c.url).indexOf(href) === 0);
+    const curChain = chains.find(c => {
+      return href.indexOf(c.url) === 0;
+    });
     const chainId = curChain ? curChain.id : 1;
     ctx.setState('base.chainId', chainId);
     await next();

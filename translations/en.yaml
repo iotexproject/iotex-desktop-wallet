@@ -163,6 +163,9 @@ wallet.transactions.send: Send Transaction
 wallet.transfer.title: Send IOTX
 wallet.vote.title: Vote for Delegate
 wallet.transaction.title: Transaction
+wallet.transfer.crossChain: >-
+  This is a cross-chain transfer from the current chain with ID ${chainId} to
+  the one with ID ${targetChainId}
 wallet.interact.abiTemplate: >-
   [{ "type":"contructor", "inputs": [{ "name":"param1", "type":"uint256",
   "indexed":true }], "name":"Event" }, { "type":"function", "inputs":
