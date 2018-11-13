@@ -1,5 +1,6 @@
 // @flow
 
+import {fromRau} from 'iotex-client-js/dist/account/utils';
 import Component from 'inferno-component';
 import Helmet from 'inferno-helmet';
 import isBrowser from 'is-browser';
@@ -206,7 +207,7 @@ export class BlockSummary extends Component {
       // },
       {
         c1: t('block.totalAmount'),
-        c2: (b.amount || 0),
+        c2: (<span>{fromRau(b.amount || 0)} Iotx</span>),
       }, {
         c1: t('block.size'),
         c2: (b.size || 0),

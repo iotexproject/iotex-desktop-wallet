@@ -1,4 +1,5 @@
 // @flow
+import {fromRau} from 'iotex-client-js/dist/account/utils';
 import Component from 'inferno-component';
 import Helmet from 'inferno-helmet';
 import isBrowser from 'is-browser';
@@ -103,7 +104,7 @@ export class TransferSummary extends Component {
         c2: (<Link to={`/address/${transfer.recipient}`} className='link'>{transfer.recipient}</Link>),
       }, {
         c1: t('meta.amount'),
-        c2: (transfer.amount),
+        c2: (<span>{fromRau(transfer.amount)} Iotx</span>),
       },
       // {
       //   c1: t('transfer.fee'),

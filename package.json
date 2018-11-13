@@ -109,7 +109,7 @@
     "inferno-router": "^3.9.0",
     "inferno-server": "^3.9.0",
     "inferno-side-effect": "1.1.0",
-    "iotex-client-js": "0.1.1",
+    "iotex-client-js": "^0.1.2",
     "is-browser": "^2.0.1",
     "js-sha3": "^0.8.0",
     "js-yaml": "^3.12.0",
