@@ -176,7 +176,7 @@ class Receipt extends Component {
       rows.push({c1: t('receipt.contract'), c2: (receipt.contractAddress)});
     }
     rows.push({c1: t('receipt.status'), c2: (receipt.status ? t('receipt.success') : t('receipt.fail'))});
-    rows.push({c1: t('receipt.gas'), c2: (<span>{fromRau(receipt.gasConsumed)} Iotx</span>)});
+    rows.push({c1: t('receipt.gas'), c2: (receipt.gasConsumed)});
     if (receipt.retval) {
       rows.push({c1: t('receipt.retval'), c2: (receipt.retval)});
     }
@@ -232,7 +232,7 @@ export class ExecutionSummary extends Component {
       rows.push({c1: t('execution.contract'), c2: (<Link to={`/address/${execution.contract}`} className='link'>{execution.contract}</Link>)});
     }
     rows.push({c1: t('meta.amount'), c2: (<span>{fromRau(execution.amount)} Iotx</span>)});
-    rows.push({c1: t('execution.gas'), c2: (<span>{fromRau(execution.gas)} Iotx</span>)});
+    rows.push({c1: t('execution.gas'), c2: (execution.gas)});
     rows.push({c1: t('execution.input'), c2: (execution.data)});
     rows.push({c1: t('execution.nonce'), c2: (execution.nonce)});
     rows.push({c1: t('meta.timestamp'), c2: fromNow(execution.timestamp)});

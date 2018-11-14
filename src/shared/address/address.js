@@ -1,5 +1,6 @@
 // @flow
 
+import {fromRau} from 'iotex-client-js/dist/account/utils';
 import Component from 'inferno-component';
 import Helmet from 'inferno-helmet';
 import isBrowser from 'is-browser';
@@ -192,7 +193,7 @@ export class AddressSummary extends Component {
     const rows = [
       {
         c1: t('address.totalBalance'),
-        c2: (a.totalBalance || 0),
+        c2: <span>{fromRau(a.totalBalance || 0)} Iotx</span>,
       }, {
         c1: t('address.nonce'),
         c2: (a.nonce || 0),
