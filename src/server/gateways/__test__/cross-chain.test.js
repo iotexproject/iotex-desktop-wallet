@@ -1,7 +1,7 @@
 import test from 'ava';
 import {CrossChain} from '../cross-chains';
 
-test('crosschain signAndSettleDeposit', async t => {
+test.skip('crosschain signAndSettleDeposit', async t => {
   const s = new CrossChain([
     {
       id: 1,

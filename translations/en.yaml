@@ -229,6 +229,7 @@ unlock-wallet.warn.message: >-
   in your URL bar.
 unlock-wallet.no-wallet: Don't have a IoTeX wallet yet?
 unlock-wallet.create: Create a new wallet
+unlock-wallet.main-chain: Please go to mainchain to create a wallet.
 new-wallet.copied: Copied to clipboard
 new-wallet.copy: Copy
 new-wallet.warn.do-not-lose: Do not lose private key!

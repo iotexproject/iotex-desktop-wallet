@@ -72,6 +72,7 @@ export class UnlockWallet extends Component {
   }
 
   unlock(priKey: string, priKeyError: string, message: string, fetching: boolean) {
+    const {chainId} = this.props;
     return (
       <div>
         <Dialogue
@@ -100,9 +101,13 @@ export class UnlockWallet extends Component {
         {greenButton(t('wallet.account.unlock'), Boolean(!priKey || priKeyError), this.unlockWallet, fetching)}
         <div style={{paddingTop: '24px'}}>
           <p>{t('unlock-wallet.no-wallet')}
-            <a style={{paddingLeft: '10px'}} onClick={() => {
-              this.setDialogueActive(true);
-            }}>{t('unlock-wallet.create')}</a>
+            {chainId === 1 ? (
+              <a style={{paddingLeft: '10px'}} onClick={() => {
+                this.setDialogueActive(true);
+              }}>{t('unlock-wallet.create')}</a>
+            ) : (
+              <span style={{paddingLeft: '10px'}}>{t('unlock-wallet.main-chain')}</span>
+            )}
           </p>
         </div>
       </div>
