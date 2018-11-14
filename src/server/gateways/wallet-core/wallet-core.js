@@ -164,7 +164,7 @@ export class WalletCore {
           };
           resolve(wallet);
         } else {
-          logger.error(error);
+          logger.error('failed to generateWallet', error);
           reject(error.details);
         }
       });
@@ -188,7 +188,7 @@ export class WalletCore {
           };
           resolve(wallet);
         } else {
-          logger.error(error);
+          logger.error('failed to unlockWallet', error);
           reject(error.details);
         }
       });
@@ -221,7 +221,7 @@ export class WalletCore {
           };
           resolve(signedTransfer);
         } else {
-          logger.error(error);
+          logger.error('failed to signTransfer', error);
           reject(error.details);
         }
       });
@@ -251,7 +251,7 @@ export class WalletCore {
           };
           resolve(signedVote);
         } else {
-          logger.error(error);
+          logger.error('failed to signVote', error);
           reject(error.details);
         }
       });
@@ -283,7 +283,7 @@ export class WalletCore {
           };
           resolve(signedExecution);
         } else {
-          logger.error(error);
+          logger.error('failed to signSmartContract', error);
           reject(error.details);
         }
       });

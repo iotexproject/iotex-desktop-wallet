@@ -36,7 +36,7 @@ export class Interact extends Component {
       abi: '',
       errors_abi: '',
       gasPrice: this.props.gasPrice || '0',
-      gasLimit: this.props.gasLimit || 10000,
+      gasLimit: this.props.gasLimit || 1000000,
       errors_gasPrice: '',
       errors_gasLimit: '',
       amount: '0',

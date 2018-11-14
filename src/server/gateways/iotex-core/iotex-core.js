@@ -50,6 +50,51 @@ function emptyAddress(id) {
   };
 }
 
+/**
+ * TCreateDepositRequest is the request to create deposit.
+ */
+type TCreateDepositRequest = {
+  version: number,
+  nonce: number,
+  sender: string,
+  senderPubKey: string,
+  recipient: string,
+  amount: string,
+  signature: string,
+  gasLimit: number,
+  gasPrice: string,
+}
+
+/**
+ * TCreateDepositResponse is the response to create deposit.
+ */
+type TCreateDepositResponse = {
+  hash: string,
+}
+
+/**
+ * TSettleDepositRequest is the request to settle deposit.
+ */
+type TSettleDepositRequest = {
+  version: number,
+  nonce: number,
+  sender: string,
+  senderPubKey: string,
+  recipient: string,
+  amount: string,
+  index: number,
+  signature: string,
+  gasLimit: number,
+  gasPrice: string,
+}
+
+/**
+ * TSettleDepositResponse is the response of settling deposit.
+ */
+type TSettleDepositResponse = {
+  hash: string,
+}
+
 export interface IGExplorer {
   // get the balance of an address
   getAddressBalance(address: string): number,
@@ -122,6 +167,10 @@ export interface IGExplorer {
 
   // read execution state
   readExecutionState(contractAddress: string, slot: number): string,
+
+  createDeposit(request: TCreateDepositRequest): TCreateDepositResponse,
+
+  settleDeposit(request: TSettleDepositRequest): TSettleDepositResponse,
 }
 
 export class IotexCoreExplorer {
@@ -459,6 +508,14 @@ export class IotexCoreExplorer {
   // read execution state
   async readExecutionState(sc: TExecution): Promise<string> {
     return await promisify(this.exp.readExecutionState)(sc);
+  }
+
+  async createDeposit(request: TCreateDepositRequest): Promise<TCreateDepositResponse> {
+    return await promisify(this.exp.createDeposit)(request);
+  }
+
+  async settleDeposit(request: TSettleDepositRequest): Promise<TSettleDepositResponse> {
+    return await promisify(this.exp.settleDeposit)(request);
   }
 
   async report(): Promise<void> {

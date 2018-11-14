@@ -14,6 +14,7 @@ import type {TRawTransferRequest} from '../../../entities/explorer-types';
 import {BroadcastFail, BroadcastSuccess} from '../broadcastedTransaction';
 import {clearButton, greenButton} from '../../common/buttons';
 import {decodeAddress} from '../../../lib/decode-address';
+import {ContinueDeposit} from './continue-deposit';
 
 function getChainId(rawAddress) {
   const addr = decodeAddress(rawAddress);
@@ -36,7 +37,7 @@ export class TransferInput extends Component {
       recipient: '',
       amount: '',
       gasPrice: this.props.gasPrice || '0',
-      gasLimit: this.props.gasLimit || 10000,
+      gasLimit: this.props.gasLimit || 1000000,
       nonce: this.props.address ? this.props.address.pendingNonce : 1,
       currentNonce: this.props.address ? this.props.address.nonce : 1,
       nonceMessage: t('wallet.input.nonce.suggestion', {nonce: this.props.address ? this.props.address.nonce : 0}),
@@ -171,7 +172,7 @@ export class TransferInput extends Component {
 
   generateTransfer() {
     const {wallet} = this.props;
-    const {recipient, amount, nonce, dataInBytes, gasPrice, gasLimit} = this.state;
+    const {recipient, amount, nonce, dataInBytes, gasPrice, gasLimit, isCrossChainTransfer} = this.state;
 
     this.setState({generating: true});
     const rawTransfer: TRawTransferRequest = {
@@ -185,7 +186,7 @@ export class TransferInput extends Component {
       gasPrice,
       gasLimit,
     };
-    fetchPost(WALLET.GENERATE_TRANSFER, {rawTransfer, wallet}).then(res => {
+    fetchPost(WALLET.GENERATE_TRANSFER, {rawTransfer, wallet, isCrossChainTransfer}).then(res => {
       this.receiveResponse(res);
     });
   }
@@ -260,6 +261,8 @@ export class TransferInput extends Component {
   }
 
   displayRawTransfer(rawTransfer: TRawTransfer, balance: number) {
+    const {isCrossChainTransfer} = this.state;
+
     const signature = rawTransfer.signature;
     const cleanedTransfer = {
       ...rawTransfer,
@@ -285,6 +288,7 @@ export class TransferInput extends Component {
         type={'transfer'}
         broadcast={this.broadcast}
         title={t('wallet.transfer.detail-title')}
+        isCrossChainTransfer={isCrossChainTransfer}
       >
         <div>
           <table className='dialogue-table'>
@@ -330,6 +334,17 @@ export class TransferInput extends Component {
     if (broadcast) {
       const sendNewIOTX = clearButton(`${t('wallet.transfer.sendNew')} ${t('account.testnet.token')}`, this.sendNewIOTXClick);
       if (broadcast.success) {
+        if (isCrossChainTransfer) {
+          return (
+            <ContinueDeposit
+              hash={broadcast.txHash}
+              rawTransaction={rawTransaction}
+              targetChainId={targetChainId}
+              wallet={wallet}
+              sendNewIOTX={sendNewIOTX}
+            />
+          );
+        }
         return BroadcastSuccess(broadcast.txHash, 'transfer', sendNewIOTX);
       }
       return BroadcastFail(broadcast.error, t('wallet.transfer.broadcast.fail', {token: t('account.testnet.token')}), sendNewIOTX);

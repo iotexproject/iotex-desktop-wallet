@@ -53,7 +53,7 @@ export class Deploy extends Component {
       byteCode: '',
       errors_byteCode: '',
       gasPrice: this.props.gasPrice || '0',
-      gasLimit: this.props.gasLimit || 10000,
+      gasLimit: this.props.gasLimit || 1000000,
       errors_gasPrice: '',
       errors_gasLimit: '',
       nonce: this.props.address ? this.props.address.pendingNonce : 1,

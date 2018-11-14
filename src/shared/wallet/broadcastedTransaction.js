@@ -4,24 +4,28 @@ import {EXECUTIONS, TRANSFERS, VOTES} from '../common/site-url';
 import {t} from '../../lib/iso-i18n';
 import {greenButton} from '../common/buttons';
 
-export function BroadcastSuccess(txHash: string, type: string, action: any) {
-  let index;
-  switch (type) {
-  case 'transfer':
-    index = TRANSFERS.INDEX;
-    break;
-  case 'vote':
-    index = VOTES.INDEX;
-    break;
-  case 'contract':
-    index = EXECUTIONS.INDEX;
-    break;
-  default:
-    return null;
+export function BroadcastSuccess(txHash: string, type: string, action: any, index: string) {
+  if (!index) {
+    switch (type) {
+    case 'transfer':
+      index = TRANSFERS.INDEX;
+      break;
+    case 'vote':
+      index = VOTES.INDEX;
+      break;
+    case 'contract':
+      index = EXECUTIONS.INDEX;
+      break;
+    default:
+      return null;
+    }
   }
   return (
     <div>
-      <p style={{fontSize: '34px', fontWeight: 'bold'}}><i style={{color: '#07a35a'}} className='far fa-check-circle'/> {t('broadcast.success')}</p>
+      <p style={{fontSize: '34px', fontWeight: 'bold'}}>
+        <i style={{color: '#07a35a'}} className='far fa-check-circle'/>
+        {t('broadcast.success')}
+      </p>
 
       <p>{t('broadcast.warn.one')}</p>
       <p>{t('broadcast.warn.two')}</p>

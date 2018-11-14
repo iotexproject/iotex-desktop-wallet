@@ -179,6 +179,14 @@ export class WALLET {
     return `/api${this.TRANSACTION}/sendTransaction`;
   }
 
+  static get CONTINUE_DEPOSIT(): string {
+    return `/api${this.TRANSACTION}/continueDeposit`;
+  }
+
+  static get SIGN_AND_SETTLE_DEPOSIT(): string {
+    return `/api${this.TRANSACTION}/signSettleDeposit`;
+  }
+
   static get SIGN_CONTRACT_ABI(): string {
     return `/api${this.CONTRACT}/signContractAbi`;
   }

@@ -30,7 +30,7 @@ export class VoteInput extends Component {
     this.state = {
       votee: '',
       gasPrice: this.props.gasPrice || '0',
-      gasLimit: this.props.gasLimit || 10000,
+      gasLimit: this.props.gasLimit || 1000000,
       nonce: this.props.address ? this.props.address.pendingNonce : 1,
       currentNonce: this.props.address ? this.props.address.nonce : 1,
       errors_votee: '',

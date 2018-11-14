@@ -17,6 +17,7 @@ export class TransactionDetailSection extends Component {
     broadcast: any,
     children: any,
     title: string,
+    isCrossChainTransfer: boolean;
   };
 
   constructor(props: any) {
@@ -34,8 +35,13 @@ export class TransactionDetailSection extends Component {
   }
 
   sendTransaction(rawTransaction: any, type: string) {
+    const {isCrossChainTransfer} = this.props;
     this.setState({sending: true});
-    fetchPost(WALLET.SEND_TRANSACTION, {rawTransaction, type}).then(res => {
+    const request = {rawTransaction, type};
+    if (isCrossChainTransfer) {
+      request.isCrossChainTransfer = isCrossChainTransfer;
+    }
+    fetchPost(WALLET.SEND_TRANSACTION, request).then(res => {
       if (!res.ok) {
         this.props.broadcast({success: false, error: res.error.message});
         this.setState({message: t(res.error.message), sent: true, txHash: '', sending: false});

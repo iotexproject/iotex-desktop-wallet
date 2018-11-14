@@ -166,6 +166,7 @@ wallet.transaction.title: Transaction
 wallet.transfer.crossChain: >-
   This is a cross-chain transfer from the current chain with ID ${chainId} to
   the one with ID ${targetChainId}
+wallet.transfer.crossChain.settling: Settling the cross-chain transfer...
 wallet.interact.abiTemplate: >-
   [{ "type":"contructor", "inputs": [{ "name":"param1", "type":"uint256",
   "indexed":true }], "name":"Event" }, { "type":"function", "inputs":

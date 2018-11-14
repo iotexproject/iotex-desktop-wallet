@@ -199,7 +199,15 @@ struct PutSubChainBlockRequest {
 }
 
 struct PutSubChainBlockResponse {
-	hash string
+    hash string
+}
+
+struct SendActionRequest {
+    payload  string
+}
+
+struct SendActionResponse {
+    payload  string
 }
 
 struct Node {
@@ -220,6 +228,45 @@ struct GetBlkOrActResponse {
     transfer Transfer [optional]
     vote Vote [optional]
     execution Execution [optional]
+}
+
+struct CreateDepositRequest {
+    version int
+    nonce int
+    sender string
+    senderPubKey string
+    recipient string
+    amount string
+    signature string
+    gasLimit int
+    gasPrice string
+}
+
+struct CreateDepositResponse {
+    hash string
+}
+
+struct Deposit {
+    amount string
+    address string
+    confirmed bool
+}
+
+struct SettleDepositRequest {
+    version int
+    nonce int
+    sender string
+    senderPubKey string
+    recipient string
+    amount string
+    index int
+    signature string
+    gasLimit int
+    gasPrice string
+}
+
+struct SettleDepositResponse {
+    hash string
 }
 
 interface Explorer {
@@ -307,6 +354,9 @@ interface Explorer {
     // putSubChainBlock
     putSubChainBlock(request PutSubChainBlockRequest) PutSubChainBlockResponse
 
+    // sendAction
+    sendAction(request SendActionRequest) SendActionResponse
+
     // get list of peers
     getPeers() GetPeersResponse
 
@@ -318,4 +368,13 @@ interface Explorer {
 
     // get block or action by a hash
     getBlockOrActionByHash(hashStr string) GetBlkOrActResponse
+
+    // deposit balance from main-chain to sub-chain
+    createDeposit(request CreateDepositRequest) CreateDepositResponse
+
+    // get deposits on a sub-chain
+    getDeposits(subChainID int, offset int, limit int) []Deposit
+
+    // settle deposit on sub-chain. This is a sub-chain API
+    settleDeposit(request SettleDepositRequest) SettleDepositResponse
 }
