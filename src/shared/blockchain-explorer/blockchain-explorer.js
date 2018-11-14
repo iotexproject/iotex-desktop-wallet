@@ -200,7 +200,12 @@ export class BlockchainExplorer extends Component {
                 customPadClass={'rollDpos-tooltip'}
               />
             </div>
-            <PlasmaBall delegates={delegates} currentProducer={currentProducer} offline={[]} candidates={candidates}/>
+            <PlasmaBall
+              delegates={delegates.sort()}
+              currentProducer={currentProducer}
+              offline={[]}
+              candidates={candidates.sort()}
+            />
           </div>
         </div>
       );
