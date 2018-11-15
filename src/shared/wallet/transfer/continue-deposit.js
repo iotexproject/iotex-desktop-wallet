@@ -58,6 +58,6 @@ export const ContinueDeposit = connect(
     }
 
     const targetChain = chains.find(c => c.id === targetChainId);
-    return BroadcastSuccess(hash, 'transfer', sendNewIOTX, `${targetChain.url}transfers/`);
+    return BroadcastSuccess(hash, 'transfer', sendNewIOTX, `${targetChain.url}deposits/`, true);
   }
   });

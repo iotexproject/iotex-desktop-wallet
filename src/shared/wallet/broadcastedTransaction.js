@@ -4,7 +4,7 @@ import {EXECUTIONS, TRANSFERS, VOTES} from '../common/site-url';
 import {t} from '../../lib/iso-i18n';
 import {greenButton} from '../common/buttons';
 
-export function BroadcastSuccess(txHash: string, type: string, action: any, index: string) {
+export function BroadcastSuccess(txHash: string, type: string, action: any, index: string, isCheckHidden: boolean) {
   if (!index) {
     switch (type) {
     case 'transfer':
@@ -31,8 +31,8 @@ export function BroadcastSuccess(txHash: string, type: string, action: any, inde
       <p>{t('broadcast.warn.two')}</p>
       <p>{t('broadcast.warn.three')} <strong>{txHash}</strong></p>
 
-      {greenButton(t('broadcast.button.check'), false, null, false, `${index}${txHash}`, '_blank')}
-      {'\u0020'}
+      {!isCheckHidden && greenButton(t('broadcast.button.check'), false, null, false, `${index}${txHash}`, '_blank')}
+      {!isCheckHidden && '\u0020'}
       {action}
     </div>
   );
