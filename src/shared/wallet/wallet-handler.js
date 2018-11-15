@@ -1,4 +1,5 @@
 /* eslint-disable max-statements */
+import config from 'config';
 import {rootReducer} from '../common/root/root-reducer';
 import {WALLET} from '../common/site-url';
 import {logger} from '../../lib/integrated-gateways/logger';
@@ -163,14 +164,17 @@ export function setWalletRoutes(server) {
   }
 
   async function continueDeposit(ctx, next) {
-    const {targetChainId, hash, rawTransaction, wallet} = ctx.request.body;
+    const {targetChainId, hash, rawTransaction} = ctx.request.body;
+    const settlerWallet = config.get('settlerWallet');
     const {returnValue} = await iotxRpcMethods.getReceiptByExecutionID(hash);
     const index = intFromHexLE(returnValue);
     const settleDeposit = {
       ...rawTransaction,
+      sender: settlerWallet.rawAddress,
+      senderPubKey: settlerWallet.publicKey,
       index,
     };
-    ctx.response.body = await crossChain.signAndSettleDeposit({chainId: targetChainId, settleDeposit, wallet});
+    ctx.response.body = await crossChain.signAndSettleDeposit({chainId: targetChainId, settleDeposit, wallet: settlerWallet});
   }
 
   async function signAndSettleDeposit(ctx, next) {
