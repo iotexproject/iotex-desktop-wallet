@@ -4,6 +4,9 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const glob = require('glob');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+const ANALYZE = false;
 
 module.exports = {
   mode: 'production',
@@ -30,6 +33,7 @@ module.exports = {
     ],
   },
   plugins: [
+    ...(ANALYZE ? [new BundleAnalyzerPlugin()] : []),
     new UglifyJSPlugin({
       cache: true,
       parallel: true,

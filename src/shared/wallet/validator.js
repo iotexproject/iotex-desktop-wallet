@@ -3,8 +3,8 @@ const RAW_ADDRESS_LENGTH = 49;
 
 const PRIVATE_KEY_REGEX = /^[A-Za-z0-9]+$/;
 const RAW_ADDRESS_REGEX = /^io[A-Za-z0-9]+$/;
-const NUMBER_REGEX = /^[0-9]+$/;
-const FLOAT_REGEX = /^[0-9]+\.[0-9]+$/;
+const INTEGER_REGEX = /^[0-9]+$/;
+const FLOAT_REGEX = /^[0-9]*\.?[0-9]*$/;
 const BYTE_REGEX = /^(0x|)[A-Fa-f0-9]+$/;
 const INT_REGEX = /.*int.*/;
 
@@ -50,10 +50,10 @@ export function onlyNumber(str) {
   if (str.length === 0) {
     return 'input.error.number.length';
   }
-  if (str.match(NUMBER_REGEX)) {
+  if (str.match(INTEGER_REGEX)) {
     return '';
   }
-  return 'input.error.number.invalid';
+  return 'input.error.float.invalid';
 }
 
 export function isValidBytes(str) {

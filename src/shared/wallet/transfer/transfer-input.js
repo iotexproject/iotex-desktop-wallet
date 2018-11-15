@@ -1,6 +1,6 @@
 // @flow
-
 import Component from 'inferno-component';
+import {toRau, fromRau} from 'iotex-client-js/dist/account/utils';
 import {TextInputField} from '../../common/inputfields/text-input-field';
 import type {TWallet, TRawTransfer} from '../../../entities/wallet-types';
 import {WALLET} from '../../common/site-url';
@@ -9,7 +9,7 @@ import {TransactionDetailSection} from '../transaction-detail-section';
 import {t} from '../../../lib/iso-i18n';
 import type {Error} from '../../../entities/common-types';
 import type {TAddressDetails} from '../../../entities/explorer-types';
-import {acceptableNonce, isValidBytes, isValidRawAddress, onlyNumber} from '../validator';
+import {acceptableNonce, isValidBytes, isValidRawAddress, onlyNumber, onlyFloat} from '../validator';
 import type {TRawTransferRequest} from '../../../entities/explorer-types';
 import {BroadcastFail, BroadcastSuccess} from '../broadcastedTransaction';
 import {clearButton, greenButton} from '../../common/buttons';
@@ -68,9 +68,12 @@ export class TransferInput extends Component {
     this.setState({nonce: this.props.address ? this.props.address.nonce + 1 : this.state.nonce});
   }
 
-  componentWillReceiveProps(nextProps: {address: TAddressDetails}, nextContext: any) {
+  componentWillReceiveProps(nextProps: { address: TAddressDetails }, nextContext: any) {
     if (this.state.nonce <= nextProps.address.nonce) {
-      this.setState({nonceMessage: t('wallet.input.nonce.suggestion', {nonce: nextProps.address.nonce}), currentNonce: nextProps.address.nonce});
+      this.setState({
+        nonceMessage: t('wallet.input.nonce.suggestion', {nonce: nextProps.address.nonce}),
+        currentNonce: nextProps.address.nonce,
+      });
     }
   }
 
@@ -118,7 +121,7 @@ export class TransferInput extends Component {
       break;
     }
     case 'amount': {
-      this.updateFormState(name, value, value && onlyNumber(value));
+      this.updateFormState(name, value, value && onlyFloat(value));
       break;
     }
     case 'gasPrice': {
@@ -149,7 +152,7 @@ export class TransferInput extends Component {
     });
   }
 
-  receiveResponse(res: {ok: boolean, rawTransaction: any, errors: Array<string>, error: ?Error}) {
+  receiveResponse(res: { ok: boolean, rawTransaction: any, errors: Array<string>, error: ?Error }) {
     if (!res.ok) {
       if (res.errors && res.errors.length > 0) {
         res.errors.forEach(key => {
@@ -157,7 +160,11 @@ export class TransferInput extends Component {
         });
         this.setState({message: t('wallet.error.fix'), generating: false, rawTransaction: null});
       } else {
-        this.setState({message: t(res.error ? res.error.message : t('error.unknown')), generating: false, rawTransaction: null});
+        this.setState({
+          message: t(res.error ? res.error.message : t('error.unknown')),
+          generating: false,
+          rawTransaction: null,
+        });
       }
     } else {
       this.resetErrors();
@@ -178,7 +185,7 @@ export class TransferInput extends Component {
     const rawTransfer: TRawTransferRequest = {
       version: 0x01,
       nonce,
-      amount,
+      amount: toRau(amount, 'Iotx'),
       sender: wallet.rawAddress,
       recipient,
       payload: dataInBytes.replace(/^(0x)/, ''),
@@ -266,7 +273,7 @@ export class TransferInput extends Component {
     const signature = rawTransfer.signature;
     const cleanedTransfer = {
       ...rawTransfer,
-      payload: `0x${rawTransfer.payload}`,
+      payload: `0x${rawTransfer.payload || ''}`,
     };
     delete cleanedTransfer.signature;
     delete cleanedTransfer.isCoinbase;
@@ -278,7 +285,7 @@ export class TransferInput extends Component {
       {c1: t('wallet.transfer.nonce'), c2: cleanedTransfer.nonce},
       {c1: t('wallet.transfer.data'), c2: cleanedTransfer.payload},
     ];
-
+    const balanceRau = fromRau(parseInt(toRau(balance, 'Rau'), 10) - parseInt(cleanedTransfer.amount, 10), 'Iotx');
     return (
       <TransactionDetailSection
         rawTransaction={rawTransfer}
@@ -290,11 +297,14 @@ export class TransferInput extends Component {
         title={t('wallet.transfer.detail-title')}
         isCrossChainTransfer={isCrossChainTransfer}
       >
-        <div>
-          <table className='dialogue-table'>
+        <div className='dialogue-table'>
+          <table >
             <tr>
               <td style={{lineHeight: '3.5'}}>{t('wallet.transfer.amount')}</td>
-              <td className='c2-table'><p style={{fontSize: '32px', display: 'inline-block'}}>{cleanedTransfer.amount}</p> {t('account.testnet.token')}</td>
+              <td className='c2-table'><p style={{
+                fontSize: '32px',
+                display: 'inline-block',
+              }}>{fromRau(cleanedTransfer.amount, 'Iotx')}</p> {t('account.testnet.token')}</td>
             </tr>
             {rows.map(r =>
               (<tr>
@@ -305,7 +315,9 @@ export class TransferInput extends Component {
             )}
           </table>
           <div>
-            <p>{t('wallet.transfer.balance-after', {balance: balance - cleanedTransfer.amount})} {t('account.testnet.token')}<br/>{t('wallet.detail.are-you-sure')}</p>
+            <p>
+              {t('wallet.transfer.balance-after', {balance: balanceRau})} {t('account.testnet.token')}<br/>{t('wallet.detail.are-you-sure')}
+            </p>
           </div>
         </div>
       </TransactionDetailSection>
@@ -318,7 +330,11 @@ export class TransferInput extends Component {
   }
 
   sendNewIOTXClick() {
-    this.setState({broadcast: null, rawTransaction: null, nonce: this.props.address ? this.props.address.nonce + 1 : this.state.nonce});
+    this.setState({
+      broadcast: null,
+      rawTransaction: null,
+      nonce: this.props.address ? this.props.address.nonce + 1 : this.state.nonce,
+    });
   }
 
   render() {
@@ -354,7 +370,8 @@ export class TransferInput extends Component {
       <div>
         <p className='wallet-title'>{`${t('wallet.transfer.send')} ${t('account.testnet.token')}`}</p>
         {message && <div className='notification is-danger'>{message}</div>}
-        {isCrossChainTransfer && <div className='notification is-info'>{t('wallet.transfer.crossChain', {chainId, targetChainId})}</div>}
+        {isCrossChainTransfer &&
+        <div className='notification is-info'>{t('wallet.transfer.crossChain', {chainId, targetChainId})}</div>}
         {this.inputFields(generating)}
         {rawTransaction ? this.displayRawTransfer(rawTransaction, address.totalBalance) : null}
       </div>

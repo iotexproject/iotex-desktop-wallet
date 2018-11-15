@@ -1,6 +1,7 @@
 // @flow
 
 import Component from 'inferno-component';
+import {fromRau} from 'iotex-client-js/dist/account/utils';
 import type {TWallet} from '../../entities/wallet-types';
 import type {TAddressDetails} from '../../entities/explorer-types';
 import {assetURL} from '../../lib/asset-url';
@@ -50,7 +51,7 @@ export class AccountSection extends Component {
           <a className='float-right' onClick={() => setWallet(null)}>{t('account.change')}</a>
         </div>
         <div style={{alignContent: 'center'}}>
-          <p id='iotx-balance'>{address ? address.totalBalance : 0}<b>{t('account.testnet.token')}</b></p>
+          <p id='iotx-balance'>{address ? fromRau(address.totalBalance, 'Iotx') : 0}<b>{t('account.testnet.token')}</b></p>
         </div>
         <div>
           <p>{t('account.address')}</p>

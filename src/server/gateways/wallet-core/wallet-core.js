@@ -149,9 +149,7 @@ export class WalletCore {
   // get the address detail of an iotex address
   async generateWallet(chainId: number): Promise<TWallet> {
     const request = new messages.NewWalletRequest();
-    if (request.setChainid) {
-      request.setChainid(chainId);
-    }
+    request.setChainid(chainId);
 
     return new Promise((resolve, reject) => {
       this.client.newWallet(request, (error, response) => {

@@ -24,6 +24,7 @@ service walletService {
 }
 
 message NewWalletRequest {
+    int64 chainID = 1;
 }
 
 message NewWalletResponse {
@@ -59,6 +60,7 @@ message SignVoteResponse {
 
 message DecodeAddressRequest {
     string address = 1;
+    int64 chainID = 2;
 }
 
 message DecodeAddressResponse {

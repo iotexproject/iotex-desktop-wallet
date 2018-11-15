@@ -80,7 +80,7 @@ proto.pb.NewWalletRequest.prototype.toObject = function(opt_includeInstance) {
  */
 proto.pb.NewWalletRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-
+    chainid: jspb.Message.getFieldWithDefault(msg, 1, 0)
   };
 
   if (includeInstance) {
@@ -117,6 +117,10 @@ proto.pb.NewWalletRequest.deserializeBinaryFromReader = function(msg, reader) {
     }
     var field = reader.getFieldNumber();
     switch (field) {
+    case 1:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setChainid(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -146,6 +150,28 @@ proto.pb.NewWalletRequest.prototype.serializeBinary = function() {
  */
 proto.pb.NewWalletRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
+  f = message.getChainid();
+  if (f !== 0) {
+    writer.writeInt64(
+      1,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional int64 chainID = 1;
+ * @return {number}
+ */
+proto.pb.NewWalletRequest.prototype.getChainid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.NewWalletRequest.prototype.setChainid = function(value) {
+  jspb.Message.setField(this, 1, value);
 };
 
 
@@ -1407,7 +1433,8 @@ proto.pb.DecodeAddressRequest.prototype.toObject = function(opt_includeInstance)
  */
 proto.pb.DecodeAddressRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    address: jspb.Message.getFieldWithDefault(msg, 1, "")
+    address: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    chainid: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
   if (includeInstance) {
@@ -1448,6 +1475,10 @@ proto.pb.DecodeAddressRequest.deserializeBinaryFromReader = function(msg, reader
       var value = /** @type {string} */ (reader.readString());
       msg.setAddress(value);
       break;
+    case 2:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setChainid(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1484,6 +1515,13 @@ proto.pb.DecodeAddressRequest.serializeBinaryToWriter = function(message, writer
       f
     );
   }
+  f = message.getChainid();
+  if (f !== 0) {
+    writer.writeInt64(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -1499,6 +1537,21 @@ proto.pb.DecodeAddressRequest.prototype.getAddress = function() {
 /** @param {string} value */
 proto.pb.DecodeAddressRequest.prototype.setAddress = function(value) {
   jspb.Message.setField(this, 1, value);
+};
+
+
+/**
+ * optional int64 chainID = 2;
+ * @return {number}
+ */
+proto.pb.DecodeAddressRequest.prototype.getChainid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/** @param {number} value */
+proto.pb.DecodeAddressRequest.prototype.setChainid = function(value) {
+  jspb.Message.setField(this, 2, value);
 };
 
 

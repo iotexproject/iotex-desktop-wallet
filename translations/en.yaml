@@ -214,6 +214,7 @@ input.error.private_key.length: Private key has to be of length 72
 input.error.raw_address.length: IOTX address has to be of length 49
 input.error.raw_address.invalid: IOTX address must start with io
 input.error.number.invalid: Only number 0-9
+input.error.float.invalid: Only number
 input.error.bytes.length: Bytes must be of even length
 input.error.bytes.invalid: 'Invalid bytes, must be a character in 0-9 A-F'
 wallet.missing_solidity_pragma: Incorrect Solidity
