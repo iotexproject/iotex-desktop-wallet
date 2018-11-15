@@ -46,7 +46,7 @@ test('TransferSummary contains attributes', t => {
     id: 'id',
     sender: 'sender',
     recipient: 'recipient',
-    amount: 123,
+    amount: 123000000000000000,
     fee: 123,
     timestamp: 123,
     blockId: 'blockId',
@@ -73,7 +73,7 @@ test('TransferSummary contains attributes', t => {
 
   const r4 = trs[3].getElementsByTagName('td');
   t.is(r4[0].textContent, 'meta.amount', 'contains meta.amount');
-  t.is(r4[1].textContent, '123', 'contains 123');
+  t.is(r4[1].textContent, '0.123 Iotx', 'contains 123');
 
   // const r5 = trs[4].getElementsByTagName('td');
   // t.is(r5[0].textContent, 'transfer.fee', 'contains transfer.fee');
@@ -93,7 +93,7 @@ test('TransferSummary sender is blank', t => {
     id: 'id',
     sender: '',
     recipient: 'recipient',
-    amount: 123,
+    amount: 123000000000000000000,
     fee: 123,
     timestamp: 123,
     blockId: 'blockId',
@@ -120,7 +120,7 @@ test('TransferSummary sender is blank', t => {
 
   const r3 = trs[3].getElementsByTagName('td');
   t.is(r3[0].textContent, 'meta.amount', 'contains meta.amount');
-  t.is(r3[1].textContent, '123', 'contains 123');
+  t.is(r3[1].textContent, '123 Iotx', 'contains 123');
 
   // const r4 = trs[4].getElementsByTagName('td');
   // t.is(r4[0].textContent, 'transfer.fee', 'contains transfer.fee');

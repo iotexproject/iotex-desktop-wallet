@@ -44,7 +44,7 @@ test('ExecutionSummary contains attributes', t => {
     id: 'id',
     executor: 'executor',
     contract: 'contract',
-    amount: 1,
+    amount: 1000000000000,
     gas: 2,
     data: 'data',
     nonce: 3,
@@ -71,7 +71,7 @@ test('ExecutionSummary contains attributes', t => {
 
   const r4 = trs[3].getElementsByTagName('td');
   t.is(r4[0].textContent, 'meta.amount', 'contains meta.amount');
-  t.is(r4[1].textContent, '1', 'contains 1');
+  t.is(r4[1].textContent, '0.000001 Iotx', 'contains 1');
 
   const r5 = trs[4].getElementsByTagName('td');
   t.is(r5[0].textContent, 'execution.gas', 'contains execution.gas');
@@ -99,7 +99,7 @@ test('ExecutionSummary executor is blank', t => {
     id: 'id',
     executor: '',
     contract: 'contract',
-    amount: 1,
+    amount: 1000000000000000,
     data: 'data',
     gas: 2,
     nonce: 3,
@@ -126,7 +126,7 @@ test('ExecutionSummary executor is blank', t => {
 
   const r3 = trs[3].getElementsByTagName('td');
   t.is(r3[0].textContent, 'meta.amount', 'contains meta.amount');
-  t.is(r3[1].textContent, '1', 'contains 1');
+  t.is(r3[1].textContent, '0.001 Iotx', 'contains 1');
 
   const r4 = trs[4].getElementsByTagName('td');
   t.is(r4[0].textContent, 'execution.gas', 'contains execution.gas');

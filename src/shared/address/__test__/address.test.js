@@ -83,7 +83,7 @@ test('AddressSummary contains attributes', t => {
   const state = {
     address: {
       address: '123',
-      totalBalance: 123,
+      totalBalance: 123000000000000000,
     },
     error: null,
     transfers: {
@@ -117,7 +117,7 @@ test('AddressSummary contains attributes', t => {
 
   const r2 = trs[1].getElementsByTagName('td');
   t.is(r2[0].textContent, 'address.totalBalance', 'contains address.totalBalance');
-  t.is(r2[1].textContent, '123', 'contains 123');
+  t.is(r2[1].textContent, '0.123 Iotx', 'contains 123');
 });
 
 // eslint-disable-next-line max-statements
@@ -159,7 +159,7 @@ test('AddressSummary contains attributes when null', t => {
 
   const r1 = trs[0].getElementsByTagName('td');
   t.is(r1[0].textContent, 'address.totalBalance', 'contains address.totalBalance');
-  t.is(r1[1].textContent, '0', 'contains 0');
+  t.is(r1[1].textContent, '0 Iotx', 'contains 0');
 
   const r2 = trs[1].getElementsByTagName('td');
   t.is(r2[0].textContent, 'address.nonce', 'contains address.nonce');

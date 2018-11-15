@@ -57,7 +57,7 @@ test('BlockSummary contains attributes', t => {
     executions: 0,
     height: 1,
     forged: 2,
-    amount: 3,
+    amount: 3000000000000000,
     timestamp: 123,
     size: 1,
     generateBy: {
@@ -102,7 +102,7 @@ test('BlockSummary contains attributes', t => {
 
   const r4 = trs[3].getElementsByTagName('td');
   t.is(r4[0].textContent, 'block.totalAmount', 'contains block.totalAmount');
-  t.is(r4[1].textContent, '3', 'contains 3');
+  t.is(r4[1].textContent, '0.003 Iotx', 'contains 3');
 
   const r5 = trs[4].getElementsByTagName('td');
   t.is(r5[0].textContent, 'block.size', 'contains block.size');
@@ -163,7 +163,7 @@ test('BlockSummary contains attributes when null', t => {
 
   const r3 = trs[3].getElementsByTagName('td');
   t.is(r3[0].textContent, 'block.totalAmount', 'contains block.totalAmount');
-  t.is(r3[1].textContent, '0', 'contains 0');
+  t.is(r3[1].textContent, '0 Iotx', 'contains 0');
 
   const r4 = trs[4].getElementsByTagName('td');
   t.is(r4[0].textContent, 'block.size', 'contains block.size');
