@@ -82,10 +82,12 @@ export class Wallet extends Component {
           >
             <a>{t('wallet.tab.transfer', {token: t('account.testnet.token')})}</a>
           </li>
-          <li className={`${selectedTab === VOTE ? 'is-active' : ''}`}
-            onClick={() => this.setState({selectedTab: VOTE})}>
-            <a>{t('wallet.tab.vote')}</a>
-          </li>
+          {chainId === 1 && (
+            <li className={`${selectedTab === VOTE ? 'is-active' : ''}`}
+              onClick={() => this.setState({selectedTab: VOTE})}>
+              <a>{t('wallet.tab.vote')}</a>
+            </li>
+          )}
           <li className={`${selectedTab === CONTRACT ? 'is-active' : ''}`}
             onClick={() => this.setState({selectedTab: CONTRACT})}>
             <a>{t('wallet.tab.contract')}</a>
