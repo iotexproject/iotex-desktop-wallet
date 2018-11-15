@@ -12,11 +12,13 @@ export class CrossChain {
     if (!chain) {
       throw new Error(`cannot find registered chain id ${chainId} in config`);
     }
+    const base = chain.gatewayUrl || chain.url; // prefer gateway url
+    const target = url.resolve(base, WALLET.SIGN_AND_SETTLE_DEPOSIT);
     try {
-      const resp = await axios.post(url.resolve(chain.url, WALLET.SIGN_AND_SETTLE_DEPOSIT), {settleDeposit, wallet});
+      const resp = await axios.post(target, {settleDeposit, wallet});
       return resp.data;
     } catch (e) {
-      throw new Error(`failed to signAndSettleDeposit: ${e.stack}`);
+      throw new Error(`failed to signAndSettleDeposit to ${target}: ${e.stack}`);
     }
   }
 }
