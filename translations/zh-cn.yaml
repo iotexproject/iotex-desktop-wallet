@@ -176,3 +176,4 @@ unlock-wallet.warn.message: unlock-wallet.warn.message
 unlock-wallet.no-wallet: unlock-wallet.no-wallet
 unlock-wallet.create: unlock-wallet.create
 account.empty.unlock: account.empty.unlock
+nav.explorer: Explorer
