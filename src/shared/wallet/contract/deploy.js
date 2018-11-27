@@ -16,6 +16,7 @@ import {BroadcastFail, BroadcastSuccess} from '../broadcastedTransaction';
 import {acceptableNonce, isValidBytes, onlyNumber} from '../validator';
 import type {GExecution} from '../../../server/gateways/iotex-core/iotex-core-types';
 import {clearButton, greenButton} from '../../common/buttons';
+import {INPUT_READONLY} from '../wallet';
 
 const window = require('global/window');
 const VERSION = 0x1;
@@ -371,6 +372,7 @@ export class Deploy extends Component {
             value={this.state.gasPrice}
             error={t(this.state.errors_gasPrice)}
             placeholder='0'
+            readOnly={INPUT_READONLY}
             update={(name, value) => this.handleInputChange(name, value)}
           />
 
@@ -380,6 +382,7 @@ export class Deploy extends Component {
             value={this.state.gasLimit}
             error={t(this.state.errors_gasLimit)}
             placeholder='100000'
+            readOnly={INPUT_READONLY}
             update={(name, value) => this.handleInputChange(name, value)}
           />
 

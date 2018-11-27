@@ -12,6 +12,7 @@ import {BroadcastFail, BroadcastSuccess} from '../broadcastedTransaction';
 import {Dialogue} from '../../common/dialogue/dialogue';
 import type {GExecution} from '../../../server/gateways/iotex-core/iotex-core-types';
 import {cancelButton, clearButton, greenButton} from '../../common/buttons';
+import {INPUT_READONLY} from '../wallet';
 import {AbiFunctions} from './abi-functions';
 
 export class Interact extends Component {
@@ -403,6 +404,7 @@ export class Interact extends Component {
             value={this.state.gasPrice}
             error={t(this.state.errors_gasPrice)}
             placeholder='0'
+            readOnly={INPUT_READONLY}
             update={(name, value) => this.handleInputChange(name, value)}
           />
 
@@ -412,6 +414,7 @@ export class Interact extends Component {
             value={this.state.gasLimit}
             error={t(this.state.errors_gasLimit)}
             placeholder='100000'
+            readOnly={INPUT_READONLY}
             update={(name, value) => this.handleInputChange(name, value)}
           />
 

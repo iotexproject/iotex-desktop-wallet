@@ -20,6 +20,8 @@ const TRANSFER = 0;
 const VOTE = 1;
 const CONTRACT = 2;
 
+export const INPUT_READONLY = 'disabled';
+
 export class Wallet extends Component {
   props: {
     fetchAddressId: fetchAddressId,

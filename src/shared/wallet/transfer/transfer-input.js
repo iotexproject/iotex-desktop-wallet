@@ -14,6 +14,7 @@ import type {TRawTransferRequest} from '../../../entities/explorer-types';
 import {BroadcastFail, BroadcastSuccess} from '../broadcastedTransaction';
 import {clearButton, greenButton} from '../../common/buttons';
 import {decodeAddress} from '../../../lib/decode-address';
+import {INPUT_READONLY} from '../wallet';
 import {ContinueDeposit} from './continue-deposit';
 
 function getChainId(rawAddress) {
@@ -239,6 +240,7 @@ export class TransferInput extends Component {
             value={this.state.gasPrice}
             error={t(this.state.errors_gasPrice)}
             placeholder='0'
+            readOnly={INPUT_READONLY}
             update={(name, value) => this.handleInputChange(name, value)}
           />
 
@@ -248,6 +250,7 @@ export class TransferInput extends Component {
             value={this.state.gasLimit}
             error={t(this.state.errors_gasLimit)}
             placeholder={0}
+            readOnly={INPUT_READONLY}
             update={(name, value) => this.handleInputChange(name, value)}
           />
 
