@@ -82,6 +82,7 @@ footer.chat: Chat
 votes.title: Votes
 nav.error.statistic: Could not get statistics
 nav.error.coin: Could not get coin price
+nav.explorer: Explorer
 consensus.error.fail: Could not get consensus metrics
 delegates.error.fail: Could not get delegates
 empty.no: 'No'

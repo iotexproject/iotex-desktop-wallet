@@ -7,7 +7,7 @@ import window from 'global/window';
 import isBrowser from 'is-browser';
 import {assetURL} from '../../../lib/asset-url';
 import {t} from '../../../lib/iso-i18n';
-import {BLOCKS, SITE_URL, EXECUTIONS, TRANSFERS, VOTES, WALLET} from '../site-url';
+import {BLOCKS, SITE_URL, EXECUTIONS, TRANSFERS, VOTES, WALLET, IOTEX_URL} from '../site-url';
 
 function Icon() {
   return (
@@ -109,7 +109,7 @@ export class Nav extends Component {
           <nav className='navbar is-black'>
             <div className='container'>
               <div className='navbar-brand'>
-                <a className='navbar-item' href={SITE_URL}>
+                <a className='navbar-item' href={IOTEX_URL}>
                   <img
                     src={assetURL('/logo.svg')}
                     alt='IoTeX Explorer'
@@ -117,6 +117,7 @@ export class Nav extends Component {
                     height='28'
                   />
                 </a>
+                <a className='navbar-item' href={SITE_URL}>{t('nav.explorer')}</a>
                 <div
                   className={`navbar-burger burger ${this.state.displayDropdownMenu ? 'is-active' : ''}`}
                   data-target='navMenuColordark-example'
