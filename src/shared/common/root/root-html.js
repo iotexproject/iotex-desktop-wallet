@@ -2,7 +2,7 @@ import Helmet from 'inferno-helmet';
 
 import {assetURL} from '../../../lib/asset-url';
 
-export function rootHtml({styletron, jsonGlobals, reactMarkup, clientScript}) {
+export function rootHtml({styletron, jsonGlobals, reactMarkup, clientScript, nonce}) {
   const styleBody = styletron.injectDeclaration({prop: 'margin', val: 0});
   const stylesheets = styletron.getStylesheetsHtml('styletron-global');
   const head = Helmet.rewind();
@@ -22,7 +22,7 @@ export function rootHtml({styletron, jsonGlobals, reactMarkup, clientScript}) {
     ${head.script.toString()}
     ${loadDeferredStyles(`
       <link rel="stylesheet" type="text/css" href="${assetURL('/stylesheets/main.css')}">
-     `)}
+     `, nonce)}
   </head>
   <body class=${styleBody}>
     <div id='root'>${reactMarkup}</div>
@@ -35,12 +35,12 @@ export function rootHtml({styletron, jsonGlobals, reactMarkup, clientScript}) {
 `;
 }
 
-function loadDeferredStyles(stylesElements) {
+function loadDeferredStyles(stylesElements, nonce) {
   return `
     <noscript id="deferred-styles">
     ${stylesElements}
     </noscript>
-    <script>
+    <script nonce="${nonce}">
       var loadDeferredStyles = function() {
         var addStylesNode = document.getElementById("deferred-styles");
         var replacement = document.createElement("div");

@@ -37,5 +37,5 @@ function html(ctx, renderProps, reducer, clientScript): string {
   const reactMarkup = renderToString(
     <RootServer store={store} renderProps={renderProps} styletron={styletron}/>
   );
-  return rootHtml({styletron, jsonGlobals, reactMarkup, clientScript});
+  return rootHtml({styletron, jsonGlobals, reactMarkup, clientScript, nonce: ctx.state.nonce});
 }

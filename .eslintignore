@@ -7,3 +7,4 @@ src/client/static/*
 flow-typed/*
 src/server/gateways/wallet-core/rpc_pb.js
 src/server/gateways/wallet-core/rpc_grpc_pb.js
+src/server/middleware/csp/*

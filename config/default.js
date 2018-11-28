@@ -35,4 +35,47 @@ module.exports = {
     googleTid: process.env.GOOGLE_TID || 'UA-XXXXXXXXX-1',
   },
   chains: JSON.parse(process.env.CHAINS || '[{"id":1,"name":"mainchain","url":"http://localhost:4004/"},{"id":2,"name":"subchain","url":"http://localhost:4005/"}]'),
+  csp: {
+    'default-src': [
+      'none',
+    ],
+    'manifest-src': [
+      'self',
+    ],
+    'style-src': [
+      'self',
+      'unsafe-inline',
+      'http://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css',
+      'http://fonts.googleapis.com/css',
+      'https://use.fontawesome.com/releases/v5.0.7/js/all.js',
+    ],
+    'frame-src': [
+    ],
+    'connect-src': [
+      'self',
+    ],
+    'child-src': [
+      'self',
+    ],
+    'font-src': [
+      'self',
+      'data:',
+      'https://fonts.gstatic.com/s/sharetech/v7/7cHtv4Uyi5K0OeZ7bohU8H0JmBUhfrE.woff2',
+    ],
+    'img-src': [
+      '*',
+    ],
+    'media-src': [
+      'self',
+    ],
+    'object-src': [
+      'self',
+    ],
+    'script-src': [
+      'self',
+      'https://use.fontawesome.com/releases/v5.0.7/js/all.js',
+      'https://www.google-analytics.com/analytics.js',
+      'https://d3js.org/d3.v4.min.js',
+    ],
+  },
 };
