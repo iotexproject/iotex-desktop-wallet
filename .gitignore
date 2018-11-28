@@ -43,7 +43,6 @@ jspm_packages
 .DS_Store
 
 *-translations/
-package-lock.json
 
 # env
 .env

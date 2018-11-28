@@ -1,7 +1,6 @@
 /* eslint-disable no-process-env */
 const del = require('del');
 const gulp = require('gulp');
-const gulpLivereload = require('gulp-livereload');
 const gutil = require('gulp-util');
 const logger = require('global/console');
 const nodemon = require('gulp-nodemon');
@@ -45,12 +44,6 @@ gulp.task('compile-javascripts', () => {
       throw new gutil.PluginError('webpack', err);
     }
     gutil.log('[webpack]', stats.toString({}));
-  });
-});
-
-gulp.task('watch-livereload', () => {
-  gulp.watch(['dist/**/*'], function onChange(e) {
-    gulpLivereload.changed(e.path);
   });
 });
 
