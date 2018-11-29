@@ -76,6 +76,7 @@ module.exports = {
       'https://use.fontawesome.com/releases/v5.0.7/js/all.js',
       'https://www.google-analytics.com/analytics.js',
       'https://d3js.org/d3.v4.min.js',
+      'https://ethereum.github.io/solc-bin/bin/',
     ],
   },
 };
