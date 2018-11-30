@@ -4,6 +4,14 @@
 
 Frontend website for [IoTeX blockchain](https://github.com/iotexproject/iotex-core).
 
+Check our site hosted at [https://iotexscan.io].
+
+Or deploy your own instance on Heroku.
+
+<a href="https://heroku.com/deploy?template=https://github.com/iotexproject/iotex-explorer">
+  <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
+</a>
+
 ## Development
 
 Prepare environment variables.
