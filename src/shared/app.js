@@ -10,6 +10,7 @@ import {Footer} from './common/footer';
 import {NavContainer} from './common/nav/nav-container';
 import {Breadcrumbs} from './common/breadcrumbs';
 import {IotexExplorerTitle} from './common/iotex-explorer-title';
+import {CookieConsentContainer} from './common/cookie-consent-container';
 
 export class App extends Component {
   constructor(props) {
@@ -55,6 +56,7 @@ export class App extends Component {
           />
           {children}
         </div>
+        <CookieConsentContainer />
         <Footer/>
       </RootStyle>
     );
