@@ -4,6 +4,7 @@ import Helmet from 'inferno-helmet';
 
 import window from 'global';
 import {assetURL} from '../lib/asset-url';
+import {t} from '../lib/iso-i18n';
 import {fonts} from './common/styles/style-font';
 import {colors} from './common/styles/style-color';
 import {Footer} from './common/footer';
@@ -56,7 +57,7 @@ export class App extends Component {
           />
           {children}
         </div>
-        <CookieConsentContainer />
+        <CookieConsentContainer content={t('other.cookie.content')} accept={t('other.cookie.accept')}/>
         <Footer/>
       </RootStyle>
     );

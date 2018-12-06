@@ -329,3 +329,8 @@ transaction.pending: >-
   soon. Please check back in a few seconds. If you do not see this message
   again, then the transaction has failed.
 transaction.pending.title: Pending Transaction
+other.cookie.content: >-
+  We use cookies to offer you a better browsing experience, analyse site
+  traffic, personalise content. By using our site, you consent to our use of
+  cookies.
+other.cookie.accept: Accept Cookies
