@@ -177,3 +177,5 @@ unlock-wallet.no-wallet: unlock-wallet.no-wallet
 unlock-wallet.create: unlock-wallet.create
 account.empty.unlock: account.empty.unlock
 nav.explorer: Explorer
+other.cookie.content: We use cookies to offer you a better browsing experience, analyse site traffic, personalise content. By using our site, you consent to our use of cookies.
+other.cookie.accept: Accept Cookies

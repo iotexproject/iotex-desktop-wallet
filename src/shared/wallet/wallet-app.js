@@ -8,6 +8,8 @@ import {fonts} from '../common/styles/style-font';
 import {colors} from '../common/styles/style-color';
 import {Footer} from '../common/footer';
 import {NavContainer} from '../common/nav/nav-container';
+import {CookieConsentContainer} from '../common/cookie-consent-container';
+import {t} from '../../lib/iso-i18n';
 
 export class WalletApp extends Component {
   constructor(props) {
@@ -48,6 +50,7 @@ export class WalletApp extends Component {
         <div style={{minHeight: '100vh'}}>
           {children}
         </div>
+        <CookieConsentContainer content={t('other.cookie.content')} accept={t('other.cookie.accept')}/>
         <Footer/>
       </RootStyle>
     );
