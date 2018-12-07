@@ -3,6 +3,7 @@
 import Component from 'inferno-component';
 import document from 'global/document';
 import window from 'global/window';
+import {version} from '../../../package.json';
 
 export class IotexExplorerTitle extends Component {
   props: {
@@ -38,6 +39,8 @@ export class IotexExplorerTitle extends Component {
           <i className='fas fa-circle live-tag-icon'/>
           <span className='live-tag-text'>{this.props.status}</span>
         </span>
+        <br/>
+        <small className='version-text'>{`version ${version}`}</small>
       </div>
     );
   }
