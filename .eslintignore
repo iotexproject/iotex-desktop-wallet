@@ -1,0 +1,8 @@
+node_modules/*
+dist/*
+_maps/*
+coverage/*
+.nyc_output/*
+src/client/static/*
+flow-typed/*
+src/lib/middleware/csp/*
