@@ -5,7 +5,7 @@ import {connect} from 'inferno-redux';
 import document from 'global/document';
 import window from 'global/window';
 
-class Title extends Component {
+class IotexExplorerTitle extends Component {
   props: {
     status: string,
   };
@@ -46,10 +46,10 @@ class Title extends Component {
   }
 }
 
-export const IotexExplorerTitle = connect(
+export const TitleContainer = connect(
   function mapStateToProps(state) {
     return {
       version: state.base.version,
     };
   }
-)(Title);
+)(IotexExplorerTitle);
