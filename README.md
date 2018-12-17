@@ -23,7 +23,7 @@ cp ./.env.tmpl ./.env
 And specify environment variables in `.env` file.
 
 ```
-nvm install 8.11.3
+nvm install 10.14.2
 npm install
 
 # watch the change during development

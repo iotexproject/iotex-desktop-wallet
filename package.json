@@ -179,8 +179,8 @@
     "webpack-bundle-analyzer": "^3.0.3"
   },
   "engines": {
-    "node": "v8.11.3",
-    "npm": "6.1.0"
+    "node": "v10.14.2",
+    "npm": "6.4.1"
   },
   "private": true
 }
