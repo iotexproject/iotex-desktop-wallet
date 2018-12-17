@@ -10,7 +10,7 @@ import {colors} from './common/styles/style-color';
 import {Footer} from './common/footer';
 import {NavContainer} from './common/nav/nav-container';
 import {Breadcrumbs} from './common/breadcrumbs';
-import {IotexExplorerTitle} from './common/iotex-explorer-title';
+import {TitleContainer} from './common/iotex-explorer-title';
 import {CookieConsentContainer} from './common/cookie-consent-container';
 
 export class App extends Component {
@@ -52,7 +52,7 @@ export class App extends Component {
           width={this.props.width}
         />
         <div style={{minHeight: '100vh'}}>
-          <IotexExplorerTitle
+          <TitleContainer
             status={this.props.status}
           />
           {children}

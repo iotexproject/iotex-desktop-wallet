@@ -1,10 +1,11 @@
 // @flow
 
 import Component from 'inferno-component';
+import {connect} from 'inferno-redux';
 import document from 'global/document';
 import window from 'global/window';
 
-export class IotexExplorerTitle extends Component {
+class IotexExplorerTitle extends Component {
   props: {
     status: string,
   };
@@ -38,7 +39,17 @@ export class IotexExplorerTitle extends Component {
           <i className='fas fa-circle live-tag-icon'/>
           <span className='live-tag-text'>{this.props.status}</span>
         </span>
+        <br/>
+        <small className='version-text'>{`version ${this.props.version}`}</small>
       </div>
     );
   }
 }
+
+export const TitleContainer = connect(
+  function mapStateToProps(state) {
+    return {
+      version: state.base.version,
+    };
+  }
+)(IotexExplorerTitle);
