@@ -159,7 +159,7 @@ export class Deploy extends Component {
     const {byteCode, nonce, gasLimit, gasPrice} = this.state;
 
     const rawSmartContractRequest: TRawExecutionRequest = {
-      byteCode: byteCode.replace(/^(0x)/, ''),
+      data: byteCode.replace(/^(0x)/, ''),
       nonce,
       gasLimit,
       gasPrice,
