@@ -303,7 +303,7 @@ export class Interact extends Component {
     const {nonce, gasLimit, gasPrice, contractAddress, amount} = this.state;
 
     const rawTransaction: TRawExecutionRequest = {
-      byteCode: data.replace(/^(0x)/, ''),
+      data: data.replace(/^(0x)/, ''),
       nonce,
       gasLimit,
       gasPrice,
