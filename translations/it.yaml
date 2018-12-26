@@ -21,10 +21,10 @@ meta.vote: Voto
 meta.votes: Voti
 meta.payload: Messaggio
 meta.account: Portafoglio
-address.title: Address Summary
+address.title: Dettaglio Indirizzo
 address.totalBalance: Totale
 address.nonce: Nonce
-address.voteDetails: Vote Details
+address.voteDetails: Dettaglio del voto
 address.listOfTransfers: Lista di Transazioni
 address.listOfExecutions: Lista di Esecuzioni
 address.error.failGetAddress: 'Non è possibile recuperare le informazioni per ${id}'
@@ -49,7 +49,7 @@ dashboard.faps: IFTPS
 dashboard.bbh: BBH
 dashboard.epochsMsg: >-
   Numero di epoche totali da quando è attiva la blockchain IoTeX. Un epoca è un periodo che passa da
-  una elezione di delegati che prendono il turno per produrre il blocco per l'intera rete.
+  un'elezione di delegati che prendono il turno per produrre il blocco per l'intera rete.
 dashboard.blocksMsg: Numero totali di blocchi all'interno della blockchain IoTeX
 dashboard.transfersMsg: Numero totali di token trasferiti creati / memorizzati nella blockchain IoTeX.
 dashboard.votesMsg: Numero totali di vori per i delegati all'interno della blockchain IoTeX.
@@ -79,170 +79,166 @@ footer.blog: Blog
 footer.chat: Chat
 votes.title: Voti
 nav.error.statistic: Non è possibile recuperare le statistiche
-nav.error.coin: Non è possibile recupearre il prezzo della moneta
+nav.error.coin: Non è possibile recuperare il prezzo della moneta
 nav.explorer: Explorer
-consensus.error.fail: Could not get consensus metrics
-delegates.error.fail: Could not get delegates
+consensus.error.fail: Non è possibile recuperare le metriche di consenso
+delegates.error.fail: Non è possibile recuperare i nodi delegati
 empty.no: 'No'
-empty.noMore: No More
-empty.yet: Yet
+empty.noMore: Impossibile reperire le informazioni
+empty.yet: Ancora
 error.unknown: Qualcosa è andato storto
-vote.title: Vote Details
-vote.id: Vote Hash
-vote.votee: Votee
-vote.voter: Voter
-vote.voters: Voters
+vote.title: Dettaglio del voto
+vote.id: Hash del voto
+vote.votee: Elezione
+vote.voter: Elettore
+vote.voters: Elettori
 vote.blockId: Block ID
 vote.nonce: Nonce
-vote.error.getVote: 'Could not get vote ${id}'
-votes.out: Vote sent out
-votes.in: Vote received
-votes.error.get: Could not get votes
+vote.error.getVote: 'Impossibile reperire il voto ${id}'
+votes.out: Voto espresso
+votes.in: Voto ricevuto
+votes.error.get: Impossibile reperire i voti
 'rolldpos:title': Roll-DPoS
 'rolldpos:msg': >-
-  A randomized delegated proof of stake algorithm, which inherits all the
-  advantages of the original DPoS consensus framework and further enhances its
-  capability in terms of decentralization as well as extensibility to complex
-  blockchain architectures. The colored dots represent the delegates, and the
-  flashing dot represents the selected producer.
+  L' algoritmo di delega casuale proof of stake, eredita tutti i vantaggi del meccanismo
+  di consenso DPoS migliora ulteriormente in termini di decentralizzazione e estendibilità
+  dell'architettura. I punti colorati rappresentano i delegati, i punti lampeggianti rappresentano i produttori selezionti
 breadcrumbs.home: home
-breadcrumbs.votes: votes
-breadcrumbs.transfers: transfers
-breadcrumbs.blocks: blocks
-breadcrumbs.address: address
-breadcrumbs.executions: executions
-base.message.close: Close
-wallet.title.wallet: Wallet
-wallet.tab.transfer: 'Send ${token}'
-wallet.tab.vote: Vote for delegate
-wallet.tab.contract: Smart Contracts
-wallet.transactionDetail.title: Transaction Detail
-wallet.transactionDetail.raw: Raw Transaction
-wallet.transactionDetail.signed: Transaction Signature
+breadcrumbs.votes: voti
+breadcrumbs.transfers: transazioni
+breadcrumbs.blocks: blocchi
+breadcrumbs.address: indirizzo
+breadcrumbs.executions: esecuzioni
+base.message.close: Chiudi
+wallet.title.wallet: Portafoglio
+wallet.tab.transfer: 'Invia ${token}'
+wallet.tab.vote: Voto per delegato
+wallet.tab.contract: Smart Contract
+wallet.transactionDetail.title: Dettaglio della transazione
+wallet.transactionDetail.raw: Transazione grezza
+wallet.transactionDetail.signed: Firma della transazione
 wallet.account.hidden: '******************************************************************'
-wallet.account.header: Unlock / Create new wallet
-wallet.account.enterPrivateKey: Private Key
-wallet.account.addressPlaceHolder: IoTeX Address...
-wallet.account.gkp: Generate Key Pair
-wallet.account.generate: Generate
+wallet.account.header: Sblocca / Crea il portafoglio
+wallet.account.enterPrivateKey: Chiave privata
+wallet.account.addressPlaceHolder: Indirizzo IoTeX...
+wallet.account.gkp: Genera la coppia di chiavi
+wallet.account.generate: Genera
 wallet.account.secureMessage: >-
-  We do not store your private key on the server. The private key generation is
-  handled on your browser only. Back up your private key if you want to reuse it
-  in the future. If you lose your private key, it cannot be recovered.
-wallet.account.wallet: Wallet
-wallet.account.raw: Account Address
-wallet.account.private: Private Key
-wallet.account.show: Show
-wallet.account.hide: Hide
-wallet.account.unlock: Unlock
-wallet.error.tab: Please select a tab
-wallet.error.required: This field is required
-wallet.error.private: Private Key is missing
-wallet.error.fix: Please fix form errors
-wallet.error.unknown: Something went wrong...
-wallet.error.failSignTransfer: Failed to sign transfer. Please double check inputs / fix form errors
-wallet.error.failSignVote: Failed to sign vote. Please double check inputs / fix form errors
-wallet.error.sendTransaction: Failed to send transaction
-wallet.error.failSignContract: Failed to sign contract. Please double check inputs / fix form errors
-wallet.error.failSignABI: Failed to sign interaction. Please double check inputs / fix form errors
-wallet.input.to: Recipient address
-wallet.input.amount: Amount
+  Non memorizziamo la tua chiave privata nei nostri server. La generazione della chiave privata
+  viene fatta all'interno del tuo browser. Salva la chiave se riutilizzarla in futura.
+  Se la perdi non può essere più recuperata.
+wallet.account.wallet: Portafoglio
+wallet.account.raw: Indirizzo
+wallet.account.private: Chiave privata
+wallet.account.show: Visualizza
+wallet.account.hide: Nascondi
+wallet.account.unlock: Sblocca
+wallet.error.tab: Seleziona una scelta
+wallet.error.required: Questo campo è obbligatorio
+wallet.error.private: Chiave privata non inserita
+wallet.error.fix: Controlla i campi del form
+wallet.error.unknown: Qualcosa è andato storto...
+wallet.error.failSignTransfer: Firma della transazione fallita. Controllare i campi inseriti / correggere gli errori del form
+wallet.error.failSignVote: Firma del voto fallita. Controllare i campi inseriti / correggere gli errori del form
+wallet.error.sendTransaction: Errore nell'invio della transazione
+wallet.error.failSignContract: Firma dello smart contract fallita. Controllare i campi inseriti / correggere gli errori del form
+wallet.error.failSignABI: Firma dell'interazione fallita. Controllare i campi inseriti / correggere gli errori del form
+wallet.input.to: Indirizzo di ricezione
+wallet.input.amount: Valore
 wallet.input.nonce: Nonce
-wallet.input.gasPrice: Gas Price
-wallet.input.gasLimit: Gas Limit
-wallet.input.dib: Data in Bytes (optional)
-wallet.input.generate: Generate Transaction
-wallet.input.contract: Contract Address
-wallet.input.abi: ABI / JSON Interface
+wallet.input.gasPrice: Gas (prezzo)
+wallet.input.gasLimit: Gas (limite)
+wallet.input.dib: Dati in Byte (opzionale)
+wallet.input.generate: Invia la transazione
+wallet.input.contract: Indirizzo dello smart contract
+wallet.input.abi: ABI / JSON
 wallet.input.byteCode: Byte Code
-wallet.transactions.header: Actions
-wallet.transactions.transfer: Create Transfer
-wallet.transactions.vote: Create Vote
-wallet.transactions.send: Send Transaction
-wallet.transfer.title: Send IOTX
-wallet.vote.title: Vote for Delegate
-wallet.transaction.title: Transaction
+wallet.transactions.header: Azioni
+wallet.transactions.transfer: Crea la transazione
+wallet.transactions.vote: Crea il voto
+wallet.transactions.send: Invia la transazione
+wallet.transfer.title: Invia IOTX
+wallet.vote.title: Voto per Delegato
+wallet.transaction.title: Transazione
 wallet.transfer.crossChain: >-
-  This is a cross-chain transfer from the current chain with ID ${chainId} to
-  the one with ID ${targetChainId}
-wallet.transfer.crossChain.settling: Settling the cross-chain transfer...
+  Questo è un trasferimento cross-chain dalla rete corrente con ID ${chainId} alla rete con ID ${targetChainId}
+wallet.transfer.crossChain.settling: Esecuzione del trasferimento the cross-chain...
 wallet.interact.abiTemplate: >-
   [{ "type":"contructor", "inputs": [{ "name":"param1", "type":"uint256",
   "indexed":true }], "name":"Event" }, { "type":"function", "inputs":
   [{"name":"a", "type":"uint256"}], "name":"foo", "outputs": [] }]
-wallet.interact.invalidABI: Invalid JSON ABI
-wallet.interact.header: Read / Write Contract
-wallet.interact.access: Access
-wallet.abi.read: Read contract
-wallet.abi.write: Write contract
-wallet.contract.title: Contract
-wallet.contract.header: Actions
-wallet.contract.interact: Interact
-wallet.contract.deploy: Deploy
-wallet.deploy.deploy: Deploy Contract
-wallet.deploy.signTransaction: Sign Transaction
-input.bool.true: 'True'
-input.bool.false: 'False'
-wallet.account.placehold.privateKey: Paste your private key here
+wallet.interact.invalidABI: JSON ABI invalido
+wallet.interact.header: Lettura / Scrittura Contratto
+wallet.interact.access: Accesso
+wallet.abi.read: Lettura contratto
+wallet.abi.write: Scrittura contratto
+wallet.contract.title: Contratto
+wallet.contract.header: Azioni
+wallet.contract.interact: Interagire
+wallet.contract.deploy: Installazione
+wallet.deploy.deploy: Installazione Contratto
+wallet.deploy.signTransaction: Firma Transazione
+input.bool.true: 'Vero'
+input.bool.false: 'Falso'
+wallet.account.placehold.privateKey: Incolla qui la tua chiave privata
 wallet.input.solidity: Solidity (optional)
-wallet.deploy.generateAbiAndByteCode: Generate ABI and Byte Code
-wallet.generate.fail: Something went wrong. Please check your internet connect/ try again
-meta.executions: Executions
-meta.execution: Execution
-latestExecutions.title: Latest Executions
-dashboard.executions: '# of Executions'
-dashboard.executionsMsg: Total number of contract execution created/recorded on IoTeX blockchain.
-execution.title: Execution Details
-execution.timestamp: Minted At
-execution.executor: Executor
-execution.contract: Contract
-execution.hash: Execution Hash
-block.listOfExecutions: List of Executions
-execution.error.failGetExecution: 'Could not get execution details for ${id}'
-executions.error.get: Could not get executions
-receipt.title: Receipt
-receipt.contract: Contract Address
-receipt.status: Status
+wallet.deploy.generateAbiAndByteCode: Genera ABI e Byte Code
+wallet.generate.fail: Qualcosa è andato storto. Controllo la tua connessione ad internet e prova dinuovo
+meta.executions: Esecuzioni
+meta.execution: Esecuzione
+latestExecutions.title: Ultima Esecuzione
+dashboard.executions: '# di Esecuzioni'
+dashboard.executionsMsg: Totale numero di esecuzioni create / memorizzate all'interno della blockchain IoTeX.
+execution.title: Dettaglio Esecuzione
+execution.timestamp: Coniate alle
+execution.executor: Esecutore
+execution.contract: Contratto
+execution.hash: Hash Esecuzione
+block.listOfExecutions: Lista delle Esecuzioni
+execution.error.failGetExecution: 'Non è possibile reperire i dettagli dell\'esecuzione ${id}'
+executions.error.get: Non è possibile reperire l'esecuzione
+receipt.title: Ricezione
+receipt.contract: Indirizzo del Contratto
+receipt.status: Stato
 receipt.gas: Gas
-receipt.retval: Return Value
-receipt.fail: Fail
-execution.gas: Gas Limit
+receipt.retval: Valore di ritorno
+receipt.fail: Fallita
+execution.gas: Gas (limite)
 execution.input: Input
 execution.nonce: Nonce
-input.error.private_key.length: Private key has to be of length 72
-input.error.raw_address.length: IOTX address has to be of length 49
-input.error.raw_address.invalid: IOTX address must start with io
-input.error.number.invalid: Only number 0-9
-input.error.float.invalid: Only number
-input.error.bytes.length: Bytes must be of even length
-input.error.bytes.invalid: 'Invalid bytes, must be a character in 0-9 A-F'
-wallet.missing_solidity_pragma: Incorrect Solidity
-wallet.input.required: This field is required
+input.error.private_key.length: La chiave private dev'essere di 72 caratteri
+input.error.raw_address.length: L'indirizzo IOTX dev'essere di 49 caratteri
+input.error.raw_address.invalid: L'indirizzo IOTX deve iniziare con io
+input.error.number.invalid: Solo numeri 0-9
+input.error.float.invalid: Solo numeri
+input.error.bytes.length: Bytes deve avere un numero pari di caratteri
+input.error.bytes.invalid: 'Bytes invalido, deve contenere numeri 0-9 e caratteri A-F'
+wallet.missing_solidity_pragma: Solidity non corretto
+wallet.input.required: Questo campo è obbligatorio
 '': ''
-wallet.input.fix: Please fix form errors
-wallet.input.unknown: Unknown error
-wallet.cannot_find_solidity_version: Cannot find solidity version
-receipt.success: Success
-unlock-wallet.title: Unlock your wallet
+wallet.input.fix: Correggere gli errori del form
+wallet.input.unknown: Errore sconosciuto
+wallet.cannot_find_solidity_version: Impossibile trovare la versione solidity
+receipt.success: Successo
+unlock-wallet.title: Sblocca il tuo portafoglio
 unlock-wallet.warn.message: >-
-  Please double-check the URL & SSL cert. It should say https://www.iotexscan.io
-  in your URL bar.
-unlock-wallet.no-wallet: Don't have a IoTeX wallet yet?
-unlock-wallet.create: Create a new wallet
-unlock-wallet.main-chain: Please go to mainchain to create a wallet.
-new-wallet.copied: Copied to clipboard
-new-wallet.copy: Copy
-new-wallet.warn.do-not-lose: Do not lose private key!
-new-wallet.warn.cant-recover: It cannot be recovered if you lose it.
-new-wallet.warn.do-not-share: Do not share private key!
-new-wallet.warn.stolen: Your funds will be stolen if you use this file on a malicious/phishing site.
-new-wallet.warn.backup: Make a backup!
-new-wallet.warn.secure: Secure it like the millions of dollars it may one day be worth.
-new-wallet.button.unlock: 'I understand, Unlock Wallet'
-new-wallet.button.generate: Generate wallet
-new-wallet.loading: Creating new wallet...
-new-wallet.created: Wallet is created! Save your
-new-wallet.privateKey: Private Key
+  Controllare sia l'URL & SSL certificato. Dev'essere uguale a https://www.iotexscan.io.
+unlock-wallet.no-wallet: Non hai ancora un portafoglio IoTeX?
+unlock-wallet.create: Crea un nuovo portafoglio
+unlock-wallet.main-chain: Vai sulla mainchain e crea un portafoglio.
+new-wallet.copied: Copiato negli appunti
+new-wallet.copy: Copia
+new-wallet.warn.do-not-lose: Non perdere la tua chiave privata!
+new-wallet.warn.cant-recover: Una volta persa non potrà essere recuperata.
+new-wallet.warn.do-not-share: Non condividere la tua chiave privata!
+new-wallet.warn.stolen: I tuoi fondi verranno rubati se usi questo file in un sito fasullo (phishing).
+new-wallet.warn.backup: Fai un backup!
+new-wallet.warn.secure: Rendilo sicuro come i milioni di dollari che un giorno potrebbe valere.
+new-wallet.button.unlock: 'Ho capito, Sblocco il portafoglio'
+new-wallet.button.generate: Genera portafoglio
+new-wallet.loading: Creazione del portafoglio...
+new-wallet.created: Portafoglio creato! Salva la tua
+new-wallet.privateKey: Chiave privata
 broadcast.success: Broadcast transaction successfully
 broadcast.warn.one: >-
   Your TX has been broadcast to the network. This does not mean it has been
