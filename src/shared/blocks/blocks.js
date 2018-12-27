@@ -3,7 +3,6 @@
 import Component from 'inferno-component';
 import Helmet from 'inferno-helmet';
 import {Link} from 'inferno-router';
-import isBrowser from 'is-browser';
 import {CommonMargin} from '../common/common-margin';
 import type {TBlock} from '../../entities/explorer-types';
 import {TableWrapper} from '../common/table-wrapper';
@@ -43,12 +42,6 @@ export class Blocks extends Component {
     this.state = {
       height: 0,
     };
-  }
-
-  componentWillMount() {
-    if (isBrowser) {
-      this.props.fetchBlocks({tip: this.state.height, offset: 0, count: this.props.state.count});
-    }
   }
 
   componentWillReceiveProps(nextProps: PropsType, nextContext: any) {

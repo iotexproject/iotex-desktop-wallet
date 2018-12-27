@@ -2,7 +2,6 @@
 
 import Component from 'inferno-component';
 import Helmet from 'inferno-helmet';
-import isBrowser from 'is-browser';
 import window from 'global';
 import {CommonMargin} from '../common/common-margin';
 import {PlasmaBall} from '../common/plasma-ball';
@@ -82,16 +81,6 @@ export class BlockchainExplorer extends Component {
       height: 0,
     };
     this.formStats = this.formStats.bind(this);
-  }
-
-  componentWillMount() {
-    if (isBrowser) {
-      this.props.fetchConsensusMetrics();
-      this.props.fetchExecutions({offset: 0, count: this.props.executions.count, tip: this.state.height});
-      this.props.fetchTransfers({offset: 0, count: this.props.transfers.count, tip: this.state.height, showCoinBase: false});
-      this.props.fetchBlocks({offset: 0, count: this.props.blocks.count, tip: this.state.height});
-      this.props.fetchVotes({offset: 0, count: this.props.votes.count, tip: this.state.height});
-    }
   }
 
   componentWillReceiveProps(nextProps: PropsType, nextContext: any) {
