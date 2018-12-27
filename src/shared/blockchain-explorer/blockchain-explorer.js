@@ -97,6 +97,7 @@ export class BlockchainExplorer extends Component {
   }
 
   componentDidMount() {
+    this.props.fetchConsensusMetrics();
     const fetchConsensusMetricsId = window.setInterval(
       () => this.props.fetchConsensusMetrics(),
       5000,
