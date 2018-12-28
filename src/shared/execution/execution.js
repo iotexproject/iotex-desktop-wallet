@@ -180,7 +180,7 @@ class Receipt extends Component {
     if (receipt.retval) {
       rows.push({c1: t('receipt.retval'), c2: (receipt.retval)});
     }
-    rows.push({c1: t('receipt.response'), c2: (JSON.stringify(receipt))});
+    rows.push({c1: t('receipt.response'), c2: (JSON. stringify(receipt, null, 2))});
     return (
       <SingleItemTable
         subtitle={t('receipt.title')}
