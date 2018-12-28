@@ -175,11 +175,12 @@ class Receipt extends Component {
     if (receipt.contractAddress) {
       rows.push({c1: t('receipt.contract'), c2: (receipt.contractAddress)});
     }
-    rows.push({c1: t('receipt.status'), c2: (receipt.status ? t('receipt.success') : t('receipt.fail'))});
-    rows.push({c1: t('receipt.gas'), c2: (receipt.gasConsumed)});
+    rows.push({c1: t('receipt.status'), c2: (receipt.status ? t('receipt.success') : t('receipt.fail'))},
+      {c1: t('receipt.gas'), c2: (receipt.gasConsumed)});
     if (receipt.retval) {
       rows.push({c1: t('receipt.retval'), c2: (receipt.retval)});
     }
+    rows.push({c1: t('receipt.response'), c2: (JSON. stringify(receipt, null, 2))});
     return (
       <SingleItemTable
         subtitle={t('receipt.title')}
