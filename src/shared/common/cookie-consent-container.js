@@ -79,6 +79,8 @@ const CookieConsentContent = styled('div', props => ({
   backgroundColor: colors.nav01,
   opacity: 0.97,
   width: '100%',
+  maxWidth: '885px',
+  margin: '0 auto',
   display: 'flex',
   color: colors.inverse01,
   border: '1px #00bfbf45 solid',
