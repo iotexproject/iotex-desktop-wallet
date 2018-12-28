@@ -2,6 +2,7 @@
 
 import Component from 'inferno-component';
 import type {Row} from '../../entities/common-types';
+import {t} from '../../lib/iso-i18n';
 
 export class SingleItemTable extends Component {
   props: {
@@ -26,7 +27,10 @@ export class SingleItemTable extends Component {
             {this.props.rows.map((r: Row) => (
               <tr className='bx--parent-row-v2' data-parent-row>
                 <td className='header-col'>{r.c1}</td>
-                <td>{r.c2}</td>
+                {
+                  (r.c1 !== t('response.text') && <td>{r.c2}</td> ||
+                  <td><pre dangerouslySetInnerHTML={{__html: r.c2}}></pre></td>)
+                }
               </tr>
             ))}
           </tbody>
