@@ -2,6 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/bdc4bc3ce5c84e5fb18c69d10491d80f)](https://app.codacy.com/app/puncsky/web-onefx-boilerplate?utm_source=github.com&utm_medium=referral&utm_content=puncsky/web-onefx-boilerplate&utm_campaign=Badge_Grade_Dashboard)
 
+
 ## Getting Started
 
 OneFx is a full-stack framework for building web apps. Here are the features you'll find in Onefx.js:
@@ -321,46 +322,42 @@ Design Resources
 Vision: Onefx = fusionjs + django + react native + SRE infra + data pipeline
 
 1.  MVP
-  1.  Getting started
-    1.  Create a project
-    2.  Run your project
-    3.  Framework Comparison
-    4.  Coding Styles
-  2.  Guides
-    1.  State management
-    2.  styling
-      1.  import styles
-      2.  modular styles (now we have global root provider dependency on styletron)
-    3.Routing
-    4.Fetching data
-    5.Forms
-    6.Internationalization
-    7.testing
-    8.typing
-    9.security
-    10.Universal rendering
-    11.Server code
-    12.Performance
-      1.  automatic code splitting
-    13.debugging
-    14.Static assets
-    15.Configuration
-    16.Working with Secrets
-
+	1.  Getting started
+		1.  Create a project
+		2.  Run your project
+		3.  Framework Comparison
+		4.  Coding Styles
+	2.  Guides
+		1.  State management
+		2.  styling
+			1.  import styles
+			2.  modular styles (now we have global root provider dependency on styletron)
+		3.Routing
+		4.Fetching data
+		5.Forms
+		6.Internationalization
+		7.testing
+		8.typing
+		9.security
+		10.Universal rendering
+		11.Server code
+		12.Performance
+			1.  automatic code splitting
+		13.debugging
+		14.Static assets
+		15.Configuration
+		16.Working with Secrets
 2.  ver 1.0.0 Web
-  1.yarn create
-  2.Auth: Sign in / sign up / forgot-password
-  3.Admin Site
-  4.Boilerplates
-
+	1.yarn create
+	2.Auth: Sign in / sign up / forgot-password
+	3.Admin Site
+	4.Boilerplates
 3.  Ver 2.0.0 Mobile
-  1.  React native, Apollo graphql
-
+	1.  React native, Apollo graphql
 4.  Ver 3.0.0 Infra
   1.Kubernetes
   2.metrics
   3.logging
-
 5.  Ver 4.0.0 Data Pipeline
   1.ELK
   2.BI platform
