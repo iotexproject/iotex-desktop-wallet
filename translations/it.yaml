@@ -220,6 +220,7 @@ receipt.status: Stato
 receipt.gas: Gas
 receipt.retval: Valore di ritorno
 receipt.fail: Fallita
+response.text: risposta
 execution.gas: Gas (limite)
 execution.input: Input
 execution.nonce: Nonce
