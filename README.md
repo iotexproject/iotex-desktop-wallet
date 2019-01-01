@@ -59,8 +59,7 @@ npm run build-production && NODE_ENV=production npm run start
 
 ## Architecture
 
-<div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;toolbar&quot;:&quot;zoom layers lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile modified=\&quot;2018-12-14T23:30:16.769Z\&quot; host=\&quot;www.draw.io\&quot; agent=\&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36\&quot; etag=\&quot;nGySTtYPLkUtVRRI6__B\&quot; version=\&quot;9.6.4\&quot; type=\&quot;google\&quot;&gt;&lt;diagram id=\&quot;P_QM8eDtO4fqpifmsuob\&quot; name=\&quot;Page-1\&quot;&gt;5Vpbj5s4FP41kXYfEoEJkDzOZDrdlVpp1FTa6VPlgEPccTALZpL01+8xmASwkyYKZKbaPBA4vmB/537MwJmttx9TnKw+85CwAbLC7cB5GCA0nSK4SsKuJLjjcUmIUhqWJPtAmNOfRBEtRc1pSLJGR8E5EzRpEgMexyQQDRpOU75pdlty1nxrgiOiEeYBZjr1HxqKVUmduNaB/heh0ap6s22pljWuOitCtsIh39RIzoeBM0s5F+XdejsjTGJX4VKOezzSul9YSmJxzoCN+5ot+GfybL9s587iczR//jpUzHjFLFcbhmWmJJQb4GHOAPpy8WJXIZLyPA6JnNQaOPebFRVknuBAtm5ABIC2EmsGTzbcYkajGO4ZWcIi719JKiiAe6fIgsv+ag3QRrZHN2fvIQNRI3xNRLqDLmoAqmBXYmZP1fPmwLS9TK3qDKs6YiUo0X7uA5Zwo+C8AFqkQctjstxKMEkKmx0gj0lMQvraANj7N5cicQ9giKHC7w56FBDuW+EuUv+s/H8sJqqovyPTxsjANN/ANL8Dnu0mQ0rxzyTyP4pPfv59EtwvDDx74fhHVuPZNbgewceA4nHIUAsy3wCZa4AM9SXmvoYJCcGCqkeeihWPeIzZhwP1volaDSGypeJZkkeuevpWtcSw2FqTfPymJvhBhNgp14FzwYF0eO8nLsW1hr9c3mmBhd3wPA3ICUFRdlPgNCLiBDqemZspYVjQ1+Y6urdATh+8sWucqTHjWY04cKZoe8e8scc3Ys6pVdY9r4DXBsW7MiKk0flDmp7HIJNXIoI/39z8OHbD+qDxRLM+NjJYH68vg+1qKK5pGDKygV1WrnGRduMW+zDfrm6+bacn820E0NMApLEgUYoFCYcRXDd4l71DJB33DCRNotgbkr4uijIZeo/gtQMvZ2KIIsa3BG+iW8Mi4BoCNIL8DhjapkjMFLz2huFUw/DSFCMAOIrE5EiSUYe/+7TDnGe0kpEuOOegphezbd10+K7OObtyd51Hao7Gun5Nb7dpm3VD63E8yr5K8k8n11mC44r2lXNG46imAPVWs14M4Q1LxjdilxAZme6SYgYr22WCrAcSlzaX5ZAoZ0kRyGYvMizN47hQTryWPI0XWWJUTTlyQxYgAXLUAmSDnTtsgRdF9U6kOM4SevY4sNBCvlVyEdj7ikdF4BrvIJp9pBDXxoucdS3JRsNwlWDbXtMruo5uF0y59b7m17lg626xa5NeF17Iz1YXyfWbm6LxuOWEDWU/Yzjt9MWxqsb4f/DC13kR1PLChuLfjb1wFQf0wLsneczwO3PLmo7cJr+ct+cXuql51H2hdR7pb/mOmIgLbWu3O/mF1NVkCjIuiHDIbH+iJuVwSRmbccbToruzLH4SIJHyF1JrsYoftEQpDiks6oGmMA3lUiBjWfvbj6oO1JCkrHAil7LeRvIccQRwbXj6ko0CxvOwF5l2UTsLdjWJnhqch9ub77hRvfbcmmyt5m55A620Wzw+kZTC7kmqFlDu4NI67qmk6Nd1XGRm89l1XDX0idNYHBePsd3ie7kwNarF+v0yrqje65HEdpX2ISHWyD9x3OLf+LzlRK3+HGFwrxSG6zRYr+rPIdVjMusrQwDrLkkYeOzCIGoB3ReCweKixy8kzLfwX7AQbCV0fbzbUt7taXwnUdy4GRW4vh4VeAYjOnb6YoGplCjmAgtS987lVU6W8QL1LwRw7Em9UF29rKZ6oYZ62W+kXu656nWrM7OTy6zxdoVVfUOd0A8zGkpGMx7R4B2qSzPpcUynFh7S1QV5PUFaLagRQ7dAq2KzJSPbO/lNVSGxobp9CBjOMho0sTsWL1YbtdHImVhTF1XXck4l9mg0tca+Zx+uF8i7jn4NXVP9pqJdGTDsiw/HAoZSDbWAQZ/If+PIQ/diOKG6t5I16qFO3uDd+6/17TG9sHLU4/di/XxJo0X/8qkdtb+By0HXfhpj1p12RRC1qw99647pLKLF1iWPRSNj9rzZ7Ggxp6J+ksX5J55RlUsvuBB8DR1Yq0FVAg5asydcmOTPip8pyfcmE/veqSX5VVvMY9Jd7r/mC1qIeQcK7zrN+pU91b9d6aq4D4+H73pLyTp8HO18+A8=&lt;/diagram&gt;&lt;/mxfile&gt;&quot;}"></div>
-
+![Onefx Architecture](https://res.cloudinary.com/dohtidfqh/image/upload/v1546379050/web-guiguio/onefx-architecture.png)
 
 ```txt
 .
@@ -276,7 +275,7 @@ function ImgExample() {
 
 The environment variable is read from commandline as well as `.env` file. Take `PORT` for example,
 
-```
+```bash
 PORT=4004 npm run watch
 ```
 
@@ -300,10 +299,15 @@ Tech Stack
     *   [styletron - local style in JS](https://github.com/rtsao/styletron)
     *   sass - global style in sass
     *   [flexbox - view layout](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+
 *   [redux - state management](https://redux.js.org/)
+
 *   [Koa.js - server](http://koajs.com/)
+
 *   [graphql apollo - api gateway](https://www.apollographql.com/)
+
 *   [MongoDB mongoose - database ODM](https://mongoosejs.com/)
+
 *   [MySQL sequalize - database ORM](http://docs.sequelizejs.com/)
 
 Design Resources
@@ -317,42 +321,46 @@ Design Resources
 Vision: Onefx = fusionjs + django + react native + SRE infra + data pipeline
 
 1.  MVP
-	1.  Getting started
-		1.  Create a project
-		2.  Run your project
-		3.  Framework Comparison
-		4.  Coding Styles
-	2.  Guides
-		1.  State management
-		2.  styling
-			1.  import styles
-			2.  modular styles (now we have global root provider dependency on styletron)
-		3.Routing
-		4.Fetching data
-		5.Forms
-		6.Internationalization
-		7.testing
-		8.typing
-		9.security
-		10.Universal rendering
-		11.Server code
-		12.Performance
-			1.  automatic code splitting
-		13.debugging
-		14.Static assets
-		15.Configuration
-		16.Working with Secrets
+  1.  Getting started
+    1.  Create a project
+    2.  Run your project
+    3.  Framework Comparison
+    4.  Coding Styles
+  2.  Guides
+    1.  State management
+    2.  styling
+      1.  import styles
+      2.  modular styles (now we have global root provider dependency on styletron)
+    3.Routing
+    4.Fetching data
+    5.Forms
+    6.Internationalization
+    7.testing
+    8.typing
+    9.security
+    10.Universal rendering
+    11.Server code
+    12.Performance
+      1.  automatic code splitting
+    13.debugging
+    14.Static assets
+    15.Configuration
+    16.Working with Secrets
+
 2.  ver 1.0.0 Web
-	1.yarn create
-	2.Auth: Sign in / sign up / forgot-password
-	3.Admin Site
-	4.Boilerplates
+  1.yarn create
+  2.Auth: Sign in / sign up / forgot-password
+  3.Admin Site
+  4.Boilerplates
+
 3.  Ver 2.0.0 Mobile
-	1.  React native, Apollo graphql
+  1.  React native, Apollo graphql
+
 4.  Ver 3.0.0 Infra
   1.Kubernetes
   2.metrics
   3.logging
+
 5.  Ver 4.0.0 Data Pipeline
   1.ELK
   2.BI platform
