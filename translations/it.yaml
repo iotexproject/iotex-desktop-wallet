@@ -1,0 +1,345 @@
+meta.title: Titolo
+meta.description: Descrizione
+meta.address: Indirizzo
+meta.id: Id
+meta.transfers: Transazione
+meta.transactions: Transazioni
+meta.transfer: Transazione
+meta.height: Altezza
+meta.timestamp: Orario (timestamp)
+meta.amount: Valore
+meta.error: Errore
+meta.notFound: Non Trovata
+meta.page: Pagina
+meta.next: Prossima
+meta.previous: Precedente
+meta.loading: Loading
+meta.all: Tutti
+meta.block: Blocco
+meta.blocks: Blocchi
+meta.vote: Voto
+meta.votes: Voti
+meta.payload: Messaggio
+meta.account: Portafoglio
+address.title: Dettaglio Indirizzo
+address.totalBalance: Totale
+address.nonce: Nonce
+address.voteDetails: Dettaglio del voto
+address.listOfTransfers: Lista di Transazioni
+address.listOfExecutions: Lista di Esecuzioni
+address.error.failGetAddress: 'Non è possibile recuperare le informazioni per ${id}'
+address.error.failGetTransfers: 'Non è possibile recuperare le transazioni per indirizzo ${id}'
+address.error.failGetVotes: 'Non è possibile recupeare i voti per indirizzo ${id}'
+block.title: Dettaglio del Blocco
+block.id: Id del Blocco
+block.totalForged: Totale Falsificato
+block.totalAmount: Totale
+block.generatedBy: Chiave pubblica generata da
+block.size: Grandezza (in Byte)
+block.listOfTransfers: Lista di Transazioni
+block.listOfVotes: Lista di Voti
+block.error.failGetBlock: 'Non è possibile recuperare le informazioni del blocco ${id}'
+block.error.failGetTransfers: 'Non è possibile recuperare le transazioni per il blocco ${id}'
+block.error.failGetVotes: 'Non è possibile recuperare i voti per il blocco ${id}'
+dashboard.epochs: '# of Epoche'
+dashboard.blocks: '# of Blocchi'
+dashboard.transfers: '# of Transazioni'
+dashboard.votes: '# of Voti'
+dashboard.faps: IFTPS
+dashboard.bbh: BBH
+dashboard.epochsMsg: >-
+  Numero di epoche totali da quando è attiva la blockchain IoTeX. Un epoca è un
+  periodo che passa da un'elezione di delegati che prendono il turno per
+  produrre il blocco per l'intera rete.
+dashboard.blocksMsg: Numero totali di blocchi all'interno della blockchain IoTeX
+dashboard.transfersMsg: Numero totali di token trasferiti creati / memorizzati nella blockchain IoTeX.
+dashboard.votesMsg: Numero totali di vori per i delegati all'interno della blockchain IoTeX.
+dashboard.fapsMsg: >-
+  Instant Finalized Transaction Rate (IFTPS) - Numero di azioni ultimate
+  (transazioni + voti) al secondo.
+dashboard.bbhMsg: >-
+  Block Building History - Da quando è attiva la blockchain IoTeX (timestamp
+  dell'ultimo blocco - timestamp del primo blocco)
+latestBlocks.title: Ultimi Blocchi
+latestTransfers.title: Ultime Transazioni
+latestVotes.title: Ultimi Voti
+blocks.title: Blocchi
+blocks.forged: Falsificazioni
+blocks.error.get: Impossibile recuperare il blocco
+blockchainExplorer.title: Blockchain Explorer
+transfers.title: Transazioni
+transfer.title: Dettaglio della transazione
+transfer.sender: Mittente
+transfer.recipient: Destinatario
+transfer.fee: Tassa
+transfer.hash: Hash della Transazione
+transfer.coinBase: Coinbase
+transfer.error.get: 'Non è possibile recuperare i dettagli della transazione ${id}'
+transfers.error.get: Impossibile recuperare le transazioni
+footer.website: Sito internet
+footer.blog: Blog
+footer.chat: Chat
+votes.title: Voti
+nav.error.statistic: Non è possibile recuperare le statistiche
+nav.error.coin: Non è possibile recuperare il prezzo della moneta
+nav.explorer: Explorer
+consensus.error.fail: Non è possibile recuperare le metriche di consenso
+delegates.error.fail: Non è possibile recuperare i nodi delegati
+empty.no: 'No'
+empty.noMore: Impossibile reperire le informazioni
+empty.yet: Ancora
+error.unknown: Qualcosa è andato storto
+vote.title: Dettaglio del voto
+vote.id: Hash del voto
+vote.votee: Elezione
+vote.voter: Elettore
+vote.voters: Elettori
+vote.blockId: Block ID
+vote.nonce: Nonce
+vote.error.getVote: 'Impossibile reperire il voto ${id}'
+votes.out: Voto espresso
+votes.in: Voto ricevuto
+votes.error.get: Impossibile reperire i voti
+'rolldpos:title': Roll-DPoS
+'rolldpos:msg': >-
+  L' algoritmo di delega casuale proof of stake, eredita tutti i vantaggi del
+  meccanismo di consenso DPoS migliora ulteriormente in termini di
+  decentralizzazione e estendibilità dell'architettura. I punti colorati
+  rappresentano i delegati, i punti lampeggianti rappresentano i produttori
+  selezionti
+breadcrumbs.home: home
+breadcrumbs.votes: voti
+breadcrumbs.transfers: transazioni
+breadcrumbs.blocks: blocchi
+breadcrumbs.address: indirizzo
+breadcrumbs.executions: esecuzioni
+base.message.close: Chiudi
+wallet.title.wallet: Portafoglio
+wallet.tab.transfer: 'Invia ${token}'
+wallet.tab.vote: Voto per delegato
+wallet.tab.contract: Smart Contract
+wallet.transactionDetail.title: Dettaglio della transazione
+wallet.transactionDetail.raw: Transazione grezza
+wallet.transactionDetail.signed: Firma della transazione
+wallet.account.hidden: '******************************************************************'
+wallet.account.header: Sblocca / Crea il portafoglio
+wallet.account.enterPrivateKey: Chiave privata
+wallet.account.addressPlaceHolder: Indirizzo IoTeX...
+wallet.account.gkp: Genera la coppia di chiavi
+wallet.account.generate: Genera
+wallet.account.secureMessage: >-
+  Non memorizziamo la tua chiave privata nei nostri server. La generazione della
+  chiave privata viene fatta all'interno del tuo browser. Salva la chiave se
+  riutilizzarla in futura. Se la perdi non può essere più recuperata.
+wallet.account.wallet: Portafoglio
+wallet.account.raw: Indirizzo
+wallet.account.private: Chiave privata
+wallet.account.show: Visualizza
+wallet.account.hide: Nascondi
+wallet.account.unlock: Sblocca
+wallet.error.tab: Seleziona una scelta
+wallet.error.required: Questo campo è obbligatorio
+wallet.error.private: Chiave privata non inserita
+wallet.error.fix: Controlla i campi del form
+wallet.error.unknown: Qualcosa è andato storto...
+wallet.error.failSignTransfer: >-
+  Firma della transazione fallita. Controllare i campi inseriti / correggere gli
+  errori del form
+wallet.error.failSignVote: >-
+  Firma del voto fallita. Controllare i campi inseriti / correggere gli errori
+  del form
+wallet.error.sendTransaction: Errore nell'invio della transazione
+wallet.error.failSignContract: >-
+  Firma dello smart contract fallita. Controllare i campi inseriti / correggere
+  gli errori del form
+wallet.error.failSignABI: >-
+  Firma dell'interazione fallita. Controllare i campi inseriti / correggere gli
+  errori del form
+wallet.input.to: Indirizzo di ricezione
+wallet.input.amount: Valore
+wallet.input.nonce: Nonce
+wallet.input.gasPrice: Gas (prezzo)
+wallet.input.gasLimit: Gas (limite)
+wallet.input.dib: Dati in Byte (opzionale)
+wallet.input.generate: Invia la transazione
+wallet.input.contract: Indirizzo dello smart contract
+wallet.input.abi: ABI / JSON
+wallet.input.byteCode: Byte Code
+wallet.transactions.header: Azioni
+wallet.transactions.transfer: Crea la transazione
+wallet.transactions.vote: Crea il voto
+wallet.transactions.send: Invia la transazione
+wallet.transfer.title: Invia IOTX
+wallet.vote.title: Voto per Delegato
+wallet.transaction.title: Transazione
+wallet.transfer.crossChain: >-
+  Questo è un trasferimento cross-chain dalla rete corrente con ID ${chainId}
+  alla rete con ID ${targetChainId}
+wallet.transfer.crossChain.settling: Esecuzione del trasferimento the cross-chain...
+wallet.interact.abiTemplate: >-
+  [{ "type":"contructor", "inputs": [{ "name":"param1", "type":"uint256",
+  "indexed":true }], "name":"Event" }, { "type":"function", "inputs":
+  [{"name":"a", "type":"uint256"}], "name":"foo", "outputs": [] }]
+wallet.interact.invalidABI: JSON ABI invalido
+wallet.interact.header: Lettura / Scrittura Contratto
+wallet.interact.access: Accesso
+wallet.abi.read: Lettura contratto
+wallet.abi.write: Scrittura contratto
+wallet.contract.title: Contratto
+wallet.contract.header: Azioni
+wallet.contract.interact: Interagire
+wallet.contract.deploy: Installazione
+wallet.deploy.deploy: Installazione Contratto
+wallet.deploy.signTransaction: Firma Transazione
+input.bool.true: Vero
+input.bool.false: Falso
+wallet.account.placehold.privateKey: Incolla qui la tua chiave privata
+wallet.input.solidity: Solidity (optional)
+wallet.deploy.generateAbiAndByteCode: Genera ABI e Byte Code
+wallet.generate.fail: >-
+  Qualcosa è andato storto. Controllo la tua connessione ad internet e prova
+  dinuovo
+meta.executions: Esecuzioni
+meta.execution: Esecuzione
+latestExecutions.title: Ultima Esecuzione
+dashboard.executions: '# di Esecuzioni'
+dashboard.executionsMsg: >-
+  Totale numero di esecuzioni create / memorizzate all'interno della blockchain
+  IoTeX.
+execution.title: Dettaglio Esecuzione
+execution.timestamp: Coniate alle
+execution.executor: Esecutore
+execution.contract: Contratto
+execution.hash: Hash Esecuzione
+block.listOfExecutions: Lista delle Esecuzioni
+execution.error.failGetExecution: 'Non è possibile reperire i dettagli del esecuzione ${id}'
+executions.error.get: Non è possibile reperire l'esecuzione
+receipt.title: Ricezione
+receipt.contract: Indirizzo del Contratto
+receipt.status: Stato
+receipt.gas: Gas
+receipt.retval: Valore di ritorno
+receipt.fail: Fallita
+response.text: risposta
+execution.gas: Gas (limite)
+execution.input: Input
+execution.nonce: Nonce
+input.error.private_key.length: La chiave private dev'essere di 72 caratteri
+input.error.raw_address.length: L'indirizzo IOTX dev'essere di 49 caratteri
+input.error.raw_address.invalid: L'indirizzo IOTX deve iniziare con io
+input.error.number.invalid: Solo numeri 0-9
+input.error.float.invalid: Solo numeri
+input.error.bytes.length: Bytes deve avere un numero pari di caratteri
+input.error.bytes.invalid: 'Bytes invalido, deve contenere numeri 0-9 e caratteri A-F'
+wallet.missing_solidity_pragma: Solidity non corretto
+wallet.input.required: Questo campo è obbligatorio
+'': ''
+wallet.input.fix: Correggere gli errori del form
+wallet.input.unknown: Errore sconosciuto
+wallet.cannot_find_solidity_version: Impossibile trovare la versione solidity
+receipt.success: Successo
+unlock-wallet.title: Sblocca il tuo portafoglio
+unlock-wallet.warn.message: >-
+  Controllare sia l'URL & SSL certificato. Dev'essere uguale a
+  https://www.iotexscan.io.
+unlock-wallet.no-wallet: Non hai ancora un portafoglio IoTeX?
+unlock-wallet.create: Crea un nuovo portafoglio
+unlock-wallet.main-chain: Vai sulla mainchain e crea un portafoglio.
+new-wallet.copied: Copiato negli appunti
+new-wallet.copy: Copia
+new-wallet.warn.do-not-lose: Non perdere la tua chiave privata!
+new-wallet.warn.cant-recover: Una volta persa non potrà essere recuperata.
+new-wallet.warn.do-not-share: Non condividere la tua chiave privata!
+new-wallet.warn.stolen: I tuoi fondi verranno rubati se usi questo file in un sito fasullo (phishing).
+new-wallet.warn.backup: Fai un backup!
+new-wallet.warn.secure: Rendilo sicuro come i milioni di dollari che un giorno potrebbe valere.
+new-wallet.button.unlock: 'Ho capito, Sblocco il portafoglio'
+new-wallet.button.generate: Genera portafoglio
+new-wallet.loading: Creazione del portafoglio...
+new-wallet.created: Portafoglio creato! Salva la tua
+new-wallet.privateKey: Chiave privata
+broadcast.success: Trasmissione della transazione avvenuta con successo
+broadcast.warn.one: >-
+  La tua TX è stata trasmessa alla rete. Questo non significa che è stata scritta nella blockchain.
+  Questo avviene solitamente dopo pochi secondi.
+broadcast.warn.two: >-
+  Puoi controllare lo stato cliccando il seguente pulsante
+  o salvato il tuo TX hash e verificarlo successivamente
+broadcast.warn.three: 'Il tuo TX hash:'
+broadcast.button.check: Controlla lo stato della TX
+broadcast.fail: Errore durante la trasmissione della transazione
+broadcast.fail.network: Trasmissione della trasmissione fallita
+broadcast.error.message: 'Messaggio di errore:'
+broadcast.suggested.action: 'Azioni suggerite:'
+account.why: Perche occorre salvare la tua chiave privata?
+account.save: Salva la tua chiave privata per accedere successivamente al tuo portafoglio
+account.pay-attention: Fai attenzione
+account.not-hold: >-
+  IoTeX.io non salva le chiavi per te. Noi non possiamo accedere e ripristinare le chiavi del tuo account,
+  nemmeno annullare le transazioni
+account.protect: Proteggi le tue chiavi e controllo sempre l'URL.
+account.responsible: Sei tu il responsabile della tua sicurezza.
+account.empty.unlock: Blocca il tuo portagoltio per accedere ai dettagli!
+account.empty.how: Come si blocca il portafoglio?
+account.wallet: Portafoglio
+account.change: Cambia Portafoglio
+account.testnet.token: EIOTX
+account.address: Indirizzo
+account.transaction-history: Vai alla storia delle transazioni
+wallet.detail.are-you-sure: Sei sicuro?
+wallet.vote.input.title: Invia il voto
+wallet.vote.fail: Prova a votare più tardi
+wallet.vote.button.new: Invia un nuovo voto
+wallet.vote.detail-title: Stai per votare ...
+wallet.vote.voter: Elettore
+wallet.vote.votee: Votee
+wallet.vote.nonce: Nonce
+wallet.transfer.amount: Valore
+wallet.transfer.detail-title: Stai per inviare ...
+wallet.transfer.fromAddress: Indirizzo mittente
+wallet.transfer.toAddress: Indirizzo destinatario
+wallet.transfer.nonce: Nonce
+wallet.transfer.data: Dati
+wallet.transfer.balance-after: 'Dopo questa azione, il totale del tuo account sarà ${balance}'
+wallet.transfer.sendNew: Nuovo invio
+wallet.transfer.send: Invia
+wallet.transfer.broadcast.fail: 'Prova ad inviare ${token} successivamente'
+wallet.interact.title: Interagisti con il contratto
+wallet.interact.amount-to-send: Valore da inviare. In molti casi dev'essere 0
+wallet.interact.execute-fn: Stai eseguento la funzione nel contratto
+wallet.interact.deployed-to-testnet: Verrà inviata alla testnet
+wallet.interact.yes-button: 'Si, crea la transazione'
+wallet.interact.warning: Attenzione
+wallet.interact.broadcast.fail: Prova ad interagire con il contratto successivamente
+wallet.interact.button: Interagisci con il contratto
+wallet.deploy.title: Invia il contratto
+wallet.deploy.broadcast.fail: Prova ad inviare il Contratto successivamente
+wallet.deploy.send-new: Invia un nuovo contratto
+wallet.deploy.detail-title: Stai inviando ...
+wallet.contract.back: Ritorna alle azioni
+wallet.contract.learn: Per saperne di più
+wallet.contract.choose: Scegli un' azione
+wallet.contract.interactWith: Interagisci con il contratto
+wallet.contract.deployContract: Invia il contratto
+abi.input: Ingresso
+abi.return: Ritorno
+wallet.error.failReadExecution: >-
+  Errore durante la lettura dell'esecuzione. Controlla l'indirizzo del contratto / la tua connessione internet
+  E' anche possibile che il valore ancora non esiste.
+wallet.unlock.new.title: Fai attenzione
+wallet.unlock.new.p1: >-
+  Noi non memorizziamo la tua chiave privata nei nostri sistemi. La chiave privata viene generata solamente dal tuo browser.
+wallet.unlock.new.p2: >-
+  Salva la tua chiave privata perchè ti servirà per accedere al tuo portafoglio. Se perdi la chiave non potrà essere ripristinata.
+wallet.unlock.new.yes: 'Ho capito, continua'
+wallet.transactioNDetail.yes: 'Si, invia la transazione'
+wallet.input.nonce.suggestion: 'Nota: nonce <= ${nonce} verrà rigettata.'
+input.error.nonceTooLow: Nonce troppo basso
+transaction.pending: >-
+  Questa transazione è stata inviata alla rete e verrà verificata prima possibile.
+  Controlla fra pochi minuti. Se non vedrai più questo messaggio la transazione non è andata a buon fine.
+transaction.pending.title: Transazione in attesa di approvazione
+other.cookie.content: >-
+  Noi utilizziamo i cookies per offrirti una migliore esperienza di navigazione, analisi del traffico del sito,
+  personalizzare i contenuti. Utizzando il nostro sito, acconsenti ad usare i cookies.
+other.cookie.accept: Accetta i Cookies

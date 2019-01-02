@@ -3,7 +3,7 @@ import dotty from 'dotty';
 import i18n from 'koa-i18n';
 import locale from 'koa-locale';
 
-const SUPPORTED_LOCALES = ['en'];
+const SUPPORTED_LOCALES = ['en', 'it'];
 
 export function initI18nMiddleware(server) {
   locale(server.app);
