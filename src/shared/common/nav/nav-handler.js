@@ -41,7 +41,7 @@ export function setNavRoutes(server) {
     try {
       const response = await coinmarketcap.fetchCoinPrice();
       const d = response.data[0];
-      const price = {usd: d.price_usd, eth: d.price_eth};
+      const price = {usd: d.price_usd, eth: d.price_eth, btc: d.price_btc};
       ctx.body = {ok: true, price};
     } catch (error) {
       ctx.body = {ok: false, error: {code: 'FAIL_GET_COIN_PRICE', message: 'nav.error.coin'}};
