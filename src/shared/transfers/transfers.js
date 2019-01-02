@@ -12,6 +12,7 @@ import type {Error} from '../../entities/common-types';
 import {t} from '../../lib/iso-i18n';
 import {EmptyMessage} from '../common/message';
 import type {fetchTransfers} from './transfers-actions';
+import {fromNow} from '../common/from-now';
 
 type PropsType = {
   statistic: {
@@ -149,6 +150,7 @@ export class TransfersListOnlyId extends Component {
 
   render() {
     let transfers = this.props.transfers;
+    let isHome = this.props.isHome;
     // null
     if (!transfers) {
       return (
@@ -163,13 +165,21 @@ export class TransfersListOnlyId extends Component {
       <table className='bx--data-table-v2'>
         <thead>
           <tr>
-            <th className='single-col-header'>{t('transfer.hash')}</th>
+            <th className={isHome ? 'single-col-header' : ''}>{t('transfer.hash')}</th>
+            {!isHome && (
+              <th>{t('meta.timestamp')}</th>
+            )}
           </tr>
         </thead>
         <tbody>
           {transfers.map((transfer: TTransfer) => (
             <tr className='bx--parent-row-v2' data-parent-row>
               <td className='single-col-row'><Link to={`/transfers/${transfer.id}`} className='link'>{singleColEllipsisText(transfer.id, this.props.width, this.props.isHome)}</Link></td>
+              {!isHome && (
+                <td>
+                  {fromNow(transfer.timestamp)}
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
@@ -177,4 +187,3 @@ export class TransfersListOnlyId extends Component {
     );
   }
 }
-
