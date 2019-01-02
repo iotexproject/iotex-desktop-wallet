@@ -191,9 +191,11 @@ export class Nav extends Component {
             <div className='content has-text-centered'>
               <div className='columns is-mobile' style={{marginTop: '0rem'}}>
                 <div
-                  className='column is-half nav-price-col'>IOTX/ETH: {this.props.price ? this.props.price.eth : 0}</div>
+                  className='column is-one-third nav-price-col'>IOTX/BTC: {this.props.price ? this.props.price.btc : "N/A"}</div>
                 <div
-                  className='column is-half nav-price-col'>IOTX/USD: {this.props.price ? this.props.price.usd : 0}</div>
+                  className='column nav-price-col'>IOTX/ETH: {this.props.price ? this.props.price.eth : "N/A"}</div>
+                <div
+                  className='column nav-price-col'>IOTX/USD: {this.props.price ? this.props.price.usd : "N/A"}</div>
               </div>
             </div>
           </div>
