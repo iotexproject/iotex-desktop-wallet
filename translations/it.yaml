@@ -30,6 +30,10 @@ address.listOfExecutions: Lista di Esecuzioni
 address.error.failGetAddress: 'Non è possibile recuperare le informazioni per ${id}'
 address.error.failGetTransfers: 'Non è possibile recuperare le transazioni per indirizzo ${id}'
 address.error.failGetVotes: 'Non è possibile recupeare i voti per indirizzo ${id}'
+address.listOfSettleDeposits: List of Settle Deposits
+settleDeposits.timestamp: Minted At
+settleDeposits.id: Settle Deposit Id
+meta.settleDeposits: Settle Deposits
 block.title: Dettaglio del Blocco
 block.id: Id del Blocco
 block.totalForged: Totale Falsificato

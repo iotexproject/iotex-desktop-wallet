@@ -1,5 +1,4 @@
 // @flow
-
 import {fromRau} from 'iotex-client-js/dist/account/utils';
 import Component from 'inferno-component';
 import Helmet from 'inferno-helmet';
@@ -15,9 +14,11 @@ import {t} from '../../lib/iso-i18n';
 import {SingleItemTable} from '../common/single-item-table';
 import {SingleColTable} from '../common/single-col-table';
 import {VotesListOnlyId} from '../votes/votes';
+import {SettleDepositsListOnlyId} from '../settle-deposit/settle-deposit';
 import {isValidRawAddress} from '../wallet/validator';
 import type {TExecution} from '../../entities/explorer-types';
-import type {fetchAddressId, fetchAddressTransfersId, fetchAddressExecutionsId} from './address-actions';
+import type {TSettleDeposit} from '../../entities/wallet-types';
+import type {fetchAddressId, fetchAddressTransfersId, fetchAddressExecutionsId, fetchAddressSettleDepositsId} from './address-actions';
 import {fetchAddressVotersId} from './address-actions';
 
 type PropsType = {
@@ -30,6 +31,7 @@ export class Address extends Component {
     fetchAddressExecutionsId: fetchAddressExecutionsId;
     fetchAddressTransfersId: fetchAddressTransfersId;
     fetchAddressVotersId: fetchAddressVotersId;
+    fetchAddressSettleDepositsId: fetchAddressSettleDepositsId;
     params: {
       id: string
     },
@@ -52,6 +54,7 @@ export class Address extends Component {
             fetchAddressExecutionsId={this.props.fetchAddressExecutionsId}
             fetchAddressTransfersId={this.props.fetchAddressTransfersId}
             fetchAddressVotersId={this.props.fetchAddressVotersId}
+            fetchAddressSettleDepositsId={this.props.fetchAddressSettleDepositsId}
             width={this.props.width}
           />
         </div>
@@ -67,6 +70,7 @@ export class AddressSummary extends Component {
     fetchAddressExecutionsId: fetchAddressExecutionsId,
     fetchAddressTransfersId: fetchAddressTransfersId,
     fetchAddressVotersId: fetchAddressVotersId,
+    fetchAddressSettleDepositsId: fetchAddressSettleDepositsId,
     state: {
       address: TAddressDetails,
       error: Error,
@@ -91,6 +95,13 @@ export class AddressSummary extends Component {
         offset: number,
         count: number,
       },
+      settleDeposits: {
+        items: Array<TSettleDeposit>,
+        fetching: boolean,
+        error: Error,
+        offset: number,
+        count: number,
+      },
     },
     fetching: boolean,
     id: string,
@@ -103,6 +114,7 @@ export class AddressSummary extends Component {
       fetchAddressExecutionsId: 0,
       fetchAddressTransfersId: 0,
       fetchAddressVotersId: 0,
+      fetchAddressSettleDepositsId: 0,
     };
   }
 
@@ -112,6 +124,7 @@ export class AddressSummary extends Component {
       this.props.fetchAddressExecutionsId({id: this.props.id, offset: 0, count: this.props.state.executions.count});
       this.props.fetchAddressTransfersId({id: this.props.id, offset: 0, count: this.props.state.transfers.count});
       this.props.fetchAddressVotersId({id: this.props.id, offset: 0, count: this.props.state.voters.count});
+      this.props.fetchAddressSettleDepositsId({id: this.props.id, offset: 0, count: this.props.state.settleDeposits.count});
     }
   }
 
@@ -148,12 +161,25 @@ export class AddressSummary extends Component {
       }
     }, 30000);
     this.setState({fetchAddressVotersId});
+
+    const fetchAddressSettleDepositsId = window.setInterval(() => {
+      if (this.props.state.settleDeposits.offset === 0 && isValidRawAddress(this.props.id) === '') {
+        this.props.fetchAddressSettleDepositsId({
+          id: this.props.id,
+          offset: this.props.state.settleDeposits.offset,
+          count: this.props.state.settleDeposits.count,
+        });
+      }
+    }, 30000);
+    this.setState({fetchAddressSettleDepositsId});
+
   }
 
   componentWillUnmount() {
     window.clearInterval(this.state.fetchAddressVotersId);
     window.clearInterval(this.state.fetchAddressTransfersId);
     window.clearInterval(this.state.fetchAddressExecutionsId);
+    window.clearInterval(this.state.fetchAddressSettleDepositsId);
   }
 
   componentWillReceiveProps(nextProps: PropsType, nextContext: any) {
@@ -163,6 +189,7 @@ export class AddressSummary extends Component {
         this.props.fetchAddressVotersId({id: nextProps.id, offset: 0, count: this.props.state.voters.count});
         this.props.fetchAddressTransfersId({id: nextProps.id, offset: 0, count: this.props.state.transfers.count});
         this.props.fetchAddressExecutionsId({id: nextProps.id, offset: 0, count: this.props.state.executions.count});
+        this.props.fetchAddressSettleDepositsId({id: nextProps.id, offset: 0, count: this.props.state.settleDeposits.count});
       }
     }
   }
@@ -263,6 +290,25 @@ export class AddressSummary extends Component {
             isHome={false}
           />
         </SingleColTable>
+        {this.props.state.settleDeposits &&
+        <SingleColTable
+          title={t('address.listOfSettleDeposits')}
+          items={this.props.state.settleDeposits.items}
+          fetching={this.props.state.settleDeposits.fetching}
+          error={this.props.state.settleDeposits.error}
+          offset={this.props.state.settleDeposits.offset}
+          count={this.props.state.settleDeposits.count}
+          fetch={this.props.fetchAddressSettleDepositsId}
+          id={this.props.id}
+          name={t('meta.settleDeposits')}
+          displayPagination={true}
+        >
+          <SettleDepositsListOnlyId
+            settleDeposits={this.props.state.settleDeposits.items}
+            width={this.props.width}
+            isHome={false}
+          />
+        </SingleColTable>}
       </div>
     );
   }
