@@ -146,7 +146,7 @@ export class VotesListOnlyId extends Component {
 
   render() {
     let votes = this.props.votes;
-    let isHome = this.props.isHome;
+    const isHome = this.props.isHome;
     // null
     if (!votes) {
       return (

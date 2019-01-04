@@ -141,7 +141,7 @@ export class BlocksListOnlyId extends Component {
 
   render() {
     let blocks: Array<TBlock> = this.props.blocks;
-    let isHome = this.props.isHome;
+    const isHome = this.props.isHome;
     if (!blocks) {
       return null;
     }

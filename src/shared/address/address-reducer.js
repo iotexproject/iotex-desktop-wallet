@@ -24,6 +24,13 @@ export default function reducer(state = {
     offset: 0,
     count: 10,
   },
+  settleDeposits: {
+    fetching: true,
+    items: [],
+    error: null,
+    offset: 0,
+    count: 10,
+  },
 }, action) {
   switch (action.type) {
   case 'FETCH_ADDRESS': {
@@ -127,6 +134,45 @@ export default function reducer(state = {
         ...state.voters,
         fetching: false,
         items: action.payload.voters,
+        offset: action.payload.offset,
+        count: action.payload.count,
+      },
+    };
+  }
+  default: {
+    return reducerMore(state, action);
+  }
+  }
+}
+
+function reducerMore(state, action) {
+  switch (action.type) {
+  case 'FETCH_ADDRESS_SETTLE_DEPOSITS': {
+    return {
+      ...state,
+      settleDeposits: {
+        ...state.settleDeposits,
+        fetching: true,
+      },
+    };
+  }
+  case 'FETCH_ADDRESS_SETTLE_DEPOSITS_FAIL': {
+    return {
+      ...state,
+      settleDeposits: {
+        ...state.settleDeposits,
+        fetching: false,
+        error: action.payload.error,
+      },
+    };
+  }
+  case 'FETCH_ADDRESS_SETTLE_DEPOSITS_SUCCESS': {
+    return {
+      ...state,
+      settleDeposits: {
+        ...state.settleDeposits,
+        fetching: false,
+        items: action.payload.settleDeposits,
         offset: action.payload.offset,
         count: action.payload.count,
       },

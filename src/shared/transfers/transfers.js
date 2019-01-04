@@ -11,8 +11,8 @@ import {ellipsisText, hideColClass, singleColEllipsisText} from '../common/utils
 import type {Error} from '../../entities/common-types';
 import {t} from '../../lib/iso-i18n';
 import {EmptyMessage} from '../common/message';
-import type {fetchTransfers} from './transfers-actions';
 import {fromNow} from '../common/from-now';
+import type {fetchTransfers} from './transfers-actions';
 
 type PropsType = {
   statistic: {
@@ -150,7 +150,7 @@ export class TransfersListOnlyId extends Component {
 
   render() {
     let transfers = this.props.transfers;
-    let isHome = this.props.isHome;
+    const isHome = this.props.isHome;
     // null
     if (!transfers) {
       return (
