@@ -218,14 +218,14 @@ export class Deploy extends Component {
     delete cleanedSmartContract.timestamp;
     delete cleanedSmartContract.blockID;
     delete cleanedSmartContract.isPending;
-    cleanedSmartContract.gasLimit = rawSmartContract.gas;
+    cleanedSmartContract.gasLimit = rawSmartContract.gas || 1000000;
 
     const rows = [
-      {c1: 'Executor', c2: cleanedSmartContract.executor},
-      {c1: 'Nonce', c2: cleanedSmartContract.nonce},
-      {c1: 'Gas limit', c2: cleanedSmartContract.gasLimit},
-      {c1: 'Data', c2: cleanedSmartContract.data},
+      {c1: t('execution.executor'), c2: cleanedSmartContract.executor},
+      {c1: t('execution.nonce'), c2: cleanedSmartContract.nonce},
+      {c1: t('execution.gas'), c2: cleanedSmartContract.gasLimit}
     ];
+
     return (
       <TransactionDetailSection
         rawTransaction={rawSmartContract}
@@ -236,8 +236,8 @@ export class Deploy extends Component {
         broadcast={this.broadcast}
         title={t('wallet.deploy.detail-title')}
       >
-        <div>
-          <table className='dialogue-table'>
+        <div className='dialogue-table'>
+          <table>
             {rows.map(r =>
               (<tr>
                 <td>{r.c1}</td>
