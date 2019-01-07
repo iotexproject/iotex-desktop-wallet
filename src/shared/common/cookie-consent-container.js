@@ -1,36 +1,34 @@
 import {styled} from 'styletron-inferno';
 import Component from 'inferno-component';
 import window from 'global/window';
+import {connect} from 'inferno-redux';
 import {colors} from './styles/style-color';
 import {contentPadding} from './styles/style-padding';
 
 const SMALL_WIDTH = '@media only screen and (max-width: 360px)';
 
-export class CookieConsentContainer extends Component {
+export class CookieConsent extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      closeCookieConsent: true,
+      closeCookieConsent: false,
     };
 
     this.closeCookieConsentBanner = this.closeCookieConsentBanner.bind(this);
-  }
-
-  componentDidMount() {
-    const closed = window.localStorage ? window.localStorage.getItem('closeCookieConsent') : false;
-    this.setState({
-      closeCookieConsent: closed,
-    });
   }
 
   closeCookieConsentBanner() {
     this.setState({
       closeCookieConsent: true,
     });
-    if (window.localStorage) {
-      window.localStorage.setItem('closeCookieConsent', true);
-    }
+    window.fetch('/?consent=true', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({}),
+    }).then(response => window.console.log(response));
   }
 
   render() {
@@ -39,8 +37,9 @@ export class CookieConsentContainer extends Component {
       '              site traffic, personalise content. By using our site, you consent to our use of cookies.';
     accept = accept || 'Accept Cookies';
 
+    const closed = this.props.closeCookieConsent || this.state.closeCookieConsent;
     return (
-      <CookieConsentFlex id={'cookie-consent'} display= {this.state.closeCookieConsent ? 'none' : 'block'} >
+      <CookieConsentFlex id={'cookie-consent'} display= {closed ? 'none' : 'block'} >
         <CookieConsentContent>
           <div className='optanon-alert-box-body'>
             <ConsentText> {content} </ConsentText>
@@ -126,3 +125,7 @@ export const SampleButton = styled('button', {
   fontFamily: 'inherit',
 }
 );
+
+export const CookieConsentContainer = connect(state => ({
+  closeCookieConsent: state.base.consent,
+}))(CookieConsent);
