@@ -15,6 +15,6 @@ export function syntaxHighlight(json) {
       } else if (/null/.test(match)) {
         cls = 'null';
       }
-      return `<span class="${ cls }">${ match }</span>`;
+      return `<span class="response ${ cls }">${ match }</span>`;
     });
 }
