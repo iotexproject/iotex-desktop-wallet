@@ -18,10 +18,10 @@ import type {
   TReceipt,
 } from '../../../entities/explorer-types';
 import twilio from '../../../shared/common/twilio';
-import type {TRawExecutionRequest} from '../../../entities/wallet-types';
+import type {TRawExecutionRequest, TSettleDeposit} from '../../../entities/wallet-types';
 import type {TSendExecutionResponse} from '../../../entities/explorer-types';
 import type {TExecution} from '../../../entities/explorer-types';
-import {fromGTransfer, fromGExecution, fromGBlock, fromGReceipt, fromGVote, isLatest} from './iotex-core-types';
+import {fromGTransfer, fromGExecution, fromGBlock, fromGReceipt, fromGVote, fromGSettleDeposit, isLatest} from './iotex-core-types';
 import type {
   GAddressDetails,
   GBlock,
@@ -34,6 +34,7 @@ import type {
   GExecution,
   GVote,
   GReceipt,
+  GSettleDeposit,
 } from './iotex-core-types';
 
 type Opts = {
@@ -125,6 +126,9 @@ export interface IGExplorer {
 
   // get list of transfer belong to an address
   getTransfersByAddress(address: string, offset: number, limit: number): Array<GTransfer>,
+
+  // get list of settle deposits belong to an address
+  getSettleDepositsByAddress(address: string, offset: number, limit: number): Array<GSettleDeposit>,
 
   // get all transfers in a block
   getTransfersByBlockID(blockID: string, offset: number, limit: number): Array<GTransfer>,
@@ -350,6 +354,27 @@ export class IotexCoreExplorer {
         if (!(t.ID in hashMap)) {
           hashMap[t.ID] = true;
           return fromGTransfer(t);
+        }
+      });
+      if (!r) {
+        return null;
+      }
+      return r.filter(item => item !== undefined);
+    });
+  }
+
+  // get list of settle deposits belong to an address
+  async getSettleDepositsByAddress(address: string, offset: number, limit: number): Promise<Array<TSettleDeposit>> {
+    const key = `${address}_${offset}_${limit}`;
+
+    return this.fetchValue('settleDeposits', key, async() => {
+      const resp: Array<GSettleDeposit> = await promisify(this.exp.getSettleDepositsByAddress)(address, offset, limit);
+
+      const hashMap = {};
+      const r = resp && resp.map((t: GSettleDeposit) => {
+        if (!(t.ID in hashMap)) {
+          hashMap[t.ID] = true;
+          return fromGSettleDeposit(t);
         }
       });
       if (!r) {

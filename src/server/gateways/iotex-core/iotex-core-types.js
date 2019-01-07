@@ -6,6 +6,7 @@ import type {
   TReceipt,
 } from '../../../entities/explorer-types';
 import type {TExecution} from '../../../entities/explorer-types';
+import type {TSettleDeposit} from '../../../entities/wallet-types';
 
 export type GCoinStatistic = {
   height: number,
@@ -134,6 +135,24 @@ export type GSendVoteResponse = {
   hash: string,
 }
 
+export type GSettleDeposit = {
+  id: string,
+  version: number,
+  nonce: number,
+  sender: string,
+  recipient: string,
+  amount: number,
+  index: number,
+  senderPubKey: string,
+  signature: string,
+  gasLimit: number,
+  gasPrice: number,
+  fee: string,
+  timestamp: number,
+  blockId: string,
+  isPending: boolean,
+}
+
 export function fromGExecution(ex: GExecution): TExecution {
   const {ID, blockID, ...other} = ex;
   return {
@@ -148,6 +167,15 @@ export function fromGReceipt(r: GReceipt): TReceipt {
 }
 
 export function fromGTransfer(t: GTransfer): TTransfer {
+  const {ID, blockID, ...other} = t;
+  return {
+    id: ID,
+    blockId: blockID,
+    ...other,
+  };
+}
+
+export function fromGSettleDeposit(t: GSettleDeposit): TSettleDeposit {
   const {ID, blockID, ...other} = t;
   return {
     id: ID,

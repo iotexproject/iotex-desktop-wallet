@@ -141,6 +141,7 @@ export class BlocksListOnlyId extends Component {
 
   render() {
     let blocks: Array<TBlock> = this.props.blocks;
+    const isHome = this.props.isHome;
     if (!blocks) {
       return null;
     }
@@ -151,13 +152,21 @@ export class BlocksListOnlyId extends Component {
       <table className='bx--data-table-v2'>
         <thead>
           <tr>
-            <th className='single-col-header'>{t('block.id')}</th>
+            <th className={isHome ? 'single-col-header' : ''}>{t('block.id')}</th>
+            {!isHome && (
+              <th>{t('meta.timestamp')}</th>
+            )}
           </tr>
         </thead>
         <tbody>
           {blocks.map((b: TBlock) => (
             <tr className='bx--parent-row-v2' data-parent-row>
               <td className='single-col-row'><Link to={`/blocks/${b.id}`} className='link'>{singleColEllipsisText(b.id, this.props.width, this.props.isHome)}</Link></td>
+              {!isHome && (
+                <td>
+                  {fromNow(b.timestamp)}
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

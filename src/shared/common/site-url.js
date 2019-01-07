@@ -25,6 +25,10 @@ export class ADDRESS {
   static get GET_VOTERS(): string {
     return '/api/getAddressVotersId';
   }
+
+  static get GET_SETTLE_DEPOSITS(): string {
+    return '/api/getAddressSettleDepositsId';
+  }
 }
 
 export class VOTE {

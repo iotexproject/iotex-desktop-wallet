@@ -30,6 +30,10 @@ address.listOfExecutions: List of Executions
 address.error.failGetAddress: 'Could not get address details for ${id}'
 address.error.failGetTransfers: 'Could not get transfers for address ${id}'
 address.error.failGetVotes: 'Could not get votes for address ${id}'
+address.listOfSettleDeposits: List of Settle Deposits
+settleDeposits.timestamp: Minted At
+settleDeposits.id: Settle Deposit Id
+meta.settleDeposits: Settle Deposits
 block.title: Block Details
 block.id: Block Id
 block.totalForged: Total Forged
@@ -208,6 +212,7 @@ receipt.status: Status
 receipt.gas: Gas
 receipt.retval: Return Value
 receipt.fail: Fail
+response.text: response
 execution.gas: Gas Limit
 execution.input: Input
 execution.nonce: Nonce

@@ -146,6 +146,7 @@ export class VotesListOnlyId extends Component {
 
   render() {
     let votes = this.props.votes;
+    const isHome = this.props.isHome;
     // null
     if (!votes) {
       return (
@@ -160,7 +161,10 @@ export class VotesListOnlyId extends Component {
       <table className='bx--data-table-v2'>
         <thead>
           <tr>
-            <th className='single-col-header'>{t('vote.id')}</th>
+            <th className={isHome ? 'single-col-header' : ''}>{t('vote.id')}</th>
+            {!isHome && (
+              <th>{t('meta.timestamp')}</th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -175,6 +179,11 @@ export class VotesListOnlyId extends Component {
                 }
                 <Link to={`/votes/${vote.id}`} className='link'>{singleColEllipsisText(vote.id, this.props.width, this.props.isHome)}</Link>
               </td>
+              {!isHome && (
+                <td>
+                  {fromNow(vote.timestamp)}
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

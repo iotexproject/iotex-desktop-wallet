@@ -16,3 +16,7 @@ export function fetchAddressTransfersId(data) {
 export function fetchAddressVotersId(data) {
   return jsonCall(data, 'FETCH_ADDRESS_VOTERS', ADDRESS.GET_VOTERS);
 }
+
+export function fetchAddressSettleDepositsId(data) {
+  return jsonCall(data, 'FETCH_ADDRESS_SETTLE_DEPOSITS', ADDRESS.GET_SETTLE_DEPOSITS);
+}

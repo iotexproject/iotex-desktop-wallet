@@ -13,6 +13,7 @@ import {SingleItemTable} from '../common/single-item-table';
 import {SingleColTable} from '../common/single-col-table';
 import type {Error} from '../../entities/common-types';
 import {fromNow} from '../common/from-now';
+import {syntaxHighlight} from '../common/syntax-highlight';
 
 export class Execution extends Component {
   props: {
@@ -175,11 +176,12 @@ class Receipt extends Component {
     if (receipt.contractAddress) {
       rows.push({c1: t('receipt.contract'), c2: (receipt.contractAddress)});
     }
-    rows.push({c1: t('receipt.status'), c2: (receipt.status ? t('receipt.success') : t('receipt.fail'))});
-    rows.push({c1: t('receipt.gas'), c2: (receipt.gasConsumed)});
+    rows.push({c1: t('receipt.status'), c2: (receipt.status ? t('receipt.success') : t('receipt.fail'))},
+      {c1: t('receipt.gas'), c2: (receipt.gasConsumed)});
     if (receipt.retval) {
       rows.push({c1: t('receipt.retval'), c2: (receipt.retval)});
     }
+    rows.push({c1: t('response.text'), c2: (syntaxHighlight(JSON. stringify(receipt, null, 4)))});
     return (
       <SingleItemTable
         subtitle={t('receipt.title')}

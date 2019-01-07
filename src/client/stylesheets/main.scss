@@ -16,3 +16,31 @@
 container {
   width: 100%;
 }
+
+pre {outline: 1px solid #ccc;
+  padding: 5px;
+  margin: 5px;
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  background-color: #151b20;
+  outline: unset;
+  color: white;
+}
+
+.response{
+  font-size: 14px;
+}
+.response.string { color: green; }
+.response.number {
+  color: darkorange;
+  height: unset;
+  margin-right: unset;
+  padding: unset;
+  background-color: unset;
+  min-width: unset;
+}
+.response.boolean { color: blue; }
+.response.null.response { color: magenta; }
+.response.key { color: red; }

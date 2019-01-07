@@ -68,6 +68,21 @@ export function setAddressRoutes(server) {
     return res;
   }
 
+  async function getAddressSettleDepositsId(ctx, next) {
+    const {id, offset, count} = ctx.request.body;
+
+    try {
+      ctx.body = {
+        ok: true,
+        settleDeposits: await iotexCore.getSettleDepositsByAddress(id, offset, count),
+        offset: ctx.request.body.offset,
+        count: ctx.request.body.count,
+      };
+    } catch (error) {
+      ctx.body = {ok: false, error: {code: 'FAIL_GET_SETTLE_DEPOSITS', message: 'address.error.failGetSettleDeposits', data: {id}}};
+    }
+  }
+
   async function getAddressVotersId(ctx, next) {
     const {id, offset, count} = ctx.request.body;
 
@@ -89,4 +104,5 @@ export function setAddressRoutes(server) {
   server.post('getAddressTransfersId', ADDRESS.GET_TRANSFERS, getAddressTransfersId);
   server.post('getAddressExecutionsId', ADDRESS.GET_EXECUTIONS, getAddressExecutionsId);
   server.post('getAddressVotersId', ADDRESS.GET_VOTERS, getAddressVotersId);
+  server.post('getAddressSettleDepositsId', ADDRESS.GET_SETTLE_DEPOSITS, getAddressSettleDepositsId);
 }

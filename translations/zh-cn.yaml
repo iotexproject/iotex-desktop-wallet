@@ -24,6 +24,10 @@ address.totalBalance: Total Balance
 address.nonce: Nonce
 address.voteDetails: Vote Details
 address.listOfTransfers: List of Transfers
+address.listOfSettleDeposits: List of Settle Deposits
+settleDeposits.timestamp: Minted At
+settleDeposits.id: Settle Deposit Id
+meta.settleDeposits: Settle Deposits
 block.title: Block Details
 block.id: Block Id
 block.totalForged: Total Forged
