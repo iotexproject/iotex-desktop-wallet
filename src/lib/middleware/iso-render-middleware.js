@@ -10,6 +10,7 @@ import {initAssetURL} from '../asset-url';
 import {initServerI18n} from '../iso-i18n';
 import {rootHtml} from '../../shared/common/root/root-html';
 import {RootServer} from '../../shared/common/root/root-server';
+import {initServerConsent} from './consent-cookie';
 
 export function isoRenderMiddleware(server: Server): any {
   return async(ctx, next) => {
@@ -28,6 +29,7 @@ export function isoRenderMiddleware(server: Server): any {
 
 function html(ctx, renderProps, reducer, clientScript): string {
   initServerI18n(ctx);
+  initServerConsent(ctx);
   const state = ctx.getState();
   const jsonGlobals = JsonGlobals({state});
   initAssetURL(state.base.siteURL, state.base.routePrefix, state.base.manifest);

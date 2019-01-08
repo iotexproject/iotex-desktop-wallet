@@ -9,6 +9,7 @@ import {staticServe} from './static-serve';
 import {cookieSessionMiddleware} from './cookie-session-middleware';
 import {manifestMiddleware} from './manifest-middleware';
 import {isoRenderMiddleware} from './iso-render-middleware';
+import {consentCookieMiddleware} from './consent-cookie-middleware';
 import {uncaughtErrorMiddleware} from './uncaught-error-middleware';
 
 export function initMiddleware(server: Server) {
@@ -21,6 +22,7 @@ export function initMiddleware(server: Server) {
 
   server.use(bodyParser());
   server.use(cookieSessionMiddleware(server));
+  server.use(consentCookieMiddleware(server));
 
   server.use(viewBaseState(server));
   server.use(manifestMiddleware(server));
