@@ -16,5 +16,6 @@ export const AddressContainer = connect(
     fetchAddressTransfersId: data => dispatch(actions.fetchAddressTransfersId(data)),
     fetchAddressVotersId: data => dispatch(actions.fetchAddressVotersId(data)),
     fetchAddressSettleDepositsId: data => dispatch(actions.fetchAddressSettleDepositsId(data)),
+    fetchAddressCreateDepositsId: data => dispatch(actions.fetchAddressCreateDepositsId(data)),
   }),
 )(Address);

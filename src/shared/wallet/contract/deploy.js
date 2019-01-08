@@ -223,7 +223,7 @@ export class Deploy extends Component {
     const rows = [
       {c1: t('execution.executor'), c2: cleanedSmartContract.executor},
       {c1: t('execution.nonce'), c2: cleanedSmartContract.nonce},
-      {c1: t('execution.gas'), c2: cleanedSmartContract.gasLimit}
+      {c1: t('execution.gas'), c2: cleanedSmartContract.gasLimit},
     ];
 
     return (

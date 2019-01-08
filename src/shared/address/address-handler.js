@@ -83,6 +83,21 @@ export function setAddressRoutes(server) {
     }
   }
 
+  async function getAddressCreateDepositsId(ctx, next) {
+    const {id, offset, count} = ctx.request.body;
+
+    try {
+      ctx.body = {
+        ok: true,
+        createDeposits: await iotexCore.getCreateDepositsByAddress(id, offset, count),
+        offset: ctx.request.body.offset,
+        count: ctx.request.body.count,
+      };
+    } catch (error) {
+      ctx.body = {ok: false, error: {code: 'FAIL_GET_CREATE_DEPOSITS', message: 'address.error.failGetCreateDeposits', data: {id}}};
+    }
+  }
+
   async function getAddressVotersId(ctx, next) {
     const {id, offset, count} = ctx.request.body;
 
@@ -99,10 +114,20 @@ export function setAddressRoutes(server) {
     }
   }
 
-  server.get('address', ADDRESS.INDEX, addressHandler);
-  server.post('getAddressId', ADDRESS.GET_ADDRESS, getAddressId);
-  server.post('getAddressTransfersId', ADDRESS.GET_TRANSFERS, getAddressTransfersId);
-  server.post('getAddressExecutionsId', ADDRESS.GET_EXECUTIONS, getAddressExecutionsId);
-  server.post('getAddressVotersId', ADDRESS.GET_VOTERS, getAddressVotersId);
-  server.post('getAddressSettleDepositsId', ADDRESS.GET_SETTLE_DEPOSITS, getAddressSettleDepositsId);
+  const routes = [{method: 'get', name: 'address', endPoint: ADDRESS.INDEX, handler: addressHandler},
+    {method: 'post', name: 'getAddressId', endPoint: ADDRESS.GET_ADDRESS, handler: getAddressId},
+    {method: 'post', name: 'getAddressTransfersId', endPoint: ADDRESS.GET_TRANSFERS, handler: getAddressTransfersId},
+    {method: 'post', name: 'getAddressExecutionsId', endPoint: ADDRESS.GET_EXECUTIONS, handler: getAddressExecutionsId},
+    {method: 'post', name: 'getAddressVotersId', endPoint: ADDRESS.GET_VOTERS, handler: getAddressVotersId},
+    {method: 'post', name: 'getAddressSettleDepositsId', endPoint: ADDRESS.GET_SETTLE_DEPOSITS, handler: getAddressSettleDepositsId},
+    {method: 'post', name: 'getAddressCreateDepositsId', endPoint: ADDRESS.GET_CREATE_DEPOSITS, handler: getAddressCreateDepositsId},
+  ];
+
+  routes.map(route => {
+    if (route.method === 'get') {
+      server.get(route.name, route.endPoint, route.handler);
+    } else if (route.method === 'post') {
+      server.post(route.name, route.endPoint, route.handler);
+    }
+  });
 }

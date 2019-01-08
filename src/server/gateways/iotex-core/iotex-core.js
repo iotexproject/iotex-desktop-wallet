@@ -18,10 +18,17 @@ import type {
   TReceipt,
 } from '../../../entities/explorer-types';
 import twilio from '../../../shared/common/twilio';
-import type {TRawExecutionRequest, TSettleDeposit} from '../../../entities/wallet-types';
+import type {TRawExecutionRequest, TSettleDeposit, TCreateDeposit} from '../../../entities/wallet-types';
 import type {TSendExecutionResponse} from '../../../entities/explorer-types';
 import type {TExecution} from '../../../entities/explorer-types';
-import {fromGTransfer, fromGExecution, fromGBlock, fromGReceipt, fromGVote, fromGSettleDeposit, isLatest} from './iotex-core-types';
+import {fromGTransfer,
+  fromGExecution,
+  fromGBlock,
+  fromGReceipt,
+  fromGVote,
+  fromGSettleDeposit,
+  fromGCreateDeposit,
+  isLatest} from './iotex-core-types';
 import type {
   GAddressDetails,
   GBlock,
@@ -35,6 +42,7 @@ import type {
   GVote,
   GReceipt,
   GSettleDeposit,
+  GCreateDeposit,
 } from './iotex-core-types';
 
 type Opts = {
@@ -129,6 +137,9 @@ export interface IGExplorer {
 
   // get list of settle deposits belong to an address
   getSettleDepositsByAddress(address: string, offset: number, limit: number): Array<GSettleDeposit>,
+
+  // get list of create deposits belong to an address
+  getCreateDepositsByAddress(address: string, offset: number, limit: number): Array<GCreateDeposit>,
 
   // get all transfers in a block
   getTransfersByBlockID(blockID: string, offset: number, limit: number): Array<GTransfer>,
@@ -375,6 +386,27 @@ export class IotexCoreExplorer {
         if (!(t.ID in hashMap)) {
           hashMap[t.ID] = true;
           return fromGSettleDeposit(t);
+        }
+      });
+      if (!r) {
+        return null;
+      }
+      return r.filter(item => item !== undefined);
+    });
+  }
+
+  // get list of create deposits belong to an address
+  async getCreateDepositsByAddress(address: string, offset: number, limit: number): Promise<Array<TCreateDeposit>> {
+    const key = `${address}_${offset}_${limit}`;
+
+    return this.fetchValue('createDeposits', key, async() => {
+      const resp: Array<GCreateDeposit> = await promisify(this.exp.getCreateDepositsByAddress)(address, offset, limit);
+
+      const hashMap = {};
+      const r = resp && resp.map((t: GCreateDeposit) => {
+        if (!(t.ID in hashMap)) {
+          hashMap[t.ID] = true;
+          return fromGCreateDeposit(t);
         }
       });
       if (!r) {
