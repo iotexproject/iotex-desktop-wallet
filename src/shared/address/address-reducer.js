@@ -31,6 +31,13 @@ export default function reducer(state = {
     offset: 0,
     count: 10,
   },
+  createDeposits: {
+    fetching: true,
+    items: [],
+    error: null,
+    offset: 0,
+    count: 10,
+  },
 }, action) {
   switch (action.type) {
   case 'FETCH_ADDRESS': {
@@ -173,6 +180,37 @@ function reducerMore(state, action) {
         ...state.settleDeposits,
         fetching: false,
         items: action.payload.settleDeposits,
+        offset: action.payload.offset,
+        count: action.payload.count,
+      },
+    };
+  }
+  case 'FETCH_ADDRESS_CREATE_DEPOSITS': {
+    return {
+      ...state,
+      createDeposits: {
+        ...state.createDeposits,
+        fetching: true,
+      },
+    };
+  }
+  case 'FETCH_ADDRESS_CREATE_DEPOSITS_FAIL': {
+    return {
+      ...state,
+      createDeposits: {
+        ...state.createDeposits,
+        fetching: false,
+        error: action.payload.error,
+      },
+    };
+  }
+  case 'FETCH_ADDRESS_CREATE_DEPOSITS_SUCCESS': {
+    return {
+      ...state,
+      createDeposits: {
+        ...state.createDeposits,
+        fetching: false,
+        items: action.payload.createDeposits,
         offset: action.payload.offset,
         count: action.payload.count,
       },

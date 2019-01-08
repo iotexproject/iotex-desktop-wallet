@@ -29,6 +29,10 @@ export class ADDRESS {
   static get GET_SETTLE_DEPOSITS(): string {
     return '/api/getAddressSettleDepositsId';
   }
+
+  static get GET_CREATE_DEPOSITS(): string {
+    return '/api/getAddressCreateDepositsId';
+  }
 }
 
 export class VOTE {

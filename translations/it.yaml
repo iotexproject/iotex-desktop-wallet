@@ -34,6 +34,10 @@ address.listOfSettleDeposits: List of Settle Deposits
 settleDeposits.timestamp: Minted At
 settleDeposits.id: Settle Deposit Id
 meta.settleDeposits: Settle Deposits
+address.listOfCreateDeposits: List of Create Deposits
+createDeposits.timestamp: At
+createDeposits.id: Create Deposit Id
+meta.createDeposits: Create Deposits
 block.title: Dettaglio del Blocco
 block.id: Id del Blocco
 block.totalForged: Totale Falsificato
