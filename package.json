@@ -106,7 +106,7 @@
     "webpack-manifest-plugin": "2.0.4"
   },
   "engines": {
-    "node": "8.14.0",
+    "node": "8.15.0",
     "npm": "6.5.0"
   },
   "private": true
