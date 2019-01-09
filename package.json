@@ -68,7 +68,7 @@
     "babel-plugin-module-resolver": "3.1.1",
     "babel-plugin-react-require": "3.0.1",
     "babel-plugin-transform-class-properties": "6.24.1",
-    "config": "3.0.0",
+    "config": "3.0.1",
     "del": "3.0.0",
     "dotenv": "6.2.0",
     "eslint": "5.10.0",
