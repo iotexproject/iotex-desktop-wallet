@@ -88,7 +88,7 @@
     "jsdom": "12.2.0",
     "jsdom-global": "3.0.2",
     "nyc": "13.1.0",
-    "onefx": "^1.1.0",
+    "onefx": "1.2.0",
     "plugin-error": "1.0.1",
     "process": "0.11.10",
     "react": "16.6.3",
