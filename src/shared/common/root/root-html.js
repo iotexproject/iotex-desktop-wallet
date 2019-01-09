@@ -11,7 +11,7 @@ export function rootHtml({styletron, jsonGlobals, reactMarkup, clientScript, non
 <html ${head.htmlAttributes.toString()} class="has-navbar-fixed-top">
   <head>
     ${head.title.toString()}
-    ${head.meta.toString()} 
+    ${head.meta.toString()}
     ${head.link.toString()}
     ${head.style.toString()}
     <style type="text/css">* {font-family: Share Tech,Helvetica Neue,sans-serif;}</style>

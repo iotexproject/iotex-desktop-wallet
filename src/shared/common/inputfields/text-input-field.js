@@ -15,25 +15,25 @@ export class LabelInputField extends Component {
   }
 
   render() {
-    const {label, name, value, error, placeholder, textArea, readOnly} = this.props;
+    const {label, name, value, error, placeholder, textArea, readOnly, type, containerCssClass} = this.props;
     const InputTag = `${textArea ? 'textarea' : 'input'}`;
     return (
       <div>
         <label className='label'>{label}</label>
         {error ? <p className='help is-danger'>{error}</p> : null}
         <div className='field has-addons'>
-          <p className='control is-expanded'>
-            <InputTag
-              style={{backgroundColor: '#f7f7f7', borderColor: '#ffffff', boxShadow: ''}}
-              name={name}
-              className={`${textArea ? 'textarea' : 'input'} ${error ? 'is-danger' : ''}`}
-              type='text'
-              value={value}
-              placeholder={placeholder}
-              onInput={this.handleInputChange}
-              disabled={readOnly}
-              autocomplete={name === 'priKey' ? 'off' : 'on'}
-            />
+          <p className={`control is-expanded ${containerCssClass}`}>
+              <InputTag
+                style={{backgroundColor: '#f7f7f7', borderColor: '#ffffff', boxShadow: ''}}
+                name={name}
+                className={`${textArea ? 'textarea' : 'input'} ${error ? 'is-danger' : ''}`}
+                type={`${type ? type : 'text'}`}
+                value={value}
+                placeholder={placeholder}
+                onInput={this.handleInputChange}
+                disabled={readOnly}
+                autocomplete={name === 'priKey' ? 'off' : 'on'}
+              />
           </p>
           {this.props.children}
         </div>
