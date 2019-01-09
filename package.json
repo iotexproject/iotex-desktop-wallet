@@ -61,7 +61,7 @@
     "@babel/preset-flow": "7.0.0",
     "@babel/preset-react": "7.0.0",
     "@babel/register": "7.0.0",
-    "ava": "1.0.0-rc.2",
+    "ava": "1.0.1",
     "axios": "0.18.0",
     "babel-eslint": "9.0.0",
     "babel-loader": "8.0.4",
