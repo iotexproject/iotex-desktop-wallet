@@ -1,6 +1,6 @@
 # web-onefx-boilerplate
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bdc4bc3ce5c84e5fb18c69d10491d80f)](https://app.codacy.com/app/puncsky/web-onefx-boilerplate?utm_source=github.com&utm_medium=referral&utm_content=puncsky/web-onefx-boilerplate&utm_campaign=Badge_Grade_Dashboard) [![CircleCI](https://circleci.com/gh/puncsky/web-onefx-boilerplate/tree/master.svg?style=svg)](https://circleci.com/gh/puncsky/web-onefx-boilerplate/tree/master)
+[![CircleCI](https://circleci.com/gh/puncsky/web-onefx-boilerplate/tree/master.svg?style=svg)](https://circleci.com/gh/puncsky/web-onefx-boilerplate/tree/master)
 
 
 ## Getting Started
