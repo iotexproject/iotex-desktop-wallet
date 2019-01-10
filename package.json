@@ -101,7 +101,7 @@
     "shader": "1.0.0",
     "sw-precache-webpack-plugin": "0.11.5",
     "uglifyjs-webpack-plugin": "1.3.0",
-    "webpack": "4.27.1",
+    "webpack": "4.28.1",
     "webpack-bundle-analyzer": "2.13.1",
     "webpack-manifest-plugin": "2.0.4"
   },
