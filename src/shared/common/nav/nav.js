@@ -8,6 +8,7 @@ import isBrowser from 'is-browser';
 import {assetURL} from '../../../lib/asset-url';
 import {t} from '../../../lib/iso-i18n';
 import {BLOCKS, SITE_URL, EXECUTIONS, TRANSFERS, VOTES, WALLET, IOTEX_URL} from '../site-url';
+import {titleFont} from '../../../shared/common/styles/style-font';
 
 function Icon() {
   return (
@@ -207,4 +208,5 @@ export class Nav extends Component {
 
 const NavWrapper = styled('div', props => ({
   width: '100%',
+  fontFamily: titleFont,
 }));

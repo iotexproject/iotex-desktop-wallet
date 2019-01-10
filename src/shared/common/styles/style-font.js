@@ -1,4 +1,8 @@
-const fontFamily = 'Actor,Helvetica Neue,sans-serif !important';
+const originFontFamily = 'Actor,Helvetica Neue,sans-serif !important';
+export const titleFont = 'Share Tech,Helvetica Neue,sans-serif !important';
+export const contentFonts = 'Roboto,Actor,Helvetica Neue';
+const useOrigin = false;
+const fontFamily = useOrigin ? originFontFamily : contentFonts;
 
 export const fonts = {
   body: {
