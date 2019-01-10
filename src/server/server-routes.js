@@ -17,6 +17,7 @@ import {setConsensusMetricsRoutes} from '../shared/consensus-metrics/consensus-m
 import {setContractRoutes} from '../shared/wallet/contract/contract-handler';
 import {setWalletRoutes} from '../shared/wallet/wallet-handler';
 import {setDelegateRoutes} from '../shared/delegates/delegates-handler';
+import {setDepositRoutes} from '../shared/deposit/deposit-handler';
 import {version} from '../../package.json';
 import {setJsonRpcRoutes} from './json-rpc/json-rpc';
 
@@ -68,6 +69,8 @@ export function setServerRoutes(server: Server) {
 
   setBlockRoutes(server);
   setBlocksRoutes(server);
+
+  setDepositRoutes(server);
 
   setWalletRoutes(server);
   setContractRoutes(server);

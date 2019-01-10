@@ -143,6 +143,25 @@ export class TRANSFERS {
   }
 }
 
+export class DEPOSIT {
+
+  static get INDEX_SETTLE(): string {
+    return '/settle-deposit/:id';
+  }
+
+  static get INDEX_CREATE(): string {
+    return '/create-deposit/:id';
+  }
+
+  static get GET_SETTLE(): string {
+    return '/api/getSettleDepositId';
+  }
+
+  static get GET_CREATE(): string {
+    return '/api/getcreateDepositId';
+  }
+}
+
 export class NAV {
 
   static get STATISTIC(): string {

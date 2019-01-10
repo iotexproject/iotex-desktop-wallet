@@ -16,9 +16,11 @@ import type {
   TTransfer,
   TVote,
   TReceipt,
+  TCreateDeposit,
+  TSettleDeposit,
 } from '../../../entities/explorer-types';
 import twilio from '../../../shared/common/twilio';
-import type {TRawExecutionRequest, TSettleDeposit, TCreateDeposit} from '../../../entities/wallet-types';
+import type {TRawExecutionRequest} from '../../../entities/wallet-types';
 import type {TSendExecutionResponse} from '../../../entities/explorer-types';
 import type {TExecution} from '../../../entities/explorer-types';
 import {fromGTransfer,
@@ -186,6 +188,12 @@ export interface IGExplorer {
   createDeposit(request: TCreateDepositRequest): TCreateDepositResponse,
 
   settleDeposit(request: TSettleDepositRequest): TSettleDepositResponse,
+
+  // get create deposit from createDeposit id
+  getCreateDeposit(createDepositID: string): GCreateDeposit,
+
+  // get settle deposit from settleDeposit id
+  getSettleDeposit(settleDeposit: string): GSettleDeposit,
 }
 
 export class IotexCoreExplorer {
@@ -575,6 +583,19 @@ export class IotexCoreExplorer {
     return await promisify(this.exp.settleDeposit)(request);
   }
 
+  // get create deposit from createDeposit id
+  async getCreateDeposit(createDepositID: string): Promise<TCreateDeposit> {
+    return this.fetchValue('createDeposit', createDepositID, async() => {
+      return fromGCreateDeposit(await promisify(this.exp.getCreateDeposit)(createDepositID));
+    });
+  }
+
+  // get settle deposit from settleDeposit id
+  async getSettleDeposit(settleDepositID: string): Promise<TSettleDeposit> {
+    return this.fetchValue('settleDeposit', settleDepositID, async() => {
+      return fromGSettleDeposit(await promisify(this.exp.getSettleDeposit)(settleDepositID));
+    });
+  }
   async report(): Promise<void> {
     if (this.lastFetchTime - this.lastUpdateTime > 1000 * 60 * 10 && !this.reported) {
       this.reported = true;

@@ -10,6 +10,8 @@ import blocks from '../../blocks/blocks-reducer';
 import address from '../../address/address-reducer';
 import vote from '../../vote/vote-reducer';
 import votes from '../../votes/votes-reducer';
+import createDeposit from '../../deposit/create-deposit-reducer';
+import settleDeposit from '../../deposit/settle-deposit-reducer';
 import nav from '../nav/nav-reducer';
 import app from '../../app-container';
 import consensus from '../../consensus-metrics/consensus-metrics-reducer';
@@ -35,6 +37,8 @@ export const rootReducer = combineReducers({
   address,
   vote,
   votes,
+  createDeposit,
+  settleDeposit,
   consensus,
   dialogue,
   delegates,
