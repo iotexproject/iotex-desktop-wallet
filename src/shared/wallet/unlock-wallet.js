@@ -27,7 +27,7 @@ export class UnlockWallet extends Component {
       message: '',
       priKeyError: '',
       fetching: false,
-      hideWarning: false
+      hideWarning: false,
     };
 
     (this: any).handleInputChange = this.handleInputChange.bind(this);
@@ -92,7 +92,7 @@ export class UnlockWallet extends Component {
         <article className={`message is-warning ${hideWarning ? 'warning-hidden' : ''}`}>
           <div className='message-body'>
             <span onClick={this.setHideWarning} class='warning-close-icon'>x</span>
-            <i class="fas fa-exclamation-triangle warning-icon"></i>{t('unlock-wallet.warn.message')}
+            <i class='fas fa-exclamation-triangle warning-icon'></i>{t('unlock-wallet.warn.message')}
           </div>
         </article>
 
@@ -124,7 +124,7 @@ export class UnlockWallet extends Component {
   }
 
   setHideWarning() {
-    this.setState({hideWarning : true});
+    this.setState({hideWarning: true});
   }
 
   render() {

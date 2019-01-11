@@ -45,8 +45,8 @@ settleDeposit.recipient: Recipient
 createDeposit.sender: Sender
 createDeposit.recipient: Recipient
 meta.nonce: Nonce
-meta.gasLimit	: Gas Limit
-meta.gasPrice	: Gas Price
+meta.gasLimit: Gas Limit
+meta.gasPrice: Gas Price
 block.title: Block Details
 block.id: Block Id
 block.totalForged: Total Forged

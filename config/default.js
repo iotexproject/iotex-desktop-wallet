@@ -60,7 +60,7 @@ module.exports = {
     'font-src': [
       'self',
       'data:',
-      'https://fonts.gstatic.com/s/sharetech/',
+      'https://fonts.gstatic.com/s/',
       'https://use.fontawesome.com/releases/v5.0.9/webfonts/',
     ],
     'img-src': [
