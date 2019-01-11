@@ -14,7 +14,6 @@ export function rootHtml({styletron, jsonGlobals, reactMarkup, clientScript, non
     ${head.meta.toString()}
     ${head.link.toString()}
     ${head.style.toString()}
-    <style type="text/css">* {font-family: Share Tech,Helvetica Neue,sans-serif;}</style>
     <link rel="icon" type="image/png" sizes="any" href="${assetURL('/favicon.png')}" />
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     ${stylesheets}
