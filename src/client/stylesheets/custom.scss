@@ -227,6 +227,52 @@ a.navbar-item:hover {
   color: #000000 !important;
 }
 
+.warning-icon {
+  color: #ffdd57;
+  padding-right: 5px;
+}
+
+.warning-close-icon {
+  float: right;
+  display: inline-block;
+  background: transparent;
+  cursor: pointer;
+}
+
+.warning-hidden {
+  display: none !important;
+}
+
+.input-with-icon-eye-slash:before {
+    content: "\f070";
+    font-family: "Font Awesome 5 Free";
+    font-style: normal;
+    font-weight: 900;
+    text-decoration: inherit;
+    color: #d4d0d0;
+    font-size: 18px;
+    padding-right: 0.5em;
+    position: absolute;
+    top: 5px;
+    right: 0;
+    z-index: 10;
+}
+
+.input-with-icon-eye:before {
+    content: "\f06e";
+    font-family: "Font Awesome 5 Free";
+    font-style: normal;
+    font-weight: 900;
+    text-decoration: inherit;
+    color: #d4d0d0;
+    font-size: 18px;
+    padding-right: 0.5em;
+    position: absolute;
+    top: 5px;
+    right: 0;
+    z-index: 10;
+}
+
 // Navbar
 .navbar-menu, .navbar-dropdown {
   background-color: #0a0a0a;
@@ -321,7 +367,6 @@ a.navbar-item:hover, .navbar-link:hover {
   background-color: rgb(253, 237, 235);
   padding-left: 10px;
   padding-right: 10px;
-  max-width: 130px;
   margin-left: 10px;
   display: inline-block;
 }

@@ -82,6 +82,7 @@ export class NewWallet extends Component {
           name='priKey'
           value={wallet.privateKey}
           placeholder={t('wallet.account.addressPlaceHolder')}
+          containerCssClass='input-with-icon-eye'
           readOnly={true}>
           <p className='control'>
             {copied ?
@@ -95,9 +96,9 @@ export class NewWallet extends Component {
 
         <article style={{marginTop: '10px'}} className='message is-warning'>
           <div className='message-body'>
-            <p><strong>{t('new-wallet.warn.do-not-lose')}</strong> {t('new-wallet.warn.cant-recover')}</p>
-            <p><strong>{t('new-wallet.warn.do-not-share')}</strong> {t('new-wallet.warn.stolen')}</p>
-            <p><strong>{t('new-wallet.warn.backup')}</strong> {t('new-wallet.warn.secure')}</p>
+            <p><i class="fas fa-exclamation-triangle warning-icon"></i><strong>{t('new-wallet.warn.do-not-lose')}</strong> {t('new-wallet.warn.cant-recover')}</p>
+            <p><i class="fas fa-exclamation-triangle warning-icon"></i><strong>{t('new-wallet.warn.do-not-share')}</strong> {t('new-wallet.warn.stolen')}</p>
+            <p><i class="fas fa-exclamation-triangle warning-icon"></i><strong>{t('new-wallet.warn.backup')}</strong> {t('new-wallet.warn.secure')}</p>
           </div>
         </article>
 

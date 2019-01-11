@@ -47,7 +47,7 @@ module.exports = {
       'unsafe-inline',
       'http://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css',
       'http://fonts.googleapis.com/css',
-      'https://use.fontawesome.com/releases/v5.0.7/js/all.js',
+      'http://use.fontawesome.com/releases/v5.0.9/css/all.css',
     ],
     'frame-src': [
     ],
@@ -61,6 +61,7 @@ module.exports = {
       'self',
       'data:',
       'https://fonts.gstatic.com/s/sharetech/',
+      'https://use.fontawesome.com/releases/v5.0.9/webfonts/',
     ],
     'img-src': [
       '*',
@@ -73,7 +74,7 @@ module.exports = {
     ],
     'script-src': [
       'self',
-      'https://use.fontawesome.com/releases/v5.0.7/js/all.js',
+      'https://use.fontawesome.com/releases/v5.0.9/js/all.js',
       'https://www.google-analytics.com/analytics.js',
       'https://d3js.org/d3.v4.min.js',
       'https://ethereum.github.io/solc-bin/bin/',

@@ -44,7 +44,7 @@ export class App extends Component {
             {rel: 'stylesheet', type: 'text/css', href: `${assetURL('/stylesheets/custom.css')}`},
           ]}
           script={[
-            {defer: true, src: 'https://use.fontawesome.com/releases/v5.0.7/js/all.js'},
+            {defer: true, src: 'https://use.fontawesome.com/releases/v5.0.9/js/all.js'},
           ]}
         />
         <NavContainer/>

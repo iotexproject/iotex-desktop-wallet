@@ -27,12 +27,14 @@ export class UnlockWallet extends Component {
       message: '',
       priKeyError: '',
       fetching: false,
+      hideWarning: false
     };
 
     (this: any).handleInputChange = this.handleInputChange.bind(this);
     (this: any).unlockWallet = this.unlockWallet.bind(this);
     (this: any).newWalletClick = this.newWalletClick.bind(this);
     (this: any).setDialogueNotActiveButton = this.setDialogueNotActiveButton.bind(this);
+    (this: any).setHideWarning = this.setHideWarning.bind(this);
   }
 
   handleInputChange(name: string, value: string) {
@@ -73,6 +75,8 @@ export class UnlockWallet extends Component {
 
   unlock(priKey: string, priKeyError: string, message: string, fetching: boolean) {
     const {chainId} = this.props;
+    const {hideWarning} = this.state;
+
     return (
       <div>
         <Dialogue
@@ -85,14 +89,19 @@ export class UnlockWallet extends Component {
         </Dialogue>
         <p className='wallet-title'>{t('unlock-wallet.title')}</p>
 
-        <article className='message is-warning'>
-          <div className='message-body'>{t('unlock-wallet.warn.message')}</div>
+        <article className={`message is-warning ${hideWarning ? 'warning-hidden' : ''}`}>
+          <div className='message-body'>
+            <span onClick={this.setHideWarning} class='warning-close-icon'>x</span>
+            <i class="fas fa-exclamation-triangle warning-icon"></i>{t('unlock-wallet.warn.message')}
+          </div>
         </article>
 
         {message && <div className='notification is-danger'>{t('wallet.error.fix')}</div>}
         <LabelInputField
           label={t('wallet.account.enterPrivateKey')}
           name='priKey'
+          type='password'
+          containerCssClass='input-with-icon-eye-slash'
           value={priKey}
           error={t(priKeyError)}
           placeholder={t('wallet.account.placehold.privateKey')}
@@ -112,6 +121,10 @@ export class UnlockWallet extends Component {
         </div>
       </div>
     );
+  }
+
+  setHideWarning() {
+    this.setState({hideWarning : true});
   }
 
   render() {
