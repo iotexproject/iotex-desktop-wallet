@@ -11,10 +11,25 @@ import {TransfersContainer} from './transfers/transfers-container';
 import {AddressContainer} from './address/address-container';
 import {BlockContainer} from './block/block-container';
 import {BlocksContainer} from './blocks/blocks-container';
-import {SITE_URL, BLOCK, BLOCKS, ADDRESS, EXECUTION, EXECUTIONS, TRANSFER, TRANSFERS, VOTE, VOTES, WALLET} from './common/site-url';
+import {
+  SITE_URL,
+  BLOCK,
+  BLOCKS,
+  ADDRESS,
+  EXECUTION,
+  EXECUTIONS,
+  TRANSFER,
+  TRANSFERS,
+  VOTE,
+  VOTES,
+  WALLET,
+  DEPOSIT,
+} from './common/site-url';
 import {VoteContainer} from './vote/vote-container';
 import {VotesContainer} from './votes/votes-container';
 import {WalletContainer} from './wallet/wallet-container';
+import {SettleDepositContainer} from './deposit/settle-deposit-container';
+import {CreateDepositContainer} from './deposit/create-deposit-container';
 
 export function createViewRoutes(routePrefix = '/') {
   return (
@@ -27,6 +42,9 @@ export function createViewRoutes(routePrefix = '/') {
 
       <RoutePage path={BLOCKS.INDEX} component={BlocksContainer}/>
       <RoutePage path={BLOCK.INDEX} component={BlockContainer}/>
+
+      <RoutePage path={DEPOSIT.INDEX_SETTLE} component={SettleDepositContainer}/>
+      <RoutePage path={DEPOSIT.INDEX_CREATE} component={CreateDepositContainer}/>
 
       <RoutePage path={ADDRESS.INDEX} component={AddressContainer}/>
 

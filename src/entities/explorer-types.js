@@ -149,3 +149,39 @@ export type TExecution = {
   blockId: string,
   isPending: boolean,
 }
+
+export type TCreateDeposit = {
+  id: string,
+  nonce: number,
+  signature: string,
+  amount: string,
+  index: number,
+  sender: string,
+  recipient: string,
+  gasLimit: number,
+  gasPrice: string,
+  version: number,
+  senderPubKey: string,
+  fee: string,
+  timestamp: number,
+  blockId: string,
+  isPending: boolean,
+}
+
+export type TSettleDeposit = {
+  id: string,
+  nonce: number,
+  signature: string,
+  amount: string,
+  index: number,
+  sender: string,
+  recipient: string,
+  gasLimit: number,
+  gasPrice: string,
+  version: number,
+  senderPubKey: string,
+  fee: string,
+  timestamp: number,
+  blockId: string,
+  isPending: boolean,
+}
