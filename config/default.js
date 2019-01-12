@@ -11,6 +11,14 @@ module.exports = {
     cookie: {
       secrets: ['insecure plain text', 'insecure secret here'],
     },
+    noSecurityHeadersRoutes: {
+      '/api-gateway/': true,
+      '/api/': true,
+    },
+    noCsrfRoutes: {
+      '/api-gateway/': true,
+      '/api/': true,
+    },
   },
   ssm: {
     enabled: false,

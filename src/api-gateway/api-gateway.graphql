@@ -1,0 +1,14 @@
+scalar Date
+
+
+type Query {
+
+  # Meta
+
+  # get the health state by the current date
+  health: Date
+}
+
+type Mutation {
+  ping: String
+}
