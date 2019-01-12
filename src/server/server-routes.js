@@ -4,6 +4,7 @@ import type {Server} from 'onefx/lib/server';
 import {noopReducer} from 'onefx/lib/iso-react-render/root/root-reducer';
 import {AppContainer} from '../shared/app-container';
 import {setApiGateway} from '../api-gateway/api-gateway';
+import {apolloSSR} from '../shared/common/apollo-ssr';
 
 export function setServerRoutes(server: Server) {
   // Health checks
@@ -13,9 +14,9 @@ export function setServerRoutes(server: Server) {
 
   setApiGateway(server);
 
-  server.get('SPA', '/', function onRoute(ctx) {
+  server.get('SPA', '/', async function onRoute(ctx) {
     ctx.setState('base.blah', 'this is a sample initial state');
-    ctx.body = ctx.isoReactRender({
+    ctx.body = await apolloSSR(ctx, server.config.apiGatewayUrl, {
       VDom: (
         <AppContainer/>
       ),
