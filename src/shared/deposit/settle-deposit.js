@@ -124,12 +124,12 @@ export class SettleDepositSummary extends Component {
       },
       {
         c1: t('meta.block'),
-        c2: (<Link to={`/blocks/${settleDeposit.blockId}`} className='link'>{settleDeposit.blockId}</Link>),
+        c2: (<Link to={`/blocks/${settleDeposit.blockID}`} className='link'>{settleDeposit.blockID}</Link>),
       },
     ];
     return (
       <SingleItemTable
-        subtitle={settleDeposit.id}
+        subtitle={settleDeposit.ID}
         rows={rows}
       />
     );

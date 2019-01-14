@@ -115,7 +115,7 @@ export class TransferSummary extends Component {
         c2: fromNow(transfer.timestamp),
       }, {
         c1: t('meta.block'),
-        c2: (<Link to={`/blocks/${transfer.blockId}`} className='link'>{transfer.blockId}</Link>),
+        c2: (<Link to={`/blocks/${transfer.blockID}`} className='link'>{transfer.blockID}</Link>),
       },
     ];
     if (transfer.payload) {
@@ -125,7 +125,7 @@ export class TransferSummary extends Component {
     }
     return (
       <SingleItemTable
-        subtitle={transfer.id}
+        subtitle={transfer.ID}
         rows={rows}
       />
     );

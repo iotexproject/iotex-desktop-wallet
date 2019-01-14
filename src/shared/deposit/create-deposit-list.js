@@ -41,8 +41,8 @@ export class CreateDepositsListOnlyId extends Component {
           {createDeposits.map((settleDeposit: TSettleDeposit) => (
             <tr className='bx--parent-row-v2' data-parent-row>
               <td className={isHome ? 'single-col-row' : ''}>
-                <Link to={`/create-deposit/${settleDeposit.id}`} className='link'>
-                  {singleColEllipsisText(settleDeposit.id, this.props.width, isHome)}
+                <Link to={`/create-deposit/${settleDeposit.ID}`} className='link'>
+                  {singleColEllipsisText(settleDeposit.ID, this.props.width, isHome)}
                 </Link>
               </td>
               {!isHome && (

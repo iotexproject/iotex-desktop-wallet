@@ -8,6 +8,7 @@ import {
 
 import {Transfers, TransfersList, TransfersListOnlyId} from '../transfers';
 import {RootTestComponent} from '../../common/root/root-test-component';
+import type {TTransfer} from '../../../entities/explorer-types';
 
 test('Transfers contains TransfersList', t => {
   const tree = renderIntoDocument(
@@ -49,15 +50,15 @@ test('Transfers contains TransfersList', t => {
 });
 
 test('TransfersList contains attributes', t => {
-  const transfers = [
+  const transfers: Array<TTransfer> = [
     {
-      id: 'id_1',
+      ID: 'id_1',
       sender: 's_1',
       recipient: 'r_1',
       amount: 1,
     },
     {
-      id: 'id_2',
+      ID: 'id_2',
       sender: 's_2',
       recipient: 'r_2',
       amount: 2,
@@ -86,15 +87,15 @@ test('TransfersList contains attributes', t => {
 });
 
 test('TransfersList has blank sender', t => {
-  const transfers = [
+  const transfers: Array<TTransfer> = [
     {
-      id: 'id_1',
+      ID: 'id_1',
       sender: '',
       recipient: 'r_1',
       amount: 1,
     },
     {
-      id: 'id_2',
+      ID: 'id_2',
       sender: '',
       recipient: 'r_2',
       amount: 2,
@@ -123,8 +124,8 @@ test('TransfersList has blank sender', t => {
 });
 
 test('TransfersList not array', t => {
-  const transfers = {
-    id: 'id_1',
+  const transfers: TTransfer = {
+    ID: 'id_1',
     sender: 's_1',
     recipient: 'r_1',
     amount: 1,
@@ -153,15 +154,15 @@ test('TransfersList not array', t => {
 });
 
 test('TransfersListOnlyId contains attributes', t => {
-  const transfers = [
+  const transfers: Array<TTransfer> = [
     {
-      id: 'id_1',
+      ID: 'id_1',
       sender: 's_1',
       recipient: 'r_1',
       amount: 1,
     },
     {
-      id: 'id_2',
+      ID: 'id_2',
       sender: 's_2',
       recipient: 'r_2',
       amount: 2,
@@ -187,8 +188,8 @@ test('TransfersListOnlyId contains attributes', t => {
 });
 
 test('TransfersListOnlyId contains one item', t => {
-  const transfers = {
-    id: 'id_1',
+  const transfers: TTransfer = {
+    ID: 'id_1',
     sender: 's_1',
     recipient: 'r_1',
     amount: 1,

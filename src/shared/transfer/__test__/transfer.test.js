@@ -8,21 +8,23 @@ import {
 
 import {Transfer, TransferSummary} from '../transfer';
 import {RootTestComponent} from '../../common/root/root-test-component';
+import type {TTransfer} from '../../../entities/explorer-types';
 
 test('Transfer contains TransferSummary', t => {
+  const transfer: TTransfer = {
+    ID: 'id',
+    sender: 'sender',
+    recipient: 'recipient',
+    amount: 123,
+    fee: 123,
+    timestamp: 123,
+    blockID: 'blockId',
+  };
   const tree = renderIntoDocument(
     <RootTestComponent>
       <Transfer
         state={{
-          transfer: {
-            id: 'id',
-            sender: 'sender',
-            recipient: 'recipient',
-            amount: 123,
-            fee: 123,
-            timestamp: 123,
-            blockId: 'blockId',
-          },
+          transfer,
           fetching: false,
           error: {
             code: '',
@@ -42,14 +44,14 @@ test('Transfer contains TransferSummary', t => {
 
 // eslint-disable-next-line max-statements
 test('TransferSummary contains attributes', t => {
-  const transfer = {
-    id: 'id',
+  const transfer: TTransfer = {
+    ID: 'id',
     sender: 'sender',
     recipient: 'recipient',
     amount: 123000000000000000,
     fee: 123,
     timestamp: 123,
-    blockId: 'blockId',
+    blockID: 'blockId',
   };
   const tree = renderIntoDocument(
     <RootTestComponent>
@@ -89,14 +91,14 @@ test('TransferSummary contains attributes', t => {
 
 // eslint-disable-next-line max-statements
 test('TransferSummary sender is blank', t => {
-  const transfer = {
-    id: 'id',
+  const transfer: TTransfer = {
+    ID: 'id',
     sender: '',
     recipient: 'recipient',
     amount: 123000000000000000000,
     fee: 123,
     timestamp: 123,
-    blockId: 'blockId',
+    blockID: 'blockId',
   };
   const tree = renderIntoDocument(
     <RootTestComponent>

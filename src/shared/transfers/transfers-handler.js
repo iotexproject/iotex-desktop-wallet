@@ -1,6 +1,7 @@
 import {createViewRoutes} from '../view-routes';
 import {rootReducer} from '../common/root/root-reducer';
 import {TRANSFERS} from '../common/site-url';
+import {logger} from '../../lib/integrated-gateways/logger';
 
 export function setTransfersHandler(server) {
   const {gateways: {iotexCore}} = server;
@@ -23,12 +24,13 @@ export function setTransfersHandler(server) {
 
       ctx.body = {
         ok: true,
-        transfers: await iotexCore.getLastTransfersByRange(tip, offset, count, showCoinBase !== undefined ? showCoinBase : true),
+        transfers: await iotexCore.getLastTransfersByRange(tip, offset, count, Boolean(showCoinBase)),
         offset,
         count,
         tip,
       };
     } catch (error) {
+      logger.error('failed to getTransfers', error);
       ctx.body = {ok: false, error: {code: 'FAIL_GET_TRANSFERS', message: 'transfers.error.get'}};
     }
   }

@@ -8,6 +8,7 @@ import {
 
 import {Executions, ExecutionsList, ExecutionsListOnlyId} from '../executions';
 import {RootTestComponent} from '../../common/root/root-test-component';
+import type {TExecution} from '../../../entities/explorer-types';
 
 test('Executions contains ExecutionsList', t => {
   const tree = renderIntoDocument(
@@ -49,15 +50,15 @@ test('Executions contains ExecutionsList', t => {
 });
 
 test('ExecutionsList contains attributes', t => {
-  const executions = [
+  const executions: Array<TExecution> = [
     {
-      id: 'id_1',
+      ID: 'id_1',
       executor: 's_1',
       contract: 'r_1',
       amount: 1,
     },
     {
-      id: 'id_2',
+      ID: 'id_2',
       executor: 's_2',
       contract: 'r_2',
       amount: 2,
@@ -84,15 +85,15 @@ test('ExecutionsList contains attributes', t => {
 });
 
 test('ExecutionsList has blank executor', t => {
-  const executions = [
+  const executions: Array<TExecution> = [
     {
-      id: 'id_1',
+      ID: 'id_1',
       executor: '',
       contract: 'r_1',
       amount: 1,
     },
     {
-      id: 'id_2',
+      ID: 'id_2',
       executor: '',
       contract: 'r_2',
       amount: 2,
@@ -119,8 +120,8 @@ test('ExecutionsList has blank executor', t => {
 });
 
 test('ExecutionsList not array', t => {
-  const executions = {
-    id: 'id_1',
+  const executions: TExecution = {
+    ID: 'id_1',
     executor: 's_1',
     contract: 'r_1',
     amount: 1,
@@ -147,15 +148,15 @@ test('ExecutionsList not array', t => {
 });
 
 test('ExecutionsListOnlyId contains attributes', t => {
-  const executions = [
+  const executions: Array<TExecution> = [
     {
-      id: 'id_1',
+      ID: 'id_1',
       executor: 's_1',
       contract: 'r_1',
       amount: 1,
     },
     {
-      id: 'id_2',
+      ID: 'id_2',
       executor: 's_2',
       contract: 'r_2',
       amount: 2,
@@ -179,8 +180,8 @@ test('ExecutionsListOnlyId contains attributes', t => {
 });
 
 test('ExecutionsListOnlyId contains one item', t => {
-  const executions = {
-    id: 'id_1',
+  const executions: TExecution = {
+    ID: 'id_1',
     executor: 's_1',
     contract: 'r_1',
     amount: 1,

@@ -1,6 +1,7 @@
 import {createViewRoutes} from '../view-routes';
 import {rootReducer} from '../common/root/root-reducer';
 import {TRANSFER} from '../common/site-url';
+import {logger} from '../../lib/integrated-gateways/logger';
 
 export function setTransferHandler(server) {
   const {gateways: {iotexCore}} = server;
@@ -17,8 +18,9 @@ export function setTransferHandler(server) {
     const {id} = ctx.request.body;
 
     try {
-      ctx.body = {ok: true, transfer: await iotexCore.getTransferById(ctx.request.body.id)};
+      ctx.body = {ok: true, transfer: await iotexCore.getTransferByID(ctx.request.body.id)};
     } catch (error) {
+      logger.error('failed to getTransferId', error);
       ctx.body = {ok: false, error: {code: 'FAIL_GET_TRANSFER', message: 'transfer.error.get', data: {id}}};
     }
   }

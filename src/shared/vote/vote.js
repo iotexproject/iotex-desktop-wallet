@@ -130,7 +130,7 @@ export class VoteSummary extends Component {
     return (
       <div>
         <SingleItemTable
-          subtitle={v.id}
+          subtitle={v.ID}
           rows={rows}
         />
       </div>

@@ -1,1 +1,0 @@
-export * from './iotex-core';

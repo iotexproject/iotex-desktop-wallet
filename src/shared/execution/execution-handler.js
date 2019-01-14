@@ -1,6 +1,7 @@
 import {createViewRoutes} from '../view-routes';
 import {rootReducer} from '../common/root/root-reducer';
 import {EXECUTION} from '../common/site-url';
+import {logger} from '../../lib/integrated-gateways/logger';
 
 export function setExecutionHandler(server) {
   const {gateways: {iotexCore}} = server;
@@ -17,16 +18,18 @@ export function setExecutionHandler(server) {
     const {id} = ctx.request.body;
 
     try {
-      ctx.body = {ok: true, execution: await iotexCore.getExecutionById(id)};
+      ctx.body = {ok: true, execution: await iotexCore.getExecutionByID(id)};
     } catch (error) {
+      logger.error('failed to getExecutionId', error);
       ctx.body = {ok: false, message: 'execution.error.failGetExecution', data: {id}};
     }
   }
 
   async function getExecutionReceipt(ctx, next) {
     try {
-      ctx.body = {ok: true, receipt: await iotexCore.getReceiptByExecutionId(ctx.request.body.id)};
+      ctx.body = {ok: true, receipt: await iotexCore.getReceiptByExecutionID(ctx.request.body.id)};
     } catch (error) {
+      logger.error('failed to getExecutionReceipt', error);
       ctx.body = {ok: false, message: error};
     }
   }
@@ -35,6 +38,7 @@ export function setExecutionHandler(server) {
     try {
       ctx.body = {ok: true, executions: await iotexCore.getExecutionsByAddress(ctx.request.body.id, ctx.request.body.offset, ctx.request.body.count)};
     } catch (error) {
+      logger.error('failed to getContractExecutions', error);
       ctx.body = {ok: false, error};
     }
   }

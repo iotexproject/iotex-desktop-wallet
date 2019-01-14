@@ -187,8 +187,8 @@ export class BlockSummary extends Component {
         />
       );
     }
-    const b = this.props.block;
-    if (!b) {
+    const {block} = this.props;
+    if (!block) {
       return (
         <EmptyMessage item={t('meta.block')}/>
       );
@@ -196,10 +196,10 @@ export class BlockSummary extends Component {
     const rows = [
       {
         c1: t('meta.transactions'),
-        c2: ((b.transfers || 0) + (b.votes || 0)),
+        c2: ((block.transfers || 0) + (block.votes || 0)),
       }, {
         c1: t('meta.height'),
-        c2: (b.height || 0),
+        c2: (block.height || 0),
       },
       // {
       //   c1: t('block.totalForged'),
@@ -207,16 +207,16 @@ export class BlockSummary extends Component {
       // },
       {
         c1: t('block.totalAmount'),
-        c2: (<span>{fromRau(b.amount || 0)} Iotx</span>),
+        c2: (<span>{fromRau(block.amount || 0)} Iotx</span>),
       }, {
         c1: t('block.size'),
-        c2: (b.size || 0),
+        c2: (block.size || 0),
       }, {
         c1: t('meta.timestamp'),
-        c2: (fromNow(b.timestamp) || 0),
+        c2: (fromNow(block.timestamp) || 0),
       }, {
         c1: t('block.generatedBy'),
-        c2: b.generateBy ? b.generateBy.name || b.generateBy.address : '',
+        c2: block.generateBy ? block.generateBy.name || block.generateBy.address : '',
       },
     ];
     const votes = this.props.chainId !== 1 ? null : (
@@ -243,7 +243,7 @@ export class BlockSummary extends Component {
     return (
       <div>
         <SingleItemTable
-          subtitle={b.id || 0}
+          subtitle={block.ID || 0}
           rows={rows}
         />
         <br></br>

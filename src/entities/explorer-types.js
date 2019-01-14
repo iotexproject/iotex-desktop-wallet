@@ -15,7 +15,7 @@ export type TBlockGenerator = {
 }
 
 export type TBlock = {
-  id: string,
+  ID: string,
   height: number,
   timestamp: number,
   transfers: number,
@@ -28,7 +28,7 @@ export type TBlock = {
 
 export type TTransfer = {
   version: number,
-  id: string,
+  ID: string,
   nonce: number,
   sender: string,
   recipient: string,
@@ -39,13 +39,13 @@ export type TTransfer = {
   isCoinbase: boolean,
   fee: number,
   timestamp: number,
-  blockId: string,
+  blockID: string,
   isPending: boolean,
 }
 
 export type TVote = {
   version: number,
-  id: string,
+  ID: string,
   nonce: number,
   timestamp: number,
   voter: string,
@@ -134,7 +134,7 @@ export type TSendExecutionResponse = {
 }
 
 export type TExecution = {
-  id: string,
+  ID: string,
   amount: number,
   version: number,
   nonce: number,
@@ -146,12 +146,12 @@ export type TExecution = {
   gasPrice: number,
   data: string,
   timestamp: number,
-  blockId: string,
+  blockID: string,
   isPending: boolean,
 }
 
 export type TCreateDeposit = {
-  id: string,
+  ID: string,
   nonce: number,
   signature: string,
   amount: string,
@@ -164,12 +164,12 @@ export type TCreateDeposit = {
   senderPubKey: string,
   fee: string,
   timestamp: number,
-  blockId: string,
+  blockID: string,
   isPending: boolean,
 }
 
 export type TSettleDeposit = {
-  id: string,
+  ID: string,
   nonce: number,
   signature: string,
   amount: string,
@@ -182,6 +182,6 @@ export type TSettleDeposit = {
   senderPubKey: string,
   fee: string,
   timestamp: number,
-  blockId: string,
+  blockID: string,
   isPending: boolean,
 }

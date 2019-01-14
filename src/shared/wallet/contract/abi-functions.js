@@ -10,8 +10,8 @@ import {greenButton} from '../../common/buttons';
 import {WALLET} from '../../common/site-url';
 import {fetchPost} from '../../../lib/fetch-post';
 import {isINTType} from '../validator';
-import type {GExecution} from '../../../server/gateways/iotex-core/iotex-core-types';
 import type {TWallet} from '../../../entities/wallet-types';
+import type {TExecution} from '../../../entities/explorer-types';
 import {encodeInputData} from './abi-to-byte';
 
 export class AbiFunctions extends Component {
@@ -71,7 +71,7 @@ export class AbiFunctions extends Component {
       data = encodeInputData(abiFunctions, selectedFunction, input);
     }
 
-    const rawTransaction: GExecution = {
+    const rawTransaction: TExecution = {
       ID: '',
       amount: '0',
       version: 0x1,

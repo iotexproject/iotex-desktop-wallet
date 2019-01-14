@@ -8,21 +8,23 @@ import {
 
 import {Execution, ExecutionSummary} from '../execution';
 import {RootTestComponent} from '../../common/root/root-test-component';
+import type {TExecution} from '../../../entities/explorer-types';
 
 test('Execution contains ExecutionSummary', t => {
+  const execution: TExecution = {
+    id: 'id',
+    executor: 'executor',
+    contract: 'contract',
+    amount: 123,
+    gas: 123,
+    timestamp: 123,
+    blockId: 'blockId',
+  };
   const tree = renderIntoDocument(
     <RootTestComponent>
       <Execution
         state={{
-          execution: {
-            id: 'id',
-            executor: 'executor',
-            contract: 'contract',
-            amount: 123,
-            gas: 123,
-            timestamp: 123,
-            blockId: 'blockId',
-          },
+          execution,
           fetching: false,
           error: {
             code: 'FAIL',
@@ -40,8 +42,8 @@ test('Execution contains ExecutionSummary', t => {
 
 // eslint-disable-next-line max-statements
 test('ExecutionSummary contains attributes', t => {
-  const execution = {
-    id: 'id',
+  const execution: TExecution = {
+    ID: 'id',
     executor: 'executor',
     contract: 'contract',
     amount: 1000000000000,
@@ -49,7 +51,7 @@ test('ExecutionSummary contains attributes', t => {
     data: 'data',
     nonce: 3,
     timestamp: 4,
-    blockId: 'blockId',
+    blockID: 'blockId',
   };
   const tree = renderIntoDocument(
     <ExecutionSummary
@@ -95,8 +97,8 @@ test('ExecutionSummary contains attributes', t => {
 
 // eslint-disable-next-line max-statements
 test('ExecutionSummary executor is blank', t => {
-  const execution = {
-    id: 'id',
+  const execution: TExecution = {
+    ID: 'id',
     executor: '',
     contract: 'contract',
     amount: 1000000000000000,
@@ -104,7 +106,7 @@ test('ExecutionSummary executor is blank', t => {
     gas: 2,
     nonce: 3,
     timestamp: 4,
-    blockId: 'blockId',
+    blockID: 'blockId',
   };
   const tree = renderIntoDocument(
     <ExecutionSummary

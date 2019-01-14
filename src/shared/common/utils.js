@@ -16,13 +16,13 @@ export function ellipsisText(s, width) {
 }
 
 export function singleColEllipsisText(s, width, isHome) {
-  if (width > NARROW_WIDTH && isHome) {
+  if (width > NARROW_WIDTH && isHome && s) {
     const length = s.length;
     const newLen = Math.floor(width / length) - 6;
     const subLen = newLen >= MIN_SUB_LENGTH ? newLen : MIN_SUB_LENGTH;
     return `${s.substring(0, subLen)}...${s.substring(length - subLen, length)}`;
   }
-  if (width <= 600) {
+  if (width <= 600 && s) {
     const length = s.length;
     const newLen = Math.floor(width / length) + 10;
     const subLen = newLen >= MIN_SUB_LENGTH ? newLen : MIN_SUB_LENGTH;

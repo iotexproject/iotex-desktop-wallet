@@ -5,12 +5,11 @@ import {LabelInputField, TextInputField} from '../../common/inputfields/text-inp
 import type {TRawExecutionRequest, TWallet} from '../../../entities/wallet-types';
 import {acceptableNonce, isValidJSON, isValidRawAddress, onlyNumber} from '../validator';
 import {t} from '../../../lib/iso-i18n';
-import type {TAddressDetails} from '../../../entities/explorer-types';
+import type {TAddressDetails, TExecution} from '../../../entities/explorer-types';
 import {WALLET} from '../../common/site-url';
 import {fetchPost} from '../../../lib/fetch-post';
 import {BroadcastFail, BroadcastSuccess} from '../broadcastedTransaction';
 import {Dialogue} from '../../common/dialogue/dialogue';
-import type {GExecution} from '../../../server/gateways/iotex-core/iotex-core-types';
 import {cancelButton, clearButton, greenButton} from '../../common/buttons';
 import {INPUT_READONLY} from '../wallet';
 import {AbiFunctions} from './abi-functions';
@@ -244,7 +243,7 @@ export class Interact extends Component {
     });
   }
 
-  displayRawTransaction(rawTransaction: GExecution) {
+  displayRawTransaction(rawTransaction: TExecution) {
     const cleanedTransaction = {
       ...rawTransaction,
       data: `0x${rawTransaction.data}`,
