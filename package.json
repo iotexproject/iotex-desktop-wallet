@@ -15,7 +15,7 @@
     "postinstall": "npm run flow-install && npm run bp && npm run doc",
     "cover": "NODE_ENV=test npm run lint && nyc npm run ava",
     "flow": "flow stop && flow",
-    "flow-install": "flow-typed install",
+    "flow-install": "flow-typed install && flow-typed create-stub graphql-iso-date",
     "size": "ls -lh dist/",
     "bp": "npm run build-production && npm run size",
     "kill": "lsof -n -i4TCP:4000 | grep LISTEN | awk '{ print $2 }' | xargs kill",
