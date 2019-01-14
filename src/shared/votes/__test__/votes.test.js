@@ -8,6 +8,7 @@ import {
 
 import {RootTestComponent} from '../../common/root/root-test-component';
 import {Votes, VotesList, VotesListOnlyId} from '../votes';
+import type {TVote} from '../../../entities/explorer-types';
 
 test('Votes contains VotesList', t => {
   const tree = renderIntoDocument(
@@ -39,14 +40,14 @@ test('Votes contains VotesList', t => {
 });
 
 test('VotesList contains attributes', t => {
-  const votes = [
+  const votes: Array<TVote> = [
     {
-      id: 'id_1',
+      ID: 'id_1',
       timestamp: '123',
       blockID: '123',
     },
     {
-      id: 'id_2',
+      ID: 'id_2',
       timestamp: '123',
       blockID: '123',
     },
@@ -72,8 +73,8 @@ test('VotesList contains attributes', t => {
 });
 
 test('VotesList not array', t => {
-  const votes = {
-    id: 'id_1',
+  const votes: TVote = {
+    ID: 'id_1',
     timestamp: '123',
     blockID: '123',
   };
@@ -99,14 +100,14 @@ test('VotesList not array', t => {
 });
 
 test('VotesListOnlyId contains attributes', t => {
-  const votes = [
+  const votes: Array<TVote> = [
     {
-      id: 'id_1',
+      ID: 'id_1',
       timestamp: 's_1',
       blockID: '123',
     },
     {
-      id: 'id_2',
+      ID: 'id_2',
       timestamp: 's_2',
       blockID: '123',
     },
@@ -132,8 +133,8 @@ test('VotesListOnlyId contains attributes', t => {
 });
 
 test('VotesListOnlyId contains one item', t => {
-  const votes = {
-    id: 'id_1',
+  const votes: TVote = {
+    ID: 'id_1',
     timestamp: 1,
     blockID: '123',
   };

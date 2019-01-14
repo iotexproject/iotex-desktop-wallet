@@ -8,6 +8,7 @@ import {
 
 import {Blocks, BlocksList, BlocksListOnlyId} from '../blocks';
 import {RootTestComponent} from '../../common/root/root-test-component';
+import type {TBlock} from '../../../entities/explorer-types';
 
 test('Blocks contains BlocksList', t => {
   const tree = renderIntoDocument(
@@ -52,9 +53,9 @@ test('Blocks contains BlocksList', t => {
 });
 
 test('BlocksList contains attributes', t => {
-  const blocks = [
+  const blocks: Array<TBlock> = [
     {
-      id: '123',
+      ID: '123',
       transfers: 0,
       height: 1,
       forged: 2,
@@ -65,7 +66,7 @@ test('BlocksList contains attributes', t => {
         address: '123',
       },
     }, {
-      id: '123',
+      ID: '123',
       transfers: 0,
       height: 1,
       forged: 2,
@@ -102,8 +103,8 @@ test('BlocksList contains attributes', t => {
 });
 
 test('BlocksList not array', t => {
-  const blocks = {
-    id: '123',
+  const block: TBlock = {
+    ID: '123',
     transfers: 0,
     height: 1,
     forged: 2,
@@ -118,7 +119,7 @@ test('BlocksList not array', t => {
   const tree = renderIntoDocument(
     <RootTestComponent>
       <BlocksList
-        blocks={blocks}
+        blocks={block}
       />
     </RootTestComponent>
   );
@@ -154,9 +155,9 @@ test('BlocksList null block', t => {
 });
 
 test('BlocksListOnlyId contains attributes', t => {
-  const blocks = [
+  const blocks: Array<TBlock> = [
     {
-      id: '123',
+      ID: '123',
       transfers: 0,
       height: 1,
       forged: 2,
@@ -167,7 +168,7 @@ test('BlocksListOnlyId contains attributes', t => {
         address: '123',
       },
     }, {
-      id: '123',
+      ID: '123',
       transfers: 0,
       height: 1,
       forged: 2,
@@ -199,8 +200,8 @@ test('BlocksListOnlyId contains attributes', t => {
 });
 
 test('BlocksListOnlyId not array', t => {
-  const blocks = {
-    id: '123',
+  const block: TBlock = {
+    ID: '123',
     transfers: 0,
     height: 1,
     forged: 2,
@@ -215,7 +216,7 @@ test('BlocksListOnlyId not array', t => {
   const tree = renderIntoDocument(
     <RootTestComponent>
       <BlocksListOnlyId
-        blocks={blocks}
+        blocks={block}
       />
     </RootTestComponent>
   );

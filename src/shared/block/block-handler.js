@@ -1,6 +1,7 @@
 import {createViewRoutes} from '../view-routes';
 import {rootReducer} from '../common/root/root-reducer';
 import {BLOCK} from '../common/site-url';
+import {logger} from '../../lib/integrated-gateways/logger';
 
 export function setBlockRoutes(server) {
   const {gateways: {iotexCore}} = server;
@@ -17,8 +18,9 @@ export function setBlockRoutes(server) {
     const {id} = ctx.request.body;
 
     try {
-      ctx.body = {ok: true, block: await iotexCore.getBlockById(id)};
+      ctx.body = {ok: true, block: await iotexCore.getBlockByID(id)};
     } catch (error) {
+      logger.error('failed to getBlockId', error);
       ctx.body = {ok: false, error: {code: 'FAIL_GET_BLOCK_ID', message: 'block.error.failGetBlock', data: {id}}};
     }
   }

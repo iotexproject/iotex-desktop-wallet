@@ -127,7 +127,7 @@ export class ExecutionsList extends Component {
           {executions.map((execution: TExecution) => (
             <tr className='bx--parent-row-v2' data-parent-row>
               <td className={hideColClass(this.props.width) ? 'first-col' : 'none-on-palm'}><Link
-                to={`/executions/${execution.id}`} className='link'>{ellipsisText(execution.id, this.props.width)}</Link>
+                to={`/executions/${execution.ID}`} className='link'>{ellipsisText(execution.ID, this.props.width)}</Link>
               </td>
               <td className={hideColClass(this.props.width) ? '' : 'second-to-none'}><Link
                 to={`/address/${execution.executor}`}
@@ -135,7 +135,7 @@ export class ExecutionsList extends Component {
               <td><Link to={`/address/${execution.contract}`}
                 className='link'>{ellipsisText(execution.contract, this.props.width)}</Link></td>
               <td>{hideColClass(this.props.width) ? execution.amount :
-                <Link to={`/executions/${execution.id}`} className='link'>{execution.amount}</Link>}</td>
+                <Link to={`/executions/${execution.ID}`} className='link'>{execution.amount}</Link>}</td>
             </tr>
           ))}
         </tbody>
@@ -178,8 +178,8 @@ export class ExecutionsListOnlyId extends Component {
           {executions.map((execution: TExecution) => (
             <tr className='bx--parent-row-v2' data-parent-row>
               <td className={isHome ? 'single-col-row' : ''}>
-                <Link to={`/executions/${execution.id}`} className='link'>
-                  {singleColEllipsisText(execution.id, this.props.width, isHome)}
+                <Link to={`/executions/${execution.ID}`} className='link'>
+                  {singleColEllipsisText(execution.ID, this.props.width, isHome)}
                 </Link>
               </td>
               {!isHome && (

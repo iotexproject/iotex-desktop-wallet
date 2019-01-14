@@ -126,13 +126,13 @@ export class TransfersList extends Component {
         <tbody>
           {transfers.map((transfer: TTransfer) => (
             <tr className='bx--parent-row-v2' data-parent-row>
-              <td className={hideColClass(this.props.width) ? 'first-col' : 'none-on-palm'}><Link to={`/transfers/${transfer.id}`} className='link'>{ellipsisText(transfer.id, this.props.width)}</Link></td>
+              <td className={hideColClass(this.props.width) ? 'first-col' : 'none-on-palm'}><Link to={`/transfers/${transfer.ID}`} className='link'>{ellipsisText(transfer.ID, this.props.width)}</Link></td>
               {transfer.sender === '' ?
                 <td>{t('transfer.coinBase')}</td> :
                 <td className={hideColClass(this.props.width) ? '' : 'second-to-none'}><Link to={`/address/${transfer.sender}`} className='link'>{ellipsisText(transfer.sender, this.props.width)}</Link></td>
               }
               <td><Link to={`/address/${transfer.recipient}`} className='link'>{ellipsisText(transfer.recipient, this.props.width)}</Link></td>
-              <td>{hideColClass(this.props.width) ? transfer.amount : <Link to={`/transfers/${transfer.id}`} className='link'>{transfer.amount}</Link>}</td>
+              <td>{hideColClass(this.props.width) ? transfer.amount : <Link to={`/transfers/${transfer.ID}`} className='link'>{transfer.amount}</Link>}</td>
             </tr>
           ))}
         </tbody>
@@ -174,7 +174,7 @@ export class TransfersListOnlyId extends Component {
         <tbody>
           {transfers.map((transfer: TTransfer) => (
             <tr className='bx--parent-row-v2' data-parent-row>
-              <td className='single-col-row'><Link to={`/transfers/${transfer.id}`} className='link'>{singleColEllipsisText(transfer.id, this.props.width, this.props.isHome)}</Link></td>
+              <td className='single-col-row'><Link to={`/transfers/${transfer.ID}`} className='link'>{singleColEllipsisText(transfer.ID, this.props.width, this.props.isHome)}</Link></td>
               {!isHome && (
                 <td>
                   {fromNow(transfer.timestamp)}

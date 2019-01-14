@@ -8,7 +8,7 @@ import type {
   TCreateDeposit, TSettleDeposit,
 } from '../../../entities/wallet-types';
 import {logger} from '../../../lib/integrated-gateways/logger';
-import type {GExecution} from '../iotex-core/iotex-core-types';
+import type {TExecution} from '../../../entities/explorer-types';
 
 const grpc = require('grpc');
 const messages = require('./rpc_pb');
@@ -256,7 +256,7 @@ export class WalletCore {
     });
   }
 
-  async signSmartContract(wallet: TWallet, smartContract: TRawExecutionRequest): Promise<GExecution> {
+  async signSmartContract(wallet: TWallet, smartContract: TRawExecutionRequest): Promise<TExecution> {
     const request = new messages.SignExecutionRequest();
     const address = makeMessagesAddress(wallet);
     const sc = makeMessagesExecution(smartContract, wallet.rawAddress);

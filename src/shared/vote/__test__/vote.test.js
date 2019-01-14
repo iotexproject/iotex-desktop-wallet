@@ -8,6 +8,7 @@ import {
 
 import {RootTestComponent} from '../../common/root/root-test-component';
 import {Vote, VoteSummary} from '../vote';
+import type {TVote} from '../../../entities/explorer-types';
 
 test('Vote contains VoteSummary', t => {
   const tree = renderIntoDocument(
@@ -32,8 +33,8 @@ test('Vote contains VoteSummary', t => {
 
 // eslint-disable-next-line max-statements
 test('VoteSummary contains attributes', t => {
-  const vote = {
-    id: '123',
+  const vote: TVote = {
+    ID: '123',
     timestamp: '123',
   };
 

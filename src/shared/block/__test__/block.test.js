@@ -8,6 +8,7 @@ import {
 
 import {Block, BlockSummary} from '../block';
 import {RootTestComponent} from '../../common/root/root-test-component';
+import type {TBlock} from '../../../entities/explorer-types';
 
 test('Block contains BlockSummary', t => {
   const tree = renderIntoDocument(
@@ -15,7 +16,7 @@ test('Block contains BlockSummary', t => {
       <Block
         state = {{
           block: {
-            id: '123',
+            ID: '123',
             transfers: 0,
             height: 1,
             forged: 2,
@@ -51,8 +52,8 @@ test('Block contains BlockSummary', t => {
 
 // eslint-disable-next-line max-statements
 test('BlockSummary contains attributes', t => {
-  const block = {
-    id: '123',
+  const block: TBlock = {
+    ID: '123',
     transfers: 0,
     executions: 0,
     height: 1,
@@ -118,8 +119,8 @@ test('BlockSummary contains attributes', t => {
 
 // eslint-disable-next-line max-statements
 test('BlockSummary contains attributes when null', t => {
-  const block = {
-    id: '123',
+  const block: TBlock = {
+    ID: '123',
     transfers: 0,
     executions: 0,
     height: null,
@@ -178,8 +179,8 @@ test('BlockSummary contains attributes when null', t => {
 });
 
 test('BlockSummary error', t => {
-  const block = {
-    id: '123',
+  const block: TBlock = {
+    ID: '123',
     executions: 0,
     transfers: 0,
     height: null,

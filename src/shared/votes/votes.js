@@ -125,7 +125,7 @@ export class VotesList extends Component {
         <tbody>
           {votes.map((vote: TVote) => (
             <tr className='bx--parent-row-v2' data-parent-row>
-              <td><Link to={`/votes/${vote.id}`} className='link'>{ellipsisText(vote.id, this.props.width)}</Link></td>
+              <td><Link to={`/votes/${vote.ID}`} className='link'>{ellipsisText(vote.ID, this.props.width)}</Link></td>
               <td>{fromNow(vote.timestamp)}</td>
               <td><Link to={`/blocks/${vote.blockID}`} className='link'>{ellipsisText(vote.blockID, this.props.width)}</Link></td>
             </tr>
@@ -177,7 +177,7 @@ export class VotesListOnlyId extends Component {
                     message={t(vote.out ? 'votes.out' : 'votes.in')}
                   /> : null
                 }
-                <Link to={`/votes/${vote.id}`} className='link'>{singleColEllipsisText(vote.id, this.props.width, this.props.isHome)}</Link>
+                <Link to={`/votes/${vote.ID}`} className='link'>{singleColEllipsisText(vote.ID, this.props.width, this.props.isHome)}</Link>
               </td>
               {!isHome && (
                 <td>

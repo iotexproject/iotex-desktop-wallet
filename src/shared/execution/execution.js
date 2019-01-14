@@ -238,10 +238,10 @@ export class ExecutionSummary extends Component {
     rows.push({c1: t('execution.input'), c2: (execution.data)});
     rows.push({c1: t('execution.nonce'), c2: (execution.nonce)});
     rows.push({c1: t('meta.timestamp'), c2: fromNow(execution.timestamp)});
-    rows.push({c1: t('block.title'), c2: (<Link to={`/blocks/${execution.blockId}`} className='link'>{execution.blockId}</Link>)});
+    rows.push({c1: t('block.title'), c2: (<Link to={`/blocks/${execution.blockID}`} className='link'>{execution.blockID}</Link>)});
     return (
       <SingleItemTable
-        subtitle={execution.id}
+        subtitle={execution.ID}
         rows={rows}
       />
     );

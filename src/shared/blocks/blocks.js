@@ -113,9 +113,9 @@ export class BlocksList extends Component {
         <tbody>
           {blocks.map((b: TBlock) => (
             <tr className='bx--parent-row-v2' data-parent-row>
-              <td className={hideColClass(this.props.width) ? 'first-col' : 'none-on-palm'}><Link to={`/blocks/${b.id}`} className='link'>{ellipsisText(b.id, this.props.width)}</Link></td>
+              <td className={hideColClass(this.props.width) ? 'first-col' : 'none-on-palm'}><Link to={`/blocks/${b.ID}`} className='link'>{ellipsisText(b.ID, this.props.width)}</Link></td>
               <td className={hideColClass(this.props.width) ? '' : 'second-to-none'}>
-                {hideColClass(this.props.width) ? b.height : <Link to={`/blocks/${b.id}`} className='link'>{b.height}</Link>}
+                {hideColClass(this.props.width) ? b.height : <Link to={`/blocks/${b.ID}`} className='link'>{b.height}</Link>}
               </td>
               <td className={hideColClass(this.props.width) ? '' : 'none-on-palm'}>{fromNow(b.timestamp)}</td>
               <td>{b.transfers}</td>
@@ -161,7 +161,7 @@ export class BlocksListOnlyId extends Component {
         <tbody>
           {blocks.map((b: TBlock) => (
             <tr className='bx--parent-row-v2' data-parent-row>
-              <td className='single-col-row'><Link to={`/blocks/${b.id}`} className='link'>{singleColEllipsisText(b.id, this.props.width, this.props.isHome)}</Link></td>
+              <td className='single-col-row'><Link to={`/blocks/${b.ID}`} className='link'>{singleColEllipsisText(b.ID, this.props.width, this.props.isHome)}</Link></td>
               {!isHome && (
                 <td>
                   {fromNow(b.timestamp)}

@@ -125,12 +125,12 @@ export class CreateDepositSummary extends Component {
       },
       {
         c1: t('meta.block'),
-        c2: (<Link to={`/blocks/${createDeposit.blockId}`} className='link'>{createDeposit.blockId}</Link>),
+        c2: (<Link to={`/blocks/${createDeposit.blockID}`} className='link'>{createDeposit.blockID}</Link>),
       },
     ];
     return (
       <SingleItemTable
-        subtitle={createDeposit.id}
+        subtitle={createDeposit.ID}
         rows={rows}
       />
     );
