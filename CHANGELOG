@@ -1,3 +1,67 @@
+2019-01-14 - 0.1.1 (a217244)
+a217244 (HEAD -> master, origin/master, origin/HEAD) migrate from iotexCore to iotxRpcMethods (#44)
+2eac12e remove setJsonRpcRoutes
+cafbf4a add googleapis Roboto style link
+d264a38 swith default font to roboto (#40)
+aa88abb add create and settle deposit detail page (#42)
+6d7bce8 improve wallet UI (#39)
+3e00605 Cookie consent improve (#35)
+b27314b add section of create deposits (#36)
+b0fbc8b fix smartcontract dialog-table (#33)
+f3c6e8b fix response of receipt json display (#34)
+1a07fd7 add settle deposit in address (#31)
+cebf169 navbar: added IOTX/BTC column (#30)
+ac73368 issue-26, Italian translation file  (#27)
+1c0f9c5 issue 24, Add age to Block Transfers and Vote pages (#25)
+09d03b8 beautify response log (#23)
+7cfc592 add log display for receipt in execution (#22)
+1ef4389 immediate fetchConsensusMetrics in componentDidMount
+584f463 remove double fetching (#21)
+ce7477d fix #18 Refused to load the font error (#20)
+8c59129 adding padding to TransactionDetailSection 10px left - 10px right (#16)
+ff6dfdf update TRawExecutionRequest field
+70175fc update field
+c93915d upgrade node to 10.14.2 (#15)
+95749a6 add version text (#12)
+9e0110d fix dockerhub issues (#13)
+8062dee add run build-production in dockerfile
+a098917 fix docker image (#11)
+5da07df add cookie consent (#10)
+ac1d116 add deploy to heroku
+01582ca update solc-bin in csp
+11cff4c bump iotex-client-js
+e9aa82f enforce sec headers
+dddd9f9 remove used dep and pin event-stream to 3.3.4
+5c62154 set noneditable gasLimit gasPrice in wallet form (#9)
+d95a223 unify topbar, add link to iotex and explorer url (#8)
+5f9701a add chains gateway url
+1f079d7 hide check button in continue deposit
+f0bed00 misc fixes
+3ac9a02 Revert "add settler wallet"
+2dc4730 hide vote in subchain
+d1e2d4e add settler wallet
+d6521a7 fix bn related unit tests
+4bac52f update plasma ball order by sorting
+b64ebab hide create wallet / vote in subchain explorer
+70665c3 add cross chain transfer
+28cc12c format balance and remove gas format
+afc1f28 show amount in iotx
+8a3d970 add cross chain checking from iotex-client-js
+f83cdee hide vote related components in sub-chains
+928fc8e move chain id check to server-side
+f96f716 add wallet chain id
+3a66ee2 minor fix WalletCore params
+ac84cda update README
+f4eefad add CreateDeposit SettleDeposit by updating proto
+098c018 fix async middleware bug
+2453d34 add multichain config
+a303ffd remove progress bar
+ff5206b update interact fields
+389a274 update gasLimit, gasPrice, amount types
+0c9d0e1 update explorer idl
+26b86a2 0.1.0
+
+
 2018-10-29 - 0.1.0 (18fbc34)
 18fbc34 (HEAD -> master, origin/master, origin/HEAD) add more error message
 88397d3 add more README
