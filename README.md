@@ -2,9 +2,9 @@
 
 # iotex-explorer
 
-Frontend website for [IoTeX blockchain](https://github.com/iotexproject/iotex-core).
+Frontend website for [iotex-core blockchain](https://github.com/iotexproject/iotex-core).
 
-Check our site hosted at [https://iotexscan.io].
+Check our site hosted at [https://iotexscan.io](https://iotexscan.io).
 
 Or deploy your own instance on Heroku.
 
@@ -35,6 +35,18 @@ npm run test
 ```
 
 We use [inferno-test-utils](https://www.npmjs.com/package/inferno-test-utils/v/3.10.1) for the view test.
+
+## Configuration
+
+configuration is located in `.env` file. `IOTEX_CORE_URL` is the iotex-core API endpoint and `IOTEX_WALLET_URL` is the wallet-core endpoint.
+
+```.env
+CHAINS=[{"id":1,"name":"mainchain","url":"http://iotexscan.io/","gatewayUrl":"https://iotexscan.io/"},{"id":2,"name":"subchain","url":"http://subchain.iotexscan.io/","gatewayUrl":"https://subchain.iotexscan.io/"}]
+GOOGLE_TID=UA-111756489-2
+IOTEX_CORE_URL=http://30.30.30.30:30100
+IOTEX_WALLET_URL=35.247.78.183:30500
+NODE_ENV=production
+```
 
 ## Build and Run in Production
 
