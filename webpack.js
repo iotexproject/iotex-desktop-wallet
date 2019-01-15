@@ -47,7 +47,7 @@ module.exports = {
         cache: true,
         parallel: true,
         uglifyOptions: {
-          compress: false,
+          compress: true,
           ecma: 6,
           mangle: true,
           comments: false,
