@@ -97,6 +97,7 @@ footer.website: Website
 footer.blog: Blog
 footer.chat: Chat
 votes.title: Votes
+nav.fuzzy.search.placeholder: Search by Address / Block / Vote / Transfer
 nav.error.statistic: Could not get statistics
 nav.error.coin: Could not get coin price
 nav.explorer: Explorer

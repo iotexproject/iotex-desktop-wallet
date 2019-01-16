@@ -97,6 +97,7 @@ footer.website: Sito internet
 footer.blog: Blog
 footer.chat: Chat
 votes.title: Voti
+nav.fuzzy.search.placeholder: Ricerca per Indirizzo / Blocco / Voto / Trasferimento
 nav.error.statistic: Non è possibile recuperare le statistiche
 nav.error.coin: Non è possibile recuperare il prezzo della moneta
 nav.explorer: Explorer

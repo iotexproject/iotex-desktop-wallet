@@ -48,6 +48,17 @@ export function setNavRoutes(server) {
     }
   }
 
+  async function getBlockOrActionByHash(ctx, next) {
+    try {
+      const result = await iotexCore.getBlockOrActionByHash(ctx.request.body.hashStr);
+
+      ctx.body = {ok: true, result};
+    } catch (error) {
+      ctx.body = {ok: false, error: {code: 'FAIL_FUZZY_SEARCH', message: 'error.unknown'}};
+    }
+  }
+
   server.post('getStatistic', NAV.STATISTIC, getStatisticApi);
   server.post('getCoinPrice', NAV.PRICE, getCoinPrice);
+  server.post('getBlockOrActionByHash', NAV.FUZZY_SEARCH, getBlockOrActionByHash);
 }
