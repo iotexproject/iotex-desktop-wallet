@@ -129,7 +129,7 @@
   },
   "engines": {
     "node": "10.14.1",
-    "npm": "6.5.0"
+    "npm": "6.6.0"
   },
   "private": true
 }
