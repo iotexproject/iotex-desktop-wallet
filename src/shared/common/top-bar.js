@@ -55,7 +55,7 @@ export class TopBar extends Component<*, State> {
 
   renderMenu = () => {
     return [
-      (<A key={0} href='/blogs' onClick={this.hideMobileMenu}>{t('topbar.home')}</A>),
+      (<A key={0} href='/' onClick={this.hideMobileMenu}>{t('topbar.home')}</A>),
     ];
   };
 
