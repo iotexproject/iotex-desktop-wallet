@@ -32,6 +32,7 @@ export class Nav extends Component {
       displayDropdownMenu: false,
       fetchCoinStatistic: 0,
       fetchCoinPrice: 0,
+      error: false,
     };
 
     (this: any).toggleDropdownMenu = this.toggleDropdownMenu.bind(this);
@@ -90,6 +91,9 @@ export class Nav extends Component {
             window.location = `/executions/${formData.search}`;
             return;
           }
+
+        } else {
+          this.setState({error: true});
         }
       });
     }
@@ -150,8 +154,16 @@ export class Nav extends Component {
                   <div className='navbar-item'>
                     <form onSubmit={e => this.handleSubmit(e)} ref={r => (this._form = r)}>
                       <div className='field has-addons'>
-                        <NavWrapper className='control'>
-                          <input name='search' className='input' type='text' style="min-width: 350px" placeholder={t('nav.fuzzy.search.placeholder')}/>
+                        <NavWrapper className="control">
+                          <input name='search'
+                            className={`input ${this.state.error == true ? 'is-danger' : ''}`}
+                            type='text'
+                            style="min-width: 350px"
+                            placeholder={t('nav.fuzzy.search.placeholder')}
+                            onChange={() => {
+                              this.setState({error: false});
+                            }}
+                            />
                         </NavWrapper>
                         <div className='control'>
                           <button className='button'>
