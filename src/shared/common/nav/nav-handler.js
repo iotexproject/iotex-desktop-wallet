@@ -48,6 +48,21 @@ export function setNavRoutes(server) {
     }
   }
 
+  async function getBlockOrActionByHash(ctx, next) {
+    try {
+      const result = await iotexCore.getBlockOrActionByHash(ctx.request.body.hashStr);
+
+      if (result.execution || result.block || result.transfer || result.vote) {
+        ctx.body = {ok: true, result};
+      } else {
+        ctx.body = {ok: false, error: {code: 'FAIL_FUZZY_SEARCH', message: 'nav.fuzzy.search.not.found'}};
+      }
+    } catch (error) {
+      ctx.body = {ok: false, error: {code: 'FAIL_FUZZY_SEARCH', message: 'error.unknown'}};
+    }
+  }
+
   server.post('getStatistic', NAV.STATISTIC, getStatisticApi);
   server.post('getCoinPrice', NAV.PRICE, getCoinPrice);
+  server.post('getBlockOrActionByHash', NAV.FUZZY_SEARCH, getBlockOrActionByHash);
 }

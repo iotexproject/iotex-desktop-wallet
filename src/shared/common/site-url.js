@@ -171,6 +171,10 @@ export class NAV {
   static get PRICE(): string {
     return '/api/getPrice';
   }
+
+  static get FUZZY_SEARCH(): string {
+    return '/api/getBlockOrActionByHash';
+  }
 }
 
 export class WALLET {
