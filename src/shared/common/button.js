@@ -7,15 +7,15 @@ import {styled} from 'onefx/lib/styletron-react';
 import {btnStyle, disabledBtn, secondaryBtnColor} from './styles/style-button';
 
 type Props = {
-  id: string;
-  href: string;
-  children: any;
-  onClick: any;
-  secondary: boolean;
-  disabled: boolean;
-  target: any;
-  width: string;
-  preventDoubleClickFor: string;
+  id?: string;
+  href?: string;
+  children?: any;
+  onClick?: any;
+  secondary?: boolean;
+  disabled?: boolean;
+  target?: any;
+  width?: string;
+  preventDoubleClickFor?: string;
 };
 
 export class Button extends Component<Props> {
@@ -24,7 +24,7 @@ export class Button extends Component<Props> {
 
   preventDoubleClick() {
     const btn = this.wrapper.children[0];
-    const form = document.getElementById(this.props.preventDoubleClickFor);
+    const form = document.getElementById(this.props.preventDoubleClickFor || '');
     if (form instanceof window.HTMLFormElement && form.checkValidity()) {
       // eslint-disable-next-line no-unused-expressions
       typeof form.submit === 'function' && form.submit();
