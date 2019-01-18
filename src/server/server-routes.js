@@ -19,6 +19,7 @@ import {setWalletRoutes} from '../shared/wallet/wallet-handler';
 import {setDelegateRoutes} from '../shared/delegates/delegates-handler';
 import {setDepositRoutes} from '../shared/deposit/deposit-handler';
 import {version} from '../../package.json';
+import {setJsonRpcRoutes} from './json-rpc/json-rpc';
 
 // eslint-disable-next-line max-statements
 export function setServerRoutes(server: Server) {
@@ -50,6 +51,7 @@ export function setServerRoutes(server: Server) {
     await next();
   });
 
+  setJsonRpcRoutes(server);
   setNavRoutes(server);
   setConsensusMetricsRoutes(server);
   setBlockchainExplorerRoutes(server);
