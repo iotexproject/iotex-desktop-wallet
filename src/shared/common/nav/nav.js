@@ -69,25 +69,25 @@ export class Nav extends Component {
 
     const formData = serialize(this._form, {hash: true});
     this.setState({fetching: true});
-    if(formData.search !== "") {
+    if (formData.search !== '') {
       fetchPost(NAV.FUZZY_SEARCH, {hashStr: `${formData.search}`}).then(res => {
-        if(res.ok === true) {
-          if(res.result.block) {
+        if (res.ok === true) {
+          if (res.result.block) {
             window.location = `/blocks/${formData.search}`;
             return;
           }
 
-          if(res.result.transfer) {
+          if (res.result.transfer) {
             window.location = `/transfers/${formData.search}`;
             return;
           }
 
-          if(res.result.vote) {
+          if (res.result.vote) {
             window.location = `/votes/${formData.search}`;
             return;
           }
 
-          if(res.result.execution) {
+          if (res.result.execution) {
             window.location = `/executions/${formData.search}`;
             return;
           }
@@ -154,16 +154,16 @@ export class Nav extends Component {
                   <div className='navbar-item'>
                     <form onSubmit={e => this.handleSubmit(e)} ref={r => (this._form = r)}>
                       <div className='field has-addons'>
-                        <NavWrapper className="control">
+                        <NavWrapper className='control'>
                           <input name='search'
-                            className={`input ${this.state.error == true ? 'is-danger' : ''}`}
+                            className={`input ${this.state.error === true ? 'is-danger' : ''}`}
                             type='text'
-                            style="min-width: 350px"
+                            style='min-width: 350px'
                             placeholder={t('nav.fuzzy.search.placeholder')}
                             onChange={() => {
                               this.setState({error: false});
                             }}
-                            />
+                          />
                         </NavWrapper>
                         <div className='control'>
                           <button className='button'>
