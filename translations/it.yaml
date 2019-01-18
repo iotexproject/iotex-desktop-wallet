@@ -105,8 +105,10 @@ footer.website: Sito Web
 footer.blog: Blog
 footer.chat: Chat
 votes.title: Voti
-nav.error.statistic: Non è stato possibile ottenere le statistiche
-nav.error.coin: Non è stato possibile ottenere il prezzo della moneta
+nav.fuzzy.search.not.found: Non Trovato
+nav.fuzzy.search.placeholder: Ricerca per Esecuzione / Blocco / Voto / Trasferimento
+nav.error.statistic: Non è possibile recuperare le statistiche
+nav.error.coin: Non è possibile recuperare il prezzo della moneta
 nav.explorer: Explorer
 consensus.error.fail: Non è stato possibile ottenere la metrica del consenso
 delegates.error.fail: Non è stato possibile ottenere i nodi delegati
