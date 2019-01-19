@@ -72,7 +72,7 @@
     "@babel/preset-react": "7.0.0",
     "@babel/register": "7.0.0",
     "apollo-cache-inmemory": "1.4.2",
-    "apollo-client": "2.4.11",
+    "apollo-client": "2.4.12",
     "apollo-link-http": "1.5.9",
     "apollo-server-koa": "2.3.1",
     "ava": "1.1.0",
