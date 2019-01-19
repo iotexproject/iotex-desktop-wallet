@@ -1,21 +1,5 @@
 // @flow
-import idl from './json-rpc.json';
-import {barristerHandlerFactory} from './barrister-handler-factory';
-
 export function setJsonRpcRoutes(server: any) {
-  server.post(
-    'api/json-rpc/',
-    'api/json-rpc/',
-    async(ctx, next) => {
-      setCors(ctx);
-      next();
-    },
-    barristerHandlerFactory({
-      service: server.services.rpc,
-      idlJson: idl,
-      name: 'JsonRpc',
-    })
-  );
   server.all(
     'api/wallet-core/',
     'api/wallet-core/',
