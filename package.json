@@ -118,7 +118,7 @@
     "plugin-error": "1.0.1",
     "process": "0.11.10",
     "react": "16.7.0",
-    "react-apollo": "2.3.3",
+    "react-apollo": "2.4.0",
     "react-dom": "16.7.0",
     "react-outside-click-handler": "1.2.2",
     "react-redux": "5.1.1",
