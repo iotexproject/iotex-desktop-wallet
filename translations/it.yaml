@@ -62,11 +62,11 @@ block.error.failGetBlock: 'Non è stato possibile recuperare le informazioni del
   blocco per ${id}'
 block.error.failGetTransfers: 'Non è stato possibile recuperare i trasferimenti 
   per il blocco ${id}'
-block.error.failGetVotes: 'Non è possibile recuperare i voti per il blocco
+block.error.failGetVotes: 'Non è stato possibile recuperare i voti per il blocco
   ${id}'
-dashboard.epochs: '# of Epoche'
-dashboard.blocks: '# of Blocchi'
-dashboard.transfers: '# of Transazioni'
+dashboard.epochs: '# di Epoche'
+dashboard.blocks: '# di Blocchi'
+dashboard.transfers: '# di Transazioni'
 dashboard.votes: '# of Voti'
 dashboard.faps: IFTPS
 dashboard.bbh: BBH
@@ -107,7 +107,7 @@ footer.chat: Chat
 votes.title: Voti
 nav.fuzzy.search.not.found: Non Trovato
 nav.fuzzy.search.placeholder: Ricerca per Esecuzione / Blocco / Voto / Trasferimento
-nav.error.statistic: Non è possibile recuperare le statistiche
+nav.error.statistic: Non è stato possibile recuperare le statistiche
 nav.error.coin: Non è possibile recuperare il prezzo della moneta
 nav.explorer: Explorer
 consensus.error.fail: Non è stato possibile ottenere la metrica del consenso
