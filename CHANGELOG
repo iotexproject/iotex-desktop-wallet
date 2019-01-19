@@ -1,3 +1,13 @@
+2019-01-18 - 0.1.2 (d3c29e2)
+d3c29e2 (HEAD -> master, origin/master, origin/HEAD) remove only api/json-rpc
+33d5e81 Revert "remove setJsonRpcRoutes"
+0ff79d1 fix lint
+3ddd1e4 Fixed most translations and added missing ones (#47)
+8ae92f4 added fuzzy search (#46)
+dc5ada8 Update README.md
+45352f0 (tag: v0.1.1) 0.1.1
+
+
 2019-01-14 - 0.1.1 (a217244)
 a217244 (HEAD -> master, origin/master, origin/HEAD) migrate from iotexCore to iotxRpcMethods (#44)
 2eac12e remove setJsonRpcRoutes
