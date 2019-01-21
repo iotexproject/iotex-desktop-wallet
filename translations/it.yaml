@@ -27,11 +27,11 @@ address.nonce: Nonce
 address.voteDetails: Dettagli del voto
 address.listOfTransfers: Lista dei Trasferimenti
 address.listOfExecutions: Lista delle Esecuzioni
-address.error.failGetAddress: 'Non è stato possibile recuperare i dati 
+address.error.failGetAddress: 'Non è stato possibile recuperare i dati
   dell'indirizzo per ${id}'
-address.error.failGetTransfers: 'Non è stato possibile recuperare i 
+address.error.failGetTransfers: 'Non è stato possibile recuperare i
   trasferimenti per l'indirizzo ${id}'
-address.error.failGetVotes: 'Non è stato possibile recupeare i voti per 
+address.error.failGetVotes: 'Non è stato possibile recupeare i voti per
   l'indirizzo ${id}'
 address.listOfSettleDeposits: Lista delle Restituzioni di Depositi
 settleDeposits.timestamp: Coniato il
@@ -58,9 +58,9 @@ block.generatedBy: Chiave pubblica del Block Producer
 block.size: Dimensione (in Byte)
 block.listOfTransfers: Lista dei Trasferimenti
 block.listOfVotes: Lista dei Voti
-block.error.failGetBlock: 'Non è stato possibile recuperare le informazioni del 
+block.error.failGetBlock: 'Non è stato possibile recuperare le informazioni del
   blocco per ${id}'
-block.error.failGetTransfers: 'Non è stato possibile recuperare i trasferimenti 
+block.error.failGetTransfers: 'Non è stato possibile recuperare i trasferimenti
   per il blocco ${id}'
 block.error.failGetVotes: 'Non è stato possibile recuperare i voti per il blocco
   ${id}'
@@ -71,18 +71,18 @@ dashboard.votes: '# of Voti'
 dashboard.faps: IFTPS
 dashboard.bbh: BBH
 dashboard.epochsMsg: >-
-  Numero totale di epoche che sono state eseguite sulla blockchain IoTeX. 
-  Un'epoca si riferisce al periodo di tempo durante il quale uno stesso gruppo 
+  Numero totale di epoche che sono state eseguite sulla blockchain IoTeX.
+  Un'epoca si riferisce al periodo di tempo durante il quale uno stesso gruppo
   di candidati eletti producono a turno i blocchi per conto di tutta la rete.
 dashboard.blocksMsg: Numero totali di blocchi generati sulla blockchain IoTeX
-dashboard.transfersMsg: Numero totale di trasferimenti di token 
+dashboard.transfersMsg: Numero totale di trasferimenti di token
   creati/memorizzati nella blockchain IoTeX.
 dashboard.votesMsg: Numero totale di voti per i delegati nella blockchain IoTeX.
 dashboard.fapsMsg: >-
-  Frequenza Istantanea di Transazioni Finalizzate (IFTPS) - Il numero di azioni 
+  Frequenza Istantanea di Transazioni Finalizzate (IFTPS) - Il numero di azioni
   (transazioni + voti) istantaneamente finalizzate al secondo.
 dashboard.bbhMsg: >-
-  Storia di Generazione dei Blocchi - Da quando tempo è in esecuzione la 
+  Storia di Generazione dei Blocchi - Da quando tempo è in esecuzione la
   blockchain IoTeX (data/ora del blocco più recente - data/ora del primo blocco)
 latestBlocks.title: Ultimi Blocchi
 latestTransfers.title: Ultimi Trasferimenti
@@ -98,7 +98,7 @@ transfer.recipient: Destinatario
 transfer.fee: Commissione
 transfer.hash: Hash del Trasferimento
 transfer.coinBase: Coinbase
-transfer.error.get: 'Non è stato possibile recuperare i dettagli del 
+transfer.error.get: 'Non è stato possibile recuperare i dettagli del
   trasferimento per ${id}'
 transfers.error.get: Non è stato possibile ottenere i trasferimenti
 footer.website: Sito Web
@@ -129,11 +129,11 @@ votes.in: Voto ricevuto
 votes.error.get: Impossibile ottenere i voti
 'rolldpos:title': Roll-DPoS
 'rolldpos:msg': >-
-  Un algoritmo "delegated proof of stake" randomizzato, che eredita tutti i 
-  vantaggi del meccanismo di consenso DPoS originario, e ne migliora 
-  ulteriormente le capacità in termini sia di decentralizzazione che di 
-  estendibilità ad architetture blockchain complesse. I punti colorati 
-  rappresentano i delegati, i punti lampeggianti rappresentano i produttori 
+  Un algoritmo "delegated proof of stake" randomizzato, che eredita tutti i
+  vantaggi del meccanismo di consenso DPoS originario, e ne migliora
+  ulteriormente le capacità in termini sia di decentralizzazione che di
+  estendibilità ad architetture blockchain complesse. I punti colorati
+  rappresentano i delegati, i punti lampeggianti rappresentano i produttori
   selezionati
 breadcrumbs.home: home
 breadcrumbs.votes: voti
@@ -158,7 +158,7 @@ wallet.account.generate: Genera
 wallet.account.secureMessage: >-
   Non memorizziamo la tua chiave privata nei nostri server. La generazione della
   chiave privata è gestita esclusivamente nel tuo browser. Fai una copia di
-  sicurezza della tua chiave privata se intendi riutilizzarla in futuro. Se 
+  sicurezza della tua chiave privata se intendi riutilizzarla in futuro. Se
   perdi la tua chiave privata, non potrà essere più recuperata.
 wallet.account.wallet: Portafoglio
 wallet.account.raw: Indirizzo del conto
@@ -189,7 +189,8 @@ wallet.input.amount: Importo
 wallet.input.nonce: Nonce
 wallet.input.gasPrice: Prezzo del Gas
 wallet.input.gasLimit: Gas limite
-wallet.input.dib: Dati in Byte (facoltativo)
+wallet.choice.input.data: Dati (facoltativi)
+wallet.input.dib: Dati in Esadecimale
 wallet.input.generate: Genera la transazione
 wallet.input.contract: Indirizzo dello smart contract
 wallet.input.abi: Interfaccia ABI / JSON
@@ -240,7 +241,7 @@ execution.executor: Esecutore
 execution.contract: Smart contract
 execution.hash: Hash Esecuzione
 block.listOfExecutions: Lista delle Esecuzioni
-execution.error.failGetExecution: 'Non è stato possibile reperire i dettagli 
+execution.error.failGetExecution: 'Non è stato possibile reperire i dettagli
   dell'esecuzione per ${id}'
 executions.error.get: Non è possibile ottenere le esecuzioni
 receipt.title: Ricevuta
@@ -259,7 +260,7 @@ input.error.raw_address.invalid: L'indirizzo IOTX deve iniziare con io
 input.error.number.invalid: Solo numeri 0-9
 input.error.float.invalid: Solo numeri
 input.error.bytes.length: I Byte devono avere un numero pari di caratteri
-input.error.bytes.invalid: 'Byte non validi, deve contenere solo caratteri tra 
+input.error.bytes.invalid: 'Byte non validi, deve contenere solo caratteri tra
   0-9 e A-F'
 wallet.missing_solidity_pragma: Solidity non corretto
 wallet.input.required: Questo campo è obbligatorio
@@ -270,7 +271,7 @@ wallet.cannot_find_solidity_version: Impossibile trovare la versione di solidity
 receipt.success: Successo
 unlock-wallet.title: Sblocca il tuo portafoglio
 unlock-wallet.warn.message: >-
-  Ricontrolla sia l'URL che il certificato SSL. La tua barra dell'indirizzo 
+  Ricontrolla sia l'URL che il certificato SSL. La tua barra dell'indirizzo
   dovrebbe mostrare https://www.iotexscan.io.
 unlock-wallet.no-wallet: Non hai ancora un portafoglio IoTeX?
 unlock-wallet.create: Crea un nuovo portafoglio
@@ -283,7 +284,7 @@ new-wallet.warn.do-not-share: Non condividere la tua chiave privata!
 new-wallet.warn.stolen: I tuoi fondi verranno rubati se userai questo file su un
 sito malevolo/di phishing.
 new-wallet.warn.backup: Fai una copia di sicurezza!
-new-wallet.warn.secure: Mettilo al sicuro come i milioni di dollari che un 
+new-wallet.warn.secure: Mettilo al sicuro come i milioni di dollari che un
   giorno potrebbe valere.
 new-wallet.button.unlock: 'Ho capito, Sblocca il Portafoglio'
 new-wallet.button.generate: Genera portafoglio
@@ -292,8 +293,8 @@ new-wallet.created: Portafoglio creato! Salva la tua
 new-wallet.privateKey: Chiave Privata
 broadcast.success: Trasmissione della transazione avvenuta con successo
 broadcast.warn.one: >-
-  La tua transazione è stata diffusa sulla rete. Questo non significa che è 
-  stata scritta nella blockchain. In genere ci vogliono pochi secondi prima che 
+  La tua transazione è stata diffusa sulla rete. Questo non significa che è
+  stata scritta nella blockchain. In genere ci vogliono pochi secondi prima che
   sia confermata.
 broadcast.warn.two: >-
   Puoi controllare lo stato già adesso, cliccando il seguente pulsante, oppure
@@ -305,7 +306,7 @@ broadcast.fail.network: L'invio della transazione sulla rete è fallito
 broadcast.error.message: 'Messaggio di errore:'
 broadcast.suggested.action: 'Azioni suggerite:'
 account.why: Perché occorre dovresti conservare la chiave privata?
-account.save: Conserva la tua chiave privata per accedere successivamente al tuo 
+account.save: Conserva la tua chiave privata per accedere successivamente al tuo
   portafoglio
 account.pay-attention: Fai attenzione
 account.not-hold: >-
@@ -363,15 +364,15 @@ abi.input: Input
 abi.return: Restituzione
 wallet.error.failReadExecution: >-
   Errore durante la lettura dell'esecuzione. Ricontrolla l'indirizzo dello smart
-  contract e la tua connessione internet. E' anche possibile che un valore 
+  contract e la tua connessione internet. E' anche possibile che un valore
   non sia ancora disponibile.
 wallet.unlock.new.title: Fai attenzione
 wallet.unlock.new.p1: >-
-  Noi non memorizziamo la tua chiave privata nei nostri sistemi. La generazione 
+  Noi non memorizziamo la tua chiave privata nei nostri sistemi. La generazione
   della chiave privata viene gestita esclusivamente dal tuo browser.
 wallet.unlock.new.p2: >-
-  Fai una copia di sicurezza della tua chiave privata perchè ti servirà per 
-  accedere al tuo portafoglio. Se perdi la tua chiave questa non potrà essere 
+  Fai una copia di sicurezza della tua chiave privata perchè ti servirà per
+  accedere al tuo portafoglio. Se perdi la tua chiave questa non potrà essere
   più recuperata.
 wallet.unlock.new.yes: 'Ho capito, continua'
 wallet.transactioNDetail.yes: 'Si, esegui la transazione'
@@ -379,11 +380,11 @@ wallet.input.nonce.suggestion: 'Nota: un nonce <= ${nonce} verrà rigettato.'
 input.error.nonceTooLow: Nonce troppo basso
 transaction.pending: >-
   Questa transazione è stata inviata alla rete e verrà verificata presto.
-  Controlla fra pochi secondi. Se non vedrai più questo messaggio significa che 
+  Controlla fra pochi secondi. Se non vedrai più questo messaggio significa che
   la transazione non è andata a buon fine.
 transaction.pending.title: Transazione in attesa di conferma
 other.cookie.content: >-
-  Utilizziamo i cookie per offrirti una migliore esperienza di navigazione, 
-  analizzare il traffico del sito, personalizzare i contenuti. Utizzando il 
+  Utilizziamo i cookie per offrirti una migliore esperienza di navigazione,
+  analizzare il traffico del sito, personalizzare i contenuti. Utizzando il
   nostro sito, dai il consenso al nostro utilizzo dei cookie.
 other.cookie.accept: Accetta i Cookie

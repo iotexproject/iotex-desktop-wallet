@@ -42,13 +42,15 @@ export class TransferInput extends Component {
       nonce: this.props.address ? this.props.address.pendingNonce : 1,
       currentNonce: this.props.address ? this.props.address.nonce : 1,
       nonceMessage: t('wallet.input.nonce.suggestion', {nonce: this.props.address ? this.props.address.nonce : 0}),
-      dataInBytes: '',
+      dataInHex: '',
+      dataText: '',
       errors_recipient: '',
       errors_amount: '',
       errors_gasPrice: '',
       errors_gasLimit: '',
       errors_nonce: '',
-      errors_dataInBytes: '',
+      errors_dataInHex: '',
+      errors_dataText: '',
       message: '',
       rawTransaction: null,
       broadcast: null,
@@ -133,8 +135,9 @@ export class TransferInput extends Component {
       this.updateFormState(name, value, value && onlyNumber(value));
       break;
     }
-    case 'dataInBytes': {
-      this.updateFormState(name, value, value && isValidBytes(value));
+    case 'dataText': {
+      // dataText convert dataInHex
+      this.updateFormState("dataInHex", new Buffer(value).toString('hex'), '');
       break;
     }
     default: {
@@ -148,7 +151,8 @@ export class TransferInput extends Component {
       errors_recipient: '',
       errors_nonce: '',
       errors_amount: '',
-      errors_dataInBytes: '',
+      errors_dataInHex: '',
+      errors_dataText: '',
       message: '',
     });
   }
@@ -174,13 +178,13 @@ export class TransferInput extends Component {
   }
 
   hasErrors() {
-    const {errors_recipient, errors_amount, errors_nonce, errors_dataInBytes} = this.state;
-    this.setState({hasErrors: errors_recipient || errors_nonce || errors_amount || errors_dataInBytes});
+    const {errors_recipient, errors_amount, errors_nonce, errors_dataInHex} = this.state;
+    this.setState({hasErrors: errors_recipient || errors_nonce || errors_amount || errors_dataInHex});
   }
 
   generateTransfer() {
     const {wallet} = this.props;
-    const {recipient, amount, nonce, dataInBytes, gasPrice, gasLimit, isCrossChainTransfer} = this.state;
+    const {recipient, amount, nonce, dataInHex, gasPrice, gasLimit, isCrossChainTransfer} = this.state;
 
     this.setState({generating: true});
     const rawTransfer: TRawTransferRequest = {
@@ -189,7 +193,7 @@ export class TransferInput extends Component {
       amount: toRau(amount, 'Iotx'),
       sender: wallet.rawAddress,
       recipient,
-      payload: dataInBytes.replace(/^(0x)/, ''),
+      payload: dataInHex.replace(/^(0x)/, ''),
       isCoinbase: false,
       gasPrice,
       gasLimit,
@@ -255,13 +259,23 @@ export class TransferInput extends Component {
           />
 
           <TextInputField
-            label={t('wallet.input.dib')}
-            name='dataInBytes'
-            value={this.state.dataInBytes}
-            error={t(this.state.errors_dataInBytes)}
-            placeholder='0x1234'
+            label={t('wallet.choice.input.data')}
+            name='dataText'
+            value={this.state.dataText}
+            error={t(this.state.errors_dataText)}
+            placeholder='Here some message...'
             textArea={true}
             update={(name, value) => this.handleInputChange(name, value)}
+          />
+
+          <TextInputField
+            label={t('wallet.input.dib')}
+            name='dataInHex'
+            value={this.state.dataInHex}
+            error={t(this.state.errors_dataInHex)}
+            placeholder='0x1234'
+            readOnly={true}
+            textArea={true}
           />
           <br/>
           {greenButton(t('wallet.input.generate'), this.state.hasErrors, this.generateTransfer, generating)}
