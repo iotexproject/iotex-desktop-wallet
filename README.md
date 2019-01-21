@@ -3,6 +3,7 @@
 [![CircleCI](https://circleci.com/gh/puncsky/web-onefx-boilerplate/tree/master.svg?style=svg)](https://circleci.com/gh/puncsky/web-onefx-boilerplate/tree/master)
 
 
+
 ## Getting Started
 
 OneFx is a full-stack framework for building web apps. Here are the features you'll find in Onefx.js:
@@ -45,8 +46,9 @@ The development site will be available at [http://localhost:4000](http://localho
 
 It's sometimes useful to run a project in production mode, for example, to check bundle size or to debug a production-only issue. To run your project in production mode locally, run:
 
-```
-npm run build-production && NODE_ENV=production npm run start
+```bash
+npm run build-production
+NODE_ENV=production npm run start
 ```
 
 #### NPM scripts
@@ -319,37 +321,49 @@ Design Resources
 
 ## Roadmap
 
-Vision: Onefx = fusionjs + django + react native + SRE infra + data pipeline
+Vision: Onefx = fusionjs-like presentation layer + django-like admin portal + react-native-made mobile app + minimalist (SRE infra + data pipeline)
 
 1.  MVP
 	1.  Getting started
+		1.  Create a project
+		2.  Run your project
 		3.  Framework Comparison
 		4.  Coding Styles
 	2.  Guides
-		4.Fetching data
-		5.Forms
-		8.typing
-		10.Universal rendering
-		11.Server code
-		12.Performance
-			1.  automatic code splitting
-		13.debugging
-		16.Working with Secrets
-2.  ver 1.0.0 Web
-	1. yarn create
-	2. Auth: Sign in / sign up / forgot-password
-	3. Admin Site
-	4. Boilerplates
-  5. typescript rewrite
-3.  Ver 2.0.0 Mobile
-	1.  React native, Apollo graphql
-4.  Ver 3.0.0 Infra
-  1.Kubernetes
-  2.metrics
-  3.logging
-5.  Ver 4.0.0 Data Pipeline
-  1.ELK
-  2.BI platform
+		1.  State management
+		2.  styling
+			1. import styles
+			2. modular styles (now we have global root provider dependency on styletron)
+		  3. Routing
+		  4. Fetching data
+		  5. Forms
+		  6. Internationalization
+		  7. testing
+		  8. typing
+		  9. security
+		  10. Universal rendering
+		  11. Server code
+		  12. Performance
+		  	1. automatic code splitting
+		  13. debugging
+		  14. Static assets
+		  15. Configuration
+		  16. Working with Secrets
+2. ver 1.0.0 Web
+	  1. yarn create
+	  2. Auth: Sign in / sign up / forgot-password
+	  3. Admin Site
+	  4. Boilerplates
+3. Ver 2.0.0 Mobile
+    1. React native, Apollo graphql
+4. Ver 3.0.0 Infra
+    1. Kubernetes
+    2. metrics
+    3. logging
+5. Ver 4.0.0 Data Pipeline
+    1. ELK
+    2. BI platform
+
 
 ## Run on Windows
 
