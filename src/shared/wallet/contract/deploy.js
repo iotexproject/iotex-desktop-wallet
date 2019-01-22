@@ -277,15 +277,8 @@ export class Deploy extends Component {
     // eslint-disable-next-line no-unused-expressions
     window.BrowserSolc && window.BrowserSolc.loadVersion(rel, sloc => {
       const output = sloc.compile(this.state.solidity);
-      var warningFound = 0;
-      if (output.errors && output.errors.length > 0) {
-        for(var e in output.errors) {
-            warningFound += (/.*(Warning:).*/.exec(output.errors[e]).length > 1 ? 1 : 0);
-        }
-
-        if(warningFound != output.errors.length) {
-          return this.setState({errors_solidity: JSON.stringify(output.errors, null, 2), generatingByte: false});
-        }
+      if (output.errors && output.errors.length > 0 && output.errors.some(err => err.indexOf('Warning:') === -1)) {
+        return this.setState({errors_solidity: JSON.stringify(output.errors, null, 2), generatingByte: false});
       }
 
       for (const contractName in output.contracts) {
