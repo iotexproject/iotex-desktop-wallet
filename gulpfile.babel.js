@@ -8,6 +8,7 @@ const sass = require('gulp-sass');
 const webpack = require('webpack');
 const PluginError = require('plugin-error');
 const log = require('fancy-log');
+const less = require('gulp-less');
 const webpackConfig = require('./webpack');
 
 const clean = () => {
@@ -68,6 +69,15 @@ const watchStylesheets = done => {
   done();
 };
 
+const compileLess = () => {
+  return gulp.src('src/client/stylesheets/*.less')
+    .pipe(less({
+      javascriptEnabled: true,
+      paths: ['./node_modules/antd/dist/antd.less'],
+    }))
+    .pipe(gulp.dest('dist/stylesheets'));
+};
+
 const compileStatic = done => {
   gulp.src('src/client/static/**/*')
     .on('error', function onError(err) {
@@ -78,12 +88,12 @@ const compileStatic = done => {
 };
 
 const watchStatic = done => {
-  gulp.watch('src/client/static/**/*', compileStatic);
+  gulp.watch('src/client/static/**/*', compileStatic, compileLess);
   done();
 };
 
-const build = gulp.parallel(compileJavascripts, compileStylesheets, compileStatic);
-const watch = gulp.series(gulp.parallel(build, watchJavascripts, watchStylesheets, watchStatic), watchServer);
+const build = gulp.parallel(compileJavascripts, compileStylesheets, compileStatic, compileLess);
+const watch = gulp.series(gulp.parallel(build, watchJavascripts, watchStylesheets, watchStatic, compileLess), watchServer);
 
 export {
   build,

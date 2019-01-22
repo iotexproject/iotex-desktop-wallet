@@ -53,7 +53,7 @@ export class App extends Component<Props> {
             {rel: 'icon', type: 'image/png', sizes: 'any', href: assetURL('/favicon.png')},
 
             // styles
-            {rel: 'stylesheet', type: 'text/css', href: assetURL('/stylesheets/main.css')},
+            {rel: 'stylesheet', type: 'text/css', href: assetURL('/stylesheets/antd.css')},
             {href: 'https://fonts.googleapis.com/css?family=Share+Tech|Actor', rel: 'stylesheet', type: 'text/css'},
           ]}
         >

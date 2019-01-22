@@ -7,7 +7,7 @@ import {TOP_BAR_HEIGHT} from './top-bar';
 export const FOOTER_HEIGHT = 89;
 
 export const FOOTER_ABOVE = {
-  minHeight: `calc(100vh - ${FOOTER_HEIGHT + TOP_BAR_HEIGHT}px)`,
+  minHeight: `calc(100vh - ${(FOOTER_HEIGHT + TOP_BAR_HEIGHT)}px)`,
 };
 
 export function Footer() {
@@ -27,7 +27,7 @@ const Align = styled('div', props => ({
   justifyContent: 'space-between',
   paddingTop: '32px',
   paddingBottom: '32px',
-  height: '100%',
+  height: `${FOOTER_HEIGHT}px`,
   backgroundColor: colors.nav02,
   color: colors.inverse01,
 }));
