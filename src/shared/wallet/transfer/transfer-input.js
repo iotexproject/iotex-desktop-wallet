@@ -9,13 +9,15 @@ import {TransactionDetailSection} from '../transaction-detail-section';
 import {t} from '../../../lib/iso-i18n';
 import type {Error} from '../../../entities/common-types';
 import type {TAddressDetails} from '../../../entities/explorer-types';
-import {acceptableNonce, isValidBytes, isValidRawAddress, onlyNumber, onlyFloat} from '../validator';
+import {acceptableNonce, isValidRawAddress, onlyNumber, onlyFloat} from '../validator';
 import type {TRawTransferRequest} from '../../../entities/explorer-types';
 import {BroadcastFail, BroadcastSuccess} from '../broadcastedTransaction';
 import {clearButton, greenButton} from '../../common/buttons';
 import {decodeAddress} from '../../../lib/decode-address';
 import {INPUT_READONLY} from '../wallet';
 import {ContinueDeposit} from './continue-deposit';
+
+const Buffer = require('buffer').Buffer;
 
 function getChainId(rawAddress) {
   const addr = decodeAddress(rawAddress);
@@ -137,7 +139,8 @@ export class TransferInput extends Component {
     }
     case 'dataText': {
       // dataText convert dataInHex
-      this.updateFormState("dataInHex", new Buffer(value).toString('hex'), '');
+      this.updateFormState('dataText', value, '');
+      this.updateFormState('dataInHex', `0x${ Buffer.from(value).toString('hex')}`, '');
       break;
     }
     default: {
