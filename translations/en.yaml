@@ -171,7 +171,8 @@ wallet.input.amount: Amount
 wallet.input.nonce: Nonce
 wallet.input.gasPrice: Gas Price
 wallet.input.gasLimit: Gas Limit
-wallet.input.dib: Data in Bytes (optional)
+wallet.choice.input.data: Data (optional)
+wallet.input.dib: Data Hex
 wallet.input.generate: Generate Transaction
 wallet.input.contract: Contract Address
 wallet.input.abi: ABI / JSON Interface
