@@ -75,7 +75,7 @@
     "apollo-cache-inmemory": "1.4.2",
     "apollo-client": "2.4.12",
     "apollo-link-http": "1.5.9",
-    "apollo-server-koa": "2.3.1",
+    "apollo-server-koa": "2.3.2",
     "ava": "1.1.0",
     "axios": "0.18.0",
     "babel-eslint": "9.0.0",
