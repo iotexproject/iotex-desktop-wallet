@@ -82,10 +82,9 @@ export class Votes extends Component {
             name={t('meta.votes')}
             displayPagination={true}
           >
-            {<VotesListOnlyId
+            {<VotesSummaryList
               votes={this.props.state.items}
               width={this.props.width}
-              isHome={false}
             />}
           </TableWrapper>
         </div>
@@ -184,6 +183,59 @@ export class VotesListOnlyId extends Component {
                   {fromNow(vote.timestamp)}
                 </td>
               )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
+}
+
+export class VotesSummaryList extends Component {
+  props: {
+    votes: Array<TVote>,
+    showIcons: ?boolean,
+    width: number,
+  };
+
+  render() {
+    let votes = this.props.votes;
+
+    // null
+    if (!votes) {
+      return (
+        <EmptyMessage item={t('meta.votes')}/>
+      );
+    }
+    // only 1 item
+    if (!Array.isArray(votes)) {
+      votes = [votes];
+    }
+    return (
+      <table className='bx--data-table-v2'>
+        <thead>
+          <tr>
+            <th>{t('vote.id')}</th>
+            <th>{t('vote.voter')}</th>
+            <th>{t('vote.votee')}</th>
+            <th>{t('meta.timestamp')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {votes.map((vote: TVote) => (
+            <tr className='bx--parent-row-v2' data-parent-row>
+              <td>
+                <Link to={`/votes/${vote.ID}`} className='link'>{singleColEllipsisText(vote.ID, this.props.width, this.props.isHome)}</Link>
+              </td>
+              <td>
+                <Link to={`/address/${vote.voter}`} className='link'>{singleColEllipsisText(vote.voter, this.props.width, true)}</Link>
+              </td>
+              <td>
+                <Link to={`/address/${vote.votee}`} className='link'>{singleColEllipsisText(vote.votee, this.props.width, true)}</Link>
+              </td>
+              <td>
+                {fromNow(vote.timestamp)}
+              </td>
             </tr>
           ))}
         </tbody>
