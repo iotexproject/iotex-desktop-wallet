@@ -74,10 +74,9 @@ export class Blocks extends Component {
           name={t('blocks.title')}
           displayPagination={true}
         >
-          {<BlocksListOnlyId
+          {<BlocksSummaryList
             blocks={this.props.state.items}
             width={this.props.width}
-            isHome={false}
           />}
         </TableWrapper>
         <CommonMargin/>
@@ -167,6 +166,54 @@ export class BlocksListOnlyId extends Component {
                   {fromNow(b.timestamp)}
                 </td>
               )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
+}
+
+export class BlocksSummaryList extends Component {
+  props: {
+    blocks: Array<TBlock>,
+    width: string,
+  };
+
+  render() {
+    let blocks: Array<TBlock> = this.props.blocks;
+
+    if (!blocks) {
+      return null;
+    }
+    if (!Array.isArray(blocks)) {
+      blocks = [blocks];
+    }
+    return (
+      <table className='bx--data-table-v2'>
+        <thead>
+          <tr>
+            <th>{t('block.id')}</th>
+            <th>{t('meta.transactions')}</th>
+            <th>{t('meta.executions')}</th>
+            <th>{t('meta.timestamp')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {blocks.map((b: TBlock) => (
+            <tr className='bx--parent-row-v2' data-parent-row>
+              <td>
+                <Link to={`/blocks/${b.ID}`} className='link'>{singleColEllipsisText(b.ID, this.props.width, false)}</Link>
+              </td>
+              <td style="text-align: center">
+                {b.transfers}
+              </td>
+              <td style="text-align: center">
+                {b.executions}
+              </td>
+              <td style="text-align: center">
+                {fromNow(b.timestamp)}
+              </td>
             </tr>
           ))}
         </tbody>
