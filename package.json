@@ -74,7 +74,7 @@
     "antd": "3.13.0",
     "apollo-cache-inmemory": "1.4.2",
     "apollo-client": "2.4.12",
-    "apollo-link-http": "1.5.9",
+    "apollo-link-http": "1.5.11",
     "apollo-server-koa": "2.3.3",
     "ava": "1.2.0",
     "axios": "0.18.0",
