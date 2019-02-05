@@ -102,11 +102,9 @@ export class Nav extends Component {
   render() {
     const {chains, href} = this.props;
     let name = '';
-    let path = '';
     for (const c of chains) {
       if (href.indexOf(c.url) !== -1) {
         name = c.name;
-        path = href.replace(c.url, '');
       }
     }
 
@@ -180,7 +178,7 @@ export class Nav extends Component {
                     </p>
                     <div className='navbar-dropdown' style={{paddingTop: '0px', borderTop: '0px'}}>
                       {chains.map((c, i) => (
-                        <a target='_blank' rel='noopener noreferrer' key={i} className='navbar-item' href={c.url + path}>
+                        <a target='_blank' rel='noopener noreferrer' key={i} className='navbar-item' href={c.url}>
                           <Icon/>{c.name}
                         </a>
                       ))}
