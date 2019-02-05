@@ -7,6 +7,7 @@ import isBrowser from 'is-browser';
 import {CommonMargin} from '../common/common-margin';
 import type {TTransfer} from '../../entities/explorer-types';
 import {TableWrapper} from '../common/table-wrapper';
+import {fromRau} from 'iotex-client-js/dist/account/utils';
 import {ellipsisText, hideColClass, singleColEllipsisText} from '../common/utils';
 import type {Error} from '../../entities/common-types';
 import {t} from '../../lib/iso-i18n';
@@ -82,10 +83,9 @@ export class Transfers extends Component {
             name={t('meta.transfers')}
             displayPagination={true}
           >
-            {<TransfersListOnlyId
+            {<TransfersSummaryList
               transfers={this.props.state.items}
               width={this.props.width}
-              isHome={false}
             />}
           </TableWrapper>
         </div>
@@ -180,6 +180,57 @@ export class TransfersListOnlyId extends Component {
                   {fromNow(transfer.timestamp)}
                 </td>
               )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
+}
+
+export class TransfersSummaryList extends Component {
+  props: {
+    transfers: Array<TTransfer>,
+    width: number
+  };
+
+  render() {
+    let transfers = this.props.transfers;
+    // null
+    if (!transfers) {
+      return (
+        <EmptyMessage item={t('meta.transfers')}/>
+      );
+    }
+    // only 1 item
+    if (!Array.isArray(transfers)) {
+      transfers = [transfers];
+    }
+    return (
+      <table className='bx--data-table-v2'>
+        <thead>
+          <tr>
+            <th>{t('transfer.hash')}</th>
+            <th>{t('transfer.sender')}</th>
+            <th>{t('meta.amount')}</th>
+            <th>{t('meta.timestamp')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {transfers.map((transfer: TTransfer) => (
+            <tr className='bx--parent-row-v2' data-parent-row>
+              <td>
+                <Link to={`/transfers/${transfer.ID}`} className='link'>{singleColEllipsisText(transfer.ID, this.props.width, false)}</Link>
+              </td>
+              <td>
+                {transfer.sender === '' ? t('transfer.coinBase') : (<Link to={`/address/${transfer.sender}`} className='link'>{singleColEllipsisText(transfer.sender, this.props.width, false)}</Link>)}
+              </td>
+              <td style="text-align:center">
+                {fromRau(transfer.amount)}
+              </td>
+              <td>
+                {fromNow(transfer.timestamp)}
+              </td>
             </tr>
           ))}
         </tbody>

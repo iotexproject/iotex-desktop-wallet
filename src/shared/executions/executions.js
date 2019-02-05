@@ -9,6 +9,7 @@ import {TableWrapper} from '../common/table-wrapper';
 import {ellipsisText, hideColClass, singleColEllipsisText} from '../common/utils';
 import type {Error} from '../../entities/common-types';
 import {t} from '../../lib/iso-i18n';
+import {fromRau} from 'iotex-client-js/dist/account/utils';
 import {EmptyMessage} from '../common/message';
 import type {TExecution} from '../../entities/explorer-types';
 import {fromNow} from '../common/from-now';
@@ -82,10 +83,9 @@ export class Executions extends Component {
             name={t('meta.executions')}
             displayPagination={true}
           >
-            {<ExecutionsListOnlyId
+            {<ExecutionsSummaryList
               executions={this.props.state.items}
               width={this.props.width}
-              isHome={false}
             />}
           </TableWrapper>
         </div>
@@ -195,3 +195,56 @@ export class ExecutionsListOnlyId extends Component {
   }
 }
 
+export class ExecutionsSummaryList extends Component {
+  props: {
+    executions: Array<TExecution>,
+    width: number,
+  };
+
+  render() {
+    let executions = this.props.executions;
+
+    // null
+    if (!executions) {
+      return (
+        <EmptyMessage item={t('meta.executions')}/>
+      );
+    }
+    // only 1 item
+    if (!Array.isArray(executions)) {
+      executions = [executions];
+    }
+    return (
+      <table className='bx--data-table-v2'>
+        <thead>
+          <tr>
+            <th>{t('execution.hash')}</th>
+            <th>{t('execution.contract')}</th>
+            <th>{t('meta.amount')}</th>
+            <th>{t('execution.timestamp')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {executions.map((execution: TExecution) => (
+            <tr className='bx--parent-row-v2' data-parent-row>
+              <td>
+                <Link to={`/executions/${execution.ID}`} className='link'>
+                  {singleColEllipsisText(execution.ID, this.props.width, false)}
+                </Link>
+              </td>
+              <td>
+                {execution.contract ? (<Link to={`/address/${execution.contract}`} className='link'>{singleColEllipsisText(execution.contract, this.props.width, false)}</Link>) : ''}
+              </td>
+              <td style="text-align:center">
+                {fromRau(execution.amount)}
+              </td>
+              <td>
+                {fromNow(execution.timestamp)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
+}
