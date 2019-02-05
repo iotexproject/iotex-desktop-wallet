@@ -112,7 +112,7 @@
     "jsdom": "12.2.0",
     "jsdom-global": "3.0.2",
     "jsonwebtoken": "8.4.0",
-    "mongoose": "5.4.9",
+    "mongoose": "5.4.10",
     "nodemailer": "5.1.1",
     "nodemailer-mailgun-transport": "1.4.0",
     "nyc": "13.2.0",
