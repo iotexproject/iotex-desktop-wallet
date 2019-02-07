@@ -18,7 +18,7 @@ import {setContractRoutes} from '../shared/wallet/contract/contract-handler';
 import {setWalletRoutes} from '../shared/wallet/wallet-handler';
 import {setDelegateRoutes} from '../shared/delegates/delegates-handler';
 import {setDepositRoutes} from '../shared/deposit/deposit-handler';
-import {version} from '../../package.json';
+import {version, versionsIotexCore} from '../../package.json';
 import {setJsonRpcRoutes} from './json-rpc/json-rpc';
 
 // eslint-disable-next-line max-statements
@@ -43,6 +43,8 @@ export function setServerRoutes(server: Server) {
     ctx.setState('base.chains', chains);
     ctx.setState('base.href', href);
     ctx.setState('base.version', version);
+    ctx.setState('base.versionsIotexCore', versionsIotexCore);
+
     const curChain = chains.find(c => {
       return href.indexOf(c.url) === 0;
     });
