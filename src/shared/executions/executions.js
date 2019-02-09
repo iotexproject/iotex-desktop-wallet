@@ -4,12 +4,12 @@ import Component from 'inferno-component';
 import Helmet from 'inferno-helmet';
 import {Link} from 'inferno-router';
 import isBrowser from 'is-browser';
+import {fromRau} from 'iotex-client-js/dist/account/utils';
 import {CommonMargin} from '../common/common-margin';
 import {TableWrapper} from '../common/table-wrapper';
 import {ellipsisText, hideColClass, singleColEllipsisText} from '../common/utils';
 import type {Error} from '../../entities/common-types';
 import {t} from '../../lib/iso-i18n';
-import {fromRau} from 'iotex-client-js/dist/account/utils';
 import {EmptyMessage} from '../common/message';
 import type {TExecution} from '../../entities/explorer-types';
 import {fromNow} from '../common/from-now';
@@ -235,7 +235,7 @@ export class ExecutionsSummaryList extends Component {
               <td>
                 {execution.contract ? (<Link to={`/address/${execution.contract}`} className='link'>{singleColEllipsisText(execution.contract, this.props.width, false)}</Link>) : ''}
               </td>
-              <td style="text-align:center">
+              <td style='text-align:center'>
                 {fromRau(execution.amount)}
               </td>
               <td>
