@@ -1,4 +1,5 @@
 const PRIVATE_KEY_LENGTH = 72;
+const PRIVATE_KEY_LENGTH_V2 = 64;
 const RAW_ADDRESS_LENGTH = 49;
 
 const PRIVATE_KEY_REGEX = /^[A-Za-z0-9]+$/;
@@ -17,7 +18,7 @@ export function isValidJSON(str) {
 }
 
 export function isValidPrivateKey(str) {
-  if (str.length !== PRIVATE_KEY_LENGTH) {
+  if (str.length !== PRIVATE_KEY_LENGTH || str.length !== PRIVATE_KEY_LENGTH_V2) {
     return 'input.error.private_key.length';
   }
   if (str.match(PRIVATE_KEY_REGEX)) {

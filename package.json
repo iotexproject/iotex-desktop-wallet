@@ -1,6 +1,7 @@
 {
   "name": "@iotex/iotex-explorer",
   "version": "0.1.2",
+  "versionsIotexCore": ["0.4.2"],
   "description": "field_description",
   "main": "server.js",
   "scripts": {

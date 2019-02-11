@@ -4,10 +4,10 @@ import Component from 'inferno-component';
 import Helmet from 'inferno-helmet';
 import {Link} from 'inferno-router';
 import isBrowser from 'is-browser';
+import {fromRau} from 'iotex-client-js/dist/account/utils';
 import {CommonMargin} from '../common/common-margin';
 import type {TTransfer} from '../../entities/explorer-types';
 import {TableWrapper} from '../common/table-wrapper';
-import {fromRau} from 'iotex-client-js/dist/account/utils';
 import {ellipsisText, hideColClass, singleColEllipsisText} from '../common/utils';
 import type {Error} from '../../entities/common-types';
 import {t} from '../../lib/iso-i18n';
@@ -225,7 +225,7 @@ export class TransfersSummaryList extends Component {
               <td>
                 {transfer.sender === '' ? t('transfer.coinBase') : (<Link to={`/address/${transfer.sender}`} className='link'>{singleColEllipsisText(transfer.sender, this.props.width, false)}</Link>)}
               </td>
-              <td style="text-align:center">
+              <td style='text-align:center'>
                 {fromRau(transfer.amount)}
               </td>
               <td>

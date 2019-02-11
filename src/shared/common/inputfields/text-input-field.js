@@ -11,7 +11,8 @@ export class LabelInputField extends Component {
   handleInputChange(event) {
     const name = event.target.name;
     const value = event.target.value;
-    this.props.update(name, value);
+    const keyCode = event.keyCode;
+    this.props.update(name, value, keyCode);
   }
 
   render() {
@@ -30,7 +31,7 @@ export class LabelInputField extends Component {
               type={`${type ? type : 'text'}`}
               value={value}
               placeholder={placeholder}
-              onInput={this.handleInputChange}
+              onKeyUp={this.handleInputChange}
               disabled={readOnly}
               autocomplete={name === 'priKey' ? 'off' : 'on'}
             />
@@ -76,7 +77,7 @@ export class TextInputField extends Component {
                   type='text'
                   value={value}
                   placeholder={placeholder}
-                  onInput={this.handleInputChange}
+                  onKeyUp={this.handleInputChange}
                   disabled={readOnly}
                 />
                 {extra && <p className='help is-danger' style={{wordBreak: 'break-word', color: 'rgb(165, 165, 165)'}}>{extra}</p>}
