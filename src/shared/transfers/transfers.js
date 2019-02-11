@@ -207,7 +207,7 @@ export class TransfersSummaryList extends Component {
       transfers = [transfers];
     }
     return (
-      <table className='bx--data-table-v2'>
+      <table className='bx--data-table-v2 mobile-table'>
         <thead>
           <tr>
             <th>{t('transfer.hash')}</th>
@@ -225,7 +225,7 @@ export class TransfersSummaryList extends Component {
               <td>
                 {transfer.sender === '' ? t('transfer.coinBase') : (<Link to={`/address/${transfer.sender}`} className='link'>{singleColEllipsisText(transfer.sender, this.props.width, false)}</Link>)}
               </td>
-              <td style='text-align:center'>
+              <td mobile-label={t('meta.amount')} style='text-align:center'>
                 {fromRau(transfer.amount)}
               </td>
               <td>

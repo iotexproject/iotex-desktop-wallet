@@ -212,7 +212,7 @@ export class VotesSummaryList extends Component {
       votes = [votes];
     }
     return (
-      <table className='bx--data-table-v2'>
+      <table className='bx--data-table-v2 mobile-table'>
         <thead>
           <tr>
             <th>{t('vote.id')}</th>

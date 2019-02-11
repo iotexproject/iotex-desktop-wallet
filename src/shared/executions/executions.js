@@ -215,7 +215,7 @@ export class ExecutionsSummaryList extends Component {
       executions = [executions];
     }
     return (
-      <table className='bx--data-table-v2'>
+      <table className='bx--data-table-v2 mobile-table'>
         <thead>
           <tr>
             <th>{t('execution.hash')}</th>
@@ -235,7 +235,7 @@ export class ExecutionsSummaryList extends Component {
               <td>
                 {execution.contract ? (<Link to={`/address/${execution.contract}`} className='link'>{singleColEllipsisText(execution.contract, this.props.width, false)}</Link>) : ''}
               </td>
-              <td style='text-align:center'>
+              <td mobile-label={t('meta.amount')} style='text-align:center'>
                 {fromRau(execution.amount)}
               </td>
               <td>

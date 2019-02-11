@@ -1,0 +1,42 @@
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 819px)  {
+
+	/* Force table to not be like tables anymore */
+	.mobile-table table, .mobile-table thead, .mobile-table tbody, .mobile-table th, .mobile-table td, .mobile-table tr {
+		display: block;
+	}
+
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.mobile-table thead tr {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+
+  .mobile-table tr {
+    min-height: 6.2rem !important;
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+  }
+
+	.mobile-table td {
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee;
+		position: relative;
+	}
+
+	.mobile-table td:before {
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		//top: 16px;
+    content: attr(mobile-label);
+		left: 2px;
+		width: 45%;
+		padding-right: 5px;
+		white-space: nowrap;
+	}
+
+}

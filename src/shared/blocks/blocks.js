@@ -190,7 +190,7 @@ export class BlocksSummaryList extends Component {
       blocks = [blocks];
     }
     return (
-      <table className='bx--data-table-v2'>
+      <table className='bx--data-table-v2 mobile-table'>
         <thead>
           <tr>
             <th>{t('block.id')}</th>
@@ -205,10 +205,10 @@ export class BlocksSummaryList extends Component {
               <td>
                 <Link to={`/blocks/${b.ID}`} className='link'>{singleColEllipsisText(b.ID, this.props.width, false)}</Link>
               </td>
-              <td style='text-align: center'>
+              <td mobile-label={t('meta.transactions')} style='text-align: center'>
                 {b.transfers}
               </td>
-              <td style='text-align: center'>
+              <td mobile-label={t('meta.executions')} style='text-align: center'>
                 {b.executions}
               </td>
               <td style='text-align: center'>

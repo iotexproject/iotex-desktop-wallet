@@ -42,6 +42,7 @@ export class App extends Component {
             {rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Roboto|Share+Tech'},
             {rel: 'stylesheet', type: 'text/css', href: `${assetURL('/stylesheets/blockchain-explorer.css')}`},
             {rel: 'stylesheet', type: 'text/css', href: `${assetURL('/stylesheets/custom.css')}`},
+            {rel: 'stylesheet', type: 'text/css', href: `${assetURL('/stylesheets/mobile.css')}`},
           ]}
           script={[
             {defer: true, src: 'https://use.fontawesome.com/releases/v5.0.9/js/all.js'},
