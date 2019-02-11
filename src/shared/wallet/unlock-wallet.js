@@ -37,10 +37,17 @@ export class UnlockWallet extends Component {
     (this: any).setHideWarning = this.setHideWarning.bind(this);
   }
 
-  handleInputChange(name: string, value: string) {
+  handleInputChange(name: string, value: string, keyCode: string) {
     switch (name) {
     case 'priKey': {
-      this.setState({[name]: value, priKeyError: isValidPrivateKey(value), message: ''});
+
+      const privateKeyStatus = isValidPrivateKey(value);
+      this.setState({[name]: value, priKeyError: privateKeyStatus, message: ''});
+
+      if (privateKeyStatus === '' && keyCode && keyCode === 13) {
+        // return keys
+        this.unlockWallet();
+      }
       break;
     }
     default: {
@@ -105,7 +112,8 @@ export class UnlockWallet extends Component {
           value={priKey}
           error={t(priKeyError)}
           placeholder={t('wallet.account.placehold.privateKey')}
-          update={(name, value) => this.handleInputChange(name, value)}/>
+          update={(name, value, keyCode) => this.handleInputChange(name, value, keyCode)}
+        />
         <br/>
         {greenButton(t('wallet.account.unlock'), Boolean(!priKey || priKeyError), this.unlockWallet, fetching)}
         <div style={{paddingTop: '24px'}}>
