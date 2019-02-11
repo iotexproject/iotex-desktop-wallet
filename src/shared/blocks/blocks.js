@@ -205,13 +205,13 @@ export class BlocksSummaryList extends Component {
               <td>
                 <Link to={`/blocks/${b.ID}`} className='link'>{singleColEllipsisText(b.ID, this.props.width, false)}</Link>
               </td>
-              <td style="text-align: center">
+              <td style='text-align: center'>
                 {b.transfers}
               </td>
-              <td style="text-align: center">
+              <td style='text-align: center'>
                 {b.executions}
               </td>
-              <td style="text-align: center">
+              <td style='text-align: center'>
                 {fromNow(b.timestamp)}
               </td>
             </tr>

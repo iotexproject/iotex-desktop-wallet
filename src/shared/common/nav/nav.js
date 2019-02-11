@@ -166,7 +166,7 @@ export class Nav extends Component {
                           />
                         </NavWrapper>
                         <div className='control'>
-                          <button className='button'>
+                          <button type='submit' className='button'>
                             <i className='fas fa-search'/>
                           </button>
                         </div>
