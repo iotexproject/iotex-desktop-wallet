@@ -15,7 +15,7 @@ only screen and (max-width: 760px),
 	}
 
   .mobile-table tr {
-    min-height: 6.2rem !important;
+    min-height: 12.2rem !important;
     border: 1px solid #ccc;
     margin-bottom: 1rem;
   }
@@ -28,15 +28,9 @@ only screen and (max-width: 760px),
 	}
 
 	.mobile-table td:before {
-		/* Now like a table header */
-		position: absolute;
-		/* Top/left values mimic padding */
-		//top: 16px;
-    content: attr(mobile-label);
+    content: attr(mobile-label) "\A";
 		left: 2px;
-		width: 45%;
-		padding-right: 5px;
-		white-space: nowrap;
+		white-space: pre;
 	}
 
 }

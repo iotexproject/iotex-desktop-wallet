@@ -40,8 +40,9 @@ export class UnlockWallet extends Component {
   handleInputChange(name: string, value: string, keyCode: string) {
     switch (name) {
     case 'priKey': {
-
+      console.log("value?", value)
       const privateKeyStatus = isValidPrivateKey(value);
+      console.log("privateKeyStatus", privateKeyStatus)
       this.setState({[name]: value, priKeyError: privateKeyStatus, message: ''});
 
       if (privateKeyStatus === '' && keyCode && keyCode === 13) {

@@ -227,18 +227,18 @@ export class ExecutionsSummaryList extends Component {
         <tbody>
           {executions.map((execution: TExecution) => (
             <tr className='bx--parent-row-v2' data-parent-row>
-              <td>
+              <td mobile-label={t('execution.hash')}>
                 <Link to={`/executions/${execution.ID}`} className='link'>
                   {singleColEllipsisText(execution.ID, this.props.width, false)}
                 </Link>
               </td>
-              <td>
+              <td mobile-label={t('execution.contract')}>
                 {execution.contract ? (<Link to={`/address/${execution.contract}`} className='link'>{singleColEllipsisText(execution.contract, this.props.width, false)}</Link>) : ''}
               </td>
-              <td mobile-label={t('meta.amount')} style='text-align:center'>
+              <td mobile-label={t('meta.amount')}>
                 {fromRau(execution.amount)}
               </td>
-              <td>
+              <td mobile-label={t('execution.timestamp')}>
                 {fromNow(execution.timestamp)}
               </td>
             </tr>

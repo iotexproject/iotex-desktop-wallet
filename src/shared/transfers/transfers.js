@@ -219,16 +219,16 @@ export class TransfersSummaryList extends Component {
         <tbody>
           {transfers.map((transfer: TTransfer) => (
             <tr className='bx--parent-row-v2' data-parent-row>
-              <td>
+              <td  mobile-label={t('transfer.hash')}>
                 <Link to={`/transfers/${transfer.ID}`} className='link'>{singleColEllipsisText(transfer.ID, this.props.width, false)}</Link>
               </td>
-              <td>
+              <td mobile-label={t('transfer.sender')}>
                 {transfer.sender === '' ? t('transfer.coinBase') : (<Link to={`/address/${transfer.sender}`} className='link'>{singleColEllipsisText(transfer.sender, this.props.width, false)}</Link>)}
               </td>
-              <td mobile-label={t('meta.amount')} style='text-align:center'>
+              <td mobile-label={t('meta.amount')}>
                 {fromRau(transfer.amount)}
               </td>
-              <td>
+              <td mobile-label={t('meta.timestamp')}>
                 {fromNow(transfer.timestamp)}
               </td>
             </tr>

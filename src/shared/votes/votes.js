@@ -224,16 +224,16 @@ export class VotesSummaryList extends Component {
         <tbody>
           {votes.map((vote: TVote) => (
             <tr className='bx--parent-row-v2' data-parent-row>
-              <td>
+              <td mobile-label={t('vote.id')}>
                 <Link to={`/votes/${vote.ID}`} className='link'>{singleColEllipsisText(vote.ID, this.props.width, this.props.isHome)}</Link>
               </td>
-              <td>
+              <td mobile-label={t('vote.voter')}>
                 <Link to={`/address/${vote.voter}`} className='link'>{singleColEllipsisText(vote.voter, this.props.width, true)}</Link>
               </td>
-              <td>
+              <td mobile-label={t('vote.votee')}>
                 <Link to={`/address/${vote.votee}`} className='link'>{singleColEllipsisText(vote.votee, this.props.width, true)}</Link>
               </td>
-              <td>
+              <td mobile-label={t('meta.timestamp')}>
                 {fromNow(vote.timestamp)}
               </td>
             </tr>
