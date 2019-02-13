@@ -18,7 +18,7 @@ export function isValidJSON(str) {
 }
 
 export function isValidPrivateKey(str) {
-  if (str.length !== PRIVATE_KEY_LENGTH || str.length !== PRIVATE_KEY_LENGTH_V2) {
+  if (str.length !== PRIVATE_KEY_LENGTH && str.length !== PRIVATE_KEY_LENGTH_V2) {
     return 'input.error.private_key.length';
   }
   if (str.match(PRIVATE_KEY_REGEX)) {
