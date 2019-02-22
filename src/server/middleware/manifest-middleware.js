@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import {logger} from 'onefx/lib/integrated-gateways/logger';
 
 export function manifestMiddleware(server) {

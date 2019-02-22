@@ -83,9 +83,5 @@ module.exports = {
       'https://checkout.stripe.com/checkout.js',
     ],
   },
-  stripe: {
-    stripePubKey: 'pk_test_1yMRIhidzZOrBJ84mJNHqa4O',
-    stripePriKey: 'sk_test_5pGpbrSWDfkXbg1XoOOqQzQy',
-  },
   apiGatewayUrl: 'http://localhost:4100/api-gateway/',
 };

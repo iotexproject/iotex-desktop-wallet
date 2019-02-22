@@ -9,10 +9,14 @@ require('@babel/register')({
     ['@babel/preset-flow'],
   ],
   plugins: [
-    '@babel/plugin-transform-flow-strip-types',
+    ['@babel/plugin-proposal-decorators', {
+      decoratorsBeforeExport: true,
+    }],
+    '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-object-rest-spread',
-    'transform-class-properties',
+    '@babel/plugin-transform-flow-strip-types',
     'react-require',
+    'transform-class-properties',
   ],
   ignore: [
     /node_modules\/(?!onefx)/g,
