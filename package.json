@@ -73,7 +73,7 @@
     "@babel/preset-flow": "7.0.0",
     "@babel/preset-react": "7.0.0",
     "@babel/register": "7.0.0",
-    "antd": "3.13.5",
+    "antd": "3.13.6",
     "apollo-cache-inmemory": "1.4.3",
     "apollo-client": "2.4.13",
     "apollo-link-http": "1.5.11",
