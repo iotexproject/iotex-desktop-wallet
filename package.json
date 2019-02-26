@@ -104,7 +104,7 @@
     "apollo-cache-inmemory": "1.4.3",
     "apollo-client": "2.4.13",
     "apollo-link-http": "1.5.11",
-    "apollo-server-koa": "2.4.7",
+    "apollo-server-koa": "2.4.8",
     "axios": "0.18.0",
     "babel-loader": "8.0.5",
     "babel-plugin-module-resolver": "3.2.0",
