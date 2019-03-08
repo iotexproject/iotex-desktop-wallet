@@ -9,7 +9,7 @@
 OneFx is a full-stack framework for building web apps. Here are the features you'll find in Onefx.js:
 
 *   server side rendering and universal rendering with react and redux
-*   ES2017, JSX, flowtype support out of the box
+*   ES2017, JSX, TypeScript support out of the box
 *   server-side development via Koa.js
 
 ### Create a project
@@ -57,7 +57,6 @@ NODE_ENV=production npm run start
 *   `npm run ava ./path/to/test-file.js`: run a specific test file
 *   `npm run build`: build source code from `src` to `dist`
 *   `npm run lint`: run the linter
-*   `npm run flow`: run the flow type check
 *   `npm run kill`: kill the node server occupying the port 4100.
 
 ## Architecture
@@ -76,13 +75,10 @@ NODE_ENV=production npm run start
 │   └── test.js             // config in NODE_ENV=test
 ├── coverage                // test coverage
 ├── dist                    // destination for src build result
-├── flow-typed              // flowtype's type definition
-│   ├── global.js
-│   └── npm
 ├── gulpfile.babel.js       // gulp task runner config
 ├── package.json
 ├── renovate.json           // renovate bot to automate dependency bumps
-├── server.js               // project entry
+├── server.ts               // project entry
 ├── src                               // source code
 │   ├── client                        // browser-side source code
 │   │   ├── javascripts
@@ -94,17 +90,17 @@ NODE_ENV=production npm run start
 │   │   └── stylesheets
 │   │       └── main.scss
 │   ├── model                         // data models
-│   │   ├── index.js
+│   │   ├── index.ts
 │   │   └── model.js
 │   ├── server                        // onefx server
 │   │   ├── babel-register.js
-│   │   ├── index.js
+│   │   ├── index.ts
 │   │   ├── middleware                // koa middleware
-│   │   │   ├── index.js
+│   │   │   ├── index.ts
 │   │   │   ├── manifest-middleware.js
 │   │   │   └── set-middleware.js
 │   │   ├── server-routes.js          // server-side routes
-│   │   └── start-server.js           // server initialization
+│   │   └── start-server.ts           // server initialization
 │   └── shared                        // js code shared by both the server and the client
 │       ├── app-container.js
 │       ├── app.js
@@ -155,7 +151,7 @@ const SampleStateContainer = connect(
 We support both global styles with [sass](https://sass-lang.com/guide) in `./src/client/stylesheets/main.scss` and modular styles with [styletron-react](https://github.com/styletron/styletron/blob/master/packages/styletron-react/README.md):
 
 ```js
-import react from 'react';
+import React from 'react';
 import {styled} from 'onefx/lib/styletron-react';
 
 const Panel = styled('div', {

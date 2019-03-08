@@ -1,6 +1,5 @@
-import process from 'global/process';
-import dotenv from 'dotenv';
-dotenv.config();
+const {config} = require('dotenv');
+config();
 
 module.exports = {
   project: 'web-onefx-boilerplate',

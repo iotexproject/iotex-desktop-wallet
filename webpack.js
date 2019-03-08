@@ -14,10 +14,10 @@ const OUTPUT_DIR = 'dist/';
 module.exports = {
   mode: PROD ? 'production' : 'development',
   entry: glob
-    .sync('./src/client/javascripts/*.js')
+    .sync('./src/client/javascripts/*.ts*')
     .reduce(
       (entries, entry) =>
-        Object.assign(entries, {[entry.replace('./src/client/javascripts/', '').replace('.js', '')]: entry}), {}
+        Object.assign(entries, {[entry.replace('./src/client/javascripts/', '').replace(/(\.ts|\.tsx)$/, '')]: entry}), {}
     ),
   output: {
     filename: PROD ? '[name]-[chunkhash].js' : '[name].js',
@@ -26,6 +26,8 @@ module.exports = {
   ...(PROD ? {} : {devtool: 'source-map'}),
   module: {
     rules: [
+      { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
+      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
@@ -35,6 +37,21 @@ module.exports = {
         },
       },
     ],
+  },
+  resolve: {
+    // options for resolving module requests
+    // (does not apply to resolving to loaders)
+    modules: [
+      "node_modules",
+      path.resolve(__dirname, "src")
+    ],
+    // directories where to look for modules
+    extensions: [".js", ".json", ".jsx", ".ts", ".tsx"],
+    // extensions that are used
+    alias: {
+    },
+    /* Alternative alias syntax (click to show) */
+    /* Advanced resolve configuration (click to show) */
   },
   plugins: [
     new ManifestPlugin({
@@ -53,7 +70,6 @@ module.exports = {
           comments: false,
         },
         extractComments: true,
-        sourceMap: true,
       }),
       new webpack.DefinePlugin({
         'process.env': {

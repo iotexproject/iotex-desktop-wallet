@@ -1,8 +1,12 @@
 export default {
   require: [
-    './src/server/babel-register.js',
+    'ts-node/register',
   ],
   files: [
-    'src/**/*.test.js',
+    'src/**/*.test.ts',
+  ],
+  compileEnhancements: false,
+  extensions: [
+    'ts',
   ],
 };

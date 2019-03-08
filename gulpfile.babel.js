@@ -18,7 +18,7 @@ const clean = () => {
 const watchServer = done => {
   nodemon({
     exec: 'npm',
-    ext: 'js json jsx yaml jade md',
+    ext: 'js json jsx yaml jade md ts tsx',
     script: 'start',
     ignore: ['node_modules/', 'dist/', '*translations/'],
   });

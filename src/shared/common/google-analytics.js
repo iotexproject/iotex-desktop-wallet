@@ -1,6 +1,6 @@
 /* eslint-disable */
 let loaded = false;
-export function initGoogleAnalytics({tid, userId, cb}) {
+module.exports = function initGoogleAnalytics({tid, userId, cb}) {
   if (loaded || process.env.NODE_ENV.indexOf('production') === -1) {
     return;
   }
@@ -18,4 +18,3 @@ export function initGoogleAnalytics({tid, userId, cb}) {
   ga('send', 'pageview');
   cb && cb();
 }
-/* eslint-enable */
