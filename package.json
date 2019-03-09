@@ -88,7 +88,7 @@
     "webpack-manifest-plugin": "2.0.4",
     "tslint": "5.12.1",
     "tslint-config-prettier": "1.18.0",
-    "tslint-microsoft-contrib": "6.0.0",
+    "tslint-microsoft-contrib": "6.1.0",
     "tslint-require-connnect-typing": "1.0.1"
   },
   "dependencies": {
