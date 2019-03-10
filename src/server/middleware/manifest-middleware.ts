@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import koa from 'koa';
 // @ts-ignore
 import {Server} from 'onefx';

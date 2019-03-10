@@ -12,7 +12,7 @@ export const FOOTER_ABOVE = {
   minHeight: `calc(100vh - ${(FOOTER_HEIGHT + TOP_BAR_HEIGHT)}px)`,
 };
 
-export function Footer() {
+export function Footer(): JSX.Element {
   return (
     <Align>
       <Flex>{`Copyright © ${new Date().getFullYear()}`}</Flex>

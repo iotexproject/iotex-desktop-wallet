@@ -26,11 +26,11 @@ type Props = {
 };
 
 export class App extends Component<Props> {
-  public componentDidMount() {
+  public componentDidMount(): void {
     initGoogleAnalytics({tid: this.props.googleTid});
   }
 
-  public render() {
+  public render(): JSX.Element {
     const {locale} = this.props;
 
     return (

@@ -9,7 +9,9 @@ import {IdentityApp} from './view/identity-app';
 
 const PASSWORD_MIN_LENGTH = 8;
 
-export function emailValidator() {
+type Handler = (ctx: koa.Context, next: Function) => Promise<{}>;
+
+export function emailValidator(): Handler {
   return async (ctx: koa.Context, next: Function) => {
     let {email} = ctx.request.body;
     email = String(email).toLowerCase();
@@ -29,7 +31,7 @@ export function emailValidator() {
   };
 }
 
-export function passwordValidator() {
+export function passwordValidator():Handler {
   return async (ctx: koa.Context, next: Function) => {
     let {password} = ctx.request.body;
     password = String(password);
@@ -48,7 +50,8 @@ export function passwordValidator() {
   };
 }
 
-export function setEmailPasswordIdentityProviderRoutes(server: Server) {
+// tslint:disable-next-line
+export function setEmailPasswordIdentityProviderRoutes(server: Server): void {
   // view routes
   server.get('login', '/login', async (ctx: koa.Context, _: Function) => {
     return isoRender(ctx);
@@ -224,7 +227,7 @@ export function setEmailPasswordIdentityProviderRoutes(server: Server) {
   );
 }
 
-function isoRender(ctx: koa.Context) {
+function isoRender(ctx: koa.Context): void {
   ctx.body = ctx.isoReactRender({
     VDom: (
       <IdentityApp />

@@ -1,5 +1,5 @@
 
-/* eslint-disable no-invalid-this,no-unused-vars */
+
 // @ts-ignore
 import {styled} from 'onefx/lib/styletron-react';
 import {Component} from 'react';
@@ -26,14 +26,14 @@ type State = {
 }
 
 export class TopBar extends Component<{}, State> {
-  constructor(props: any) {
+  constructor(props: {}) {
     super(props);
     this.state = {
       displayMobileMenu: false,
     };
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     window.addEventListener('resize', () => {
       if (document.documentElement && document.documentElement.clientWidth > PALM_WIDTH) {
         this.setState({
@@ -75,7 +75,7 @@ export class TopBar extends Component<{}, State> {
     );
   };
 
-  public render() {
+  public render(): JSX.Element {
     const displayMobileMenu = this.state.displayMobileMenu;
 
     return (
@@ -134,7 +134,9 @@ const BarPlaceholder = styled('div', (_: React.CSSProperties) => {
   };
 });
 
-function HamburgerBtn({displayMobileMenu, children, onClick}: any) {
+function HamburgerBtn({displayMobileMenu, children, onClick}: {
+  displayMobileMenu: boolean, children: Array<JSX.Element> | JSX.Element, onClick: Function
+}): JSX.Element {
   const Styled = styled('div', ({
     ':hover': {
       color: colors.brand01,
@@ -152,7 +154,9 @@ function HamburgerBtn({displayMobileMenu, children, onClick}: any) {
   );
 }
 
-function CrossBtn({displayMobileMenu, children}: any) {
+function CrossBtn({displayMobileMenu, children}: {
+  displayMobileMenu: boolean, children: Array<JSX.Element> | JSX.Element
+}): JSX.Element {
   const Styled = styled('div', ({
     ':hover': {
       color: colors.brand01,
@@ -176,7 +180,7 @@ const LogoWrapper = styled('a', {
   height: '50px',
 });
 
-function Logo() {
+function Logo(): JSX.Element {
   return (
     <LogoWrapper href="/">
       <Icon url={assetURL('/favicon.png')}/>

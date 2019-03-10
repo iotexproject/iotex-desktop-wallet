@@ -31,11 +31,11 @@ type Props = {
 };
 
 export class IdentityApp extends Component<Props> {
-  public componentDidMount() {
+  public componentDidMount(): void {
     initGoogleAnalytics({tid: this.props.googleTid});
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <RootStyle>
         <Helmet
@@ -87,7 +87,7 @@ const RootStyle = styled('div', (_: React.CSSProperties) => ({
   textRendering: 'optimizeLegibility',
 }));
 
-function EmailTokenInvalid() {
+function EmailTokenInvalid(): JSX.Element {
   return (
     <Alert>
       <ContentPadding>

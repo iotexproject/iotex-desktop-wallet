@@ -19,12 +19,16 @@ const languages = [
   {value: 'zh-CN', children: '简体中文'},
 ];
 
-class LanguageSwitcher extends Component {
-  public state = {
+type State = {
+  displayTranslationMenu: boolean,
+}
+
+class LanguageSwitcher extends Component<{}, State> {
+  public state: State = {
     displayTranslationMenu: false,
   };
 
-  public switchLanguage(e: FormEvent<HTMLFormElement>) {
+  public switchLanguage(e: FormEvent<HTMLFormElement>): void {
     const locale = e.currentTarget.value;
     if (locale === GOTO_TRANS) {
       window.location.href = 'https://github.com/iotexproject/web-iotex-translations';
@@ -35,7 +39,7 @@ class LanguageSwitcher extends Component {
     window.location.href = updateQueryStringParameter(uri, 'locale', locale);
   }
 
-  public componentDidMount() {
+  public componentDidMount():void {
     const script = document.createElement('script');
     script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
     script.async = true;
@@ -53,7 +57,7 @@ class LanguageSwitcher extends Component {
     return undefined;
   };
 
-  public render() {
+  public render(): JSX.Element {
     let uri = '';
     if (window.location) {
       uri = window.location.href;
@@ -174,7 +178,7 @@ const LanguageItem = styled('li', {
 });
 
 // todo: move to a common file?
-function updateQueryStringParameter(uri: string, key: string, value: string) {
+function updateQueryStringParameter(uri: string, key: string, value: string): string {
   const re = new RegExp(`([?&])${key}=.*?(&|$)`, 'i');
   const separator = uri.indexOf('?') !== -1 ? '&' : '?';
   if (uri.match(re)) {
@@ -183,8 +187,12 @@ function updateQueryStringParameter(uri: string, key: string, value: string) {
   return `${uri + separator + key}=${value}`;
 }
 
-export const LanguageSwitcherContainer = connect(
-  function mapStateToProps(state) {
+type ReduxProps = {
+  locale: string, acceptLanguage: string, localeSelected: string
+}
+
+export const LanguageSwitcherContainer =connect<ReduxProps>(
+  (state) => {
     // @ts-ignore
     const {locale, acceptLanguage, localeSelected} = state.base;
     return {locale, acceptLanguage, localeSelected};

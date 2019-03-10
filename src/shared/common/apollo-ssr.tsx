@@ -25,7 +25,7 @@ type Opts = {
   clientScript: string,
 }
 
-export async function apolloSSR(ctx: koa.Context, uri: string, {VDom, reducer, clientScript}: Opts) {
+export async function apolloSSR(ctx: koa.Context, uri: string, {VDom, reducer, clientScript}: Opts): Promise<string> {
   ctx.setState('base.apiGatewayUrl', uri);
   const apolloClient = new ApolloClient({
     ssrMode: true,

@@ -1,5 +1,5 @@
 
-/* eslint-disable no-console,no-undef */
+
 import serialize from 'form-serialize';
 // @ts-ignore
 import {t} from 'onefx/lib/iso-i18n';
@@ -31,7 +31,7 @@ type State = {
 export class ForgotPassword extends Component<{}, State> {
   public email: string = '';
 
-  constructor(props: any) {
+  constructor(props: {}) {
     super(props);
     this.state = {
       errorEmail: '',
@@ -40,7 +40,7 @@ export class ForgotPassword extends Component<{}, State> {
     };
   }
 
-  public onSubmit(e: Event) {
+  public onSubmit(e: Event): void {
     e.preventDefault();
     const el = window.document.getElementById(FORGOT_PASSWORD_FORM) as HTMLFormElement;
     if (!el) {
@@ -68,7 +68,7 @@ export class ForgotPassword extends Component<{}, State> {
     });
   }
 
-  public render() {
+  public render(): JSX.Element {
     const {
       errorEmail,
       valueEmail,

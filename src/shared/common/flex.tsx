@@ -2,8 +2,10 @@
 import {styled} from 'onefx/lib/styletron-react';
 import React from 'react';
 
+type Element = JSX.Element | string | boolean | void;
+
 type PropTypes = {
-  children?: any,
+  children?: Array<Element> | Element,
   column?: boolean,
   center?: boolean,
   nowrap?: boolean,
@@ -31,7 +33,7 @@ export function Flex({
   backgroundColor = AUTO,
   justifyContent,
   ...otherProps
-}: PropTypes) {
+}: PropTypes): JSX.Element {
   const StyledDiv = styled('div', {
     display: 'flex',
     '-webkit-box-flex': 1,

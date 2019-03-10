@@ -8,7 +8,7 @@ export default {
   },
   md5,
   makeGravatar: (str: string) => {
-    return `http://www.gravatar.com/avatar/${md5(str)}?size=48`;
+    return `https://www.gravatar.com/avatar/${md5(str)}?size=48`;
   },
   bhash: (str: string) => {
     return bcrypt.hash(str, 10);
@@ -26,6 +26,6 @@ export default {
   },
 };
 
-function md5(str: string) {
+function md5(str: string): string {
   return crypto.createHash('md5').update(str).digest('hex');
 }

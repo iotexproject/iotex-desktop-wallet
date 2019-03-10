@@ -1,5 +1,3 @@
-/* eslint-disable no-invalid-this */
-
 import mongoose from 'mongoose';
 import uuidV4 from 'uuid/v4';
 
@@ -7,7 +5,7 @@ const Schema = mongoose.Schema;
 import {baseModel} from './base-model';
 
 type Opts = {
-  mongoose: any,
+  mongoose: mongoose.Mongoose,
   expMins: number,
 };
 
@@ -17,8 +15,16 @@ export type EmailToken = {
   expireAt: string,
 };
 
+type EmailTokenModelType =
+  mongoose.Document &
+  EmailToken &
+  {
+    createAt: Date,
+    updateAt: Date,
+  };
+
 export class EmailTokenModel {
-  public Model: any;
+  public Model: mongoose.Model<EmailTokenModelType>;
 
   constructor({mongoose, expMins}: Opts) {
 
@@ -34,12 +40,12 @@ export class EmailTokenModel {
     EmailTokenSchema.index({token: 1});
 
     EmailTokenSchema.plugin(baseModel);
-    EmailTokenSchema.pre('save', function onSave(next) {
+    EmailTokenSchema.pre('save', function onSave(next: Function): void {
       // @ts-ignore
       this.updateAt = new Date();
       next();
     });
-    EmailTokenSchema.pre('find', function onFind(next) {
+    EmailTokenSchema.pre('find', function onFind(next: Function): void {
       // @ts-ignore
       this.updateAt = new Date();
       next();
@@ -52,15 +58,15 @@ export class EmailTokenModel {
     return new this.Model({userId}).save();
   }
 
-  public async findOneAndDelete(token: string): Promise<EmailToken> {
+  public async findOneAndDelete(token: string): Promise<EmailToken | null> {
     return this.Model.findOneAndDelete({token});
   }
 
-  public async findOne(token: string): Promise<EmailToken> {
+  public async findOne(token: string): Promise<EmailToken | null> {
     return this.Model.findOne({token});
   }
 }
 
-function getExpireEpochMins(mins: number) {
+function getExpireEpochMins(mins: number): number {
   return Date.now() + mins * 60 * 1000;
 }

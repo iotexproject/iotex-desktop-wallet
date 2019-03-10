@@ -6,10 +6,8 @@ import {logger} from 'onefx/lib/integrated-gateways/logger';
 
 type MailgunOpts = {
   retryLimit: number,
-
   apiKey: string,
   domain: string,
-  proxy: string,
 };
 
 type Mail = {
@@ -22,7 +20,7 @@ type Mail = {
 
 export class Mailgun {
   public opts: MailgunOpts;
-  public transporter: any;
+  public transporter: mailer.Transporter;
 
   constructor(opts: MailgunOpts) {
     this.opts = opts;
@@ -34,7 +32,7 @@ export class Mailgun {
     }));
   }
 
-  public async sendMail(data: Mail) {
+  public async sendMail(data: Mail): Promise<void> {
     for (let i = this.opts.retryLimit; i > 0; i--) {
       try {
         return await this.transporter.sendMail(data);

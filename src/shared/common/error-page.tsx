@@ -20,7 +20,7 @@ type Props = {
 };
 
 export class ErrorPage extends PureComponent<Props> {
-  public render() {
+  public render(): JSX.Element {
     const {bar, title, info} = this.props;
     return (
       <ContentPadding style={{backgroundColor: colors.ui02}}>

@@ -42,8 +42,9 @@ type State = {
 }
 
 export class Home extends Component<{}, State> {
-  public state = {counter: 0};
-  public render() {
+  public state: State = {counter: 0};
+
+  public render(): JSX.Element {
     return (
       <ContentPadding>
         <div>{this.state.counter}</div>

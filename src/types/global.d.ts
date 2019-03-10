@@ -1,0 +1,3 @@
+type ReduxState = {
+  base: object,
+}

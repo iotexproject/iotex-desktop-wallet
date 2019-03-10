@@ -10,6 +10,18 @@
     "node_modules/tslint-require-connnect-typing"
   ],
   "rules": {
+    "no-null-keyword": false,
+    "no-for-in-array": [
+      false
+    ],
+    "restrict-plus-operands": [
+      false
+    ],
+    "no-floating-promises": false,
+    "promise-function-async": false,
+    "no-unnecessary-qualifier": false,
+    "no-void-expression": false,
+    "await-promise": false,
     "no-require-imports": false,
     "no-duplicate-imports": false,
     "no-shadowed-variable": false,

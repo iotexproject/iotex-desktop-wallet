@@ -1,4 +1,4 @@
-/* eslint-disable no-invalid-this */
+
 
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
@@ -12,7 +12,7 @@ const verify = promisify(jwt.verify);
 
 type Opts = {
   secret: string,
-  mongoose: any,
+  mongoose: mongoose.Mongoose,
   expDays: number,
 };
 
@@ -25,9 +25,19 @@ type AuthJwt = {
   iat: number,
 }
 
+type AuthJwtModel =
+  mongoose.Document &
+  AuthJwt &
+  {
+    userId: string,
+    expireAt: Date,
+    createAt: Date,
+    updateAt: Date,
+  };
+
 export class JwtModel {
   public secret: string;
-  public Model: any;
+  public Model: mongoose.Model<AuthJwtModel>;
 
   constructor({secret, mongoose, expDays}: Opts) {
     this.secret = secret;
@@ -43,12 +53,12 @@ export class JwtModel {
     JwtSchema.index({userId: 1});
 
     JwtSchema.plugin(baseModel);
-    JwtSchema.pre('save', function onSave(next: Function) {
+    JwtSchema.pre('save', function onSave(next: Function): void {
       // @ts-ignore
       this.updateAt = new Date();
       next();
     });
-    JwtSchema.pre('find', function onFind(next: Function) {
+    JwtSchema.pre('find', function onFind(next: Function): void {
       // @ts-ignore
       this.updateAt = new Date();
       next();
@@ -94,6 +104,6 @@ export class JwtModel {
   }
 }
 
-function getExpireEpochDays(days: number) {
+function getExpireEpochDays(days: number): number {
   return Date.now() + days * 24 * 60 * 60 * 1000;
 }

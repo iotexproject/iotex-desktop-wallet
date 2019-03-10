@@ -1,4 +1,4 @@
-/* eslint-disable no-console,no-undef */
+
 import serialize from 'form-serialize';
 // @ts-ignore
 import {t} from 'onefx/lib/iso-i18n';
@@ -31,7 +31,7 @@ type State = {
 }
 
 export class SignIn extends Component<{},State> {
-  public state = {
+  public state: State = {
     errorEmail: '',
     errorPassword: '',
 
@@ -39,7 +39,7 @@ export class SignIn extends Component<{},State> {
     valuePassword: '',
   };
 
-  public onSubmit(e: Event) {
+  public onSubmit(e: Event): void {
     e.preventDefault();
     const el = window.document.getElementById(LOGIN_FORM) as HTMLFormElement;
     if (!el) {
@@ -77,7 +77,7 @@ export class SignIn extends Component<{},State> {
     });
   }
 
-  public render() {
+  public render(): JSX.Element {
     const {
       errorEmail,
       errorPassword,

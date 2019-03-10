@@ -7,10 +7,10 @@ import {TextInput} from './text-input';
 type Props = {
   defaultValue: string,
   error: string,
-  onChange?(e: any): void;
+  onChange?: Function,
 }
 
-export function PasswordField({defaultValue, error, onChange}: Props) {
+export function PasswordField({defaultValue, error, onChange}: Props): JSX.Element {
   return (
     <FieldMargin>
       <InputLabel htmlFor="email-login-password">Password</InputLabel>

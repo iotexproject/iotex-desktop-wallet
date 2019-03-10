@@ -9,7 +9,7 @@ import Helmet from 'onefx/lib/react-helmet';
 import React from 'react';
 import {colors} from './styles/style-color';
 
-export function Head({locale}: {locale: string}) {
+export function Head({locale}: {locale: string}): JSX.Element {
   return (
     <Helmet
       title={`${t('meta.title')} - ${t('meta.description')}`}

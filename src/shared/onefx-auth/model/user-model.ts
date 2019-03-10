@@ -1,5 +1,4 @@
 
-/* eslint-disable no-invalid-this */
 import mongoose from 'mongoose';
 import tools from '../utils/tools';
 import {baseModel} from './base-model';
@@ -13,10 +12,22 @@ type TNewUser = {
   ip: string,
 } ;
 
-export class UserModel {
-  public Model: any;
+type TUser =
+  mongoose.Document &
+  TNewUser &
+  {
+    avatar: string,
 
-  constructor({mongoose}: any) {
+    isBlocked: boolean,
+
+    createAt: Date,
+    updateAt: Date,
+  }
+
+export class UserModel {
+  public Model: mongoose.Model<TUser>;
+
+  constructor({mongoose}: { mongoose: mongoose.Mongoose }) {
     const UserSchema = new Schema({
       password: {type: String},
       email: {type: String},
@@ -31,19 +42,15 @@ export class UserModel {
       updateAt: {type: Date, default: Date.now},
     });
 
-    UserSchema.virtual('id').get(function onId() {
+    UserSchema.virtual('id').get(function onId(): void {
       // @ts-ignore
       return this._id;
     });
-    UserSchema.virtual('avatarUrl').get(function onAvatarUrl() {
+    UserSchema.virtual('avatarUrl').get(function onAvatarUrl():void {
       // @ts-ignore
       let url = this.avatar || tools.makeGravatar(this.email.toLowerCase());
 
-      // www.gravatar.com 被墙
-      // 现在不是了
-      // url = url.replace('www.gravatar.com', 'gravatar.com');
-
-      // 让协议自适应 protocol，使用 `//` 开头
+      // tslint:disable-next-line
       if (url.indexOf('http:') === 0) {
         url = url.slice(5);
       }
@@ -59,12 +66,12 @@ export class UserModel {
     UserSchema.index({email: 1}, {unique: true});
 
     UserSchema.plugin(baseModel);
-    UserSchema.pre('save', function onSave(next: Function) {
+    UserSchema.pre('save', function onSave(next: Function): void {
       // @ts-ignore
       this.updateAt = new Date();
       next();
     });
-    UserSchema.pre('find', function onFind(next: Function) {
+    UserSchema.pre('find', function onFind(next: Function): void {
       // @ts-ignore
       this.updateAt = new Date();
       next();
@@ -73,15 +80,15 @@ export class UserModel {
     this.Model = mongoose.model('User', UserSchema);
   }
 
-  public async getById(id: string) {
+  public async getById(id: string): Promise<TUser | null> {
     return this.Model.findOne({_id: id});
   }
 
-  public async getByMail(email: string) {
+  public async getByMail(email: string): Promise<TUser | null> {
     return this.Model.findOne({email});
   }
 
-  public async newAndSave(user: TNewUser) {
+  public async newAndSave(user: TNewUser): Promise<TUser | null> {
     const hashed = {
       ...user,
       password: await tools.bhash(user.password),
@@ -89,17 +96,17 @@ export class UserModel {
     return new this.Model(hashed).save();
   }
 
-  public async updatePassword(userId: string, password: string) {
+  public async updatePassword(userId: string, password: string): Promise<TUser | null> {
     return this.Model.update({_id: userId}, {password: await tools.bhash(password)});
   }
 
-  public async verifyPassword(userId: string, password: string) {
+  public async verifyPassword(userId: string, password: string): Promise<boolean> {
     let resp;
     try {
       resp = await this.Model.findOne({_id: userId}).select('password');
     } catch (err) {
       return false;
     }
-    return resp && tools.bcompare(password, resp.password);
+    return Boolean(resp && tools.bcompare(password, resp.password));
   }
 }

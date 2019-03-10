@@ -5,6 +5,7 @@ import {GraphQLDateTime} from 'graphql-iso-date';
 import {Server} from 'onefx';
 
 // Construct a schema, using GraphQL schema language
+// tslint:disable-next-line
 const typeDefs = gql`${fs.readFileSync(`${__dirname}/api-gateway.graphql`)}`;
 
 export function setApiGateway(server: Server): void {

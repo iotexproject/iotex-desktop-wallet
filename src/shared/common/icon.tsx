@@ -12,10 +12,12 @@ type PropTypes = {
   margin?: string,
 };
 
-export function Icon({width = LEN, height = LEN, url, margin = '0'}: PropTypes) {
+export function Icon({width = LEN, height = LEN, url, margin = '0'}: PropTypes): JSX.Element {
   const StyledDiv = styled('div', {
-    background: `url("${url}") no-repeat center`,
-    backgroundSize: 'contain !important',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: 'contain',
+    backgroundImage: `url("${url}")`,
     boxSizing: 'border-box',
     width,
     height,

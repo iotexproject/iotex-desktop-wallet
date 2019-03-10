@@ -1,4 +1,4 @@
-/* eslint-disable no-console,no-undef */
+
 import serialize from 'form-serialize';
 // @ts-ignore
 import {t} from 'onefx/lib/iso-i18n';
@@ -38,8 +38,12 @@ type State = {
   message: string,
 }
 
+type ReduxProps = {
+  token: string,
+}
+
 // $FlowFixMe
-export const ResetPasswordContainer = connect(
+export const ResetPasswordContainer = connect<ReduxProps>(
   state => ({
     // @ts-ignore
     token: state.base.token,
@@ -59,7 +63,7 @@ export const ResetPasswordContainer = connect(
       };
     }
 
-    public onSubmit(e: Event) {
+    public onSubmit(e: Event):void {
       e.preventDefault();
       const el = window.document.getElementById(LOGIN_FORM) as HTMLFormElement;
       if (!el) {
@@ -104,7 +108,7 @@ export const ResetPasswordContainer = connect(
       });
     }
 
-    public render() {
+    public render(): JSX.Element {
       const {
         errorPassword,
         errorNewPassword,
@@ -125,6 +129,7 @@ export const ResetPasswordContainer = connect(
                     <Flex width="100%">
                       <span>{message}</span>
                       <i
+                        role={'button'}
                         style={{color: colors.inverse01, cursor: 'pointer'}}
                         onClick={() => this.setState({message: ''})}
                         className="fas fa-times"
@@ -133,7 +138,7 @@ export const ResetPasswordContainer = connect(
                   </Info>
                 )}
                 {token ? (
-                  <input name="token" hidden={true} defaultValue={token}/>
+                  <input placeholder={''} name="token" hidden={true} defaultValue={token}/>
                 ) : (
                   <PasswordField defaultValue={valuePassword} error={errorPassword}/>
                 )}

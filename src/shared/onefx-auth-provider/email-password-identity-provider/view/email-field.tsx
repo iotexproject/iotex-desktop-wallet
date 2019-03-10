@@ -9,7 +9,7 @@ type Props = {
   defaultValue: string,
 };
 
-export function EmailField({error, defaultValue}: Props) {
+export function EmailField({error, defaultValue}: Props): JSX.Element {
   return (
     <FieldMargin>
       <InputLabel htmlFor="email">Email</InputLabel>

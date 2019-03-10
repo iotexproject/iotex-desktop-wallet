@@ -34,7 +34,7 @@ type State = {
   toggled: boolean,
 }
 
-function Empty() {
+function Empty(): JSX.Element {
   return (
     <div/>
   );
@@ -50,7 +50,7 @@ export const RootStyle = styled('div', (_: React.CSSProperties) => ({
 class ProfileApp extends PureComponent<Props, State> {
   public state: State = {toggled: false};
 
-  public render() {
+  public render(): JSX.Element {
     const {locale, history} = this.props;
     const {Sider, Content} = Layout;
 
@@ -122,10 +122,15 @@ class ProfileApp extends PureComponent<Props, State> {
   }
 }
 
+type ConnectProps = {
+  googleTid: string,
+  locale: string,
+};
+
 export const ProfileAppContainer = withRouter(
   // @ts-ignore
-  connect(
-    function mapStateToProps(state) {
+  connect<ConnectProps>(
+    (state: object): { googleTid: string, locale: string } => {
       return {
         // @ts-ignore
         googleTid: state.base.analytics.googleTid,

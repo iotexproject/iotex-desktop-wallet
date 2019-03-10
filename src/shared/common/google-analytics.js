@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 let loaded = false;
 module.exports = function initGoogleAnalytics({tid, userId, cb}) {
   if (loaded || process.env.NODE_ENV.indexOf('production') === -1) {

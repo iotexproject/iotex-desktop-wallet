@@ -9,7 +9,7 @@ import {setGateways} from './gateway/gateway';
 import {setMiddleware} from './middleware';
 import {setServerRoutes} from './server-routes';
 
-export async function startServer() {
+export async function startServer(): Promise<void> {
   const server = new Server(config);
   setGateways(server);
   server.auth = new OnefxAuth(server, authConfig);

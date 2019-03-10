@@ -1,4 +1,4 @@
-/* eslint-disable no-console,no-undef */
+
 import serialize from 'form-serialize';
 // @ts-ignore
 import {t} from 'onefx/lib/iso-i18n';
@@ -34,7 +34,7 @@ type State = {
 }
 
 export class SignUp extends Component<{}, State> {
-  public state = {
+  public state: State = {
     errorEmail: '',
     errorPassword: '',
 
@@ -42,7 +42,7 @@ export class SignUp extends Component<{}, State> {
     valuePassword: '',
   };
 
-  public onSubmit(e: Event) {
+  public onSubmit(e: Event):void {
     e.preventDefault();
     const el = window.document.getElementById(LOGIN_FORM) as HTMLFormElement;
     const {email = '', password = ''} = serialize(el, {hash: true}) as { email: string, password: string };
@@ -75,7 +75,7 @@ export class SignUp extends Component<{}, State> {
     });
   }
 
-  public render() {
+  public render(): JSX.Element {
     const {
       errorEmail,
       errorPassword,
@@ -98,7 +98,7 @@ export class SignUp extends Component<{}, State> {
                 defaultValue={valuePassword}
               />
               <FieldMargin>
-                <Button onClick={(e: Event) => this.onSubmit(e)} width="100%">SUBMIT</Button>
+                <Button onClick={(e: Event) => this.onSubmit(e)} width="100%">{'SUBMIT'}</Button>
               </FieldMargin>
             </Flex>
             <FieldMargin>
