@@ -7,7 +7,6 @@ import * as React from "react";
 import { setApiGateway } from "../api-gateway/api-gateway";
 import { AppContainer } from "../shared/app-container";
 import { apolloSSR } from "../shared/common/apollo-ssr";
-import { setEmailPasswordIdentityProviderRoutes } from "../shared/onefx-auth-provider/email-password-identity-provider/email-password-identity-provider-handler";
 
 export function setServerRoutes(server: Server): void {
   // Health checks
@@ -16,7 +15,6 @@ export function setServerRoutes(server: Server): void {
   });
 
   setApiGateway(server);
-  setEmailPasswordIdentityProviderRoutes(server);
 
   server.get("SPA", "/", async (ctx: koa.Context) => {
     ctx.setState("base.blah", "this is a sample initial state");

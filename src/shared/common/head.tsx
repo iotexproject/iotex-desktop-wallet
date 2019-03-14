@@ -16,7 +16,7 @@ export function Head({ locale }: { locale: string }): JSX.Element {
       meta={[
         { name: "viewport", content: mobileViewPortContent },
         { name: "description", content: t("meta.description") },
-        { name: "theme-color", content: colors.brand01 },
+        { name: "theme-color", content: colors.primary },
 
         // social
         { property: "og:title", content: `${t("meta.title")}` },

@@ -24,7 +24,7 @@ export class ErrorPage extends PureComponent<Props> {
   public render(): JSX.Element {
     const { bar, title, info } = this.props;
     return (
-      <ContentPadding style={{ backgroundColor: colors.ui02 }}>
+      <ContentPadding style={{ backgroundColor: colors.black10 }}>
         <Helmet title={`${bar} - ${t("topbar.brand")}`} />
         <Flex {...FOOTER_ABOVE} center={true}>
           <Image src={assetURL("/favicon.png")} />

@@ -31,5 +31,5 @@ const Align = styled("div", (_: React.CSSProperties) => ({
   paddingBottom: "32px",
   height: `${FOOTER_HEIGHT}px`,
   backgroundColor: colors.nav02,
-  color: colors.inverse01
+  color: colors.white
 }));

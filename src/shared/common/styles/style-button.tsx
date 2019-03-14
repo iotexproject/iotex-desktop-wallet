@@ -2,21 +2,21 @@ import { shade } from "./shade";
 import { colors } from "./style-color";
 
 const primaryBtnColor = {
-  color: `${colors.inverse01} !important`,
-  background: `${colors.brand01} !important`,
+  color: `${colors.white} !important`,
+  background: `${colors.primary} !important`,
   ":hover": {
-    background: `${shade(colors.brand01)} !important`
+    background: `${shade(colors.primary)} !important`
   }
 };
 
 export const secondaryBtnColor = {
-  color: `${colors.brand01} !important`,
-  background: `${colors.inverse01} !important`,
+  color: `${colors.primary} !important`,
+  background: `${colors.white} !important`,
   ":hover": {
-    background: `${shade(colors.brand01)} !important`,
-    color: `${colors.inverse01} !important`
+    background: `${shade(colors.primary)} !important`,
+    color: `${colors.white} !important`
   },
-  borderColor: `${colors.brand01} !important`
+  borderColor: `${colors.primary} !important`
 };
 
 export const disabledBtn = {

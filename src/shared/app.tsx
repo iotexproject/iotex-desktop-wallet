@@ -40,7 +40,7 @@ export class App extends Component<Props> {
           meta={[
             { name: "viewport", content: mobileViewPortContent },
             { name: "description", content: t("meta.description") },
-            { name: "theme-color", content: colors.brand01 },
+            { name: "theme-color", content: colors.primary },
 
             // social
             { property: "og:title", content: `${t("meta.title")}` },
@@ -89,7 +89,7 @@ export class App extends Component<Props> {
 
 const RootStyle = styled("div", () => ({
   ...fonts.body,
-  backgroundColor: colors.ui02,
+  backgroundColor: colors.black10,
   color: colors.text01,
   textRendering: "optimizeLegibility"
 }));

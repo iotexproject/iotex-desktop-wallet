@@ -153,7 +153,7 @@ const Wrapper = styled("div", (_: React.CSSProperties) => ({
 
 const Icon = styled(Fa, (_: React.CSSProperties) => ({
   padding: "13px 5px 13px 20px",
-  color: colors.inverse01,
+  color: colors.white,
   [MEDIA_DROPDOWN_MENU]: {
     padding: "0 0 0 0",
     alignSelf: "center"
@@ -165,7 +165,7 @@ const LAnchor = styled("a", {
   cursor: "pointer",
   color: "white",
   ":hover": {
-    color: `${shade(colors.brand01)} !important`
+    color: `${shade(colors.primary)} !important`
   }
 });
 

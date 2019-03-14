@@ -8,7 +8,7 @@ export const styleLink = {
   marginBottom: "8px",
   textDecoration: "none",
   ":hover": {
-    color: colors.brand01
+    color: colors.primary
   },
   transition
 };

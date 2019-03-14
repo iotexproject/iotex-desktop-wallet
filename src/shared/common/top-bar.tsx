@@ -114,7 +114,7 @@ const Bar = styled("div", {
   lineHeight: `${TOP_BAR_HEIGHT}px`,
   height: `${TOP_BAR_HEIGHT}px`,
   backgroundColor: colors.nav01,
-  color: colors.inverse01,
+  color: colors.white,
   position: "fixed",
   top: "0px",
   left: "0px",
@@ -144,7 +144,7 @@ function HamburgerBtn({
 }): JSX.Element {
   const Styled = styled("div", {
     ":hover": {
-      color: colors.brand01
+      color: colors.primary
     },
     display: "none!important",
     [media.palm]: {
@@ -166,7 +166,7 @@ function CrossBtn({
 }): JSX.Element {
   const Styled = styled("div", {
     ":hover": {
-      color: colors.brand01
+      color: colors.primary
     },
     display: "none!important",
     [media.palm]: {
@@ -194,11 +194,11 @@ function Logo(): JSX.Element {
 }
 
 const menuItem = {
-  color: colors.inverse01,
+  color: colors.white,
   marginLeft: "14px",
   textDecoration: "none",
   ":hover": {
-    color: colors.brand01
+    color: colors.primary
   },
   transition,
   fontWeight: "bold",

@@ -6,6 +6,6 @@ import { colors } from "./styles/style-color";
 
 export const Fa = styled("i", (props: React.CSSProperties) => ({
   fontSize: "24px!important",
-  ...colorHover(colors.brand01),
+  ...colorHover(colors.primary),
   ...props
 }));
