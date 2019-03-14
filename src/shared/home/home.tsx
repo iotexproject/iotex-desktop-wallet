@@ -5,9 +5,17 @@ import React from "react";
 import { Query } from "react-apollo";
 import { ContentPadding } from "../common/styles/style-padding";
 
-const GET_HEALTH = gql`
-  {
-    health
+const GET_CHAIN_META = gql`
+  query {
+    chainMeta {
+      height
+      numActions
+      tps
+      epoch {
+        num
+        height
+      }
+    }
   }
 `;
 
@@ -63,7 +71,7 @@ export class Home extends Component<{}, State> {
           +1
         </button>
 
-        <Query query={GET_HEALTH}>
+        <Query query={GET_CHAIN_META}>
           {({ loading, error, data }) => {
             if (loading) {
               return "Loading...";
