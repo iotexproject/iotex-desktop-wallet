@@ -1,15 +1,15 @@
-import React from 'react';
-import {FieldMargin} from './field-margin';
-import {InputError} from './input-error';
-import {InputLabel} from './input-label';
-import {TextInput} from './text-input';
+import React from "react";
+import { FieldMargin } from "./field-margin";
+import { InputError } from "./input-error";
+import { InputLabel } from "./input-label";
+import { TextInput } from "./text-input";
 
 type Props = {
-  error: string,
-  defaultValue: string,
+  error: string;
+  defaultValue: string;
 };
 
-export function EmailField({error, defaultValue}: Props): JSX.Element {
+export function EmailField({ error, defaultValue }: Props): JSX.Element {
   return (
     <FieldMargin>
       <InputLabel htmlFor="email">Email</InputLabel>
@@ -23,7 +23,7 @@ export function EmailField({error, defaultValue}: Props): JSX.Element {
         required={true}
         error={error}
       />
-      <InputError>{error || '\u0020'}</InputError>
+      <InputError>{error || "\u0020"}</InputError>
     </FieldMargin>
   );
 }

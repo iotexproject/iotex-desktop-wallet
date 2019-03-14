@@ -1,11 +1,11 @@
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router';
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
 
-import {App} from './app';
+import { App } from "./app";
 
 type Props = {
-  googleTid: string,
-  locale: string,
+  googleTid: string;
+  locale: string;
 };
 
 export const AppContainer = withRouter(
@@ -16,8 +16,8 @@ export const AppContainer = withRouter(
         // @ts-ignore
         googleTid: state.base.analytics.googleTid,
         // @ts-ignore
-        locale: state.base.locale,
+        locale: state.base.locale
       };
-    },
+    }
   )(App)
 );

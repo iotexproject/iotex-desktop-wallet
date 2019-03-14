@@ -1,31 +1,33 @@
 // @ts-ignore
-import {styled} from 'onefx/lib/styletron-react';
-import React from 'react';
+import { styled } from "onefx/lib/styletron-react";
+import React from "react";
 
-const LEN = '100%';
+const LEN = "100%";
 
 type PropTypes = {
-  url: string,
+  url: string;
 
-  width?: string,
-  height?: string,
-  margin?: string,
+  width?: string;
+  height?: string;
+  margin?: string;
 };
 
-export function Icon({width = LEN, height = LEN, url, margin = '0'}: PropTypes): JSX.Element {
-  const StyledDiv = styled('div', {
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-    backgroundSize: 'contain',
+export function Icon({
+  width = LEN,
+  height = LEN,
+  url,
+  margin = "0"
+}: PropTypes): JSX.Element {
+  const StyledDiv = styled("div", {
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundSize: "contain",
     backgroundImage: `url("${url}")`,
-    boxSizing: 'border-box',
+    boxSizing: "border-box",
     width,
     height,
-    margin,
+    margin
   });
 
-  return (
-    <StyledDiv/>
-  );
+  return <StyledDiv />;
 }
-

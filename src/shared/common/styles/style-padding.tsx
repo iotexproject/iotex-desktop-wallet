@@ -1,26 +1,26 @@
 // @ts-ignore
-import {styled} from 'onefx/lib/styletron-react';
+import { styled } from "onefx/lib/styletron-react";
 
-import {media} from './style-media';
+import { media } from "./style-media";
 
 export const wideContentPadding = {
-  paddingLeft: '16px',
-  paddingRight: '16px',
+  paddingLeft: "16px",
+  paddingRight: "16px"
 };
 
 export const contentPadding = {
   [media.palm]: wideContentPadding,
-  paddingLeft: '6.6vw',
-  paddingRight: '6.6vw',
+  paddingLeft: "6.6vw",
+  paddingRight: "6.6vw",
   [media.deskWide]: {
-    paddingLeft: '16vw',
-    paddingRight: '16vw',
-  },
+    paddingLeft: "16vw",
+    paddingRight: "16vw"
+  }
 };
 
 export const topBottomContentPadding = {
-  paddingTop: '12px',
-  paddingBottom: '12px',
+  paddingTop: "12px",
+  paddingBottom: "12px"
 };
 
-export const ContentPadding = styled('div', contentPadding);
+export const ContentPadding = styled("div", contentPadding);

@@ -1,16 +1,16 @@
-import test from 'ava';
+import test from "ava";
 // @ts-ignore
-import {Server} from 'onefx';
-import {startServer} from '../start-server';
+import { Server } from "onefx";
+import { startServer } from "../start-server";
 
 let server: Server;
 
-export function setupTestServer():void {
-  test.before('Set up server', async () => {
+export function setupTestServer(): void {
+  test.before("Set up server", async () => {
     server = await startServer();
   });
 
-  test.after.cb('Teardown server', t => {
+  test.after.cb("Teardown server", t => {
     server.close(t.end);
   });
 }

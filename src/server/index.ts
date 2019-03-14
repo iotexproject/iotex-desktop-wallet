@@ -1,2 +1,2 @@
-import {startServer} from './start-server';
-export {startServer};
+import { startServer } from "./start-server";
+export { startServer };

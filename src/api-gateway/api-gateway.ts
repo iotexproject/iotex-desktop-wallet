@@ -1,22 +1,24 @@
-import {ApolloServer, gql} from 'apollo-server-koa';
-import fs from 'fs';
-import {GraphQLDateTime} from 'graphql-iso-date';
+import { ApolloServer, gql } from "apollo-server-koa";
+import fs from "fs";
+import { GraphQLDateTime } from "graphql-iso-date";
 // @ts-ignore
-import {Server} from 'onefx';
+import { Server } from "onefx";
 
 // Construct a schema, using GraphQL schema language
-// tslint:disable-next-line
-const typeDefs = gql`${fs.readFileSync(`${__dirname}/api-gateway.graphql`)}`;
+// tslint:disable
+const typeDefs = gql`
+  ${fs.readFileSync(`${__dirname}/api-gateway.graphql`)}
+`;
+// tslint:enable
 
 export function setApiGateway(server: Server): void {
-
   const resolvers = {
     Query: {
       // meta
-      health: () => new Date(),
+      health: () => new Date()
     },
     Mutation: {},
-    Date: GraphQLDateTime,
+    Date: GraphQLDateTime
   };
   server.resolvers = resolvers;
 
@@ -25,10 +27,10 @@ export function setApiGateway(server: Server): void {
     resolvers,
     introspection: true,
     playground: true,
-    context: async (_) => {
+    context: async _ => {
       return {};
-    },
+    }
   });
-  const path = '/api-gateway/';
-  apollo.applyMiddleware({app: server.app, path});
+  const path = "/api-gateway/";
+  apollo.applyMiddleware({ app: server.app, path });
 }

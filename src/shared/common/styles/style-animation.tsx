@@ -1,1 +1,1 @@
-export const transition = 'all 0.2s ease';
+export const transition = "all 0.2s ease";

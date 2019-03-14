@@ -1,9 +1,13 @@
 // @ts-ignore
-import {styled} from 'onefx/lib/styletron-react';
-import {Component} from 'react';
+import { styled } from "onefx/lib/styletron-react";
+import { Component } from "react";
 
-import React from 'react';
-import {btnStyle, disabledBtn, secondaryBtnColor} from './styles/style-button';
+import React from "react";
+import {
+  btnStyle,
+  disabledBtn,
+  secondaryBtnColor
+} from "./styles/style-button";
 
 type Props = {
   id?: string;
@@ -20,36 +24,49 @@ export class Button extends Component<Props> {
   public wrapper: HTMLDivElement | null = null;
 
   public render(): JSX.Element {
-    const {href, children, onClick, secondary, disabled, target, width, id} = this.props;
+    const {
+      href,
+      children,
+      onClick,
+      secondary,
+      disabled,
+      target,
+      width,
+      id
+    } = this.props;
     let style = btnStyle;
     if (secondary) {
       style = {
         ...style,
-        ...secondaryBtnColor,
+        ...secondaryBtnColor
       };
     }
     if (disabled) {
       style = {
         ...style,
-        ...disabledBtn,
+        ...disabledBtn
       };
     }
     if (width) {
       style = {
         ...style,
-        width,
+        width
       };
     }
-    const Button = styled(href ? 'a' : 'button', style);
+    const Button = styled(href ? "a" : "button", style);
 
     return (
-      <div ref={r => this.wrapper = r}>
-        <Button id={id} href={href} onClick={(e: Event) => {
-          if (onClick) {
-            return onClick(e);
-          }
-          return true;
-        }} target={target}
+      <div ref={r => (this.wrapper = r)}>
+        <Button
+          id={id}
+          href={href}
+          onClick={(e: Event) => {
+            if (onClick) {
+              return onClick(e);
+            }
+            return true;
+          }}
+          target={target}
         >
           {children}
         </Button>

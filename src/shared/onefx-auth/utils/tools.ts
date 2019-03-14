@@ -1,10 +1,10 @@
-import bcrypt from 'bcryptjs';
-import crypto from 'crypto';
-import dateFormat from 'dateformat';
+import bcrypt from "bcryptjs";
+import crypto from "crypto";
+import dateFormat from "dateformat";
 
 export default {
   validateId: (str: string) => {
-    return (/^[a-zA-Z0-9\-_]+$/i).test(str);
+    return /^[a-zA-Z0-9\-_]+$/i.test(str);
   },
   md5,
   makeGravatar: (str: string) => {
@@ -21,11 +21,13 @@ export default {
       // @ts-ignore
       return date.fromNow();
     }
-    return dateFormat(date, 'YYYY-MM-DD HH:mm');
-
-  },
+    return dateFormat(date, "YYYY-MM-DD HH:mm");
+  }
 };
 
 function md5(str: string): string {
-  return crypto.createHash('md5').update(str).digest('hex');
+  return crypto
+    .createHash("md5")
+    .update(str)
+    .digest("hex");
 }

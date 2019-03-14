@@ -1,24 +1,24 @@
 // @ts-ignore
-import {styled} from 'onefx/lib/styletron-react';
-import React from 'react';
+import { styled } from "onefx/lib/styletron-react";
+import React from "react";
 
 type Element = JSX.Element | string | boolean | void;
 
 type PropTypes = {
-  children?: Array<Element> | Element,
-  column?: boolean,
-  center?: boolean,
-  nowrap?: boolean,
-  alignItems?: string,
-  width?: string,
-  backgroundColor?: string,
-  justifyContent?: string,
-  height?: string,
-  media?: {[key: string]: string},
-  alignContent?: string,
+  children?: Array<Element> | Element;
+  column?: boolean;
+  center?: boolean;
+  nowrap?: boolean;
+  alignItems?: string;
+  width?: string;
+  backgroundColor?: string;
+  justifyContent?: string;
+  height?: string;
+  media?: { [key: string]: string };
+  alignContent?: string;
 } & React.CSSProperties;
 
-const AUTO = 'auto';
+const AUTO = "auto";
 
 export function Flex({
   children,
@@ -34,27 +34,26 @@ export function Flex({
   justifyContent,
   ...otherProps
 }: PropTypes): JSX.Element {
-  const StyledDiv = styled('div', {
-    display: 'flex',
-    '-webkit-box-flex': 1,
-    flexDirection: column ? 'column' : 'row',
-    justifyContent: justifyContent ? justifyContent : (center ? 'center' : 'space-between'),
-    '-webkit-justify-content': center ? 'center' : 'space-between',
-    boxSizing: 'border-box',
-    flexWrap: nowrap ? 'nowrap' : 'wrap',
-    alignContent: alignContent || center ? 'center' : 'space-between',
-    alignItems: alignItems || 'center',
+  const StyledDiv = styled("div", {
+    display: "flex",
+    "-webkit-box-flex": 1,
+    flexDirection: column ? "column" : "row",
+    justifyContent: justifyContent
+      ? justifyContent
+      : center
+      ? "center"
+      : "space-between",
+    "-webkit-justify-content": center ? "center" : "space-between",
+    boxSizing: "border-box",
+    flexWrap: nowrap ? "nowrap" : "wrap",
+    alignContent: alignContent || center ? "center" : "space-between",
+    alignItems: alignItems || "center",
     width,
     height,
     ...media,
     backgroundColor,
-    ...otherProps,
+    ...otherProps
   });
 
-  return (
-    <StyledDiv>
-      {children}
-    </StyledDiv>
-  );
+  return <StyledDiv>{children}</StyledDiv>;
 }
-

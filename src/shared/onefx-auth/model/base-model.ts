@@ -1,6 +1,6 @@
 // mongoose plugin http://mongoosejs.com/docs/plugins.html
-import mongoose from 'mongoose';
-import tools from '../utils/tools';
+import mongoose from "mongoose";
+import tools from "../utils/tools";
 
 export function baseModel(schema: mongoose.Schema): void {
   schema.methods.createAtAgo = function createAtAgo(): string {

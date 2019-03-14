@@ -11,12 +11,8 @@
   ],
   "rules": {
     "no-null-keyword": false,
-    "no-for-in-array": [
-      false
-    ],
-    "restrict-plus-operands": [
-      false
-    ],
+    "no-for-in-array": [false],
+    "restrict-plus-operands": [false],
     "no-floating-promises": false,
     "promise-function-async": false,
     "no-unnecessary-qualifier": false,
@@ -29,11 +25,7 @@
     "no-reserved-keywords": false,
     "react-this-binding-issue": false,
     "no-submodule-imports": false,
-    "quotemark": [
-      true,
-      "single",
-      "jsx-double"
-    ],
+    "quotemark": [true, "double", "jsx-double"],
     "max-classes-per-file": false,
     "interface-name": false,
     "missing-jsdoc": false,
@@ -50,10 +42,7 @@
         "allowMultiline": true
       }
     ],
-    "array-type": [
-      true,
-      "generic"
-    ],
+    "array-type": [true, "generic"],
     "prefer-array-literal": [
       true,
       {
@@ -106,11 +95,7 @@
     "react-unused-props-and-state": false
   },
   "jsRules": {
-    "quotemark": [
-      true,
-      "single",
-      "jsx-double"
-    ],
+    "quotemark": [true, "double", "jsx-double"],
     "max-classes-per-file": false,
     "no-unused-variable": false
   }

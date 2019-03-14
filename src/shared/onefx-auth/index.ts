@@ -1,1 +1,1 @@
-export {OnefxAuth} from './onefx-auth';
+export { OnefxAuth } from "./onefx-auth";

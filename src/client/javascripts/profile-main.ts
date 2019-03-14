@@ -1,1 +1,1 @@
-import '../../shared/profile/profile-main';
+import "../../shared/profile/profile-main";
