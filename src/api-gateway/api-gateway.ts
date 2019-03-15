@@ -25,7 +25,7 @@ export async function setApiGateway(server: Server): Promise<void> {
     playground: true,
     context: async _ => {
       return {
-        antenna: server.gateways.antenna
+        gateways: server.gateways
       };
     }
   });

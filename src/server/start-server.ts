@@ -2,7 +2,7 @@ import config from "config";
 // @ts-ignore
 import { Server } from "onefx/lib/server";
 import { setModel } from "../model";
-import { setGateways } from "./gateway/gateway";
+import { setGateways } from "./gateways/gateway";
 import { setMiddleware } from "./middleware";
 import { setServerRoutes } from "./server-routes";
 
