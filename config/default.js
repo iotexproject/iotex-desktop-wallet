@@ -48,7 +48,7 @@ module.exports = {
       "https://www.slideshare.net/",
       "https://checkout.stripe.com/"
     ],
-    "connect-src": ["self", "https://checkout.stripe.com/api/"],
+    "connect-src": ["self", "https://checkout.stripe.com/api/", "https://api.coinmarketcap.com/v1/ticker/iotex/"],
     "child-src": ["self"],
     "font-src": [
       "self",
