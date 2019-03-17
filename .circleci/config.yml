@@ -1,4 +1,4 @@
-version: 3
+version: 4
 
 jobs:
   build:
@@ -9,9 +9,9 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v2-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v2-dependencies-
+            - v2-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v2-dependencies-
       - run: npm install
       - save_cache:
           paths:
