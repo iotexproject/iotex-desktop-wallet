@@ -1,4 +1,4 @@
-import { Layout, Table } from "antd";
+import { Col, Icon, Input, Layout, Row, Statistic, Table } from "antd";
 import gql from "graphql-tag";
 import { Component } from "react";
 import React from "react";
@@ -62,6 +62,31 @@ export class Home extends Component<{}, State> {
   public render(): JSX.Element {
     return (
       <ContentPadding>
+        <Row>
+          <Col span={12}></Col>
+          <Col span={12}>
+            <div className="certain-category-search-wrapper" style={{ width: 350,marginTop: 20,marginBottom:20,float:"right"}}>
+              <Input
+                className="certain-category-search"
+                placeholder="Search by Block # / Account / Public Key / TX"
+                suffix={<Icon type="search" className="certain-category-icon" />} />
+            </div>
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col span={6}>
+            <Statistic title="current user" value={112893} />
+          </Col>
+          <Col span={6}>
+            <Statistic title="account" value={112893} precision={2} />
+          </Col>
+          <Col span={6}>
+            <Statistic title="info" value={112893} />
+          </Col>
+          <Col span={6}>
+            <Statistic title="block" value={112893} precision={2} />
+          </Col>
+        </Row>
         <div>{this.state.counter}</div>
         <button
           onClick={_ => {
@@ -90,7 +115,7 @@ export class Home extends Component<{}, State> {
             style={{ backgroundColor: "#fff", padding: "8px" }}
           >
             <h2>ant.design heading</h2>
-            <Table dataSource={dataSource} columns={columns} />
+            <Table dataSource={dataSource} columns={columns}/>
           </Layout.Content>
         </Layout>
       </ContentPadding>

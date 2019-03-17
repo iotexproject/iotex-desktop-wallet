@@ -17,7 +17,7 @@ import { colors } from "./styles/style-color";
 import { media, PALM_WIDTH } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
 
-export const TOP_BAR_HEIGHT = 52;
+export const TOP_BAR_HEIGHT = 62;
 
 type State = {
   displayMobileMenu: boolean;
@@ -84,7 +84,7 @@ export class TopBar extends Component<{}, State> {
         <Bar>
           <Flex>
             <Logo />
-            <BrandText href="/">{t("topbar.brand")}</BrandText>
+            {/*<BrandText href="/">{t("topbar.brand")}</BrandText>*/}
           </Flex>
           <Flex>
             <Menu>{this.renderMenu()}</Menu>
@@ -181,14 +181,14 @@ function CrossBtn({
 }
 
 const LogoWrapper = styled("a", {
-  width: "50px",
+  width: "120px",
   height: "50px"
 });
 
 function Logo(): JSX.Element {
   return (
     <LogoWrapper href="/">
-      <Icon url={assetURL("/favicon.png")} />
+      <Icon url={assetURL("//iotex.io/logo.svg")} />
     </LogoWrapper>
   );
 }
@@ -210,11 +210,11 @@ const menuItem = {
   }
 };
 const A = styled("a", menuItem);
-const BrandText = styled("a", {
-  ...menuItem,
-  marginLeft: 0,
-  [media.palm]: {}
-});
+// const BrandText = styled("a", {
+//   ...menuItem,
+//   marginLeft: 0,
+//   [media.palm]: {}
+// });
 // @ts-ignore
 const StyledLink = styled(Link, menuItem);
 
