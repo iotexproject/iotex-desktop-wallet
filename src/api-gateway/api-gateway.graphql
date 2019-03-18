@@ -11,6 +11,19 @@ type AccountMeta {
   pendingNonce: Int!
 }
 
+# Properties of an blockMeta
+type BlockMeta {
+  hash: String!
+  height: Int!
+  timestamp: Int!
+  numActions: Int!
+  producerAddress: String!
+  transferAmount: String!
+  txRoot: String!
+  receiptRoot: String!
+  deltaStateDigest: String!
+}
+
 type ChainMeta {
   height: String!
   numActions: String!
@@ -27,11 +40,48 @@ type GetAccountResponse {
   accountMeta: AccountMeta!
 }
 
+type GetBlockMetasResponse {
+  blkMetas: [BlockMeta!]!
+}
+
+type GetReceiptByActionResponse {
+  receipt: Receipt!
+}
+
+# Properties of an Log
+type Log {
+  address: String!
+  topics: [String!]!
+  data: [String!]!
+  blockNumber: Int!
+  txnHash: [String!]!
+  index: Int!
+}
+
 type Query {
   chainMeta: ChainMeta!
   getAccount(
     # iotex address
     address: String!
   ): GetAccountResponse!
+  suggestGasPrice: SuggestGasPriceResponse!
+  getReceiptByAction(
+    # actionHash
+    actionHash: String!
+  ): GetReceiptByActionResponse!
   health: String!
+}
+
+# Properties of an Receipt
+type Receipt {
+  returnValue: [String!]!
+  status: Int!
+  actHash: [Int!]!
+  gasConsumed: Int!
+  contractAddress: String!
+  logs: [Log!]!
+}
+
+type SuggestGasPriceResponse {
+  gasPrice: Int!
 }
