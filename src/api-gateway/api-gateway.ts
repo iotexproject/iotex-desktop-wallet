@@ -11,10 +11,11 @@ export async function setApiGateway(server: Server): Promise<void> {
   const resolvers = [MetaResolver, AntennaResolver];
   server.resolvers = resolvers;
 
+  const sdlPath = path.resolve(__dirname, "api-gateway.graphql");
   const schema = await buildSchema({
     resolvers,
     emitSchemaFile: {
-      path: path.resolve(__dirname, "api-gateway.graphql"),
+      path: sdlPath,
       commentDescriptions: true
     }
   });

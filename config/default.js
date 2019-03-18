@@ -27,7 +27,7 @@ module.exports = {
       enabled: true,
       level: "debug"
     },
-    iotexAntenna: process.env.IOTEX_ANTENNA || "35.230.103.170:10000"
+    iotexAntenna: process.env.IOTEX_ANTENNA || "35.203.158.71:14014"
   },
   analytics: {
     googleTid: "TODO: replace with your googleTid"
@@ -48,7 +48,11 @@ module.exports = {
       "https://www.slideshare.net/",
       "https://checkout.stripe.com/"
     ],
-    "connect-src": ["self", "https://checkout.stripe.com/api/"],
+    "connect-src": [
+      "self",
+      "https://checkout.stripe.com/api/",
+      "https://api.coinmarketcap.com/v1/ticker/iotex/"
+    ],
     "child-src": ["self"],
     "font-src": [
       "self",

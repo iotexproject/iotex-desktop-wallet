@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, Int, ObjectType } from "type-graphql";
 
 @ObjectType()
 class Epoch {
@@ -13,7 +13,7 @@ export class ChainMeta {
   @Field()
   public height: string;
 
-  @Field({ description: "The recipe description with preparation info" })
+  @Field({ description: "" })
   public numActions: string;
 
   @Field(_ => String)
@@ -21,4 +21,22 @@ export class ChainMeta {
 
   @Field(_ => Epoch)
   public epoch: Epoch;
+}
+
+@ObjectType({ description: "meta data describing the account" })
+export class AccountMeta {
+  @Field(_ => String)
+  public address: string;
+  @Field(_ => String)
+  public balance: string;
+  @Field(_ => Int)
+  public nonce: number;
+  @Field(_ => Int)
+  public pendingNonce: number;
+}
+
+@ObjectType()
+export class GetAccountResponse {
+  @Field(_ => AccountMeta)
+  public accountMeta: AccountMeta;
 }
