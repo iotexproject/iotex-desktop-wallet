@@ -1,9 +1,11 @@
-import { Layout, Table } from "antd";
+import { Col, Icon, Input, Layout, Row, Statistic } from "antd";
 import gql from "graphql-tag";
 import { Component } from "react";
 import React from "react";
 import { Query } from "react-apollo";
 import { ContentPadding } from "../common/styles/style-padding";
+import { Flex } from "../common/flex";
+import { fetchCoinPrice } from "../../server/gateways/coin-market-cap";
 
 const GET_CHAIN_META = gql`
   query {
