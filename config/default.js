@@ -2,9 +2,9 @@ const { config } = require("dotenv");
 config();
 
 module.exports = {
-  project: "web-onefx-boilerplate",
+  project: "iotex-explorer",
   server: {
-    port: process.env.PORT || 4100,
+    port: process.env.PORT || 4004,
     staticDir: "./dist",
     delayInitMiddleware: false,
     cookie: {
@@ -39,20 +39,10 @@ module.exports = {
       "self",
       "unsafe-inline",
       "https://fonts.googleapis.com/css",
-      "https://use.fontawesome.com/releases/v5.0.13/",
-      "https://translate.googleapis.com/",
-      "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/",
-      "https://checkout.stripe.com/v3/"
+      "https://use.fontawesome.com/releases/v5.0.13/"
     ],
-    "frame-src": [
-      "https://www.slideshare.net/",
-      "https://checkout.stripe.com/"
-    ],
-    "connect-src": [
-      "self",
-      "https://checkout.stripe.com/api/",
-      "https://api.coinmarketcap.com/v1/ticker/iotex/"
-    ],
+    "frame-src": [],
+    "connect-src": ["self", "https://api.coinmarketcap.com/v1/ticker/iotex/"],
     "child-src": ["self"],
     "font-src": [
       "self",
@@ -63,14 +53,7 @@ module.exports = {
     "img-src": ["*"],
     "media-src": ["self"],
     "object-src": ["self"],
-    "script-src": [
-      "self",
-      "https://www.google-analytics.com/",
-      "https://translate.google.com/",
-      "https://translate.googleapis.com/",
-      "https://cdn.jsdelivr.net/particles.js/2.0.0/",
-      "https://checkout.stripe.com/checkout.js"
-    ]
+    "script-src": ["self", "https://www.google-analytics.com/"]
   },
-  apiGatewayUrl: "http://localhost:4100/api-gateway/"
+  apiGatewayUrl: "http://localhost:4004/api-gateway/"
 };

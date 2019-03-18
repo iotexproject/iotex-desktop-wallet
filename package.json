@@ -17,7 +17,7 @@
     "cover": "NODE_ENV=test tsc && nyc npm run ava",
     "size": "ls -lh dist/",
     "bp": "npm run build-production && npm run size",
-    "kill": "lsof -n -i4TCP:4100 | grep LISTEN | awk '{ print $2 }' | xargs kill",
+    "kill": "lsof -n -i4TCP:4004 | grep LISTEN | awk '{ print $2 }' | xargs kill",
     "doc": "graphdoc --config ./package.json --force"
   },
   "graphdoc": {

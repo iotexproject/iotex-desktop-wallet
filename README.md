@@ -12,7 +12,7 @@ git clone git@github.com:iotexproject/iotex-explorer.git
 
 ### Run your project
 
-This is intended for *nix users. If you use Windows, go to [Run on Windows](#run-on-windows). Let's first prepare the environment.
+This is intended for \*nix users. If you use Windows, go to [Run on Windows](#run-on-windows). Let's first prepare the environment.
 
 ```bash
 nvm use 10.15.0
@@ -43,11 +43,11 @@ NODE_ENV=production npm run start
 
 #### NPM scripts
 
-*   `npm run test`: test the whole project and generate a test coverage
-*   `npm run ava ./path/to/test-file.js`: run a specific test file
-*   `npm run build`: build source code from `src` to `dist`
-*   `npm run lint`: run the linter
-*   `npm run kill`: kill the node server occupying the port 4100.
+- `npm run test`: test the whole project and generate a test coverage
+- `npm run ava ./path/to/test-file.js`: run a specific test file
+- `npm run build`: build source code from `src` to `dist`
+- `npm run lint`: run the linter
+- `npm run kill`: kill the node server occupying the port 4004.
 
 ## Architecture
 
@@ -125,7 +125,7 @@ nvm use lts/dubnium
 
 ```bash
 cd /mnt/c/
-https://github.com/puncsky/web-onefx-boilerplate.git
+https://github.com/iotexproject/iotex-explorer.git
 ```
 
 4.  install [VS Code](https://code.visualstudio.com/) and open WSL terminal with ctrl + \` . Not sure about WSL terminal? Go to [this post](https://blogs.msdn.microsoft.com/commandline/2017/10/27/running-node-js-on-wsl-from-visual-studio-code/).
