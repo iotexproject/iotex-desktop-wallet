@@ -1,7 +1,16 @@
-import { Arg, Ctx, Query, Resolver, ResolverInterface } from "type-graphql";
+import {
+  Arg,
+  Args,
+  Ctx,
+  Query,
+  Resolver,
+  ResolverInterface
+} from "type-graphql";
 import {
   ChainMeta,
   GetAccountResponse,
+  GetBlockMetasRequest,
+  GetBlockMetasResponse,
   GetReceiptByActionResponse,
   SuggestGasPriceResponse
 } from "./antenna-types";
@@ -23,6 +32,15 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     @Ctx() { gateways }: any
   ): Promise<GetAccountResponse> {
     return gateways.antenna.getAccount({ address });
+  }
+
+  @Query(_ => GetBlockMetasResponse)
+  public async getBlockMetas(
+    @Args() { byIndex, byHash }: GetBlockMetasRequest,
+    // tslint:disable-next-line:no-any
+    @Ctx() { gateways }: any
+  ): Promise<GetBlockMetasResponse> {
+    return gateways.antenna.getBlockMetas({ byIndex, byHash });
   }
 
   @Query(_ => SuggestGasPriceResponse)

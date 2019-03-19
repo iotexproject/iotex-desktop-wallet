@@ -40,6 +40,15 @@ type GetAccountResponse {
   accountMeta: AccountMeta!
 }
 
+input GetBlockMetasByHashRequest {
+  blkHash: String!
+}
+
+input GetBlockMetasByIndexRequest {
+  start: Int!
+  count: Int!
+}
+
 type GetBlockMetasResponse {
   blkMetas: [BlockMeta!]!
 }
@@ -51,8 +60,8 @@ type GetReceiptByActionResponse {
 # Properties of an Log
 type Log {
   address: String!
-  topics: [String!]!
-  data: [String!]!
+  topics: [Int!]!
+  data: [Int!]!
   blockNumber: Int!
   txnHash: [String!]!
   index: Int!
@@ -64,6 +73,10 @@ type Query {
     # iotex address
     address: String!
   ): GetAccountResponse!
+  getBlockMetas(
+    byIndex: GetBlockMetasByIndexRequest!
+    byHash: GetBlockMetasByHashRequest!
+  ): GetBlockMetasResponse!
   suggestGasPrice: SuggestGasPriceResponse!
   getReceiptByAction(
     # actionHash
@@ -74,7 +87,7 @@ type Query {
 
 # Properties of an Receipt
 type Receipt {
-  returnValue: [String!]!
+  returnValue: [Int!]!
   status: Int!
   actHash: [Int!]!
   gasConsumed: Int!

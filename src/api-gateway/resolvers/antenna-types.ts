@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from "type-graphql";
+import { ArgsType, Field, InputType, Int, ObjectType } from "type-graphql";
 
 @ObjectType()
 class Epoch {
@@ -67,9 +67,9 @@ export class BlockMeta {
 export class Log {
   @Field(_ => String)
   public address: string;
-  @Field(_ => String)
+  @Field(_ => [Int])
   public topics: Array<number>;
-  @Field(_ => String)
+  @Field(_ => [Int])
   public data: Array<number>;
   @Field(_ => Int)
   public blockNumber: number;
@@ -81,7 +81,7 @@ export class Log {
 
 @ObjectType({ description: "Properties of an Receipt" })
 export class Receipt {
-  @Field(_ => String)
+  @Field(_ => [Int])
   public returnValue: Array<number>;
   @Field(_ => Int)
   public status: number;
@@ -93,6 +93,28 @@ export class Receipt {
   public contractAddress: string;
   @Field(_ => [Log])
   public logs: Array<Log>;
+}
+
+@InputType()
+export class GetBlockMetasByIndexRequest {
+  @Field(_ => Int)
+  public start?: number;
+  @Field(_ => Int)
+  public count?: number;
+}
+
+@InputType()
+export class GetBlockMetasByHashRequest {
+  @Field(_ => String)
+  public blkHash?: string;
+}
+
+@ArgsType()
+export class GetBlockMetasRequest {
+  @Field(_ => GetBlockMetasByIndexRequest)
+  public byIndex?: GetBlockMetasByIndexRequest;
+  @Field(_ => GetBlockMetasByHashRequest)
+  public byHash?: GetBlockMetasByHashRequest;
 }
 
 @ObjectType()
