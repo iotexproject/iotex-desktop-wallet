@@ -42,6 +42,11 @@ export function Head({ locale }: { locale: string }): JSX.Element {
           href: assetURL("/stylesheets/main.css")
         },
         {
+          rel: "stylesheet",
+          type: "text/css",
+          href: assetURL("/antd.css")
+        },
+        {
           href:
             "https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic",
           rel: "stylesheet",

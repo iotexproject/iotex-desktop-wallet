@@ -64,10 +64,16 @@ export class App extends Component<Props> {
             {
               rel: "stylesheet",
               type: "text/css",
-              href: assetURL("/stylesheets/antd.css")
+              href: assetURL("/stylesheets/main.css")
             },
             {
-              href: "https://fonts.googleapis.com/css?family=Share+Tech|Actor",
+              rel: "stylesheet",
+              type: "text/css",
+              href: assetURL("/antd.css")
+            },
+            {
+              href:
+                "https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic",
               rel: "stylesheet",
               type: "text/css"
             }

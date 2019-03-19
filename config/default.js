@@ -2,9 +2,9 @@ const { config } = require("dotenv");
 config();
 
 module.exports = {
-  project: "web-onefx-boilerplate",
+  project: "iotex-explorer",
   server: {
-    port: process.env.PORT || 4100,
+    port: process.env.PORT || 4004,
     staticDir: "./dist",
     delayInitMiddleware: false,
     cookie: {
@@ -27,7 +27,7 @@ module.exports = {
       enabled: true,
       level: "debug"
     },
-    iotexAntenna: process.env.IOTEX_ANTENNA || "35.203.158.71:14014"
+    iotexAntenna: process.env.IOTEX_ANTENNA || "35.230.103.170:10000"
   },
   analytics: {
     googleTid: "TODO: replace with your googleTid"
@@ -39,19 +39,13 @@ module.exports = {
       "self",
       "unsafe-inline",
       "https://fonts.googleapis.com/css",
-      "https://use.fontawesome.com/releases/v5.0.13/",
-      "https://translate.googleapis.com/",
-      "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/",
-      "https://checkout.stripe.com/v3/"
+      "https://use.fontawesome.com/releases/v5.0.13/"
     ],
-    "frame-src": [
-      "https://www.slideshare.net/",
-      "https://checkout.stripe.com/"
-    ],
+    "frame-src": [],
     "connect-src": [
       "self",
-      "https://checkout.stripe.com/api/",
-      "https://api.coinmarketcap.com/v1/ticker/iotex/"
+      "https://api.coinmarketcap.com/v1/ticker/iotex/",
+      "https://member.iotex.io/api-gateway/"
     ],
     "child-src": ["self"],
     "font-src": [
@@ -60,17 +54,11 @@ module.exports = {
       "https://use.fontawesome.com/releases/v5.0.13/",
       "data: https://use.fontawesome.com/releases/v5.0.13/"
     ],
-    "img-src": ["*"],
+    "img-src": ["*", "data:"],
     "media-src": ["self"],
     "object-src": ["self"],
-    "script-src": [
-      "self",
-      "https://www.google-analytics.com/",
-      "https://translate.google.com/",
-      "https://translate.googleapis.com/",
-      "https://cdn.jsdelivr.net/particles.js/2.0.0/",
-      "https://checkout.stripe.com/checkout.js"
-    ]
+    "script-src": ["self", "https://www.google-analytics.com/"]
   },
-  apiGatewayUrl: "http://localhost:4100/api-gateway/"
+  apiGatewayUrl: "http://localhost:4004/api-gateway/",
+  webBpApiGatewayUrl: "https://member.iotex.io/api-gateway/"
 };

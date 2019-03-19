@@ -1,5 +1,10 @@
 import { Arg, Ctx, Query, Resolver, ResolverInterface } from "type-graphql";
-import { ChainMeta, GetAccountResponse } from "./antenna-types";
+import {
+  ChainMeta,
+  GetAccountResponse,
+  GetReceiptByActionResponse,
+  SuggestGasPriceResponse
+} from "./antenna-types";
 
 @Resolver(_ => ChainMeta)
 export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
@@ -18,5 +23,23 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     @Ctx() { gateways }: any
   ): Promise<GetAccountResponse> {
     return gateways.antenna.getAccount({ address });
+  }
+
+  @Query(_ => SuggestGasPriceResponse)
+  // tslint:disable-next-line:no-any
+  public async suggestGasPrice(@Ctx() { gateways }: any): Promise<
+    SuggestGasPriceResponse
+  > {
+    return gateways.antenna.suggestGasPrice({});
+  }
+
+  @Query(_ => GetReceiptByActionResponse)
+  public async getReceiptByAction(
+    @Arg("actionHash", _ => String, { description: "actionHash" })
+    actionHash: string,
+    // tslint:disable-next-line:no-any
+    @Ctx() { gateways }: any
+  ): Promise<GetReceiptByActionResponse> {
+    return gateways.antenna.getReceiptByAction({ actionHash });
   }
 }

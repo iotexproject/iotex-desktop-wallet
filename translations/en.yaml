@@ -1,7 +1,15 @@
-meta.title: Boilerplate
-meta.description: Description
+# meta.title is website title displayed on the browser title
+meta.title: Blockchain Explorer - IoTeX
+# meta.description is the website description that accompanies the search results.
+meta.description: Exploring IoTeX blockchain Address, Actions, and Smart Contracts.
+# topbar.brand is the brand name located on the top bar.
 topbar.brand: Brand
+# topbar.home is the home button located on the top bar.
 topbar.home: HOME
 not_found.bar: Not Found
 not_found.title: Oops!
 not_found.info: We cannot find the page for you...
+candidate.delegate_name: Delegate Name
+candidate.status: Status
+candidate.live_votes: LiveVotes
+candidate.percent: Percent

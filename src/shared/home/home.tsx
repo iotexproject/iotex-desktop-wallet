@@ -3,9 +3,11 @@ import gql from "graphql-tag";
 import { Component } from "react";
 import React from "react";
 import { Query } from "react-apollo";
-import { ContentPadding } from "../common/styles/style-padding";
-import { Flex } from "../common/flex";
+import { ChainMeta } from "../../api-gateway/resolvers/antenna-types";
 import { fetchCoinPrice } from "../../server/gateways/coin-market-cap";
+import { Flex } from "../common/flex";
+import { ContentPadding } from "../common/styles/style-padding";
+import { BpTable } from "./bp-table";
 
 const GET_CHAIN_META = gql`
   query {
@@ -33,13 +35,6 @@ export class Home extends Component<{}, State> {
     price: 0,
     name: "IOSG"
   };
-
-  public thousands(num: number): string {
-    const str = num.toString();
-    const reg =
-      str.indexOf(".") > -1 ? /(\d)(?=(\d{3})+\.)/g : /(\d)(?=(?:\d{3})+$)/g;
-    return str.replace(reg, "$1,");
-  }
 
   public componentDidMount(): void {
     fetchCoinPrice().then(
@@ -71,21 +66,48 @@ export class Home extends Component<{}, State> {
     );
   }
 
+  private readonly getTiles = (data: {
+    chainMeta: ChainMeta;
+  }): Array<TileProps> => {
+    return [
+      {
+        title: "PRODUCER",
+        value: this.state.name,
+        icon: "fire"
+      },
+      {
+        title: "BLOCK HEIGHT",
+        value: parseInt(
+          data.chainMeta && data.chainMeta.height,
+          10
+        ).toLocaleString(),
+        icon: "build"
+      },
+      {
+        title: "CURRENT TPS",
+        value: parseInt(
+          data.chainMeta && data.chainMeta.tps,
+          10
+        ).toLocaleString(),
+
+        icon: "dashboard"
+      },
+      {
+        title: "IOTX PRICE",
+        value: this.state.price || 0,
+        icon: "dollar"
+      },
+      {
+        title: "MARKETCAP",
+        value: `${this.state.marketCap || 0} M`,
+        icon: "bank"
+      }
+    ];
+  };
+
   public render(): JSX.Element {
     return (
       <ContentPadding>
-        {/* <Query query={GET_CHAIN_META}>
-          {({ loading, error, data }) => {
-            if (loading) {
-              return "Loading...";
-            }
-            if (error) {
-              return `Error! ${error.message}`;
-            }
-
-            return <div>{JSON.stringify(data)}</div>;
-          }}
-        </Query> */}
         <Row>
           <Col span={12} />
           <Col span={12}>
@@ -136,76 +158,44 @@ export class Home extends Component<{}, State> {
                   return `Error! ${error.message}`;
                 }
 
+                const tiles = this.getTiles(data);
+
                 return (
                   <div>
                     <Flex>
-                      <Flex center>
-                        <div style={{ width: "100%", textAlign: "center" }}>
-                          <div>
-                            <Icon type="fire" />
-                          </div>
-                          <div style={{ fontSize: "18px", fontWeight: "bold" }}>
-                            {this.state.name}
-                          </div>
-                          <div>PRODUCER</div>
-                        </div>
-                      </Flex>
-                      <Flex center>
-                        <div style={{ width: "100%", textAlign: "center" }}>
-                          <div>
-                            <Icon type="build" />
-                          </div>
-                          <div style={{ fontSize: "18px", fontWeight: "bold" }}>
-                            {this.thousands(
-                              (data.chainMeta && data.chainMeta.height) || 0
-                            )}
-                          </div>
-                          <div>BLOCK HEIGHT</div>
-                        </div>
-                      </Flex>
-                      <Flex center>
-                        <div style={{ width: "100%", textAlign: "center" }}>
-                          <div>
-                            <Icon type="dashboard" />
-                          </div>
-                          <div style={{ fontSize: "18px", fontWeight: "bold" }}>
-                            {this.thousands(
-                              (data.chainMeta && data.chainMeta.tps) || 0
-                            )}
-                          </div>
-                          <div>CURRENT TPS</div>
-                        </div>
-                      </Flex>
-                      <Flex center>
-                        <div style={{ width: "100%", textAlign: "center" }}>
-                          <div>
-                            <Icon type="dollar" />
-                          </div>
-                          <div style={{ fontSize: "18px", fontWeight: "bold" }}>
-                            ${this.state.price || 0}
-                          </div>
-                          <div>IOTX PRICE</div>
-                        </div>
-                      </Flex>
-                      <Flex center>
-                        <div style={{ width: "100%", textAlign: "center" }}>
-                          <div>
-                            <Icon type="bank" />
-                          </div>
-                          <div style={{ fontSize: "18px", fontWeight: "bold" }}>
-                            $ {this.state.marketCap || 0} M
-                          </div>
-                          <div>MARKETCAP</div>
-                        </div>
-                      </Flex>
+                      {tiles.map((tile, i) => (
+                        <Tile
+                          key={i}
+                          title={tile.title}
+                          value={tile.value}
+                          icon={tile.icon}
+                        />
+                      ))}
                     </Flex>
                   </div>
                 );
               }}
             </Query>
+            <BpTable />
           </Layout.Content>
         </Layout>
       </ContentPadding>
     );
   }
+}
+
+type TileProps = { title: string; value: string | number; icon: string };
+
+function Tile({ title, value, icon }: TileProps): JSX.Element {
+  return (
+    <Flex center>
+      <div style={{ width: "100%", textAlign: "center" }}>
+        <div>
+          <Icon type={icon} />
+        </div>
+        <div style={{ fontSize: "18px", fontWeight: "bold" }}>{value}</div>
+        <div>{title}</div>
+      </div>
+    </Flex>
+  );
 }
