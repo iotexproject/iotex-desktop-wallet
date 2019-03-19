@@ -12,3 +12,54 @@ export const GET_ACCOUNT = gql`
     }
   }
 `;
+
+export const SUGGEST_GAS_PRICE = gql`
+  query suggestGasPrice {
+    suggestGasPrice {
+      gasPrice
+    }
+  }
+`;
+
+export const GET_RECEIPT_BY_ACTION = gql`
+  query($actionHash: String!) {
+    getReceiptByAction(actionHash: $actionHash) {
+      receipt {
+        returnValue
+        status
+        actHash
+        gasConsumed
+        contractAddress
+        logs {
+          address
+          topics
+          data
+          blockNumber
+          txnHash
+          index
+        }
+      }
+    }
+  }
+`;
+
+export const GET_BLOCK_METAS = gql`
+  query getBlockMetas(
+    $byIndex: GetBlockMetasByIndexRequest!
+    $byHash: GetBlockMetasByHashRequest!
+  ) {
+    getBlockMetas(byIndex: $byIndex, byHash: $byHash) {
+      blkMetas {
+        hash
+        height
+        timestamp
+        numActions
+        producerAddress
+        transferAmount
+        txRoot
+        receiptRoot
+        deltaStateDigest
+      }
+    }
+  }
+`;
