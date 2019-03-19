@@ -27,7 +27,7 @@ module.exports = {
       enabled: true,
       level: "debug"
     },
-    iotexAntenna: process.env.IOTEX_ANTENNA || "35.203.158.71:14014"
+    iotexAntenna: process.env.IOTEX_ANTENNA || "35.230.103.170:10000"
   },
   analytics: {
     googleTid: "TODO: replace with your googleTid"
