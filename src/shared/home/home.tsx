@@ -143,10 +143,10 @@ export class Home extends Component<{}, State> {
               const tiles = this.getTiles(data);
 
               return (
-                <div className={"front-top-info"} style={{padding:20}}>
+                <div className={"front-top-info"} style={{ padding: 20 }}>
                   <Flex>
                     {tiles.map((tile, i) => (
-                      <div key={i} className={"item"+i}>
+                      <div key={i} className={"item"}>
                         <Tile
                           title={tile.title}
                           value={tile.value}
@@ -161,10 +161,8 @@ export class Home extends Component<{}, State> {
           </Query>
         </div>
         <Layout tagName={"main"} className={"main-container"}>
-          <Layout.Content
-            tagName={"main"}
-          >
-            <div style={{ backgroundColor: "#fff"}}>
+          <Layout.Content tagName={"main"}>
+            <div style={{ backgroundColor: "#fff" }}>
               <BpTable />
             </div>
           </Layout.Content>
