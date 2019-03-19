@@ -7,6 +7,7 @@ import { ChainMeta } from "../../api-gateway/resolvers/antenna-types";
 import { fetchCoinPrice } from "../../server/gateways/coin-market-cap";
 import { Flex } from "../common/flex";
 import { ContentPadding } from "../common/styles/style-padding";
+import { BpTable } from "./bp-table";
 
 const GET_CHAIN_META = gql`
   query {
@@ -175,6 +176,7 @@ export class Home extends Component<{}, State> {
                 );
               }}
             </Query>
+            <BpTable />
           </Layout.Content>
         </Layout>
       </ContentPadding>

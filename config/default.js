@@ -42,7 +42,11 @@ module.exports = {
       "https://use.fontawesome.com/releases/v5.0.13/"
     ],
     "frame-src": [],
-    "connect-src": ["self", "https://api.coinmarketcap.com/v1/ticker/iotex/"],
+    "connect-src": [
+      "self",
+      "https://api.coinmarketcap.com/v1/ticker/iotex/",
+      "https://member.iotex.io/api-gateway/"
+    ],
     "child-src": ["self"],
     "font-src": [
       "self",
@@ -50,10 +54,11 @@ module.exports = {
       "https://use.fontawesome.com/releases/v5.0.13/",
       "data: https://use.fontawesome.com/releases/v5.0.13/"
     ],
-    "img-src": ["*"],
+    "img-src": ["*", "data:"],
     "media-src": ["self"],
     "object-src": ["self"],
     "script-src": ["self", "https://www.google-analytics.com/"]
   },
-  apiGatewayUrl: "http://localhost:4004/api-gateway/"
+  apiGatewayUrl: "http://localhost:4004/api-gateway/",
+  webBpApiGatewayUrl: "https://member.iotex.io/api-gateway/"
 };

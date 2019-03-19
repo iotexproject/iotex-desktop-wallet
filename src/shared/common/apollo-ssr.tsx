@@ -18,6 +18,7 @@ import { ApolloProvider } from "react-apollo";
 import { getDataFromTree } from "react-apollo";
 // @ts-ignore
 import * as engine from "styletron-engine-atomic";
+import { webBpApolloClient } from "./apollo-client";
 
 type Opts = {
   VDom: JSX.Element;
@@ -64,6 +65,7 @@ export async function apolloSSR(
     );
     const apolloState = apolloClient.extract();
     ctx.setState("apolloState", apolloState);
+    ctx.setState("webBpApolloState", webBpApolloClient.extract());
   } catch (e) {
     logger.error(`failed to hydrate apollo SSR: ${e}`);
   }

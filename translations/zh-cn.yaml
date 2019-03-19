@@ -5,3 +5,7 @@ topbar.home: HOME
 not_found.bar: Not Found
 not_found.title: Oops!
 not_found.info: We cannot find the page for you...
+candidate.delegate_name: Delegate Name
+candidate.status: Status
+candidate.live_votes: LiveVotes
+candidate.percent: Percent
