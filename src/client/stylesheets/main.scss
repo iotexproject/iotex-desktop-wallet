@@ -3,3 +3,51 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+.main-container{
+  margin-bottom: 20px;
+}
+.section-top{
+  background: #fff;
+  margin-bottom: 20px;
+}
+.front-top-info{
+  svg{
+    width: 2rem;
+    height: 2rem;
+    color: #666;
+  }
+  .item0{
+    svg{
+      color: #34bfa3;
+    }
+  }
+  .item1{
+    svg{
+      color: #716aca;
+    }
+  }
+  .item2{
+    svg{
+      color: #36a3f7;
+    }
+  }
+  .item3{
+    svg{
+      color: #f4516c;
+    }
+  }
+  .item4{
+    svg{
+      color: #34bfa3;
+    }
+  }
+}
+.table-list{
+  .ant-table-thead > tr > th{
+    background: #00b4a0;
+    color: #fff;
+  }
+  .ant-table-pagination.ant-pagination{
+    margin-right: 20px;
+  }
+}

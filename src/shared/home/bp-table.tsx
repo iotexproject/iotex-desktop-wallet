@@ -71,14 +71,13 @@ export function BpTable(): JSX.Element {
         const bpCandidates = data && data.bpCandidates;
 
         return (
-          <div>
+          <div className={"table-list"}>
             <SpinPreloader spinning={loading}>
               <Table
                 pagination={{ pageSize: 50 }}
                 dataSource={bpCandidates}
                 columns={columns}
                 rowKey={"id"}
-                scroll={{ x: true }}
               />
             </SpinPreloader>
           </div>
