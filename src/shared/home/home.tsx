@@ -1,4 +1,4 @@
-import { Col, Icon, Input, Layout, Row, Statistic } from "antd";
+import { Col, Icon, Input, Layout, Row } from "antd";
 import gql from "graphql-tag";
 import { Component } from "react";
 import React from "react";
@@ -108,75 +108,63 @@ export class Home extends Component<{}, State> {
   public render(): JSX.Element {
     return (
       <ContentPadding>
-        <Row>
-          <Col span={12} />
-          <Col span={12}>
-            <div
-              className="certain-category-search-wrapper"
-              style={{
-                width: 350,
-                marginTop: 20,
-                marginBottom: 20,
-                float: "right"
-              }}
-            >
-              <Input
-                className="certain-category-search"
-                placeholder="Search by Block # / Account / Public Key / TX"
-                suffix={
-                  <Icon type="search" className="certain-category-icon" />
-                }
-              />
-            </div>
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col span={6}>
-            <Statistic title="current user" value={112893} />
-          </Col>
-          <Col span={6}>
-            <Statistic title="account" value={112893} precision={2} />
-          </Col>
-          <Col span={6}>
-            <Statistic title="info" value={112893} />
-          </Col>
-          <Col span={6}>
-            <Statistic title="block" value={112893} precision={2} />
-          </Col>
-        </Row>
-        <Layout tagName={"main"}>
-          <Layout.Content
-            tagName={"main"}
-            style={{ backgroundColor: "#fff", padding: "8px" }}
-          >
-            <Query query={GET_CHAIN_META}>
-              {({ loading, error, data }) => {
-                if (loading) {
-                  return "Loading...";
-                }
-                if (error) {
-                  return `Error! ${error.message}`;
-                }
+        <div className={"section-top"}>
+          <Row>
+            <Col span={12} />
+            <Col span={12}>
+              <div
+                className="certain-category-search-wrapper"
+                style={{
+                  width: 350,
+                  margin: 20,
+                  marginBottom: 0,
+                  float: "right"
+                }}
+              >
+                <Input
+                  className="certain-category-search"
+                  placeholder="Search by Block # / Account / Public Key / TX"
+                  suffix={
+                    <Icon type="search" className="certain-category-icon" />
+                  }
+                />
+              </div>
+            </Col>
+          </Row>
+          <Query query={GET_CHAIN_META}>
+            {({ loading, error, data }) => {
+              if (loading) {
+                return "Loading...";
+              }
+              if (error) {
+                return `Error! ${error.message}`;
+              }
 
-                const tiles = this.getTiles(data);
+              const tiles = this.getTiles(data);
 
-                return (
-                  <div>
-                    <Flex>
-                      {tiles.map((tile, i) => (
+              return (
+                <div className={"front-top-info"} style={{ padding: 20 }}>
+                  <Flex>
+                    {tiles.map((tile, i) => (
+                      <div key={i} className={"item"}>
                         <Tile
-                          key={i}
                           title={tile.title}
                           value={tile.value}
                           icon={tile.icon}
                         />
-                      ))}
-                    </Flex>
-                  </div>
-                );
-              }}
-            </Query>
-            <BpTable />
+                      </div>
+                    ))}
+                  </Flex>
+                </div>
+              );
+            }}
+          </Query>
+        </div>
+        <Layout tagName={"main"} className={"main-container"}>
+          <Layout.Content tagName={"main"}>
+            <div style={{ backgroundColor: "#fff" }}>
+              <BpTable />
+            </div>
           </Layout.Content>
         </Layout>
       </ContentPadding>
