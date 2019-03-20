@@ -65,11 +65,7 @@ export function renderStatus(text: string, record: any): JSX.Element {
 }
 
 // @ts-ignore
-export function renderLiveVotes(
-  text: number,
-  record: any,
-  index: any
-): JSX.Element {
+export function renderLiveVotes(text: number, record: any): JSX.Element {
   let iconType = "minus";
   if (record.liveVotesDelta > 0) {
     iconType = "arrow-up";
