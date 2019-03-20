@@ -46,3 +46,52 @@
     margin-right: 20px;
   }
 }
+.address-top {
+  padding-top: 20px;
+  .title {
+    font-size: 20px;
+    margin-bottom: 20px;
+    i {
+      margin-right: 5px;
+    }
+    span {
+      color: #999;
+      font-size: 16px;
+      line-height: 20px;
+    }
+  }
+  .overview-list {
+    overflow: hidden;
+    margin-bottom: 20px;
+    .item {
+      width: 33.3%;
+      float: left;
+      text-align: center;
+      i {
+        font-size: 32px;
+        color: #999;
+      }
+      &:nth-child(3n + 1) {
+        i {
+          color: #34bfa3;
+        }
+      }
+      &:nth-child(3n + 2) {
+        i {
+          color: #716aca;
+        }
+      }
+      &:nth-child(3n) {
+        i {
+          color: #36a3f7;
+        }
+      }
+    }
+    .name {
+      color: #999;
+    }
+    .info {
+      font-size: 20px;
+    }
+  }
+}
