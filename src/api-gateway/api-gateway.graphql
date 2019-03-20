@@ -20,6 +20,10 @@ type Action {
 type ActionCore {
   version: Int!
   nonce: BigNumber!
+  gasLimit: BigNumber!
+  gasPrice: String!
+  transfer: Transfer
+  execution: Execution
 }
 
 # The BigNumber scalar type represents numeric values with precision as in https://github.com/MikeMcl/bignumber.js/
@@ -51,6 +55,12 @@ type ChainMeta {
 type Epoch {
   num: String!
   height: String!
+}
+
+type Execution {
+  amount: Buffer!
+  contract: String!
+  data: Buffer!
 }
 
 type GetAccountResponse {
@@ -133,4 +143,10 @@ type Receipt {
 
 type SuggestGasPriceResponse {
   gasPrice: Int!
+}
+
+type Transfer {
+  amount: Buffer!
+  recipient: String!
+  payload: Buffer!
 }

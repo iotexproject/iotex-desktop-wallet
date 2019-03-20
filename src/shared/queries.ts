@@ -71,6 +71,18 @@ export const GET_ACTIONS = gql`
         core {
           version
           nonce
+          gasLimit
+          gasPrice
+          transfer {
+            amount
+            recipient
+            payload
+          }
+          execution {
+            amount
+            contract
+            data
+          }
         }
         signature
         senderPubKey
