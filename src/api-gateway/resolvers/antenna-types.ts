@@ -168,6 +168,7 @@ export class GetActionsRequest {
   public byAddr: GetActionsByAddressRequest;
 }
 
+@InputType("TransferInput")
 @ObjectType()
 export class Transfer {
   @Field(_ => BufferScalar)
@@ -180,6 +181,7 @@ export class Transfer {
   public payload: Buffer;
 }
 
+@InputType("ExecutionInput")
 @ObjectType()
 export class Execution {
   @Field(_ => BufferScalar)
@@ -192,6 +194,7 @@ export class Execution {
   public data: Buffer;
 }
 
+@InputType("ActionCoreInput")
 @ObjectType()
 export class ActionCore {
   @Field(_ => Int)
@@ -213,7 +216,8 @@ export class ActionCore {
   public execution?: Execution;
 }
 
-@ObjectType()
+@InputType("ActionInput")
+@ObjectType("Action")
 export class Action {
   @Field(_ => ActionCore)
   public core: ActionCore;
@@ -229,6 +233,24 @@ export class Action {
 export class GetActionsResponse {
   @Field(_ => [Action])
   public actions: Array<Action>;
+}
+
+@ArgsType()
+export class ReadContractRequest {
+  @Field(_ => Action)
+  public action: Action;
+}
+
+@ObjectType()
+export class ReadContractResponse {
+  @Field(_ => String)
+  public data: string;
+}
+
+@ArgsType()
+export class SendActionRequest {
+  @Field(_ => Action)
+  public action: Action;
 }
 
 @ObjectType()

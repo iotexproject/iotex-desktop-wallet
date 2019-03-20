@@ -7,6 +7,7 @@ import {
   Resolver,
   ResolverInterface
 } from "type-graphql";
+import { EmptyScalar } from "../scalars/empty-scalar";
 import {
   ChainMeta,
   GetAccountResponse,
@@ -15,6 +16,9 @@ import {
   GetBlockMetasRequest,
   GetBlockMetasResponse,
   GetReceiptByActionResponse,
+  ReadContractRequest,
+  ReadContractResponse,
+  SendActionRequest,
   SuggestGasPriceResponse
 } from "./antenna-types";
 
@@ -67,5 +71,25 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     { gateways }: any
   ): Promise<GetActionsResponse> {
     return gateways.antenna.getActions(input);
+  }
+
+  @Query(_ => ReadContractResponse)
+  public async readContract(
+    @Args(_ => ReadContractRequest)
+    input: ReadContractRequest,
+    @Ctx()
+    { gateways }: any
+  ): Promise<ReadContractResponse> {
+    return gateways.antenna.readContract(input);
+  }
+
+  @Query(_ => EmptyScalar)
+  public async sendAction(
+    @Args(_ => SendActionRequest)
+    input: SendActionRequest,
+    @Ctx()
+    { gateways }: any
+  ): Promise<object> {
+    return gateways.antenna.sendAction(input);
   }
 }

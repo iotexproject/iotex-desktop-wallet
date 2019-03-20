@@ -10,6 +10,8 @@ import {
   GET_ACTIONS,
   GET_BLOCK_METAS,
   GET_RECEIPT_BY_ACTION,
+  READ_CONTRACT,
+  SEND_ACTION,
   SUGGEST_GAS_PRICE
 } from "./queries";
 
@@ -26,6 +28,58 @@ type Props = RouteComponentProps<PathParamsType> & {};
 class TestAntennaInner extends PureComponent<Props> {
   public requests: Array<RequestProp> = [
     {
+      query: SEND_ACTION,
+      variables: {
+        action: {
+          core: {
+            version: 1,
+            nonce: "",
+            gasLimit: "",
+            gasPrice: "100",
+            transfer: {
+              amount: "100",
+              recipient: "",
+              payload: ""
+            },
+            execution: {
+              amount: "100",
+              contract: "",
+              data: ""
+            }
+          },
+          senderPubKey: "",
+          signature: ""
+        }
+      },
+      name: "SEND_ACTION"
+    },
+    {
+      query: READ_CONTRACT,
+      variables: {
+        action: {
+          core: {
+            version: 1,
+            nonce: "",
+            gasLimit: "",
+            gasPrice: "100",
+            transfer: {
+              amount: "100",
+              recipient: "",
+              payload: ""
+            },
+            execution: {
+              amount: "100",
+              contract: "",
+              data: ""
+            }
+          },
+          senderPubKey: "",
+          signature: ""
+        }
+      },
+    },
+    {
+      name: "READ_CONTRACT"
       query: GET_ACTIONS,
       variables: {
         byIndex: { start: 1, count: 10 },
@@ -104,7 +158,9 @@ class TestAntennaInner extends PureComponent<Props> {
                     <div>
                       <h3>{name}</h3>
                       <pre style={{ color }}>
-                        {error ? JSON.stringify(error) : JSON.stringify(data)}
+                        {error
+                          ? JSON.stringify(error, null, 2)
+                          : JSON.stringify(data, null, 2)}
                       </pre>
                     </div>
                   </SpinPreloader>

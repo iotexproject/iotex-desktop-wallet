@@ -90,3 +90,17 @@ export const GET_ACTIONS = gql`
     }
   }
 `;
+
+export const READ_CONTRACT = gql`
+  query readContract($action: ActionInput!) {
+    readContract(action: $action) {
+      data
+    }
+  }
+`;
+
+export const SEND_ACTION = gql`
+  query sendAction($action: ActionInput!) {
+    sendAction(action: $action)
+  }
+`;
