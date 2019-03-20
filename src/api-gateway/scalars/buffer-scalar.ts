@@ -5,7 +5,7 @@ export const BufferScalar = new GraphQLScalarType({
   name: "Buffer",
   description: "JS Buffer or Uint8Array",
   serialize(value: Buffer): string {
-    return value.toString("hex");
+    return Buffer.from(value).toString("hex");
   },
   parseValue(value: string | ArrayBuffer | Uint8Array | Array<number>): Buffer {
     // @ts-ignore

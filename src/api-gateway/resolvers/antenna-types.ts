@@ -168,12 +168,48 @@ export class GetActionsRequest {
 }
 
 @ObjectType()
+export class Transfer {
+  @Field(_ => BufferScalar)
+  public amount: Buffer;
+
+  @Field(_ => String)
+  public recipient: string;
+
+  @Field(_ => BufferScalar)
+  public payload: Buffer;
+}
+
+@ObjectType()
+export class Execution {
+  @Field(_ => BufferScalar)
+  public amount: Buffer;
+
+  @Field(_ => String)
+  public contract: string;
+
+  @Field(_ => BufferScalar)
+  public data: Buffer;
+}
+
+@ObjectType()
 export class ActionCore {
   @Field(_ => Int)
   public version: number;
 
   @Field(_ => BigNumberScalar)
   public nonce: BigNumber;
+
+  @Field(_ => BigNumberScalar)
+  public gasLimit: BigNumber;
+
+  @Field(_ => String)
+  public gasPrice: String;
+
+  @Field(_ => Transfer, { nullable: true })
+  public transfer?: Transfer;
+
+  @Field(_ => Execution, { nullable: true })
+  public execution?: Execution;
 }
 
 @ObjectType()
