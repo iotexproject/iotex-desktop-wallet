@@ -20,5 +20,11 @@ export const colors = {
 
   nav01: "#011627",
   nav02: "#20232a",
-  nav03: "#151d27"
+  nav03: "#151d27",
+
+  PRODUCING: "#0b8de3",
+  ELECTED: "#06a35a",
+  NOT_ELECTED: "#ff9100",
+  UNQUALIFIED: "#999999",
+  deltaUp: "#00b4a0"
 };
