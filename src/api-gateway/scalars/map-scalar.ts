@@ -5,7 +5,7 @@ export const MapScalar = new GraphQLScalarType({
   description: "scalar type of map buffer",
   parseValue(value: Map<string, Uint8Array>): Map<string, Buffer> {
     const map = new Map<string, Buffer>();
-    for (let [k, v] of value.entries()) {
+    for (const [k, v] of value.entries()) {
       map.set(k, Buffer.from(v));
     }
     return map;

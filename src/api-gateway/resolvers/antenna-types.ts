@@ -294,9 +294,6 @@ export class SettleDeposit {
 }
 
 @ObjectType()
-export class CreatePlumChain {}
-
-@ObjectType()
 export class TerminatePlumChain {
   @Field(_ => String)
   public subChainAddress: string;
@@ -431,27 +428,27 @@ export class GrantReward {
 @InputType()
 export class GetActionsByHashRequest {
   @Field(_ => String)
-  actionHash: string;
+  public actionHash: string;
   @Field(_ => Boolean)
-  checkingPending: boolean;
+  public checkingPending: boolean;
 }
 
 @InputType()
 export class GetUnconfirmedActionsByAddressRequest {
   @Field(_ => String)
-  address: string;
+  public address: string;
   @Field(_ => Int)
-  start: number;
+  public start: number;
   @Field(_ => Int)
-  count: number;
+  public count: number;
 }
 
 @InputType()
 export class GetActionsByBlockRequest {
   @Field(_ => String)
-  blkHash: string;
+  public blkHash: string;
   @Field(_ => Int)
-  start: number;
+  public start: number;
   @Field(_ => Int)
-  count: number;
+  public count: number;
 }

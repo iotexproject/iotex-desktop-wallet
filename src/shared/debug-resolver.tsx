@@ -7,9 +7,9 @@ import { SpinPreloader } from "./common/spin-preloader";
 import { ContentPadding } from "./common/styles/style-padding";
 import {
   GET_ACCOUNT,
+  GET_ACTIONS,
   GET_BLOCK_METAS,
   GET_RECEIPT_BY_ACTION,
-  GET_ACTIONS,
   SUGGEST_GAS_PRICE
 } from "./queries";
 
