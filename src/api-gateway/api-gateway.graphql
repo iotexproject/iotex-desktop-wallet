@@ -11,6 +11,24 @@ type AccountMeta {
   pendingNonce: Int!
 }
 
+type Action {
+  core: ActionCore!
+  senderPubKey: Buffer!
+  signature: Buffer!
+}
+
+type ActionCore {
+  version: Int!
+  nonce: BigNumber!
+  gasLimit: BigNumber!
+  gasPrice: String!
+  transfer: Transfer
+  execution: Execution
+}
+
+# The BigNumber scalar type represents numeric values with precision as in https://github.com/MikeMcl/bignumber.js/
+scalar BigNumber
+
 # Properties of an blockMeta
 type BlockMeta {
   hash: String!
@@ -24,6 +42,9 @@ type BlockMeta {
   deltaStateDigest: String!
 }
 
+# JS Buffer or Uint8Array
+scalar Buffer
+
 type ChainMeta {
   height: String!
   numActions: String!
@@ -36,8 +57,38 @@ type Epoch {
   height: String!
 }
 
+type Execution {
+  amount: Buffer!
+  contract: String!
+  data: Buffer!
+}
+
 type GetAccountResponse {
   accountMeta: AccountMeta!
+}
+
+input GetActionsByAddressRequest {
+  address: String!
+  start: BigNumber!
+  count: BigNumber!
+}
+
+input GetActionsByIndexRequest {
+  start: BigNumber!
+  count: BigNumber!
+}
+
+type GetActionsResponse {
+  actions: [Action!]!
+}
+
+input GetBlockMetasByHashRequest {
+  blkHash: String!
+}
+
+input GetBlockMetasByIndexRequest {
+  start: Int!
+  count: Int!
 }
 
 type GetBlockMetasResponse {
@@ -51,8 +102,8 @@ type GetReceiptByActionResponse {
 # Properties of an Log
 type Log {
   address: String!
-  topics: [String!]!
-  data: [String!]!
+  topics: [Int!]!
+  data: [Int!]!
   blockNumber: Int!
   txnHash: [String!]!
   index: Int!
@@ -64,17 +115,25 @@ type Query {
     # iotex address
     address: String!
   ): GetAccountResponse!
+  getBlockMetas(
+    byIndex: GetBlockMetasByIndexRequest!
+    byHash: GetBlockMetasByHashRequest!
+  ): GetBlockMetasResponse!
   suggestGasPrice: SuggestGasPriceResponse!
   getReceiptByAction(
     # actionHash
     actionHash: String!
   ): GetReceiptByActionResponse!
+  getActions(
+    byIndex: GetActionsByIndexRequest
+    byAddr: GetActionsByAddressRequest
+  ): GetActionsResponse!
   health: String!
 }
 
 # Properties of an Receipt
 type Receipt {
-  returnValue: [String!]!
+  returnValue: [Int!]!
   status: Int!
   actHash: [Int!]!
   gasConsumed: Int!
@@ -84,4 +143,10 @@ type Receipt {
 
 type SuggestGasPriceResponse {
   gasPrice: Int!
+}
+
+type Transfer {
+  amount: Buffer!
+  recipient: String!
+  payload: Buffer!
 }

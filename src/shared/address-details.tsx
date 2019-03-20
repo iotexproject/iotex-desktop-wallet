@@ -5,7 +5,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 // @ts-ignore
 import { SpinPreloader } from "./common/spin-preloader";
 import { ContentPadding } from "./common/styles/style-padding";
-import { GET_ACCOUNT } from "./queries";
+import { GET_ACCOUNT, GET_ACTIONS } from "./queries";
 
 type PathParamsType = {
   address: string;
@@ -34,7 +34,28 @@ class AddressDetailsInner extends PureComponent<Props> {
             }
             return (
               <SpinPreloader spinning={loading}>
-                {JSON.stringify(data)}
+                <pre>{JSON.stringify(data, null, 2)}</pre>
+              </SpinPreloader>
+            );
+          }}
+        </Query>
+
+        <Query
+          query={GET_ACTIONS}
+          variables={{ byAddr: { address: address, start: 0, count: 20 } }}
+        >
+          {({ loading, error, data }) => {
+            if (error) {
+              notification.error({
+                message: "Error",
+                description: `failed to get actions: ${error}`,
+                duration: 3
+              });
+              return null;
+            }
+            return (
+              <SpinPreloader spinning={loading}>
+                <pre>{JSON.stringify(data, null, 2)}</pre>
               </SpinPreloader>
             );
           }}

@@ -1,4 +1,7 @@
-import { Field, Int, ObjectType } from "type-graphql";
+import BigNumber from "bignumber.js";
+import { ArgsType, Field, InputType, Int, ObjectType } from "type-graphql";
+import { BigNumberScalar } from "../scalars/bignumber-scalar";
+import { BufferScalar } from "../scalars/buffer-scalar";
 
 @ObjectType()
 class Epoch {
@@ -67,9 +70,9 @@ export class BlockMeta {
 export class Log {
   @Field(_ => String)
   public address: string;
-  @Field(_ => String)
+  @Field(_ => [Int])
   public topics: Array<number>;
-  @Field(_ => String)
+  @Field(_ => [Int])
   public data: Array<number>;
   @Field(_ => Int)
   public blockNumber: number;
@@ -81,7 +84,7 @@ export class Log {
 
 @ObjectType({ description: "Properties of an Receipt" })
 export class Receipt {
-  @Field(_ => String)
+  @Field(_ => [Int])
   public returnValue: Array<number>;
   @Field(_ => Int)
   public status: number;
@@ -93,6 +96,28 @@ export class Receipt {
   public contractAddress: string;
   @Field(_ => [Log])
   public logs: Array<Log>;
+}
+
+@InputType()
+export class GetBlockMetasByIndexRequest {
+  @Field(_ => Int)
+  public start?: number;
+  @Field(_ => Int)
+  public count?: number;
+}
+
+@InputType()
+export class GetBlockMetasByHashRequest {
+  @Field(_ => String)
+  public blkHash?: string;
+}
+
+@ArgsType()
+export class GetBlockMetasRequest {
+  @Field(_ => GetBlockMetasByIndexRequest)
+  public byIndex?: GetBlockMetasByIndexRequest;
+  @Field(_ => GetBlockMetasByHashRequest)
+  public byHash?: GetBlockMetasByHashRequest;
 }
 
 @ObjectType()
@@ -111,4 +136,96 @@ export class SuggestGasPriceResponse {
 export class GetReceiptByActionResponse {
   @Field(_ => Receipt)
   public receipt: Receipt;
+}
+
+@InputType()
+export class GetActionsByAddressRequest {
+  @Field(_ => String)
+  public address: string;
+
+  @Field(_ => BigNumberScalar)
+  public start: BigNumber;
+
+  @Field(_ => BigNumberScalar)
+  public count: BigNumber;
+}
+
+@InputType()
+export class GetActionsByIndexRequest {
+  @Field(_ => BigNumberScalar)
+  public start: BigNumber;
+  @Field(_ => BigNumberScalar)
+  public count: BigNumber;
+}
+
+@ArgsType()
+export class GetActionsRequest {
+  @Field(_ => GetActionsByIndexRequest, { nullable: true })
+  public byIndex: GetActionsByIndexRequest;
+
+  @Field(_ => GetActionsByAddressRequest, { nullable: true })
+  public byAddr: GetActionsByAddressRequest;
+}
+
+@ObjectType()
+export class Transfer {
+  @Field(_ => BufferScalar)
+  public amount: Buffer;
+
+  @Field(_ => String)
+  public recipient: string;
+
+  @Field(_ => BufferScalar)
+  public payload: Buffer;
+}
+
+@ObjectType()
+export class Execution {
+  @Field(_ => BufferScalar)
+  public amount: Buffer;
+
+  @Field(_ => String)
+  public contract: string;
+
+  @Field(_ => BufferScalar)
+  public data: Buffer;
+}
+
+@ObjectType()
+export class ActionCore {
+  @Field(_ => Int)
+  public version: number;
+
+  @Field(_ => BigNumberScalar)
+  public nonce: BigNumber;
+
+  @Field(_ => BigNumberScalar)
+  public gasLimit: BigNumber;
+
+  @Field(_ => String)
+  public gasPrice: String;
+
+  @Field(_ => Transfer, { nullable: true })
+  public transfer?: Transfer;
+
+  @Field(_ => Execution, { nullable: true })
+  public execution?: Execution;
+}
+
+@ObjectType()
+export class Action {
+  @Field(_ => ActionCore)
+  public core: ActionCore;
+
+  @Field(_ => BufferScalar)
+  public senderPubKey: Buffer;
+
+  @Field(_ => BufferScalar)
+  public signature: Buffer;
+}
+
+@ObjectType()
+export class GetActionsResponse {
+  @Field(_ => [Action])
+  public actions: Array<Action>;
 }
