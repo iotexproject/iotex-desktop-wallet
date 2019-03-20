@@ -245,3 +245,9 @@ export class ReadContractResponse {
   @Field(_ => String)
   public data: string;
 }
+
+@ArgsType()
+export class SendActionRequest {
+  @Field(_ => Action)
+  public action: Action;
+}
