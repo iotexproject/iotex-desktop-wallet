@@ -11,6 +11,18 @@ type AccountMeta {
   pendingNonce: Int!
 }
 
+type Action {
+  core: ActionCore!
+}
+
+type ActionCore {
+  version: Int!
+  nonce: BigNumber!
+}
+
+# The BigNumber scalar type represents numeric values with precision as in https://github.com/MikeMcl/bignumber.js/
+scalar BigNumber
+
 # Properties of an blockMeta
 type BlockMeta {
   hash: String!
@@ -38,6 +50,21 @@ type Epoch {
 
 type GetAccountResponse {
   accountMeta: AccountMeta!
+}
+
+input GetActionsByAddressRequest {
+  address: String!
+  start: BigNumber!
+  count: BigNumber!
+}
+
+input GetActionsByIndexRequest {
+  start: BigNumber!
+  count: BigNumber!
+}
+
+type GetActionsResponse {
+  actions: [Action!]!
 }
 
 input GetBlockMetasByHashRequest {
@@ -82,6 +109,10 @@ type Query {
     # actionHash
     actionHash: String!
   ): GetReceiptByActionResponse!
+  getActions(
+    byIndex: GetActionsByIndexRequest
+    byAddr: GetActionsByAddressRequest
+  ): GetActionsResponse!
   health: String!
 }
 

@@ -1,4 +1,6 @@
+import BigNumber from "bignumber.js";
 import { ArgsType, Field, InputType, Int, ObjectType } from "type-graphql";
+import { BigNumberScalar } from "../bignumber-scalar";
 
 @ObjectType()
 class Epoch {
@@ -133,4 +135,54 @@ export class SuggestGasPriceResponse {
 export class GetReceiptByActionResponse {
   @Field(_ => Receipt)
   public receipt: Receipt;
+}
+
+@InputType()
+export class GetActionsByAddressRequest {
+  @Field(_ => String)
+  public address: string;
+
+  @Field(_ => BigNumberScalar)
+  public start: BigNumber;
+
+  @Field(_ => BigNumberScalar)
+  public count: BigNumber;
+}
+
+@InputType()
+export class GetActionsByIndexRequest {
+  @Field(_ => BigNumberScalar)
+  public start: BigNumber;
+  @Field(_ => BigNumberScalar)
+  public count: BigNumber;
+}
+
+@ArgsType()
+export class GetActionsRequest {
+  @Field(_ => GetActionsByIndexRequest, { nullable: true })
+  public byIndex: GetActionsByIndexRequest;
+
+  @Field(_ => GetActionsByAddressRequest, { nullable: true })
+  public byAddr: GetActionsByAddressRequest;
+}
+
+@ObjectType()
+export class ActionCore {
+  @Field(_ => Int)
+  public version: number;
+
+  @Field(_ => BigNumberScalar)
+  public nonce: BigNumber;
+}
+
+@ObjectType()
+export class Action {
+  @Field(_ => ActionCore)
+  public core: ActionCore;
+}
+
+@ObjectType()
+export class GetActionsResponse {
+  @Field(_ => [Action])
+  public actions: Array<Action>;
 }

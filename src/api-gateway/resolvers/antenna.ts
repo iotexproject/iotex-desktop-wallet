@@ -1,3 +1,4 @@
+// tslint:disable:no-any
 import {
   Arg,
   Args,
@@ -9,6 +10,8 @@ import {
 import {
   ChainMeta,
   GetAccountResponse,
+  GetActionsRequest,
+  GetActionsResponse,
   GetBlockMetasRequest,
   GetBlockMetasResponse,
   GetReceiptByActionResponse,
@@ -18,7 +21,6 @@ import {
 @Resolver(_ => ChainMeta)
 export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
   @Query(_ => ChainMeta)
-  // tslint:disable-next-line:no-any
   public async chainMeta(@Ctx() { gateways }: any): Promise<ChainMeta> {
     const chainMeta = await gateways.antenna.getChainMeta({});
     return chainMeta.chainMeta;
@@ -28,7 +30,6 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
   public async getAccount(
     @Arg("address", _ => String, { description: "iotex address" })
     address: string,
-    // tslint:disable-next-line:no-any
     @Ctx() { gateways }: any
   ): Promise<GetAccountResponse> {
     return gateways.antenna.getAccount({ address });
@@ -37,14 +38,12 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
   @Query(_ => GetBlockMetasResponse)
   public async getBlockMetas(
     @Args() { byIndex, byHash }: GetBlockMetasRequest,
-    // tslint:disable-next-line:no-any
     @Ctx() { gateways }: any
   ): Promise<GetBlockMetasResponse> {
     return gateways.antenna.getBlockMetas({ byIndex, byHash });
   }
 
   @Query(_ => SuggestGasPriceResponse)
-  // tslint:disable-next-line:no-any
   public async suggestGasPrice(@Ctx() { gateways }: any): Promise<
     SuggestGasPriceResponse
   > {
@@ -55,9 +54,18 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
   public async getReceiptByAction(
     @Arg("actionHash", _ => String, { description: "actionHash" })
     actionHash: string,
-    // tslint:disable-next-line:no-any
     @Ctx() { gateways }: any
   ): Promise<GetReceiptByActionResponse> {
     return gateways.antenna.getReceiptByAction({ actionHash });
+  }
+
+  @Query(_ => GetActionsResponse)
+  public async getActions(
+    @Args(_ => GetActionsRequest)
+    input: GetActionsRequest,
+    @Ctx()
+    { gateways }: any
+  ): Promise<GetActionsResponse> {
+    return gateways.antenna.getActions(input);
   }
 }
