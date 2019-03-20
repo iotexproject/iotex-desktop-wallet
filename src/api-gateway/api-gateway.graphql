@@ -26,6 +26,21 @@ type ActionCore {
   execution: Execution
 }
 
+input ActionCoreInput {
+  version: Int!
+  nonce: BigNumber!
+  gasLimit: BigNumber!
+  gasPrice: String!
+  transfer: TransferInput
+  execution: ExecutionInput
+}
+
+input ActionInput {
+  core: ActionCoreInput!
+  senderPubKey: Buffer!
+  signature: Buffer!
+}
+
 # The BigNumber scalar type represents numeric values with precision as in https://github.com/MikeMcl/bignumber.js/
 scalar BigNumber
 
@@ -58,6 +73,12 @@ type Epoch {
 }
 
 type Execution {
+  amount: Buffer!
+  contract: String!
+  data: Buffer!
+}
+
+input ExecutionInput {
   amount: Buffer!
   contract: String!
   data: Buffer!
@@ -128,7 +149,12 @@ type Query {
     byIndex: GetActionsByIndexRequest
     byAddr: GetActionsByAddressRequest
   ): GetActionsResponse!
+  readContract(action: ActionInput!): ReadContractResponse!
   health: String!
+}
+
+type ReadContractResponse {
+  data: String!
 }
 
 # Properties of an Receipt
@@ -146,6 +172,12 @@ type SuggestGasPriceResponse {
 }
 
 type Transfer {
+  amount: Buffer!
+  recipient: String!
+  payload: Buffer!
+}
+
+input TransferInput {
   amount: Buffer!
   recipient: String!
   payload: Buffer!

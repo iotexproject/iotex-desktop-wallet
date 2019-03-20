@@ -9,6 +9,7 @@ import {
   GET_ACCOUNT,
   GET_BLOCK_METAS,
   GET_RECEIPT_BY_ACTION,
+  READ_CONTRACT,
   SUGGEST_GAS_PRICE
 } from "./queries";
 
@@ -24,6 +25,32 @@ type Props = RouteComponentProps<PathParamsType> & {};
 
 class TestAntennaInner extends PureComponent<Props> {
   public requests: Array<RequestProp> = [
+    {
+      query: READ_CONTRACT,
+      variables: {
+        action: {
+          core: {
+            version: 1,
+            nonce: "",
+            gasLimit: "",
+            gasPrice: "100",
+            transfer: {
+              amount: "100",
+              recipient: "",
+              payload: ""
+            },
+            execution: {
+              amount: "100",
+              contract: "",
+              data: ""
+            }
+          },
+          senderPubKey: "",
+          signature: ""
+        }
+      },
+      name: "READ_CONTRACT"
+    },
     {
       query: GET_BLOCK_METAS,
       variables: {
