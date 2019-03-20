@@ -9,6 +9,7 @@ import {
   GET_ACCOUNT,
   GET_BLOCK_METAS,
   GET_RECEIPT_BY_ACTION,
+  GET_ACTIONS,
   SUGGEST_GAS_PRICE
 } from "./queries";
 
@@ -24,6 +25,34 @@ type Props = RouteComponentProps<PathParamsType> & {};
 
 class TestAntennaInner extends PureComponent<Props> {
   public requests: Array<RequestProp> = [
+    {
+      query: GET_ACTIONS,
+      variables: {
+        byIndex: { start: 1, count: 10 },
+        byHash: {
+          actionHash:
+            "7d9573833bc1c35b6d13ee920c63f3692a6c50c9e65811a84930432eec02ba10",
+          checkingPending: false
+        },
+        byAddr: {
+          address: "io1qypqqqqqjntmcu9d60u4w465t33l2et6drtaqyrqwm0gma",
+          start: 1,
+          count: 10
+        },
+        unconfirmedByAddr: {
+          address: "io1qypqqqqqjntmcu9d60u4w465t33l2et6drtaqyrqwm0gma",
+          start: 1,
+          count: 10
+        },
+        byBlk: {
+          blkHash:
+            "7d9573833bc1c35b6d13ee920c63f3692a6c50c9e65811a84930432eec02ba10",
+          start: 1,
+          count: 10
+        }
+      },
+      name: "GET_ACTIONS"
+    },
     {
       query: GET_BLOCK_METAS,
       variables: {
