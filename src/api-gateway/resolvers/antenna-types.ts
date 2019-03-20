@@ -248,26 +248,6 @@ export class Vote {
 }
 
 @ObjectType()
-export class Transfer {
-  @Field(_ => BufferScalar)
-  public amount: Buffer;
-  @Field(_ => String)
-  public recipient: string;
-  @Field(_ => BufferScalar)
-  public payload: Buffer;
-}
-
-@ObjectType()
-export class Execution {
-  @Field(_ => BufferScalar)
-  public amount: Buffer;
-  @Field(_ => String)
-  public contract: string;
-  @Field(_ => BufferScalar)
-  public data: Buffer;
-}
-
-@ObjectType()
 export class StartSubChain {
   @Field(_ => Int)
   public chainID: number;
