@@ -1,4 +1,4 @@
-import { notification } from "antd";
+import { Divider, Icon, notification } from "antd";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -20,6 +20,13 @@ class AddressDetailsInner extends PureComponent<Props> {
         params: { address }
       }
     } = this.props;
+    let addressInfo: {
+      address: string;
+      balance: string;
+      nonce: string;
+      pendingNonce: string;
+      __typename: string;
+    };
     return (
       <ContentPadding>
         <Query query={GET_ACCOUNT} variables={{ address }}>
@@ -32,9 +39,44 @@ class AddressDetailsInner extends PureComponent<Props> {
               });
               return null;
             }
+            if (data.getAccount && data.getAccount.accountMeta) {
+              addressInfo = data.getAccount.accountMeta;
+            }
             return (
               <SpinPreloader spinning={loading}>
-                <pre>{JSON.stringify(data, null, 2)}</pre>
+                <div className="address-top">
+                  <h3 className={"title"}>
+                    <Icon type="wallet" />
+                    Address:
+                    <span>{addressInfo.address}</span>
+                  </h3>
+                  <Divider orientation="left">Overview</Divider>
+                  <div className="overview-list">
+                    <div className={"item"}>
+                      <div className={"icon"}>
+                        <Icon type="money-collect" />
+                      </div>
+                      <div className={"name"}>balance</div>
+                      <div className={"info"}>{addressInfo.balance}</div>
+                    </div>
+                    <div className={"item"}>
+                      <div className={"icon"}>
+                        <Icon type="border" />
+                      </div>
+                      <div className={"name"}>nonce</div>
+                      <div className={"info"}>{addressInfo.nonce}</div>
+                    </div>
+                    <div className={"item"}>
+                      <div className={"icon"}>
+                        <Icon type="project" />
+                      </div>
+                      <div className={"name"}>pendingNonce</div>
+                      <div className={"info"}>{addressInfo.pendingNonce}</div>
+                    </div>
+                  </div>
+                  <Divider orientation="left">Transactions</Divider>
+                  {/*<div>{JSON.stringify(data, null, 2)}</div>*/}
+                </div>
               </SpinPreloader>
             );
           }}

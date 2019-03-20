@@ -67,6 +67,22 @@ type ChainMeta {
   epoch: Epoch!
 }
 
+type ClaimFromRewardingFund {
+  amount: Buffer!
+  data: Buffer!
+}
+
+type CreateDeposit {
+  chainID: Int!
+  amount: Buffer!
+  recipient: String!
+}
+
+type DepositToRewardingFund {
+  amount: Buffer!
+  data: Buffer!
+}
+
 type Epoch {
   num: String!
   height: String!
@@ -92,6 +108,17 @@ input GetActionsByAddressRequest {
   address: String!
   start: BigNumber!
   count: BigNumber!
+}
+
+input GetActionsByBlockRequest {
+  blkHash: String!
+  start: Int!
+  count: Int!
+}
+
+input GetActionsByHashRequest {
+  actionHash: String!
+  checkingPending: Boolean!
 }
 
 input GetActionsByIndexRequest {
@@ -120,14 +147,93 @@ type GetReceiptByActionResponse {
   receipt: Receipt!
 }
 
+input GetUnconfirmedActionsByAddressRequest {
+  address: String!
+  start: Int!
+  count: Int!
+}
+
+type GrantReward {
+  type: Int!
+}
+
 # Properties of an Log
 type Log {
   address: String!
-  topics: [Int!]!
-  data: [Int!]!
+  topics: Buffer!
+  data: Buffer!
   blockNumber: Int!
-  txnHash: [String!]!
+  txnHash: Buffer!
   index: Int!
+}
+
+# scalar type of map buffer
+scalar Map
+
+type MerkleRoot {
+  name: String!
+  value: Buffer!
+}
+
+type PlumChallengeExit {
+  subChainAddress: String!
+  coinID: Int!
+  challengeTransfer: Buffer!
+  challengeTransferBlockProof: Buffer!
+  challengeTransferBlockHeight: Int!
+}
+
+type PlumCreateDeposit {
+  subChainAddress: String!
+  amount: Buffer!
+  recipient: String!
+}
+
+type PlumFinalizeExit {
+  subChainAddress: String!
+  coinID: Int!
+}
+
+type PlumPutBlock {
+  subChainAddress: String!
+  height: Int!
+  roots: Map!
+}
+
+type PlumResponseChallengeExit {
+  subChainAddress: String!
+  coinID: Int!
+  challengeTransfer: Buffer!
+  responseTransfer: Buffer!
+  responseTransferBlockProof: Buffer!
+  previousTransferBlockHeight: Int!
+}
+
+type PlumSettleDeposit {
+  coinID: Int!
+}
+
+type PlumStartExit {
+  subChainAddress: String!
+  previousTransfer: Buffer!
+  previousTransferBlockProof: Buffer!
+  previousTransferBlockHeight: Int!
+  exitTransfer: Buffer!
+  exitTransferBlockProof: Buffer!
+  exitTransferBlockHeight: Int!
+}
+
+type PlumTransfer {
+  coinID: Int!
+  denomination: Buffer!
+  owner: String!
+  recipient: String!
+}
+
+type PutBlock {
+  subChainAddress: String!
+  height: Int!
+  roots: [MerkleRoot!]!
 }
 
 type Query {
@@ -159,16 +265,51 @@ type ReadContractResponse {
 
 # Properties of an Receipt
 type Receipt {
-  returnValue: [Int!]!
+  returnValue: Buffer!
   status: Int!
-  actHash: [Int!]!
+  actHash: Buffer!
   gasConsumed: Int!
   contractAddress: String!
   logs: [Log!]!
 }
 
+type SetReward {
+  amount: Buffer!
+  data: Buffer!
+  type: Int!
+}
+
+type SettleDeposit {
+  amount: Buffer!
+  recipient: String!
+  index: Int!
+}
+
+type StartSubChain {
+  chainID: Int!
+  securityDeposit: Buffer!
+  operationDeposit: Buffer!
+  startHeight: Int!
+  parentHeightOffset: Int!
+}
+
+type StopSubChain {
+  chainID: Int!
+  stopHeight: Int!
+  subChainAddress: String!
+}
+
 type SuggestGasPriceResponse {
   gasPrice: Int!
+}
+
+type TerminatePlumChain {
+  subChainAddress: String!
+}
+
+type Timestamp {
+  seconds: Int!
+  nanos: Int!
 }
 
 type Transfer {
@@ -181,4 +322,9 @@ input TransferInput {
   amount: Buffer!
   recipient: String!
   payload: Buffer!
+}
+
+type Vote {
+  timestamp: Timestamp!
+  voteeAddress: String!
 }

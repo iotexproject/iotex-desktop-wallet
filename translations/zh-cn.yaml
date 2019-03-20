@@ -9,3 +9,8 @@ candidate.delegate_name: Delegate Name
 candidate.status: Status
 candidate.live_votes: LiveVotes
 candidate.percent: Percent
+candidates.election.ELECTED: Elected
+candidates.election.NOT_ELECTED: Not Elected
+candidates.election.UNQUALIFIED: Not Elected
+candidates.election.explain: >-
+  Delegates must self-stake at least <b>1,200,000 IOTX</b> and earn <b>2,000,000 IOTX</b> total votes to be elected.

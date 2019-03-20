@@ -59,6 +59,7 @@ module.exports = {
     "object-src": ["self"],
     "script-src": ["self", "https://www.google-analytics.com/"]
   },
-  apiGatewayUrl: "http://localhost:4004/api-gateway/",
+  apiGatewayUrl:
+    process.env.API_GATEWAY_URL || "http://localhost:4004/api-gateway/",
   webBpApiGatewayUrl: "https://member.iotex.io/api-gateway/"
 };
