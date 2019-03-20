@@ -1,6 +1,7 @@
 import BigNumber from "bignumber.js";
 import { ArgsType, Field, InputType, Int, ObjectType } from "type-graphql";
-import { BigNumberScalar } from "../bignumber-scalar";
+import { BigNumberScalar } from "../scalars/bignumber-scalar";
+import { BufferScalar } from "../scalars/buffer-scalar";
 
 @ObjectType()
 class Epoch {
@@ -179,6 +180,12 @@ export class ActionCore {
 export class Action {
   @Field(_ => ActionCore)
   public core: ActionCore;
+
+  @Field(_ => BufferScalar)
+  public senderPubKey: Buffer;
+
+  @Field(_ => BufferScalar)
+  public signature: Buffer;
 }
 
 @ObjectType()

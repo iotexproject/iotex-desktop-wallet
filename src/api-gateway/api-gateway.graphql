@@ -13,6 +13,8 @@ type AccountMeta {
 
 type Action {
   core: ActionCore!
+  senderPubKey: Buffer!
+  signature: Buffer!
 }
 
 type ActionCore {
@@ -35,6 +37,9 @@ type BlockMeta {
   receiptRoot: String!
   deltaStateDigest: String!
 }
+
+# JS Buffer or Uint8Array
+scalar Buffer
 
 type ChainMeta {
   height: String!

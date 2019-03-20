@@ -63,3 +63,18 @@ export const GET_BLOCK_METAS = gql`
     }
   }
 `;
+
+export const GET_ACTIONS = gql`
+  query getActions($byAddr: GetActionsByAddressRequest) {
+    getActions(byAddr: $byAddr) {
+      actions {
+        core {
+          version
+          nonce
+        }
+        signature
+        senderPubKey
+      }
+    }
+  }
+`;
