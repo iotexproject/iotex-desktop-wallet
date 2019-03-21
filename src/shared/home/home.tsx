@@ -1,4 +1,4 @@
-import { Col, Icon, Input, Layout, Row } from "antd";
+import { Icon, Layout } from "antd";
 import React, { Component } from "react";
 import { Query } from "react-apollo";
 import { ChainMeta } from "../../api-gateway/resolvers/antenna-types";
@@ -94,28 +94,6 @@ export class Home extends Component<{}, State> {
     return (
       <ContentPadding>
         <div className={"section-top"}>
-          <Row>
-            <Col span={12} />
-            <Col span={12}>
-              <div
-                className="certain-category-search-wrapper"
-                style={{
-                  width: 350,
-                  margin: 20,
-                  marginBottom: 0,
-                  float: "right"
-                }}
-              >
-                <Input
-                  className="certain-category-search"
-                  placeholder="Search by Block # / Account / Public Key / TX"
-                  suffix={
-                    <Icon type="search" className="certain-category-icon" />
-                  }
-                />
-              </div>
-            </Col>
-          </Row>
           <Query query={GET_CHAIN_META}>
             {({ loading, error, data }) => {
               if (loading) {

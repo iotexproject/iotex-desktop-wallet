@@ -16,7 +16,7 @@ function getColumns(): Array<ColumnProps<BlockMeta>> {
   return [
     {
       title: t("block.height"),
-      dataIndex: "height"
+      dataIndex: "height",
     },
     {
       title: t("block.timestamp"),
@@ -83,7 +83,7 @@ export function Blocks(): JSX.Element {
 
                 return (
                   <SpinPreloader spinning={loading}>
-                    <h1>{t("block.blocks")}</h1>
+                    <h1 className={"page-title"}>{t("block.blocks")}</h1>
                     <Layout.Content
                       style={{ backgroundColor: "#fff" }}
                       tagName={"main"}

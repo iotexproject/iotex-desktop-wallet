@@ -85,7 +85,7 @@ class AddressDetailsInner extends PureComponent<Props> {
                       </div>
                     </div>
                   </div>
-                  <Divider orientation="left">Transactions</Divider>
+                  <Divider orientation="left">Actions</Divider>
                   {/*<div>{JSON.stringify(data, null, 2)}</div>*/}
                 </div>
               </SpinPreloader>
