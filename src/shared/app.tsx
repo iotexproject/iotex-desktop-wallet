@@ -13,7 +13,6 @@ import { Switch } from "react-router";
 import { Route } from "react-router-dom";
 import { AddressDetails } from "./address-details/address-details";
 import { BlockDetail } from "./block/block-detail";
-import { Blocks as BlockList } from "./block/blocks";
 import { Blocks } from "./blocks";
 import { Footer, FOOTER_ABOVE } from "./common/footer";
 // @ts-ignore
@@ -92,7 +91,6 @@ export class App extends Component<Props> {
             <Route exact path="/address/:address" component={AddressDetails} />
             <Route exact path="/block/:hash" component={BlockDetail} />
             <Route exact path="/blocks" component={Blocks} />
-            <Route exact path="/blocklist" component={BlockList} />
             <Route component={NotFound} />
           </Switch>
         </div>
