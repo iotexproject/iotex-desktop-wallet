@@ -1,5 +1,27 @@
 import gql from "graphql-tag";
 
+export const GET_CHAIN_META = gql`
+  query {
+    chainMeta {
+      height
+      numActions
+      tps
+      epoch {
+        num
+        height
+      }
+    }
+  }
+`;
+
+export const GET_LATEST_HEIGHT = gql`
+  query {
+    chainMeta {
+      height
+    }
+  }
+`;
+
 export const GET_ACCOUNT = gql`
   query($address: String!) {
     getAccount(address: $address) {

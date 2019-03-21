@@ -1,27 +1,12 @@
 import { Col, Icon, Input, Layout, Row } from "antd";
-import gql from "graphql-tag";
-import { Component } from "react";
-import React from "react";
+import React, { Component } from "react";
 import { Query } from "react-apollo";
 import { ChainMeta } from "../../api-gateway/resolvers/antenna-types";
 import { fetchCoinPrice } from "../../server/gateways/coin-market-cap";
 import { Flex } from "../common/flex";
 import { ContentPadding } from "../common/styles/style-padding";
 import { BpTable } from "./bp-table";
-
-const GET_CHAIN_META = gql`
-  query {
-    chainMeta {
-      height
-      numActions
-      tps
-      epoch {
-        num
-        height
-      }
-    }
-  }
-`;
+import { GET_CHAIN_META } from "../queries";
 
 type State = {
   marketCap: number;
