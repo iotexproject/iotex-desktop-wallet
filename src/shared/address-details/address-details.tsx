@@ -9,7 +9,6 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_ACCOUNT } from "../queries";
 import { ActionTable } from "./action-table";
-import { colors } from "../common/styles/style-color";
 
 type PathParamsType = {
   address: string;

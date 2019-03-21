@@ -1,4 +1,5 @@
 // tslint:disable:no-any
+import casual from "casual";
 import {
   Arg,
   Args,
@@ -8,7 +9,6 @@ import {
   ResolverInterface
 } from "type-graphql";
 import { EmptyScalar } from "../scalars/empty-scalar";
-import casual from "casual";
 import {
   Action,
   ChainMeta,
