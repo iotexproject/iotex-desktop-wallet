@@ -16,12 +16,16 @@ export function setServerRoutes(server: Server): void {
 
   setApiGateway(server);
 
-  server.get("SPA", "(/|/address/.*)", async (ctx: koa.Context) => {
-    ctx.setState("base.blah", "this is a sample initial state");
-    ctx.body = await apolloSSR(ctx, server.config.apiGatewayUrl, {
-      VDom: <AppContainer />,
-      reducer: noopReducer,
-      clientScript: "/main.js"
-    });
-  });
+  server.get(
+    "SPA",
+    "(/|/address/.*|/blocks/|/block/.*)",
+    async (ctx: koa.Context) => {
+      ctx.setState("base.blah", "this is a sample initial state");
+      ctx.body = await apolloSSR(ctx, server.config.apiGatewayUrl, {
+        VDom: <AppContainer />,
+        reducer: noopReducer,
+        clientScript: "/main.js"
+      });
+    }
+  );
 }

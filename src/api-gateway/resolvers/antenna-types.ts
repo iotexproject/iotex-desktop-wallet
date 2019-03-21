@@ -1,7 +1,15 @@
 import BigNumber from "bignumber.js";
-import { ArgsType, Field, InputType, Int, ObjectType } from "type-graphql";
+import {
+  ArgsType,
+  Field,
+  InputType,
+  Int,
+  ObjectType,
+  registerEnumType
+} from "type-graphql";
 import { BigNumberScalar } from "../scalars/bignumber-scalar";
 import { BufferScalar } from "../scalars/buffer-scalar";
+import { MapScalar } from "../scalars/map-scalar";
 
 @ObjectType()
 class Epoch {
@@ -70,26 +78,26 @@ export class BlockMeta {
 export class Log {
   @Field(_ => String)
   public address: string;
-  @Field(_ => [Int])
-  public topics: Array<number>;
-  @Field(_ => [Int])
-  public data: Array<number>;
+  @Field(_ => BufferScalar)
+  public topics: Buffer;
+  @Field(_ => BufferScalar)
+  public data: Buffer;
   @Field(_ => Int)
   public blockNumber: number;
-  @Field(_ => String)
-  public txnHash: Array<number>;
+  @Field(_ => BufferScalar)
+  public txnHash: Buffer;
   @Field(_ => Int)
   public index: number;
 }
 
 @ObjectType({ description: "Properties of an Receipt" })
 export class Receipt {
-  @Field(_ => [Int])
-  public returnValue: Array<number>;
+  @Field(_ => BufferScalar)
+  public returnValue: Buffer;
   @Field(_ => Int)
   public status: number;
-  @Field(_ => Int)
-  public actHash: Array<number>;
+  @Field(_ => BufferScalar)
+  public actHash: Buffer;
   @Field(_ => Int)
   public gasConsumed: number;
   @Field(_ => String)
@@ -101,23 +109,23 @@ export class Receipt {
 @InputType()
 export class GetBlockMetasByIndexRequest {
   @Field(_ => Int)
-  public start?: number;
+  public start: number;
   @Field(_ => Int)
-  public count?: number;
+  public count: number;
 }
 
 @InputType()
 export class GetBlockMetasByHashRequest {
   @Field(_ => String)
-  public blkHash?: string;
+  public blkHash: string;
 }
 
 @ArgsType()
 export class GetBlockMetasRequest {
-  @Field(_ => GetBlockMetasByIndexRequest)
-  public byIndex?: GetBlockMetasByIndexRequest;
-  @Field(_ => GetBlockMetasByHashRequest)
-  public byHash?: GetBlockMetasByHashRequest;
+  @Field(_ => GetBlockMetasByIndexRequest, { nullable: true })
+  public byIndex: GetBlockMetasByIndexRequest;
+  @Field(_ => GetBlockMetasByHashRequest, { nullable: true })
+  public byHash: GetBlockMetasByHashRequest;
 }
 
 @ObjectType()
@@ -167,10 +175,11 @@ export class GetActionsRequest {
   public byAddr: GetActionsByAddressRequest;
 }
 
+@InputType("TransferInput")
 @ObjectType()
 export class Transfer {
-  @Field(_ => BufferScalar)
-  public amount: Buffer;
+  @Field(_ => String)
+  public amount: string;
 
   @Field(_ => String)
   public recipient: string;
@@ -179,10 +188,11 @@ export class Transfer {
   public payload: Buffer;
 }
 
+@InputType("ExecutionInput")
 @ObjectType()
 export class Execution {
-  @Field(_ => BufferScalar)
-  public amount: Buffer;
+  @Field(_ => String)
+  public amount: string;
 
   @Field(_ => String)
   public contract: string;
@@ -191,6 +201,41 @@ export class Execution {
   public data: Buffer;
 }
 
+export enum RewardType {
+  BlockReward,
+  EpochReward
+}
+
+registerEnumType(RewardType, {
+  name: "RewardType"
+});
+
+@InputType("DepositToRewardingFundInput")
+@ObjectType()
+export class DepositToRewardingFund {
+  @Field(_ => String)
+  public amount: string;
+  @Field(_ => BufferScalar)
+  public data: Buffer;
+}
+
+@InputType("ClaimFromRewardingFundInput")
+@ObjectType()
+export class ClaimFromRewardingFund {
+  @Field(_ => String)
+  public amount: string;
+  @Field(_ => BufferScalar)
+  public data: Buffer;
+}
+
+@InputType("GrantRewardInput")
+@ObjectType()
+export class GrantReward {
+  @Field(_ => String)
+  public type: String;
+}
+
+@InputType("ActionCoreInput")
 @ObjectType()
 export class ActionCore {
   @Field(_ => Int)
@@ -210,9 +255,18 @@ export class ActionCore {
 
   @Field(_ => Execution, { nullable: true })
   public execution?: Execution;
+
+  // Rewarding protocol actions
+  @Field(_ => DepositToRewardingFund, { nullable: true })
+  public depositToRewardingFund?: DepositToRewardingFund;
+  @Field(_ => ClaimFromRewardingFund, { nullable: true })
+  public claimFromRewardingFund?: ClaimFromRewardingFund;
+  @Field(_ => GrantReward, { nullable: true })
+  public grantReward?: GrantReward;
 }
 
-@ObjectType()
+@InputType("ActionInput")
+@ObjectType("Action")
 export class Action {
   @Field(_ => ActionCore)
   public core: ActionCore;
@@ -228,4 +282,238 @@ export class Action {
 export class GetActionsResponse {
   @Field(_ => [Action])
   public actions: Array<Action>;
+}
+
+@ArgsType()
+export class ReadContractRequest {
+  @Field(_ => Action)
+  public action: Action;
+}
+
+@ObjectType()
+export class ReadContractResponse {
+  @Field(_ => String)
+  public data: string;
+}
+
+@ArgsType()
+export class SendActionRequest {
+  @Field(_ => Action)
+  public action: Action;
+}
+
+@ObjectType()
+export class Timestamp {
+  @Field(_ => Int)
+  public seconds: number;
+  @Field(_ => Int)
+  public nanos: number;
+}
+
+@ObjectType()
+export class Vote {
+  @Field(_ => Timestamp)
+  public timestamp: Timestamp;
+  @Field(_ => String)
+  public voteeAddress: string;
+}
+
+@ObjectType()
+export class StartSubChain {
+  @Field(_ => Int)
+  public chainID: number;
+  @Field(_ => BufferScalar)
+  public securityDeposit: Buffer;
+  @Field(_ => BufferScalar)
+  public operationDeposit: Buffer;
+  @Field(_ => Int)
+  public startHeight: number;
+  @Field(_ => Int)
+  public parentHeightOffset: number;
+}
+
+@ObjectType()
+export class StopSubChain {
+  @Field(_ => Int)
+  public chainID: number;
+  @Field(_ => Int)
+  public stopHeight: number;
+  @Field(_ => String)
+  public subChainAddress: string;
+}
+
+@ObjectType()
+export class MerkleRoot {
+  @Field(_ => String)
+  public name: string;
+  @Field(_ => BufferScalar)
+  public value: Buffer;
+}
+
+@ObjectType()
+export class PutBlock {
+  @Field(_ => String)
+  public subChainAddress: string;
+  @Field(_ => Int)
+  public height: number;
+  @Field(_ => [MerkleRoot])
+  public roots: Array<MerkleRoot>;
+}
+
+@ObjectType()
+export class CreateDeposit {
+  @Field(_ => Int)
+  public chainID: number;
+  @Field(_ => BufferScalar)
+  public amount: string;
+  @Field(_ => String)
+  public recipient: string;
+}
+
+@ObjectType()
+export class SettleDeposit {
+  @Field(_ => BufferScalar)
+  public amount: string;
+  @Field(_ => String)
+  public recipient: string;
+  @Field(_ => Int)
+  public index: number;
+}
+
+@ObjectType()
+export class TerminatePlumChain {
+  @Field(_ => String)
+  public subChainAddress: string;
+}
+
+@ObjectType()
+export class PlumPutBlock {
+  @Field(_ => String)
+  public subChainAddress: string;
+  @Field(_ => Int)
+  public height: number;
+  @Field(_ => MapScalar)
+  public roots: Map<string, Buffer>;
+}
+
+@ObjectType()
+export class PlumCreateDeposit {
+  @Field(_ => String)
+  public subChainAddress: string;
+  @Field(_ => BufferScalar)
+  public amount: string;
+  @Field(_ => String)
+  public recipient: string;
+}
+
+@ObjectType()
+export class PlumStartExit {
+  @Field(_ => String)
+  public subChainAddress: string;
+  @Field(_ => BufferScalar)
+  public previousTransfer: Buffer;
+  @Field(_ => BufferScalar)
+  public previousTransferBlockProof: Buffer;
+  @Field(_ => Int)
+  public previousTransferBlockHeight: number;
+  @Field(_ => BufferScalar)
+  public exitTransfer: Buffer;
+  @Field(_ => BufferScalar)
+  public exitTransferBlockProof: Buffer;
+  @Field(_ => Int)
+  public exitTransferBlockHeight: number;
+}
+
+@ObjectType()
+export class PlumChallengeExit {
+  @Field(_ => String)
+  public subChainAddress: string;
+  @Field(_ => Int)
+  public coinID: number;
+  @Field(_ => BufferScalar)
+  public challengeTransfer: Buffer;
+  @Field(_ => BufferScalar)
+  public challengeTransferBlockProof: Buffer;
+  @Field(_ => Int)
+  public challengeTransferBlockHeight: number;
+}
+
+@ObjectType()
+export class PlumResponseChallengeExit {
+  @Field(_ => String)
+  public subChainAddress: string;
+  @Field(_ => Int)
+  public coinID: number;
+  @Field(_ => BufferScalar)
+  public challengeTransfer: Buffer;
+  @Field(_ => BufferScalar)
+  public responseTransfer: Buffer;
+  @Field(_ => BufferScalar)
+  public responseTransferBlockProof: Buffer;
+  @Field(_ => Int)
+  public previousTransferBlockHeight: number;
+}
+
+@ObjectType()
+export class PlumFinalizeExit {
+  @Field(_ => String)
+  public subChainAddress: string;
+  @Field(_ => Int)
+  public coinID: number;
+}
+
+@ObjectType()
+export class PlumSettleDeposit {
+  @Field(_ => Int)
+  public coinID: number;
+}
+
+@ObjectType()
+export class PlumTransfer {
+  @Field(_ => Int)
+  public coinID: number;
+  @Field(_ => BufferScalar)
+  public denomination: Buffer;
+  @Field(_ => String)
+  public owner: string;
+  @Field(_ => String)
+  public recipient: string;
+}
+
+@ObjectType()
+export class SetReward {
+  @Field(_ => BufferScalar)
+  public amount: string;
+  @Field(_ => BufferScalar)
+  public data: Buffer;
+  @Field(_ => Int)
+  public type: number;
+}
+
+@InputType()
+export class GetActionsByHashRequest {
+  @Field(_ => String)
+  public actionHash: string;
+  @Field(_ => Boolean)
+  public checkingPending: boolean;
+}
+
+@InputType()
+export class GetUnconfirmedActionsByAddressRequest {
+  @Field(_ => String)
+  public address: string;
+  @Field(_ => Int)
+  public start: number;
+  @Field(_ => Int)
+  public count: number;
+}
+
+@InputType()
+export class GetActionsByBlockRequest {
+  @Field(_ => String)
+  public blkHash: string;
+  @Field(_ => Int)
+  public start: number;
+  @Field(_ => Int)
+  public count: number;
 }

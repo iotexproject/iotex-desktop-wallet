@@ -1,5 +1,7 @@
 This is a branch for v1.0. If you want an v0.1.2 that works with iotex-core@0.4.2 please visit [here](https://github.com/iotexproject/iotex-explorer/tree/master).
 
+[![CircleCI](https://circleci.com/gh/iotexproject/iotex-explorer.svg?style=svg)](https://circleci.com/gh/iotexproject/iotex-explorer)
+
 # iotex-explorer
 
 iotex-explorer is a frontend website for iotex-core blockchain.

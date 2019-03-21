@@ -6,6 +6,7 @@ import React from "react";
 import { Query } from "react-apollo";
 import { webBpApolloClient } from "../common/apollo-client";
 import { SpinPreloader } from "../common/spin-preloader";
+import { renderDelegateName, renderLiveVotes, renderStatus } from "./bp-render";
 
 export const GET_BP_CANDIDATES = gql`
   query bpCandidates {
@@ -28,31 +29,32 @@ export function BpTable(): JSX.Element {
   const columns = [
     {
       title: "#",
-      key: "index"
+      key: "index",
+      dataIndex: "rank",
+      render: (text: number) => text
     },
     {
       title: t("candidate.delegate_name"),
       dataIndex: "name",
-      key: "name"
+      key: "name",
+      render: renderDelegateName
     },
     {
       title: t("candidate.status"),
-      dataIndex: "status"
+      dataIndex: "status",
+      render: renderStatus
     },
     {
       title: t("candidate.live_votes"),
       dataIndex: "liveVotes",
-      key: "liveVotes"
+      key: "liveVotes",
+      render: renderLiveVotes
     },
     {
       title: t("candidate.percent"),
       dataIndex: "percent",
-      key: "percent"
-    },
-    {
-      title: "",
-      key: "action",
-      width: "140px"
+      key: "percent",
+      render: (text: number) => `${Math.abs(text)}%`
     }
   ];
 

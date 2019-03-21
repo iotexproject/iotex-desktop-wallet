@@ -24,6 +24,27 @@ type ActionCore {
   gasPrice: String!
   transfer: Transfer
   execution: Execution
+  depositToRewardingFund: DepositToRewardingFund
+  claimFromRewardingFund: ClaimFromRewardingFund
+  grantReward: GrantReward
+}
+
+input ActionCoreInput {
+  version: Int!
+  nonce: BigNumber!
+  gasLimit: BigNumber!
+  gasPrice: String!
+  transfer: TransferInput
+  execution: ExecutionInput
+  depositToRewardingFund: DepositToRewardingFundInput
+  claimFromRewardingFund: ClaimFromRewardingFundInput
+  grantReward: GrantRewardInput
+}
+
+input ActionInput {
+  core: ActionCoreInput!
+  senderPubKey: Buffer!
+  signature: Buffer!
 }
 
 # The BigNumber scalar type represents numeric values with precision as in https://github.com/MikeMcl/bignumber.js/
@@ -52,13 +73,48 @@ type ChainMeta {
   epoch: Epoch!
 }
 
+type ClaimFromRewardingFund {
+  amount: String!
+  data: Buffer!
+}
+
+input ClaimFromRewardingFundInput {
+  amount: String!
+  data: Buffer!
+}
+
+type CreateDeposit {
+  chainID: Int!
+  amount: Buffer!
+  recipient: String!
+}
+
+type DepositToRewardingFund {
+  amount: String!
+  data: Buffer!
+}
+
+input DepositToRewardingFundInput {
+  amount: String!
+  data: Buffer!
+}
+
+# Empty object
+scalar Empty
+
 type Epoch {
   num: String!
   height: String!
 }
 
 type Execution {
-  amount: Buffer!
+  amount: String!
+  contract: String!
+  data: Buffer!
+}
+
+input ExecutionInput {
+  amount: String!
   contract: String!
   data: Buffer!
 }
@@ -71,6 +127,17 @@ input GetActionsByAddressRequest {
   address: String!
   start: BigNumber!
   count: BigNumber!
+}
+
+input GetActionsByBlockRequest {
+  blkHash: String!
+  start: Int!
+  count: Int!
+}
+
+input GetActionsByHashRequest {
+  actionHash: String!
+  checkingPending: Boolean!
 }
 
 input GetActionsByIndexRequest {
@@ -99,14 +166,97 @@ type GetReceiptByActionResponse {
   receipt: Receipt!
 }
 
+input GetUnconfirmedActionsByAddressRequest {
+  address: String!
+  start: Int!
+  count: Int!
+}
+
+type GrantReward {
+  type: String!
+}
+
+input GrantRewardInput {
+  type: String!
+}
+
 # Properties of an Log
 type Log {
   address: String!
-  topics: [Int!]!
-  data: [Int!]!
+  topics: Buffer!
+  data: Buffer!
   blockNumber: Int!
-  txnHash: [String!]!
+  txnHash: Buffer!
   index: Int!
+}
+
+# scalar type of map buffer
+scalar Map
+
+type MerkleRoot {
+  name: String!
+  value: Buffer!
+}
+
+type PlumChallengeExit {
+  subChainAddress: String!
+  coinID: Int!
+  challengeTransfer: Buffer!
+  challengeTransferBlockProof: Buffer!
+  challengeTransferBlockHeight: Int!
+}
+
+type PlumCreateDeposit {
+  subChainAddress: String!
+  amount: Buffer!
+  recipient: String!
+}
+
+type PlumFinalizeExit {
+  subChainAddress: String!
+  coinID: Int!
+}
+
+type PlumPutBlock {
+  subChainAddress: String!
+  height: Int!
+  roots: Map!
+}
+
+type PlumResponseChallengeExit {
+  subChainAddress: String!
+  coinID: Int!
+  challengeTransfer: Buffer!
+  responseTransfer: Buffer!
+  responseTransferBlockProof: Buffer!
+  previousTransferBlockHeight: Int!
+}
+
+type PlumSettleDeposit {
+  coinID: Int!
+}
+
+type PlumStartExit {
+  subChainAddress: String!
+  previousTransfer: Buffer!
+  previousTransferBlockProof: Buffer!
+  previousTransferBlockHeight: Int!
+  exitTransfer: Buffer!
+  exitTransferBlockProof: Buffer!
+  exitTransferBlockHeight: Int!
+}
+
+type PlumTransfer {
+  coinID: Int!
+  denomination: Buffer!
+  owner: String!
+  recipient: String!
+}
+
+type PutBlock {
+  subChainAddress: String!
+  height: Int!
+  roots: [MerkleRoot!]!
 }
 
 type Query {
@@ -116,8 +266,8 @@ type Query {
     address: String!
   ): GetAccountResponse!
   getBlockMetas(
-    byIndex: GetBlockMetasByIndexRequest!
-    byHash: GetBlockMetasByHashRequest!
+    byIndex: GetBlockMetasByIndexRequest
+    byHash: GetBlockMetasByHashRequest
   ): GetBlockMetasResponse!
   suggestGasPrice: SuggestGasPriceResponse!
   getReceiptByAction(
@@ -128,25 +278,77 @@ type Query {
     byIndex: GetActionsByIndexRequest
     byAddr: GetActionsByAddressRequest
   ): GetActionsResponse!
+  readContract(action: ActionInput!): ReadContractResponse!
+  sendAction(action: ActionInput!): Empty!
   health: String!
+}
+
+type ReadContractResponse {
+  data: String!
 }
 
 # Properties of an Receipt
 type Receipt {
-  returnValue: [Int!]!
+  returnValue: Buffer!
   status: Int!
-  actHash: [Int!]!
+  actHash: Buffer!
   gasConsumed: Int!
   contractAddress: String!
   logs: [Log!]!
+}
+
+type SetReward {
+  amount: Buffer!
+  data: Buffer!
+  type: Int!
+}
+
+type SettleDeposit {
+  amount: Buffer!
+  recipient: String!
+  index: Int!
+}
+
+type StartSubChain {
+  chainID: Int!
+  securityDeposit: Buffer!
+  operationDeposit: Buffer!
+  startHeight: Int!
+  parentHeightOffset: Int!
+}
+
+type StopSubChain {
+  chainID: Int!
+  stopHeight: Int!
+  subChainAddress: String!
 }
 
 type SuggestGasPriceResponse {
   gasPrice: Int!
 }
 
+type TerminatePlumChain {
+  subChainAddress: String!
+}
+
+type Timestamp {
+  seconds: Int!
+  nanos: Int!
+}
+
 type Transfer {
-  amount: Buffer!
+  amount: String!
   recipient: String!
   payload: Buffer!
+}
+
+input TransferInput {
+  amount: String!
+  recipient: String!
+  payload: Buffer!
+}
+
+type Vote {
+  timestamp: Timestamp!
+  voteeAddress: String!
 }
