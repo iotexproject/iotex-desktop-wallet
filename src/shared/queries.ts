@@ -45,8 +45,8 @@ export const GET_RECEIPT_BY_ACTION = gql`
 
 export const GET_BLOCK_METAS = gql`
   query getBlockMetas(
-    $byIndex: GetBlockMetasByIndexRequest!
-    $byHash: GetBlockMetasByHashRequest!
+    $byIndex: GetBlockMetasByIndexRequest
+    $byHash: GetBlockMetasByHashRequest
   ) {
     getBlockMetas(byIndex: $byIndex, byHash: $byHash) {
       blkMetas {

@@ -14,3 +14,17 @@ candidates.election.NOT_ELECTED: Not Elected
 candidates.election.UNQUALIFIED: Not Elected
 candidates.election.explain: >-
   Delegates must self-stake at least <b>1,200,000 IOTX</b> and earn <b>2,000,000 IOTX</b> total votes to be elected.
+# block.blocks is the title of page blocks that lists a table of blocks
+block.blocks: Blocks
+# block.height is the table column field name describing the height of the block in the blockchain.
+block.height: Block
+# block.hash is the table column field name describing the hash of the block in the blockchain.
+block.hash: Hash
+# block.timestamp is the table column field name describing the timestamp when the block is produced in the blockchain.
+block.timestamp: Age
+# block.num_actions is the table column field name describing the number of actions in the block.
+block.num_actions: Actions
+# block.producer_address is the table column field name describing the address of the block's producer.
+block.producer_address: Producer
+# block.transfer_amount is the table column field name describing the amount of tokens transferred in the block of the blockchain.
+block.transfer_amount: Transfer Amount

@@ -122,9 +122,9 @@ export class GetBlockMetasByHashRequest {
 
 @ArgsType()
 export class GetBlockMetasRequest {
-  @Field(_ => GetBlockMetasByIndexRequest)
+  @Field(_ => GetBlockMetasByIndexRequest, { nullable: true })
   public byIndex: GetBlockMetasByIndexRequest;
-  @Field(_ => GetBlockMetasByHashRequest)
+  @Field(_ => GetBlockMetasByHashRequest, { nullable: true })
   public byHash: GetBlockMetasByHashRequest;
 }
 

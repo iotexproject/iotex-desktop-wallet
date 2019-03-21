@@ -266,8 +266,8 @@ type Query {
     address: String!
   ): GetAccountResponse!
   getBlockMetas(
-    byIndex: GetBlockMetasByIndexRequest!
-    byHash: GetBlockMetasByHashRequest!
+    byIndex: GetBlockMetasByIndexRequest
+    byHash: GetBlockMetasByHashRequest
   ): GetBlockMetasResponse!
   suggestGasPrice: SuggestGasPriceResponse!
   getReceiptByAction(
