@@ -102,3 +102,7 @@ export function renderLiveVotes(text: number, record: any): JSX.Element {
     </div>
   );
 }
+
+export function renderBlockHashLink(text: string, record: any): JSX.Element {
+  return <a href={`/block/${record.hash}`}>{text}</a>;
+}

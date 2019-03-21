@@ -65,6 +65,42 @@ export const GET_RECEIPT_BY_ACTION = gql`
   }
 `;
 
+export const GET_BLOCK_METAS_BY_INDEX = gql`
+  query getBlockMetas($byIndex: GetBlockMetasByIndexRequest!) {
+    getBlockMetas(byIndex: $byIndex) {
+      blkMetas {
+        hash
+        height
+        timestamp
+        numActions
+        producerAddress
+        transferAmount
+        txRoot
+        receiptRoot
+        deltaStateDigest
+      }
+    }
+  }
+`;
+
+export const GET_BLOCK_METAS_BY_HASH = gql`
+  query getBlockMetas($byHash: GetBlockMetasByHashRequest!) {
+    getBlockMetas(byHash: $byHash) {
+      blkMetas {
+        hash
+        height
+        timestamp
+        numActions
+        producerAddress
+        transferAmount
+        txRoot
+        receiptRoot
+        deltaStateDigest
+      }
+    }
+  }
+`;
+
 export const GET_BLOCK_METAS = gql`
   query getBlockMetas(
     $byIndex: GetBlockMetasByIndexRequest

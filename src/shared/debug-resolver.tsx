@@ -7,7 +7,8 @@ import { ContentPadding } from "./common/styles/style-padding";
 import {
   GET_ACCOUNT,
   GET_ACTIONS,
-  GET_BLOCK_METAS,
+  GET_BLOCK_METAS_BY_HASH,
+  GET_BLOCK_METAS_BY_INDEX,
   GET_RECEIPT_BY_ACTION,
   READ_CONTRACT,
   SEND_ACTION,
@@ -79,7 +80,7 @@ class TestAntennaInner extends PureComponent<Props> {
       }
     },
     {
-      name: "READ_CONTRACT",
+      name: "GET_ACTIONS",
       query: GET_ACTIONS,
       variables: {
         byIndex: { start: 1, count: 10 },
@@ -107,15 +108,22 @@ class TestAntennaInner extends PureComponent<Props> {
       }
     },
     {
-      query: GET_BLOCK_METAS,
+      query: GET_BLOCK_METAS_BY_INDEX,
       variables: {
-        byIndex: { start: 1, count: 10 },
+        byIndex: { start: 1, count: 10 }
+      },
+      name: "GET_BLOCK_METAS_BY_INDEX"
+    },
+
+    {
+      query: GET_BLOCK_METAS_BY_HASH,
+      variables: {
         byHash: {
           blkHash:
-            "7d9573833bc1c35b6d13ee920c63f3692a6c50c9e65811a84930432eec02ba10"
+            "3199b813a058af5886660af86360ceb9d9318c6f14857017dad674a6cad3993d"
         }
       },
-      name: "GET_BLOCK_METAS"
+      name: "GET_BLOCK_METAS_BY_HASH"
     },
     {
       query: GET_RECEIPT_BY_ACTION,
