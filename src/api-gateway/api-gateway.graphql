@@ -24,6 +24,9 @@ type ActionCore {
   gasPrice: String!
   transfer: Transfer
   execution: Execution
+  depositToRewardingFund: DepositToRewardingFund
+  claimFromRewardingFund: ClaimFromRewardingFund
+  grantReward: GrantReward
 }
 
 input ActionCoreInput {
@@ -33,6 +36,9 @@ input ActionCoreInput {
   gasPrice: String!
   transfer: TransferInput
   execution: ExecutionInput
+  depositToRewardingFund: DepositToRewardingFundInput
+  claimFromRewardingFund: ClaimFromRewardingFundInput
+  grantReward: GrantRewardInput
 }
 
 input ActionInput {
@@ -72,6 +78,11 @@ type ClaimFromRewardingFund {
   data: Buffer!
 }
 
+input ClaimFromRewardingFundInput {
+  amount: Buffer!
+  data: Buffer!
+}
+
 type CreateDeposit {
   chainID: Int!
   amount: Buffer!
@@ -79,6 +90,11 @@ type CreateDeposit {
 }
 
 type DepositToRewardingFund {
+  amount: Buffer!
+  data: Buffer!
+}
+
+input DepositToRewardingFundInput {
   amount: Buffer!
   data: Buffer!
 }
@@ -157,7 +173,11 @@ input GetUnconfirmedActionsByAddressRequest {
 }
 
 type GrantReward {
-  type: Int!
+  type: String!
+}
+
+input GrantRewardInput {
+  type: String!
 }
 
 # Properties of an Log
@@ -317,13 +337,13 @@ type Timestamp {
 }
 
 type Transfer {
-  amount: Buffer!
+  amount: String!
   recipient: String!
   payload: Buffer!
 }
 
 input TransferInput {
-  amount: Buffer!
+  amount: String!
   recipient: String!
   payload: Buffer!
 }

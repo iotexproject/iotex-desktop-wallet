@@ -4,7 +4,7 @@ import React from "react";
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 type Props = {
-  children: JSX.Element | string;
+  children: JSX.Element | string | Array<JSX.Element>;
   spinning: boolean;
 };
 

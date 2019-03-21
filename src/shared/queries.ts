@@ -83,6 +83,17 @@ export const GET_ACTIONS = gql`
             contract
             data
           }
+          depositToRewardingFund {
+            amount
+            data
+          }
+          claimFromRewardingFund {
+            amount
+            data
+          }
+          grantReward {
+            type
+          }
         }
         signature
         senderPubKey

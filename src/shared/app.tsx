@@ -11,7 +11,7 @@ import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
 import { Switch } from "react-router";
 import { Route } from "react-router-dom";
-import { AddressDetails } from "./address-details";
+import { AddressDetails } from "./address-details/address-details";
 import { Footer, FOOTER_ABOVE } from "./common/footer";
 // @ts-ignore
 import initGoogleAnalytics from "./common/google-analytics";
@@ -97,7 +97,7 @@ export class App extends Component<Props> {
 
 const RootStyle = styled("div", () => ({
   ...fonts.body,
-  backgroundColor: colors.black10,
+  backgroundColor: colors.white,
   color: colors.text01,
   textRendering: "optimizeLegibility"
 }));

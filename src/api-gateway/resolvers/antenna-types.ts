@@ -1,5 +1,12 @@
 import BigNumber from "bignumber.js";
-import { ArgsType, Field, InputType, Int, ObjectType } from "type-graphql";
+import {
+  ArgsType,
+  Field,
+  InputType,
+  Int,
+  ObjectType,
+  registerEnumType
+} from "type-graphql";
 import { BigNumberScalar } from "../scalars/bignumber-scalar";
 import { BufferScalar } from "../scalars/buffer-scalar";
 import { MapScalar } from "../scalars/map-scalar";
@@ -171,8 +178,8 @@ export class GetActionsRequest {
 @InputType("TransferInput")
 @ObjectType()
 export class Transfer {
-  @Field(_ => BufferScalar)
-  public amount: Buffer;
+  @Field(_ => String)
+  public amount: string;
 
   @Field(_ => String)
   public recipient: string;
@@ -192,6 +199,40 @@ export class Execution {
 
   @Field(_ => BufferScalar)
   public data: Buffer;
+}
+
+export enum RewardType {
+  BlockReward,
+  EpochReward
+}
+
+registerEnumType(RewardType, {
+  name: "RewardType"
+});
+
+@InputType("DepositToRewardingFundInput")
+@ObjectType()
+export class DepositToRewardingFund {
+  @Field(_ => BufferScalar)
+  public amount: Buffer;
+  @Field(_ => BufferScalar)
+  public data: Buffer;
+}
+
+@InputType("ClaimFromRewardingFundInput")
+@ObjectType()
+export class ClaimFromRewardingFund {
+  @Field(_ => BufferScalar)
+  public amount: Buffer;
+  @Field(_ => BufferScalar)
+  public data: Buffer;
+}
+
+@InputType("GrantRewardInput")
+@ObjectType()
+export class GrantReward {
+  @Field(_ => String)
+  public type: String;
 }
 
 @InputType("ActionCoreInput")
@@ -214,6 +255,14 @@ export class ActionCore {
 
   @Field(_ => Execution, { nullable: true })
   public execution?: Execution;
+
+  // Rewarding protocol actions
+  @Field(_ => DepositToRewardingFund, { nullable: true })
+  public depositToRewardingFund?: DepositToRewardingFund;
+  @Field(_ => ClaimFromRewardingFund, { nullable: true })
+  public claimFromRewardingFund?: ClaimFromRewardingFund;
+  @Field(_ => GrantReward, { nullable: true })
+  public grantReward?: GrantReward;
 }
 
 @InputType("ActionInput")
@@ -432,33 +481,11 @@ export class PlumTransfer {
 }
 
 @ObjectType()
-export class DepositToRewardingFund {
-  @Field(_ => BufferScalar)
-  public amount: Buffer;
-  @Field(_ => BufferScalar)
-  public data: Buffer;
-}
-
-@ObjectType()
-export class ClaimFromRewardingFund {
-  @Field(_ => BufferScalar)
-  public amount: Buffer;
-  @Field(_ => BufferScalar)
-  public data: Buffer;
-}
-
-@ObjectType()
 export class SetReward {
   @Field(_ => BufferScalar)
   public amount: Buffer;
   @Field(_ => BufferScalar)
   public data: Buffer;
-  @Field(_ => Int)
-  public type: number;
-}
-
-@ObjectType()
-export class GrantReward {
   @Field(_ => Int)
   public type: number;
 }
