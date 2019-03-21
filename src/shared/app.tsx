@@ -11,9 +11,10 @@ import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
 import { Switch } from "react-router";
 import { Route } from "react-router-dom";
-import { AddressDetails } from "./address-details";
+import { AddressDetails } from "./address-details/address-details";
 import { BlockDetail } from "./block/block-detail";
-import { Blocks } from "./block/blocks";
+import { Blocks as BlockList } from "./block/blocks";
+import { Blocks } from "./blocks";
 import { Footer, FOOTER_ABOVE } from "./common/footer";
 // @ts-ignore
 import initGoogleAnalytics from "./common/google-analytics";
@@ -87,9 +88,11 @@ export class App extends Component<Props> {
         <div style={FOOTER_ABOVE}>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/blocks/" component={Blocks} />
             <Route exact path="/address/:address" component={AddressDetails} />
             <Route exact path="/block/:hash" component={BlockDetail} />
             <Route exact path="/blocks" component={Blocks} />
+            <Route exact path="/blocklist" component={BlockList} />
             <Route component={NotFound} />
           </Switch>
         </div>
@@ -101,7 +104,7 @@ export class App extends Component<Props> {
 
 const RootStyle = styled("div", () => ({
   ...fonts.body,
-  backgroundColor: colors.black10,
+  backgroundColor: colors.white,
   color: colors.text01,
   textRendering: "optimizeLegibility"
 }));

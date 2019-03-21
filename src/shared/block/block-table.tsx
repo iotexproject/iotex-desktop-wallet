@@ -2,7 +2,8 @@ import { notification, Table } from "antd";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
-import { Query } from "react-apollo";
+import { Query, QueryResult } from "react-apollo";
+import { GetBlockMetasResponse } from "../../api-gateway/resolvers/antenna-types";
 import { SpinPreloader } from "../common/spin-preloader";
 import { renderBlockHashLink } from "../home/bp-render";
 import { GET_BLOCK_METAS_BY_INDEX } from "../queries";
@@ -25,7 +26,7 @@ export class BlockTable extends Component<{}, State> {
         render: renderBlockHashLink
       },
       {
-        title: "height",
+        title: t("block.height"),
         dataIndex: "height"
       },
       {
@@ -35,11 +36,12 @@ export class BlockTable extends Component<{}, State> {
       {
         title: "numActions",
         dataIndex: "numActions"
-      } /*
-      {
-        title: 'producerAddress',
-        dataIndex: "producerAddress",
       },
+      {
+        title: t("block.producer_address"),
+        dataIndex: "producerAddress"
+      }
+      /*
       {
         title: 'txRoot',
         dataIndex: "txRoot",
@@ -54,8 +56,6 @@ export class BlockTable extends Component<{}, State> {
       }*/
     ];
 
-    let blkMetas: [];
-
     const { start, count, total } = this.state;
 
     return (
@@ -63,7 +63,11 @@ export class BlockTable extends Component<{}, State> {
         query={GET_BLOCK_METAS_BY_INDEX}
         variables={{ byIndex: { start, count } }}
       >
-        {({ loading, error, data }) => {
+        {({
+          loading,
+          error,
+          data
+        }: QueryResult<{ getBlockMetas: GetBlockMetasResponse }>) => {
           if (!loading && error) {
             notification.error({
               message: "Error",
@@ -73,10 +77,8 @@ export class BlockTable extends Component<{}, State> {
             return null;
           }
 
-          blkMetas =
-            data.getBlockMetas && data.getBlockMetas.blkMetas
-              ? data.getBlockMetas.blkMetas
-              : [];
+          const blkMetas =
+            data && data.getBlockMetas && data.getBlockMetas.blkMetas;
           return (
             <div className={"table-list"}>
               <SpinPreloader spinning={loading}>

@@ -79,6 +79,27 @@ export const GET_BLOCK_METAS_BY_HASH = gql`
   }
 `;
 
+export const GET_BLOCK_METAS = gql`
+  query getBlockMetas(
+    $byIndex: GetBlockMetasByIndexRequest
+    $byHash: GetBlockMetasByHashRequest
+  ) {
+    getBlockMetas(byIndex: $byIndex, byHash: $byHash) {
+      blkMetas {
+        hash
+        height
+        timestamp
+        numActions
+        producerAddress
+        transferAmount
+        txRoot
+        receiptRoot
+        deltaStateDigest
+      }
+    }
+  }
+`;
+
 export const GET_ACTIONS = gql`
   query getActions($byAddr: GetActionsByAddressRequest) {
     getActions(byAddr: $byAddr) {
@@ -97,6 +118,17 @@ export const GET_ACTIONS = gql`
             amount
             contract
             data
+          }
+          depositToRewardingFund {
+            amount
+            data
+          }
+          claimFromRewardingFund {
+            amount
+            data
+          }
+          grantReward {
+            type
           }
         }
         signature

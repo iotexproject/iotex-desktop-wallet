@@ -1,11 +1,14 @@
 import { Divider, Icon, notification } from "antd";
+// @ts-ignore
+import * as utils from "iotex-antenna/lib/account/utils";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
 // @ts-ignore
-import { SpinPreloader } from "./common/spin-preloader";
-import { ContentPadding } from "./common/styles/style-padding";
-import { GET_ACCOUNT, GET_ACTIONS } from "./queries";
+import { SpinPreloader } from "../common/spin-preloader";
+import { ContentPadding } from "../common/styles/style-padding";
+import { GET_ACCOUNT } from "../queries";
+import { ActionTable } from "./action-table";
 
 type PathParamsType = {
   address: string;
@@ -31,15 +34,14 @@ class AddressDetailsInner extends PureComponent<Props> {
       <ContentPadding>
         <Query query={GET_ACCOUNT} variables={{ address }}>
           {({ loading, error, data }) => {
-            if (error) {
+            if (error && String(error).indexOf("NOT_FOUND") === -1) {
               notification.error({
                 message: "Error",
                 description: `failed to get account: ${error}`,
-                duration: 3
+                duration: 5
               });
-              return null;
             }
-            if (data.getAccount && data.getAccount.accountMeta) {
+            if (data && data.getAccount && data.getAccount.accountMeta) {
               addressInfo = data.getAccount.accountMeta;
             }
             return (
@@ -48,7 +50,9 @@ class AddressDetailsInner extends PureComponent<Props> {
                   <h3 className={"title"}>
                     <Icon type="wallet" />
                     Address:
-                    <span>{addressInfo.address}</span>
+                    <span>
+                      {(addressInfo && addressInfo.address) || address}
+                    </span>
                   </h3>
                   <Divider orientation="left">Overview</Divider>
                   <div className="overview-list">
@@ -57,21 +61,27 @@ class AddressDetailsInner extends PureComponent<Props> {
                         <Icon type="money-collect" />
                       </div>
                       <div className={"name"}>balance</div>
-                      <div className={"info"}>{addressInfo.balance}</div>
+                      <div className={"info"}>{`${utils.fromRau(
+                        (addressInfo && addressInfo.balance) || 0
+                      )} IOTX`}</div>
                     </div>
                     <div className={"item"}>
                       <div className={"icon"}>
                         <Icon type="border" />
                       </div>
                       <div className={"name"}>nonce</div>
-                      <div className={"info"}>{addressInfo.nonce}</div>
+                      <div className={"info"}>
+                        {(addressInfo && addressInfo.nonce) || 0}
+                      </div>
                     </div>
                     <div className={"item"}>
                       <div className={"icon"}>
                         <Icon type="project" />
                       </div>
                       <div className={"name"}>pendingNonce</div>
-                      <div className={"info"}>{addressInfo.pendingNonce}</div>
+                      <div className={"info"}>
+                        {(addressInfo && addressInfo.pendingNonce) || 0}
+                      </div>
                     </div>
                   </div>
                   <Divider orientation="left">Transactions</Divider>
@@ -82,26 +92,7 @@ class AddressDetailsInner extends PureComponent<Props> {
           }}
         </Query>
 
-        <Query
-          query={GET_ACTIONS}
-          variables={{ byAddr: { address: address, start: 0, count: 20 } }}
-        >
-          {({ loading, error, data }) => {
-            if (error) {
-              notification.error({
-                message: "Error",
-                description: `failed to get actions: ${error}`,
-                duration: 3
-              });
-              return null;
-            }
-            return (
-              <SpinPreloader spinning={loading}>
-                <pre>{JSON.stringify(data, null, 2)}</pre>
-              </SpinPreloader>
-            );
-          }}
-        </Query>
+        <ActionTable address={address} />
       </ContentPadding>
     );
   }
