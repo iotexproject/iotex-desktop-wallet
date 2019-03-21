@@ -12,6 +12,8 @@ import React, { Component } from "react";
 import { Switch } from "react-router";
 import { Route } from "react-router-dom";
 import { AddressDetails } from "./address-details";
+import { BlockDetail } from "./block/block-detail";
+import { Blocks } from "./block/blocks";
 import { Footer, FOOTER_ABOVE } from "./common/footer";
 // @ts-ignore
 import initGoogleAnalytics from "./common/google-analytics";
@@ -86,6 +88,8 @@ export class App extends Component<Props> {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/address/:address" component={AddressDetails} />
+            <Route exact path="/block/:hash" component={BlockDetail} />
+            <Route exact path="/blocks" component={Blocks} />
             <Route component={NotFound} />
           </Switch>
         </div>
