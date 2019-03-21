@@ -74,12 +74,12 @@ type ChainMeta {
 }
 
 type ClaimFromRewardingFund {
-  amount: Buffer!
+  amount: String!
   data: Buffer!
 }
 
 input ClaimFromRewardingFundInput {
-  amount: Buffer!
+  amount: String!
   data: Buffer!
 }
 
@@ -90,12 +90,12 @@ type CreateDeposit {
 }
 
 type DepositToRewardingFund {
-  amount: Buffer!
+  amount: String!
   data: Buffer!
 }
 
 input DepositToRewardingFundInput {
-  amount: Buffer!
+  amount: String!
   data: Buffer!
 }
 
@@ -108,13 +108,13 @@ type Epoch {
 }
 
 type Execution {
-  amount: Buffer!
+  amount: String!
   contract: String!
   data: Buffer!
 }
 
 input ExecutionInput {
-  amount: Buffer!
+  amount: String!
   contract: String!
   data: Buffer!
 }

@@ -29,7 +29,14 @@ function getColumns(): Array<ColumnProps<Action>> {
     },
     {
       title: t("action.data"),
-      dataIndex: "status"
+      dataIndex: "status",
+      render(_: string, record: Action, __: number): string {
+        const data =
+          record.core.execution ||
+          record.core.grantReward ||
+          record.core.transfer;
+        return JSON.stringify(data, null, 2);
+      }
     }
   ];
 }
