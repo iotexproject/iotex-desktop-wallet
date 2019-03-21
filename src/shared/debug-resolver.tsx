@@ -2,7 +2,6 @@ import { notification } from "antd";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
-// @ts-ignore
 import { SpinPreloader } from "./common/spin-preloader";
 import { ContentPadding } from "./common/styles/style-padding";
 import {
@@ -54,6 +53,7 @@ class TestAntennaInner extends PureComponent<Props> {
       name: "SEND_ACTION"
     },
     {
+      name: "READ_CONTRACT",
       query: READ_CONTRACT,
       variables: {
         action: {
@@ -76,10 +76,10 @@ class TestAntennaInner extends PureComponent<Props> {
           senderPubKey: "",
           signature: ""
         }
-      },
+      }
     },
     {
-      name: "READ_CONTRACT"
+      name: "READ_CONTRACT",
       query: GET_ACTIONS,
       variables: {
         byIndex: { start: 1, count: 10 },
@@ -104,8 +104,7 @@ class TestAntennaInner extends PureComponent<Props> {
           start: 1,
           count: 10
         }
-      },
-      name: "GET_ACTIONS"
+      }
     },
     {
       query: GET_BLOCK_METAS,

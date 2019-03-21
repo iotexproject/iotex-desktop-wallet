@@ -83,6 +83,9 @@ type DepositToRewardingFund {
   data: Buffer!
 }
 
+# Empty object
+scalar Empty
+
 type Epoch {
   num: String!
   height: String!
@@ -256,6 +259,7 @@ type Query {
     byAddr: GetActionsByAddressRequest
   ): GetActionsResponse!
   readContract(action: ActionInput!): ReadContractResponse!
+  sendAction(action: ActionInput!): Empty!
   health: String!
 }
 
