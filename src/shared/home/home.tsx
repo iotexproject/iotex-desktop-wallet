@@ -2,7 +2,6 @@ import { Col, Icon, Input, Layout, Row } from "antd";
 import React, { Component } from "react";
 import { Query } from "react-apollo";
 import { ChainMeta } from "../../api-gateway/resolvers/antenna-types";
-// import { fetchCoinPrice } from "../../server/gateways/coin-market-cap";
 import { Flex } from "../common/flex";
 import { ContentPadding } from "../common/styles/style-padding";
 import { BpTable } from "./bp-table";
@@ -20,36 +19,6 @@ export class Home extends Component<{}, State> {
     price: 0,
     name: "IOSG"
   };
-
-  // public componentDidMount(): void {
-  //   fetchCoinPrice().then(
-  //     (r: {
-  //       status: number;
-  //       data?: [{ market_cap_usd?: number; name?: string; price_btc?: number }];
-  //     }) => {
-  //       if (r.status === 200) {
-  //         const resultData = r.data || [];
-  //         let marketCap = 0;
-  //         let price = 0;
-  //         let name = "";
-
-  //         if (resultData.length) {
-  //           marketCap =
-  //             (resultData[0].market_cap_usd &&
-  //               resultData[0].market_cap_usd / 1000000) ||
-  //             0;
-  //           price = resultData[0].price_btc || 0;
-  //           name = resultData[0].name || "IOSG";
-  //         }
-  //         this.setState({
-  //           marketCap,
-  //           price,
-  //           name
-  //         });
-  //       }
-  //     }
-  //   );
-  // }
 
   private readonly getTiles = (data: {
     chainMeta: ChainMeta;
