@@ -2,9 +2,10 @@
 import { styled } from "onefx/lib/styletron-react";
 import { Component } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 
 import { Dropdown as AntdDropdown, Icon, Input, Menu as AntdMenu } from "antd";
+import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { assetURL } from "onefx/lib/asset-url";
 // @ts-ignore
@@ -24,8 +25,14 @@ type State = {
   displayMobileMenu: boolean;
 };
 
-export class TopBar extends Component<{}, State> {
-  constructor(props: {}) {
+type PathParamsType = {
+  hash: string;
+};
+
+type Props = RouteComponentProps<PathParamsType> & {};
+
+class TopBarComponent extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       displayMobileMenu: false
@@ -57,14 +64,23 @@ export class TopBar extends Component<{}, State> {
     });
   };
 
+  public searchInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const { value } = e.target as HTMLInputElement;
+    if (value.startsWith("io")) {
+      this.props.history.push(`/address/${value}`);
+    } else if (value.length === 130) {
+      this.props.history.push(`/address/${publicKeyToAddress(value)}`);
+    }
+  };
+
   public renderBlockchainMenu = () => {
     return (
       <AntdMenu>
         <AntdMenu.Item>
-          <A href="/actions">{t("topbar.actions")}</A>
+          <StyledLink to="/actions">{t("topbar.actions")}</StyledLink>
         </AntdMenu.Item>
         <AntdMenu.Item>
-          <A href="/blocks">{t("topbar.blocks")}</A>
+          <StyledLink to="/blocks">{t("topbar.blocks")}</StyledLink>
         </AntdMenu.Item>
       </AntdMenu>
     );
@@ -73,11 +89,13 @@ export class TopBar extends Component<{}, State> {
   public renderMenu = () => {
     return [
       <div>
-        <A key={0} href="/" onClick={this.hideMobileMenu}>
+        <StyledLink key={0} to="/" onClick={this.hideMobileMenu}>
           {t("topbar.home")}
-        </A>
-        <AntdDropdown overlay={this.renderBlockchainMenu()}>
-          <A href="#">{t("topbar.blockchain")}</A>
+        </StyledLink>
+        <AntdDropdown key={1} overlay={this.renderBlockchainMenu()}>
+          <StyledLink className="ant-dropdown-link" to="#">
+            {t("topbar.blockchain")} <Icon type="down" />
+          </StyledLink>
         </AntdDropdown>
       </div>
     ];
@@ -118,7 +136,8 @@ export class TopBar extends Component<{}, State> {
           >
             <Input
               className={"certain-category-search"}
-              placeholder="Search by Block # / Account / Public Key / TX"
+              placeholder="Search by Address / Public Key"
+              onPressEnter={this.searchInput}
               suffix={
                 <Icon type="search" className={"certain-category-icon"} />
               }
@@ -140,6 +159,8 @@ export class TopBar extends Component<{}, State> {
     );
   }
 }
+
+export const TopBar = withRouter(TopBarComponent);
 
 const Bar = styled("div", {
   display: "flex",
@@ -244,7 +265,7 @@ const menuItem = {
     borderBottom: "1px #EDEDED solid"
   }
 };
-const A = styled("a", menuItem);
+// const A = styled("a", menuItem);
 // const BrandText = styled("a", {
 //   ...menuItem,
 //   marginLeft: 0,
