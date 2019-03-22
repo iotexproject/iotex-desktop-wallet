@@ -2,7 +2,7 @@
 import { styled } from "onefx/lib/styletron-react";
 import { Component } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
-import { Link } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 
 import { Icon, Input, Dropdown as AntdDropdown, Menu as AntdMenu } from "antd";
 // @ts-ignore
@@ -17,6 +17,7 @@ import { transition } from "./styles/style-animation";
 import { colors } from "./styles/style-color";
 import { media, PALM_WIDTH } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
+import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 
 export const TOP_BAR_HEIGHT = 62;
 
@@ -24,8 +25,14 @@ type State = {
   displayMobileMenu: boolean;
 };
 
-export class TopBar extends Component<{}, State> {
-  constructor(props: {}) {
+type PathParamsType = {
+  hash: string;
+};
+
+type Props = RouteComponentProps<PathParamsType> & {};
+
+class TopBarComponent extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       displayMobileMenu: false
@@ -55,6 +62,15 @@ export class TopBar extends Component<{}, State> {
     this.setState({
       displayMobileMenu: false
     });
+  };
+
+  public searchInput = (e: any) => {
+    const { value } = e.target;
+    if (value.startsWith("io")) {
+      this.props.history.push(`/address/${value}`);
+    } else if (value.length == 130) {
+      this.props.history.push(`/address/${publicKeyToAddress(value)}`);
+    }
   };
 
   public renderBlockchainMenu = () => {
@@ -118,7 +134,8 @@ export class TopBar extends Component<{}, State> {
           >
             <Input
               className={"certain-category-search"}
-              placeholder="Search by Block # / Account / Public Key / TX"
+              placeholder="Search by Address / Public Key"
+              onPressEnter={this.searchInput}
               suffix={
                 <Icon type="search" className={"certain-category-icon"} />
               }
@@ -140,6 +157,8 @@ export class TopBar extends Component<{}, State> {
     );
   }
 }
+
+export const TopBar = withRouter(TopBarComponent);
 
 const Bar = styled("div", {
   display: "flex",
