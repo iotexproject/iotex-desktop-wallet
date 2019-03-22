@@ -4,19 +4,23 @@ import { ColumnProps } from "antd/lib/table";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
+import { Link } from "react-router-dom";
 import {
   BlockMeta,
   GetBlockMetasResponse
-} from "../api-gateway/resolvers/antenna-types";
-import { SpinPreloader } from "./common/spin-preloader";
-import { ContentPadding } from "./common/styles/style-padding";
-import { GET_BLOCK_METAS, GET_LATEST_HEIGHT } from "./queries";
+} from "../../api-gateway/resolvers/antenna-types";
+import { SpinPreloader } from "../common/spin-preloader";
+import { ContentPadding } from "../common/styles/style-padding";
+import { GET_BLOCK_METAS, GET_LATEST_HEIGHT } from "../queries";
 
 function getColumns(): Array<ColumnProps<BlockMeta>> {
   return [
     {
       title: t("block.height"),
       dataIndex: "height",
+      render(_: string, record: BlockMeta, __: number): JSX.Element {
+        return <Link to={`/block/${record.hash}/`}>{record.height}</Link>;
+      }
     },
     {
       title: t("block.timestamp"),
@@ -90,9 +94,9 @@ export function Blocks(): JSX.Element {
                     >
                       <Table
                         rowKey={"height"}
-                        scroll={{ x: true }}
                         pagination={{ pageSize: PAGE_SIZE }}
                         style={{ width: "100%" }}
+                        scroll={{ x: true }}
                         columns={getColumns()}
                         dataSource={blkMetas}
                       />

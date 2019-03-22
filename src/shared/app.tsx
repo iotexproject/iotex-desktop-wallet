@@ -13,7 +13,7 @@ import { Switch } from "react-router";
 import { Route } from "react-router-dom";
 import { AddressDetails } from "./address-details/address-details";
 import { BlockDetail } from "./block/block-detail";
-import { Blocks } from "./blocks";
+import { Blocks } from "./block/blocks";
 import { Footer, FOOTER_ABOVE } from "./common/footer";
 // @ts-ignore
 import initGoogleAnalytics from "./common/google-analytics";

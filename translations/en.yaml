@@ -21,7 +21,7 @@ candidates.election.explain: >-
 # block.blocks is the title of page blocks that lists a table of blocks
 block.blocks: Blocks
 # block.height is the table column field name describing the height of the block in the blockchain.
-block.height: Block
+block.height: Height
 # block.hash is the table column field name describing the hash of the block in the blockchain.
 block.hash: Hash
 # block.timestamp is the table column field name describing the timestamp when the block is produced in the blockchain.
@@ -32,3 +32,9 @@ block.num_actions: Actions
 block.producer_address: Producer
 # block.transfer_amount is the table column field name describing the amount of tokens transferred in the block of the blockchain.
 block.transfer_amount: Transfer Amount
+# block.tx_root is the table column field describing the transaction root value.
+block.tx_root: Tx Root
+# block.receipt_root is the table column field describing the receipt root value.
+block.receipt_root: Receipt Root
+# block.delta_state_digest is the digest value of the delta state with the last block.
+block.delta_state_digest: Digest of Delta State
