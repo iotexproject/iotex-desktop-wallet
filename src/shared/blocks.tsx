@@ -10,6 +10,7 @@ import {
 } from "../api-gateway/resolvers/antenna-types";
 import { SpinPreloader } from "./common/spin-preloader";
 import { ContentPadding } from "./common/styles/style-padding";
+import { renderBlockHashLink } from "./home/bp-render";
 import { GET_BLOCK_METAS, GET_LATEST_HEIGHT } from "./queries";
 
 function getColumns(): Array<ColumnProps<BlockMeta>> {
@@ -17,6 +18,7 @@ function getColumns(): Array<ColumnProps<BlockMeta>> {
     {
       title: t("block.height"),
       dataIndex: "height",
+      render: renderBlockHashLink
     },
     {
       title: t("block.timestamp"),

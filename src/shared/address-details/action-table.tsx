@@ -8,7 +8,7 @@ import { Action } from "../../api-gateway/resolvers/antenna-types";
 import { SpinPreloader } from "../common/spin-preloader";
 import { GET_ACTIONS } from "../queries";
 
-function getColumns(): Array<ColumnProps<Action>> {
+export function getColumns(): Array<ColumnProps<Action>> {
   return [
     {
       title: t("action.type"),

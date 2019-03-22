@@ -3,6 +3,7 @@ import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Flex } from "../common/flex";
+import { fromNow } from "../common/from-now";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -42,7 +43,8 @@ class BlockDetailsInner extends PureComponent<Props> {
       },
       {
         title: "",
-        dataIndex: "value"
+        dataIndex: "value",
+        render: renderValue
       }
     ];
 
@@ -63,9 +65,7 @@ class BlockDetailsInner extends PureComponent<Props> {
             }
 
             const blkMetas =
-              data.getBlockMetas && data.getBlockMetas.blkMetas
-                ? data.getBlockMetas.blkMetas
-                : [];
+              data && data.getBlockMetas && data.getBlockMetas.blkMetas;
             blockMeta = blkMetas && blkMetas.length > 0 ? blkMetas[0] : null;
             const dataSource = blockMeta
               ? Object.entries(blockMeta).map(([key, value]) => ({
@@ -73,16 +73,6 @@ class BlockDetailsInner extends PureComponent<Props> {
                   value
                 }))
               : [];
-            const detail = blockMeta ? (
-              <Table
-                pagination={false}
-                dataSource={dataSource}
-                columns={columns}
-                rowKey={"hash"}
-              />
-            ) : (
-              "empty"
-            );
 
             return (
               <div className={"table-list"}>
@@ -93,7 +83,13 @@ class BlockDetailsInner extends PureComponent<Props> {
                     backgroundColor={colors.white}
                   >
                     <h1 style={{ padding: "16px" }}>Block</h1>
-                    {detail}
+                    <Table
+                      pagination={false}
+                      dataSource={dataSource}
+                      columns={columns}
+                      rowKey={"hash"}
+                    />
+                    ;
                   </Flex>
                 </SpinPreloader>
               </div>
@@ -103,6 +99,23 @@ class BlockDetailsInner extends PureComponent<Props> {
         .{" "}
       </ContentPadding>
     );
+  }
+}
+
+// tslint:disable:no-any
+export function renderValue(text: string, record: any): JSX.Element {
+  switch (record.key) {
+    case "txRoot":
+      return <a href={`/action/${record.value}`}>{text}</a>;
+      break;
+    case "producerAddress":
+      return <a href={`/address/${record.value}`}>{text}</a>;
+      break;
+    case "timestamp":
+      return <span>{fromNow(record.value)}</span>;
+      break;
+    default:
+      return <span>{text}</span>;
   }
 }
 
