@@ -4,7 +4,7 @@ import { Component } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
 import { Link } from "react-router-dom";
 
-import { Icon, Input, Dropdown as AntdDropdown, Menu as AntdMenu } from "antd";
+import { Dropdown as AntdDropdown, Icon, Input, Menu as AntdMenu } from "antd";
 // @ts-ignore
 import { assetURL } from "onefx/lib/asset-url";
 // @ts-ignore

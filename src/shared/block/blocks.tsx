@@ -47,7 +47,6 @@ function getBlockIndexRange(
   endHeight: number = 0,
   currentPage: number = 1
 ): { start: number; count: number } {
-  console.log(currentPage);
   const start = endHeight - currentPage * PAGE_SIZE;
   return {
     start,
@@ -113,7 +112,9 @@ export function Blocks(): JSX.Element {
                               )
                             },
                             updateQuery: (prev, { fetchMoreResult }) => {
-                              if (!fetchMoreResult) return prev;
+                              if (!fetchMoreResult) {
+                                return prev;
+                              }
                               return fetchMoreResult;
                             }
                           });

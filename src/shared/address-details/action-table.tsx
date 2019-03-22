@@ -1,5 +1,6 @@
 import { notification, Table } from "antd";
 import { ColumnProps } from "antd/es/table";
+import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
@@ -7,7 +8,6 @@ import { Query } from "react-apollo";
 import { Action } from "../../api-gateway/resolvers/antenna-types";
 import { SpinPreloader } from "../common/spin-preloader";
 import { GET_ACTIONS } from "../queries";
-import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 
 function getColumns(): Array<ColumnProps<Action>> {
   return [
