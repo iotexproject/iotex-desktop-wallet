@@ -62,7 +62,8 @@ class AddressDetailsInner extends PureComponent<Props> {
                       </div>
                       <div className={"name"}>balance</div>
                       <div className={"info"}>{`${utils.fromRau(
-                        (addressInfo && addressInfo.balance) || 0
+                        String(addressInfo && addressInfo.balance),
+                        "IOTX"
                       )} IOTX`}</div>
                     </div>
                     <div className={"item"}>

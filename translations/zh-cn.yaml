@@ -39,3 +39,13 @@ block.tx_root: Tx Root
 block.receipt_root: Receipt Root
 # block.delta_state_digest is the digest value of the delta state with the last block.
 block.delta_state_digest: Digest of Delta State
+# action.type
+action.type: Type
+# action.type.transfer
+action.type.transfer: Transfer
+# action.type.grant_reward
+action.type.grant_reward: Grant Reward
+# action.type.execution
+action.type.execution: Execution
+# action.data
+action.data: Data
