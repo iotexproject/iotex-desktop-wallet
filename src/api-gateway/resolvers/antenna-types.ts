@@ -233,8 +233,8 @@ export class Execution {
 }
 
 export enum RewardType {
-  BlockReward,
-  EpochReward
+  BlockReward = "BlockReward",
+  EpochReward = "EpochReward"
 }
 
 registerEnumType(RewardType, {
@@ -262,8 +262,8 @@ export class ClaimFromRewardingFund {
 @InputType("GrantRewardInput")
 @ObjectType()
 export class GrantReward {
-  @Field(_ => String)
-  public type: String;
+  @Field(_ => RewardType)
+  public type: RewardType;
 }
 
 @InputType("ActionCoreInput")

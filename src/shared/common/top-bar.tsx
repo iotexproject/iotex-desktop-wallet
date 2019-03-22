@@ -4,12 +4,13 @@ import { Component } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
 import { Link } from "react-router-dom";
 
+import { Icon, Input } from "antd";
 // @ts-ignore
 import { assetURL } from "onefx/lib/asset-url";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
-import { Icon } from "./icon";
+import { Logo } from "./icon";
 import { Cross } from "./icons/cross.svg";
 import { Hamburger } from "./icons/hamburger.svg";
 import { transition } from "./styles/style-animation";
@@ -58,9 +59,14 @@ export class TopBar extends Component<{}, State> {
 
   public renderMenu = () => {
     return [
-      <A key={0} href="/" onClick={this.hideMobileMenu}>
-        {t("topbar.home")}
-      </A>
+      <div>
+        <A key={0} href="/" onClick={this.hideMobileMenu}>
+          {t("topbar.home")}
+        </A>
+        <A key={111} href="/blocks">
+          Blocks
+        </A>
+      </div>
     ];
   };
 
@@ -83,11 +89,27 @@ export class TopBar extends Component<{}, State> {
       <div>
         <Bar>
           <Flex>
-            <Logo />
+            <LogoContent />
             {/*<BrandText href="/">{t("topbar.brand")}</BrandText>*/}
           </Flex>
-          <Flex>
+          <Flex style={{ flex: 1, paddingLeft: 12 }}>
             <Menu>{this.renderMenu()}</Menu>
+          </Flex>
+          <Flex
+            className={"certain-category-search-wrapper"}
+            style={{
+              width: 350,
+              marginBottom: 0,
+              float: "right"
+            }}
+          >
+            <Input
+              className={"certain-category-search"}
+              placeholder="Search by Block # / Account / Public Key / TX"
+              suffix={
+                <Icon type="search" className={"certain-category-icon"} />
+              }
+            />
           </Flex>
           <HamburgerBtn
             onClick={this.displayMobileMenu}
@@ -185,10 +207,10 @@ const LogoWrapper = styled("a", {
   height: "50px"
 });
 
-function Logo(): JSX.Element {
+function LogoContent(): JSX.Element {
   return (
     <LogoWrapper href="/">
-      <Icon url={assetURL("//iotex.io/logo.svg")} />
+      <Logo url={assetURL("//iotex.io/logo.svg")} />
     </LogoWrapper>
   );
 }

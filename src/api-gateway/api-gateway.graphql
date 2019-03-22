@@ -173,11 +173,11 @@ input GetUnconfirmedActionsByAddressRequest {
 }
 
 type GrantReward {
-  type: String!
+  type: RewardType!
 }
 
 input GrantRewardInput {
-  type: String!
+  type: RewardType!
 }
 
 # Properties of an Log
@@ -295,6 +295,11 @@ type Receipt {
   gasConsumed: Int!
   contractAddress: String!
   logs: [Log!]!
+}
+
+enum RewardType {
+  BlockReward
+  EpochReward
 }
 
 type SetReward {

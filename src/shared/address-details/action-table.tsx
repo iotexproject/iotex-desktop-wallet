@@ -31,11 +31,12 @@ export function getColumns(): Array<ColumnProps<Action>> {
       title: t("action.data"),
       dataIndex: "status",
       render(_: string, record: Action, __: number): string {
-        const data =
+        // @ts-ignore
+        const { __typename, ...other } =
           record.core.execution ||
           record.core.grantReward ||
           record.core.transfer;
-        return JSON.stringify(data, null, 2);
+        return JSON.stringify(other, null, 2);
       }
     }
   ];

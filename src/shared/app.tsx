@@ -88,7 +88,6 @@ export class App extends Component<Props> {
         <div style={FOOTER_ABOVE}>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/blocks/" component={Blocks} />
             <Route exact path="/address/:address" component={AddressDetails} />
             <Route exact path="/block/:hash" component={BlockDetail} />
             <Route exact path="/blocks" component={Blocks} />

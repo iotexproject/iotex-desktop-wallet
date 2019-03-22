@@ -83,7 +83,7 @@ export function Blocks(): JSX.Element {
 
                 return (
                   <SpinPreloader spinning={loading}>
-                    <h1>{t("block.blocks")}</h1>
+                    <h1 className={"page-title"}>{t("block.blocks")}</h1>
                     <Layout.Content
                       style={{ backgroundColor: "#fff" }}
                       tagName={"main"}
