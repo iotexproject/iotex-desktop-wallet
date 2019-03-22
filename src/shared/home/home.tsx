@@ -6,6 +6,7 @@ import { Flex } from "../common/flex";
 import { ContentPadding } from "../common/styles/style-padding";
 import { BpTable } from "./bp-table";
 import { GET_CHAIN_META, GET_COIN_MARKET_CAP } from "../queries";
+import { CoinPrice } from "../../api-gateway/resolvers/meta";
 
 type State = {
   marketCap: number;
@@ -22,11 +23,12 @@ export class Home extends Component<{}, State> {
 
   private readonly getTiles = (data: {
     chainMeta: ChainMeta;
+    fetchCoinPrice: CoinPrice;
   }): Array<TileProps> => {
     return [
       {
         title: "PRODUCER",
-        value: this.state.name,
+        value: data.fetchCoinPrice.name,
         icon: "fire"
       },
       {
@@ -48,12 +50,12 @@ export class Home extends Component<{}, State> {
       },
       {
         title: "IOTX PRICE",
-        value: this.state.price || 0,
+        value: data.fetchCoinPrice.price_btc || 0,
         icon: "dollar"
       },
       {
         title: "MARKETCAP",
-        value: `${this.state.marketCap || 0} M`,
+        value: `${data.fetchCoinPrice.price_usd || 0} M`,
         icon: "bank"
       }
     ];
@@ -94,7 +96,7 @@ export class Home extends Component<{}, State> {
                 return `Error! ${error.message}`;
               }
 
-              const chainMetaData = data.chainMeta;
+              const chainMetaData = data;
 
               return (
                 <Query query={GET_COIN_MARKET_CAP}>

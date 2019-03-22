@@ -1,13 +1,13 @@
 import { Query, Ctx, Resolver, ResolverInterface } from "type-graphql";
-import { Field, Int, ObjectType } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 
 @ObjectType({ description: "" })
 export class CoinPrice {
-  @Field(_ => Int)
-  public marketCapUsd: number;
+  @Field(_ => String)
+  public price_usd: string;
 
-  @Field(_ => Int)
-  public priceBtc: number;
+  @Field(_ => String)
+  public price_btc: string;
 
   @Field(_ => String)
   public name: string;
@@ -22,7 +22,7 @@ export class MetaResolver implements ResolverInterface<() => String> {
 
   @Query(_ => CoinPrice)
   public async fetchCoinPrice(@Ctx() { gateways }: any): Promise<CoinPrice> {
-    // yet to be realized
-    return await gateways.antenna.fetchCoinPrice({});
+    const resultData = await gateways.coinmarketcap.fetchCoinPrice();
+    return resultData.data[0];
   }
 }

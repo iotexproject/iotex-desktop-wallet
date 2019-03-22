@@ -84,8 +84,8 @@ input ClaimFromRewardingFundInput {
 }
 
 type CoinPrice {
-  marketCapUsd: Int!
-  priceBtc: Int!
+  price_usd: String!
+  price_btc: String!
   name: String!
 }
 
