@@ -14,6 +14,16 @@ export const GET_CHAIN_META = gql`
   }
 `;
 
+export const GET_COIN_MARKET_CAP = gql`
+  query {
+    fetchCoinPrice {
+      marketCapUsd
+      priceBtc
+      name
+    }
+  }
+`;
+
 export const GET_LATEST_HEIGHT = gql`
   query {
     chainMeta {

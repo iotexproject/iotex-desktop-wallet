@@ -83,6 +83,12 @@ input ClaimFromRewardingFundInput {
   data: Buffer!
 }
 
+type CoinPrice {
+  marketCapUsd: Int!
+  priceBtc: Int!
+  name: String!
+}
+
 type CreateDeposit {
   chainID: Int!
   amount: Buffer!
@@ -281,6 +287,7 @@ type Query {
   readContract(action: ActionInput!): ReadContractResponse!
   sendAction(action: ActionInput!): Empty!
   health: String!
+  fetchCoinPrice: CoinPrice!
 }
 
 type ReadContractResponse {
