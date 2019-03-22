@@ -7,6 +7,7 @@ import { Query } from "react-apollo";
 import { Action } from "../../api-gateway/resolvers/antenna-types";
 import { SpinPreloader } from "../common/spin-preloader";
 import { GET_ACTIONS } from "../queries";
+import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 
 function getColumns(): Array<ColumnProps<Action>> {
   return [
@@ -36,7 +37,11 @@ function getColumns(): Array<ColumnProps<Action>> {
           record.core.execution ||
           record.core.grantReward ||
           record.core.transfer;
-        return JSON.stringify(other, null, 2);
+        return JSON.stringify(
+          { ...other, sender: publicKeyToAddress(String(record.senderPubKey)) },
+          null,
+          2
+        );
       }
     }
   ];
@@ -62,8 +67,6 @@ export function ActionTable({ address }: { address: string }): JSX.Element {
         return (
           <SpinPreloader spinning={loading}>
             <Table columns={getColumns()} dataSource={actions} />
-
-            <pre>{JSON.stringify(data, null, 2)}</pre>
           </SpinPreloader>
         );
       }}

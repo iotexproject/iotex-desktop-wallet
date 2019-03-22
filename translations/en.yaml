@@ -18,6 +18,8 @@ candidates.election.NOT_ELECTED: Not Elected
 candidates.election.UNQUALIFIED: Not Elected
 candidates.election.explain: >-
   Delegates must self-stake at least <b>1,200,000 IOTX</b> and earn <b>2,000,000 IOTX</b> total votes to be elected.
+# block.block is the title of the page block
+block.block: Block
 # block.blocks is the title of page blocks that lists a table of blocks
 block.blocks: Blocks
 # block.height is the table column field name describing the height of the block in the blockchain.
@@ -38,3 +40,13 @@ block.tx_root: Tx Root
 block.receipt_root: Receipt Root
 # block.delta_state_digest is the digest value of the delta state with the last block.
 block.delta_state_digest: Digest of Delta State
+# action.type
+action.type: Type
+# action.type.transfer
+action.type.transfer: Transfer
+# action.type.grant_reward
+action.type.grant_reward: Grant Reward
+# action.type.execution
+action.type.execution: Execution
+# action.data
+action.data: Data
