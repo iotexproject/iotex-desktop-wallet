@@ -59,7 +59,8 @@ export function Blocks(): JSX.Element {
     <ContentPadding>
       <Query query={GET_LATEST_HEIGHT}>
         {({ data }: QueryResult<{ chainMeta: { height: number } }>) => {
-          const latestHeight = data && data.chainMeta && data.chainMeta.height;
+          const latestHeight =
+            (data && data.chainMeta && data.chainMeta.height) || 0;
           const byIndex = getBlockIndexRange(latestHeight);
 
           return (
@@ -82,7 +83,7 @@ export function Blocks(): JSX.Element {
                 if (Array.isArray(blkMetas)) {
                   // tslint:disable-next-line
                   blkMetas = blkMetas.sort((m1: any, m2: any) => {
-                    return m1.height - m2.height;
+                    return m2.height - m1.height;
                   });
                 }
 
@@ -97,7 +98,7 @@ export function Blocks(): JSX.Element {
                         rowKey={"height"}
                         pagination={{
                           pageSize: PAGE_SIZE,
-                          total: latestHeight
+                          total: +latestHeight
                         }}
                         style={{ width: "100%" }}
                         scroll={{ x: true }}
