@@ -4,7 +4,7 @@ import { Component } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
 import { Link } from "react-router-dom";
 
-import { Icon, Input} from "antd";
+import { Icon, Input, Dropdown as AntdDropdown, Menu as AntdMenu } from "antd";
 // @ts-ignore
 import { assetURL } from "onefx/lib/asset-url";
 // @ts-ignore
@@ -57,13 +57,28 @@ export class TopBar extends Component<{}, State> {
     });
   };
 
+  public renderBlockchainMenu = () => {
+    return (
+      <AntdMenu>
+        <AntdMenu.Item>
+          <A href="/actions">{t("topbar.actions")}</A>
+        </AntdMenu.Item>
+        <AntdMenu.Item>
+          <A href="/blocks">{t("topbar.blocks")}</A>
+        </AntdMenu.Item>
+      </AntdMenu>
+    );
+  };
+
   public renderMenu = () => {
     return [
       <div>
         <A key={0} href="/" onClick={this.hideMobileMenu}>
           {t("topbar.home")}
         </A>
-        <A key={111} href="/blocks">Blocks</A>
+        <AntdDropdown overlay={this.renderBlockchainMenu()}>
+          <A href="#">{t("topbar.blockchain")}</A>
+        </AntdDropdown>
       </div>
     ];
   };
@@ -90,7 +105,7 @@ export class TopBar extends Component<{}, State> {
             <LogoContent />
             {/*<BrandText href="/">{t("topbar.brand")}</BrandText>*/}
           </Flex>
-          <Flex style={{flex:1,paddingLeft:12}}>
+          <Flex style={{ flex: 1, paddingLeft: 12 }}>
             <Menu>{this.renderMenu()}</Menu>
           </Flex>
           <Flex

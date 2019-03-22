@@ -1,6 +1,9 @@
 meta.title: Blockchain Explorer - IoTeX
 meta.description: Exploring IoTeX blockchain Address, Actions, and Smart Contracts.
 topbar.brand: Brand
+topbar.blockchain: BLOCKCHAIN
+topbar.blocks: BLOCKS
+topbar.actions: ACTIONS
 topbar.home: HOME
 not_found.bar: Not Found
 not_found.title: Oops!
