@@ -108,9 +108,7 @@ export class Home extends Component<{}, State> {
                       return `Error! ${error.message}`;
                     }
 
-                    const tiles = this.getTiles(
-                      Object.assign(chainMetaData, data)
-                    );
+                    const tiles = this.getTiles({ ...chainMetaData, ...data });
 
                     return (
                       <div className={"front-top-info"} style={{ padding: 20 }}>
