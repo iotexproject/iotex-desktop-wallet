@@ -2,9 +2,10 @@
 import { styled } from "onefx/lib/styletron-react";
 import { Component } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
-import { Link, withRouter, RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 
-import { Icon, Input, Dropdown as AntdDropdown, Menu as AntdMenu } from "antd";
+import { Dropdown as AntdDropdown, Icon, Input, Menu as AntdMenu } from "antd";
+import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { assetURL } from "onefx/lib/asset-url";
 // @ts-ignore
@@ -17,7 +18,6 @@ import { transition } from "./styles/style-animation";
 import { colors } from "./styles/style-color";
 import { media, PALM_WIDTH } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
-import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 
 export const TOP_BAR_HEIGHT = 62;
 
@@ -64,11 +64,11 @@ class TopBarComponent extends Component<Props, State> {
     });
   };
 
-  public searchInput = (e: any) => {
-    const { value } = e.target;
+  public searchInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const { value } = e.target as HTMLInputElement;
     if (value.startsWith("io")) {
       this.props.history.push(`/address/${value}`);
-    } else if (value.length == 130) {
+    } else if (value.length === 130) {
       this.props.history.push(`/address/${publicKeyToAddress(value)}`);
     }
   };
