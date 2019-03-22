@@ -61,10 +61,10 @@ export class TopBar extends Component<{}, State> {
     return (
       <AntdMenu>
         <AntdMenu.Item>
-          <A href="/actions">{t("topbar.actions")}</A>
+          <StyledLink to="/actions">{t("topbar.actions")}</StyledLink>
         </AntdMenu.Item>
         <AntdMenu.Item>
-          <A href="/blocks">{t("topbar.blocks")}</A>
+          <StyledLink to="/blocks">{t("topbar.blocks")}</StyledLink>
         </AntdMenu.Item>
       </AntdMenu>
     );
@@ -73,11 +73,13 @@ export class TopBar extends Component<{}, State> {
   public renderMenu = () => {
     return [
       <div>
-        <A key={0} href="/" onClick={this.hideMobileMenu}>
+        <StyledLink key={0} to="/" onClick={this.hideMobileMenu}>
           {t("topbar.home")}
-        </A>
-        <AntdDropdown overlay={this.renderBlockchainMenu()}>
-          <A href="#">{t("topbar.blockchain")}</A>
+        </StyledLink>
+        <AntdDropdown key={1} overlay={this.renderBlockchainMenu()}>
+          <StyledLink className="ant-dropdown-link" to="#">
+            {t("topbar.blockchain")} <Icon type="down" />
+          </StyledLink>
         </AntdDropdown>
       </div>
     ];
@@ -244,7 +246,7 @@ const menuItem = {
     borderBottom: "1px #EDEDED solid"
   }
 };
-const A = styled("a", menuItem);
+// const A = styled("a", menuItem);
 // const BrandText = styled("a", {
 //   ...menuItem,
 //   marginLeft: 0,
