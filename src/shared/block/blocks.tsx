@@ -44,12 +44,14 @@ function getColumns(): Array<ColumnProps<BlockMeta>> {
 const PAGE_SIZE = 30;
 
 function getBlockIndexRange(
-  endHeight: number = 0
+  endHeight: number = 0,
+  currentPage: number = 1
 ): { start: number; count: number } {
-  const start = endHeight - PAGE_SIZE;
+  console.log(currentPage);
+  const start = endHeight - currentPage * PAGE_SIZE;
   return {
-    start: start < 0 ? 0 : start,
-    count: start < 0 ? PAGE_SIZE + start : PAGE_SIZE
+    start,
+    count: PAGE_SIZE
   };
 }
 
@@ -66,7 +68,8 @@ export function Blocks(): JSX.Element {
               {({
                 loading,
                 error,
-                data
+                data,
+                fetchMore
               }: QueryResult<{ getBlockMetas: GetBlockMetasResponse }>) => {
                 if (error) {
                   notification.error({
@@ -75,7 +78,6 @@ export function Blocks(): JSX.Element {
                     duration: 5
                   });
                 }
-
                 let blkMetas =
                   data && data.getBlockMetas && data.getBlockMetas.blkMetas;
                 if (Array.isArray(blkMetas)) {
@@ -94,11 +96,28 @@ export function Blocks(): JSX.Element {
                     >
                       <Table
                         rowKey={"height"}
-                        pagination={{ pageSize: PAGE_SIZE }}
+                        pagination={{
+                          pageSize: PAGE_SIZE,
+                          total: latestHeight
+                        }}
                         style={{ width: "100%" }}
                         scroll={{ x: true }}
                         columns={getColumns()}
                         dataSource={blkMetas}
+                        onChange={pagination => {
+                          fetchMore({
+                            variables: {
+                              byIndex: getBlockIndexRange(
+                                latestHeight,
+                                pagination.current
+                              )
+                            },
+                            updateQuery: (prev, { fetchMoreResult }) => {
+                              if (!fetchMoreResult) return prev;
+                              return fetchMoreResult;
+                            }
+                          });
+                        }}
                       />
                     </Layout.Content>
                   </SpinPreloader>
