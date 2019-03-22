@@ -160,6 +160,44 @@ export const GET_ACTIONS = gql`
   }
 `;
 
+export const GET_ACTIONS_BY_HASH = gql`
+  query getActions($byHash: GetActionsByHashRequest) {
+    getActions(byHash: $byHash) {
+      actions {
+        core {
+          version
+          nonce
+          gasLimit
+          gasPrice
+          transfer {
+            amount
+            recipient
+            payload
+          }
+          execution {
+            amount
+            contract
+            data
+          }
+          depositToRewardingFund {
+            amount
+            data
+          }
+          claimFromRewardingFund {
+            amount
+            data
+          }
+          grantReward {
+            type
+          }
+        }
+        signature
+        senderPubKey
+      }
+    }
+  }
+`;
+
 export const READ_CONTRACT = gql`
   query readContract($action: ActionInput!) {
     readContract(action: $action) {

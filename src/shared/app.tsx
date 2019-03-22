@@ -11,6 +11,7 @@ import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
 import { Switch } from "react-router";
 import { Route } from "react-router-dom";
+import { ActionDetail } from "./action/action-detail";
 import { AddressDetails } from "./address-details/address-details";
 import { BlockDetail } from "./block/block-detail";
 import { Blocks } from "./blocks";
@@ -91,6 +92,7 @@ export class App extends Component<Props> {
             <Route exact path="/address/:address" component={AddressDetails} />
             <Route exact path="/block/:hash" component={BlockDetail} />
             <Route exact path="/blocks" component={Blocks} />
+            <Route exact path="/action/:hash" component={ActionDetail} />
             <Route component={NotFound} />
           </Switch>
         </div>
