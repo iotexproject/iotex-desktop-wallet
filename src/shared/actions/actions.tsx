@@ -1,4 +1,6 @@
-import { Layout, notification, Table } from "antd";
+import Layout from "antd/lib/layout";
+import notification from "antd/lib/notification";
+import Table from "antd/lib/table";
 import React, { Component } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
@@ -19,6 +21,7 @@ export class Actions extends Component {
               backgroundColor={colors.white}
               column={true}
               alignItems={"baselines"}
+              width={"100%"}
             >
               <h1 style={{ padding: "16px" }}>Actions</h1>
               <ActionTable />
@@ -63,7 +66,7 @@ export class ActionTable extends Component<{}, State> {
           const actions = data && data.getActions && data.getActions.actions;
 
           return (
-            <div className={"table-list"}>
+            <div style={{ width: "100%" }}>
               <SpinPreloader spinning={loading}>
                 <Table
                   dataSource={actions}

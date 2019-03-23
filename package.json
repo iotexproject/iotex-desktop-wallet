@@ -142,6 +142,7 @@
     "dotenv": "6.2.0",
     "dottie": "^2.0.1",
     "form-serialize": "0.7.2",
+    "fromnow": "^3.0.0",
     "global": "4.3.2",
     "graphql": "14.1.1",
     "graphql-iso-date": "3.6.1",
