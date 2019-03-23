@@ -12,6 +12,7 @@ import React, { Component } from "react";
 import { Switch } from "react-router";
 import { Route } from "react-router-dom";
 import { ActionDetail } from "./action/action-detail";
+import { Actions } from "./actions/actions";
 import { AddressDetails } from "./address-details/address-details";
 import { BlockDetail } from "./block/block-detail";
 import { Blocks } from "./block/blocks";
@@ -92,6 +93,7 @@ export class App extends Component<Props> {
             <Route exact path="/block/:hash" component={BlockDetail} />
             <Route exact path="/blocks" component={Blocks} />
             <Route exact path="/action/:hash" component={ActionDetail} />
+            <Route exact path="/actions" component={Actions} />
             <Route component={NotFound} />
           </Switch>
         </div>

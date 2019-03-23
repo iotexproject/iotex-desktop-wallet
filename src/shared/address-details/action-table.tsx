@@ -67,6 +67,7 @@ export function ActionTable({ address }: { address: string }): JSX.Element {
         return (
           <SpinPreloader spinning={loading}>
             <Table columns={getActionColumns()} dataSource={actions} />
+
             <pre>{JSON.stringify(data, null, 2)}</pre>
           </SpinPreloader>
         );
