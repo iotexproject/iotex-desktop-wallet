@@ -1,101 +1,115 @@
-const path = require('path');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const webpack = require('webpack');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const glob = require('glob');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const process = require('global/process');
-const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+const path = require("path");
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+const webpack = require("webpack");
+const ManifestPlugin = require("webpack-manifest-plugin");
+const glob = require("glob");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
+const process = require("global/process");
+const SWPrecacheWebpackPlugin = require("sw-precache-webpack-plugin");
+const tsImportPluginFactory = require("ts-import-plugin");
 
-const ANALYZE = false;
-const PROD = process.env.NODE_ENV === 'production';
-const OUTPUT_DIR = 'dist/';
+const ANALYZE = true;
+const PROD = process.env.NODE_ENV === "production";
+const OUTPUT_DIR = "dist/";
 
 module.exports = {
-  mode: PROD ? 'production' : 'development',
-  entry: glob
-    .sync('./src/client/javascripts/*.ts*')
-    .reduce(
-      (entries, entry) =>
-        Object.assign(entries, {[entry.replace('./src/client/javascripts/', '').replace(/(\.ts|\.tsx)$/, '')]: entry}), {}
-    ),
+  mode: PROD ? "production" : "development",
+  entry: glob.sync("./src/client/javascripts/*.ts*").reduce(
+    (entries, entry) =>
+      Object.assign(entries, {
+        [entry
+          .replace("./src/client/javascripts/", "")
+          .replace(/(\.ts|\.tsx)$/, "")]: entry
+      }),
+    {}
+  ),
   output: {
-    filename: PROD ? '[name]-[chunkhash].js' : '[name].js',
-    path: path.resolve(__dirname, OUTPUT_DIR),
+    filename: PROD ? "[name]-[chunkhash].js" : "[name].js",
+    path: path.resolve(__dirname, OUTPUT_DIR)
   },
-  ...(PROD ? {} : {devtool: 'source-map'}),
+  ...(PROD ? {} : { devtool: "source-map" }),
   module: {
     rules: [
-      { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
+      {
+        test: /\.tsx?$/,
+        loader: "awesome-typescript-loader",
+        options: {
+          getCustomTransformers: () => ({
+            before: [
+              tsImportPluginFactory({
+                libraryName: "antd",
+                libraryDirectory: "lib",
+                style: false
+              })
+            ]
+          })
+        },
+        exclude: /node_modules/
+      },
       { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
         use: {
-          loader: 'babel-loader',
-          options: require('./babel.config'),
-        },
-      },
-    ],
+          loader: "babel-loader",
+          options: require("./babel.config")
+        }
+      }
+    ]
   },
   resolve: {
     // options for resolving module requests
     // (does not apply to resolving to loaders)
-    modules: [
-      "node_modules",
-      path.resolve(__dirname, "src")
-    ],
+    modules: ["node_modules", path.resolve(__dirname, "src")],
     // directories where to look for modules
     extensions: [".js", ".json", ".jsx", ".ts", ".tsx"],
     // extensions that are used
-    alias: {
-    },
+    alias: {}
     /* Alternative alias syntax (click to show) */
     /* Advanced resolve configuration (click to show) */
   },
   plugins: [
     new ManifestPlugin({
-      basePath: '/',
-      fileName: 'asset-manifest.json',
+      basePath: "/",
+      fileName: "asset-manifest.json"
     }),
     ...(ANALYZE ? [new BundleAnalyzerPlugin()] : []),
-    ...(PROD ? [
-      new UglifyJSPlugin({
-        cache: true,
-        parallel: true,
-        uglifyOptions: {
-          compress: true,
-          ecma: 6,
-          mangle: true,
-          comments: false,
-        },
-        extractComments: true,
-      }),
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify('production'),
-        },
-      }),
-    ] : []),
-    new SWPrecacheWebpackPlugin(
-      {
-        mergeStaticsConfig: true,
-        dontCacheBustUrlsMatching: /\.\w{8}\./,
-        filename: 'service-worker.js',
-        minify: false,
-        navigateFallback: '/',
-        navigateFallbackWhitelist: [/^(?!\/__).*/],
-        staticFileGlobs: [
-          `${OUTPUT_DIR}/**`,
-        ],
-        stripPrefix: OUTPUT_DIR,
-        staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
-        dynamicUrlToDependencies: {
-          '/index.html': glob.sync(path.resolve(`${OUTPUT_DIR}/**/*.js`)),
-          '/notes': glob.sync(path.resolve(`${OUTPUT_DIR}/**/*.js`)),
-          '/notes/': glob.sync(path.resolve(`${OUTPUT_DIR}/**/*.js`)),
-        },
+    ...(PROD
+      ? [
+          new UglifyJSPlugin({
+            cache: true,
+            parallel: true,
+            uglifyOptions: {
+              compress: true,
+              ecma: 6,
+              mangle: true,
+              comments: false
+            },
+            extractComments: true
+          }),
+          new webpack.DefinePlugin({
+            "process.env": {
+              NODE_ENV: JSON.stringify("production")
+            }
+          })
+        ]
+      : []),
+    new SWPrecacheWebpackPlugin({
+      mergeStaticsConfig: true,
+      dontCacheBustUrlsMatching: /\.\w{8}\./,
+      filename: "service-worker.js",
+      minify: false,
+      navigateFallback: "/",
+      navigateFallbackWhitelist: [/^(?!\/__).*/],
+      staticFileGlobs: [`${OUTPUT_DIR}/**`],
+      stripPrefix: OUTPUT_DIR,
+      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+      dynamicUrlToDependencies: {
+        "/index.html": glob.sync(path.resolve(`${OUTPUT_DIR}/**/*.js`)),
+        "/notes": glob.sync(path.resolve(`${OUTPUT_DIR}/**/*.js`)),
+        "/notes/": glob.sync(path.resolve(`${OUTPUT_DIR}/**/*.js`))
       }
-    ),
-  ],
+    })
+  ]
 };
