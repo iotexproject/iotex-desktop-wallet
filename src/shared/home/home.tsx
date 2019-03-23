@@ -1,4 +1,5 @@
-import { Icon, Layout } from "antd";
+import Icon from "antd/lib/icon";
+import Layout from "antd/lib/layout";
 import React, { Component } from "react";
 import { Query } from "react-apollo";
 import { ChainMeta } from "../../api-gateway/resolvers/antenna-types";

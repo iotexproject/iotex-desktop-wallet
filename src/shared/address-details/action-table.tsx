@@ -1,5 +1,6 @@
-import { notification, Table } from "antd";
 import { ColumnProps } from "antd/es/table";
+import notification from "antd/lib/notification";
+import Table from "antd/lib/table";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";

@@ -1,4 +1,4 @@
-import { notification } from "antd";
+import notification from "antd/lib/notification";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";

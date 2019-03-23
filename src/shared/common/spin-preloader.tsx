@@ -1,4 +1,5 @@
-import { Icon, Spin } from "antd";
+import Icon from "antd/lib/icon";
+import Spin from "antd/lib/spin";
 import React from "react";
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;

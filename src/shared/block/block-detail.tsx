@@ -1,4 +1,5 @@
-import { notification, Table } from "antd";
+import notification from "antd/lib/notification";
+import Table from "antd/lib/table";
 import { get } from "dottie";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -109,7 +110,9 @@ class BlockDetailsInner extends PureComponent<Props> {
                   alignItems={"baselines"}
                   backgroundColor={colors.white}
                 >
-                  <h1 style={{ padding: "16px", width: "100%" }}>{t("block.block")}</h1>
+                  <h1 style={{ padding: "16px", width: "100%" }}>
+                    {t("block.block")}
+                  </h1>
                   <Table
                     pagination={false}
                     dataSource={getBlockDetailsDataSource(blockMeta)}

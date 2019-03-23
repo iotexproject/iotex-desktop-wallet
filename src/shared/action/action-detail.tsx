@@ -1,4 +1,5 @@
-import { notification, Table } from "antd";
+import notification from "antd/lib/notification";
+import Table from "antd/lib/table";
 import React, { PureComponent } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";

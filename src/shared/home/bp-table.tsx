@@ -1,4 +1,5 @@
-import { notification, Table } from "antd";
+import notification from "antd/lib/notification";
+import Table from "antd/lib/table";
 import gql from "graphql-tag";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";

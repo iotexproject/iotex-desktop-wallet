@@ -278,6 +278,7 @@ type Query {
   getActions(
     byIndex: GetActionsByIndexRequest
     byAddr: GetActionsByAddressRequest
+    byHash: GetActionsByHashRequest
   ): GetActionsResponse!
   readContract(action: ActionInput!): ReadContractResponse!
   sendAction(action: ActionInput!): Empty!
