@@ -2,6 +2,16 @@
 import casual from "casual";
 import RpcMethod from "iotex-antenna/lib/rpc-method/node-rpc-method";
 import {
+  IAction,
+  IGetActionsRequest,
+  IGetActionsResponse,
+  IGetReceiptByActionResponse,
+  IReadContractRequest,
+  IReadContractResponse,
+  ISendActionRequest,
+  ISendActionResponse
+} from "iotex-antenna/lib/rpc-method/types";
+import {
   Arg,
   Args,
   Ctx,
@@ -11,7 +21,6 @@ import {
 } from "type-graphql";
 import { EmptyScalar } from "../scalars/empty-scalar";
 import {
-  Action,
   ChainMeta,
   GetAccountResponse,
   GetActionsRequest,
@@ -67,21 +76,21 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
   public async getReceiptByAction(
     @Arg("actionHash", _ => String, { description: "actionHash" })
     actionHash: string,
-    @Ctx() { gateways }: any
-  ): Promise<GetReceiptByActionResponse> {
+    @Ctx() { gateways }: ICtx
+  ): Promise<IGetReceiptByActionResponse> {
     return gateways.antenna.getReceiptByAction({ actionHash });
   }
 
   @Query(_ => GetActionsResponse)
   public async getActions(
     @Args(_ => GetActionsRequest)
-    input: GetActionsRequest,
+    input: IGetActionsRequest,
     @Ctx()
-    { gateways }: any
-  ): Promise<GetActionsResponse> {
+    { gateways }: ICtx
+  ): Promise<IGetActionsResponse> {
     const resp = await gateways.antenna.getActions(input);
     return {
-      actions: resp.actions.map((a: Action, i: number) => {
+      actions: resp.actions.map((a: IAction, i: number) => {
         // @ts-ignore
         a.core = {
           ...a.core,
@@ -116,20 +125,20 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
   @Query(_ => ReadContractResponse)
   public async readContract(
     @Args(_ => ReadContractRequest)
-    input: ReadContractRequest,
+    input: IReadContractRequest,
     @Ctx()
-    { gateways }: any
-  ): Promise<ReadContractResponse> {
+    { gateways }: ICtx
+  ): Promise<IReadContractResponse> {
     return gateways.antenna.readContract(input);
   }
 
   @Query(_ => EmptyScalar)
   public async sendAction(
     @Args(_ => SendActionRequest)
-    input: SendActionRequest,
+    input: ISendActionRequest,
     @Ctx()
-    { gateways }: any
-  ): Promise<object> {
+    { gateways }: ICtx
+  ): Promise<ISendActionResponse> {
     return gateways.antenna.sendAction(input);
   }
 }
