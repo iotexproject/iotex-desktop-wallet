@@ -4,7 +4,7 @@ import { Component } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
 import { Link } from "react-router-dom";
 
-import { Icon, Input} from "antd";
+import { Icon, Input } from "antd";
 // @ts-ignore
 import { assetURL } from "onefx/lib/asset-url";
 // @ts-ignore
@@ -63,7 +63,9 @@ export class TopBar extends Component<{}, State> {
         <A key={0} href="/" onClick={this.hideMobileMenu}>
           {t("topbar.home")}
         </A>
-        <A key={111} href="/blocks">Blocks</A>
+        <A key={111} href="/blocks">
+          Blocks
+        </A>
       </div>
     ];
   };
@@ -90,7 +92,7 @@ export class TopBar extends Component<{}, State> {
             <LogoContent />
             {/*<BrandText href="/">{t("topbar.brand")}</BrandText>*/}
           </Flex>
-          <Flex style={{flex:1,paddingLeft:12}}>
+          <Flex style={{ flex: 1, paddingLeft: 12 }}>
             <Menu>{this.renderMenu()}</Menu>
           </Flex>
           <Flex
