@@ -1,10 +1,10 @@
 meta.title: 'Blockchain Explorer - IoTeX'
 meta.description: 'Exploring IoTeX blockchain Address, Actions, and Smart Contracts.'
 topbar.brand: Brand
-topbar.blockchain: BLOCKCHAIN
+topbar.blockchain: 区块链
 topbar.blocks: BLOCKS
 topbar.actions: ACTIONS
-topbar.home: HOME
+topbar.home: 首页
 not_found.bar: 'Not Found'
 not_found.title: Oops!
 not_found.info: 'We cannot find the page for you...'
@@ -21,16 +21,16 @@ block.blocks: Blocks
 block.height: Height
 block.hash: Hash
 block.timestamp: Age
-block.num_actions: Actions
-block.producer_address: Producer
+block.num_actions: 操作
+block.producer_address: 生产者
 block.transfer_amount: 'Transfer Amount'
 block.tx_root: 'Tx Root'
-block.receipt_root: 'Receipt Root'
-block.delta_state_digest: 'Digest of Delta State'
-action.type: Type
-action.type.transfer: Transfer
-action.type.grant_reward: 'Grant Reward'
-action.type.execution: Execution
-action.data: Data
+block.receipt_root: 收据根
+block.delta_state_digest: 状态增量摘要
+action.type: 类型
+action.type.transfer: 传递
+action.type.grant_reward: 授予的奖励
+action.type.execution: 执行
+action.data: 数据
 topbar.graphql_playground: 'GraphQL Playground'
-topbar.graphql_doc: 'GraphQL Doc'
+topbar.graphql_doc: 'GraphQL 文档'
