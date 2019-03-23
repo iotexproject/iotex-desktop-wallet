@@ -90,7 +90,7 @@ class TestAntennaInner extends PureComponent<Props> {
           checkingPending: false
         },
         byAddr: {
-          address: "io1qypqqqqqjntmcu9d60u4w465t33l2et6drtaqyrqwm0gma",
+          address: "io1dg65erd07hrvyme0493f2kqj2utuvpyf6jeuhd",
           start: 1,
           count: 10
         },
@@ -129,7 +129,7 @@ class TestAntennaInner extends PureComponent<Props> {
       query: GET_RECEIPT_BY_ACTION,
       variables: {
         actionHash:
-          "200778fb0a5d3e30ad86d836cd6d6333b654cd0aadfab42e3fb618499d3756c2"
+          "f94c3b5976ca3543bb84a1e7c1281913746250ed1afdaa2fe06e9969189dd66b"
       },
       name: "GET_RECEIPT_BY_ACTION"
     },

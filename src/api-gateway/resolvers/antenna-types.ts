@@ -168,6 +168,34 @@ export class GetActionsByIndexRequest {
   public count: BigNumber;
 }
 
+@InputType()
+export class GetActionsByHashRequest {
+  @Field(_ => String)
+  public actionHash: string;
+  @Field(_ => Boolean)
+  public checkingPending: boolean;
+}
+
+@InputType()
+export class GetUnconfirmedActionsByAddressRequest {
+  @Field(_ => String)
+  public address: string;
+  @Field(_ => Int)
+  public start: number;
+  @Field(_ => Int)
+  public count: number;
+}
+
+@InputType()
+export class GetActionsByBlockRequest {
+  @Field(_ => String)
+  public blkHash: string;
+  @Field(_ => Int)
+  public start: number;
+  @Field(_ => Int)
+  public count: number;
+}
+
 @ArgsType()
 export class GetActionsRequest {
   @Field(_ => GetActionsByIndexRequest, { nullable: true })
@@ -175,6 +203,9 @@ export class GetActionsRequest {
 
   @Field(_ => GetActionsByAddressRequest, { nullable: true })
   public byAddr: GetActionsByAddressRequest;
+
+  @Field(_ => GetActionsByHashRequest, { nullable: true })
+  public byHash: GetActionsByHashRequest;
 }
 
 @InputType("TransferInput")
@@ -490,32 +521,4 @@ export class SetReward {
   public data: Buffer;
   @Field(_ => Int)
   public type: number;
-}
-
-@InputType()
-export class GetActionsByHashRequest {
-  @Field(_ => String)
-  public actionHash: string;
-  @Field(_ => Boolean)
-  public checkingPending: boolean;
-}
-
-@InputType()
-export class GetUnconfirmedActionsByAddressRequest {
-  @Field(_ => String)
-  public address: string;
-  @Field(_ => Int)
-  public start: number;
-  @Field(_ => Int)
-  public count: number;
-}
-
-@InputType()
-export class GetActionsByBlockRequest {
-  @Field(_ => String)
-  public blkHash: string;
-  @Field(_ => Int)
-  public start: number;
-  @Field(_ => Int)
-  public count: number;
 }
