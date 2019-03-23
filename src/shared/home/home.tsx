@@ -3,10 +3,10 @@ import Layout from "antd/lib/layout";
 import React, { Component } from "react";
 import { Query } from "react-apollo";
 import { ChainMeta } from "../../api-gateway/resolvers/antenna-types";
-import { fetchCoinPrice } from "../../server/gateways/coin-market-cap";
+import { CoinPrice } from "../../api-gateway/resolvers/meta";
 import { Flex } from "../common/flex";
 import { ContentPadding } from "../common/styles/style-padding";
-import { GET_CHAIN_META } from "../queries";
+import { GET_CHAIN_META, GET_COIN_MARKET_CAP } from "../queries";
 import { BpTable } from "./bp-table";
 
 type State = {
@@ -22,43 +22,14 @@ export class Home extends Component<{}, State> {
     name: "IOSG"
   };
 
-  public componentDidMount(): void {
-    fetchCoinPrice().then(
-      (r: {
-        status: number;
-        data?: [{ market_cap_usd?: number; name?: string; price_btc?: number }];
-      }) => {
-        if (r.status === 200) {
-          const resultData = r.data || [];
-          let marketCap = 0;
-          let price = 0;
-          let name = "";
-
-          if (resultData.length) {
-            marketCap =
-              (resultData[0].market_cap_usd &&
-                resultData[0].market_cap_usd / 1000000) ||
-              0;
-            price = resultData[0].price_btc || 0;
-            name = resultData[0].name || "IOSG";
-          }
-          this.setState({
-            marketCap,
-            price,
-            name
-          });
-        }
-      }
-    );
-  }
-
   private readonly getTiles = (data: {
     chainMeta: ChainMeta;
+    fetchCoinPrice: CoinPrice;
   }): Array<TileProps> => {
     return [
       {
         title: "PRODUCER",
-        value: this.state.name,
+        value: data.fetchCoinPrice.name,
         icon: "fire"
       },
       {
@@ -80,12 +51,12 @@ export class Home extends Component<{}, State> {
       },
       {
         title: "IOTX PRICE",
-        value: this.state.price || 0,
+        value: data.fetchCoinPrice.priceBtc || 0,
         icon: "dollar"
       },
       {
         title: "MARKETCAP",
-        value: `${this.state.marketCap || 0} M`,
+        value: `${data.fetchCoinPrice.priceUsd || 0} M`,
         icon: "bank"
       }
     ];
@@ -104,22 +75,37 @@ export class Home extends Component<{}, State> {
                 return `Error! ${error.message}`;
               }
 
-              const tiles = this.getTiles(data);
+              const chainMetaData = data;
 
               return (
-                <div className={"front-top-info"} style={{ padding: 20 }}>
-                  <Flex>
-                    {tiles.map((tile, i) => (
-                      <div key={i} className={"item"}>
-                        <Tile
-                          title={tile.title}
-                          value={tile.value}
-                          icon={tile.icon}
-                        />
+                <Query query={GET_COIN_MARKET_CAP}>
+                  {({ loading, error, data }) => {
+                    if (loading) {
+                      return "Loading...";
+                    }
+                    if (error) {
+                      return `Error! ${error.message}`;
+                    }
+
+                    const tiles = this.getTiles({ ...chainMetaData, ...data });
+
+                    return (
+                      <div className={"front-top-info"} style={{ padding: 20 }}>
+                        <Flex>
+                          {tiles.map((tile, i) => (
+                            <div key={i} className={"item"}>
+                              <Tile
+                                title={tile.title}
+                                value={tile.value}
+                                icon={tile.icon}
+                              />
+                            </div>
+                          ))}
+                        </Flex>
                       </div>
-                    ))}
-                  </Flex>
-                </div>
+                    );
+                  }}
+                </Query>
               );
             }}
           </Query>
