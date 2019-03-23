@@ -49,7 +49,7 @@ function getBlockIndexRange(
 ): { start: number; count: number } {
   const start = endHeight - currentPage * PAGE_SIZE;
   return {
-    start,
+    start: start < 0 ? 0 : start,
     count: PAGE_SIZE
   };
 }
