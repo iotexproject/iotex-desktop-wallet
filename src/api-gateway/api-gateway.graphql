@@ -265,13 +265,19 @@ type Query {
     # iotex address
     address: String!
   ): GetAccountResponse!
-  getBlockMetas(byIndex: GetBlockMetasByIndexRequest, byHash: GetBlockMetasByHashRequest): GetBlockMetasResponse!
+  getBlockMetas(
+    byIndex: GetBlockMetasByIndexRequest
+    byHash: GetBlockMetasByHashRequest
+  ): GetBlockMetasResponse!
   suggestGasPrice: SuggestGasPriceResponse!
   getReceiptByAction(
     # actionHash
     actionHash: String!
   ): GetReceiptByActionResponse!
-  getActions(byIndex: GetActionsByIndexRequest, byAddr: GetActionsByAddressRequest): GetActionsResponse!
+  getActions(
+    byIndex: GetActionsByIndexRequest
+    byAddr: GetActionsByAddressRequest
+  ): GetActionsResponse!
   readContract(action: ActionInput!): ReadContractResponse!
   sendAction(action: ActionInput!): Empty!
   health: String!

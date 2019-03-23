@@ -16,7 +16,7 @@ function getColumns(): Array<ColumnProps<BlockMeta>> {
   return [
     {
       title: t("block.height"),
-      dataIndex: "height",
+      dataIndex: "height"
     },
     {
       title: t("block.timestamp"),
