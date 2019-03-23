@@ -191,8 +191,8 @@ export class Transfer {
 @InputType("ExecutionInput")
 @ObjectType()
 export class Execution {
-  @Field(_ => BufferScalar)
-  public amount: Buffer;
+  @Field(_ => String)
+  public amount: string;
 
   @Field(_ => String)
   public contract: string;
@@ -202,8 +202,8 @@ export class Execution {
 }
 
 export enum RewardType {
-  BlockReward,
-  EpochReward
+  BlockReward = "BlockReward",
+  EpochReward = "EpochReward"
 }
 
 registerEnumType(RewardType, {
@@ -213,8 +213,8 @@ registerEnumType(RewardType, {
 @InputType("DepositToRewardingFundInput")
 @ObjectType()
 export class DepositToRewardingFund {
-  @Field(_ => BufferScalar)
-  public amount: Buffer;
+  @Field(_ => String)
+  public amount: string;
   @Field(_ => BufferScalar)
   public data: Buffer;
 }
@@ -222,8 +222,8 @@ export class DepositToRewardingFund {
 @InputType("ClaimFromRewardingFundInput")
 @ObjectType()
 export class ClaimFromRewardingFund {
-  @Field(_ => BufferScalar)
-  public amount: Buffer;
+  @Field(_ => String)
+  public amount: string;
   @Field(_ => BufferScalar)
   public data: Buffer;
 }
@@ -231,8 +231,8 @@ export class ClaimFromRewardingFund {
 @InputType("GrantRewardInput")
 @ObjectType()
 export class GrantReward {
-  @Field(_ => String)
-  public type: String;
+  @Field(_ => RewardType)
+  public type: RewardType;
 }
 
 @InputType("ActionCoreInput")
@@ -365,7 +365,7 @@ export class CreateDeposit {
   @Field(_ => Int)
   public chainID: number;
   @Field(_ => BufferScalar)
-  public amount: Buffer;
+  public amount: string;
   @Field(_ => String)
   public recipient: string;
 }
@@ -373,7 +373,7 @@ export class CreateDeposit {
 @ObjectType()
 export class SettleDeposit {
   @Field(_ => BufferScalar)
-  public amount: Buffer;
+  public amount: string;
   @Field(_ => String)
   public recipient: string;
   @Field(_ => Int)
@@ -401,7 +401,7 @@ export class PlumCreateDeposit {
   @Field(_ => String)
   public subChainAddress: string;
   @Field(_ => BufferScalar)
-  public amount: Buffer;
+  public amount: string;
   @Field(_ => String)
   public recipient: string;
 }
@@ -483,7 +483,7 @@ export class PlumTransfer {
 @ObjectType()
 export class SetReward {
   @Field(_ => BufferScalar)
-  public amount: Buffer;
+  public amount: string;
   @Field(_ => BufferScalar)
   public data: Buffer;
   @Field(_ => Int)

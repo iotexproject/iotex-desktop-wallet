@@ -10,6 +10,14 @@
   background: #fff;
   margin-bottom: 20px;
 }
+.page-title{
+  font-size: 22px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  line-height: 1;
+  border-bottom: 1px solid #ebeef5;
+  padding-bottom: 10px;
+}
 .front-top-info {
   svg {
     width: 2rem;
@@ -38,10 +46,6 @@
   }
 }
 .table-list {
-  .ant-table-thead > tr > th {
-    background: #00b4a0;
-    color: #fff;
-  }
   .ant-table-pagination.ant-pagination {
     margin-right: 20px;
   }

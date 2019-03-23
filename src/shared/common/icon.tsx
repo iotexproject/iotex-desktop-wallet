@@ -12,7 +12,7 @@ type PropTypes = {
   margin?: string;
 };
 
-export function Icon({
+export function Logo({
   width = LEN,
   height = LEN,
   url,

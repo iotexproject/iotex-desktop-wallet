@@ -74,12 +74,12 @@ type ChainMeta {
 }
 
 type ClaimFromRewardingFund {
-  amount: Buffer!
+  amount: String!
   data: Buffer!
 }
 
 input ClaimFromRewardingFundInput {
-  amount: Buffer!
+  amount: String!
   data: Buffer!
 }
 
@@ -96,12 +96,12 @@ type CreateDeposit {
 }
 
 type DepositToRewardingFund {
-  amount: Buffer!
+  amount: String!
   data: Buffer!
 }
 
 input DepositToRewardingFundInput {
-  amount: Buffer!
+  amount: String!
   data: Buffer!
 }
 
@@ -114,13 +114,13 @@ type Epoch {
 }
 
 type Execution {
-  amount: Buffer!
+  amount: String!
   contract: String!
   data: Buffer!
 }
 
 input ExecutionInput {
-  amount: Buffer!
+  amount: String!
   contract: String!
   data: Buffer!
 }
@@ -179,11 +179,11 @@ input GetUnconfirmedActionsByAddressRequest {
 }
 
 type GrantReward {
-  type: String!
+  type: RewardType!
 }
 
 input GrantRewardInput {
-  type: String!
+  type: RewardType!
 }
 
 # Properties of an Log
@@ -271,19 +271,13 @@ type Query {
     # iotex address
     address: String!
   ): GetAccountResponse!
-  getBlockMetas(
-    byIndex: GetBlockMetasByIndexRequest
-    byHash: GetBlockMetasByHashRequest
-  ): GetBlockMetasResponse!
+  getBlockMetas(byIndex: GetBlockMetasByIndexRequest, byHash: GetBlockMetasByHashRequest): GetBlockMetasResponse!
   suggestGasPrice: SuggestGasPriceResponse!
   getReceiptByAction(
     # actionHash
     actionHash: String!
   ): GetReceiptByActionResponse!
-  getActions(
-    byIndex: GetActionsByIndexRequest
-    byAddr: GetActionsByAddressRequest
-  ): GetActionsResponse!
+  getActions(byIndex: GetActionsByIndexRequest, byAddr: GetActionsByAddressRequest): GetActionsResponse!
   readContract(action: ActionInput!): ReadContractResponse!
   sendAction(action: ActionInput!): Empty!
   health: String!
@@ -302,6 +296,11 @@ type Receipt {
   gasConsumed: Int!
   contractAddress: String!
   logs: [Log!]!
+}
+
+enum RewardType {
+  BlockReward
+  EpochReward
 }
 
 type SetReward {
