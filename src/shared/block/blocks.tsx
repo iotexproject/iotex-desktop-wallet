@@ -1,5 +1,7 @@
-import { Layout, notification, Table } from "antd";
+import Layout from "antd/lib/layout";
+import notification from "antd/lib/notification";
 import { ColumnProps } from "antd/lib/table";
+import Table from "antd/lib/table";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";

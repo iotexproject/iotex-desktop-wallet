@@ -1,5 +1,7 @@
 // tslint:disable:no-any
-import { Avatar, Icon, Popover } from "antd";
+import Avatar from "antd/lib/avatar";
+import Icon from "antd/lib/icon";
+import Popover from "antd/lib/popover";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";

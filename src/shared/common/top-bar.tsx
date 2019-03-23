@@ -1,16 +1,19 @@
 // @ts-ignore
-import { styled } from "onefx/lib/styletron-react";
-import { Component } from "react";
-import OutsideClickHandler from "react-outside-click-handler";
-import { Link, RouteComponentProps, withRouter } from "react-router-dom";
-
-import { Dropdown as AntdDropdown, Icon, Input, Menu as AntdMenu } from "antd";
+import AntdDropdown from "antd/lib/dropdown";
+import Icon from "antd/lib/icon";
+import Input from "antd/lib/input";
+import AntdMenu from "antd/lib/menu";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { assetURL } from "onefx/lib/asset-url";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
+// @ts-ignore
+import { styled } from "onefx/lib/styletron-react";
 import React from "react";
+import { Component } from "react";
+import OutsideClickHandler from "react-outside-click-handler";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { Logo } from "./icon";
 import { Cross } from "./icons/cross.svg";
 import { Hamburger } from "./icons/hamburger.svg";
