@@ -1,0 +1,35 @@
+en:
+    meta.title: 'Blockchain Explorer - IoTeX'
+    meta.description: 'Exploring IoTeX blockchain Address, Actions, and Smart Contracts.'
+    topbar.brand: Brand
+    topbar.blockchain: BLOCKCHAIN
+    topbar.blocks: BLOCKS
+    topbar.actions: ACTIONS
+    topbar.home: HOME
+    not_found.bar: 'Not Found'
+    not_found.title: Oops!
+    not_found.info: 'We cannot find the page for you...'
+    candidate.delegate_name: 'Delegate Name'
+    candidate.status: Status
+    candidate.live_votes: LiveVotes
+    candidate.percent: Percent
+    candidates.election.ELECTED: Elected
+    candidates.election.NOT_ELECTED: 'Not Elected'
+    candidates.election.UNQUALIFIED: 'Not Elected'
+    candidates.election.explain: 'Delegates must self-stake at least <b>1,200,000 IOTX</b> and earn <b>2,000,000 IOTX</b> total votes to be elected.'
+    block.block: Block
+    block.blocks: Blocks
+    block.height: Height
+    block.hash: Hash
+    block.timestamp: Age
+    block.num_actions: Actions
+    block.producer_address: Producer
+    block.transfer_amount: 'Transfer Amount'
+    block.tx_root: 'Tx Root'
+    block.receipt_root: 'Receipt Root'
+    block.delta_state_digest: 'Digest of Delta State'
+    action.type: Type
+    action.type.transfer: Transfer
+    action.type.grant_reward: 'Grant Reward'
+    action.type.execution: Execution
+    action.data: Data
