@@ -76,11 +76,22 @@ class TopBarComponent extends Component<Props, State> {
   public renderBlockchainMenu = () => {
     return (
       <AntdMenu>
-        <AntdMenu.Item>
+        <AntdMenu.Item key={0}>
           <StyledLink to="/actions">{t("topbar.actions")}</StyledLink>
         </AntdMenu.Item>
-        <AntdMenu.Item>
+        <AntdMenu.Item key={1}>
           <StyledLink to="/blocks">{t("topbar.blocks")}</StyledLink>
+        </AntdMenu.Item>
+        <AntdMenu.Divider />
+        <AntdMenu.Item key={2}>
+          <A href="/api-gateway/" target="_blank">
+            {t("topbar.graphql_playground")}
+          </A>
+        </AntdMenu.Item>
+        <AntdMenu.Item key={3}>
+          <A href="/doc/api-gateway/" target="_blank">
+            {t("topbar.graphql_doc")}
+          </A>
         </AntdMenu.Item>
       </AntdMenu>
     );
@@ -265,7 +276,7 @@ const menuItem = {
     borderBottom: "1px #EDEDED solid"
   }
 };
-// const A = styled("a", menuItem);
+const A = styled("a", menuItem);
 // const BrandText = styled("a", {
 //   ...menuItem,
 //   marginLeft: 0,
