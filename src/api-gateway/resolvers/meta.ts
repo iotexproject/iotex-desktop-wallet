@@ -1,13 +1,14 @@
-import { Query, Ctx, Resolver, ResolverInterface } from "type-graphql";
+// tslint:disable:no-any
+import { Ctx, Query, Resolver, ResolverInterface } from "type-graphql";
 import { Field, ObjectType } from "type-graphql";
 
 @ObjectType({ description: "" })
 export class CoinPrice {
   @Field(_ => String)
-  public price_usd: string;
+  public priceUsd: string;
 
   @Field(_ => String)
-  public price_btc: string;
+  public priceBtc: string;
 
   @Field(_ => String)
   public name: string;
@@ -23,6 +24,11 @@ export class MetaResolver implements ResolverInterface<() => String> {
   @Query(_ => CoinPrice)
   public async fetchCoinPrice(@Ctx() { gateways }: any): Promise<CoinPrice> {
     const resultData = await gateways.coinmarketcap.fetchCoinPrice();
-    return resultData.data[0];
+    const resultData2 = resultData.data[0];
+    const data = new CoinPrice();
+    data.priceUsd = resultData2.price_usd;
+    data.priceBtc = resultData2.price_btc;
+    data.name = resultData2.name;
+    return data;
   }
 }

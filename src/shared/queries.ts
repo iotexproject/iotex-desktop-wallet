@@ -17,8 +17,8 @@ export const GET_CHAIN_META = gql`
 export const GET_COIN_MARKET_CAP = gql`
   query {
     fetchCoinPrice {
-      price_usd
-      price_btc
+      priceUsd
+      priceBtc
       name
     }
   }

@@ -2,11 +2,11 @@ import { Col, Icon, Input, Layout, Row } from "antd";
 import React, { Component } from "react";
 import { Query } from "react-apollo";
 import { ChainMeta } from "../../api-gateway/resolvers/antenna-types";
+import { CoinPrice } from "../../api-gateway/resolvers/meta";
 import { Flex } from "../common/flex";
 import { ContentPadding } from "../common/styles/style-padding";
-import { BpTable } from "./bp-table";
 import { GET_CHAIN_META, GET_COIN_MARKET_CAP } from "../queries";
-import { CoinPrice } from "../../api-gateway/resolvers/meta";
+import { BpTable } from "./bp-table";
 
 type State = {
   marketCap: number;
@@ -50,12 +50,12 @@ export class Home extends Component<{}, State> {
       },
       {
         title: "IOTX PRICE",
-        value: data.fetchCoinPrice.price_btc || 0,
+        value: data.fetchCoinPrice.priceBtc || 0,
         icon: "dollar"
       },
       {
         title: "MARKETCAP",
-        value: `${data.fetchCoinPrice.price_usd || 0} M`,
+        value: `${data.fetchCoinPrice.priceUsd || 0} M`,
         icon: "bank"
       }
     ];
