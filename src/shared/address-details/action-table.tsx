@@ -48,13 +48,27 @@ export function getActionColumns(): Array<ColumnProps<Action>> {
   ];
 }
 
+const PAGE_SIZE = 10;
+function getActionIndexRange(
+  address: string,
+  currentPage: number = 1
+): { address: string; start: number; count: number } {
+  const start = currentPage * PAGE_SIZE;
+  return {
+    address,
+    start: start < 0 ? 0 : start,
+    count: PAGE_SIZE
+  };
+}
+
 export function ActionTable({ address }: { address: string }): JSX.Element {
+  const numActionsByAddress = 100; //TODO: mock
   return (
     <Query
       query={GET_ACTIONS}
-      variables={{ byAddr: { address: address, start: 0, count: 100 } }}
+      variables={{ byAddr: getActionIndexRange(address) }}
     >
-      {({ loading, error, data }) => {
+      {({ loading, error, data, fetchMore }) => {
         if (error && String(error).indexOf("NOT_FOUND") === -1) {
           notification.error({
             message: "Error",
@@ -67,7 +81,24 @@ export function ActionTable({ address }: { address: string }): JSX.Element {
 
         return (
           <SpinPreloader spinning={loading}>
-            <Table columns={getActionColumns()} dataSource={actions} />
+            <Table
+              columns={getActionColumns()}
+              dataSource={actions}
+              pagination={{ pageSize: PAGE_SIZE, total: numActionsByAddress }}
+              onChange={pagination => {
+                fetchMore({
+                  variables: {
+                    byAddr: getActionIndexRange(address, pagination.current)
+                  },
+                  updateQuery: (prev, { fetchMoreResult }) => {
+                    if (!fetchMoreResult) {
+                      return prev;
+                    }
+                    return fetchMoreResult;
+                  }
+                });
+              }}
+            />
             <pre>{JSON.stringify(data, null, 2)}</pre>
           </SpinPreloader>
         );
