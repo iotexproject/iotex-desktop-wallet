@@ -14,7 +14,7 @@ import { Route } from "react-router-dom";
 import { ActionDetail } from "./action/action-detail";
 import { AddressDetails } from "./address-details/address-details";
 import { BlockDetail } from "./block/block-detail";
-import { Blocks } from "./blocks";
+import { Blocks } from "./block/blocks";
 import { Footer, FOOTER_ABOVE } from "./common/footer";
 // @ts-ignore
 import initGoogleAnalytics from "./common/google-analytics";

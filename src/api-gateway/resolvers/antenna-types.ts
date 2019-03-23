@@ -14,9 +14,11 @@ import { MapScalar } from "../scalars/map-scalar";
 @ObjectType()
 class Epoch {
   @Field()
-  public num: string;
+  public num: number;
   @Field()
-  public height: string;
+  public height: number;
+  @Field()
+  public beaconChainHeight: number;
 }
 
 @ObjectType({ description: "" })

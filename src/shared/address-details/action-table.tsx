@@ -1,5 +1,6 @@
 import { notification, Table } from "antd";
 import { ColumnProps } from "antd/es/table";
+import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
@@ -36,7 +37,11 @@ export function getActionColumns(): Array<ColumnProps<Action>> {
           record.core.execution ||
           record.core.grantReward ||
           record.core.transfer;
-        return JSON.stringify(other, null, 2);
+        return JSON.stringify(
+          { ...other, sender: publicKeyToAddress(String(record.senderPubKey)) },
+          null,
+          2
+        );
       }
     }
   ];
@@ -62,7 +67,6 @@ export function ActionTable({ address }: { address: string }): JSX.Element {
         return (
           <SpinPreloader spinning={loading}>
             <Table columns={getActionColumns()} dataSource={actions} />
-
             <pre>{JSON.stringify(data, null, 2)}</pre>
           </SpinPreloader>
         );

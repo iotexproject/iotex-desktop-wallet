@@ -30,7 +30,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "pretty-quick --staged",
+      "pre-push": "npm t"
     }
   },
   "nyc": {
@@ -98,6 +99,7 @@
   "dependencies": {
     "@babel/cli": "7.2.3",
     "@babel/core": "7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/preset-env": "7.3.4",
     "@babel/preset-react": "7.0.0",
     "@babel/preset-typescript": "7.3.3",
@@ -106,6 +108,7 @@
     "@types/config": "0.0.34",
     "@types/dateformat": "3.0.0",
     "@types/dotenv": "6.1.0",
+    "@types/dottie": "^2.0.3",
     "@types/form-serialize": "0.7.1",
     "@types/graphql": "14.0.7",
     "@types/graphql-iso-date": "3.3.1",
@@ -136,12 +139,13 @@
     "config": "3.0.1",
     "dateformat": "3.0.3",
     "dotenv": "6.2.0",
+    "dottie": "^2.0.1",
     "form-serialize": "0.7.2",
     "global": "4.3.2",
     "graphql": "14.1.1",
     "graphql-iso-date": "3.6.1",
     "graphql-tag": "2.10.1",
-    "iotex-antenna": "^0.3.0",
+    "iotex-antenna": "0.4.0",
     "is-browser": "2.1.0",
     "isomorphic-unfetch": "3.0.0",
     "jsdom": "12.2.0",

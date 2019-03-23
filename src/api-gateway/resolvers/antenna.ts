@@ -1,5 +1,6 @@
 // tslint:disable:no-any
 import casual from "casual";
+import RpcMethod from "iotex-antenna/lib/rpc-method/node-rpc-method";
 import {
   Arg,
   Args,
@@ -24,10 +25,16 @@ import {
   SuggestGasPriceResponse
 } from "./antenna-types";
 
+interface ICtx {
+  gateways: {
+    antenna: RpcMethod;
+  };
+}
+
 @Resolver(_ => ChainMeta)
 export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
   @Query(_ => ChainMeta)
-  public async chainMeta(@Ctx() { gateways }: any): Promise<ChainMeta> {
+  public async chainMeta(@Ctx() { gateways }: ICtx): Promise<ChainMeta> {
     const chainMeta = await gateways.antenna.getChainMeta({});
     return chainMeta.chainMeta;
   }
@@ -36,7 +43,7 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
   public async getAccount(
     @Arg("address", _ => String, { description: "iotex address" })
     address: string,
-    @Ctx() { gateways }: any
+    @Ctx() { gateways }: ICtx
   ): Promise<GetAccountResponse> {
     return gateways.antenna.getAccount({ address });
   }
@@ -44,7 +51,7 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
   @Query(_ => GetBlockMetasResponse)
   public async getBlockMetas(
     @Args() { byIndex, byHash }: GetBlockMetasRequest,
-    @Ctx() { gateways }: any
+    @Ctx() { gateways }: ICtx
   ): Promise<GetBlockMetasResponse> {
     return gateways.antenna.getBlockMetas({ byIndex, byHash });
   }
