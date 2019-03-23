@@ -3,7 +3,7 @@ import React, { PureComponent } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
-import { getColumns } from "../address-details/action-table";
+import { getActionColumns } from "../address-details/action-table";
 import { Flex } from "../common/flex";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
@@ -56,9 +56,9 @@ class ActionDetailsInner extends PureComponent<Props> {
                   >
                     <h1 style={{ padding: "16px" }}>Action</h1>
                     <Table
-                      columns={getColumns()}
+                      columns={getActionColumns()}
                       dataSource={actions}
-                      rowKey={"__typename"}
+                      rowKey={"key"}
                       pagination={{ hideOnSinglePage: true }}
                     />
                     <pre>{JSON.stringify(data, null, 2)}</pre>

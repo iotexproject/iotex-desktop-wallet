@@ -8,7 +8,7 @@ import { Action } from "../../api-gateway/resolvers/antenna-types";
 import { SpinPreloader } from "../common/spin-preloader";
 import { GET_ACTIONS } from "../queries";
 
-export function getColumns(): Array<ColumnProps<Action>> {
+export function getActionColumns(): Array<ColumnProps<Action>> {
   return [
     {
       title: t("action.type"),
@@ -61,7 +61,7 @@ export function ActionTable({ address }: { address: string }): JSX.Element {
 
         return (
           <SpinPreloader spinning={loading}>
-            <Table columns={getColumns()} dataSource={actions} />
+            <Table columns={getActionColumns()} dataSource={actions} />
 
             <pre>{JSON.stringify(data, null, 2)}</pre>
           </SpinPreloader>
