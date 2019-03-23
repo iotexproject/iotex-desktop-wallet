@@ -86,6 +86,7 @@
     "pretty-quick": "1.10.0",
     "source-map-loader": "0.2.4",
     "sw-precache-webpack-plugin": "0.11.5",
+    "ts-import-plugin": "^1.5.5",
     "tslint": "5.14.0",
     "tslint-config-prettier": "1.18.0",
     "tslint-microsoft-contrib": "6.1.0",
