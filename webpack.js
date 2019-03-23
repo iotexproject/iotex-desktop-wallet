@@ -7,7 +7,6 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 const process = require("global/process");
 const SWPrecacheWebpackPlugin = require("sw-precache-webpack-plugin");
-const tsImportPluginFactory = require("ts-import-plugin");
 
 const ANALYZE = false;
 const PROD = process.env.NODE_ENV === "production";
@@ -15,15 +14,17 @@ const OUTPUT_DIR = "dist/";
 
 module.exports = {
   mode: PROD ? "production" : "development",
-  entry: glob.sync("./src/client/javascripts/*.ts*").reduce(
-    (entries, entry) =>
-      Object.assign(entries, {
-        [entry
-          .replace("./src/client/javascripts/", "")
-          .replace(/(\.ts|\.tsx)$/, "")]: entry
-      }),
-    {}
-  ),
+  entry: glob
+    .sync("./src/client/javascripts/*.ts*")
+    .reduce(
+      (entries, entry) =>
+        Object.assign(entries, {
+          [entry
+            .replace("./src/client/javascripts/", "")
+            .replace(/(\.ts|\.tsx)$/, "")]: entry
+        }),
+      {}
+    ),
   output: {
     filename: PROD ? "[name]-[chunkhash].js" : "[name].js",
     path: path.resolve(__dirname, OUTPUT_DIR)
@@ -31,22 +32,7 @@ module.exports = {
   ...(PROD ? {} : { devtool: "source-map" }),
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        loader: "awesome-typescript-loader",
-        options: {
-          getCustomTransformers: () => ({
-            before: [
-              tsImportPluginFactory({
-                libraryName: "antd",
-                libraryDirectory: "lib",
-                style: false
-              })
-            ]
-          })
-        },
-        exclude: /node_modules/
-      },
+      { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
       { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
       {
         test: /\.js$/,
