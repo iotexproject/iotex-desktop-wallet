@@ -21,8 +21,8 @@ block.blocks: Blocks
 block.height: Height
 block.hash: Hash
 block.timestamp: Age
-block.num_actions: Actions
-block.producer_address: Producer
+block.num_actions: 操作
+block.producer_address: 生产者
 block.transfer_amount: 'Transfer Amount'
 block.tx_root: 'Tx Root'
 block.receipt_root: 收据根
@@ -32,3 +32,5 @@ action.type.transfer: 传递
 action.type.grant_reward: 授予的奖励
 action.type.execution: 执行
 action.data: 数据
+topbar.graphql_playground: 'GraphQL Playground'
+topbar.graphql_doc: 'GraphQL 文档'
