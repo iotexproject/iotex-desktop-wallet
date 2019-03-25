@@ -522,3 +522,10 @@ export class SetReward {
   @Field(_ => Int)
   public type: number;
 }
+
+@ObjectType()
+export class SendActionResponse {
+  // TODO update when response is enrich from iotex - antenna
+  @Field(_ => Boolean, { nullable: true })
+  public TBD: boolean;
+}

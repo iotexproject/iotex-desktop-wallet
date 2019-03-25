@@ -47,8 +47,10 @@ class TestAntennaInner extends PureComponent<Props> {
               data: ""
             }
           },
-          senderPubKey: "",
-          signature: ""
+          senderPubKey:
+            "ef946999a71e4884a231f987d9bb2a37acf07ac1d0398d30cdba32215c45ccb767bcd7831de7784e302c3517be63648a6576de118ea35f5409c8fbafb0f9693501",
+          signature:
+            "0417a8b42ce5802b51ddd834b68d97dd5b43387e16beec0e9ebb933729d0fff20f74143086cd55f79fb1e89bbbe56c2363b3d441e7095a9df5308d356a44d773df"
         }
       },
       name: "SEND_ACTION"
