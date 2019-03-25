@@ -63,12 +63,13 @@ export class ActionTable extends Component<{}, State> {
             return null;
           }
 
-          const actions = data && data.getActions && data.getActions.actions;
+          const actions = data && data.getActions && data.getActions.actionInfo;
 
           return (
             <div style={{ width: "100%" }}>
               <SpinPreloader spinning={loading}>
                 <Table
+                  rowKey={"actHash"}
                   dataSource={actions}
                   columns={getActionColumns()}
                   pagination={{
@@ -85,7 +86,6 @@ export class ActionTable extends Component<{}, State> {
                     defaultCurrent: start / count
                   }}
                 />
-                <pre>{JSON.stringify(data, null, 2)}</pre>
               </SpinPreloader>
             </div>
           );

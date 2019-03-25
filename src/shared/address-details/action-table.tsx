@@ -5,25 +5,43 @@ import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
-import { Query } from "react-apollo";
-import { Action } from "../../api-gateway/resolvers/antenna-types";
+import { Query, QueryResult } from "react-apollo";
+import { Link } from "react-router-dom";
+import {
+  ActionInfo,
+  GetActionsResponse
+} from "../../api-gateway/resolvers/antenna-types";
 import { SpinPreloader } from "../common/spin-preloader";
 import { GET_ACTIONS } from "../queries";
 
-export function getActionColumns(): Array<ColumnProps<Action>> {
+export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
   return [
+    {
+      title: t("action.hash"),
+      dataIndex: "actHash",
+      render(text: string, _: ActionInfo, __: number): JSX.Element {
+        return <Link to={`/action/${text}`}>{String(text).substr(0, 8)}</Link>;
+      }
+    },
+    {
+      title: t("action.block_hash"),
+      dataIndex: "blkHash",
+      render(text: string, _: ActionInfo, __: number): JSX.Element {
+        return <Link to={`/block/${text}`}>{String(text).substr(0, 8)}</Link>;
+      }
+    },
     {
       title: t("action.type"),
       dataIndex: "name",
       key: "name",
-      render(_: string, record: Action, __: number): string {
-        if (record.core.transfer) {
+      render(_: string, record: ActionInfo, __: number): string {
+        if (record.action.core.transfer) {
           return t("action.type.transfer");
         }
-        if (record.core.execution) {
+        if (record.action.core.execution) {
           return t("action.type.execution");
         }
-        if (record.core.grantReward) {
+        if (record.action.core.grantReward) {
           return t("action.type.grant_reward");
         }
         return "";
@@ -32,14 +50,18 @@ export function getActionColumns(): Array<ColumnProps<Action>> {
     {
       title: t("action.data"),
       dataIndex: "status",
-      render(_: string, record: Action, __: number): string {
+      render(_: string, record: ActionInfo, __: number): string {
         // @ts-ignore
         const { __typename, ...other } =
-          record.core.execution ||
-          record.core.grantReward ||
-          record.core.transfer;
+          record.action.core.execution ||
+          record.action.core.grantReward ||
+          record.action.core.transfer ||
+          {};
         return JSON.stringify(
-          { ...other, sender: publicKeyToAddress(String(record.senderPubKey)) },
+          {
+            ...other,
+            sender: publicKeyToAddress(String(record.action.senderPubKey))
+          },
           null,
           2
         );
@@ -49,6 +71,7 @@ export function getActionColumns(): Array<ColumnProps<Action>> {
 }
 
 const PAGE_SIZE = 10;
+
 function getActionIndexRange(
   address: string,
   currentPage: number = 1
@@ -62,13 +85,17 @@ function getActionIndexRange(
 }
 
 export function ActionTable({ address }: { address: string }): JSX.Element {
-  const numActionsByAddress = 100; //TODO: mock
   return (
     <Query
       query={GET_ACTIONS}
       variables={{ byAddr: getActionIndexRange(address) }}
     >
-      {({ loading, error, data, fetchMore }) => {
+      {({
+        loading,
+        error,
+        data,
+        fetchMore
+      }: QueryResult<{ getActions: GetActionsResponse }>) => {
         if (error && String(error).indexOf("NOT_FOUND") === -1) {
           notification.error({
             message: "Error",
@@ -77,13 +104,15 @@ export function ActionTable({ address }: { address: string }): JSX.Element {
           });
         }
 
-        const actions = data && data.getActions && data.getActions.actions;
+        const actionInfo =
+          data && data.getActions && data.getActions.actionInfo;
+        const numActionsByAddress = actionInfo && actionInfo.length ? 100 : 0; //TODO: mock
 
         return (
           <SpinPreloader spinning={loading}>
             <Table
               columns={getActionColumns()}
-              dataSource={actions}
+              dataSource={actionInfo}
               pagination={{ pageSize: PAGE_SIZE, total: numActionsByAddress }}
               onChange={pagination => {
                 fetchMore({
@@ -99,7 +128,6 @@ export function ActionTable({ address }: { address: string }): JSX.Element {
                 });
               }}
             />
-            <pre>{JSON.stringify(data, null, 2)}</pre>
           </SpinPreloader>
         );
       }}

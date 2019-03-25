@@ -102,20 +102,18 @@ class TopBarComponent extends Component<Props, State> {
 
   public renderMenu = () => {
     return [
-      <div>
-        <StyledLink key={0} to="/" onClick={this.hideMobileMenu}>
-          {t("topbar.home")}
+      <StyledLink key={0} to="/" onClick={this.hideMobileMenu}>
+        {t("topbar.home")}
+      </StyledLink>,
+      <AntdDropdown
+        key={1}
+        overlay={this.renderBlockchainMenu()}
+        getPopupContainer={trigger => trigger.parentElement || document.body}
+      >
+        <StyledLink className="ant-dropdown-link" to="#">
+          {t("topbar.blockchain")} <Icon type="down" />
         </StyledLink>
-        <AntdDropdown
-          key={1}
-          overlay={this.renderBlockchainMenu()}
-          getPopupContainer={trigger => trigger.parentElement || document.body}
-        >
-          <StyledLink className="ant-dropdown-link" to="#">
-            {t("topbar.blockchain")} <Icon type="down" />
-          </StyledLink>
-        </AntdDropdown>
-      </div>
+      </AntdDropdown>
     ];
   };
 
@@ -139,7 +137,6 @@ class TopBarComponent extends Component<Props, State> {
         <Bar>
           <Flex>
             <LogoContent />
-            {/*<BrandText href="/">{t("topbar.brand")}</BrandText>*/}
           </Flex>
           <Flex style={{ flex: 1, paddingLeft: 12 }}>
             <Menu>{this.renderMenu()}</Menu>

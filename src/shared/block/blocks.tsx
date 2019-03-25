@@ -76,7 +76,7 @@ export function Blocks(): JSX.Element {
                 if (error) {
                   notification.error({
                     message: "Error",
-                    description: `failed to get actions: ${error}`,
+                    description: `failed to get blocks: ${error}`,
                     duration: 5
                   });
                 }

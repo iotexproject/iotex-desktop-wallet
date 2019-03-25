@@ -17,7 +17,8 @@ export async function setApiGateway(server: Server): Promise<void> {
     emitSchemaFile: {
       path: sdlPath,
       commentDescriptions: true
-    }
+    },
+    validate: false
   });
 
   const apollo = new ApolloServer({

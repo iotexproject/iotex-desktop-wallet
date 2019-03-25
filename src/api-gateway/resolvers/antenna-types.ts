@@ -312,9 +312,19 @@ export class Action {
 }
 
 @ObjectType()
+export class ActionInfo {
+  @Field(_ => Action)
+  public action: Action;
+  @Field(_ => String)
+  public actHash: string;
+  @Field(_ => String)
+  public blkHash: string;
+}
+
+@ObjectType()
 export class GetActionsResponse {
-  @Field(_ => [Action])
-  public actions: Array<Action>;
+  @Field(_ => [ActionInfo])
+  public actionInfo: Array<ActionInfo>;
 }
 
 @ArgsType()
@@ -521,4 +531,11 @@ export class SetReward {
   public data: Buffer;
   @Field(_ => Int)
   public type: number;
+}
+
+@ObjectType()
+export class SendActionResponse {
+  // TODO update when response is enrich from iotex - antenna
+  @Field(_ => Boolean, { nullable: true })
+  public TBD: boolean;
 }
