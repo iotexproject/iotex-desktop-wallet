@@ -87,14 +87,12 @@ class AddressDetailsInner extends PureComponent<Props> {
                       </div>
                     </div>
                   </div>
-                  <Divider orientation="left">Actions</Divider>
-                  {/*<div>{JSON.stringify(data, null, 2)}</div>*/}
                 </div>
               </SpinPreloader>
             );
           }}
         </Query>
-
+        <Divider orientation="left">Actions</Divider>
         <ActionTable address={address} />
       </ContentPadding>
     );

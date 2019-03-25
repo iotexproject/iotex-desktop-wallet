@@ -45,7 +45,8 @@ class ActionDetailsInner extends PureComponent<Props> {
               return `failed to get account: ${error}`;
             }
 
-            const actions = data && data.getActions && data.getActions.actions;
+            const actionInfo =
+              data && data.getActions && data.getActions.actionInfo;
 
             return (
               <div className={"table-list"}>
@@ -58,8 +59,8 @@ class ActionDetailsInner extends PureComponent<Props> {
                     <h1 style={{ padding: "16px" }}>Action</h1>
                     <Table
                       columns={getActionColumns()}
-                      dataSource={actions}
-                      rowKey={"key"}
+                      dataSource={actionInfo}
+                      rowKey={"actHash"}
                       pagination={{ hideOnSinglePage: true }}
                     />
                     <pre>{JSON.stringify(data, null, 2)}</pre>

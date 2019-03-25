@@ -41,6 +41,12 @@ input ActionCoreInput {
   grantReward: GrantRewardInput
 }
 
+type ActionInfo {
+  action: Action!
+  actHash: Buffer!
+  blkHash: Buffer!
+}
+
 input ActionInput {
   core: ActionCoreInput!
   senderPubKey: Buffer!
@@ -147,7 +153,7 @@ input GetActionsByIndexRequest {
 }
 
 type GetActionsResponse {
-  actions: [Action!]!
+  actionInfo: [ActionInfo!]!
 }
 
 input GetBlockMetasByHashRequest {

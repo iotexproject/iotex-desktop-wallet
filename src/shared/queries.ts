@@ -1,5 +1,43 @@
 import gql from "graphql-tag";
 
+const FULL_ACTION_INFO = `
+  actionInfo {
+    actHash
+    blkHash
+    action {
+      core {
+        version
+        nonce
+        gasLimit
+        gasPrice
+        transfer {
+          amount
+          recipient
+          payload
+        }
+        execution {
+          amount
+          contract
+          data
+        }
+        depositToRewardingFund {
+          amount
+          data
+        }
+        claimFromRewardingFund {
+          amount
+          data
+        }
+        grantReward {
+          type
+        }
+      }
+      signature
+      senderPubKey
+    }
+  }
+`;
+
 export const GET_CHAIN_META = gql`
   query {
     chainMeta {
@@ -125,37 +163,7 @@ export const GET_BLOCK_METAS = gql`
 export const GET_ACTIONS = gql`
   query getActions($byAddr: GetActionsByAddressRequest) {
     getActions(byAddr: $byAddr) {
-      actions {
-        core {
-          version
-          nonce
-          gasLimit
-          gasPrice
-          transfer {
-            amount
-            recipient
-            payload
-          }
-          execution {
-            amount
-            contract
-            data
-          }
-          depositToRewardingFund {
-            amount
-            data
-          }
-          claimFromRewardingFund {
-            amount
-            data
-          }
-          grantReward {
-            type
-          }
-        }
-        signature
-        senderPubKey
-      }
+      ${FULL_ACTION_INFO}
     }
   }
 `;
@@ -163,37 +171,7 @@ export const GET_ACTIONS = gql`
 export const GET_ACTIONS_BY_HASH = gql`
   query getActions($byHash: GetActionsByHashRequest) {
     getActions(byHash: $byHash) {
-      actions {
-        core {
-          version
-          nonce
-          gasLimit
-          gasPrice
-          transfer {
-            amount
-            recipient
-            payload
-          }
-          execution {
-            amount
-            contract
-            data
-          }
-          depositToRewardingFund {
-            amount
-            data
-          }
-          claimFromRewardingFund {
-            amount
-            data
-          }
-          grantReward {
-            type
-          }
-        }
-        signature
-        senderPubKey
-      }
+      ${FULL_ACTION_INFO}
     }
   }
 `;
@@ -201,37 +179,7 @@ export const GET_ACTIONS_BY_HASH = gql`
 export const GET_ACTIONS_BY_INDEX = gql`
   query getActions($byIndex: GetActionsByIndexRequest) {
     getActions(byIndex: $byIndex) {
-      actions {
-        core {
-          version
-          nonce
-          gasLimit
-          gasPrice
-          transfer {
-            amount
-            recipient
-            payload
-          }
-          execution {
-            amount
-            contract
-            data
-          }
-          depositToRewardingFund {
-            amount
-            data
-          }
-          claimFromRewardingFund {
-            amount
-            data
-          }
-          grantReward {
-            type
-          }
-        }
-        signature
-        senderPubKey
-      }
+      ${FULL_ACTION_INFO}
     }
   }
 `;
