@@ -7,6 +7,7 @@ import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Flex } from "../common/flex";
+import { fromNow } from "../common/from-now";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -78,7 +79,8 @@ class BlockDetailsInner extends PureComponent<Props> {
       },
       {
         title: "",
-        dataIndex: "value"
+        dataIndex: "value",
+        render: renderValue
       }
     ];
 
@@ -127,6 +129,23 @@ class BlockDetailsInner extends PureComponent<Props> {
         .{" "}
       </ContentPadding>
     );
+  }
+}
+
+// tslint:disable:no-any
+export function renderValue(text: string, record: any): JSX.Element {
+  switch (record.key) {
+    case "txRoot":
+      return <a href={`/action/${record.value}`}>{text}</a>;
+      break;
+    case "producerAddress":
+      return <a href={`/address/${record.value}`}>{text}</a>;
+      break;
+    case "timestamp":
+      return <span>{fromNow(record.value)}</span>;
+      break;
+    default:
+      return <span>{text}</span>;
   }
 }
 
