@@ -194,6 +194,8 @@ export const READ_CONTRACT = gql`
 
 export const SEND_ACTION = gql`
   query sendAction($action: ActionInput!) {
-    sendAction(action: $action)
+    sendAction(action: $action) {
+      TBD
+    }
   }
 `;

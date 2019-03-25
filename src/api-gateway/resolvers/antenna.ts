@@ -9,7 +9,6 @@ import {
   Resolver,
   ResolverInterface
 } from "type-graphql";
-import { EmptyScalar } from "../scalars/empty-scalar";
 import {
   // ActionInfo,
   ChainMeta,
@@ -22,6 +21,7 @@ import {
   ReadContractRequest,
   ReadContractResponse,
   SendActionRequest,
+  SendActionResponse,
   SuggestGasPriceResponse
 } from "./antenna-types";
 
@@ -93,13 +93,13 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     return gateways.antenna.readContract(input);
   }
 
-  @Query(_ => EmptyScalar)
+  @Query(_ => SendActionResponse)
   public async sendAction(
     @Args(_ => SendActionRequest)
     input: SendActionRequest,
     @Ctx()
     { gateways }: any
-  ): Promise<object> {
+  ): Promise<SendActionResponse> {
     return gateways.antenna.sendAction(input);
   }
 }
