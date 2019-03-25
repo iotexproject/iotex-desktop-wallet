@@ -105,7 +105,11 @@ class TopBarComponent extends Component<Props, State> {
       <StyledLink key={0} to="/" onClick={this.hideMobileMenu}>
         {t("topbar.home")}
       </StyledLink>,
-      <AntdDropdown key={1} overlay={this.renderBlockchainMenu()}>
+      <AntdDropdown
+        key={1}
+        overlay={this.renderBlockchainMenu()}
+        getPopupContainer={trigger => trigger.parentElement || document.body}
+      >
         <StyledLink className="ant-dropdown-link" to="#">
           {t("topbar.blockchain")} <Icon type="down" />
         </StyledLink>
@@ -305,7 +309,7 @@ const Dropdown = styled("div", {
   ...contentPadding,
   position: "fixed",
   top: TOP_BAR_HEIGHT,
-  "z-index": "1",
+  "z-index": "10",
   width: "100vw",
   height: "100vh",
   alignItems: "flex-end!important",
