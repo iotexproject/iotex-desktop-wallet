@@ -315,10 +315,10 @@ export class Action {
 export class ActionInfo {
   @Field(_ => Action)
   public action: Action;
-  @Field(_ => BufferScalar)
-  public actHash: Buffer;
-  @Field(_ => BufferScalar)
-  public blkHash: Buffer;
+  @Field(_ => String)
+  public actHash: string;
+  @Field(_ => String)
+  public blkHash: string;
 }
 
 @ObjectType()

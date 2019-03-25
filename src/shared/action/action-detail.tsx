@@ -49,24 +49,24 @@ class ActionDetailsInner extends PureComponent<Props> {
               data && data.getActions && data.getActions.actionInfo;
 
             return (
-              <div className={"table-list"}>
-                <SpinPreloader spinning={loading}>
-                  <Flex
-                    column={true}
-                    alignItems={"baselines"}
-                    backgroundColor={colors.white}
-                  >
-                    <h1 style={{ padding: "16px" }}>Action</h1>
-                    <Table
-                      columns={getActionColumns()}
-                      dataSource={actionInfo}
-                      rowKey={"actHash"}
-                      pagination={{ hideOnSinglePage: true }}
-                    />
-                    <pre>{JSON.stringify(data, null, 2)}</pre>
-                  </Flex>
-                </SpinPreloader>
-              </div>
+              <SpinPreloader spinning={loading}>
+                <Flex
+                  column={true}
+                  width={"100%"}
+                  alignItems={"baselines"}
+                  backgroundColor={colors.white}
+                >
+                  <h1 style={{ padding: "16px" }}>Action</h1>
+                  <Table
+                    columns={getActionColumns()}
+                    dataSource={actionInfo}
+                    rowKey={"actHash"}
+                    style={{ width: "100%" }}
+                    pagination={{ hideOnSinglePage: true }}
+                    scroll={{ x: true }}
+                  />
+                </Flex>
+              </SpinPreloader>
             );
           }}
         </Query>

@@ -43,8 +43,8 @@ input ActionCoreInput {
 
 type ActionInfo {
   action: Action!
-  actHash: Buffer!
-  blkHash: Buffer!
+  actHash: String!
+  blkHash: String!
 }
 
 input ActionInput {
