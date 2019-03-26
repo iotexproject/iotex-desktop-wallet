@@ -1,4 +1,6 @@
 // @ts-ignore
+import { Button } from "antd";
+// @ts-ignore
 import { assetURL } from "onefx/lib/asset-url";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -12,7 +14,6 @@ import { Flex } from "./flex";
 import { FOOTER_ABOVE } from "./footer";
 // import { fullOnPalm } from "./styles/style-media";
 import { ContentPadding } from "./styles/style-padding";
-import { Button } from "antd";
 
 type Props = {
   bar: string;
