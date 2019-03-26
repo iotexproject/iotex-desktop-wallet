@@ -1,6 +1,8 @@
 import { ColumnProps } from "antd/es/table";
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
+import { get } from "dottie";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -48,23 +50,54 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
       }
     },
     {
+      title: t("action.sender"),
+      dataIndex: "sender",
+      render(_: string, record: ActionInfo, __: number): JSX.Element {
+        const addr = publicKeyToAddress(String(record.action.senderPubKey));
+        return <Link to={`/address/${addr}`}>{String(addr).substr(0, 8)}</Link>;
+      }
+    },
+    {
+      title: t("action.recipient"),
+      dataIndex: "recipient",
+      render(_: string, record: ActionInfo, __: number): JSX.Element | string {
+        const addr =
+          get(record, "action.core.transfer.recipient") ||
+          get(record, "action.core.execution.contract") ||
+          "";
+        if (!addr) {
+          return "-";
+        }
+        return <Link to={`/address/${addr}`}>{String(addr).substr(0, 8)}</Link>;
+      }
+    },
+    {
+      title: t("action.amount"),
+      dataIndex: "amount",
+      render(_: string, record: ActionInfo, __: number): string {
+        const amount: string =
+          get(record, "action.core.execution.amount") ||
+          get(record, "action.core.grantReward.amount") ||
+          get(record, "action.core.transfer.amount") ||
+          "";
+        if (!amount) {
+          return "-";
+        }
+        return `${fromRau(amount, "IOTX")} IOTX`;
+      }
+    },
+    {
       title: t("action.data"),
       dataIndex: "status",
       render(_: string, record: ActionInfo, __: number): string {
-        // @ts-ignore
-        const { __typename, ...other } =
-          record.action.core.execution ||
-          record.action.core.grantReward ||
-          record.action.core.transfer ||
-          {};
-        return JSON.stringify(
-          {
-            ...other,
-            sender: publicKeyToAddress(String(record.action.senderPubKey))
-          },
-          null,
-          2
-        );
+        const data =
+          get(record, "action.core.transfer.payload") ||
+          get(record, "action.core.execution.data") ||
+          "";
+        if (!data) {
+          return "-";
+        }
+        return String(data).substr(0, 8);
       }
     }
   ];
