@@ -11,6 +11,7 @@ import {
   BlockMeta,
   GetBlockMetasResponse
 } from "../../api-gateway/resolvers/antenna-types";
+import { fromNow } from "../common/from-now";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_BLOCK_METAS, GET_LATEST_HEIGHT } from "../queries";
@@ -18,26 +19,29 @@ import { GET_BLOCK_METAS, GET_LATEST_HEIGHT } from "../queries";
 function getColumns(): Array<ColumnProps<BlockMeta>> {
   return [
     {
-      title: t("block.height"),
+      title: t("render.key.height"),
       dataIndex: "height",
       render(_: string, record: BlockMeta, __: number): JSX.Element {
         return <Link to={`/block/${record.hash}/`}>{record.height}</Link>;
       }
     },
     {
-      title: t("block.timestamp"),
-      dataIndex: "timestamp"
+      title: t("render.key.timestamp"),
+      dataIndex: "timestamp",
+      render(_: string, record: BlockMeta, __: number): JSX.Element {
+        return <span>{fromNow(record.timestamp)}</span>;
+      }
     },
     {
-      title: t("block.num_actions"),
+      title: t("render.key.numActions"),
       dataIndex: "numActions"
     },
     {
-      title: t("block.producer_address"),
+      title: t("render.key.producerAddress"),
       dataIndex: "producerAddress"
     },
     {
-      title: t("block.transfer_amount"),
+      title: t("render.key.transferAmount"),
       dataIndex: "transferAmount"
     }
   ];

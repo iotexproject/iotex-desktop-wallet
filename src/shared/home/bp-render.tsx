@@ -10,7 +10,10 @@ import { colors } from "../common/styles/style-color";
 
 export function renderDelegateName(text: string, record: any): JSX.Element {
   return (
-    <a href={`#${record.id}`} style={{ display: "flex" }}>
+    <a
+      href={`https://member.iotex.io/delegate/${record.id}`}
+      style={{ display: "flex" }}
+    >
       <Avatar
         shape="square"
         src={cloudinaryImage(record.logo)
