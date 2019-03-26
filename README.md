@@ -24,6 +24,8 @@ npm install
 cp ./.env.tmpl ./.env
 ```
 
+Please specify your iotex-core endpoint with the envroment variable IOTEX_CORE in the `.env` file.
+
 #### Development mode
 
 To run your project in development mode, run:
@@ -32,7 +34,7 @@ To run your project in development mode, run:
 npm run watch
 ```
 
-The development site will be available at [http://localhost:4000](http://localhost:4000).
+The development site will be available at [http://localhost:4004](http://localhost:4004).
 
 #### Production Mode
 
