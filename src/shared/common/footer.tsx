@@ -16,7 +16,7 @@ export function Footer(): JSX.Element {
   return (
     <Align>
       <Flex>{`Copyright © ${new Date().getFullYear()}`}</Flex>
-      <Flex>Built with ❤️ in San Francisco</Flex>
+      <Flex>Built with ❤️ by IoTeX</Flex>
     </Align>
   );
 }
