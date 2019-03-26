@@ -138,7 +138,7 @@ class TopBarComponent extends Component<Props, State> {
           <Flex>
             <LogoContent />
           </Flex>
-          <Flex style={{ flex: 1, paddingLeft: 12 }}>
+          <Flex style={{ flex: 1, paddingLeft: 1, whiteSpace: "nowrap" }}>
             <Menu>{this.renderMenu()}</Menu>
           </Flex>
           <Flex
