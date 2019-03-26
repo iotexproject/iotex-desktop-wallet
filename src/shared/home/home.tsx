@@ -29,7 +29,7 @@ export class Home extends Component<{}, State> {
     return [
       {
         title: "PRODUCER",
-        value: data.fetchCoinPrice.name,
+        value: "-",
         icon: "fire"
       },
       {
@@ -51,12 +51,12 @@ export class Home extends Component<{}, State> {
       },
       {
         title: "IOTX PRICE",
-        value: data.fetchCoinPrice.priceBtc || 0,
+        value: `${data.fetchCoinPrice.priceUsd || 0} USD`,
         icon: "dollar"
       },
       {
         title: "MARKETCAP",
-        value: `${data.fetchCoinPrice.priceUsd || 0} M`,
+        value: `${data.fetchCoinPrice.marketCapUsd || 0} M`,
         icon: "bank"
       }
     ];

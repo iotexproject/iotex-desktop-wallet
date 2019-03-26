@@ -56,8 +56,7 @@ export const GET_COIN_MARKET_CAP = gql`
   query {
     fetchCoinPrice {
       priceUsd
-      priceBtc
-      name
+      marketCapUsd
     }
   }
 `;

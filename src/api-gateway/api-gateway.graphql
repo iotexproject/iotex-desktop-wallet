@@ -89,10 +89,10 @@ input ClaimFromRewardingFundInput {
   data: Buffer!
 }
 
+# IOTX price information from coinmarketcap
 type CoinPrice {
   priceUsd: String!
-  priceBtc: String!
-  name: String!
+  marketCapUsd: String!
 }
 
 type CreateDeposit {
@@ -110,9 +110,6 @@ input DepositToRewardingFundInput {
   amount: String!
   data: Buffer!
 }
-
-# Empty object
-scalar Empty
 
 type Epoch {
   num: Float!
@@ -293,7 +290,7 @@ type Query {
     byHash: GetActionsByHashRequest
   ): GetActionsResponse!
   readContract(action: ActionInput!): ReadContractResponse!
-  sendAction(action: ActionInput!): Empty!
+  sendAction(action: ActionInput!): SendActionResponse!
   health: String!
   fetchCoinPrice: CoinPrice!
 }
@@ -315,6 +312,10 @@ type Receipt {
 enum RewardType {
   BlockReward
   EpochReward
+}
+
+type SendActionResponse {
+  TBD: Boolean
 }
 
 type SetReward {
