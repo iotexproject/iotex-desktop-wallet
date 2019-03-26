@@ -11,6 +11,7 @@ import {
   BlockMeta,
   GetBlockMetasResponse
 } from "../../api-gateway/resolvers/antenna-types";
+import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_BLOCK_METAS, GET_LATEST_HEIGHT } from "../queries";
@@ -91,7 +92,7 @@ export function Blocks(): JSX.Element {
 
                 return (
                   <SpinPreloader spinning={loading}>
-                    <h1 className={"page-title"}>{t("block.blocks")}</h1>
+                    <PageTitle>{t("block.blocks")}</PageTitle>
                     <Layout.Content
                       style={{ backgroundColor: "#fff" }}
                       tagName={"main"}
