@@ -1,0 +1,7 @@
+{
+  "name": "iotex-explorer",
+  "description": "Official explorer of IoTeX blockchain",
+  "repository": "https://github.com/iotexproject/iotex-explorer",
+  "logo": "https://iotex.io/logo-no-text.svg",
+  "keywords": ["typescript", "koa", "react", "GraphQL"]
+}

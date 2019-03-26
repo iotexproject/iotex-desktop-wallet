@@ -6,6 +6,7 @@ import * as utils from "iotex-antenna/lib/account/utils";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
+import { PageTitle } from "../common/page-title";
 // @ts-ignore
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -49,13 +50,13 @@ class AddressDetailsInner extends PureComponent<Props> {
             return (
               <SpinPreloader spinning={loading}>
                 <div className="address-top">
-                  <h3 className={"title"}>
-                    <Icon type="wallet" />
-                    Address:
+                  <PageTitle>
+                    <Icon type="wallet" /> Address:
                     <span>
+                      {" "}
                       {(addressInfo && addressInfo.address) || address}
                     </span>
-                  </h3>
+                  </PageTitle>
                   <Divider orientation="left">Overview</Divider>
                   <div className="overview-list">
                     <div className={"item"}>
@@ -63,10 +64,10 @@ class AddressDetailsInner extends PureComponent<Props> {
                         <Icon type="money-collect" />
                       </div>
                       <div className={"name"}>balance</div>
-                      <div className={"info"}>{`${utils.fromRau(
-                        String(addressInfo && addressInfo.balance),
+                      <div className={"info"}>{`${(+utils.fromRau(
+                        String((addressInfo && addressInfo.balance) || 0),
                         "IOTX"
-                      )} IOTX`}</div>
+                      )).toFixed(4)} IOTX`}</div>
                     </div>
                     <div className={"item"}>
                       <div className={"icon"}>

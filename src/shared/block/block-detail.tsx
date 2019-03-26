@@ -8,6 +8,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { Flex } from "../common/flex";
 import { fromNow } from "../common/from-now";
+import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -74,9 +75,7 @@ class BlockDetailsInner extends PureComponent<Props> {
                   alignItems={"baselines"}
                   backgroundColor={colors.white}
                 >
-                  <h1 style={{ padding: "16px", width: "100%" }}>
-                    {t("block.block")}
-                  </h1>
+                  <PageTitle>{t("block.block")}</PageTitle>
                   <Table
                     pagination={false}
                     dataSource={dataSource}

@@ -9,6 +9,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
 import { columns } from "../block/block-detail";
 import { Flex } from "../common/flex";
+import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -86,9 +87,7 @@ class ActionDetailsInner extends PureComponent<Props> {
                   alignItems={"baselines"}
                   backgroundColor={colors.white}
                 >
-                  <h1 style={{ padding: "16px", width: "100%" }}>
-                    {t("title.action")}
-                  </h1>
+                  <PageTitle>{t("action.action")}</PageTitle>
                   <Table
                     pagination={false}
                     dataSource={dataSource}

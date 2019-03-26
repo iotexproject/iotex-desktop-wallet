@@ -36,6 +36,10 @@ topbar.graphql_playground: "GraphQL Playground"
 topbar.graphql_doc: "GraphQL Doc"
 action.hash: Hash
 action.block_hash: Block
+action.amount: Amount
+action.action: Action
+action.sender: Sender
+action.recipient: Rcipient
 title.action: Action
 render.key.height: Height
 render.key.hash: Hash
