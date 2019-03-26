@@ -6,6 +6,7 @@ import { Query, QueryResult } from "react-apollo";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
 import { getActionColumns } from "../address-details/action-table";
 import { Flex } from "../common/flex";
+import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -23,7 +24,7 @@ export class Actions extends Component {
               alignItems={"baselines"}
               width={"100%"}
             >
-              <h1 style={{ padding: "16px" }}>Actions</h1>
+              <PageTitle>Actions</PageTitle>
               <ActionTable />
             </Flex>
           </Layout.Content>
@@ -72,6 +73,8 @@ export class ActionTable extends Component<{}, State> {
                   rowKey={"actHash"}
                   dataSource={actions}
                   columns={getActionColumns()}
+                  style={{ width: "100%" }}
+                  scroll={{ x: true }}
                   pagination={{
                     pageSize: count,
                     // @ts-ignore
