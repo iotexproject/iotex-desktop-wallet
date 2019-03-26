@@ -10,9 +10,9 @@ import { PureComponent } from "react";
 import React from "react";
 import { Flex } from "./flex";
 import { FOOTER_ABOVE } from "./footer";
-import { colors } from "./styles/style-color";
-import { fullOnPalm } from "./styles/style-media";
+// import { fullOnPalm } from "./styles/style-media";
 import { ContentPadding } from "./styles/style-padding";
+import { Button } from "antd";
 
 type Props = {
   bar: string;
@@ -24,13 +24,19 @@ export class ErrorPage extends PureComponent<Props> {
   public render(): JSX.Element {
     const { bar, title, info } = this.props;
     return (
-      <ContentPadding style={{ backgroundColor: colors.black10 }}>
+      <ContentPadding
+        style={{
+          background: `url(${assetURL("/bg_404.png")}) no-repeat center`
+        }}
+      >
         <Helmet title={`${bar} - ${t("topbar.brand")}`} />
-        <Flex {...FOOTER_ABOVE} center={true}>
-          <Image src={assetURL("/favicon.png")} />
-          <Flex column={true} margin={"8px"}>
-            <h1>{title}</h1>
-            <div>{info}</div>
+        <Flex {...FOOTER_ABOVE}>
+          <Flex column={true} margin={"8px"} alignItems={"flex-start"}>
+            <h1 style={{ fontWeight: "bold" }}>{title}</h1>
+            <Info>{info}</Info>
+            <Button style={{ marginTop: "30px" }} type={"primary"}>
+              Back Home
+            </Button>
           </Flex>
         </Flex>
       </ContentPadding>
@@ -38,7 +44,7 @@ export class ErrorPage extends PureComponent<Props> {
   }
 }
 
-const Image = styled("img", {
-  maxWidth: "160px",
-  ...fullOnPalm
-});
+const Info = styled("div", (_: React.CSSProperties) => ({
+  color: "rgb(102,102,102)",
+  fontSize: "1.6em"
+}));
