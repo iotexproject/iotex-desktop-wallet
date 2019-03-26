@@ -64,10 +64,10 @@ class AddressDetailsInner extends PureComponent<Props> {
                         <Icon type="money-collect" />
                       </div>
                       <div className={"name"}>balance</div>
-                      <div className={"info"}>{`${utils.fromRau(
+                      <div className={"info"}>{`${(+utils.fromRau(
                         String((addressInfo && addressInfo.balance) || 0),
                         "IOTX"
-                      )} IOTX`}</div>
+                      )).toFixed(4)} IOTX`}</div>
                     </div>
                     <div className={"item"}>
                       <div className={"icon"}>
