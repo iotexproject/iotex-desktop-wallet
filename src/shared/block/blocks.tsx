@@ -11,6 +11,7 @@ import {
   BlockMeta,
   GetBlockMetasResponse
 } from "../../api-gateway/resolvers/antenna-types";
+import { fromNow } from "../common/from-now";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -27,7 +28,10 @@ function getColumns(): Array<ColumnProps<BlockMeta>> {
     },
     {
       title: t("block.timestamp"),
-      dataIndex: "timestamp"
+      dataIndex: "timestamp",
+      render(_: string, record: BlockMeta, __: number): JSX.Element {
+        return <span>{fromNow(record.timestamp)}</span>;
+      }
     },
     {
       title: t("block.num_actions"),

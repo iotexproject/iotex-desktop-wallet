@@ -323,7 +323,7 @@ export class ActionInfo {
 
 @ObjectType()
 export class GetActionsResponse {
-  @Field(_ => [ActionInfo])
+  @Field(_ => [ActionInfo], { nullable: true })
   public actionInfo: Array<ActionInfo>;
 }
 
