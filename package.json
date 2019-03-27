@@ -1,7 +1,7 @@
 {
   "name": "iotex-explorer",
   "version": "1.1.0",
-  "description": "field_description",
+  "description": "Frontend website for iotex-core blockchain",
   "main": "server.js",
   "scripts": {
     "start": "ts-node ./server.ts",
