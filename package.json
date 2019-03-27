@@ -21,7 +21,7 @@
     "doc": "graphdoc --config ./package.json --force"
   },
   "graphdoc": {
-    "ga": "UA-XXXXXXXX",
+    "ga": "UA-111756489-2",
     "graphiql": "/api-gateway/",
     "logo": "<a href=\"/\" target=\"_blank\" style=\"display:block;padding:1rem 3rem\"><img src=\"/favicon.png\" /></a>",
     "schemaFile": "./src/api-gateway/api-gateway.graphql",
