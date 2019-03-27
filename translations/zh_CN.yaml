@@ -39,4 +39,4 @@ action.block_hash: Block
 action.amount: 数量
 action.action: Action
 action.sender: Sender
-action.recipient: Rcipient
+action.recipient: Recipient
