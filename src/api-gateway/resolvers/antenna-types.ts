@@ -38,7 +38,7 @@ export class ChainMeta {
 
 @ObjectType({ description: "meta data describing the account" })
 export class AccountMeta {
-  @Field(_ => String)
+  @Field(_ => String, { description: "iotex address" })
   public address: string;
   @Field(_ => String)
   public balance: string;
@@ -78,7 +78,7 @@ export class BlockMeta {
 
 @ObjectType({ description: "Properties of an Log" })
 export class Log {
-  @Field(_ => String)
+  @Field(_ => String, { description: "iotex address" })
   public address: string;
   @Field(_ => BufferScalar)
   public topics: Buffer;
@@ -124,9 +124,15 @@ export class GetBlockMetasByHashRequest {
 
 @ArgsType()
 export class GetBlockMetasRequest {
-  @Field(_ => GetBlockMetasByIndexRequest, { nullable: true })
+  @Field(_ => GetBlockMetasByIndexRequest, {
+    nullable: true,
+    description: "start index and block count"
+  })
   public byIndex: GetBlockMetasByIndexRequest;
-  @Field(_ => GetBlockMetasByHashRequest, { nullable: true })
+  @Field(_ => GetBlockMetasByHashRequest, {
+    nullable: true,
+    description: "block hash"
+  })
   public byHash: GetBlockMetasByHashRequest;
 }
 
@@ -150,7 +156,7 @@ export class GetReceiptByActionResponse {
 
 @InputType()
 export class GetActionsByAddressRequest {
-  @Field(_ => String)
+  @Field(_ => String, { description: "iotex address" })
   public address: string;
 
   @Field(_ => BigNumberScalar)
@@ -178,7 +184,7 @@ export class GetActionsByHashRequest {
 
 @InputType()
 export class GetUnconfirmedActionsByAddressRequest {
-  @Field(_ => String)
+  @Field(_ => String, { description: "iotex address" })
   public address: string;
   @Field(_ => Int)
   public start: number;
@@ -198,13 +204,22 @@ export class GetActionsByBlockRequest {
 
 @ArgsType()
 export class GetActionsRequest {
-  @Field(_ => GetActionsByIndexRequest, { nullable: true })
+  @Field(_ => GetActionsByIndexRequest, {
+    nullable: true,
+    description: "start index and action count"
+  })
   public byIndex: GetActionsByIndexRequest;
 
-  @Field(_ => GetActionsByAddressRequest, { nullable: true })
+  @Field(_ => GetActionsByAddressRequest, {
+    nullable: true,
+    description: "address with start index and action count"
+  })
   public byAddr: GetActionsByAddressRequest;
 
-  @Field(_ => GetActionsByHashRequest, { nullable: true })
+  @Field(_ => GetActionsByHashRequest, {
+    nullable: true,
+    description: "action hash"
+  })
   public byHash: GetActionsByHashRequest;
 }
 
