@@ -73,6 +73,8 @@ class TopBarComponent extends Component<Props, State> {
       this.props.history.push(`/address/${value}`);
     } else if (value.length === 130) {
       this.props.history.push(`/address/${publicKeyToAddress(value)}`);
+    } else {
+      this.props.history.push(`/notfound`);
     }
   };
 

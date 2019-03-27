@@ -45,7 +45,7 @@ module.exports = {
     "connect-src": [
       "self",
       "https://api.coinmarketcap.com/v1/ticker/iotex/",
-      "https://member.iotex.io/api-gateway/"
+      process.env.API_GATEWAY_URL
     ],
     "child-src": ["self"],
     "font-src": [

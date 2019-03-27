@@ -39,7 +39,7 @@ action.block_hash: Block
 action.amount: Amount
 action.action: Action
 action.sender: Sender
-action.recipient: Rcipient
+action.recipient: Recipient
 title.action: Action
 render.key.height: Height
 render.key.hash: Hash
