@@ -1,5 +1,4 @@
-// @ts-ignore
-import { Button } from "antd";
+import Button from "antd/lib/button";
 // @ts-ignore
 import { assetURL } from "onefx/lib/asset-url";
 // @ts-ignore
@@ -12,7 +11,6 @@ import { PureComponent } from "react";
 import React from "react";
 import { Flex } from "./flex";
 import { FOOTER_ABOVE } from "./footer";
-// import { fullOnPalm } from "./styles/style-media";
 import { ContentPadding } from "./styles/style-padding";
 
 type Props = {
@@ -35,7 +33,7 @@ export class ErrorPage extends PureComponent<Props> {
           <Flex column={true} margin={"8px"} alignItems={"flex-start"}>
             <h1 style={{ fontWeight: "bold" }}>{title}</h1>
             <Info>{info}</Info>
-            <Button style={{ marginTop: "30px" }} type={"primary"}>
+            <Button href="#" type="primary" style={{ marginTop: "30px" }}>
               Back Home
             </Button>
           </Flex>
