@@ -40,3 +40,27 @@ action.amount: 数量
 action.action: Action
 action.sender: Sender
 action.recipient: Recipient
+title.action: Action
+render.key.height: Height
+render.key.hash: Hash
+render.key.timestamp: Age
+render.key.numActions: Actions
+render.key.producerAddress: Producer
+render.key.transferAmount: "Transfer Amount"
+render.key.txRoot: "Tx Root"
+render.key.receiptRoot: "Receipt Root"
+render.key.deltaStateDigest: "状态增量摘要"
+render.key.actHash: Hash
+render.key.blkHash: Block
+render.key.actionType: Type
+render.key.actionData: Data
+render.key.sender: Sender
+render.key.amount: Amount
+render.key.contract: Contract
+render.key.data: Data
+render.key.recipient: Recipient
+render.key.payload: Payload
+render.key.type: Reward Type
+render.value.grantReward: Grant Reward
+render.value.execution: Execution
+render.value.transfer: Transfer

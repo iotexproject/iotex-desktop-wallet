@@ -1,5 +1,6 @@
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { PureComponent } from "react";
@@ -102,19 +103,19 @@ export function renderKey(text: string): JSX.Element {
 // tslint:disable:no-any
 export function renderValue(text: string, record: any): JSX.Element | string {
   switch (record.key) {
+    case "amount":
+      return `${fromRau(text, "IOTX")} IOTX`;
     case "producerAddress":
     case "sender":
     case "contract":
     case "recipient":
-      return (
-        <Link to={`/address/${record.value}`}>{String(text).substr(0, 8)}</Link>
-      );
+      return <Link to={`/address/${record.value}`}>{text}</Link>;
     case "timestamp":
       return <span>{fromNow(record.value)}</span>;
     case "actHash":
-      return <Link to={`/action/${text}`}>{String(text).substr(0, 8)}</Link>;
+      return <Link to={`/action/${text}`}>{text}</Link>;
     case "blkHash":
-      return <Link to={`/block/${text}`}>{String(text).substr(0, 8)}</Link>;
+      return <Link to={`/block/${text}`}>{text}</Link>;
     case "txRoot":
     case "hash":
     case "receiptRoot":

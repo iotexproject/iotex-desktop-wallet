@@ -144,6 +144,8 @@ export function ActionTable({ address }: { address: string }): JSX.Element {
         return (
           <SpinPreloader spinning={loading}>
             <Table
+              style={{ width: "100%" }}
+              scroll={{ x: true }}
               columns={getActionColumns()}
               dataSource={actionInfo}
               pagination={{ pageSize: PAGE_SIZE, total: numActionsByAddress }}

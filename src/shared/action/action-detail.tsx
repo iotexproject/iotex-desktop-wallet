@@ -1,5 +1,6 @@
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
+import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -74,6 +75,19 @@ class ActionDetailsInner extends PureComponent<Props> {
                 : ""
             };
 
+            delete actionUnion.__typename;
+
+            actionUnion.actionType = undefined;
+            if (get(actionInfo, "action.core.transfer")) {
+              actionUnion.actionType = t("action.type.transfer");
+            }
+            if (get(actionInfo, "action.core.execution")) {
+              actionUnion.actionType = t("action.type.execution");
+            }
+            if (get(actionInfo, "action.core.grantReward")) {
+              actionUnion.actionType = t("action.type.grant_reward");
+            }
+
             const dataSource = Object.keys(actionUnion).map(key => ({
               key,
               value: actionUnion[key]
@@ -101,7 +115,6 @@ class ActionDetailsInner extends PureComponent<Props> {
             );
           }}
         </Query>
-        .{" "}
       </ContentPadding>
     );
   }
