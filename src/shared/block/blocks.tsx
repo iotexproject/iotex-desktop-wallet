@@ -20,29 +20,29 @@ import { GET_BLOCK_METAS, GET_LATEST_HEIGHT } from "../queries";
 function getColumns(): Array<ColumnProps<BlockMeta>> {
   return [
     {
-      title: t("render.key.height"),
+      title: t("block.height"),
       dataIndex: "height",
       render(_: string, record: BlockMeta, __: number): JSX.Element {
         return <Link to={`/block/${record.hash}/`}>{record.height}</Link>;
       }
     },
     {
-      title: t("render.key.timestamp"),
+      title: t("block.timestamp"),
       dataIndex: "timestamp",
       render(_: string, record: BlockMeta, __: number): JSX.Element {
         return <span>{fromNow(record.timestamp)}</span>;
       }
     },
     {
-      title: t("render.key.numActions"),
+      title: t("block.num_actions"),
       dataIndex: "numActions"
     },
     {
-      title: t("render.key.producerAddress"),
+      title: t("block.producer_address"),
       dataIndex: "producerAddress"
     },
     {
-      title: t("render.key.transferAmount"),
+      title: t("block.transfer_amount"),
       dataIndex: "transferAmount"
     }
   ];
