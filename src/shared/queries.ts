@@ -216,3 +216,11 @@ export const SEND_ACTION = gql`
     }
   }
 `;
+
+export const ESTIMATE_GAS_FOR_ACTION = gql`
+  query estimateGasForAction($action: ActionInput!) {
+    estimateGasForAction(action: $action) {
+      gas
+    }
+  }
+`;

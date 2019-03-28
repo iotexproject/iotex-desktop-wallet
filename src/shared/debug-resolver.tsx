@@ -5,8 +5,11 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { SpinPreloader } from "./common/spin-preloader";
 import { ContentPadding } from "./common/styles/style-padding";
 import {
+  ESTIMATE_GAS_FOR_ACTION,
   GET_ACCOUNT,
   GET_ACTIONS,
+  GET_ACTIONS_BY_HASH,
+  GET_ACTIONS_BY_INDEX,
   GET_BLOCK_METAS_BY_HASH,
   GET_BLOCK_METAS_BY_INDEX,
   GET_RECEIPT_BY_ACTION,
@@ -25,59 +28,51 @@ type RequestProp = {
 
 type Props = RouteComponentProps<PathParamsType> & {};
 
+const action = {
+  core: {
+    version: 1,
+    nonce: "0",
+    gasLimit: "0",
+    gasPrice: "0",
+    transfer: null,
+    execution: null,
+    depositToRewardingFund: null,
+    claimFromRewardingFund: null,
+    grantReward: {
+      type: "BlockReward"
+    }
+  },
+  senderPubKey:
+    "044e18fc7840341bd749acc4151d47b00e2f57494d735f20de631f8dfb2eed237748b54cf52aed961afa051e53e027a4cdf7ffed7b888a4e8f0be0bc083af07116",
+  signature:
+    "c8b2dcda49898b24dd1474711bdf1fe026237844698dc27cb0a372ebda6caf853da9e9485d1ba84124f34242e87830f44e5fbd2aefce7d17ca077d610ee0515300"
+};
+
 class TestAntennaInner extends PureComponent<Props> {
   public requests: Array<RequestProp> = [
     {
+      query: ESTIMATE_GAS_FOR_ACTION,
+      variables: { action },
+      name: "ESTIMATE_GAS_FOR_ACTION"
+    },
+    {
       query: SEND_ACTION,
-      variables: {
-        action: {
-          core: {
-            version: 1,
-            nonce: "",
-            gasLimit: "",
-            gasPrice: "100",
-            transfer: {
-              amount: "100",
-              recipient: "",
-              payload: ""
-            },
-            execution: {
-              amount: "100",
-              contract: "",
-              data: ""
-            }
-          },
-          senderPubKey:
-            "ef946999a71e4884a231f987d9bb2a37acf07ac1d0398d30cdba32215c45ccb767bcd7831de7784e302c3517be63648a6576de118ea35f5409c8fbafb0f9693501",
-          signature:
-            "0417a8b42ce5802b51ddd834b68d97dd5b43387e16beec0e9ebb933729d0fff20f74143086cd55f79fb1e89bbbe56c2363b3d441e7095a9df5308d356a44d773df"
-        }
-      },
+      variables: { action },
       name: "SEND_ACTION"
     },
     {
       name: "READ_CONTRACT",
       query: READ_CONTRACT,
+      variables: { action }
+    },
+    {
+      name: "GET_ACTIONS_BY_HASH",
+      query: GET_ACTIONS_BY_HASH,
       variables: {
-        action: {
-          core: {
-            version: 1,
-            nonce: "",
-            gasLimit: "",
-            gasPrice: "100",
-            transfer: {
-              amount: "100",
-              recipient: "",
-              payload: ""
-            },
-            execution: {
-              amount: "100",
-              contract: "",
-              data: ""
-            }
-          },
-          senderPubKey: "",
-          signature: ""
+        byHash: {
+          actionHash:
+            "7d9573833bc1c35b6d13ee920c63f3692a6c50c9e65811a84930432eec02ba10",
+          checkingPending: false
         }
       }
     },
@@ -85,29 +80,17 @@ class TestAntennaInner extends PureComponent<Props> {
       name: "GET_ACTIONS",
       query: GET_ACTIONS,
       variables: {
-        byIndex: { start: 1, count: 10 },
-        byHash: {
-          actionHash:
-            "7d9573833bc1c35b6d13ee920c63f3692a6c50c9e65811a84930432eec02ba10",
-          checkingPending: false
-        },
         byAddr: {
           address: "io1dg65erd07hrvyme0493f2kqj2utuvpyf6jeuhd",
           start: 1,
           count: 10
-        },
-        unconfirmedByAddr: {
-          address: "io1qypqqqqqjntmcu9d60u4w465t33l2et6drtaqyrqwm0gma",
-          start: 1,
-          count: 10
-        },
-        byBlk: {
-          blkHash:
-            "7d9573833bc1c35b6d13ee920c63f3692a6c50c9e65811a84930432eec02ba10",
-          start: 1,
-          count: 10
         }
       }
+    },
+    {
+      name: "GET_ACTIONS_BY_INDEX",
+      query: GET_ACTIONS_BY_INDEX,
+      variables: { byIndex: { start: 0, count: 10 } }
     },
     {
       query: GET_BLOCK_METAS_BY_INDEX,
@@ -145,39 +128,50 @@ class TestAntennaInner extends PureComponent<Props> {
     }
   ];
   public render(): JSX.Element {
+    const tmp = [
+      {
+        name: "GET_ACTIONS_BY_INDEX",
+        query: GET_ACTIONS_BY_INDEX,
+        variables: { byIndex: { start: 0, count: 10 } }
+      },
+      {
+        query: ESTIMATE_GAS_FOR_ACTION,
+        variables: { action },
+        name: "ESTIMATE_GAS_FOR_ACTION"
+      }
+    ];
+
     return (
       <ContentPadding>
-        {this.requests.map(
-          ({ query, variables, name }: RequestProp, key: number) => (
-            // @ts-ignore
-            <Query key={key} query={query} variables={variables}>
-              {({ loading, error, data }) => {
-                let color = "blue";
-                if (error) {
-                  notification.error({
-                    message: "Error",
-                    description: `failed to query  ${name}: ${error}`,
-                    duration: 3
-                  });
-                  window.console.log(error);
-                  color = "red";
-                }
-                return (
-                  <SpinPreloader spinning={loading}>
-                    <div>
-                      <h3>{name}</h3>
-                      <pre style={{ color }}>
-                        {error
-                          ? JSON.stringify(error, null, 2)
-                          : JSON.stringify(data, null, 2)}
-                      </pre>
-                    </div>
-                  </SpinPreloader>
-                );
-              }}
-            </Query>
-          )
-        )}
+        {tmp.map(({ query, variables, name }: RequestProp, key: number) => (
+          // @ts-ignore
+          <Query key={key} query={query} variables={variables}>
+            {({ loading, error, data }) => {
+              let color = "blue";
+              if (error) {
+                notification.error({
+                  message: "Error",
+                  description: `failed to query  ${name}: ${error}`,
+                  duration: 3
+                });
+                window.console.log(error);
+                color = "red";
+              }
+              return (
+                <SpinPreloader spinning={loading}>
+                  <div>
+                    <h3>{name}</h3>
+                    <pre style={{ color }}>
+                      {error
+                        ? JSON.stringify(error, null, 2)
+                        : JSON.stringify(data, null, 2)}
+                    </pre>
+                  </div>
+                </SpinPreloader>
+              );
+            }}
+          </Query>
+        ))}
       </ContentPadding>
     );
   }

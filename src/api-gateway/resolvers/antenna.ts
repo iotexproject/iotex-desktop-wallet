@@ -22,7 +22,9 @@ import {
   ReadContractResponse,
   SendActionRequest,
   SendActionResponse,
-  SuggestGasPriceResponse
+  SuggestGasPriceResponse,
+  EstimateGasForActionRequest,
+  EstimateGasForActionResponse
 } from "./antenna-types";
 
 interface ICtx {
@@ -107,5 +109,17 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     { gateways }: any
   ): Promise<SendActionResponse> {
     return gateways.antenna.sendAction(input);
+  }
+
+  @Query(_ => EstimateGasForActionResponse, {
+    description: "estimate gas for action"
+  })
+  public async estimateGasForAction(
+    @Args(_ => EstimateGasForActionRequest)
+    input: EstimateGasForActionRequest,
+    @Ctx()
+    { gateways }: any
+  ): Promise<EstimateGasForActionResponse> {
+    return gateways.antenna.estimateGasForAction(input);
   }
 }
