@@ -32,7 +32,12 @@ npm install
 cp ./.env.tmpl ./.env
 ```
 
-Please specify your iotex-core endpoint with the envroment variable IOTEX_CORE in the `.env` file.
+Please specify your iotex-core endpoint with the envroment variable in the `.env` file:
+
+```
+IOTEX_CORE=iotexapi.example.com:80
+API_GATEWAY_URL=http://mysite.example.com/api-gateway/
+```
 
 #### Development mode
 
