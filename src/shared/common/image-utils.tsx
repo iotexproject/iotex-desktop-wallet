@@ -2,7 +2,7 @@ export class CloudinaryImage {
   public url: string;
 
   constructor(url: string) {
-    this.url = url;
+    this.url = url || "";
   }
 
   public changeWidth(w: number): CloudinaryImage {
