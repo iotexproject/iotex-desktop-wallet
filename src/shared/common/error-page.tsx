@@ -9,17 +9,21 @@ import Helmet from "onefx/lib/react-helmet";
 import { styled } from "onefx/lib/styletron-react";
 import { PureComponent } from "react";
 import React from "react";
+import { RouteComponentProps, withRouter } from "react-router";
 import { Flex } from "./flex";
 import { FOOTER_ABOVE } from "./footer";
 import { ContentPadding } from "./styles/style-padding";
 
-type Props = {
+type PathParamsType = {
+  hash: string;
+};
+
+type Props = RouteComponentProps<PathParamsType> & {
   bar: string;
   title: string;
   info: string;
 };
-
-export class ErrorPage extends PureComponent<Props> {
+class ErrorPageComponent extends PureComponent<Props> {
   public render(): JSX.Element {
     const { bar, title, info } = this.props;
     return (
@@ -33,7 +37,14 @@ export class ErrorPage extends PureComponent<Props> {
           <Flex column={true} margin={"8px"} alignItems={"flex-start"}>
             <h1 style={{ fontWeight: "bold" }}>{title}</h1>
             <Info>{info}</Info>
-            <Button href="#" type="primary" style={{ marginTop: "30px" }}>
+            <Button
+              href="#"
+              type="primary"
+              style={{ marginTop: "30px" }}
+              onClick={() => {
+                this.props.history.push("/");
+              }}
+            >
               Back Home
             </Button>
           </Flex>
@@ -42,6 +53,8 @@ export class ErrorPage extends PureComponent<Props> {
     );
   }
 }
+
+export const ErrorPage = withRouter(ErrorPageComponent);
 
 const Info = styled("div", (_: React.CSSProperties) => ({
   color: "rgb(102,102,102)",
