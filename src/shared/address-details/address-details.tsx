@@ -94,7 +94,18 @@ class AddressDetailsInner extends PureComponent<Props> {
           }}
         </Query>
         <Divider orientation="left">Actions</Divider>
-        <ActionTable address={address} />
+        <ActionTable
+          getVariable={({ current, pageSize }) => {
+            const start = (current - 1) * pageSize;
+            return {
+              byAddr: {
+                address,
+                start: start < 0 ? 0 : start,
+                count: pageSize
+              }
+            };
+          }}
+        />
       </ContentPadding>
     );
   }

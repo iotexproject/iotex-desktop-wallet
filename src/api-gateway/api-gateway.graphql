@@ -311,6 +311,7 @@ type Query {
 
     # action hash
     byHash: GetActionsByHashRequest
+    byBlk: GetActionsByBlockRequest
   ): GetActionsResponse!
 
   # read contract
