@@ -131,7 +131,7 @@ export const GET_BLOCK_METAS_BY_INDEX = gql`
 `;
 
 export const GET_BLOCK_METAS_BY_HASH = gql`
-  query getBlockMetas($byHash: GetBlockMetasByHashRequest!) {
+  query getBlockMetas($byHash: GetBlockMetasByHashRequest) {
     getBlockMetas(byHash: $byHash) {
       blkMetas {
         hash
@@ -170,8 +170,8 @@ export const GET_BLOCK_METAS = gql`
 `;
 
 export const GET_ACTIONS = gql`
-  query getActions($byAddr: GetActionsByAddressRequest) {
-    getActions(byAddr: $byAddr) {
+  query getActions($byAddr: GetActionsByAddressRequest, $byBlk: GetActionsByBlockRequest) {
+    getActions(byAddr: $byAddr, byBlk: $byBlk) {
       ${FULL_ACTION_INFO}
     }
   }
@@ -188,6 +188,14 @@ export const GET_ACTIONS_BY_HASH = gql`
 export const GET_ACTIONS_BY_INDEX = gql`
   query getActions($byIndex: GetActionsByIndexRequest) {
     getActions(byIndex: $byIndex) {
+      ${FULL_ACTION_INFO}
+    }
+  }
+`;
+
+export const GET_ACTIONS_BY_BLK = gql`
+  query getActions($byBlk: GetActionsByBlockRequest) {
+    getActions(byBlk: $byBlk) {
       ${FULL_ACTION_INFO}
     }
   }

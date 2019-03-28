@@ -14,6 +14,7 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_BLOCK_METAS_BY_HASH } from "../queries";
+import { ActionTable } from "../address-details/action-table";
 
 type PathParamsType = {
   hash: string;
@@ -90,6 +91,19 @@ class BlockDetailsInner extends PureComponent<Props> {
             );
           }}
         </Query>
+        <h1 style={{ marginTop: 20 }}>List of Actions</h1>
+        <ActionTable
+          getVariable={({ current, pageSize }) => {
+            const start = (current - 1) * pageSize;
+            return {
+              byBlk: {
+                blkHash: hash,
+                start: start < 0 ? 0 : start,
+                count: pageSize
+              }
+            };
+          }}
+        />
         .{" "}
       </ContentPadding>
     );

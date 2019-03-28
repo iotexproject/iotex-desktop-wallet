@@ -221,6 +221,9 @@ export class GetActionsRequest {
     description: "action hash"
   })
   public byHash: GetActionsByHashRequest;
+
+  @Field(_ => GetActionsByBlockRequest, { nullable: true })
+  public byBlk: GetActionsByHashRequest;
 }
 
 @InputType("TransferInput")

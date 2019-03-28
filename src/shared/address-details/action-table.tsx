@@ -103,25 +103,32 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
   ];
 }
 
-const PAGE_SIZE = 10;
-
-function getActionIndexRange(
-  address: string,
-  currentPage: number = 1
-): { address: string; start: number; count: number } {
-  const start = currentPage * PAGE_SIZE;
-  return {
-    address,
-    start: start < 0 ? 0 : start,
-    count: PAGE_SIZE
+interface GetVariable {
+  ({ current, pageSize }: { current: number; pageSize: number }): {
+    byAddr?: {
+      address: string;
+      start: number;
+      count: number;
+    };
+    byBlk?: {
+      blkHash: string;
+      start: number;
+      count: number;
+    };
   };
 }
 
-export function ActionTable({ address }: { address: string }): JSX.Element {
+export function ActionTable({
+  pageSize = 10,
+  getVariable
+}: {
+  pageSize?: number;
+  getVariable: GetVariable;
+}): JSX.Element {
   return (
     <Query
       query={GET_ACTIONS}
-      variables={{ byAddr: getActionIndexRange(address) }}
+      variables={getVariable({ pageSize, current: 0 })}
     >
       {({
         loading,
@@ -148,12 +155,14 @@ export function ActionTable({ address }: { address: string }): JSX.Element {
               scroll={{ x: true }}
               columns={getActionColumns()}
               dataSource={actionInfo}
-              pagination={{ pageSize: PAGE_SIZE, total: numActionsByAddress }}
+              pagination={{ pageSize, total: numActionsByAddress }}
               onChange={pagination => {
                 fetchMore({
-                  variables: {
-                    byAddr: getActionIndexRange(address, pagination.current)
-                  },
+                  query: GET_ACTIONS,
+                  variables: getVariable({
+                    current: pagination.current || 0,
+                    pageSize
+                  }),
                   updateQuery: (prev, { fetchMoreResult }) => {
                     if (!fetchMoreResult) {
                       return prev;
