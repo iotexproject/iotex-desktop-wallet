@@ -554,3 +554,15 @@ export class SendActionResponse {
   @Field(_ => Boolean, { nullable: true })
   public TBD: boolean;
 }
+
+@ArgsType()
+export class EstimateGasForActionRequest {
+  @Field(_ => Action)
+  public action: Action;
+}
+
+@ObjectType({ description: "Properties of a EstimateGasForActionResponse" })
+export class EstimateGasForActionResponse {
+  @Field(_ => String)
+  public gas: string;
+}
