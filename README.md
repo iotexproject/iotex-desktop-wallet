@@ -146,3 +146,7 @@ https://github.com/iotexproject/iotex-explorer.git
 ```
 
 4.  install [VS Code](https://code.visualstudio.com/) and open WSL terminal with ctrl + \` . Not sure about WSL terminal? Go to [this post](https://blogs.msdn.microsoft.com/commandline/2017/10/27/running-node-js-on-wsl-from-visual-studio-code/).
+
+## Contribute to Localization?
+
+Join here to contribute: https://lokalise.co/public/903185115c91ceff0cb2a0.70666943/

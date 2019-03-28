@@ -109,6 +109,7 @@ class TopBarComponent extends Component<Props, State> {
       </StyledLink>,
       <AntdDropdown
         key={1}
+        trigger={["click", "hover"]}
         overlay={this.renderBlockchainMenu()}
         getPopupContainer={trigger => trigger.parentElement || document.body}
       >
@@ -148,7 +149,8 @@ class TopBarComponent extends Component<Props, State> {
             style={{
               width: 350,
               marginBottom: 0,
-              float: "right"
+              float: "right",
+              padding: "0 1em"
             }}
           >
             <Input
