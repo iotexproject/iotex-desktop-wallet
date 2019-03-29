@@ -12,6 +12,8 @@ import {
 import {
   // ActionInfo,
   ChainMeta,
+  EstimateGasForActionRequest,
+  EstimateGasForActionResponse,
   GetAccountResponse,
   GetActionsRequest,
   GetActionsResponse,
@@ -22,9 +24,7 @@ import {
   ReadContractResponse,
   SendActionRequest,
   SendActionResponse,
-  SuggestGasPriceResponse,
-  EstimateGasForActionRequest,
-  EstimateGasForActionResponse
+  SuggestGasPriceResponse
 } from "./antenna-types";
 
 interface ICtx {
