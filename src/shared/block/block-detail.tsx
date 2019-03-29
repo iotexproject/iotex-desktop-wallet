@@ -84,7 +84,7 @@ class BlockDetailsInner extends PureComponent<Props> {
                     columns={columns}
                     rowKey={"key"}
                     style={{ width: "100%" }}
-                    scroll={{ x: false }}
+                    scroll={{ x: true }}
                   />
                 </Flex>
               </SpinPreloader>
