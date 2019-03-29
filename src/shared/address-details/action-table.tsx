@@ -153,7 +153,7 @@ export function ActionTable({
         const actionInfo =
           data && data.getActions && data.getActions.actionInfo;
         const numActionsByAddress =
-          actionInfo && actionInfo.length ? totalActions : 0; //TODO: mock
+          actionInfo && actionInfo.length ? totalActions : 0;
 
         return (
           <SpinPreloader spinning={loading}>
