@@ -77,6 +77,7 @@ export const GET_ACCOUNT = gql`
         balance
         nonce
         pendingNonce
+        numActions
       }
     }
   }

@@ -124,9 +124,11 @@ type GetVariable = ({
 
 export function ActionTable({
   pageSize = 10,
+  totalActions = 100,
   getVariable
 }: {
   pageSize?: number;
+  totalActions?: number;
   getVariable: GetVariable;
 }): JSX.Element {
   return (
@@ -150,7 +152,8 @@ export function ActionTable({
 
         const actionInfo =
           data && data.getActions && data.getActions.actionInfo;
-        const numActionsByAddress = actionInfo && actionInfo.length ? 100 : 0; //TODO: mock
+        const numActionsByAddress =
+          actionInfo && actionInfo.length ? totalActions : 0;
 
         return (
           <SpinPreloader spinning={loading}>
