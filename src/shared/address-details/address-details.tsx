@@ -1,6 +1,7 @@
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
+import { get } from "dottie";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
 import React, { PureComponent } from "react";
@@ -12,7 +13,6 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_ACCOUNT } from "../queries";
 import { ActionTable } from "./action-table";
-import { get } from "dottie";
 
 type PathParamsType = {
   address: string;

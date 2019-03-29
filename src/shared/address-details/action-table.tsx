@@ -13,6 +13,7 @@ import {
   ActionInfo,
   GetActionsResponse
 } from "../../api-gateway/resolvers/antenna-types";
+import { getActionType } from "../common/get-action-type";
 import { SpinPreloader } from "../common/spin-preloader";
 import { GET_ACTIONS } from "../queries";
 
@@ -37,16 +38,7 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
       dataIndex: "name",
       key: "name",
       render(_: string, record: ActionInfo, __: number): string {
-        if (record.action.core.transfer) {
-          return t("action.type.transfer");
-        }
-        if (record.action.core.execution) {
-          return t("action.type.execution");
-        }
-        if (record.action.core.grantReward) {
-          return t("action.type.grant_reward");
-        }
-        return "";
+        return getActionType(record);
       }
     },
     {

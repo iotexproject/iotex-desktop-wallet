@@ -1,6 +1,5 @@
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
-import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -10,6 +9,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
 import { columns } from "../block/block-detail";
 import { Flex } from "../common/flex";
+import { getActionType } from "../common/get-action-type";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
@@ -77,16 +77,7 @@ class ActionDetailsInner extends PureComponent<Props> {
 
             delete actionUnion.__typename;
 
-            actionUnion.actionType = undefined;
-            if (get(actionInfo, "action.core.transfer")) {
-              actionUnion.actionType = t("action.type.transfer");
-            }
-            if (get(actionInfo, "action.core.execution")) {
-              actionUnion.actionType = t("action.type.execution");
-            }
-            if (get(actionInfo, "action.core.grantReward")) {
-              actionUnion.actionType = t("action.type.grant_reward");
-            }
+            actionUnion.actionType = getActionType(actionInfo);
 
             const dataSource = Object.keys(actionUnion).map(key => ({
               key,
