@@ -118,6 +118,11 @@ type Epoch {
   beaconChainHeight: Float!
 }
 
+# Properties of a EstimateGasForActionResponse
+type EstimateGasForActionResponse {
+  gas: String!
+}
+
 type Execution {
   amount: String!
   contract: String!
@@ -319,6 +324,9 @@ type Query {
 
   # sendAction
   sendAction(action: ActionInput!): SendActionResponse!
+
+  # estimate gas for action
+  estimateGasForAction(action: ActionInput!): EstimateGasForActionResponse!
   health: String!
   fetchCoinPrice: CoinPrice!
 }

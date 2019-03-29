@@ -103,20 +103,24 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
   ];
 }
 
-interface GetVariable {
-  ({ current, pageSize }: { current: number; pageSize: number }): {
-    byAddr?: {
-      address: string;
-      start: number;
-      count: number;
-    };
-    byBlk?: {
-      blkHash: string;
-      start: number;
-      count: number;
-    };
+type GetVariable = ({
+  current,
+  pageSize
+}: {
+  current: number;
+  pageSize: number;
+}) => {
+  byAddr?: {
+    address: string;
+    start: number;
+    count: number;
   };
-}
+  byBlk?: {
+    blkHash: string;
+    start: number;
+    count: number;
+  };
+};
 
 export function ActionTable({
   pageSize = 10,
