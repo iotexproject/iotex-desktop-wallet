@@ -10,6 +10,7 @@ type AccountMeta {
   balance: String!
   nonce: Int!
   pendingNonce: Int!
+  numActions: Int!
 }
 
 type Action {

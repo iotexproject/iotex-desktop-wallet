@@ -12,6 +12,7 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_ACCOUNT } from "../queries";
 import { ActionTable } from "./action-table";
+import { get } from "dottie";
 
 type PathParamsType = {
   address: string;
@@ -89,23 +90,24 @@ class AddressDetailsInner extends PureComponent<Props> {
                     </div>
                   </div>
                 </div>
+                <Divider orientation="left">Actions</Divider>
+                <ActionTable
+                  totalActions={get(data, "getAccount.accountMeta.numActions")}
+                  getVariable={({ current, pageSize }) => {
+                    const start = (current - 1) * pageSize;
+                    return {
+                      byAddr: {
+                        address,
+                        start: start < 0 ? 0 : start,
+                        count: pageSize
+                      }
+                    };
+                  }}
+                />
               </SpinPreloader>
             );
           }}
         </Query>
-        <Divider orientation="left">Actions</Divider>
-        <ActionTable
-          getVariable={({ current, pageSize }) => {
-            const start = (current - 1) * pageSize;
-            return {
-              byAddr: {
-                address,
-                start: start < 0 ? 0 : start,
-                count: pageSize
-              }
-            };
-          }}
-        />
       </ContentPadding>
     );
   }

@@ -46,6 +46,8 @@ export class AccountMeta {
   public nonce: number;
   @Field(_ => Int)
   public pendingNonce: number;
+  @Field(_ => Int)
+  public numActions: number;
 }
 
 @ObjectType()
