@@ -43,6 +43,9 @@ class TopBarComponent extends Component<Props, State> {
   }
 
   public componentDidMount(): void {
+    this.props.history.listen(() => {
+      this.hideMobileMenu();
+    });
     window.addEventListener("resize", () => {
       if (
         document.documentElement &&
