@@ -2,6 +2,7 @@ import Layout from "antd/lib/layout";
 import notification from "antd/lib/notification";
 import { ColumnProps } from "antd/lib/table";
 import Table from "antd/lib/table";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
@@ -50,7 +51,10 @@ function getColumns(): Array<ColumnProps<BlockMeta>> {
     },
     {
       title: t("block.transfer_amount"),
-      dataIndex: "transferAmount"
+      dataIndex: "transferAmount",
+      render(text: string, _: BlockMeta, __: number): string {
+        return `${fromRau(text || "0", "IOTX")} IOTX`;
+      }
     }
   ];
 }
