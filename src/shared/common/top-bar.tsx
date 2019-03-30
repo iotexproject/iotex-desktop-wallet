@@ -4,6 +4,7 @@ import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
 import AntdMenu from "antd/lib/menu";
 import notification from "antd/lib/notification";
+import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { assetURL } from "onefx/lib/asset-url";
@@ -13,8 +14,14 @@ import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { Component } from "react";
+import { withApollo, WithApolloClient } from "react-apollo";
 import OutsideClickHandler from "react-outside-click-handler";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
+import {
+  GetActionsRequest,
+  GetBlockMetasRequest
+} from "../../api-gateway/resolvers/antenna-types";
+import { GET_ACTIONS, GET_BLOCK_METAS } from "../queries";
 import { Logo } from "./icon";
 import { Cross } from "./icons/cross.svg";
 import { Hamburger } from "./icons/hamburger.svg";
@@ -22,13 +29,6 @@ import { transition } from "./styles/style-animation";
 import { colors } from "./styles/style-color";
 import { media, PALM_WIDTH } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
-import { WithApolloClient, withApollo } from "react-apollo";
-import { GET_ACTIONS, GET_BLOCK_METAS } from "../queries";
-import {
-  GetActionsRequest,
-  GetBlockMetasRequest
-} from "../../api-gateway/resolvers/antenna-types";
-import { get } from "dottie";
 
 export const TOP_BAR_HEIGHT = 62;
 
@@ -80,7 +80,7 @@ class TopBarComponent extends Component<Props, State> {
 
   public searchInput = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     let { value = "" } = e.target as HTMLInputElement;
-    const height = parseInt(value);
+    const height = parseInt(value, 10);
     const { history, client } = this.props;
     value = value.trim();
 
@@ -122,7 +122,7 @@ class TopBarComponent extends Component<Props, State> {
           } as GetActionsRequest
         });
         if (validAction) {
-          return history.push(`/action/${value}`);
+          history.push(`/action/${value}`);
         }
       } catch (error) {
         try {
@@ -138,7 +138,7 @@ class TopBarComponent extends Component<Props, State> {
           });
 
           if (validBlock) {
-            return history.push(`/block/${value}`);
+            history.push(`/block/${value}`);
           }
         } catch (error) {
           history.push(`/notfound`);
