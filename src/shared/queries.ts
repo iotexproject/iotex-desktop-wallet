@@ -171,8 +171,8 @@ export const GET_BLOCK_METAS = gql`
 `;
 
 export const GET_ACTIONS = gql`
-  query getActions($byAddr: GetActionsByAddressRequest, $byBlk: GetActionsByBlockRequest) {
-    getActions(byAddr: $byAddr, byBlk: $byBlk) {
+  query getActions($byAddr: GetActionsByAddressRequest, $byHash: GetActionsByHashRequest, $byBlk: GetActionsByBlockRequest) {
+    getActions(byAddr: $byAddr, byHash: $byHash, byBlk: $byBlk) {
       ${FULL_ACTION_INFO}
     }
   }

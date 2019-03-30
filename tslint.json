@@ -10,6 +10,7 @@
     "node_modules/tslint-require-connnect-typing"
   ],
   "rules": {
+    "no-object-literal-type-assertion": false,
     "no-null-keyword": false,
     "no-for-in-array": [false],
     "restrict-plus-operands": [false],
