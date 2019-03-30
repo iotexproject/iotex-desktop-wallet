@@ -1,7 +1,9 @@
 import Icon from "antd/lib/icon";
 import Layout from "antd/lib/layout";
+import { get } from "dottie";
 import React, { Component } from "react";
 import { Query } from "react-apollo";
+import { RouteComponentProps, withRouter } from "react-router";
 import { ChainMeta } from "../../api-gateway/resolvers/antenna-types";
 import { CoinPrice } from "../../api-gateway/resolvers/meta";
 import { Flex } from "../common/flex";
@@ -15,7 +17,13 @@ type State = {
   name: string;
 };
 
-export class Home extends Component<{}, State> {
+type PathParamsType = {
+  hash: string;
+};
+
+type Props = RouteComponentProps<PathParamsType> & {};
+
+class HomeComponent extends Component<Props, State> {
   public state: State = {
     marketCap: 0,
     price: 0,
@@ -26,37 +34,61 @@ export class Home extends Component<{}, State> {
     chainMeta: ChainMeta;
     fetchCoinPrice: CoinPrice;
   }): Array<TileProps> => {
+    const { history } = this.props;
+    const { height, tps } = get(data, "chainMeta", {}) as ChainMeta;
+    const { producerAddress } = get(data, "chainMeta.latestBlockMeta");
+    const { priceUsd, marketCapUsd } = get(
+      data,
+      "fetchCoinPrice",
+      {}
+    ) as CoinPrice;
+
     return [
       {
         title: "PRODUCER",
-        value: "-",
-        icon: "fire"
+        value: producerAddress.substring(0, 8),
+        icon: "fire",
+        action: () => {
+          if (!producerAddress) {
+            return;
+          }
+          history.push(`/address/${producerAddress}`);
+        }
       },
       {
         title: "BLOCK HEIGHT",
-        value: parseInt(
-          data.chainMeta && data.chainMeta.height,
-          10
-        ).toLocaleString(),
-        icon: "build"
+        value: parseInt(height, 10).toLocaleString(),
+        icon: "build",
+        action: () => {
+          if (!height) {
+            return;
+          }
+          history.push(`/address/${producerAddress}`);
+        }
       },
       {
         title: "TOTAL ACTIONS",
-        value: (
-          parseInt(data.chainMeta && data.chainMeta.tps, 10) * 10
-        ).toLocaleString(),
-
-        icon: "dashboard"
+        value: (parseInt(tps, 10) * 10).toLocaleString(),
+        icon: "dashboard",
+        action: () => {
+          history.push(`/actions`);
+        }
       },
       {
         title: "IOTX PRICE",
-        value: `${data.fetchCoinPrice.priceUsd || 0} USD`,
-        icon: "dollar"
+        value: `${priceUsd || 0} USD`,
+        icon: "dollar",
+        action: () => {
+          window.location.href = `https://coinmarketcap.com/currencies/iotex/?utm_source=iotexscan.i`;
+        }
       },
       {
         title: "MARKETCAP",
-        value: `${data.fetchCoinPrice.marketCapUsd || 0} M`,
-        icon: "bank"
+        value: `${marketCapUsd || 0} M`,
+        icon: "bank",
+        action: () => {
+          window.location.href = `https://coinmarketcap.com/currencies/iotex/?utm_source=iotexscan.i`;
+        }
       }
     ];
   };
@@ -89,11 +121,20 @@ export class Home extends Component<{}, State> {
                     const tiles = this.getTiles({ ...chainMetaData, ...data });
 
                     return (
-                      <div className={"front-top-info"} style={{ padding: 20 }}>
+                      <div
+                        className={"front-top-info"}
+                        style={{
+                          padding: 30,
+                          margin: "30px 0",
+                          border: "1px solid rgb(230,230,230)",
+                          borderRadius: 5
+                        }}
+                      >
                         <Flex>
                           {tiles.map((tile, i) => (
                             <div key={i} className={"item"}>
                               <Tile
+                                action={tile.action}
                                 title={tile.title}
                                 value={tile.value}
                                 icon={tile.icon}
@@ -121,12 +162,24 @@ export class Home extends Component<{}, State> {
   }
 }
 
-type TileProps = { title: string; value: string | number; icon: string };
+export const Home = withRouter(HomeComponent);
 
-function Tile({ title, value, icon }: TileProps): JSX.Element {
+type TileProps = {
+  title: string;
+  value: string | number;
+  icon: string;
+  action: Function;
+};
+
+function Tile({ title, value, icon, action }: TileProps): JSX.Element {
   return (
     <Flex center>
-      <div style={{ width: "100%", textAlign: "center" }}>
+      <div
+        style={{ width: "100%", cursor: "pointer", textAlign: "center" }}
+        role="button"
+        // @ts-ignore
+        onClick={action}
+      >
         <div>
           <Icon type={icon} />
         </div>

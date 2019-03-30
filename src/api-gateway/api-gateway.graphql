@@ -76,6 +76,7 @@ scalar Buffer
 
 type ChainMeta {
   height: String!
+  latestBlockMeta: BlockMeta!
   numActions: String!
   tps: String!
   epoch: Epoch!
