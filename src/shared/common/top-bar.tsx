@@ -106,7 +106,7 @@ class TopBarComponent extends Component<Props, State> {
       } catch (error) {
         notification.error({
           message: "Error",
-          description: `failed to search blok: ${error.message}`,
+          description: `failed to search block: ${error.message}`,
           duration: 3
         });
       }
