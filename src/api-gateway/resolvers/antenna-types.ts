@@ -130,12 +130,12 @@ export class GetBlockMetasRequest {
     nullable: true,
     description: "start index and block count"
   })
-  public byIndex: GetBlockMetasByIndexRequest;
+  public byIndex?: GetBlockMetasByIndexRequest;
   @Field(_ => GetBlockMetasByHashRequest, {
     nullable: true,
     description: "block hash"
   })
-  public byHash: GetBlockMetasByHashRequest;
+  public byHash?: GetBlockMetasByHashRequest;
 }
 
 @ObjectType()
@@ -210,22 +210,22 @@ export class GetActionsRequest {
     nullable: true,
     description: "start index and action count"
   })
-  public byIndex: GetActionsByIndexRequest;
+  public byIndex?: GetActionsByIndexRequest;
 
   @Field(_ => GetActionsByAddressRequest, {
     nullable: true,
     description: "address with start index and action count"
   })
-  public byAddr: GetActionsByAddressRequest;
+  public byAddr?: GetActionsByAddressRequest;
 
   @Field(_ => GetActionsByHashRequest, {
     nullable: true,
     description: "action hash"
   })
-  public byHash: GetActionsByHashRequest;
+  public byHash?: GetActionsByHashRequest;
 
   @Field(_ => GetActionsByBlockRequest, { nullable: true })
-  public byBlk: GetActionsByHashRequest;
+  public byBlk?: GetActionsByBlockRequest;
 }
 
 @InputType("TransferInput")
