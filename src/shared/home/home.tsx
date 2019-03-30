@@ -4,7 +4,10 @@ import { get } from "dottie";
 import React, { Component } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
-import { ChainMeta } from "../../api-gateway/resolvers/antenna-types";
+import {
+  BlockMeta,
+  ChainMeta
+} from "../../api-gateway/resolvers/antenna-types";
 import { CoinPrice } from "../../api-gateway/resolvers/meta";
 import { Flex } from "../common/flex";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -36,7 +39,11 @@ class HomeComponent extends Component<Props, State> {
   }): Array<TileProps> => {
     const { history } = this.props;
     const { height, tps } = get(data, "chainMeta", {}) as ChainMeta;
-    const { producerAddress } = get(data, "chainMeta.latestBlockMeta");
+    const { producerAddress, hash } = get(
+      data,
+      "chainMeta.latestBlockMeta",
+      {}
+    ) as BlockMeta;
     const { priceUsd, marketCapUsd } = get(
       data,
       "fetchCoinPrice",
@@ -63,7 +70,7 @@ class HomeComponent extends Component<Props, State> {
           if (!height) {
             return;
           }
-          history.push(`/address/${producerAddress}`);
+          history.push(`/block/${hash}`);
         }
       },
       {

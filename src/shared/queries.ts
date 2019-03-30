@@ -44,6 +44,7 @@ export const GET_CHAIN_META = gql`
       height
       latestBlockMeta {
         producerAddress
+        hash
       }
       numActions
       tps
