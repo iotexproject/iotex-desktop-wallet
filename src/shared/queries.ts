@@ -77,6 +77,7 @@ export const GET_ACCOUNT = gql`
         balance
         nonce
         pendingNonce
+        numActions
       }
     }
   }
@@ -131,7 +132,7 @@ export const GET_BLOCK_METAS_BY_INDEX = gql`
 `;
 
 export const GET_BLOCK_METAS_BY_HASH = gql`
-  query getBlockMetas($byHash: GetBlockMetasByHashRequest!) {
+  query getBlockMetas($byHash: GetBlockMetasByHashRequest) {
     getBlockMetas(byHash: $byHash) {
       blkMetas {
         hash
@@ -170,8 +171,8 @@ export const GET_BLOCK_METAS = gql`
 `;
 
 export const GET_ACTIONS = gql`
-  query getActions($byAddr: GetActionsByAddressRequest) {
-    getActions(byAddr: $byAddr) {
+  query getActions($byAddr: GetActionsByAddressRequest, $byHash: GetActionsByHashRequest, $byBlk: GetActionsByBlockRequest) {
+    getActions(byAddr: $byAddr, byHash: $byHash, byBlk: $byBlk) {
       ${FULL_ACTION_INFO}
     }
   }
@@ -193,6 +194,14 @@ export const GET_ACTIONS_BY_INDEX = gql`
   }
 `;
 
+export const GET_ACTIONS_BY_BLK = gql`
+  query getActions($byBlk: GetActionsByBlockRequest) {
+    getActions(byBlk: $byBlk) {
+      ${FULL_ACTION_INFO}
+    }
+  }
+`;
+
 export const READ_CONTRACT = gql`
   query readContract($action: ActionInput!) {
     readContract(action: $action) {
@@ -205,6 +214,14 @@ export const SEND_ACTION = gql`
   query sendAction($action: ActionInput!) {
     sendAction(action: $action) {
       TBD
+    }
+  }
+`;
+
+export const ESTIMATE_GAS_FOR_ACTION = gql`
+  query estimateGasForAction($action: ActionInput!) {
+    estimateGasForAction(action: $action) {
+      gas
     }
   }
 `;

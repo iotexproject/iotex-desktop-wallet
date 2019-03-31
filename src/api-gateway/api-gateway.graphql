@@ -5,10 +5,12 @@
 
 # meta data describing the account
 type AccountMeta {
+  # iotex address
   address: String!
   balance: String!
   nonce: Int!
   pendingNonce: Int!
+  numActions: Int!
 }
 
 type Action {
@@ -117,6 +119,11 @@ type Epoch {
   beaconChainHeight: Float!
 }
 
+# Properties of a EstimateGasForActionResponse
+type EstimateGasForActionResponse {
+  gas: String!
+}
+
 type Execution {
   amount: String!
   contract: String!
@@ -134,6 +141,7 @@ type GetAccountResponse {
 }
 
 input GetActionsByAddressRequest {
+  # iotex address
   address: String!
   start: BigNumber!
   count: BigNumber!
@@ -156,7 +164,7 @@ input GetActionsByIndexRequest {
 }
 
 type GetActionsResponse {
-  actionInfo: [ActionInfo!]!
+  actionInfo: [ActionInfo!]
 }
 
 input GetBlockMetasByHashRequest {
@@ -177,6 +185,7 @@ type GetReceiptByActionResponse {
 }
 
 input GetUnconfirmedActionsByAddressRequest {
+  # iotex address
   address: String!
   start: Int!
   count: Int!
@@ -192,6 +201,7 @@ input GrantRewardInput {
 
 # Properties of an Log
 type Log {
+  # iotex address
   address: String!
   topics: Buffer!
   data: Buffer!
@@ -270,27 +280,54 @@ type PutBlock {
 }
 
 type Query {
+  # get chain metadata
   chainMeta: ChainMeta!
+
+  # get the address detail of an address
   getAccount(
     # iotex address
     address: String!
   ): GetAccountResponse!
+
+  # get block metadata(s) by:
   getBlockMetas(
+    # start index and block count
     byIndex: GetBlockMetasByIndexRequest
+
+    # block hash
     byHash: GetBlockMetasByHashRequest
   ): GetBlockMetasResponse!
+
+  # suggest gas price
   suggestGasPrice: SuggestGasPriceResponse!
+
+  # get receipt by action Hash
   getReceiptByAction(
-    # actionHash
+    # action Hash
     actionHash: String!
   ): GetReceiptByActionResponse!
+
+  # get action(s) by:
   getActions(
+    # start index and action count
     byIndex: GetActionsByIndexRequest
+
+    # address with start index and action count
     byAddr: GetActionsByAddressRequest
+
+    # action hash
     byHash: GetActionsByHashRequest
+    byBlk: GetActionsByBlockRequest
   ): GetActionsResponse!
+
+  # read contract
   readContract(action: ActionInput!): ReadContractResponse!
+
+  # sendAction
   sendAction(action: ActionInput!): SendActionResponse!
+
+  # estimate gas for action
+  estimateGasForAction(action: ActionInput!): EstimateGasForActionResponse!
   health: String!
   fetchCoinPrice: CoinPrice!
 }

@@ -38,7 +38,7 @@ export class ChainMeta {
 
 @ObjectType({ description: "meta data describing the account" })
 export class AccountMeta {
-  @Field(_ => String)
+  @Field(_ => String, { description: "iotex address" })
   public address: string;
   @Field(_ => String)
   public balance: string;
@@ -46,6 +46,8 @@ export class AccountMeta {
   public nonce: number;
   @Field(_ => Int)
   public pendingNonce: number;
+  @Field(_ => Int)
+  public numActions: number;
 }
 
 @ObjectType()
@@ -78,7 +80,7 @@ export class BlockMeta {
 
 @ObjectType({ description: "Properties of an Log" })
 export class Log {
-  @Field(_ => String)
+  @Field(_ => String, { description: "iotex address" })
   public address: string;
   @Field(_ => BufferScalar)
   public topics: Buffer;
@@ -124,10 +126,16 @@ export class GetBlockMetasByHashRequest {
 
 @ArgsType()
 export class GetBlockMetasRequest {
-  @Field(_ => GetBlockMetasByIndexRequest, { nullable: true })
-  public byIndex: GetBlockMetasByIndexRequest;
-  @Field(_ => GetBlockMetasByHashRequest, { nullable: true })
-  public byHash: GetBlockMetasByHashRequest;
+  @Field(_ => GetBlockMetasByIndexRequest, {
+    nullable: true,
+    description: "start index and block count"
+  })
+  public byIndex?: GetBlockMetasByIndexRequest;
+  @Field(_ => GetBlockMetasByHashRequest, {
+    nullable: true,
+    description: "block hash"
+  })
+  public byHash?: GetBlockMetasByHashRequest;
 }
 
 @ObjectType()
@@ -150,7 +158,7 @@ export class GetReceiptByActionResponse {
 
 @InputType()
 export class GetActionsByAddressRequest {
-  @Field(_ => String)
+  @Field(_ => String, { description: "iotex address" })
   public address: string;
 
   @Field(_ => BigNumberScalar)
@@ -178,7 +186,7 @@ export class GetActionsByHashRequest {
 
 @InputType()
 export class GetUnconfirmedActionsByAddressRequest {
-  @Field(_ => String)
+  @Field(_ => String, { description: "iotex address" })
   public address: string;
   @Field(_ => Int)
   public start: number;
@@ -198,14 +206,26 @@ export class GetActionsByBlockRequest {
 
 @ArgsType()
 export class GetActionsRequest {
-  @Field(_ => GetActionsByIndexRequest, { nullable: true })
-  public byIndex: GetActionsByIndexRequest;
+  @Field(_ => GetActionsByIndexRequest, {
+    nullable: true,
+    description: "start index and action count"
+  })
+  public byIndex?: GetActionsByIndexRequest;
 
-  @Field(_ => GetActionsByAddressRequest, { nullable: true })
-  public byAddr: GetActionsByAddressRequest;
+  @Field(_ => GetActionsByAddressRequest, {
+    nullable: true,
+    description: "address with start index and action count"
+  })
+  public byAddr?: GetActionsByAddressRequest;
 
-  @Field(_ => GetActionsByHashRequest, { nullable: true })
-  public byHash: GetActionsByHashRequest;
+  @Field(_ => GetActionsByHashRequest, {
+    nullable: true,
+    description: "action hash"
+  })
+  public byHash?: GetActionsByHashRequest;
+
+  @Field(_ => GetActionsByBlockRequest, { nullable: true })
+  public byBlk?: GetActionsByBlockRequest;
 }
 
 @InputType("TransferInput")
@@ -323,7 +343,7 @@ export class ActionInfo {
 
 @ObjectType()
 export class GetActionsResponse {
-  @Field(_ => [ActionInfo])
+  @Field(_ => [ActionInfo], { nullable: true })
   public actionInfo: Array<ActionInfo>;
 }
 
@@ -538,4 +558,16 @@ export class SendActionResponse {
   // TODO update when response is enrich from iotex - antenna
   @Field(_ => Boolean, { nullable: true })
   public TBD: boolean;
+}
+
+@ArgsType()
+export class EstimateGasForActionRequest {
+  @Field(_ => Action)
+  public action: Action;
+}
+
+@ObjectType({ description: "Properties of a EstimateGasForActionResponse" })
+export class EstimateGasForActionResponse {
+  @Field(_ => String)
+  public gas: string;
 }

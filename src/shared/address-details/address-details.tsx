@@ -1,6 +1,7 @@
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
+import { get } from "dottie";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
 import React, { PureComponent } from "react";
@@ -89,12 +90,24 @@ class AddressDetailsInner extends PureComponent<Props> {
                     </div>
                   </div>
                 </div>
+                <Divider orientation="left">Actions</Divider>
+                <ActionTable
+                  totalActions={get(data, "getAccount.accountMeta.numActions")}
+                  getVariable={({ current, pageSize }) => {
+                    const start = (current - 1) * pageSize;
+                    return {
+                      byAddr: {
+                        address,
+                        start: start < 0 ? 0 : start,
+                        count: pageSize
+                      }
+                    };
+                  }}
+                />
               </SpinPreloader>
             );
           }}
         </Query>
-        <Divider orientation="left">Actions</Divider>
-        <ActionTable address={address} />
       </ContentPadding>
     );
   }

@@ -2,6 +2,7 @@ import Layout from "antd/lib/layout";
 import notification from "antd/lib/notification";
 import { ColumnProps } from "antd/lib/table";
 import Table from "antd/lib/table";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
@@ -11,6 +12,7 @@ import {
   BlockMeta,
   GetBlockMetasResponse
 } from "../../api-gateway/resolvers/antenna-types";
+import { fromNow } from "../common/from-now";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -27,7 +29,10 @@ function getColumns(): Array<ColumnProps<BlockMeta>> {
     },
     {
       title: t("block.timestamp"),
-      dataIndex: "timestamp"
+      dataIndex: "timestamp",
+      render(_: string, record: BlockMeta, __: number): JSX.Element {
+        return <span>{fromNow(record.timestamp)}</span>;
+      }
     },
     {
       title: t("block.num_actions"),
@@ -35,11 +40,21 @@ function getColumns(): Array<ColumnProps<BlockMeta>> {
     },
     {
       title: t("block.producer_address"),
-      dataIndex: "producerAddress"
+      dataIndex: "producerAddress",
+      render(_: string, record: BlockMeta, __: number): JSX.Element {
+        return (
+          <Link to={`/address/${record.producerAddress}/`}>
+            {record.producerAddress}
+          </Link>
+        );
+      }
     },
     {
       title: t("block.transfer_amount"),
-      dataIndex: "transferAmount"
+      dataIndex: "transferAmount",
+      render(text: string, _: BlockMeta, __: number): string {
+        return `${fromRau(text || "0", "IOTX")} IOTX`;
+      }
     }
   ];
 }
@@ -52,7 +67,7 @@ function getBlockIndexRange(
 ): { start: number; count: number } {
   const start = endHeight - currentPage * PAGE_SIZE;
   return {
-    start: start < 0 ? 0 : start,
+    start: start < 1 ? 1 : start,
     count: PAGE_SIZE
   };
 }

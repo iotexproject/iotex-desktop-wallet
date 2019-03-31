@@ -12,6 +12,8 @@ import {
 import {
   // ActionInfo,
   ChainMeta,
+  EstimateGasForActionRequest,
+  EstimateGasForActionResponse,
   GetAccountResponse,
   GetActionsRequest,
   GetActionsResponse,
@@ -33,13 +35,15 @@ interface ICtx {
 
 @Resolver(_ => ChainMeta)
 export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
-  @Query(_ => ChainMeta)
+  @Query(_ => ChainMeta, { description: "get chain metadata" })
   public async chainMeta(@Ctx() { gateways }: ICtx): Promise<ChainMeta> {
     const chainMeta = await gateways.antenna.getChainMeta({});
     return chainMeta.chainMeta;
   }
 
-  @Query(_ => GetAccountResponse)
+  @Query(_ => GetAccountResponse, {
+    description: "get the address detail of an address"
+  })
   public async getAccount(
     @Arg("address", _ => String, { description: "iotex address" })
     address: string,
@@ -49,7 +53,9 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     return gateways.antenna.getAccount({ address });
   }
 
-  @Query(_ => GetBlockMetasResponse)
+  @Query(_ => GetBlockMetasResponse, {
+    description: "get block metadata(s) by:"
+  })
   public async getBlockMetas(
     @Args() { byIndex, byHash }: GetBlockMetasRequest,
     @Ctx() { gateways }: ICtx
@@ -57,23 +63,25 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     return gateways.antenna.getBlockMetas({ byIndex, byHash });
   }
 
-  @Query(_ => SuggestGasPriceResponse)
+  @Query(_ => SuggestGasPriceResponse, { description: "suggest gas price" })
   public async suggestGasPrice(@Ctx() { gateways }: any): Promise<
     SuggestGasPriceResponse
   > {
     return gateways.antenna.suggestGasPrice({});
   }
 
-  @Query(_ => GetReceiptByActionResponse)
+  @Query(_ => GetReceiptByActionResponse, {
+    description: "get receipt by action Hash"
+  })
   public async getReceiptByAction(
-    @Arg("actionHash", _ => String, { description: "actionHash" })
+    @Arg("actionHash", _ => String, { description: "action Hash" })
     actionHash: string,
     @Ctx() { gateways }: any
   ): Promise<GetReceiptByActionResponse> {
     return gateways.antenna.getReceiptByAction({ actionHash });
   }
 
-  @Query(_ => GetActionsResponse)
+  @Query(_ => GetActionsResponse, { description: "get action(s) by:" })
   public async getActions(
     @Args(_ => GetActionsRequest)
     input: GetActionsRequest,
@@ -83,7 +91,7 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     return gateways.antenna.getActions(input);
   }
 
-  @Query(_ => ReadContractResponse)
+  @Query(_ => ReadContractResponse, { description: "read contract" })
   public async readContract(
     @Args(_ => ReadContractRequest)
     input: ReadContractRequest,
@@ -93,7 +101,7 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     return gateways.antenna.readContract(input);
   }
 
-  @Query(_ => SendActionResponse)
+  @Query(_ => SendActionResponse, { description: "sendAction" })
   public async sendAction(
     @Args(_ => SendActionRequest)
     input: SendActionRequest,
@@ -101,5 +109,17 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     { gateways }: any
   ): Promise<SendActionResponse> {
     return gateways.antenna.sendAction(input);
+  }
+
+  @Query(_ => EstimateGasForActionResponse, {
+    description: "estimate gas for action"
+  })
+  public async estimateGasForAction(
+    @Args(_ => EstimateGasForActionRequest)
+    input: EstimateGasForActionRequest,
+    @Ctx()
+    { gateways }: any
+  ): Promise<EstimateGasForActionResponse> {
+    return gateways.antenna.estimateGasForAction(input);
   }
 }

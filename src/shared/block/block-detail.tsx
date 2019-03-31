@@ -1,11 +1,13 @@
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
-import { get } from "dottie";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
+import { Link } from "react-router-dom";
+import { ActionTable } from "../address-details/action-table";
 import { Flex } from "../common/flex";
 import { fromNow } from "../common/from-now";
 import { PageTitle } from "../common/page-title";
@@ -20,50 +22,6 @@ type PathParamsType = {
 
 type Props = RouteComponentProps<PathParamsType> & {};
 
-function getBlockDetailsDataSource(
-  // tslint:disable-next-line:no-any
-  m: any = {}
-): Array<{ [key: string]: string | number }> {
-  return [
-    {
-      key: t("block.height"),
-      value: m.height
-    },
-    {
-      key: t("block.timestamp"),
-      value: m.timestamp
-    },
-    {
-      key: t("block.num_actions"),
-      value: m.numActions
-    },
-    {
-      key: t("block.producer_address"),
-      value: m.producerAddress
-    },
-    {
-      key: t("block.hash"),
-      value: m.hash
-    },
-    {
-      key: t("block.transfer_amount"),
-      value: m.transferAmount
-    },
-    {
-      key: t("block.tx_root"),
-      value: m.txRoot
-    },
-    {
-      key: t("block.receipt_root"),
-      value: m.receiptRoot
-    },
-    {
-      key: t("block.delta_state_digest"),
-      value: m.deltaStateDigest
-    }
-  ];
-}
-
 class BlockDetailsInner extends PureComponent<Props> {
   public render(): JSX.Element {
     const {
@@ -72,17 +30,16 @@ class BlockDetailsInner extends PureComponent<Props> {
       }
     } = this.props;
 
-    const columns = [
-      {
-        title: "Overview",
-        key: "key",
-        dataIndex: "key"
-      },
-      {
-        title: "",
-        dataIndex: "value",
-        render: renderValue
-      }
+    const fields = [
+      "height",
+      "timestamp",
+      "numActions",
+      "producerAddress",
+      "hash",
+      "transferAmount",
+      "txRoot",
+      "receiptRoot",
+      "deltaStateDigest"
     ];
 
     return (
@@ -101,7 +58,16 @@ class BlockDetailsInner extends PureComponent<Props> {
               return `failed to get account: ${error}`;
             }
 
-            const blockMeta = get(data, "getBlockMetas.blkMetas.0") || {};
+            const blockMeta =
+              (data &&
+                data.getBlockMetas &&
+                data.getBlockMetas.blkMetas &&
+                data.getBlockMetas.blkMetas[0]) ||
+              {};
+            const dataSource = fields.map(field => ({
+              key: field,
+              value: blockMeta[field]
+            }));
 
             return (
               <SpinPreloader spinning={loading}>
@@ -114,7 +80,7 @@ class BlockDetailsInner extends PureComponent<Props> {
                   <PageTitle>{t("block.block")}</PageTitle>
                   <Table
                     pagination={false}
-                    dataSource={getBlockDetailsDataSource(blockMeta)}
+                    dataSource={dataSource}
                     columns={columns}
                     rowKey={"key"}
                     style={{ width: "100%" }}
@@ -125,27 +91,66 @@ class BlockDetailsInner extends PureComponent<Props> {
             );
           }}
         </Query>
+        <h1 style={{ marginTop: 20 }}>List of Actions</h1>
+        <ActionTable
+          getVariable={({ current, pageSize }) => {
+            const start = (current - 1) * pageSize;
+            return {
+              byBlk: {
+                blkHash: hash,
+                start: start < 0 ? 0 : start,
+                count: pageSize
+              }
+            };
+          }}
+        />
         .{" "}
       </ContentPadding>
     );
   }
 }
 
+export function renderKey(text: string): JSX.Element {
+  return <span>{t(`render.key.${text}`)}</span>;
+}
+
 // tslint:disable:no-any
-export function renderValue(text: string, record: any): JSX.Element {
+export function renderValue(text: string, record: any): JSX.Element | string {
   switch (record.key) {
-    case "txRoot":
-      return <a href={`/action/${record.value}`}>{text}</a>;
-      break;
+    case "amount":
+      return `${fromRau(text, "IOTX")} IOTX`;
     case "producerAddress":
-      return <a href={`/address/${record.value}`}>{text}</a>;
-      break;
+    case "sender":
+    case "contract":
+    case "recipient":
+      return <Link to={`/address/${record.value}`}>{text}</Link>;
     case "timestamp":
       return <span>{fromNow(record.value)}</span>;
-      break;
+    case "actHash":
+      return <Link to={`/action/${text}`}>{text}</Link>;
+    case "blkHash":
+      return <Link to={`/block/${text}`}>{text}</Link>;
+    case "txRoot":
+    case "hash":
+    case "receiptRoot":
+    case "deltaStateDigest":
     default:
       return <span>{text}</span>;
   }
 }
+
+export const columns = [
+  {
+    title: "Overview",
+    key: "key",
+    dataIndex: "key",
+    render: renderKey
+  },
+  {
+    title: "",
+    dataIndex: "value",
+    render: renderValue
+  }
+];
 
 export const BlockDetail = withRouter(BlockDetailsInner);

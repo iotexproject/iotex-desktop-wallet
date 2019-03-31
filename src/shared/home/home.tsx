@@ -41,10 +41,9 @@ export class Home extends Component<{}, State> {
         icon: "build"
       },
       {
-        title: "CURRENT TPS",
-        value: parseInt(
-          data.chainMeta && data.chainMeta.tps,
-          10
+        title: "TOTAL ACTIONS",
+        value: (
+          parseInt(data.chainMeta && data.chainMeta.tps, 10) * 10
         ).toLocaleString(),
 
         icon: "dashboard"

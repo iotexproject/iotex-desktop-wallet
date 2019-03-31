@@ -3,6 +3,8 @@ import AntdDropdown from "antd/lib/dropdown";
 import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
 import AntdMenu from "antd/lib/menu";
+import notification from "antd/lib/notification";
+import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { assetURL } from "onefx/lib/asset-url";
@@ -12,8 +14,14 @@ import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { Component } from "react";
+import { withApollo, WithApolloClient } from "react-apollo";
 import OutsideClickHandler from "react-outside-click-handler";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
+import {
+  GetActionsRequest,
+  GetBlockMetasRequest
+} from "../../api-gateway/resolvers/antenna-types";
+import { GET_ACTIONS, GET_BLOCK_METAS } from "../queries";
 import { Logo } from "./icon";
 import { Cross } from "./icons/cross.svg";
 import { Hamburger } from "./icons/hamburger.svg";
@@ -32,7 +40,7 @@ type PathParamsType = {
   hash: string;
 };
 
-type Props = RouteComponentProps<PathParamsType> & {};
+type Props = RouteComponentProps<PathParamsType> & WithApolloClient<{}> & {};
 
 class TopBarComponent extends Component<Props, State> {
   constructor(props: Props) {
@@ -43,6 +51,9 @@ class TopBarComponent extends Component<Props, State> {
   }
 
   public componentDidMount(): void {
+    this.props.history.listen(() => {
+      this.hideMobileMenu();
+    });
     window.addEventListener("resize", () => {
       if (
         document.documentElement &&
@@ -67,14 +78,72 @@ class TopBarComponent extends Component<Props, State> {
     });
   };
 
-  public searchInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const { value } = e.target as HTMLInputElement;
+  public searchInput = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    let { value = "" } = e.target as HTMLInputElement;
+    const height = parseInt(value, 10);
+    const { history, client } = this.props;
+    value = value.trim();
+
     if (value.startsWith("io")) {
-      this.props.history.push(`/address/${value}`);
+      history.push(`/address/${value}`);
     } else if (value.length === 130) {
-      this.props.history.push(`/address/${publicKeyToAddress(value)}`);
+      history.push(`/address/${publicKeyToAddress(value)}`);
+    } else if (height) {
+      try {
+        const { data } = await client.query({
+          query: GET_BLOCK_METAS,
+          variables: {
+            byIndex: {
+              start: +value,
+              count: 1
+            }
+          } as GetBlockMetasRequest
+        });
+        if (data) {
+          const hash = get(data, "getBlockMetas.blkMetas.0.hash");
+          history.push(`/block/${hash}`);
+        }
+      } catch (error) {
+        notification.error({
+          message: "Error",
+          description: `failed to search block: ${error.message}`,
+          duration: 3
+        });
+      }
     } else {
-      this.props.history.push(`/notfound`);
+      try {
+        const validAction = await client.query({
+          query: GET_ACTIONS,
+          variables: {
+            byHash: {
+              actionHash: value,
+              checkingPending: true
+            }
+          } as GetActionsRequest
+        });
+        if (validAction) {
+          history.push(`/action/${value}`);
+        }
+      } catch (error) {
+        try {
+          const validBlock = await client.query({
+            query: GET_ACTIONS,
+            variables: {
+              byBlk: {
+                blkHash: value,
+                start: 0,
+                count: 1
+              }
+            } as GetActionsRequest
+          });
+
+          if (validBlock) {
+            history.push(`/block/${value}`);
+          }
+        } catch (error) {
+          history.push(`/notfound`);
+        }
+      }
     }
   };
 
@@ -109,6 +178,7 @@ class TopBarComponent extends Component<Props, State> {
       </StyledLink>,
       <AntdDropdown
         key={1}
+        trigger={["click", "hover"]}
         overlay={this.renderBlockchainMenu()}
         getPopupContainer={trigger => trigger.parentElement || document.body}
       >
@@ -148,7 +218,8 @@ class TopBarComponent extends Component<Props, State> {
             style={{
               width: 350,
               marginBottom: 0,
-              float: "right"
+              float: "right",
+              padding: "0 1em"
             }}
           >
             <Input
@@ -177,7 +248,7 @@ class TopBarComponent extends Component<Props, State> {
   }
 }
 
-export const TopBar = withRouter(TopBarComponent);
+export const TopBar = withRouter(withApollo(TopBarComponent));
 
 const Bar = styled("div", {
   display: "flex",

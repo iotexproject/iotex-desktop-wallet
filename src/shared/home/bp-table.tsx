@@ -80,6 +80,7 @@ export function BpTable(): JSX.Element {
                 pagination={{ pageSize: 50 }}
                 dataSource={bpCandidates}
                 columns={columns}
+                scroll={{ x: true }}
                 rowKey={"id"}
               />
             </SpinPreloader>
