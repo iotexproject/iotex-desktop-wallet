@@ -48,9 +48,6 @@ export class ChainMeta {
   @Field()
   public height: string;
 
-  @Field(_ => BlockMeta)
-  public latestBlockMeta: BlockMeta;
-
   @Field({ description: "" })
   public numActions: string;
 

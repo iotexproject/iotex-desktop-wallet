@@ -11,7 +11,7 @@ import {
 import { CoinPrice } from "../../api-gateway/resolvers/meta";
 import { Flex } from "../common/flex";
 import { ContentPadding } from "../common/styles/style-padding";
-import { GET_CHAIN_META, GET_COIN_MARKET_CAP } from "../queries";
+import { GET_CHAIN_META, GET_TILE_DATA } from "../queries";
 import { BpTable } from "./bp-table";
 
 type State = {
@@ -39,9 +39,9 @@ class HomeComponent extends Component<Props, State> {
   }): Array<TileProps> => {
     const { history } = this.props;
     const { height, tps } = get(data, "chainMeta", {}) as ChainMeta;
-    const { producerAddress, hash } = get(
+    const { producerAddress = "", hash } = get(
       data,
-      "chainMeta.latestBlockMeta",
+      "getBlockMetas.blkMetas.0",
       {}
     ) as BlockMeta;
     const { priceUsd, marketCapUsd } = get(
@@ -114,9 +114,12 @@ class HomeComponent extends Component<Props, State> {
               }
 
               const chainMetaData = data;
-
+              const byIndex = {
+                start: parseInt(get(chainMetaData, "chainMeta.height"), 10),
+                count: 1
+              };
               return (
-                <Query query={GET_COIN_MARKET_CAP}>
+                <Query query={GET_TILE_DATA} variables={{ byIndex }}>
                   {({ loading, error, data }) => {
                     if (loading) {
                       return "Loading...";

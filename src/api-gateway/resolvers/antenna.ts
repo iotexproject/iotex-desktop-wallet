@@ -38,16 +38,7 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
   @Query(_ => ChainMeta, { description: "get chain metadata" })
   public async chainMeta(@Ctx() { gateways }: ICtx): Promise<ChainMeta> {
     const chainMeta = await gateways.antenna.getChainMeta({});
-    const latestBlock = await gateways.antenna.getBlockMetas({
-      byIndex: {
-        start: +chainMeta.chainMeta.height,
-        count: 1
-      }
-    });
-    return {
-      ...chainMeta.chainMeta,
-      latestBlockMeta: latestBlock.blkMetas[0]
-    };
+    return chainMeta.chainMeta;
   }
 
   @Query(_ => GetAccountResponse, {
