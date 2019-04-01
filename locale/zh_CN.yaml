@@ -1,21 +1,21 @@
-meta.title: 'Blockchain Explorer - IoTeX'
-meta.description: 'Exploring IoTeX blockchain Address, Actions, and Smart Contracts.'
+meta.title: "Blockchain Explorer - IoTeX"
+meta.description: "Exploring IoTeX blockchain Address, Actions, and Smart Contracts."
 topbar.brand: Brand
 topbar.blockchain: 区块链
 topbar.blocks: BLOCKS
 topbar.actions: ACTIONS
 topbar.home: 首页
-not_found.bar: 'Not Found'
+not_found.bar: "Not Found"
 not_found.title: Oops!
-not_found.info: 'We cannot find the page for you...'
-candidate.delegate_name: 'Delegate Name'
+not_found.info: "We cannot find the page for you..."
+candidate.delegate_name: "Delegate Name"
 candidate.status: Status
 candidate.live_votes: LiveVotes
 candidate.percent: Percent
 candidates.election.ELECTED: Elected
-candidates.election.NOT_ELECTED: 'Not Elected'
-candidates.election.UNQUALIFIED: 'Not Elected'
-candidates.election.explain: 'Delegates must self-stake at least <b>1,200,000 IOTX</b> and earn <b>2,000,000 IOTX</b> total votes to be elected.'
+candidates.election.NOT_ELECTED: "Not Elected"
+candidates.election.UNQUALIFIED: "Not Elected"
+candidates.election.explain: "Delegates must self-stake at least <b>1,200,000 IOTX</b> and earn <b>2,000,000 IOTX</b> total votes to be elected."
 block.block: Block
 block.blocks: Blocks
 block.height: Height
@@ -23,12 +23,31 @@ block.hash: Hash
 block.timestamp: Age
 block.num_actions: Actions
 block.producer_address: Producer
-block.transfer_amount: 'Transfer Amount'
-block.tx_root: 'Tx Root'
+block.transfer_amount: "Transfer Amount"
+block.tx_root: "Tx Root"
 block.receipt_root: 收据根
 block.delta_state_digest: 状态增量摘要
 action.type: 类型
 action.type.transfer: 传递
 action.type.grant_reward: 授予的奖励
 action.type.execution: 执行
+action.type.grantReward: 授予的奖励
+action.type.depositToRewardingFund: deposit To Rewarding Fund
+action.type.claimFromRewardingFund: claim From RewardingFund
+action.type.startSubChain: start SubChain
+action.type.stopSubChain: stop SubChain
+action.type.putBlock: put Block
+action.type.createDeposit: create Deposit
+action.type.settleDeposit: settle Deposit
+action.type.createPlumChain: create PlumChain
+action.type.terminatePlumChain: terminate PlumChain
+action.type.plumPutBlock: plum PutBlock
+action.type.plumCreateDeposit: plum CreateDeposit
+action.type.plumStartExit: plum StartExit
+action.type.plumChallengeExit: plum ChallengeExit
+action.type.plumResponseChallengeExit: plum Response Challenge Exit
+action.type.plumFinalizeExit: plum Finalize Exit
+action.type.plumSettleDeposit: plum Settle Deposit
+action.type.plumTransfer: plum Transfer
+action.type.putPollResult: put Poll Result
 action.data: 数据

@@ -288,6 +288,231 @@ export class GrantReward {
   public type: RewardType;
 }
 
+@InputType("StartSubChainInput")
+@ObjectType()
+export class StartSubChain {
+  @Field(_ => Int)
+  public chainID: number;
+  @Field(_ => BufferScalar)
+  public securityDeposit: Buffer;
+  @Field(_ => BufferScalar)
+  public operationDeposit: Buffer;
+  @Field(_ => Int)
+  public startHeight: number;
+  @Field(_ => Int)
+  public parentHeightOffset: number;
+}
+
+@InputType("StopSubChainInput")
+@ObjectType()
+export class StopSubChain {
+  @Field(_ => Int)
+  public chainID: number;
+  @Field(_ => Int)
+  public stopHeight: number;
+  @Field(_ => String)
+  public subChainAddress: string;
+}
+
+@InputType("MerkleRootInput")
+@ObjectType()
+export class MerkleRoot {
+  @Field(_ => String)
+  public name: string;
+  @Field(_ => BufferScalar)
+  public value: Buffer;
+}
+
+@InputType("PutBlockInput")
+@ObjectType()
+export class PutBlock {
+  @Field(_ => String)
+  public subChainAddress: string;
+  @Field(_ => Int)
+  public height: number;
+  @Field(_ => [MerkleRoot])
+  public roots: Array<MerkleRoot>;
+}
+
+@InputType("CreateDepositInput")
+@ObjectType()
+export class CreateDeposit {
+  @Field(_ => Int)
+  public chainID: number;
+  @Field(_ => BufferScalar)
+  public amount: string;
+  @Field(_ => String)
+  public recipient: string;
+}
+
+@InputType("CreatePlumChainInput")
+@ObjectType()
+export class CreatePlumChain {
+  // TODO update when response is enrich from iotex - antenna
+  @Field(_ => Boolean, { nullable: true })
+  public TBD: boolean;
+}
+
+@InputType("SettleDepositInput")
+@ObjectType()
+export class SettleDeposit {
+  @Field(_ => BufferScalar)
+  public amount: string;
+  @Field(_ => String)
+  public recipient: string;
+  @Field(_ => Int)
+  public index: number;
+}
+
+@InputType("TerminatePlumChainInput")
+@ObjectType()
+export class TerminatePlumChain {
+  @Field(_ => String)
+  public subChainAddress: string;
+}
+
+@InputType("PlumPutBlockInput")
+@ObjectType()
+export class PlumPutBlock {
+  @Field(_ => String)
+  public subChainAddress: string;
+  @Field(_ => Int)
+  public height: number;
+  @Field(_ => MapScalar)
+  public roots: Map<string, Buffer>;
+}
+
+@InputType("PlumCreateDepositInput")
+@ObjectType()
+export class PlumCreateDeposit {
+  @Field(_ => String)
+  public subChainAddress: string;
+  @Field(_ => BufferScalar)
+  public amount: string;
+  @Field(_ => String)
+  public recipient: string;
+}
+
+@InputType("PlumStartExitInput")
+@ObjectType()
+export class PlumStartExit {
+  @Field(_ => String)
+  public subChainAddress: string;
+  @Field(_ => BufferScalar)
+  public previousTransfer: Buffer;
+  @Field(_ => BufferScalar)
+  public previousTransferBlockProof: Buffer;
+  @Field(_ => Int)
+  public previousTransferBlockHeight: number;
+  @Field(_ => BufferScalar)
+  public exitTransfer: Buffer;
+  @Field(_ => BufferScalar)
+  public exitTransferBlockProof: Buffer;
+  @Field(_ => Int)
+  public exitTransferBlockHeight: number;
+}
+
+@InputType("PlumChallengeExitInput")
+@ObjectType()
+export class PlumChallengeExit {
+  @Field(_ => String)
+  public subChainAddress: string;
+  @Field(_ => Int)
+  public coinID: number;
+  @Field(_ => BufferScalar)
+  public challengeTransfer: Buffer;
+  @Field(_ => BufferScalar)
+  public challengeTransferBlockProof: Buffer;
+  @Field(_ => Int)
+  public challengeTransferBlockHeight: number;
+}
+
+@InputType("PlumResponseChallengeExitInput")
+@ObjectType()
+export class PlumResponseChallengeExit {
+  @Field(_ => String)
+  public subChainAddress: string;
+  @Field(_ => Int)
+  public coinID: number;
+  @Field(_ => BufferScalar)
+  public challengeTransfer: Buffer;
+  @Field(_ => BufferScalar)
+  public responseTransfer: Buffer;
+  @Field(_ => BufferScalar)
+  public responseTransferBlockProof: Buffer;
+  @Field(_ => Int)
+  public previousTransferBlockHeight: number;
+}
+
+@InputType("PlumFinalizeExitInput")
+@ObjectType()
+export class PlumFinalizeExit {
+  @Field(_ => String)
+  public subChainAddress: string;
+  @Field(_ => Int)
+  public coinID: number;
+}
+
+@InputType("PlumSettleDepositInput")
+@ObjectType()
+export class PlumSettleDeposit {
+  @Field(_ => Int)
+  public coinID: number;
+}
+
+@InputType("PlumTransferInput")
+@ObjectType()
+export class PlumTransfer {
+  @Field(_ => Int)
+  public coinID: number;
+  @Field(_ => BufferScalar)
+  public denomination: Buffer;
+  @Field(_ => String)
+  public owner: string;
+  @Field(_ => String)
+  public recipient: string;
+}
+
+@InputType("SetRewardInput")
+@ObjectType()
+export class SetReward {
+  @Field(_ => BufferScalar)
+  public amount: string;
+  @Field(_ => BufferScalar)
+  public data: Buffer;
+  @Field(_ => Int)
+  public type: number;
+}
+
+@InputType("CandidateInput")
+@ObjectType()
+export class Candidate {
+  @Field(_ => String)
+  public address: string;
+  @Field(_ => BufferScalar, { nullable: true })
+  public votes: Buffer;
+  @Field(_ => BufferScalar, { nullable: true })
+  public pubKey: Buffer;
+  @Field(_ => String)
+  public rewardAddress: string;
+}
+
+@InputType("CandidateListInput")
+@ObjectType()
+export class CandidateList {
+  @Field(_ => [Candidate])
+  public candidates: Array<Candidate>;
+}
+
+@InputType("PutPollResultInput")
+@ObjectType()
+export class PutPollResult {
+  @Field(_ => String)
+  public height: string;
+  @Field(_ => CandidateList, { nullable: true })
+  public candidates: CandidateList;
+}
+
 @InputType("ActionCoreInput")
 @ObjectType()
 export class ActionCore {
@@ -309,6 +534,40 @@ export class ActionCore {
   @Field(_ => Execution, { nullable: true })
   public execution?: Execution;
 
+  // FedChain
+  @Field(_ => StartSubChain, { nullable: true })
+  public startSubChain: StartSubChain;
+  @Field(_ => StopSubChain, { nullable: true })
+  public stopSubChain: StopSubChain;
+  @Field(_ => PutBlock, { nullable: true })
+  public putBlock: PutBlock;
+  @Field(_ => CreateDeposit, { nullable: true })
+  public createDeposit: CreateDeposit;
+  @Field(_ => SettleDeposit, { nullable: true })
+  public settleDeposit: SettleDeposit;
+
+  // PlumChain
+  @Field(_ => CreatePlumChain, { nullable: true })
+  public createPlumChain: CreatePlumChain;
+  @Field(_ => TerminatePlumChain, { nullable: true })
+  public terminatePlumChain: TerminatePlumChain;
+  @Field(_ => PlumPutBlock, { nullable: true })
+  public plumPutBlock: PlumPutBlock;
+  @Field(_ => PlumCreateDeposit, { nullable: true })
+  public plumCreateDeposit: PlumCreateDeposit;
+  @Field(_ => PlumStartExit, { nullable: true })
+  public plumStartExit: PlumStartExit;
+  @Field(_ => PlumChallengeExit, { nullable: true })
+  public plumChallengeExit: PlumChallengeExit;
+  @Field(_ => PlumResponseChallengeExit, { nullable: true })
+  public plumResponseChallengeExit: PlumResponseChallengeExit;
+  @Field(_ => PlumFinalizeExit, { nullable: true })
+  public plumFinalizeExit: PlumFinalizeExit;
+  @Field(_ => PlumSettleDeposit, { nullable: true })
+  public plumSettleDeposit: PlumSettleDeposit;
+  @Field(_ => PlumTransfer, { nullable: true })
+  public plumTransfer: PlumTransfer;
+
   // Rewarding protocol actions
   @Field(_ => DepositToRewardingFund, { nullable: true })
   public depositToRewardingFund?: DepositToRewardingFund;
@@ -316,6 +575,9 @@ export class ActionCore {
   public claimFromRewardingFund?: ClaimFromRewardingFund;
   @Field(_ => GrantReward, { nullable: true })
   public grantReward?: GrantReward;
+
+  @Field(_ => PutPollResult, { nullable: true })
+  public putPollResult?: PutPollResult;
 }
 
 @InputType("ActionInput")
@@ -365,6 +627,7 @@ export class SendActionRequest {
   public action: Action;
 }
 
+@InputType("TimestampInput")
 @ObjectType()
 export class Timestamp {
   @Field(_ => Int)
@@ -373,184 +636,13 @@ export class Timestamp {
   public nanos: number;
 }
 
+@InputType("VoteInput")
 @ObjectType()
 export class Vote {
   @Field(_ => Timestamp)
   public timestamp: Timestamp;
   @Field(_ => String)
   public voteeAddress: string;
-}
-
-@ObjectType()
-export class StartSubChain {
-  @Field(_ => Int)
-  public chainID: number;
-  @Field(_ => BufferScalar)
-  public securityDeposit: Buffer;
-  @Field(_ => BufferScalar)
-  public operationDeposit: Buffer;
-  @Field(_ => Int)
-  public startHeight: number;
-  @Field(_ => Int)
-  public parentHeightOffset: number;
-}
-
-@ObjectType()
-export class StopSubChain {
-  @Field(_ => Int)
-  public chainID: number;
-  @Field(_ => Int)
-  public stopHeight: number;
-  @Field(_ => String)
-  public subChainAddress: string;
-}
-
-@ObjectType()
-export class MerkleRoot {
-  @Field(_ => String)
-  public name: string;
-  @Field(_ => BufferScalar)
-  public value: Buffer;
-}
-
-@ObjectType()
-export class PutBlock {
-  @Field(_ => String)
-  public subChainAddress: string;
-  @Field(_ => Int)
-  public height: number;
-  @Field(_ => [MerkleRoot])
-  public roots: Array<MerkleRoot>;
-}
-
-@ObjectType()
-export class CreateDeposit {
-  @Field(_ => Int)
-  public chainID: number;
-  @Field(_ => BufferScalar)
-  public amount: string;
-  @Field(_ => String)
-  public recipient: string;
-}
-
-@ObjectType()
-export class SettleDeposit {
-  @Field(_ => BufferScalar)
-  public amount: string;
-  @Field(_ => String)
-  public recipient: string;
-  @Field(_ => Int)
-  public index: number;
-}
-
-@ObjectType()
-export class TerminatePlumChain {
-  @Field(_ => String)
-  public subChainAddress: string;
-}
-
-@ObjectType()
-export class PlumPutBlock {
-  @Field(_ => String)
-  public subChainAddress: string;
-  @Field(_ => Int)
-  public height: number;
-  @Field(_ => MapScalar)
-  public roots: Map<string, Buffer>;
-}
-
-@ObjectType()
-export class PlumCreateDeposit {
-  @Field(_ => String)
-  public subChainAddress: string;
-  @Field(_ => BufferScalar)
-  public amount: string;
-  @Field(_ => String)
-  public recipient: string;
-}
-
-@ObjectType()
-export class PlumStartExit {
-  @Field(_ => String)
-  public subChainAddress: string;
-  @Field(_ => BufferScalar)
-  public previousTransfer: Buffer;
-  @Field(_ => BufferScalar)
-  public previousTransferBlockProof: Buffer;
-  @Field(_ => Int)
-  public previousTransferBlockHeight: number;
-  @Field(_ => BufferScalar)
-  public exitTransfer: Buffer;
-  @Field(_ => BufferScalar)
-  public exitTransferBlockProof: Buffer;
-  @Field(_ => Int)
-  public exitTransferBlockHeight: number;
-}
-
-@ObjectType()
-export class PlumChallengeExit {
-  @Field(_ => String)
-  public subChainAddress: string;
-  @Field(_ => Int)
-  public coinID: number;
-  @Field(_ => BufferScalar)
-  public challengeTransfer: Buffer;
-  @Field(_ => BufferScalar)
-  public challengeTransferBlockProof: Buffer;
-  @Field(_ => Int)
-  public challengeTransferBlockHeight: number;
-}
-
-@ObjectType()
-export class PlumResponseChallengeExit {
-  @Field(_ => String)
-  public subChainAddress: string;
-  @Field(_ => Int)
-  public coinID: number;
-  @Field(_ => BufferScalar)
-  public challengeTransfer: Buffer;
-  @Field(_ => BufferScalar)
-  public responseTransfer: Buffer;
-  @Field(_ => BufferScalar)
-  public responseTransferBlockProof: Buffer;
-  @Field(_ => Int)
-  public previousTransferBlockHeight: number;
-}
-
-@ObjectType()
-export class PlumFinalizeExit {
-  @Field(_ => String)
-  public subChainAddress: string;
-  @Field(_ => Int)
-  public coinID: number;
-}
-
-@ObjectType()
-export class PlumSettleDeposit {
-  @Field(_ => Int)
-  public coinID: number;
-}
-
-@ObjectType()
-export class PlumTransfer {
-  @Field(_ => Int)
-  public coinID: number;
-  @Field(_ => BufferScalar)
-  public denomination: Buffer;
-  @Field(_ => String)
-  public owner: string;
-  @Field(_ => String)
-  public recipient: string;
-}
-
-@ObjectType()
-export class SetReward {
-  @Field(_ => BufferScalar)
-  public amount: string;
-  @Field(_ => BufferScalar)
-  public data: Buffer;
-  @Field(_ => Int)
-  public type: number;
 }
 
 @ObjectType()

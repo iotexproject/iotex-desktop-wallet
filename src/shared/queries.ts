@@ -20,16 +20,110 @@ const FULL_ACTION_INFO = `
           contract
           data
         }
-        depositToRewardingFund {
+        startSubChain{
+          chainID
+          securityDeposit
+          operationDeposit
+          startHeight
+          parentHeightOffset
+        }
+        stopSubChain {
+          chainID
+          stopHeight
+          subChainAddress
+        }
+        putBlock{
+          subChainAddress
+          height
+          roots{
+            name
+            value
+          }
+        }
+        createDeposit{
+          chainID
+          amount
+          recipient
+        }
+        settleDeposit{
+          amount
+          recipient
+          index
+        }
+        createPlumChain{
+          TBD
+        }
+        terminatePlumChain{
+          subChainAddress
+        }
+        plumPutBlock{
+          subChainAddress
+          height
+          roots
+        }
+        plumCreateDeposit{
+          subChainAddress
+          amount
+          recipient
+        }
+        plumStartExit{
+          subChainAddress
+          previousTransfer
+          previousTransferBlockProof
+          previousTransferBlockHeight
+          exitTransfer
+          exitTransferBlockProof
+          exitTransferBlockHeight
+        }
+        plumChallengeExit{
+          subChainAddress
+          coinID
+          challengeTransfer
+          challengeTransferBlockProof
+          challengeTransferBlockHeight
+        }
+        plumResponseChallengeExit{
+          subChainAddress
+          coinID
+          challengeTransfer
+          responseTransfer
+          responseTransferBlockProof
+          previousTransferBlockHeight
+        }
+        plumFinalizeExit{
+          subChainAddress
+          coinID
+        }
+        plumSettleDeposit{
+          coinID
+        }
+        plumTransfer{
+          coinID
+          denomination
+          owner
+          recipient
+        }
+        depositToRewardingFund{
           amount
           data
         }
-        claimFromRewardingFund {
+        claimFromRewardingFund{
           amount
           data
         }
-        grantReward {
+        grantReward{
           type
+        }
+        putPollResult{
+          height
+          candidates{
+            candidates{
+              address
+              votes
+              pubKey
+              rewardAddress
+            }
+          }
         }
       }
       signature

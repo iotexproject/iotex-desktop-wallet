@@ -3,15 +3,35 @@ import { get } from "dottie";
 import { t } from "onefx/lib/iso-i18n";
 import { ActionInfo } from "../../api-gateway/resolvers/antenna-types";
 
+export const actionsTypes = [
+  "execution",
+  "grantReward",
+  "transfer",
+  "depositToRewardingFund",
+  "claimFromRewardingFund",
+  "startSubChain",
+  "stopSubChain",
+  "putBlock",
+  "createDeposit",
+  "settleDeposit",
+  "createPlumChain",
+  "terminatePlumChain",
+  "plumPutBlock",
+  "plumCreateDeposit",
+  "plumStartExit",
+  "plumChallengeExit",
+  "plumResponseChallengeExit",
+  "plumFinalizeExit",
+  "plumSettleDeposit",
+  "plumTransfer",
+  "putPollResult"
+];
+
 export function getActionType(info: ActionInfo | {}): string {
-  if (get(info, "action.core.transfer")) {
-    return t("action.type.transfer");
-  }
-  if (get(info, "action.core.execution")) {
-    return t("action.type.execution");
-  }
-  if (get(info, "action.core.grantReward")) {
-    return t("action.type.grant_reward");
+  for (let i = 0; i < actionsTypes.length; i++) {
+    if (get(info, `action.core.${actionsTypes[i]}`)) {
+      return t(`action.type.${actionsTypes[i]}`);
+    }
   }
   return "";
 }

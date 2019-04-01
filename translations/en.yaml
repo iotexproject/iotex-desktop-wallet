@@ -31,6 +31,49 @@ action.type: Type
 action.type.transfer: Transfer
 action.type.grant_reward: "Grant Reward"
 action.type.execution: Execution
+action.type.grantReward: Grant Reward
+action.type.depositToRewardingFund: deposit To Rewarding Fund
+action.type.claimFromRewardingFund: claim From RewardingFund
+action.type.startSubChain: start SubChain
+action.type.stopSubChain: stop SubChain
+action.type.putBlock: put Block
+action.type.createDeposit: create Deposit
+action.type.settleDeposit: settle Deposit
+action.type.createPlumChain: create PlumChain
+action.type.terminatePlumChain: terminate PlumChain
+action.type.plumPutBlock: plum PutBlock
+action.type.plumCreateDeposit: plum CreateDeposit
+action.type.plumStartExit: plum StartExit
+action.type.plumChallengeExit: plum ChallengeExit
+action.type.plumResponseChallengeExit: plum Response Challenge Exit
+action.type.plumFinalizeExit: plum Finalize Exit
+action.type.plumSettleDeposit: plum Settle Deposit
+action.type.plumTransfer: plum Transfer
+action.type.putPollResult: put Poll Result
+render.key.chainID: chain ID
+render.key.securityDeposit: Security Deposit
+render.key.operationDeposit: Operation Deposit
+render.key.startHeight: Start Height
+render.key.parentHeightOffset: parentHeightOffset
+render.key.stopHeight: Stop Height
+render.key.subChainAddress: subChain Address
+render.key.roots: roots
+render.key.index: Index
+render.key.previousTransfer: previous Transfer
+render.key.previousTransferBlockProof: previous Transfer Block Proof
+render.key.previousTransferBlockHeight: previous Transfer Block Height
+render.key.exitTransfer: exit Transfer
+render.key.exitTransferBlockProof: exitTransferBlockProof
+render.key.exitTransferBlockHeight: exitTransferBlockHeight
+render.key.challengeTransfer: challengeTransfer
+render.key.challengeTransferBlockProof: challengeTransferBlockProof
+render.key.challengeTransferBlockHeight: challengeTransferBlockHeight
+render.key.responseTransfer: responseTransfer
+render.key.responseTransferBlockProof: responseTransferBlockProof
+render.key.coinID: coin ID
+render.key.denomination: denomination
+render.key.owner: owner
+render.key.candidates: candidates
 action.data: Data
 topbar.graphql_playground: "GraphQL Playground"
 topbar.graphql_doc: "GraphQL Doc"

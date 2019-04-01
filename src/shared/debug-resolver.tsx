@@ -177,4 +177,145 @@ class TestAntennaInner extends PureComponent<Props> {
   }
 }
 
+export const mock = [
+  { execution: { amount: 1001, contract: "contractaaa", data: "huhuu" } },
+  {
+    transfer: { amount: 1001, recipient: "recipient bb", payload: "payload bb" }
+  },
+  {
+    startSubChain: {
+      chainID: 1001,
+      securityDeposit: "securityDeposit",
+      operationDeposit: "operationDeposit",
+      startHeight: 2002,
+      parentHeightOffset: 4004
+    }
+  },
+  {
+    stopSubChain: {
+      chainID: 2002,
+      stopHeight: 123,
+      subChainAddress: "subChainAddress aa"
+    }
+  },
+  {
+    putBlock: {
+      height: 4000,
+      subChainAddress: "subChainAddress bb",
+      roots: [{ name: "tname", value: "tvalue" }]
+    }
+  },
+  { createDeposit: { amount: 1001, chainID: 3003, recipient: "huhuu" } },
+  { settleDeposit: { amount: 1001, index: 3003, recipient: "huhuu" } },
+
+  { createPlumChain: { amount: 1001, contract: "contractaaa", data: "huhuu" } },
+  { terminatePlumChain: { subChainAddress: "huhuu" } },
+  {
+    plumPutBlock: {
+      height: 4000,
+      subChainAddress: "subChainAddress bb",
+      roots: [{ name: "tname", value: "tvalue" }]
+    }
+  },
+  {
+    plumCreateDeposit: {
+      amount: 4000,
+      subChainAddress: "subChainAddress bb",
+      recipient: "recipient"
+    }
+  },
+  {
+    plumStartExit: {
+      subChainAddress: "subChainAddress",
+      previousTransfer: "previousTransfer",
+      previousTransferBlockProof: "previousTransferBlockProof",
+      previousTransferBlockHeight: 1001,
+      exitTransfer: "exitTransfer",
+      exitTransferBlockProof: "exitTransferBlockProof",
+      exitTransferBlockHeight: 1001
+    }
+  },
+  {
+    plumChallengeExit: {
+      subChainAddress: "subChainAddress",
+      coinID: 1001,
+      challengeTransfer: "challengeTransfer",
+      challengeTransferBlockProof: "challengeTransferBlockProof",
+      challengeTransferBlockHeight: 1001
+    }
+  },
+  {
+    plumResponseChallengeExit: {
+      subChainAddress: "subChainAddress",
+      coinID: 1001,
+      challengeTransfer: "challengeTransfer",
+      responseTransfer: "responseTransfer",
+      responseTransferBlockProof: "responseTransferBlockProof",
+      previousTransferBlockHeight: 1001
+    }
+  },
+  {
+    plumFinalizeExit: {
+      subChainAddress: "subChainAddress",
+      coinID: 1001
+    }
+  },
+  {
+    plumFinalizeExit: {
+      coinID: 1001
+    }
+  },
+  {
+    plumTransfer: {
+      coinID: 1001,
+      denomination: "denomination",
+      owner: "owner",
+      recipient: "recipient"
+    }
+  },
+  {
+    putPollResult: {
+      height: "huhuu",
+      candidates: {
+        candidates: [
+          {
+            address: "address",
+            votes: "votes",
+            pubKey: "pubKey",
+            rewardAddress: "rewardAddress"
+          }
+        ]
+      }
+    }
+  }
+];
+
+export function loadMockActions(
+  actions: [object],
+  inputIndex: number = -1
+): void {
+  // @ts-ignore
+  actions.forEach((value: object, index: number) => {
+    // @ts-ignore
+    const {
+      version,
+      nonce,
+      gasLimit,
+      gasPrice
+      // @ts-ignore
+    } = value.action.core;
+
+    const mockIndex = inputIndex >= 0 ? inputIndex : index % mock.length;
+    const object = mock[mockIndex];
+    // @ts-ignore
+    value.action.core = {
+      version,
+      nonce,
+      gasLimit,
+      gasPrice,
+      ...object
+    };
+  });
+}
+
 export const DebugResolver = withRouter(TestAntennaInner);

@@ -1,5 +1,6 @@
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
+import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -9,7 +10,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
 import { columns } from "../block/block-detail";
 import { Flex } from "../common/flex";
-import { getActionType } from "../common/get-action-type";
+import { actionsTypes, getActionType } from "../common/get-action-type";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
@@ -59,30 +60,44 @@ class ActionDetailsInner extends PureComponent<Props> {
 
             // @ts-ignore
             const { actHash, blkHash, action } = actionInfo;
-            const { ...other } =
-              action && action.core
-                ? action.core.execution ||
-                  action.core.grantReward ||
-                  action.core.transfer
-                : {};
+            let object;
+            for (let i = 0; i < actionsTypes.length; i++) {
+              object = get(action, `core.${actionsTypes[i]}`);
+              if (object) {
+                break;
+              }
+            }
+            object = object || {};
+            const { ...others } = object;
 
             const actionUnion = {
               actHash,
               blkHash,
-              ...other,
               sender: action
                 ? publicKeyToAddress(String(action.senderPubKey))
-                : ""
+                : "",
+              __typename: "",
+              actionType: getActionType(actionInfo),
+              ...others
             };
 
             delete actionUnion.__typename;
 
-            actionUnion.actionType = getActionType(actionInfo);
-
-            const dataSource = Object.keys(actionUnion).map(key => ({
-              key,
-              value: actionUnion[key]
-            }));
+            const dataSource = Object.keys(actionUnion).map(key => {
+              // @ts-ignore
+              if (typeof actionUnion[key] === "object") {
+                return {
+                  key,
+                  // @ts-ignore
+                  value: JSON.stringify(actionUnion[key])
+                };
+              }
+              return {
+                key,
+                // @ts-ignore
+                value: actionUnion[key]
+              };
+            });
 
             return (
               <SpinPreloader spinning={loading}>

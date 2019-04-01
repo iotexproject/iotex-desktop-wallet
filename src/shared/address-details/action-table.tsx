@@ -56,6 +56,11 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
         const addr =
           get(record, "action.core.transfer.recipient") ||
           get(record, "action.core.execution.contract") ||
+          get(record, "action.core.createDeposit.recipient") ||
+          get(record, "action.core.settleDeposit.recipient") ||
+          get(record, "action.core.plumCreateDeposit.recipient") ||
+          get(record, "action.core.plumTransfer.recipient") ||
+          get(record, "action.core.createPlumChain.contract") ||
           "";
         if (!addr) {
           return "-";
@@ -71,6 +76,10 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
           get(record, "action.core.execution.amount") ||
           get(record, "action.core.grantReward.amount") ||
           get(record, "action.core.transfer.amount") ||
+          get(record, "action.core.createDeposit.amount") ||
+          get(record, "action.core.settleDeposit.amount") ||
+          get(record, "action.core.createPlumChain.amount") ||
+          get(record, "action.core.plumCreateDeposit.amount") ||
           "";
         if (!amount) {
           return "-";
