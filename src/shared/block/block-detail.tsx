@@ -123,6 +123,8 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "sender":
     case "contract":
     case "recipient":
+    case "owner":
+    case "subChainAddress":
       return <Link to={`/address/${record.value}`}>{text}</Link>;
     case "timestamp":
       return <span>{fromNow(record.value)}</span>;

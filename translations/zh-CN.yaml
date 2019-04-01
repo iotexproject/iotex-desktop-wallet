@@ -64,3 +64,27 @@ render.key.type: 奖励类型
 render.value.grantReward: 赠款奖励
 render.value.execution: 执行
 render.value.transfer: 转移
+render.key.chainID: chain ID
+render.key.securityDeposit: Security Deposit
+render.key.operationDeposit: Operation Deposit
+render.key.startHeight: Start Height
+render.key.parentHeightOffset: parentHeightOffset
+render.key.stopHeight: Stop Height
+render.key.subChainAddress: subChain Address
+render.key.roots: roots
+render.key.index: Index
+render.key.previousTransfer: previous Transfer
+render.key.previousTransferBlockProof: previous Transfer Block Proof
+render.key.previousTransferBlockHeight: previous Transfer Block Height
+render.key.exitTransfer: exit Transfer
+render.key.exitTransferBlockProof: exitTransferBlockProof
+render.key.exitTransferBlockHeight: exitTransferBlockHeight
+render.key.challengeTransfer: challengeTransfer
+render.key.challengeTransferBlockProof: challengeTransferBlockProof
+render.key.challengeTransferBlockHeight: challengeTransferBlockHeight
+render.key.responseTransfer: responseTransfer
+render.key.responseTransferBlockProof: responseTransferBlockProof
+render.key.coinID: coin ID
+render.key.denomination: denomination
+render.key.owner: owner
+render.key.candidates: candidates
