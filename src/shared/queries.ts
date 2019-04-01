@@ -146,11 +146,17 @@ export const GET_CHAIN_META = gql`
   }
 `;
 
-export const GET_COIN_MARKET_CAP = gql`
-  query {
+export const GET_TILE_DATA = gql`
+  query getTileData($byIndex: GetBlockMetasByIndexRequest!) {
     fetchCoinPrice {
       priceUsd
       marketCapUsd
+    }
+    getBlockMetas(byIndex: $byIndex) {
+      blkMetas {
+        producerAddress
+        hash
+      }
     }
   }
 `;

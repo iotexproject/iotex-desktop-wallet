@@ -21,6 +21,28 @@ class Epoch {
   public beaconChainHeight: number;
 }
 
+@ObjectType({ description: "Properties of an blockMeta" })
+export class BlockMeta {
+  @Field(_ => String)
+  public hash: string;
+  @Field(_ => Int)
+  public height: number;
+  @Field(_ => Int)
+  public timestamp: number;
+  @Field(_ => Int)
+  public numActions: number;
+  @Field(_ => String)
+  public producerAddress: string;
+  @Field(_ => String)
+  public transferAmount: string;
+  @Field(_ => String)
+  public txRoot: string;
+  @Field(_ => String)
+  public receiptRoot: string;
+  @Field(_ => String)
+  public deltaStateDigest: string;
+}
+
 @ObjectType({ description: "" })
 export class ChainMeta {
   @Field()
@@ -54,28 +76,6 @@ export class AccountMeta {
 export class GetAccountResponse {
   @Field(_ => AccountMeta)
   public accountMeta: AccountMeta;
-}
-
-@ObjectType({ description: "Properties of an blockMeta" })
-export class BlockMeta {
-  @Field(_ => String)
-  public hash: string;
-  @Field(_ => Int)
-  public height: number;
-  @Field(_ => Int)
-  public timestamp: number;
-  @Field(_ => Int)
-  public numActions: number;
-  @Field(_ => String)
-  public producerAddress: string;
-  @Field(_ => String)
-  public transferAmount: string;
-  @Field(_ => String)
-  public txRoot: string;
-  @Field(_ => String)
-  public receiptRoot: string;
-  @Field(_ => String)
-  public deltaStateDigest: string;
 }
 
 @ObjectType({ description: "Properties of an Log" })
