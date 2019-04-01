@@ -1,29 +1,29 @@
-meta.title: 'Blockchain Explorer - IoTeX'
-meta.description: 'Exploring IoTeX blockchain Address, Actions, and Smart Contracts.'
-topbar.brand: Brand
+meta.title: 'IoTeX 区块浏览器'
+meta.description: 探索IoTeX区块链地址，操作和智能合约。
+topbar.brand: 品牌
 topbar.blockchain: 区块链
-topbar.blocks: BLOCKS
-topbar.actions: ACTIONS
+topbar.blocks: 区块
+topbar.actions: 行动
 topbar.home: 首页
-not_found.bar: 'Not Found'
-not_found.title: Oops!
-not_found.info: 'We cannot find the page for you...'
-candidate.delegate_name: 'Delegate Name'
-candidate.status: Status
-candidate.live_votes: LiveVotes
-candidate.percent: Percent
-candidates.election.ELECTED: Elected
-candidates.election.NOT_ELECTED: 'Not Elected'
-candidates.election.UNQUALIFIED: 'Not Elected'
-candidates.election.explain: 'Delegates must self-stake at least <b>1,200,000 IOTX</b> and earn <b>2,000,000 IOTX</b> total votes to be elected.'
-block.block: Block
-block.blocks: Blocks
-block.height: Height
-block.hash: Hash
-block.timestamp: Age
+not_found.bar: 未找到
+not_found.title: 糟糕!
+not_found.info: 找不到页面...
+candidate.delegate_name: 节点名称
+candidate.status: 状态
+candidate.live_votes: 实时投票
+candidate.percent: 得票率
+candidates.election.ELECTED: 当选
+candidates.election.NOT_ELECTED: 未当选
+candidates.election.UNQUALIFIED: 未当选
+candidates.election.explain: '节点必须质押至少<b> 120万 IOTX </b>并获得<b> 200万IOTX </b>以上的总票数才能成为正式的全民节点。'
+block.block: 区块
+block.blocks: 区块
+block.height: 高度
+block.hash: 哈希
+block.timestamp: 年龄
 block.num_actions: 操作
 block.producer_address: 生产者
-block.transfer_amount: 'Transfer Amount'
+block.transfer_amount: 转账总额
 block.tx_root: 'Tx Root'
 block.receipt_root: 收据根
 block.delta_state_digest: 状态增量摘要
@@ -32,31 +32,31 @@ action.type.transfer: 传递
 action.type.grant_reward: 授予的奖励
 action.type.execution: 执行
 action.data: 数据
-topbar.graphql_playground: 'GraphQL Playground'
+topbar.graphql_playground: 'GraphQL 测试区'
 topbar.graphql_doc: 'GraphQL 文档'
-action.hash: Hash
-action.block_hash: Block
-action.amount: Amount
-action.action: Action
-action.sender: Sender
-action.recipient: Rcipient
-title.action: Action
-render.key.height: Height
-render.key.hash: Hash
-render.key.timestamp: Age
-render.key.numActions: Actions
-render.key.producerAddress: Producer
-render.key.transferAmount: 'Transfer Amount'
+action.hash: 哈希
+action.block_hash: 区块
+action.amount: 总量
+action.action: 行动
+action.sender: 发送方
+action.recipient: 接收方
+title.action: 操作
+render.key.height: 高度
+render.key.hash: 哈希
+render.key.timestamp: 年龄
+render.key.numActions: 操作
+render.key.producerAddress: 生产者
+render.key.transferAmount: 转账总额
 render.key.txRoot: 'Tx Root'
-render.key.receiptRoot: 'Receipt Root'
-render.key.deltaStateDigest: 'Digest of Delta State'
-render.key.actHash: Hash
-render.key.blkHash: Block
-render.key.actionType: Type
-render.key.actionData: Data
-render.key.sender: Sender
-render.key.amount: Amount
-render.key.contract: Contract
+render.key.receiptRoot: 接收Root
+render.key.deltaStateDigest: 增值收据的摘要
+render.key.actHash: 哈希
+render.key.blkHash: 区块
+render.key.actionType: 类型
+render.key.actionData: 数据
+render.key.sender: 发送方
+render.key.amount: 总量
+render.key.contract: 合约
 render.key.data: 数据
 render.key.recipient: 接受者
 render.key.payload: 负载
