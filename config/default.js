@@ -30,7 +30,7 @@ module.exports = {
     iotexAntenna: process.env.IOTEX_CORE || "35.239.122.109:80"
   },
   analytics: {
-    googleTid: "TODO: replace with your googleTid"
+    googleTid: "UA-111756489-2"
   },
   csp: {
     "default-src": ["none"],
