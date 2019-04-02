@@ -601,8 +601,6 @@ export class ActionInfo {
   public actHash: string;
   @Field(_ => String)
   public blkHash: string;
-  @Field(_ => BlockMeta)
-  public block: BlockMeta;
 }
 
 @ObjectType()

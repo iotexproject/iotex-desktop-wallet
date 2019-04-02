@@ -1,3 +1,4 @@
+// tslint:disable:no-any
 import { ColumnProps } from "antd/es/table";
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
@@ -28,8 +29,9 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
     },
     {
       title: t("block.timestamp"),
-      render(_: string, record: ActionInfo, __: number): string {
+      render(_: string, record: any, __: number): string {
         return String(record.block.timestamp);
+        // return record.actHash
       }
     },
     {
