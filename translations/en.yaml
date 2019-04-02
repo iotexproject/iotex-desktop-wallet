@@ -1,21 +1,22 @@
-meta.title: 'Blockchain Explorer - IoTeX'
-meta.description: 'Exploring IoTeX blockchain Address, Actions, and Smart Contracts.'
+meta.title: "Blockchain Explorer - IoTeX"
+meta.description: "Exploring IoTeX blockchain Address, Actions, and Smart Contracts."
 topbar.brand: Brand
 topbar.blockchain: BLOCKCHAIN
 topbar.blocks: BLOCKS
 topbar.actions: ACTIONS
+topbar.search: "Search by Address / Public Key / Hash / Height"
 topbar.home: HOME
-not_found.bar: 'Not Found'
+not_found.bar: "Not Found"
 not_found.title: Oops!
-not_found.info: 'We cannot find the page for you...'
-candidate.delegate_name: 'Delegate Name'
+not_found.info: "We cannot find the page for you..."
+candidate.delegate_name: "Delegate Name"
 candidate.status: Status
 candidate.live_votes: LiveVotes
 candidate.percent: Percent
 candidates.election.ELECTED: Elected
-candidates.election.NOT_ELECTED: 'Not Elected'
-candidates.election.UNQUALIFIED: 'Not Elected'
-candidates.election.explain: 'Delegates must self-stake at least <b>1,200,000 IOTX</b> and earn <b>2,000,000 IOTX</b> total votes to be elected.'
+candidates.election.NOT_ELECTED: "Not Elected"
+candidates.election.UNQUALIFIED: "Not Elected"
+candidates.election.explain: "Delegates must self-stake at least <b>1,200,000 IOTX</b> and earn <b>2,000,000 IOTX</b> total votes to be elected."
 block.block: Block
 block.blocks: Blocks
 block.height: Height
@@ -23,13 +24,13 @@ block.hash: Hash
 block.timestamp: Age
 block.num_actions: Actions
 block.producer_address: Producer
-block.transfer_amount: 'Transfer Amount'
-block.tx_root: 'Tx Root'
-block.receipt_root: 'Receipt Root'
-block.delta_state_digest: 'Digest of Delta State'
+block.transfer_amount: "Transfer Amount"
+block.tx_root: "Tx Root"
+block.receipt_root: "Receipt Root"
+block.delta_state_digest: "Digest of Delta State"
 action.type: Type
 action.type.transfer: Transfer
-action.type.grant_reward: 'Grant Reward'
+action.type.grant_reward: "Grant Reward"
 action.type.execution: Execution
 action.type.grantReward: Grant Reward
 action.type.depositToRewardingFund: deposit To Rewarding Fund
@@ -75,8 +76,8 @@ render.key.denomination: denomination
 render.key.owner: owner
 render.key.candidates: candidates
 action.data: Data
-topbar.graphql_playground: 'GraphQL Playground'
-topbar.graphql_doc: 'GraphQL Doc'
+topbar.graphql_playground: "GraphQL Playground"
+topbar.graphql_doc: "GraphQL Doc"
 action.hash: Hash
 action.block_hash: Block
 action.amount: Amount
@@ -89,10 +90,10 @@ render.key.hash: Hash
 render.key.timestamp: Age
 render.key.numActions: Actions
 render.key.producerAddress: Producer
-render.key.transferAmount: 'Transfer Amount'
-render.key.txRoot: 'Tx Root'
-render.key.receiptRoot: 'Receipt Root'
-render.key.deltaStateDigest: 'Digest of Delta State'
+render.key.transferAmount: "Transfer Amount"
+render.key.txRoot: "Tx Root"
+render.key.receiptRoot: "Receipt Root"
+render.key.deltaStateDigest: "Digest of Delta State"
 render.key.actHash: Hash
 render.key.blkHash: Block
 render.key.actionType: Type
@@ -103,7 +104,7 @@ render.key.contract: Contract
 render.key.data: Data
 render.key.recipient: Recipient
 render.key.payload: Payload
-render.key.type: 'Reward Type'
-render.value.grantReward: 'Grant Reward'
+render.key.type: "Reward Type"
+render.value.grantReward: "Grant Reward"
 render.value.execution: Execution
 render.value.transfer: Transfer
