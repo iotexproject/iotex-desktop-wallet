@@ -224,7 +224,7 @@ class TopBarComponent extends Component<Props, State> {
           >
             <Input
               className={"certain-category-search"}
-              placeholder="Search by Address / Public Key"
+              placeholder={t("topbar.search")}
               onPressEnter={this.searchInput}
               suffix={
                 <Icon type="search" className={"certain-category-icon"} />
