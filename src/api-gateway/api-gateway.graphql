@@ -25,6 +25,7 @@ type ActionCore {
   gasLimit: BigNumber!
   gasPrice: String!
   transfer: Transfer
+  vote: Vote
   execution: Execution
   startSubChain: StartSubChain
   stopSubChain: StopSubChain
@@ -53,6 +54,7 @@ input ActionCoreInput {
   gasLimit: BigNumber!
   gasPrice: String!
   transfer: TransferInput
+  vote: VoteInput
   execution: ExecutionInput
   startSubChain: StartSubChainInput
   stopSubChain: StopSubChainInput
@@ -271,7 +273,7 @@ input GrantRewardInput {
 type Log {
   # iotex address
   address: String!
-  topics: Buffer!
+  topics: [Buffer!]!
   data: Buffer!
   blockNumber: Int!
   txnHash: Buffer!

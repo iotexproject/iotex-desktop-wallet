@@ -1,4 +1,18 @@
-import BigNumber from "bignumber.js";
+import {
+  IAction,
+  IActionCore,
+  IActionInfo,
+  IDepositToRewardingFund,
+  IExecution,
+  IGetActionsResponse,
+  IGrantReward,
+  ILog,
+  IMerkleRoot,
+  IPutBlock,
+  IReceipt,
+  IStartSubChain,
+  ITransfer
+} from "iotex-antenna/lib/rpc-method/types";
 import {
   ArgsType,
   Field,
@@ -79,29 +93,29 @@ export class GetAccountResponse {
 }
 
 @ObjectType({ description: "Properties of an Log" })
-export class Log {
+export class Log implements ILog {
   @Field(_ => String, { description: "iotex address" })
   public address: string;
+  @Field(_ => [BufferScalar])
+  public topics: Array<Buffer | {}>;
   @Field(_ => BufferScalar)
-  public topics: Buffer;
-  @Field(_ => BufferScalar)
-  public data: Buffer;
+  public data: Buffer | {};
   @Field(_ => Int)
   public blockNumber: number;
   @Field(_ => BufferScalar)
-  public txnHash: Buffer;
+  public txnHash: Buffer | {};
   @Field(_ => Int)
   public index: number;
 }
 
 @ObjectType({ description: "Properties of an Receipt" })
-export class Receipt {
+export class Receipt implements IReceipt {
   @Field(_ => BufferScalar)
-  public returnValue: Buffer;
+  public returnValue: {} | Buffer | {};
   @Field(_ => Int)
   public status: number;
   @Field(_ => BufferScalar)
-  public actHash: Buffer;
+  public actHash: {} | Buffer | {};
   @Field(_ => Int)
   public gasConsumed: number;
   @Field(_ => String)
@@ -162,18 +176,18 @@ export class GetActionsByAddressRequest {
   public address: string;
 
   @Field(_ => BigNumberScalar)
-  public start: BigNumber;
+  public start: number;
 
   @Field(_ => BigNumberScalar)
-  public count: BigNumber;
+  public count: number;
 }
 
 @InputType()
 export class GetActionsByIndexRequest {
   @Field(_ => BigNumberScalar)
-  public start: BigNumber;
+  public start: number;
   @Field(_ => BigNumberScalar)
-  public count: BigNumber;
+  public count: number;
 }
 
 @InputType()
@@ -230,7 +244,7 @@ export class GetActionsRequest {
 
 @InputType("TransferInput")
 @ObjectType()
-export class Transfer {
+export class Transfer implements ITransfer {
   @Field(_ => String)
   public amount: string;
 
@@ -238,12 +252,30 @@ export class Transfer {
   public recipient: string;
 
   @Field(_ => BufferScalar)
-  public payload: Buffer;
+  public payload: Buffer | {};
+}
+
+@InputType("TimestampInput")
+@ObjectType()
+export class Timestamp {
+  @Field(_ => Int)
+  public seconds: number;
+  @Field(_ => Int)
+  public nanos: number;
+}
+
+@InputType("VoteInput")
+@ObjectType()
+export class Vote {
+  @Field(_ => Timestamp)
+  public timestamp: Timestamp;
+  @Field(_ => String)
+  public voteeAddress: string;
 }
 
 @InputType("ExecutionInput")
 @ObjectType()
-export class Execution {
+export class Execution implements IExecution {
   @Field(_ => String)
   public amount: string;
 
@@ -251,7 +283,7 @@ export class Execution {
   public contract: string;
 
   @Field(_ => BufferScalar)
-  public data: Buffer;
+  public data: Buffer | {};
 }
 
 export enum RewardType {
@@ -265,11 +297,11 @@ registerEnumType(RewardType, {
 
 @InputType("DepositToRewardingFundInput")
 @ObjectType()
-export class DepositToRewardingFund {
+export class DepositToRewardingFund implements IDepositToRewardingFund {
   @Field(_ => String)
   public amount: string;
   @Field(_ => BufferScalar)
-  public data: Buffer;
+  public data: Buffer | {};
 }
 
 @InputType("ClaimFromRewardingFundInput")
@@ -278,25 +310,25 @@ export class ClaimFromRewardingFund {
   @Field(_ => String)
   public amount: string;
   @Field(_ => BufferScalar)
-  public data: Buffer;
+  public data: Buffer | {};
 }
 
 @InputType("GrantRewardInput")
 @ObjectType()
-export class GrantReward {
+export class GrantReward implements IGrantReward {
   @Field(_ => RewardType)
-  public type: RewardType;
+  public type: number;
 }
 
 @InputType("StartSubChainInput")
 @ObjectType()
-export class StartSubChain {
+export class StartSubChain implements IStartSubChain {
   @Field(_ => Int)
   public chainID: number;
   @Field(_ => BufferScalar)
-  public securityDeposit: Buffer;
+  public securityDeposit: string;
   @Field(_ => BufferScalar)
-  public operationDeposit: Buffer;
+  public operationDeposit: string;
   @Field(_ => Int)
   public startHeight: number;
   @Field(_ => Int)
@@ -316,16 +348,16 @@ export class StopSubChain {
 
 @InputType("MerkleRootInput")
 @ObjectType()
-export class MerkleRoot {
+export class MerkleRoot implements IMerkleRoot {
   @Field(_ => String)
   public name: string;
   @Field(_ => BufferScalar)
-  public value: Buffer;
+  public value: Buffer | {};
 }
 
 @InputType("PutBlockInput")
 @ObjectType()
-export class PutBlock {
+export class PutBlock implements IPutBlock {
   @Field(_ => String)
   public subChainAddress: string;
   @Field(_ => Int)
@@ -350,7 +382,7 @@ export class CreateDeposit {
 export class CreatePlumChain {
   // TODO update when response is enrich from iotex - antenna
   @Field(_ => Boolean, { nullable: true })
-  public TBD: boolean;
+  public TBD?: boolean;
 }
 
 @InputType("SettleDepositInput")
@@ -379,7 +411,7 @@ export class PlumPutBlock {
   @Field(_ => Int)
   public height: number;
   @Field(_ => MapScalar)
-  public roots: Map<string, Buffer>;
+  public roots: Map<string, Buffer | {}>;
 }
 
 @InputType("PlumCreateDepositInput")
@@ -399,15 +431,15 @@ export class PlumStartExit {
   @Field(_ => String)
   public subChainAddress: string;
   @Field(_ => BufferScalar)
-  public previousTransfer: Buffer;
+  public previousTransfer: Buffer | {};
   @Field(_ => BufferScalar)
-  public previousTransferBlockProof: Buffer;
+  public previousTransferBlockProof: Buffer | {};
   @Field(_ => Int)
   public previousTransferBlockHeight: number;
   @Field(_ => BufferScalar)
-  public exitTransfer: Buffer;
+  public exitTransfer: Buffer | {};
   @Field(_ => BufferScalar)
-  public exitTransferBlockProof: Buffer;
+  public exitTransferBlockProof: Buffer | {};
   @Field(_ => Int)
   public exitTransferBlockHeight: number;
 }
@@ -420,9 +452,9 @@ export class PlumChallengeExit {
   @Field(_ => Int)
   public coinID: number;
   @Field(_ => BufferScalar)
-  public challengeTransfer: Buffer;
+  public challengeTransfer: Buffer | {};
   @Field(_ => BufferScalar)
-  public challengeTransferBlockProof: Buffer;
+  public challengeTransferBlockProof: Buffer | {};
   @Field(_ => Int)
   public challengeTransferBlockHeight: number;
 }
@@ -435,11 +467,11 @@ export class PlumResponseChallengeExit {
   @Field(_ => Int)
   public coinID: number;
   @Field(_ => BufferScalar)
-  public challengeTransfer: Buffer;
+  public challengeTransfer: Buffer | {};
   @Field(_ => BufferScalar)
-  public responseTransfer: Buffer;
+  public responseTransfer: Buffer | {};
   @Field(_ => BufferScalar)
-  public responseTransferBlockProof: Buffer;
+  public responseTransferBlockProof: Buffer | {};
   @Field(_ => Int)
   public previousTransferBlockHeight: number;
 }
@@ -466,7 +498,7 @@ export class PlumTransfer {
   @Field(_ => Int)
   public coinID: number;
   @Field(_ => BufferScalar)
-  public denomination: Buffer;
+  public denomination: Buffer | {};
   @Field(_ => String)
   public owner: string;
   @Field(_ => String)
@@ -479,7 +511,7 @@ export class SetReward {
   @Field(_ => BufferScalar)
   public amount: string;
   @Field(_ => BufferScalar)
-  public data: Buffer;
+  public data: Buffer | {};
   @Field(_ => Int)
   public type: number;
 }
@@ -490,9 +522,9 @@ export class Candidate {
   @Field(_ => String)
   public address: string;
   @Field(_ => BufferScalar, { nullable: true })
-  public votes: Buffer;
+  public votes: Buffer | {};
   @Field(_ => BufferScalar, { nullable: true })
-  public pubKey: Buffer;
+  public pubKey: Buffer | {};
   @Field(_ => String)
   public rewardAddress: string;
 }
@@ -508,31 +540,34 @@ export class CandidateList {
 @ObjectType()
 export class PutPollResult {
   @Field(_ => String)
-  public height: string;
+  public height: string | number;
   @Field(_ => CandidateList, { nullable: true })
-  public candidates: CandidateList;
+  public candidates: CandidateList | undefined;
 }
 
 @InputType("ActionCoreInput")
 @ObjectType()
-export class ActionCore {
+export class ActionCore implements IActionCore {
   @Field(_ => Int)
   public version: number;
 
   @Field(_ => BigNumberScalar)
-  public nonce: BigNumber;
+  public nonce: string;
 
   @Field(_ => BigNumberScalar)
-  public gasLimit: BigNumber;
+  public gasLimit: string;
 
   @Field(_ => String)
-  public gasPrice: String;
+  public gasPrice: string;
 
   @Field(_ => Transfer, { nullable: true })
-  public transfer?: Transfer;
+  public transfer: Transfer;
+
+  @Field(_ => Vote, { nullable: true })
+  public vote: Vote;
 
   @Field(_ => Execution, { nullable: true })
-  public execution?: Execution;
+  public execution: Execution | undefined;
 
   // FedChain
   @Field(_ => StartSubChain, { nullable: true })
@@ -570,31 +605,31 @@ export class ActionCore {
 
   // Rewarding protocol actions
   @Field(_ => DepositToRewardingFund, { nullable: true })
-  public depositToRewardingFund?: DepositToRewardingFund;
+  public depositToRewardingFund: DepositToRewardingFund;
   @Field(_ => ClaimFromRewardingFund, { nullable: true })
-  public claimFromRewardingFund?: ClaimFromRewardingFund;
+  public claimFromRewardingFund: ClaimFromRewardingFund;
   @Field(_ => GrantReward, { nullable: true })
-  public grantReward?: GrantReward;
+  public grantReward: GrantReward;
 
   @Field(_ => PutPollResult, { nullable: true })
-  public putPollResult?: PutPollResult;
+  public putPollResult: PutPollResult | undefined;
 }
 
 @InputType("ActionInput")
 @ObjectType("Action")
-export class Action {
+export class Action implements IAction {
   @Field(_ => ActionCore)
-  public core: ActionCore;
+  public core: ActionCore | undefined;
 
   @Field(_ => BufferScalar)
-  public senderPubKey: Buffer;
+  public senderPubKey: Buffer | {};
 
   @Field(_ => BufferScalar)
-  public signature: Buffer;
+  public signature: Buffer | {};
 }
 
 @ObjectType()
-export class ActionInfo {
+export class ActionInfo implements IActionInfo {
   @Field(_ => Action)
   public action: Action;
   @Field(_ => String)
@@ -604,7 +639,7 @@ export class ActionInfo {
 }
 
 @ObjectType()
-export class GetActionsResponse {
+export class GetActionsResponse implements IGetActionsResponse {
   @Field(_ => [ActionInfo], { nullable: true })
   public actionInfo: Array<ActionInfo>;
 }
@@ -627,29 +662,11 @@ export class SendActionRequest {
   public action: Action;
 }
 
-@InputType("TimestampInput")
-@ObjectType()
-export class Timestamp {
-  @Field(_ => Int)
-  public seconds: number;
-  @Field(_ => Int)
-  public nanos: number;
-}
-
-@InputType("VoteInput")
-@ObjectType()
-export class Vote {
-  @Field(_ => Timestamp)
-  public timestamp: Timestamp;
-  @Field(_ => String)
-  public voteeAddress: string;
-}
-
 @ObjectType()
 export class SendActionResponse {
   // TODO update when response is enrich from iotex - antenna
   @Field(_ => Boolean, { nullable: true })
-  public TBD: boolean;
+  public TBD?: boolean;
 }
 
 @ArgsType()
