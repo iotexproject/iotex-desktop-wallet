@@ -27,7 +27,7 @@ import {
   SuggestGasPriceResponse
 } from "./antenna-types";
 
-interface ICtx {
+export interface ICtx {
   gateways: {
     antenna: RpcMethod;
   };
@@ -64,7 +64,7 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
   }
 
   @Query(_ => SuggestGasPriceResponse, { description: "suggest gas price" })
-  public async suggestGasPrice(@Ctx() { gateways }: any): Promise<
+  public async suggestGasPrice(@Ctx() { gateways }: ICtx): Promise<
     SuggestGasPriceResponse
   > {
     return gateways.antenna.suggestGasPrice({});
@@ -76,7 +76,7 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
   public async getReceiptByAction(
     @Arg("actionHash", _ => String, { description: "action Hash" })
     actionHash: string,
-    @Ctx() { gateways }: any
+    @Ctx() { gateways }: ICtx
   ): Promise<GetReceiptByActionResponse> {
     return gateways.antenna.getReceiptByAction({ actionHash });
   }
@@ -86,7 +86,7 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     @Args(_ => GetActionsRequest)
     input: GetActionsRequest,
     @Ctx()
-    { gateways }: any
+    { gateways }: ICtx
   ): Promise<GetActionsResponse> {
     return gateways.antenna.getActions(input);
   }
@@ -96,7 +96,7 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     @Args(_ => ReadContractRequest)
     input: ReadContractRequest,
     @Ctx()
-    { gateways }: any
+    { gateways }: ICtx
   ): Promise<ReadContractResponse> {
     return gateways.antenna.readContract(input);
   }
@@ -106,7 +106,7 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     @Args(_ => SendActionRequest)
     input: SendActionRequest,
     @Ctx()
-    { gateways }: any
+    { gateways }: ICtx
   ): Promise<SendActionResponse> {
     return gateways.antenna.sendAction(input);
   }
@@ -118,7 +118,7 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     @Args(_ => EstimateGasForActionRequest)
     input: EstimateGasForActionRequest,
     @Ctx()
-    { gateways }: any
+    { gateways }: ICtx
   ): Promise<EstimateGasForActionResponse> {
     return gateways.antenna.estimateGasForAction(input);
   }
