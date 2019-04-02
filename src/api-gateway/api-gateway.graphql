@@ -26,9 +26,25 @@ type ActionCore {
   gasPrice: String!
   transfer: Transfer
   execution: Execution
+  startSubChain: StartSubChain
+  stopSubChain: StopSubChain
+  putBlock: PutBlock
+  createDeposit: CreateDeposit
+  settleDeposit: SettleDeposit
+  createPlumChain: CreatePlumChain
+  terminatePlumChain: TerminatePlumChain
+  plumPutBlock: PlumPutBlock
+  plumCreateDeposit: PlumCreateDeposit
+  plumStartExit: PlumStartExit
+  plumChallengeExit: PlumChallengeExit
+  plumResponseChallengeExit: PlumResponseChallengeExit
+  plumFinalizeExit: PlumFinalizeExit
+  plumSettleDeposit: PlumSettleDeposit
+  plumTransfer: PlumTransfer
   depositToRewardingFund: DepositToRewardingFund
   claimFromRewardingFund: ClaimFromRewardingFund
   grantReward: GrantReward
+  putPollResult: PutPollResult
 }
 
 input ActionCoreInput {
@@ -38,9 +54,25 @@ input ActionCoreInput {
   gasPrice: String!
   transfer: TransferInput
   execution: ExecutionInput
+  startSubChain: StartSubChainInput
+  stopSubChain: StopSubChainInput
+  putBlock: PutBlockInput
+  createDeposit: CreateDepositInput
+  settleDeposit: SettleDepositInput
+  createPlumChain: CreatePlumChainInput
+  terminatePlumChain: TerminatePlumChainInput
+  plumPutBlock: PlumPutBlockInput
+  plumCreateDeposit: PlumCreateDepositInput
+  plumStartExit: PlumStartExitInput
+  plumChallengeExit: PlumChallengeExitInput
+  plumResponseChallengeExit: PlumResponseChallengeExitInput
+  plumFinalizeExit: PlumFinalizeExitInput
+  plumSettleDeposit: PlumSettleDepositInput
+  plumTransfer: PlumTransferInput
   depositToRewardingFund: DepositToRewardingFundInput
   claimFromRewardingFund: ClaimFromRewardingFundInput
   grantReward: GrantRewardInput
+  putPollResult: PutPollResultInput
 }
 
 type ActionInfo {
@@ -74,6 +106,28 @@ type BlockMeta {
 # JS Buffer or Uint8Array
 scalar Buffer
 
+type Candidate {
+  address: String!
+  votes: Buffer
+  pubKey: Buffer
+  rewardAddress: String!
+}
+
+input CandidateInput {
+  address: String!
+  votes: Buffer
+  pubKey: Buffer
+  rewardAddress: String!
+}
+
+type CandidateList {
+  candidates: [Candidate!]!
+}
+
+input CandidateListInput {
+  candidates: [CandidateInput!]!
+}
+
 type ChainMeta {
   height: String!
   numActions: String!
@@ -101,6 +155,20 @@ type CreateDeposit {
   chainID: Int!
   amount: Buffer!
   recipient: String!
+}
+
+input CreateDepositInput {
+  chainID: Int!
+  amount: Buffer!
+  recipient: String!
+}
+
+type CreatePlumChain {
+  TBD: Boolean
+}
+
+input CreatePlumChainInput {
+  TBD: Boolean
 }
 
 type DepositToRewardingFund {
@@ -218,7 +286,20 @@ type MerkleRoot {
   value: Buffer!
 }
 
+input MerkleRootInput {
+  name: String!
+  value: Buffer!
+}
+
 type PlumChallengeExit {
+  subChainAddress: String!
+  coinID: Int!
+  challengeTransfer: Buffer!
+  challengeTransferBlockProof: Buffer!
+  challengeTransferBlockHeight: Int!
+}
+
+input PlumChallengeExitInput {
   subChainAddress: String!
   coinID: Int!
   challengeTransfer: Buffer!
@@ -232,12 +313,29 @@ type PlumCreateDeposit {
   recipient: String!
 }
 
+input PlumCreateDepositInput {
+  subChainAddress: String!
+  amount: Buffer!
+  recipient: String!
+}
+
 type PlumFinalizeExit {
   subChainAddress: String!
   coinID: Int!
 }
 
+input PlumFinalizeExitInput {
+  subChainAddress: String!
+  coinID: Int!
+}
+
 type PlumPutBlock {
+  subChainAddress: String!
+  height: Int!
+  roots: Map!
+}
+
+input PlumPutBlockInput {
   subChainAddress: String!
   height: Int!
   roots: Map!
@@ -252,11 +350,34 @@ type PlumResponseChallengeExit {
   previousTransferBlockHeight: Int!
 }
 
+input PlumResponseChallengeExitInput {
+  subChainAddress: String!
+  coinID: Int!
+  challengeTransfer: Buffer!
+  responseTransfer: Buffer!
+  responseTransferBlockProof: Buffer!
+  previousTransferBlockHeight: Int!
+}
+
 type PlumSettleDeposit {
   coinID: Int!
 }
 
+input PlumSettleDepositInput {
+  coinID: Int!
+}
+
 type PlumStartExit {
+  subChainAddress: String!
+  previousTransfer: Buffer!
+  previousTransferBlockProof: Buffer!
+  previousTransferBlockHeight: Int!
+  exitTransfer: Buffer!
+  exitTransferBlockProof: Buffer!
+  exitTransferBlockHeight: Int!
+}
+
+input PlumStartExitInput {
   subChainAddress: String!
   previousTransfer: Buffer!
   previousTransferBlockProof: Buffer!
@@ -273,10 +394,33 @@ type PlumTransfer {
   recipient: String!
 }
 
+input PlumTransferInput {
+  coinID: Int!
+  denomination: Buffer!
+  owner: String!
+  recipient: String!
+}
+
 type PutBlock {
   subChainAddress: String!
   height: Int!
   roots: [MerkleRoot!]!
+}
+
+input PutBlockInput {
+  subChainAddress: String!
+  height: Int!
+  roots: [MerkleRootInput!]!
+}
+
+type PutPollResult {
+  height: String!
+  candidates: CandidateList
+}
+
+input PutPollResultInput {
+  height: String!
+  candidates: CandidateListInput
 }
 
 type Query {
@@ -361,7 +505,19 @@ type SetReward {
   type: Int!
 }
 
+input SetRewardInput {
+  amount: Buffer!
+  data: Buffer!
+  type: Int!
+}
+
 type SettleDeposit {
+  amount: Buffer!
+  recipient: String!
+  index: Int!
+}
+
+input SettleDepositInput {
   amount: Buffer!
   recipient: String!
   index: Int!
@@ -375,7 +531,21 @@ type StartSubChain {
   parentHeightOffset: Int!
 }
 
+input StartSubChainInput {
+  chainID: Int!
+  securityDeposit: Buffer!
+  operationDeposit: Buffer!
+  startHeight: Int!
+  parentHeightOffset: Int!
+}
+
 type StopSubChain {
+  chainID: Int!
+  stopHeight: Int!
+  subChainAddress: String!
+}
+
+input StopSubChainInput {
   chainID: Int!
   stopHeight: Int!
   subChainAddress: String!
@@ -389,7 +559,16 @@ type TerminatePlumChain {
   subChainAddress: String!
 }
 
+input TerminatePlumChainInput {
+  subChainAddress: String!
+}
+
 type Timestamp {
+  seconds: Int!
+  nanos: Int!
+}
+
+input TimestampInput {
   seconds: Int!
   nanos: Int!
 }
@@ -408,5 +587,10 @@ input TransferInput {
 
 type Vote {
   timestamp: Timestamp!
+  voteeAddress: String!
+}
+
+input VoteInput {
+  timestamp: TimestampInput!
   voteeAddress: String!
 }
