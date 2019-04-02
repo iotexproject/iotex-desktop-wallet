@@ -1,10 +1,11 @@
-meta.title: 'IoTeX 区块浏览器'
+meta.title: "IoTeX 区块浏览器"
 meta.description: 探索IoTeX区块链地址，操作和智能合约。
 topbar.brand: 品牌
 topbar.blockchain: 区块链
 topbar.blocks: 区块
 topbar.actions: 行动
 topbar.home: 首页
+topbar.search: "Search by Address / Public Key / Hash / Height"
 not_found.bar: 未找到
 not_found.title: 糟糕!
 not_found.info: 找不到页面...
@@ -15,7 +16,7 @@ candidate.percent: 得票率
 candidates.election.ELECTED: 当选
 candidates.election.NOT_ELECTED: 未当选
 candidates.election.UNQUALIFIED: 未当选
-candidates.election.explain: '节点必须质押至少<b> 120万 IOTX </b>并获得<b> 200万IOTX </b>以上的总票数才能成为正式的全民节点。'
+candidates.election.explain: "节点必须质押至少<b> 120万 IOTX </b>并获得<b> 200万IOTX </b>以上的总票数才能成为正式的全民节点。"
 block.block: 区块
 block.blocks: 区块
 block.height: 高度
@@ -24,7 +25,7 @@ block.timestamp: 年龄
 block.num_actions: 操作
 block.producer_address: 生产者
 block.transfer_amount: 转账总额
-block.tx_root: 'Tx Root'
+block.tx_root: "Tx Root"
 block.receipt_root: 收据根
 block.delta_state_digest: 状态增量摘要
 action.type: 类型
@@ -32,8 +33,8 @@ action.type.transfer: 传递
 action.type.grant_reward: 授予的奖励
 action.type.execution: 执行
 action.data: 数据
-topbar.graphql_playground: 'GraphQL 测试区'
-topbar.graphql_doc: 'GraphQL 文档'
+topbar.graphql_playground: "GraphQL 测试区"
+topbar.graphql_doc: "GraphQL 文档"
 action.hash: 哈希
 action.block_hash: 区块
 action.amount: 总量
@@ -47,7 +48,7 @@ render.key.timestamp: 年龄
 render.key.numActions: 操作
 render.key.producerAddress: 生产者
 render.key.transferAmount: 转账总额
-render.key.txRoot: 'Tx Root'
+render.key.txRoot: "Tx Root"
 render.key.receiptRoot: 接收Root
 render.key.deltaStateDigest: 增值收据的摘要
 render.key.actHash: 哈希
