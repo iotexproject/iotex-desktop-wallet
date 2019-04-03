@@ -4,7 +4,7 @@ import { Server } from "onefx";
 import * as path from "path";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
-import { ActionInfoResolver } from "./resolvers/actionInfo";
+import { ActionInfoResolver } from "./resolvers/action-info";
 import { AntennaResolver } from "./resolvers/antenna";
 import { MetaResolver } from "./resolvers/meta";
 
