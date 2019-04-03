@@ -16,6 +16,7 @@ import {
 import { getActionType } from "../common/get-action-type";
 import { SpinPreloader } from "../common/spin-preloader";
 import { GET_ACTIONS } from "../queries";
+import {AddressLink} from "../common/address-link";
 
 export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
   return [
@@ -46,7 +47,7 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
       dataIndex: "sender",
       render(_: string, record: ActionInfo, __: number): JSX.Element {
         const addr = publicKeyToAddress(String(record.action.senderPubKey));
-        return <Link to={`/address/${addr}`}>{String(addr).substr(0, 8)}</Link>;
+        return <AddressLink address={addr} text={String(addr).substr(0, 8)} />;
       }
     },
     {
@@ -65,7 +66,7 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
         if (!addr) {
           return "-";
         }
-        return <Link to={`/address/${addr}`}>{String(addr).substr(0, 8)}</Link>;
+        return <AddressLink address={addr} text={String(addr).substr(0, 8)} />;
       }
     },
     {

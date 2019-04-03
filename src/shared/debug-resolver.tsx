@@ -28,7 +28,7 @@ type RequestProp = {
 
 type Props = RouteComponentProps<PathParamsType> & {};
 
-const action = {
+export const action = {
   core: {
     version: 1,
     nonce: "0",

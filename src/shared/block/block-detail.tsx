@@ -15,6 +15,7 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_BLOCK_METAS_BY_HASH } from "../queries";
+import { AddressLink } from "../common/address-link";
 
 type PathParamsType = {
   hash: string;
@@ -125,7 +126,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "recipient":
     case "owner":
     case "subChainAddress":
-      return <Link to={`/address/${record.value}`}>{text}</Link>;
+      return <AddressLink address={record.value} text={text} />;
     case "timestamp":
       return <span>{fromNow(record.value)}</span>;
     case "actHash":
