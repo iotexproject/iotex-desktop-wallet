@@ -13,10 +13,10 @@ import {
   ActionInfo,
   GetActionsResponse
 } from "../../api-gateway/resolvers/antenna-types";
+import { AddressLink } from "../common/address-link";
 import { getActionType } from "../common/get-action-type";
 import { SpinPreloader } from "../common/spin-preloader";
 import { GET_ACTIONS } from "../queries";
-import {AddressLink} from "../common/address-link";
 
 export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
   return [

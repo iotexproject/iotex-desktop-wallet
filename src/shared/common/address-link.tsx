@@ -6,17 +6,19 @@ import { Link } from "react-router-dom";
 type Props = {
   address: string;
   text: string;
-  // @ts-ignore
-  location: Location<any>;
+  // tslint:disable:no-any
+  location: any;
 };
 
 class AddressLinkInner extends Component<Props> {
   public render(): JSX.Element {
     const { address, text, location } = this.props;
     const { pathname } = location;
-    if (pathname === `/address/${address}`)
+    if (pathname === `/address/${address}`) {
       return <span>{String(address).substr(0, 8)}</span>;
-    else return <Link to={`/address/${address}`}>{text}</Link>;
+    } else {
+      return <Link to={`/address/${address}`}>{text}</Link>;
+    }
   }
 }
 
