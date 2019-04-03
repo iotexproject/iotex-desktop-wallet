@@ -4,13 +4,13 @@ import notification from "antd/lib/notification";
 import { get } from "dottie";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
-import React, { PureComponent } from "react";
-import { Query } from "react-apollo";
-import { RouteComponentProps, withRouter } from "react-router";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
+import React, { PureComponent } from "react";
+import { Query } from "react-apollo";
+import { RouteComponentProps, withRouter } from "react-router";
 import { PageTitle } from "../common/page-title";
 // @ts-ignore
 import { SpinPreloader } from "../common/spin-preloader";

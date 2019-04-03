@@ -1,12 +1,12 @@
 import Layout from "antd/lib/layout";
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
-import React, { Component } from "react";
-import { Query, QueryResult } from "react-apollo";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
+import React, { Component } from "react";
+import { Query, QueryResult } from "react-apollo";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
 import { getActionColumns } from "../address-details/action-table";
 import { Flex } from "../common/flex";
