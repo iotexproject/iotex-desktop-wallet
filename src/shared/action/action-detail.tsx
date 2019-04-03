@@ -60,7 +60,6 @@ class ActionDetailsInner extends PureComponent<Props> {
                 data.getActions.actionInfo &&
                 data.getActions.actionInfo[0]) ||
               {};
-
             // @ts-ignore
             const { actHash, blkHash, action } = actionInfo;
             let object;
@@ -72,7 +71,6 @@ class ActionDetailsInner extends PureComponent<Props> {
             }
             object = object || {};
             const { ...others } = object;
-
             const actionUnion = {
               actHash,
               blkHash,
@@ -83,9 +81,7 @@ class ActionDetailsInner extends PureComponent<Props> {
               actionType: getActionType(actionInfo),
               ...others
             };
-
             delete actionUnion.__typename;
-
             const dataSource = Object.keys(actionUnion).map(key => {
               // @ts-ignore
               if (typeof actionUnion[key] === "object") {
