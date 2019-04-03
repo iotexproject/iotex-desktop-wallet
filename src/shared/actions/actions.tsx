@@ -3,6 +3,10 @@ import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
 import React, { Component } from "react";
 import { Query, QueryResult } from "react-apollo";
+// @ts-ignore
+import { t } from "onefx/lib/iso-i18n";
+// @ts-ignore
+import Helmet from "onefx/lib/react-helmet";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
 import { getActionColumns } from "../address-details/action-table";
 import { Flex } from "../common/flex";
@@ -16,6 +20,7 @@ export class Actions extends Component {
   public render(): JSX.Element {
     return (
       <ContentPadding>
+        <Helmet title={`${t("action.actions")} - ${t("meta.description")}`} />
         <Layout tagName={"main"} className={"main-container"}>
           <Layout.Content tagName={"main"}>
             <Flex
@@ -63,7 +68,6 @@ export class ActionTable extends Component<{}, State> {
             });
             return null;
           }
-
           const actions = data && data.getActions && data.getActions.actionInfo;
 
           return (

@@ -7,6 +7,10 @@ import * as utils from "iotex-antenna/lib/account/utils";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
+// @ts-ignore
+import { t } from "onefx/lib/iso-i18n";
+// @ts-ignore
+import Helmet from "onefx/lib/react-helmet";
 import { PageTitle } from "../common/page-title";
 // @ts-ignore
 import { SpinPreloader } from "../common/spin-preloader";
@@ -36,6 +40,7 @@ class AddressDetailsInner extends PureComponent<Props> {
     };
     return (
       <ContentPadding>
+        <Helmet title={`${t("address.address")} - ${t("meta.description")}`} />
         <Query query={GET_ACCOUNT} variables={{ address }}>
           {({ loading, error, data }) => {
             if (error && String(error).indexOf("NOT_FOUND") === -1) {

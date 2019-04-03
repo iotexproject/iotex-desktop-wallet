@@ -39,6 +39,7 @@ action.hash: 哈希
 action.block_hash: 区块
 action.amount: 总量
 action.action: 行动
+action.actions: Actions
 action.sender: 发送方
 action.recipient: 接收方
 title.action: 操作
@@ -89,3 +90,4 @@ render.key.coinID: coin ID
 render.key.denomination: denomination
 render.key.owner: owner
 render.key.candidates: candidates
+address.address: Address
