@@ -153,17 +153,19 @@ export function ActionTable({
 
         const actionInfo =
           data && data.getActions && data.getActions.actionInfo;
-        const numActionsByAddress =
-          actionInfo && actionInfo.length ? totalActions : 0;
 
         return (
           <SpinPreloader spinning={loading}>
             <Table
               style={{ width: "100%" }}
               scroll={{ x: true }}
+              rowKey={"hash"}
               columns={getActionColumns()}
               dataSource={actionInfo}
-              pagination={{ pageSize, total: numActionsByAddress }}
+              pagination={{
+                pageSize,
+                total: totalActions
+              }}
               onChange={pagination => {
                 fetchMore({
                   query: GET_ACTIONS,
