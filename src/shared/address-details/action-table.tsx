@@ -27,6 +27,12 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
       }
     },
     {
+      title: t("block.timestamp"),
+      render(_: string, record: ActionInfo, __: number): string {
+        return get(record, "block.timestamp");
+      }
+    },
+    {
       title: t("action.block_hash"),
       dataIndex: "blkHash",
       render(text: string, _: ActionInfo, __: number): JSX.Element {
