@@ -8,9 +8,9 @@ import Helmet from "onefx/lib/react-helmet";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
-import { Link } from "react-router-dom";
 import { ActionTable } from "../address-details/action-table";
 import { Flex } from "../common/flex";
+import { FlexLink } from "../common/flex-link";
 import { fromNow } from "../common/from-now";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
@@ -138,13 +138,13 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "recipient":
     case "owner":
     case "subChainAddress":
-      return <Link to={`/address/${record.value}`}>{text}</Link>;
+      return <FlexLink path={`/address/${record.value}`} text={text} />;
     case "timestamp":
       return <span>{fromNow(record.value)}</span>;
     case "actHash":
-      return <Link to={`/action/${text}`}>{text}</Link>;
+      return <FlexLink path={`/action/${text}`} text={text} />;
     case "blkHash":
-      return <Link to={`/block/${text}`}>{text}</Link>;
+      return <FlexLink path={`/block/${text}`} text={text} />;
     case "txRoot":
     case "hash":
     case "receiptRoot":
