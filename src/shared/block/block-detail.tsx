@@ -22,14 +22,19 @@ type PathParamsType = {
 
 type Props = RouteComponentProps<PathParamsType> & {};
 
-class BlockDetailsInner extends PureComponent<Props> {
+type State = {
+  totalActons: number;
+};
+class BlockDetailsInner extends PureComponent<Props, State> {
+  public state: State = { totalActons: 20 };
+
   public render(): JSX.Element {
     const {
       match: {
         params: { hash }
       }
     } = this.props;
-
+    const { totalActons } = this.state;
     const fields = [
       "height",
       "timestamp",
@@ -93,8 +98,14 @@ class BlockDetailsInner extends PureComponent<Props> {
         </Query>
         <h1 style={{ marginTop: 20 }}>List of Actions</h1>
         <ActionTable
+          totalActions={totalActons}
           getVariable={({ current, pageSize }) => {
             const start = (current - 1) * pageSize;
+            if (current > 0) {
+              this.setState({
+                totalActons: start + pageSize + 1
+              });
+            }
             return {
               byBlk: {
                 blkHash: hash,
@@ -104,7 +115,6 @@ class BlockDetailsInner extends PureComponent<Props> {
             };
           }}
         />
-        .{" "}
       </ContentPadding>
     );
   }
