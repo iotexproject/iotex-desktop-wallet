@@ -129,6 +129,9 @@ const FULL_ACTION_INFO = `
       signature
       senderPubKey
     }
+    block{
+      timestamp
+    }
   }
 `;
 

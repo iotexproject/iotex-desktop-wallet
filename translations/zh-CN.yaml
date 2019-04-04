@@ -9,6 +9,8 @@ topbar.search: "Search by Address / Public Key / Hash / Height"
 not_found.bar: 未找到
 not_found.title: 糟糕!
 not_found.info: 找不到页面...
+coming_soon.title: Coming Soon...
+coming_soon.bar: coming soon
 candidate.delegate_name: 节点名称
 candidate.status: 状态
 candidate.live_votes: 实时投票
