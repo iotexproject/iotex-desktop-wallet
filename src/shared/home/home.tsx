@@ -74,8 +74,8 @@ class HomeComponent extends Component<Props, State> {
         }
       },
       {
-        title: "TOTAL ACTIONS",
-        value: (parseInt(tps, 10) * 10).toLocaleString(),
+        title: "CURRENT TPS",
+        value: parseInt(tps, 10).toLocaleString(),
         icon: "dashboard",
         action: () => {
           history.push(`/actions`);
