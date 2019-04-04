@@ -28,6 +28,17 @@ class AddressDetailsInner extends PureComponent<Props> {
     // const copyText = `/address/${address}`;
     copy.copyCB(address || "");
   };
+  public renderCopy(address: string): JSX.Element {
+    return (
+      <Tooltip placement="top" title="Copied" trigger="click">
+        <Button
+          shape="circle"
+          icon="copy"
+          onClick={() => this.copyToAddress(address)}
+        />
+      </Tooltip>
+    );
+  }
   public render(): JSX.Element {
     const {
       match: {
@@ -64,17 +75,9 @@ class AddressDetailsInner extends PureComponent<Props> {
                       {" "}
                       {(addressInfo && addressInfo.address) || address}{" "}
                     </span>
-                    <Tooltip placement="top" title="Copied" trigger="click">
-                      <Button
-                        shape="circle"
-                        icon="copy"
-                        onClick={() =>
-                          this.copyToAddress(
-                            (addressInfo && addressInfo.address) || address
-                          )
-                        }
-                      />
-                    </Tooltip>
+                    {this.renderCopy(
+                      (addressInfo && addressInfo.address) || address
+                    )}
                   </PageTitle>
                   <Divider orientation="left">Overview</Divider>
                   <div className="overview-list">
