@@ -84,6 +84,7 @@ action.hash: Hash
 action.block_hash: Block
 action.amount: Amount
 action.action: Action
+action.actions: Actions
 action.sender: Sender
 action.recipient: Recipient
 title.action: Action
@@ -110,3 +111,4 @@ render.key.type: "Reward Type"
 render.value.grantReward: "Grant Reward"
 render.value.execution: Execution
 render.value.transfer: Transfer
+address.address: Address

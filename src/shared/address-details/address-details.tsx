@@ -4,6 +4,10 @@ import notification from "antd/lib/notification";
 import { get } from "dottie";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
+// @ts-ignore
+import { t } from "onefx/lib/iso-i18n";
+// @ts-ignore
+import Helmet from "onefx/lib/react-helmet";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -36,6 +40,7 @@ class AddressDetailsInner extends PureComponent<Props> {
     };
     return (
       <ContentPadding>
+        <Helmet title={`IoTeX ${t("address.address")} ${address}`} />
         <Query query={GET_ACCOUNT} variables={{ address }}>
           {({ loading, error, data }) => {
             if (error && String(error).indexOf("NOT_FOUND") === -1) {

@@ -4,6 +4,8 @@ import Table, { ColumnProps } from "antd/lib/table";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
+// @ts-ignore
+import Helmet from "onefx/lib/react-helmet";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import {
@@ -75,6 +77,7 @@ function getBlockIndexRange(
 export function Blocks(): JSX.Element {
   return (
     <ContentPadding>
+      <Helmet title={`${t("block.blocks")} - ${t("meta.description")}`} />
       <Query query={GET_LATEST_HEIGHT}>
         {({ data }: QueryResult<{ chainMeta: { height: number } }>) => {
           const latestHeight =

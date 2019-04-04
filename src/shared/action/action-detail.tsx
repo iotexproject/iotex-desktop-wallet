@@ -4,6 +4,8 @@ import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
+// @ts-ignore
+import Helmet from "onefx/lib/react-helmet";
 import React, { PureComponent } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -33,6 +35,7 @@ class ActionDetailsInner extends PureComponent<Props> {
 
     return (
       <ContentPadding>
+        <Helmet title={`IoTeX ${t("action.action")} ${hash}`} />
         <Query
           query={GET_ACTIONS_BY_HASH}
           variables={{ byHash: { actionHash: hash, checkingPending: true } }}
@@ -57,7 +60,6 @@ class ActionDetailsInner extends PureComponent<Props> {
                 data.getActions.actionInfo &&
                 data.getActions.actionInfo[0]) ||
               {};
-
             // @ts-ignore
             const { actHash, blkHash, action } = actionInfo;
             let object;
@@ -69,7 +71,6 @@ class ActionDetailsInner extends PureComponent<Props> {
             }
             object = object || {};
             const { ...others } = object;
-
             const actionUnion = {
               actHash,
               blkHash,
@@ -80,9 +81,7 @@ class ActionDetailsInner extends PureComponent<Props> {
               actionType: getActionType(actionInfo),
               ...others
             };
-
             delete actionUnion.__typename;
-
             const dataSource = Object.keys(actionUnion).map(key => {
               // @ts-ignore
               if (typeof actionUnion[key] === "object") {

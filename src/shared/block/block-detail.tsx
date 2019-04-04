@@ -3,6 +3,8 @@ import Table from "antd/lib/table";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
+// @ts-ignore
+import Helmet from "onefx/lib/react-helmet";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -49,6 +51,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
 
     return (
       <ContentPadding>
+        <Helmet title={`IoTeX ${t("block.block")} ${hash}`} />
         <Query
           query={GET_BLOCK_METAS_BY_HASH}
           variables={{ byHash: { blkHash: hash } }}
