@@ -46,7 +46,7 @@ class BlockDetailsInner extends PureComponent<Props> {
 
     return (
       <ContentPadding>
-        <Helmet title={`${t("block.block")} - ${t("meta.description")}`} />
+        <Helmet title={`IoTeX ${t("block.block")} ${hash}`} />
         <Query
           query={GET_BLOCK_METAS_BY_HASH}
           variables={{ byHash: { blkHash: hash } }}

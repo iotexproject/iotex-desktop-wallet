@@ -35,7 +35,7 @@ class ActionDetailsInner extends PureComponent<Props> {
 
     return (
       <ContentPadding>
-        <Helmet title={`${t("action.action")} - ${t("meta.description")}`} />
+        <Helmet title={`IoTeX ${t("action.action")} ${hash}`} />
         <Query
           query={GET_ACTIONS_BY_HASH}
           variables={{ byHash: { actionHash: hash, checkingPending: true } }}

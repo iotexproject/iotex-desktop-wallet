@@ -40,7 +40,7 @@ class AddressDetailsInner extends PureComponent<Props> {
     };
     return (
       <ContentPadding>
-        <Helmet title={`${t("address.address")} - ${t("meta.description")}`} />
+        <Helmet title={`IoTeX ${t("address.address")} ${address}`} />
         <Query query={GET_ACCOUNT} variables={{ address }}>
           {({ loading, error, data }) => {
             if (error && String(error).indexOf("NOT_FOUND") === -1) {
