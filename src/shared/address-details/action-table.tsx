@@ -8,12 +8,11 @@ import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
-import { Link } from "react-router-dom";
 import {
   ActionInfo,
   GetActionsResponse
 } from "../../api-gateway/resolvers/antenna-types";
-import { AddressLink } from "../common/address-link";
+import { FlexLink } from "../common/flex-link";
 import { getActionType } from "../common/get-action-type";
 import { SpinPreloader } from "../common/spin-preloader";
 import { GET_ACTIONS } from "../queries";
@@ -24,14 +23,18 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
       title: t("action.hash"),
       dataIndex: "actHash",
       render(text: string, _: ActionInfo, __: number): JSX.Element {
-        return <Link to={`/action/${text}`}>{String(text).substr(0, 8)}</Link>;
+        return (
+          <FlexLink path={`/action/${text}`} text={String(text).substr(0, 8)} />
+        );
       }
     },
     {
       title: t("action.block_hash"),
       dataIndex: "blkHash",
       render(text: string, _: ActionInfo, __: number): JSX.Element {
-        return <Link to={`/block/${text}`}>{String(text).substr(0, 8)}</Link>;
+        return (
+          <FlexLink path={`/block/${text}`} text={String(text).substr(0, 8)} />
+        );
       }
     },
     {
@@ -47,7 +50,12 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
       dataIndex: "sender",
       render(_: string, record: ActionInfo, __: number): JSX.Element {
         const addr = publicKeyToAddress(String(record.action.senderPubKey));
-        return <AddressLink address={addr} text={String(addr).substr(0, 8)} />;
+        return (
+          <FlexLink
+            path={`/address/${addr}`}
+            text={String(addr).substr(0, 8)}
+          />
+        );
       }
     },
     {
@@ -66,7 +74,12 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
         if (!addr) {
           return "-";
         }
-        return <AddressLink address={addr} text={String(addr).substr(0, 8)} />;
+        return (
+          <FlexLink
+            path={`/address/${addr}`}
+            text={String(addr).substr(0, 8)}
+          />
+        );
       }
     },
     {
