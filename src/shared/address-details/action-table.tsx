@@ -17,6 +17,22 @@ import { getActionType } from "../common/get-action-type";
 import { SpinPreloader } from "../common/spin-preloader";
 import { GET_ACTIONS } from "../queries";
 
+export function getAddress(record: ActionInfo): string {
+  const addr: string =
+    get(record, "action.core.transfer.recipient") ||
+    get(record, "action.core.execution.contract") ||
+    get(record, "action.core.createDeposit.recipient") ||
+    get(record, "action.core.settleDeposit.recipient") ||
+    get(record, "action.core.plumCreateDeposit.recipient") ||
+    get(record, "action.core.plumTransfer.recipient") ||
+    get(record, "action.core.createPlumChain.contract") ||
+    "";
+  if (!addr) {
+    return "-";
+  }
+  return addr;
+}
+
 export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
   return [
     {
@@ -68,18 +84,7 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
       title: t("action.recipient"),
       dataIndex: "recipient",
       render(_: string, record: ActionInfo, __: number): JSX.Element | string {
-        const addr =
-          get(record, "action.core.transfer.recipient") ||
-          get(record, "action.core.execution.contract") ||
-          get(record, "action.core.createDeposit.recipient") ||
-          get(record, "action.core.settleDeposit.recipient") ||
-          get(record, "action.core.plumCreateDeposit.recipient") ||
-          get(record, "action.core.plumTransfer.recipient") ||
-          get(record, "action.core.createPlumChain.contract") ||
-          "";
-        if (!addr) {
-          return "-";
-        }
+        const addr = getAddress(record);
         return (
           <FlexLink
             path={`/address/${addr}`}
