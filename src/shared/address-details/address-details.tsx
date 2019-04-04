@@ -1,14 +1,17 @@
+// @ts-ignore
+import Button from "antd/lib/button";
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
+import Tooltip from "antd/lib/tooltip";
 import { get } from "dottie";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
+import * as copy from "text-to-clipboard";
 import { PageTitle } from "../common/page-title";
-// @ts-ignore
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_ACCOUNT } from "../queries";
@@ -21,6 +24,10 @@ type PathParamsType = {
 type Props = RouteComponentProps<PathParamsType> & {};
 
 class AddressDetailsInner extends PureComponent<Props> {
+  public copyToAddress = (address: string) => {
+    // const copyText = `/address/${address}`;
+    copy.copyCB(address || "");
+  };
   public render(): JSX.Element {
     const {
       match: {
@@ -55,8 +62,19 @@ class AddressDetailsInner extends PureComponent<Props> {
                     <Icon type="wallet" /> Address:
                     <span>
                       {" "}
-                      {(addressInfo && addressInfo.address) || address}
+                      {(addressInfo && addressInfo.address) || address}{" "}
                     </span>
+                    <Tooltip placement="top" title="Copied" trigger="click">
+                      <Button
+                        shape="circle"
+                        icon="copy"
+                        onClick={() =>
+                          this.copyToAddress(
+                            (addressInfo && addressInfo.address) || address
+                          )
+                        }
+                      />
+                    </Tooltip>
                   </PageTitle>
                   <Divider orientation="left">Overview</Divider>
                   <div className="overview-list">
