@@ -23,15 +23,36 @@ type PathParamsType = {
 
 type Props = RouteComponentProps<PathParamsType> & {};
 
-class AddressDetailsInner extends PureComponent<Props> {
+type State = {
+  trigger: "hover" | "focus" | "click" | "contextMenu" | undefined;
+  title: string;
+  copied: string;
+};
+
+class AddressDetailsInner extends PureComponent<Props, State> {
+  public state: State = {
+    trigger: "hover",
+    title: "Copy address to clipboard",
+    copied: ""
+  };
+
   public copyToAddress = (address: string) => {
-    // const copyText = `/address/${address}`;
     copy.copyCB(address || "");
+    this.setState({
+      trigger: "click",
+      title: "Copied",
+      copied: "copied"
+    });
   };
   public renderCopy(address: string): JSX.Element {
     return (
-      <Tooltip placement="top" title="Copied" trigger="click">
+      <Tooltip
+        placement="top"
+        title={this.state.title}
+        trigger={this.state.trigger}
+      >
         <Button
+          className={this.state.copied}
           shape="circle"
           icon="copy"
           onClick={() => this.copyToAddress(address)}
