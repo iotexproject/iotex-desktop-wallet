@@ -25,7 +25,9 @@ type PathParamsType = {
 
 type Props = RouteComponentProps<PathParamsType> & {};
 
+
 class AddressDetailsInner extends PureComponent<Props> {
+
   public render(): JSX.Element {
     const {
       match: {
