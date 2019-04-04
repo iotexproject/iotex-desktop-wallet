@@ -8,14 +8,30 @@ import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
-import { Link } from "react-router-dom";
 import {
   ActionInfo,
   GetActionsResponse
 } from "../../api-gateway/resolvers/antenna-types";
+import { FlexLink } from "../common/flex-link";
 import { getActionType } from "../common/get-action-type";
 import { SpinPreloader } from "../common/spin-preloader";
 import { GET_ACTIONS } from "../queries";
+
+export function getAddress(record: ActionInfo): string {
+  const addr: string =
+    get(record, "action.core.transfer.recipient") ||
+    get(record, "action.core.execution.contract") ||
+    get(record, "action.core.createDeposit.recipient") ||
+    get(record, "action.core.settleDeposit.recipient") ||
+    get(record, "action.core.plumCreateDeposit.recipient") ||
+    get(record, "action.core.plumTransfer.recipient") ||
+    get(record, "action.core.createPlumChain.contract") ||
+    "";
+  if (!addr) {
+    return "-";
+  }
+  return addr;
+}
 
 export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
   return [
@@ -23,7 +39,9 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
       title: t("action.hash"),
       dataIndex: "actHash",
       render(text: string, _: ActionInfo, __: number): JSX.Element {
-        return <Link to={`/action/${text}`}>{String(text).substr(0, 8)}</Link>;
+        return (
+          <FlexLink path={`/action/${text}`} text={String(text).substr(0, 8)} />
+        );
       }
     },
     {
@@ -36,7 +54,9 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
       title: t("action.block_hash"),
       dataIndex: "blkHash",
       render(text: string, _: ActionInfo, __: number): JSX.Element {
-        return <Link to={`/block/${text}`}>{String(text).substr(0, 8)}</Link>;
+        return (
+          <FlexLink path={`/block/${text}`} text={String(text).substr(0, 8)} />
+        );
       }
     },
     {
@@ -52,26 +72,25 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
       dataIndex: "sender",
       render(_: string, record: ActionInfo, __: number): JSX.Element {
         const addr = publicKeyToAddress(String(record.action.senderPubKey));
-        return <Link to={`/address/${addr}`}>{String(addr).substr(0, 8)}</Link>;
+        return (
+          <FlexLink
+            path={`/address/${addr}`}
+            text={String(addr).substr(0, 8)}
+          />
+        );
       }
     },
     {
       title: t("action.recipient"),
       dataIndex: "recipient",
       render(_: string, record: ActionInfo, __: number): JSX.Element | string {
-        const addr =
-          get(record, "action.core.transfer.recipient") ||
-          get(record, "action.core.execution.contract") ||
-          get(record, "action.core.createDeposit.recipient") ||
-          get(record, "action.core.settleDeposit.recipient") ||
-          get(record, "action.core.plumCreateDeposit.recipient") ||
-          get(record, "action.core.plumTransfer.recipient") ||
-          get(record, "action.core.createPlumChain.contract") ||
-          "";
-        if (!addr) {
-          return "-";
-        }
-        return <Link to={`/address/${addr}`}>{String(addr).substr(0, 8)}</Link>;
+        const addr = getAddress(record);
+        return (
+          <FlexLink
+            path={`/address/${addr}`}
+            text={String(addr).substr(0, 8)}
+          />
+        );
       }
     },
     {
