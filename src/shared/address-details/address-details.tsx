@@ -1,16 +1,14 @@
 // @ts-ignore
-import Button from "antd/lib/button";
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
-import Tooltip from "antd/lib/tooltip";
 import { get } from "dottie";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
-import * as copy from "text-to-clipboard";
+import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -23,43 +21,7 @@ type PathParamsType = {
 
 type Props = RouteComponentProps<PathParamsType> & {};
 
-type State = {
-  trigger: "hover" | "focus" | "click" | "contextMenu" | undefined;
-  title: string;
-  copied: string;
-};
-
-class AddressDetailsInner extends PureComponent<Props, State> {
-  public state: State = {
-    trigger: "hover",
-    title: "Copy address to clipboard",
-    copied: ""
-  };
-
-  public copyToAddress = (address: string) => {
-    copy.copyCB(address || "");
-    this.setState({
-      trigger: "click",
-      title: "Copied",
-      copied: "copied"
-    });
-  };
-  public renderCopy(address: string): JSX.Element {
-    return (
-      <Tooltip
-        placement="top"
-        title={this.state.title}
-        trigger={this.state.trigger}
-      >
-        <Button
-          className={this.state.copied}
-          shape="circle"
-          icon="copy"
-          onClick={() => this.copyToAddress(address)}
-        />
-      </Tooltip>
-    );
-  }
+class AddressDetailsInner extends PureComponent<Props> {
   public render(): JSX.Element {
     const {
       match: {
@@ -87,6 +49,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
             if (data && data.getAccount && data.getAccount.accountMeta) {
               addressInfo = data.getAccount.accountMeta;
             }
+            const copyAddress = (addressInfo && addressInfo.address) || address;
             return (
               <SpinPreloader spinning={loading}>
                 <div className="address-top">
@@ -96,9 +59,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
                       {" "}
                       {(addressInfo && addressInfo.address) || address}{" "}
                     </span>
-                    {this.renderCopy(
-                      (addressInfo && addressInfo.address) || address
-                    )}
+                    <CopyButtonClipboardComponent text={copyAddress} />
                   </PageTitle>
                   <Divider orientation="left">Overview</Divider>
                   <div className="overview-list">
