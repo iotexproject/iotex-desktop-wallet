@@ -18,6 +18,10 @@ import {
   SUGGEST_GAS_PRICE
 } from "./queries";
 
+import Antenna from "iotex-antenna";
+
+const antenna = new Antenna("http://localhost:4004/iotex-core-proxy");
+
 type PathParamsType = {};
 
 type RequestProp = {
@@ -127,6 +131,17 @@ class TestAntennaInner extends PureComponent<Props> {
       name: "GET_ACCOUNT"
     }
   ];
+
+  public componentDidMount(): void {
+    antenna.iotx
+      .getAccount({
+        address: "io126xcrjhtp27end76ac9nmx6px2072c3vgz6suw"
+      })
+      .then((resp: any) => {
+        console.log("resp", resp);
+      });
+  }
+
   public render(): JSX.Element {
     const tmp = [
       {
