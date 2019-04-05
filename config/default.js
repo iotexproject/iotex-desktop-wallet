@@ -16,7 +16,8 @@ module.exports = {
     },
     noCsrfRoutes: {
       "/api-gateway/": true,
-      "/api/": true
+      "/api/": true,
+      "/iotex-core-proxy/": true
     }
   },
   ssm: {
@@ -57,7 +58,7 @@ module.exports = {
     "img-src": ["*", "data:"],
     "media-src": ["self"],
     "object-src": ["self"],
-    "script-src": ["self", "https://www.google-analytics.com/"]
+    "script-src": ["self", "unsafe-eval", "https://www.google-analytics.com/"]
   },
   apiGatewayUrl:
     process.env.API_GATEWAY_URL || "http://localhost:4004/api-gateway/",
