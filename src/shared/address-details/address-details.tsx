@@ -27,6 +27,18 @@ type PathParamsType = {
 type Props = RouteComponentProps<PathParamsType> & {};
 
 class AddressDetailsInner extends PureComponent<Props> {
+  private renderItem(icon: string, name: string, info: string): JSX.Element {
+    return (
+      <div className={"item"}>
+        <div className={"icon"}>
+          <Icon type={icon} />
+        </div>
+        <div className={"name"}>{name}</div>
+        <div className={"info"}>{info}</div>
+      </div>
+    );
+  }
+
   public render(): JSX.Element {
     const {
       match: {
@@ -70,34 +82,27 @@ class AddressDetailsInner extends PureComponent<Props> {
                   <Sections>
                     <Divider orientation="left">{t("title.overview")}</Divider>
                     <div className="overview-list">
-                      <div className={"item"}>
-                        <div className={"icon"}>
-                          <Icon type="money-collect" />
-                        </div>
-                        <div className={"name"}>balance</div>
-                        <div className={"info"}>{`${(+utils.fromRau(
+                      {this.renderItem(
+                        "money-collect",
+                        "balance",
+                        `${(+utils.fromRau(
                           String((addressInfo && addressInfo.balance) || 0),
                           "IOTX"
-                        )).toFixed(4)} IOTX`}</div>
-                      </div>
-                      <div className={"item"}>
-                        <div className={"icon"}>
-                          <Icon type="border" />
-                        </div>
-                        <div className={"name"}>nonce</div>
-                        <div className={"info"}>
-                          {(addressInfo && addressInfo.nonce) || 0}
-                        </div>
-                      </div>
-                      <div className={"item"}>
-                        <div className={"icon"}>
-                          <Icon type="project" />
-                        </div>
-                        <div className={"name"}>pendingNonce</div>
-                        <div className={"info"}>
-                          {(addressInfo && addressInfo.pendingNonce) || 0}
-                        </div>
-                      </div>
+                        )).toFixed(4)} IOTX`
+                      )}
+                      {this.renderItem(
+                        "border",
+                        "nonce",
+                        ((addressInfo && addressInfo.nonce) || 0).toString()
+                      )}
+                      {this.renderItem(
+                        "project",
+                        "pendingNonce",
+                        (
+                          (addressInfo && addressInfo.pendingNonce) ||
+                          0
+                        ).toString()
+                      )}
                     </div>
                   </Sections>
                 </div>
