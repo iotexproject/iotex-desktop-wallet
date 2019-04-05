@@ -16,7 +16,7 @@ import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
-import { GET_BLOCK_METAS_BY_HASH } from "../queries";
+import { GET_BLOCK_METAS } from "../queries";
 
 type PathParamsType = {
   hash: string;
@@ -26,9 +26,12 @@ type Props = RouteComponentProps<PathParamsType> & {};
 
 type State = {
   totalActons: number;
+  start: number;
+  count: number;
 };
+
 class BlockDetailsInner extends PureComponent<Props, State> {
-  public state: State = { totalActons: 20 };
+  public state: State = { totalActons: 20, start: 0, count: 10 };
 
   public render(): JSX.Element {
     const {
@@ -49,13 +52,22 @@ class BlockDetailsInner extends PureComponent<Props, State> {
       "deltaStateDigest"
     ];
 
+    let byParam = {};
+    if (!isNaN(Number(hash))) {
+      byParam = {
+        byIndex: {
+          start: Number(hash),
+          count: 1
+        }
+      };
+    } else {
+      byParam = { byHash: { blkHash: hash } };
+    }
+
     return (
       <ContentPadding>
         <Helmet title={`IoTeX ${t("block.block")} ${hash}`} />
-        <Query
-          query={GET_BLOCK_METAS_BY_HASH}
-          variables={{ byHash: { blkHash: hash } }}
-        >
+        <Query query={GET_BLOCK_METAS} variables={byParam}>
           {({ loading, error, data }) => {
             if (error) {
               notification.error({
@@ -78,46 +90,48 @@ class BlockDetailsInner extends PureComponent<Props, State> {
             }));
 
             return (
-              <SpinPreloader spinning={loading}>
-                <Flex
-                  width={"100%"}
-                  column={true}
-                  alignItems={"baselines"}
-                  backgroundColor={colors.white}
-                >
-                  <PageTitle>{t("block.block")}</PageTitle>
-                  <Table
-                    pagination={false}
-                    dataSource={dataSource}
-                    columns={columns}
-                    rowKey={"key"}
-                    style={{ width: "100%" }}
-                    scroll={{ x: true }}
-                  />
-                </Flex>
-              </SpinPreloader>
+              <div>
+                <SpinPreloader spinning={loading}>
+                  <Flex
+                    width={"100%"}
+                    column={true}
+                    alignItems={"baselines"}
+                    backgroundColor={colors.white}
+                  >
+                    <PageTitle>{t("block.block")}</PageTitle>
+                    <Table
+                      pagination={false}
+                      dataSource={dataSource}
+                      columns={columns}
+                      rowKey={"key"}
+                      style={{ width: "100%" }}
+                      scroll={{ x: true }}
+                    />
+                  </Flex>
+                </SpinPreloader>
+                <h1 style={{ marginTop: 20 }}>List of Actions</h1>
+                <ActionTable
+                  totalActions={totalActons}
+                  getVariable={({ current, pageSize }) => {
+                    const start = (current - 1) * pageSize;
+                    if (current > 0) {
+                      this.setState({
+                        totalActons: start + pageSize + 1
+                      });
+                    }
+                    return {
+                      byBlk: {
+                        blkHash: blockMeta.hash,
+                        start: start < 0 ? 0 : start,
+                        count: pageSize
+                      }
+                    };
+                  }}
+                />
+              </div>
             );
           }}
         </Query>
-        <h1 style={{ marginTop: 20 }}>List of Actions</h1>
-        <ActionTable
-          totalActions={totalActons}
-          getVariable={({ current, pageSize }) => {
-            const start = (current - 1) * pageSize;
-            if (current > 0) {
-              this.setState({
-                totalActons: start + pageSize + 1
-              });
-            }
-            return {
-              byBlk: {
-                blkHash: hash,
-                start: start < 0 ? 0 : start,
-                count: pageSize
-              }
-            };
-          }}
-        />
       </ContentPadding>
     );
   }
