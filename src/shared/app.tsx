@@ -16,7 +16,6 @@ import { Actions } from "./actions/actions";
 import { AddressDetails } from "./address-details/address-details";
 import { BlockDetail } from "./block/block-detail";
 import { Blocks } from "./block/blocks";
-import { ComingSoon } from "./common/coming_soon";
 import { Footer, FOOTER_ABOVE } from "./common/footer";
 // @ts-ignore
 import initGoogleAnalytics from "./common/google-analytics";
@@ -25,6 +24,7 @@ import { colors } from "./common/styles/style-color";
 import { fonts } from "./common/styles/style-font";
 import { TopBar } from "./common/top-bar";
 import { Home } from "./home/home";
+import Wallet from "./wallet/wallet";
 
 type Props = {
   googleTid: string;
@@ -95,7 +95,7 @@ export class App extends Component<Props> {
             <Route exact path="/blocks" component={Blocks} />
             <Route exact path="/action/:hash" component={ActionDetail} />
             <Route exact path="/actions" component={Actions} />
-            <Route exact path="/wallet" component={ComingSoon} />
+            <Route exact path="/wallet" component={Wallet} />
             <Route component={NotFound} />
           </Switch>
         </div>

@@ -10,7 +10,7 @@
   background: #fff;
   margin-bottom: 20px;
 }
-.page-title{
+.page-title {
   font-size: 22px;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -98,4 +98,25 @@
       font-size: 20px;
     }
   }
+}
+
+.blur-image {
+  filter: blur(9px);
+}
+
+.wallet {
+  position: relative;
+  border-radius: 4px;
+  border: solid 1px #f0f0f0;
+  max-width: 288px;
+  height: 492px;
+  word-break: break-word;
+}
+
+.centered-text {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
