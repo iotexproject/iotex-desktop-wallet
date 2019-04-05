@@ -9,6 +9,8 @@ topbar.home: HOME
 not_found.bar: "Not Found"
 not_found.title: Oops!
 not_found.info: "We cannot find the page for you..."
+coming_soon.title: Coming Soon...
+coming_soon.bar: coming soon
 candidate.delegate_name: "Delegate Name"
 candidate.status: Status
 candidate.live_votes: LiveVotes
@@ -82,6 +84,7 @@ action.hash: Hash
 action.block_hash: Block
 action.amount: Amount
 action.action: Action
+action.actions: Actions
 action.sender: Sender
 action.recipient: Recipient
 title.action: Action
@@ -108,3 +111,4 @@ render.key.type: "Reward Type"
 render.value.grantReward: "Grant Reward"
 render.value.execution: Execution
 render.value.transfer: Transfer
+address.address: Address

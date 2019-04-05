@@ -9,6 +9,8 @@ topbar.search: "Search by Address / Public Key / Hash / Height"
 not_found.bar: 未找到
 not_found.title: 糟糕!
 not_found.info: 找不到页面...
+coming_soon.title: Coming Soon...
+coming_soon.bar: coming soon
 candidate.delegate_name: 节点名称
 candidate.status: 状态
 candidate.live_votes: 实时投票
@@ -39,6 +41,7 @@ action.hash: 哈希
 action.block_hash: 区块
 action.amount: 总量
 action.action: 行动
+action.actions: Actions
 action.sender: 发送方
 action.recipient: 接收方
 title.action: 操作
@@ -89,3 +92,4 @@ render.key.coinID: coin ID
 render.key.denomination: denomination
 render.key.owner: owner
 render.key.candidates: candidates
+address.address: Address

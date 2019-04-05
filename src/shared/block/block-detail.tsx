@@ -3,12 +3,14 @@ import Table from "antd/lib/table";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
+// @ts-ignore
+import Helmet from "onefx/lib/react-helmet";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
-import { Link } from "react-router-dom";
 import { ActionTable } from "../address-details/action-table";
 import { Flex } from "../common/flex";
+import { FlexLink } from "../common/flex-link";
 import { fromNow } from "../common/from-now";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
@@ -22,14 +24,19 @@ type PathParamsType = {
 
 type Props = RouteComponentProps<PathParamsType> & {};
 
-class BlockDetailsInner extends PureComponent<Props> {
+type State = {
+  totalActons: number;
+};
+class BlockDetailsInner extends PureComponent<Props, State> {
+  public state: State = { totalActons: 20 };
+
   public render(): JSX.Element {
     const {
       match: {
         params: { hash }
       }
     } = this.props;
-
+    const { totalActons } = this.state;
     const fields = [
       "height",
       "timestamp",
@@ -44,6 +51,7 @@ class BlockDetailsInner extends PureComponent<Props> {
 
     return (
       <ContentPadding>
+        <Helmet title={`IoTeX ${t("block.block")} ${hash}`} />
         <Query
           query={GET_BLOCK_METAS_BY_HASH}
           variables={{ byHash: { blkHash: hash } }}
@@ -93,8 +101,14 @@ class BlockDetailsInner extends PureComponent<Props> {
         </Query>
         <h1 style={{ marginTop: 20 }}>List of Actions</h1>
         <ActionTable
+          totalActions={totalActons}
           getVariable={({ current, pageSize }) => {
             const start = (current - 1) * pageSize;
+            if (current > 0) {
+              this.setState({
+                totalActons: start + pageSize + 1
+              });
+            }
             return {
               byBlk: {
                 blkHash: hash,
@@ -104,7 +118,6 @@ class BlockDetailsInner extends PureComponent<Props> {
             };
           }}
         />
-        .{" "}
       </ContentPadding>
     );
   }
@@ -125,13 +138,13 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "recipient":
     case "owner":
     case "subChainAddress":
-      return <Link to={`/address/${record.value}`}>{text}</Link>;
+      return <FlexLink path={`/address/${record.value}`} text={text} />;
     case "timestamp":
       return <span>{fromNow(record.value)}</span>;
     case "actHash":
-      return <Link to={`/action/${text}`}>{text}</Link>;
+      return <FlexLink path={`/action/${text}`} text={text} />;
     case "blkHash":
-      return <Link to={`/block/${text}`}>{text}</Link>;
+      return <FlexLink path={`/block/${text}`} text={text} />;
     case "txRoot":
     case "hash":
     case "receiptRoot":

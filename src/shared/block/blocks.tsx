@@ -1,17 +1,18 @@
 import Layout from "antd/lib/layout";
 import notification from "antd/lib/notification";
-import { ColumnProps } from "antd/lib/table";
-import Table from "antd/lib/table";
+import Table, { ColumnProps } from "antd/lib/table";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
+// @ts-ignore
+import Helmet from "onefx/lib/react-helmet";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
-import { Link } from "react-router-dom";
 import {
   BlockMeta,
   GetBlockMetasResponse
 } from "../../api-gateway/resolvers/antenna-types";
+import { FlexLink } from "../common/flex-link";
 import { fromNow } from "../common/from-now";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
@@ -24,7 +25,7 @@ function getColumns(): Array<ColumnProps<BlockMeta>> {
       title: t("block.height"),
       dataIndex: "height",
       render(_: string, record: BlockMeta, __: number): JSX.Element {
-        return <Link to={`/block/${record.hash}/`}>{record.height}</Link>;
+        return <FlexLink path={`/block/${record.hash}`} text={record.height} />;
       }
     },
     {
@@ -43,9 +44,10 @@ function getColumns(): Array<ColumnProps<BlockMeta>> {
       dataIndex: "producerAddress",
       render(_: string, record: BlockMeta, __: number): JSX.Element {
         return (
-          <Link to={`/address/${record.producerAddress}/`}>
-            {record.producerAddress}
-          </Link>
+          <FlexLink
+            path={`/address/${record.producerAddress}`}
+            text={record.producerAddress}
+          />
         );
       }
     },
@@ -75,6 +77,7 @@ function getBlockIndexRange(
 export function Blocks(): JSX.Element {
   return (
     <ContentPadding>
+      <Helmet title={`${t("block.blocks")} - ${t("meta.description")}`} />
       <Query query={GET_LATEST_HEIGHT}>
         {({ data }: QueryResult<{ chainMeta: { height: number } }>) => {
           const latestHeight =
