@@ -44,6 +44,7 @@ action.action: 行动
 action.actions: Actions
 action.sender: 发送方
 action.recipient: 接收方
+action.gas: Gas Price
 title.action: 操作
 render.key.height: 高度
 render.key.hash: 哈希

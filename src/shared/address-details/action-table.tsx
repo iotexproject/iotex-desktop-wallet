@@ -1,3 +1,4 @@
+// tslint:disable:max-func-body-length
 import { ColumnProps } from "antd/es/table";
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
@@ -124,6 +125,17 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
           return "-";
         }
         return String(data).substr(0, 8);
+      }
+    },
+    {
+      title: t("action.gas"),
+      dataIndex: "gas",
+      render(_: string, record: ActionInfo, __: number): string {
+        const data = get(record, "action.core.gasPrice") || "";
+        if (!data) {
+          return "-";
+        }
+        return String(data);
       }
     }
   ];
