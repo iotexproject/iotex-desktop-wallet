@@ -33,7 +33,23 @@ type State = {
 class BlockDetailsInner extends PureComponent<Props, State> {
   public state: State = { totalActons: 20, start: 0, count: 10 };
 
-  private renderSpinPreloader(loading: any, dataSource: any): JSX.Element {
+  // tslint:disable:no-any
+  private renderSpinPreloader(loading: boolean, blockMeta: any): JSX.Element {
+    const fields = [
+      "height",
+      "timestamp",
+      "numActions",
+      "producerAddress",
+      "hash",
+      "transferAmount",
+      "txRoot",
+      "receiptRoot",
+      "deltaStateDigest"
+    ];
+    const dataSource = fields.map(field => ({
+      key: field,
+      value: blockMeta[field]
+    }));
     return (
       <SpinPreloader spinning={loading}>
         <Flex
@@ -63,18 +79,6 @@ class BlockDetailsInner extends PureComponent<Props, State> {
       }
     } = this.props;
     const { totalActons } = this.state;
-    const fields = [
-      "height",
-      "timestamp",
-      "numActions",
-      "producerAddress",
-      "hash",
-      "transferAmount",
-      "txRoot",
-      "receiptRoot",
-      "deltaStateDigest"
-    ];
-
     let byParam = {};
     if (!isNaN(Number(hash))) {
       byParam = {
@@ -107,14 +111,9 @@ class BlockDetailsInner extends PureComponent<Props, State> {
                 data.getBlockMetas.blkMetas &&
                 data.getBlockMetas.blkMetas[0]) ||
               {};
-            const dataSource = fields.map(field => ({
-              key: field,
-              value: blockMeta[field]
-            }));
-
             return (
               <div>
-                {this.renderSpinPreloader(loading, dataSource)}
+                {this.renderSpinPreloader(loading, blockMeta)}
                 <h1 style={{ marginTop: 20 }}>List of Actions</h1>
                 <ActionTable
                   totalActions={totalActons}
