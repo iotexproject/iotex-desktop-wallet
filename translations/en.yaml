@@ -85,9 +85,11 @@ action.block_hash: Block
 action.amount: Amount
 action.action: Action
 action.actions: Actions
+action.actionsList: List of Actions
 action.sender: Sender
 action.recipient: Recipient
 title.action: Action
+title.overview: Overview
 render.key.height: Height
 render.key.hash: Hash
 render.key.timestamp: Age

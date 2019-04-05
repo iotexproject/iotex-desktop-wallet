@@ -1,3 +1,4 @@
+import Icon from "antd/lib/icon";
 import Layout from "antd/lib/layout";
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
@@ -29,7 +30,9 @@ export class Actions extends Component {
               alignItems={"baselines"}
               width={"100%"}
             >
-              <PageTitle>Actions</PageTitle>
+              <PageTitle>
+                <Icon type="project" /> {t("action.actions")}
+              </PageTitle>
               <ActionTable />
             </Flex>
           </Layout.Content>

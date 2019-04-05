@@ -42,9 +42,11 @@ action.block_hash: 区块
 action.amount: 总量
 action.action: 行动
 action.actions: Actions
+action.actionsList: Actions 列表
 action.sender: 发送方
 action.recipient: 接收方
 title.action: 操作
+title.overview: 概览
 render.key.height: 高度
 render.key.hash: 哈希
 render.key.timestamp: 年龄

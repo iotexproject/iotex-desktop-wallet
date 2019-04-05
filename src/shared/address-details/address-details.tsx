@@ -14,6 +14,7 @@ import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { PageTitle } from "../common/page-title";
+import { Sections } from "../common/sections";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_ACCOUNT } from "../queries";
@@ -59,59 +60,68 @@ class AddressDetailsInner extends PureComponent<Props> {
               <SpinPreloader spinning={loading}>
                 <div className="address-top">
                   <PageTitle>
-                    <Icon type="wallet" /> Address:
+                    <Icon type="wallet" /> {t("address.address")}:
                     <span>
                       {" "}
                       {(addressInfo && addressInfo.address) || address}{" "}
                     </span>
                     <CopyButtonClipboardComponent text={copyAddress} />
                   </PageTitle>
-                  <Divider orientation="left">Overview</Divider>
-                  <div className="overview-list">
-                    <div className={"item"}>
-                      <div className={"icon"}>
-                        <Icon type="money-collect" />
+                  <Sections>
+                    <Divider orientation="left">{t("title.overview")}</Divider>
+                    <div className="overview-list">
+                      <div className={"item"}>
+                        <div className={"icon"}>
+                          <Icon type="money-collect" />
+                        </div>
+                        <div className={"name"}>balance</div>
+                        <div className={"info"}>{`${(+utils.fromRau(
+                          String((addressInfo && addressInfo.balance) || 0),
+                          "IOTX"
+                        )).toFixed(4)} IOTX`}</div>
                       </div>
-                      <div className={"name"}>balance</div>
-                      <div className={"info"}>{`${(+utils.fromRau(
-                        String((addressInfo && addressInfo.balance) || 0),
-                        "IOTX"
-                      )).toFixed(4)} IOTX`}</div>
+                      <div className={"item"}>
+                        <div className={"icon"}>
+                          <Icon type="border" />
+                        </div>
+                        <div className={"name"}>nonce</div>
+                        <div className={"info"}>
+                          {(addressInfo && addressInfo.nonce) || 0}
+                        </div>
+                      </div>
+                      <div className={"item"}>
+                        <div className={"icon"}>
+                          <Icon type="project" />
+                        </div>
+                        <div className={"name"}>pendingNonce</div>
+                        <div className={"info"}>
+                          {(addressInfo && addressInfo.pendingNonce) || 0}
+                        </div>
+                      </div>
                     </div>
-                    <div className={"item"}>
-                      <div className={"icon"}>
-                        <Icon type="border" />
-                      </div>
-                      <div className={"name"}>nonce</div>
-                      <div className={"info"}>
-                        {(addressInfo && addressInfo.nonce) || 0}
-                      </div>
-                    </div>
-                    <div className={"item"}>
-                      <div className={"icon"}>
-                        <Icon type="project" />
-                      </div>
-                      <div className={"name"}>pendingNonce</div>
-                      <div className={"info"}>
-                        {(addressInfo && addressInfo.pendingNonce) || 0}
-                      </div>
-                    </div>
-                  </div>
+                  </Sections>
                 </div>
-                <Divider orientation="left">Actions</Divider>
-                <ActionTable
-                  totalActions={get(data, "getAccount.accountMeta.numActions")}
-                  getVariable={({ current, pageSize }) => {
-                    const start = (current - 1) * pageSize;
-                    return {
-                      byAddr: {
-                        address,
-                        start: start < 0 ? 0 : start,
-                        count: pageSize
-                      }
-                    };
-                  }}
-                />
+                <Sections>
+                  <Divider orientation="left">
+                    {t("action.actionsList")}
+                  </Divider>
+                  <ActionTable
+                    totalActions={get(
+                      data,
+                      "getAccount.accountMeta.numActions"
+                    )}
+                    getVariable={({ current, pageSize }) => {
+                      const start = (current - 1) * pageSize;
+                      return {
+                        byAddr: {
+                          address,
+                          start: start < 0 ? 0 : start,
+                          count: pageSize
+                        }
+                      };
+                    }}
+                  />
+                </Sections>
               </SpinPreloader>
             );
           }}

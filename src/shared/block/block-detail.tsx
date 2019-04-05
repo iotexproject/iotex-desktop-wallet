@@ -1,3 +1,5 @@
+import Divider from "antd/lib/divider";
+import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
 import { fromRau } from "iotex-antenna/lib/account/utils";
@@ -13,6 +15,7 @@ import { Flex } from "../common/flex";
 import { FlexLink } from "../common/flex-link";
 import { fromNow } from "../common/from-now";
 import { PageTitle } from "../common/page-title";
+import { Sections } from "../common/sections";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -85,39 +88,48 @@ class BlockDetailsInner extends PureComponent<Props, State> {
                   alignItems={"baselines"}
                   backgroundColor={colors.white}
                 >
-                  <PageTitle>{t("block.block")}</PageTitle>
-                  <Table
-                    pagination={false}
-                    dataSource={dataSource}
-                    columns={columns}
-                    rowKey={"key"}
-                    style={{ width: "100%" }}
-                    scroll={{ x: true }}
-                  />
+                  <PageTitle>
+                    <Icon type="block" /> {t("block.block")}
+                  </PageTitle>
+
+                  <Sections>
+                    <Divider orientation="left">{t("title.overview")}</Divider>
+                    <Table
+                      pagination={false}
+                      dataSource={dataSource}
+                      columns={columns}
+                      rowKey={"key"}
+                      style={{ width: "100%" }}
+                      scroll={{ x: true }}
+                    />
+                  </Sections>
                 </Flex>
               </SpinPreloader>
             );
           }}
         </Query>
-        <h1 style={{ marginTop: 20 }}>List of Actions</h1>
-        <ActionTable
-          totalActions={totalActons}
-          getVariable={({ current, pageSize }) => {
-            const start = (current - 1) * pageSize;
-            if (current > 0) {
-              this.setState({
-                totalActons: start + pageSize + 1
-              });
-            }
-            return {
-              byBlk: {
-                blkHash: hash,
-                start: start < 0 ? 0 : start,
-                count: pageSize
+        <Sections>
+          <Divider orientation="left">{t("action.actionsList")}</Divider>
+
+          <ActionTable
+            totalActions={totalActons}
+            getVariable={({ current, pageSize }) => {
+              const start = (current - 1) * pageSize;
+              if (current > 0) {
+                this.setState({
+                  totalActons: start + pageSize + 1
+                });
               }
-            };
-          }}
-        />
+              return {
+                byBlk: {
+                  blkHash: hash,
+                  start: start < 0 ? 0 : start,
+                  count: pageSize
+                }
+              };
+            }}
+          />
+        </Sections>
       </ContentPadding>
     );
   }
