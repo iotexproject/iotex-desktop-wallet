@@ -33,6 +33,29 @@ type State = {
 class BlockDetailsInner extends PureComponent<Props, State> {
   public state: State = { totalActons: 20, start: 0, count: 10 };
 
+  private renderSpinPreloader(loading: any, dataSource: any): JSX.Element {
+    return (
+      <SpinPreloader spinning={loading}>
+        <Flex
+          width={"100%"}
+          column={true}
+          alignItems={"baselines"}
+          backgroundColor={colors.white}
+        >
+          <PageTitle>{t("block.block")}</PageTitle>
+          <Table
+            pagination={false}
+            dataSource={dataSource}
+            columns={columns}
+            rowKey={"key"}
+            style={{ width: "100%" }}
+            scroll={{ x: true }}
+          />
+        </Flex>
+      </SpinPreloader>
+    );
+  }
+
   public render(): JSX.Element {
     const {
       match: {
@@ -91,24 +114,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
 
             return (
               <div>
-                <SpinPreloader spinning={loading}>
-                  <Flex
-                    width={"100%"}
-                    column={true}
-                    alignItems={"baselines"}
-                    backgroundColor={colors.white}
-                  >
-                    <PageTitle>{t("block.block")}</PageTitle>
-                    <Table
-                      pagination={false}
-                      dataSource={dataSource}
-                      columns={columns}
-                      rowKey={"key"}
-                      style={{ width: "100%" }}
-                      scroll={{ x: true }}
-                    />
-                  </Flex>
-                </SpinPreloader>
+                {this.renderSpinPreloader(loading, dataSource)}
                 <h1 style={{ marginTop: 20 }}>List of Actions</h1>
                 <ActionTable
                   totalActions={totalActons}
