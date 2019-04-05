@@ -14,13 +14,15 @@ type State = {
   trigger: "hover" | "focus" | "click" | "contextMenu" | undefined;
   title: string;
   copied: string;
+  visible: boolean;
 };
 
 export class CopyButtonClipboardComponent extends Component<Props, State> {
   public state: State = {
     trigger: "hover",
     title: "Copy address to clipboard",
-    copied: ""
+    copied: "",
+    visible: false
   };
 
   private readonly copyToAddress = () => {
@@ -29,19 +31,35 @@ export class CopyButtonClipboardComponent extends Component<Props, State> {
     this.setState({
       trigger: "click",
       title: "Copied",
-      copied: "copied"
+      copied: "copied",
+      visible: true
     });
   };
 
+  private readonly handleVisibleChange = (visible: boolean) => {
+    this.setState({ visible });
+  };
+
+  private readonly hideTips = () => {
+    this.setState({ visible: false });
+  };
+
   public render(): JSX.Element {
-    const { trigger, title, copied } = this.state;
+    const { trigger, title, copied, visible } = this.state;
     return (
-      <Tooltip placement="top" title={title} trigger={trigger}>
+      <Tooltip
+        placement="top"
+        trigger={trigger}
+        title={title}
+        visible={visible}
+        onVisibleChange={this.handleVisibleChange}
+      >
         <Button
           className={copied}
           shape="circle"
           icon="copy"
           onClick={() => this.copyToAddress()}
+          onMouseLeave={() => this.hideTips()}
         />
       </Tooltip>
     );
