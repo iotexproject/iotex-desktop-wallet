@@ -1,3 +1,4 @@
+// tslint:disable:no-http-string
 // @ts-ignore
 import { Server } from "onefx";
 // @ts-ignore

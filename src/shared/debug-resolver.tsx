@@ -1,3 +1,5 @@
+// tslint:disable:no-any
+// tslint:disable:no-console
 import notification from "antd/lib/notification";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
