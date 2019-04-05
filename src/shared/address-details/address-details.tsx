@@ -1,3 +1,4 @@
+// @ts-ignore
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
@@ -11,8 +12,8 @@ import Helmet from "onefx/lib/react-helmet";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
+import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { PageTitle } from "../common/page-title";
-// @ts-ignore
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_ACCOUNT } from "../queries";
@@ -53,6 +54,7 @@ class AddressDetailsInner extends PureComponent<Props> {
             if (data && data.getAccount && data.getAccount.accountMeta) {
               addressInfo = data.getAccount.accountMeta;
             }
+            const copyAddress = (addressInfo && addressInfo.address) || address;
             return (
               <SpinPreloader spinning={loading}>
                 <div className="address-top">
@@ -60,8 +62,9 @@ class AddressDetailsInner extends PureComponent<Props> {
                     <Icon type="wallet" /> Address:
                     <span>
                       {" "}
-                      {(addressInfo && addressInfo.address) || address}
+                      {(addressInfo && addressInfo.address) || address}{" "}
                     </span>
+                    <CopyButtonClipboardComponent text={copyAddress} />
                   </PageTitle>
                   <Divider orientation="left">Overview</Divider>
                   <div className="overview-list">
