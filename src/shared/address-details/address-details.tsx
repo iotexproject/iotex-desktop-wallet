@@ -70,7 +70,7 @@ class AddressDetailsInner extends PureComponent<Props> {
                   <div className="overview-list">
                     <div className={"item"}>
                       <div className={"icon"}>
-                        <Icon type="money-collect" />
+                        <Icon type="wallet" />
                       </div>
                       <div className={"name"}>balance</div>
                       <div className={"info"}>{`${(+utils.fromRau(
