@@ -5,12 +5,7 @@ import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "./account-section";
 import UnlockWallet from "./unlock-wallet";
 
-export interface Props {
-  // fetchAddressId: fetchAddressId,
-  // address: TAddressDetails,
-  // serverUrl: string;
-  // chainId: number;
-}
+export interface Props {}
 
 export interface State {}
 

@@ -16,10 +16,6 @@ import React from "react";
 
 export interface Props {
   form: WrappedFormUtils;
-  // wallet: TWallet,
-  // setWallet: any;
-  // createNew: boolean;
-  // setCreateNew: any;
   chainId: number;
 }
 
