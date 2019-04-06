@@ -93,3 +93,5 @@ render.key.denomination: denomination
 render.key.owner: owner
 render.key.candidates: candidates
 address.address: Address
+copy.copied: 复制成功
+copy.toClipboard: 复制地址到粘贴板
