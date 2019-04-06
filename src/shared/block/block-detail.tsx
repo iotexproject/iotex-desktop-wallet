@@ -12,6 +12,7 @@ import { ActionTable } from "../address-details/action-table";
 import { Flex } from "../common/flex";
 import { FlexLink } from "../common/flex-link";
 import { fromNow } from "../common/from-now";
+import { NotFound } from "../common/not-found";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
@@ -79,16 +80,24 @@ class BlockDetailsInner extends PureComponent<Props, State> {
       }
     } = this.props;
     const { totalActons } = this.state;
+
     let byParam = {};
-    if (!isNaN(Number(hash))) {
+    if (!isNaN(Number(hash)) && Number(hash) > 0) {
       byParam = {
         byIndex: {
           start: Number(hash),
           count: 1
         }
       };
-    } else {
+    } else if (hash.length === 64 && /^[0-9a-f]+$/.test(hash)) {
       byParam = { byHash: { blkHash: hash } };
+    } else {
+      return (
+        <ContentPadding>
+          <Helmet title={`IoTeX ${t("block.block")} ${hash}`} />
+          <NotFound />
+        </ContentPadding>
+      );
     }
 
     return (
