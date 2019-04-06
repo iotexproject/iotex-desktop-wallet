@@ -1,6 +1,9 @@
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
+import { Query, QueryResult } from "react-apollo";
+import { VersionInfo } from "../../api-gateway/resolvers/meta";
+import { FETCH_VERSION_INFO } from "../queries";
 import { Flex } from "./flex";
 import { colors } from "./styles/style-color";
 import { contentPadding } from "./styles/style-padding";
@@ -15,7 +18,38 @@ export const FOOTER_ABOVE = {
 export function Footer(): JSX.Element {
   return (
     <Align>
-      <Flex>{`Copyright © ${new Date().getFullYear()}`}</Flex>
+      <Flex>
+        <span
+          style={{ marginRight: 15 }}
+        >{`Copyright © ${new Date().getFullYear()}`}</span>
+        <Query query={FETCH_VERSION_INFO}>
+          {({
+            loading,
+            error,
+            data
+          }: QueryResult<{ fetchVersionInfo: VersionInfo }>) => {
+            if (loading) {
+              return "Loading...";
+            }
+            if (error) {
+              return `Error! ${error.message}`;
+            }
+            if (!data) {
+              return null;
+            }
+            return (
+              <span>
+                <span style={{ marginRight: 15 }}>
+                  {`  iotex-explorer ${data.fetchVersionInfo.explorerVersion}`}
+                </span>
+                <span>
+                  {`  iotex-core ${data.fetchVersionInfo.iotexCoreVersion}`}
+                </span>
+              </span>
+            );
+          }}
+        </Query>
+      </Flex>
       <Flex>Built with ❤️ by IoTeX</Flex>
     </Align>
   );

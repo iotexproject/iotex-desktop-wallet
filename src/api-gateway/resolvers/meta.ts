@@ -2,6 +2,9 @@
 import BigNumber from "bignumber.js";
 import { Ctx, Query, Resolver, ResolverInterface } from "type-graphql";
 import { Field, ObjectType } from "type-graphql";
+//@ts-ignore
+import pkg from "../../../package.json";
+import { ICtx } from "./antenna.js";
 
 @ObjectType({ description: "IOTX price information from coinmarketcap" })
 export class CoinPrice {
@@ -10,6 +13,15 @@ export class CoinPrice {
 
   @Field(_ => String)
   public marketCapUsd: string;
+}
+
+@ObjectType()
+export class VersionInfo {
+  @Field(_ => String)
+  public explorerVersion: string;
+
+  @Field(_ => String, { nullable: true })
+  public iotexCoreVersion?: string;
 }
 
 @Resolver(_ => String)
@@ -29,5 +41,22 @@ export class MetaResolver implements ResolverInterface<() => String> {
       .dividedBy(1000000)
       .toFixed(2);
     return data;
+  }
+
+  @Query(_ => VersionInfo)
+  public async fetchVersionInfo(@Ctx() { gateways }: ICtx): Promise<
+    VersionInfo
+  > {
+    const serverMeta = await gateways.antenna.getServerMeta({});
+
+    if (!serverMeta.serverMeta) {
+      return {
+        explorerVersion: pkg.version
+      };
+    }
+    return {
+      explorerVersion: `v${pkg.version}`,
+      iotexCoreVersion: serverMeta.serverMeta.packageVersion
+    };
   }
 }
