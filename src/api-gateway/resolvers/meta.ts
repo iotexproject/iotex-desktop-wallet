@@ -49,13 +49,14 @@ export class MetaResolver implements ResolverInterface<() => String> {
   > {
     const serverMeta = await gateways.antenna.getServerMeta({});
 
+    const explorerVersion = `v${pkg.version}`;
     if (!serverMeta.serverMeta) {
       return {
-        explorerVersion: pkg.version
+        explorerVersion
       };
     }
     return {
-      explorerVersion: `v${pkg.version}`,
+      explorerVersion,
       iotexCoreVersion: serverMeta.serverMeta.packageVersion
     };
   }
