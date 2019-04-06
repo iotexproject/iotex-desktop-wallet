@@ -1,3 +1,5 @@
+import Divider from "antd/lib/divider";
+import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
 import { fromRau } from "iotex-antenna/lib/account/utils";
@@ -85,8 +87,12 @@ class BlockDetailsInner extends PureComponent<Props, State> {
                   alignItems={"baselines"}
                   backgroundColor={colors.white}
                 >
-                  <PageTitle>{t("block.block")}</PageTitle>
+                  <PageTitle>
+                    <Icon type="block" /> {t("block.block")}
+                  </PageTitle>
+                  <Divider orientation="left">{t("title.overview")}</Divider>
                   <Table
+                    className="single-table"
                     pagination={false}
                     dataSource={dataSource}
                     columns={columns}
@@ -99,7 +105,10 @@ class BlockDetailsInner extends PureComponent<Props, State> {
             );
           }}
         </Query>
-        <h1 style={{ marginTop: 20 }}>List of Actions</h1>
+
+        <Divider style={{ marginTop: 60 }} orientation="left">
+          {t("title.actionList")}
+        </Divider>
         <ActionTable
           totalActions={totalActons}
           getVariable={({ current, pageSize }) => {

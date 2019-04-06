@@ -87,6 +87,8 @@ action.action: Action
 action.actions: Actions
 action.sender: Sender
 action.recipient: Recipient
+title.overview: Overview
+title.actionList: List of Actions
 title.action: Action
 render.key.height: Height
 render.key.hash: Hash
@@ -131,3 +133,5 @@ account.empty.unlock: Unlock your wallet to see details!
 unlock-wallet.no-wallet: Don't have a IoTeX wallet yet?
 unlock-wallet.create: Create a new wallet
 unlock-wallet.main-chain: Please go to mainchain to create a wallet.
+copy.copied: Copied
+copy.toClipboard: Copy address to clipboard

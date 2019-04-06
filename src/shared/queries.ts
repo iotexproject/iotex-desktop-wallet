@@ -328,3 +328,12 @@ export const ESTIMATE_GAS_FOR_ACTION = gql`
     }
   }
 `;
+
+export const FETCH_VERSION_INFO = gql`
+  query {
+    fetchVersionInfo {
+      explorerVersion
+      iotexCoreVersion
+    }
+  }
+`;

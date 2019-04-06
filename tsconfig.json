@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2018",
     "outDir": "dist/main",
-    "rootDir": "src",
+    "rootDir": ".",
     "moduleResolution": "node",
     "module": "commonjs",
     "jsx": "react",
@@ -29,6 +29,7 @@
       "dom",
       "esnext"
     ],
+    "resolveJsonModule": true,
     "types": ["node"],
     "typeRoots": ["node_modules/@types", "src/types"]
   },
