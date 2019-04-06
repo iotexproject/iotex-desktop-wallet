@@ -1,3 +1,5 @@
+import Divider from "antd/lib/divider";
+import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
 import { get } from "dottie";
@@ -106,8 +108,12 @@ class ActionDetailsInner extends PureComponent<Props> {
                   alignItems={"baselines"}
                   backgroundColor={colors.white}
                 >
-                  <PageTitle>{t("action.action")}</PageTitle>
+                  <PageTitle>
+                    <Icon type="project" /> {t("action.action")}
+                  </PageTitle>
+                  <Divider orientation="left">{t("title.overview")}</Divider>
                   <Table
+                    className="single-table"
                     pagination={false}
                     dataSource={dataSource}
                     columns={columns}

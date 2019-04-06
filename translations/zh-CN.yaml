@@ -44,6 +44,8 @@ action.action: 行动
 action.actions: Actions
 action.sender: 发送方
 action.recipient: 接收方
+title.overview: 概览
+title.actionList: Actions 列表
 title.action: 操作
 render.key.height: 高度
 render.key.hash: 哈希
