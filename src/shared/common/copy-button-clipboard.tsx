@@ -1,6 +1,8 @@
 // @ts-ignore
 import Button from "antd/lib/button";
 import Tooltip from "antd/lib/tooltip";
+// @ts-ignore
+import { t } from "onefx/lib/iso-i18n";
 import { Component } from "react";
 import * as copy from "text-to-clipboard";
 
@@ -20,7 +22,7 @@ type State = {
 export class CopyButtonClipboardComponent extends Component<Props, State> {
   public state: State = {
     trigger: "hover",
-    title: "Copy address to clipboard",
+    title: t("copy.toClipboard"),
     copied: "",
     visible: false
   };
@@ -30,7 +32,7 @@ export class CopyButtonClipboardComponent extends Component<Props, State> {
     copy.copyCB(text || "");
     this.setState({
       trigger: "click",
-      title: "Copied",
+      title: t("copy.copied"),
       copied: "copied",
       visible: true
     });
@@ -41,7 +43,16 @@ export class CopyButtonClipboardComponent extends Component<Props, State> {
   };
 
   private readonly hideTips = () => {
-    this.setState({ visible: false });
+    this.setState({ copied: "", visible: false });
+  };
+
+  private readonly btnReload = () => {
+    this.setState({
+      trigger: "hover",
+      title: t("copy.toClipboard"),
+      copied: "",
+      visible: true
+    });
   };
 
   public render(): JSX.Element {
@@ -60,6 +71,7 @@ export class CopyButtonClipboardComponent extends Component<Props, State> {
           icon="copy"
           onClick={() => this.copyToAddress()}
           onMouseLeave={() => this.hideTips()}
+          onMouseOver={() => this.btnReload()}
         />
       </Tooltip>
     );

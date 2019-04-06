@@ -114,3 +114,5 @@ render.value.grantReward: "Grant Reward"
 render.value.execution: Execution
 render.value.transfer: Transfer
 address.address: Address
+copy.copied: Copied
+copy.toClipboard: Copy address to clipboard
