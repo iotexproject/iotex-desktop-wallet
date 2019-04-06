@@ -1,3 +1,4 @@
+import Icon from "antd/lib/icon";
 import Layout from "antd/lib/layout";
 import notification from "antd/lib/notification";
 import Table, { ColumnProps } from "antd/lib/table";
@@ -110,7 +111,9 @@ export function Blocks(): JSX.Element {
 
                 return (
                   <SpinPreloader spinning={loading}>
-                    <PageTitle>{t("block.blocks")}</PageTitle>
+                    <PageTitle>
+                      <Icon type="block" /> {t("block.blocks")}
+                    </PageTitle>
                     <Layout.Content
                       style={{ backgroundColor: "#fff" }}
                       tagName={"main"}

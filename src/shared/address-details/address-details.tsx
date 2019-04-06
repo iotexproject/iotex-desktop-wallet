@@ -66,7 +66,7 @@ class AddressDetailsInner extends PureComponent<Props> {
                     </span>
                     <CopyButtonClipboardComponent text={copyAddress} />
                   </PageTitle>
-                  <Divider orientation="left">Overview</Divider>
+                  <Divider orientation="left">{t("title.overview")}</Divider>
                   <div className="overview-list">
                     <div className={"item"}>
                       <div className={"icon"}>
@@ -98,7 +98,9 @@ class AddressDetailsInner extends PureComponent<Props> {
                     </div>
                   </div>
                 </div>
-                <Divider orientation="left">Actions</Divider>
+                <Divider style={{ marginTop: 60 }} orientation="left">
+                  {t("title.actionList")}
+                </Divider>
                 <ActionTable
                   totalActions={get(data, "getAccount.accountMeta.numActions")}
                   getVariable={({ current, pageSize }) => {

@@ -87,6 +87,8 @@ action.action: Action
 action.actions: Actions
 action.sender: Sender
 action.recipient: Recipient
+title.overview: Overview
+title.actionList: List of Actions
 title.action: Action
 render.key.height: Height
 render.key.hash: Hash
