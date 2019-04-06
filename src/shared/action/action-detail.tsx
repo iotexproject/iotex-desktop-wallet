@@ -64,14 +64,13 @@ class ActionDetailsInner extends PureComponent<Props> {
               {};
             // @ts-ignore
             const { actHash, blkHash, action } = actionInfo;
-            let object;
+            let object = {};
             for (let i = 0; i < actionsTypes.length; i++) {
               object = get(action, `core.${actionsTypes[i]}`);
               if (object) {
                 break;
               }
             }
-            object = object || {};
             const { ...others } = object;
             const actionUnion = {
               actHash,
