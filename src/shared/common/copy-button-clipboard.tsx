@@ -41,7 +41,16 @@ export class CopyButtonClipboardComponent extends Component<Props, State> {
   };
 
   private readonly hideTips = () => {
-    this.setState({ visible: false });
+    this.setState({ copied: "", visible: false });
+  };
+
+  private readonly btnReload = () => {
+    this.setState({
+      trigger: "hover",
+      title: "Copy address to clipboard",
+      copied: "",
+      visible: true
+    });
   };
 
   public render(): JSX.Element {
@@ -60,6 +69,7 @@ export class CopyButtonClipboardComponent extends Component<Props, State> {
           icon="copy"
           onClick={() => this.copyToAddress()}
           onMouseLeave={() => this.hideTips()}
+          onMouseOver={() => this.btnReload()}
         />
       </Tooltip>
     );
