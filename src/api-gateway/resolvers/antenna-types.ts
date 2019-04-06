@@ -2,7 +2,9 @@ import {
   IAction,
   IActionCore,
   IActionInfo,
+  IChainMeta,
   IDepositToRewardingFund,
+  IEpochData,
   IExecution,
   IGetActionsResponse,
   IGrantReward,
@@ -26,13 +28,13 @@ import { BufferScalar } from "../scalars/buffer-scalar";
 import { MapScalar } from "../scalars/map-scalar";
 
 @ObjectType()
-class Epoch {
-  @Field()
+class Epoch implements IEpochData {
+  @Field(_ => Int)
   public num: number;
-  @Field()
+  @Field(_ => Int)
   public height: number;
-  @Field()
-  public beaconChainHeight: number;
+  @Field(_ => Int)
+  public gravityChainStartHeight: number | string;
 }
 
 @ObjectType({ description: "Properties of an blockMeta" })
@@ -58,7 +60,7 @@ export class BlockMeta {
 }
 
 @ObjectType({ description: "" })
-export class ChainMeta {
+export class ChainMeta implements IChainMeta {
   @Field()
   public height: string;
 

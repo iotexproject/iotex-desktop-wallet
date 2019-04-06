@@ -185,9 +185,9 @@ input DepositToRewardingFundInput {
 }
 
 type Epoch {
-  num: Float!
-  height: Float!
-  beaconChainHeight: Float!
+  num: Int!
+  height: Int!
+  gravityChainStartHeight: Int!
 }
 
 # Properties of a EstimateGasForActionResponse
@@ -477,6 +477,7 @@ type Query {
   estimateGasForAction(action: ActionInput!): EstimateGasForActionResponse!
   health: String!
   fetchCoinPrice: CoinPrice!
+  fetchVersionInfo: VersionInfo!
 }
 
 type ReadContractResponse {
@@ -586,6 +587,11 @@ input TransferInput {
   amount: String!
   recipient: String!
   payload: Buffer!
+}
+
+type VersionInfo {
+  explorerVersion: String!
+  iotexCoreVersion: String
 }
 
 type Vote {
