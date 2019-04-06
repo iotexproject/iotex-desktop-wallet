@@ -107,7 +107,28 @@
     }
   }
 }
-.single-table {
+
+.blur-image {
+  filter: blur(9px);
+}
+
+.wallet {
+  position: relative;
+  border-radius: 4px;
+  border: solid 1px #f0f0f0;
+  max-width: 288px;
+  height: 492px;
+  word-break: break-word;
+}
+
+.centered-text {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+
+ .single-table {
   thead {
     display: none;
   }
