@@ -12,11 +12,12 @@ import { ActionTable } from "../address-details/action-table";
 import { Flex } from "../common/flex";
 import { FlexLink } from "../common/flex-link";
 import { fromNow } from "../common/from-now";
+import { NotFound } from "../common/not-found";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
-import { GET_BLOCK_METAS_BY_HASH } from "../queries";
+import { GET_BLOCK_METAS } from "../queries";
 
 type PathParamsType = {
   hash: string;
@@ -30,13 +31,52 @@ type State = {
 class BlockDetailsInner extends PureComponent<Props, State> {
   public state: State = { totalActons: 20 };
 
+  private transferParam = (param: string) => {
+    let parameter = {};
+    if (!isNaN(Number(param)) && Number(param) > 0) {
+      parameter = {
+        byIndex: { start: Number(param), count: 1 }
+      };
+    } else if (param.length === 64 && /^[0-9a-f]+$/.test(param)) {
+      parameter = { byHash: { blkHash: param } };
+    }
+    return parameter;
+  };
+
+  // tslint:disable:no-any
+  private renderActionList(blockMeta: any): JSX.Element {
+    const { totalActons } = this.state;
+    return (
+      <div>
+        <h1 style={{ marginTop: 20 }}>List of Actions</h1>
+        <ActionTable
+          totalActions={totalActons}
+          getVariable={({ current, pageSize }) => {
+            const start = (current - 1) * pageSize;
+            if (current > 0) {
+              this.setState({
+                totalActons: start + pageSize + 1
+              });
+            }
+            return {
+              byBlk: {
+                blkHash: blockMeta.hash,
+                start: start < 0 ? 0 : start,
+                count: pageSize
+              }
+            };
+          }}
+        />
+      </div>
+    );
+  }
+
   public render(): JSX.Element {
     const {
       match: {
         params: { hash }
       }
     } = this.props;
-    const { totalActons } = this.state;
     const fields = [
       "height",
       "timestamp",
@@ -49,13 +89,21 @@ class BlockDetailsInner extends PureComponent<Props, State> {
       "deltaStateDigest"
     ];
 
+    const parameter = this.transferParam(hash);
+
+    if (Object.keys(parameter).length === 0) {
+      return (
+        <ContentPadding>
+          <Helmet title={`IoTeX ${t("block.block")} ${hash}`} />
+          <NotFound />
+        </ContentPadding>
+      );
+    }
+
     return (
       <ContentPadding>
         <Helmet title={`IoTeX ${t("block.block")} ${hash}`} />
-        <Query
-          query={GET_BLOCK_METAS_BY_HASH}
-          variables={{ byHash: { blkHash: hash } }}
-        >
+        <Query query={GET_BLOCK_METAS} variables={parameter}>
           {({ loading, error, data }) => {
             if (error) {
               notification.error({
@@ -95,29 +143,11 @@ class BlockDetailsInner extends PureComponent<Props, State> {
                     scroll={{ x: true }}
                   />
                 </Flex>
+                {this.renderActionList(blockMeta)}
               </SpinPreloader>
             );
           }}
         </Query>
-        <h1 style={{ marginTop: 20 }}>List of Actions</h1>
-        <ActionTable
-          totalActions={totalActons}
-          getVariable={({ current, pageSize }) => {
-            const start = (current - 1) * pageSize;
-            if (current > 0) {
-              this.setState({
-                totalActons: start + pageSize + 1
-              });
-            }
-            return {
-              byBlk: {
-                blkHash: hash,
-                start: start < 0 ? 0 : start,
-                count: pageSize
-              }
-            };
-          }}
-        />
       </ContentPadding>
     );
   }
