@@ -78,6 +78,7 @@ class ActionDetailsInner extends PureComponent<Props> {
                 ? publicKeyToAddress(String(action.senderPubKey))
                 : "",
               __typename: "",
+              gasPrice: action.core.gasPrice || "",
               actionType: getActionType(actionInfo),
               ...others
             };
