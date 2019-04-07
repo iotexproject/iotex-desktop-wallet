@@ -13,7 +13,7 @@ import {
   GetActionsResponse
 } from "../../api-gateway/resolvers/antenna-types";
 import { FlexLink } from "../common/flex-link";
-import { fromNow } from "../common/from-now";
+import { translateFn } from "../common/from-now";
 import { getActionType } from "../common/get-action-type";
 import { SpinPreloader } from "../common/spin-preloader";
 import { GET_ACTIONS } from "../queries";
@@ -49,7 +49,7 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
       title: t("block.timestamp"),
       dataIndex: "timestamp",
       render(_: string, record: ActionInfo, __: number): JSX.Element {
-        return <span>{fromNow(get(record, "block.timestamp"))}</span>;
+        return <span>{translateFn(get(record, "block.timestamp"))}</span>;
       }
     },
     {

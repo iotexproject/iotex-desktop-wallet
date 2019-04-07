@@ -1,3 +1,4 @@
+import { ColumnProps } from "antd/es/table";
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
@@ -13,7 +14,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { ActionTable } from "../address-details/action-table";
 import { Flex } from "../common/flex";
 import { FlexLink } from "../common/flex-link";
-import { fromNow } from "../common/from-now";
+import { translateFn } from "../common/from-now";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
@@ -95,7 +96,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
                     className="single-table"
                     pagination={false}
                     dataSource={dataSource}
-                    columns={columns}
+                    columns={getColumns()}
                     rowKey={"key"}
                     style={{ width: "100%" }}
                     scroll={{ x: true }}
@@ -139,6 +140,8 @@ export function renderKey(text: string): JSX.Element {
 // tslint:disable:no-any
 export function renderValue(text: string, record: any): JSX.Element | string {
   switch (record.key) {
+    case "type":
+      return <span>{t(`render.value.rewardType.${text}`)}</span>;
     case "amount":
       return `${fromRau(text, "IOTX")} IOTX`;
     case "producerAddress":
@@ -149,7 +152,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "subChainAddress":
       return <FlexLink path={`/address/${record.value}`} text={text} />;
     case "timestamp":
-      return <span>{fromNow(record.value)}</span>;
+      return <span>{translateFn(record.value)}</span>;
     case "actHash":
       return <FlexLink path={`/action/${text}`} text={text} />;
     case "blkHash":
@@ -163,18 +166,21 @@ export function renderValue(text: string, record: any): JSX.Element | string {
   }
 }
 
-export const columns = [
-  {
-    title: "Overview",
-    key: "key",
-    dataIndex: "key",
-    render: renderKey
-  },
-  {
-    title: "",
-    dataIndex: "value",
-    render: renderValue
-  }
-];
+// tslint:disable:no-any
+export function getColumns(): Array<ColumnProps<any>> {
+  return [
+    {
+      title: t("render.key.overview"),
+      key: "key",
+      dataIndex: "key",
+      render: renderKey
+    },
+    {
+      title: "",
+      dataIndex: "value",
+      render: renderValue
+    }
+  ];
+}
 
 export const BlockDetail = withRouter(BlockDetailsInner);
