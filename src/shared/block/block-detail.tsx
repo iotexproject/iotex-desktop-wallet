@@ -89,7 +89,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
                   <Table
                     pagination={false}
                     dataSource={dataSource}
-                    columns={columns}
+                    columns={columns()}
                     rowKey={"key"}
                     style={{ width: "100%" }}
                     scroll={{ x: true }}
@@ -154,9 +154,9 @@ export function renderValue(text: string, record: any): JSX.Element | string {
   }
 }
 
-export const columns = [
+export const columns = (title: string = t("title.overview")) => [
   {
-    title: "Overview",
+    title,
     key: "key",
     dataIndex: "key",
     render: renderKey

@@ -195,7 +195,7 @@ export const SUGGEST_GAS_PRICE = gql`
 `;
 
 export const GET_RECEIPT_BY_ACTION = gql`
-  query($actionHash: String!) {
+  query getReceiptByAction($actionHash: String!) {
     getReceiptByAction(actionHash: $actionHash) {
       receipt {
         returnValue

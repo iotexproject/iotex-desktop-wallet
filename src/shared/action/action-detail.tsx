@@ -18,12 +18,31 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_ACTIONS_BY_HASH } from "../queries";
+import { ActionReceipt } from "./action-receipt";
 
 type PathParamsType = {
   hash: string;
 };
 
 type Props = RouteComponentProps<PathParamsType> & {};
+
+export function buildKeyValueArray(object: {}) {
+  return Object.keys(object).map(key => {
+    // @ts-ignore
+    if (typeof object[key] === "object") {
+      return {
+        key,
+        // @ts-ignore
+        value: JSON.stringify(object[key])
+      };
+    }
+    return {
+      key,
+      // @ts-ignore
+      value: object[key]
+    };
+  });
+}
 
 class ActionDetailsInner extends PureComponent<Props> {
   public render(): JSX.Element {
@@ -66,37 +85,23 @@ class ActionDetailsInner extends PureComponent<Props> {
             for (let i = 0; i < actionsTypes.length; i++) {
               object = get(action, `core.${actionsTypes[i]}`);
               if (object) {
+                // @ts-ignore
+                delete object.__typename;
                 break;
               }
             }
             object = object || {};
-            const { ...others } = object;
             const actionUnion = {
               actHash,
               blkHash,
               sender: action
                 ? publicKeyToAddress(String(action.senderPubKey))
                 : "",
-              __typename: "",
               actionType: getActionType(actionInfo),
-              ...others
+              ...object
             };
-            delete actionUnion.__typename;
-            const dataSource = Object.keys(actionUnion).map(key => {
-              // @ts-ignore
-              if (typeof actionUnion[key] === "object") {
-                return {
-                  key,
-                  // @ts-ignore
-                  value: JSON.stringify(actionUnion[key])
-                };
-              }
-              return {
-                key,
-                // @ts-ignore
-                value: actionUnion[key]
-              };
-            });
+
+            const dataSource = buildKeyValueArray(actionUnion);
 
             return (
               <SpinPreloader spinning={loading}>
@@ -110,7 +115,7 @@ class ActionDetailsInner extends PureComponent<Props> {
                   <Table
                     pagination={false}
                     dataSource={dataSource}
-                    columns={columns}
+                    columns={columns()}
                     rowKey={"key"}
                     style={{ width: "100%" }}
                     scroll={{ x: true }}
@@ -120,6 +125,7 @@ class ActionDetailsInner extends PureComponent<Props> {
             );
           }}
         </Query>
+        <ActionReceipt actionHash={hash} />
       </ContentPadding>
     );
   }

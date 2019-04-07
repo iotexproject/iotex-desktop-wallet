@@ -45,6 +45,8 @@ action.actions: Actions
 action.sender: 发送方
 action.recipient: 接收方
 title.action: 操作
+title.overview: Overview
+title.receipt: Receipt
 render.key.height: 高度
 render.key.hash: 哈希
 render.key.timestamp: 年龄
@@ -65,6 +67,7 @@ render.key.data: 数据
 render.key.recipient: 接受者
 render.key.payload: 负载
 render.key.type: 奖励类型
+render.key.__typename: 类型
 render.value.grantReward: 赠款奖励
 render.value.execution: 执行
 render.value.transfer: 转移

@@ -88,6 +88,8 @@ action.actions: Actions
 action.sender: Sender
 action.recipient: Recipient
 title.action: Action
+title.overview: Overview
+title.receipt: Receipt
 render.key.height: Height
 render.key.hash: Hash
 render.key.timestamp: Age
@@ -108,6 +110,7 @@ render.key.data: Data
 render.key.recipient: Recipient
 render.key.payload: Payload
 render.key.type: "Reward Type"
+render.key.__typename: Type
 render.value.grantReward: "Grant Reward"
 render.value.execution: Execution
 render.value.transfer: Transfer
