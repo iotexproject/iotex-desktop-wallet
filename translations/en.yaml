@@ -112,3 +112,9 @@ render.value.grantReward: "Grant Reward"
 render.value.execution: Execution
 render.value.transfer: Transfer
 address.address: Address
+home.modal.warning.content:
+  "<p>We do not store your private key on the server. The private key generation is
+  handled on your browser only.</p><p /><p><strong>Back up your private key</strong> because you will
+  use it to access your wallet. If you lose your private key, it cannot be recovered.</p>"
+home.modal.warning.title: "Please pay attention..."
+home.modal.warning.ok: "I understand. Continue."

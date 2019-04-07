@@ -93,3 +93,6 @@ render.key.denomination: denomination
 render.key.owner: owner
 render.key.candidates: candidates
 address.address: Address
+home.modal.warning.content: "<p>我们不会在服务器上保护你的私钥，私钥只会通过你的浏览器生成。</p><p /><p><strong>请一定备份私钥，</strong> 私钥不可找回，没有私钥不能访问钱包。</p>"
+home.modal.warning.title: "请注意"
+home.modal.warning.ok: "我知道了，继续"

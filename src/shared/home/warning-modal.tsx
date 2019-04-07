@@ -1,4 +1,7 @@
-import { Button, Modal } from "antd";
+import Button from "antd/lib/button";
+import Modal from "antd/lib/modal";
+// @ts-ignore
+import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
 import { colors } from "../common/styles/style-color";
 
@@ -27,6 +30,7 @@ export class WarningModal extends Component<{}, State> {
     });
   };
 
+  // tslint:disable:react-no-dangerous-html
   public render(): JSX.Element {
     return (
       <div>
@@ -34,11 +38,11 @@ export class WarningModal extends Component<{}, State> {
           Open Modal
         </Button>
         <Modal
-          title="Please pay attention..."
+          title={t("home.modal.warning.title")}
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
-          okText="I understand. Continue."
+          okText={t("home.modal.warning.ok")}
           okButtonProps={{
             style: {
               backgroundColor: colors.primary,
@@ -46,16 +50,11 @@ export class WarningModal extends Component<{}, State> {
             }
           }}
         >
-          <p>
-            We do not store your private key on the server. The private key
-            generation is handled on your browser only.
-          </p>
-          <p />
-          <p>
-            <strong>Back up your private key</strong> because you will use it to
-            access your wallet. If you lose your private key, it cannot be
-            recovered.
-          </p>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: t("home.modal.warning.content")
+            }}
+          />
         </Modal>
       </div>
     );
