@@ -11,7 +11,7 @@ import Helmet from "onefx/lib/react-helmet";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
-import {BlockMeta} from "../../api-gateway/resolvers/antenna-types";
+import { BlockMeta } from "../../api-gateway/resolvers/antenna-types";
 import { ActionTable } from "../address-details/action-table";
 import { Flex } from "../common/flex";
 import { FlexLink } from "../common/flex-link";
@@ -35,7 +35,7 @@ type State = {
 class BlockDetailsInner extends PureComponent<Props, State> {
   public state: State = { totalActons: 20 };
 
-  private transferParam = (param: string) => {
+  private readonly transferParam = (param: string) => {
     let parameter = {};
     if (!isNaN(Number(param)) && Number(param) > 0) {
       parameter = {
@@ -47,7 +47,6 @@ class BlockDetailsInner extends PureComponent<Props, State> {
     return parameter;
   };
 
-  // tslint:disable:no-any
   private renderActionList(blockMeta: BlockMeta): JSX.Element {
     const { totalActons } = this.state;
     return (
