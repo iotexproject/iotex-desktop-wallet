@@ -154,7 +154,7 @@ time.fn.hour: hour
 time.fn.minutes: minutes
 time.fn.minute: minute
 time.fn.ago: ago
-time.fn.justnow: justnow
+time.fn.justnow: just now
 address.balance: balance
 address.nonce: nonce
 address.pendingNonce: pendingNonce
