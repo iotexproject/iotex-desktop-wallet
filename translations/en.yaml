@@ -115,8 +115,9 @@ render.value.execution: Execution
 render.value.transfer: Transfer
 address.address: Address
 input.error.private_key.invalid: Please input your private key
-input.error.private_key.length: Private key has to be of length 72
+input.error.private_key.length: Private key has to be of length 64
 wallet.unlock.new.title: Please pay attention
+wallet.unlock.new.yes: "I understand, continue"
 wallet.unlock.new.p1: >-
   We do not store your private key on the server. The private key generation is
   handled on your browser only.
