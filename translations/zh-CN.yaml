@@ -34,6 +34,7 @@ action.type: 类型
 action.type.transfer: 传递
 action.type.grant_reward: 授予的奖励
 action.type.execution: 执行
+action.type.grantReward: 赠款奖励
 action.data: 数据
 topbar.graphql_playground: "GraphQL 测试区"
 topbar.graphql_doc: "GraphQL 文档"
@@ -68,9 +69,12 @@ render.key.data: 数据
 render.key.recipient: 接受者
 render.key.payload: 负载
 render.key.type: 奖励类型
+render.key.overview: 概览
 render.value.grantReward: 赠款奖励
 render.value.execution: 执行
 render.value.transfer: 转移
+render.value.rewardType.BlockReward: 区块奖励
+render.value.rewardType.EpochReward: 时期奖励
 render.key.chainID: chain ID
 render.key.securityDeposit: Security Deposit
 render.key.operationDeposit: Operation Deposit
@@ -117,3 +121,23 @@ unlock-wallet.create: Create a new wallet
 unlock-wallet.main-chain: Please go to mainchain to create a wallet.
 copy.copied: 复制成功
 copy.toClipboard: 复制地址到粘贴板
+home.producer: 生产者
+home.blockHeight: 区块高度
+home.currentTPS: 当前TPS
+home.IOTXPrice: IOTX价格
+home.marketCap: 市值
+time.fn.years: 年
+time.fn.year: 年
+time.fn.months: 月
+time.fn.month: 月
+time.fn.days: 天
+time.fn.day: 天
+time.fn.hours: 小时
+time.fn.hour: 小时
+time.fn.minutes: 分钟
+time.fn.minute: 分钟
+time.fn.ago: 前
+time.fn.justnow: 刚刚
+address.balance: 余额
+address.nonce: nonce
+address.pendingNonce: pendingNonce

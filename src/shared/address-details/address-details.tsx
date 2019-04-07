@@ -59,7 +59,7 @@ class AddressDetailsInner extends PureComponent<Props> {
               <SpinPreloader spinning={loading}>
                 <div className="address-top">
                   <PageTitle>
-                    <Icon type="wallet" /> Address:
+                    <Icon type="wallet" /> {t("address.address")}:
                     <span>
                       {" "}
                       {(addressInfo && addressInfo.address) || address}{" "}
@@ -72,7 +72,7 @@ class AddressDetailsInner extends PureComponent<Props> {
                       <div className={"icon"}>
                         <Icon type="wallet" />
                       </div>
-                      <div className={"name"}>balance</div>
+                      <div className={"name"}>{t("address.balance")}</div>
                       <div className={"info"}>{`${(+utils.fromRau(
                         String((addressInfo && addressInfo.balance) || 0),
                         "IOTX"
@@ -82,7 +82,7 @@ class AddressDetailsInner extends PureComponent<Props> {
                       <div className={"icon"}>
                         <Icon type="border" />
                       </div>
-                      <div className={"name"}>nonce</div>
+                      <div className={"name"}>{t("address.nonce")}</div>
                       <div className={"info"}>
                         {(addressInfo && addressInfo.nonce) || 0}
                       </div>
@@ -91,7 +91,7 @@ class AddressDetailsInner extends PureComponent<Props> {
                       <div className={"icon"}>
                         <Icon type="project" />
                       </div>
-                      <div className={"name"}>pendingNonce</div>
+                      <div className={"name"}>{t("address.pendingNonce")}</div>
                       <div className={"info"}>
                         {(addressInfo && addressInfo.pendingNonce) || 0}
                       </div>
