@@ -1,3 +1,4 @@
+// tslint:disable:max-func-body-length
 import { ColumnProps } from "antd/es/table";
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";

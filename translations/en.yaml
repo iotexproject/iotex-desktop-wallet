@@ -105,6 +105,7 @@ render.key.actionType: Type
 render.key.actionData: Data
 render.key.sender: Sender
 render.key.amount: Amount
+render.key.gasPrice: Gas Price
 render.key.contract: Contract
 render.key.data: Data
 render.key.recipient: Recipient

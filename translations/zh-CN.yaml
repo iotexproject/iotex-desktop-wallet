@@ -62,6 +62,7 @@ render.key.actionType: 类型
 render.key.actionData: 数据
 render.key.sender: 发送方
 render.key.amount: 总量
+render.key.gasPrice: Gas Price
 render.key.contract: 合约
 render.key.data: 数据
 render.key.recipient: 接受者
