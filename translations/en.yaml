@@ -87,7 +87,6 @@ action.action: Action
 action.actions: Actions
 action.sender: Sender
 action.recipient: Recipient
-action.gas: Gas Price
 title.action: Action
 render.key.height: Height
 render.key.hash: Hash
