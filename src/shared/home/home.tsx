@@ -1,6 +1,7 @@
 import Icon from "antd/lib/icon";
 import Layout from "antd/lib/layout";
 import { get } from "dottie";
+import BlockProducers from "iotex-react-block-producers";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
@@ -14,7 +15,6 @@ import { CoinPrice } from "../../api-gateway/resolvers/meta";
 import { Flex } from "../common/flex";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_CHAIN_META, GET_TILE_DATA } from "../queries";
-import { BpTable } from "./bp-table";
 
 type State = {
   marketCap: number;
@@ -165,7 +165,7 @@ class HomeComponent extends Component<Props, State> {
         <Layout tagName={"main"} className={"main-container"}>
           <Layout.Content tagName={"main"}>
             <div style={{ backgroundColor: "#fff" }}>
-              <BpTable />
+              <BlockProducers />
             </div>
           </Layout.Content>
         </Layout>

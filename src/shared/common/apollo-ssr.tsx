@@ -1,6 +1,7 @@
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
+import { webBpApolloClient } from "iotex-react-block-producers";
 import fetch from "isomorphic-unfetch";
 import koa from "koa";
 // @ts-ignore
@@ -18,7 +19,6 @@ import { ApolloProvider } from "react-apollo";
 import { getDataFromTree } from "react-apollo";
 // @ts-ignore
 import * as engine from "styletron-engine-atomic";
-import { webBpApolloClient } from "./apollo-client";
 
 type Opts = {
   VDom: JSX.Element;
