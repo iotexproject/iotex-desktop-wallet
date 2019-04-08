@@ -56,7 +56,7 @@ class ActionDetailsInner extends PureComponent<Props> {
               return `failed to get account: ${error}`;
             }
 
-            const actionInfo = get(data, "getActions.actionInfo.0") || {};
+            const actionInfo = get(data || {}, "getActions.actionInfo.0") || {};
             // @ts-ignore
             const { actHash, blkHash, action } = actionInfo;
             let object = {};
