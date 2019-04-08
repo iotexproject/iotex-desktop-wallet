@@ -116,7 +116,7 @@ class UnlockWalletComponent extends React.Component<Props, State> {
           </Form.Item>
         </Form>
         <Button disabled={validPrikey} onClick={this.unlockWallet}>
-          Unlock
+          {t("wallet.account.unlock")}
         </Button>
         <div style={{ paddingTop: "24px" }}>
           <p>
