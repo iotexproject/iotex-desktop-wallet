@@ -143,7 +143,6 @@ class BlockDetailsInner extends PureComponent<Props, State> {
                   </PageTitle>
                   <Divider orientation="left">{t("title.overview")}</Divider>
                   <Table
-                    className="single-table"
                     pagination={false}
                     dataSource={dataSource}
                     columns={getColumns()}
