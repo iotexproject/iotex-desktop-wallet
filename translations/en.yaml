@@ -119,8 +119,9 @@ render.value.rewardType.BlockReward: Block Reward
 render.value.rewardType.EpochReward: Epoch Reward
 address.address: Address
 input.error.private_key.invalid: Please input your private key
-input.error.private_key.length: Private key has to be of length 72
+input.error.private_key.length: Private key has to be of length 64
 wallet.unlock.new.title: Please pay attention
+wallet.unlock.new.yes: "I understand, continue"
 wallet.unlock.new.p1: >-
   We do not store your private key on the server. The private key generation is
   handled on your browser only.
@@ -139,6 +140,7 @@ unlock-wallet.create: Create a new wallet
 unlock-wallet.main-chain: Please go to mainchain to create a wallet.
 copy.copied: Copied
 copy.toClipboard: Copy address to clipboard
+wallet.account.unlock: Unlock
 home.producer: PRODUCER
 home.blockHeight: BLOCK HEIGHT
 home.currentTPS: CURRENT TPS

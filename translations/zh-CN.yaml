@@ -101,8 +101,9 @@ render.key.owner: owner
 render.key.candidates: candidates
 address.address: Address
 input.error.private_key.invalid: Please input your private key
-input.error.private_key.length: Private key has to be of length 72
+input.error.private_key.length: Private key has to be of length 64
 wallet.unlock.new.title: Please pay attention
+wallet.unlock.new.yes: "I understand, continue"
 wallet.unlock.new.p1: >-
   We do not store your private key on the server. The private key generation is
   handled on your browser only.
@@ -121,6 +122,7 @@ unlock-wallet.create: Create a new wallet
 unlock-wallet.main-chain: Please go to mainchain to create a wallet.
 copy.copied: 复制成功
 copy.toClipboard: 复制地址到粘贴板
+wallet.account.unlock: 解锁
 home.producer: 生产者
 home.blockHeight: 区块高度
 home.currentTPS: 当前TPS
