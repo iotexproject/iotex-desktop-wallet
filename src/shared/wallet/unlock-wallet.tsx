@@ -13,10 +13,13 @@ import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
+import { getAntenna } from "./get-antenna";
 
 export interface Props {
   form: WrappedFormUtils;
   chainId: number;
+  setCreateNew: Function;
+  setWallet: Function;
 }
 
 export interface State {
@@ -37,25 +40,37 @@ class UnlockWalletComponent extends React.Component<Props, State> {
       [name]: value
     });
   };
-  public handleModal = (status: boolean) => {
+  public createNewWallet = (status: boolean) => {
+    this.setState({ showModal: false });
     if (status) {
-      this.setState({ showModal: false });
-    } else {
-      this.setState({ showModal: false });
+      this.props.setCreateNew();
     }
+  };
+
+  public unlockWallet = async () => {
+    this.props.form.validateFields(async err => {
+      if (!err) {
+        const { priKey } = this.state;
+        const antenna = getAntenna();
+        const account = await antenna.iotx.accounts.privateKeyToAccount(priKey);
+        this.props.setWallet(account);
+      }
+    });
   };
 
   public render(): JSX.Element {
     const { getFieldDecorator } = this.props.form;
     const { chainId } = this.props;
     const { showModal, priKey } = this.state;
+    const validPrikey = priKey.length === 64;
+
     return (
       <div>
         <Modal
           title={t("wallet.unlock.new.title")}
           visible={showModal}
-          onOk={() => this.handleModal(true)}
-          onCancel={() => this.handleModal(false)}
+          onOk={() => this.createNewWallet(true)}
+          onCancel={() => this.createNewWallet(false)}
           okText={t("wallet.unlock.new.yes")}
         >
           <p>{t("wallet.unlock.new.p1")}</p>
@@ -78,13 +93,14 @@ class UnlockWalletComponent extends React.Component<Props, State> {
                   message: t("input.error.private_key.invalid")
                 },
                 {
-                  len: 72,
+                  len: 64,
                   message: t("input.error.private_key.length")
                 }
               ]
             })(
               <Input
                 placeholder={t("wallet.account.placehold.privateKey")}
+                type="password"
                 name="priKey"
                 onChange={e => this.handleInputChange(e)}
                 suffix={
@@ -99,7 +115,9 @@ class UnlockWalletComponent extends React.Component<Props, State> {
             )}
           </Form.Item>
         </Form>
-        <Button disabled={!priKey}>Unlock</Button>
+        <Button disabled={validPrikey} onClick={this.unlockWallet}>
+          {t("wallet.account.unlock")}
+        </Button>
         <div style={{ paddingTop: "24px" }}>
           <p>
             {t("unlock-wallet.no-wallet")}
