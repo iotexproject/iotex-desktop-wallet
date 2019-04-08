@@ -121,6 +121,23 @@
   word-break: break-word;
 }
 
+.wallet-title {
+  margin: 0 0 16px 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.private-key {
+  font-size: 24px;
+  font-weight: bold;
+  color: #e54937;
+  background-color: rgb(253, 237, 235);
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 10px;
+  display: inline-block;
+}
+
 .centered-text {
   position: absolute;
   top: 40%;

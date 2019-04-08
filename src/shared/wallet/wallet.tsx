@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "./account-section";
 import UnlockWallet from "./unlock-wallet";
+import NewWallet from "./new-wallet";
 
 export interface Props {}
 
@@ -24,16 +25,20 @@ export default class Wallet extends Component<Props, State> {
   };
 
   public render(): JSX.Element {
+    const { createNew } = this.state;
     return (
       <ContentPadding>
         <div style={{ margin: "48px" }} />
         <Row>
           <Col md={16}>
-            <UnlockWallet
-              setWallet={this.setWallet}
-              setCreateNew={() => this.setState({ createNew: true })}
-              chainId={1}
-            />
+            {createNew && <NewWallet setWallet={this.setWallet} />}
+            {!createNew && (
+              <UnlockWallet
+                setWallet={this.setWallet}
+                setCreateNew={() => this.setState({ createNew: true })}
+                chainId={1}
+              />
+            )}
           </Col>
           <Col md={6} push={2}>
             <AccountSection />
