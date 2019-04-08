@@ -105,14 +105,18 @@ render.key.actionType: Type
 render.key.actionData: Data
 render.key.sender: Sender
 render.key.amount: Amount
+render.key.gasPrice: Gas Price
 render.key.contract: Contract
 render.key.data: Data
 render.key.recipient: Recipient
 render.key.payload: Payload
 render.key.type: "Reward Type"
+render.key.overview: Overview
 render.value.grantReward: "Grant Reward"
 render.value.execution: Execution
 render.value.transfer: Transfer
+render.value.rewardType.BlockReward: Block Reward
+render.value.rewardType.EpochReward: Epoch Reward
 address.address: Address
 input.error.private_key.invalid: Please input your private key
 input.error.private_key.length: Private key has to be of length 64
@@ -137,3 +141,23 @@ unlock-wallet.main-chain: Please go to mainchain to create a wallet.
 copy.copied: Copied
 copy.toClipboard: Copy address to clipboard
 wallet.account.unlock: Unlock
+home.producer: PRODUCER
+home.blockHeight: BLOCK HEIGHT
+home.currentTPS: CURRENT TPS
+home.IOTXPrice: IOTX PRICE
+home.marketCap: MARKETCAP
+time.fn.years: years
+time.fn.year: year
+time.fn.months: months
+time.fn.month: month
+time.fn.days: days
+time.fn.day: day
+time.fn.hours: hours
+time.fn.hour: hour
+time.fn.minutes: minutes
+time.fn.minute: minute
+time.fn.ago: ago
+time.fn.justnow: just now
+address.balance: balance
+address.nonce: nonce
+address.pendingNonce: pendingNonce

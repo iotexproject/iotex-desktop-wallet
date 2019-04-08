@@ -12,7 +12,7 @@ import React, { PureComponent } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
-import { columns } from "../block/block-detail";
+import { getColumns } from "../block/block-detail";
 import { Flex } from "../common/flex";
 import { actionsTypes, getActionType } from "../common/get-action-type";
 import { PageTitle } from "../common/page-title";
@@ -79,6 +79,7 @@ class ActionDetailsInner extends PureComponent<Props> {
                 ? publicKeyToAddress(String(action.senderPubKey))
                 : "",
               __typename: "",
+              gasPrice: action.core.gasPrice || "",
               actionType: getActionType(actionInfo),
               ...others
             };
@@ -115,7 +116,7 @@ class ActionDetailsInner extends PureComponent<Props> {
                     className="single-table"
                     pagination={false}
                     dataSource={dataSource}
-                    columns={columns}
+                    columns={getColumns()}
                     rowKey={"key"}
                     style={{ width: "100%" }}
                     scroll={{ x: true }}
