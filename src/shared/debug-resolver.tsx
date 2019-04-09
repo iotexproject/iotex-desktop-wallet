@@ -147,14 +147,12 @@ class TestAntennaInner extends PureComponent<Props> {
   public render(): JSX.Element {
     const tmp = [
       {
-        name: "GET_ACTIONS_BY_INDEX",
-        query: GET_ACTIONS_BY_INDEX,
-        variables: { byIndex: { start: 0, count: 10 } }
-      },
-      {
-        query: ESTIMATE_GAS_FOR_ACTION,
-        variables: { action },
-        name: "ESTIMATE_GAS_FOR_ACTION"
+        query: GET_RECEIPT_BY_ACTION,
+        variables: {
+          actionHash:
+            "9cad3ee1f3f017faa6f160e25d8a5e5a73509bce738f920ff6e5873f86f50439"
+        },
+        name: "GET_RECEIPT_BY_ACTION"
       }
     ];
 

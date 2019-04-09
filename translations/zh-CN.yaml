@@ -48,6 +48,7 @@ action.recipient: 接收方
 title.overview: 概览
 title.actionList: Actions 列表
 title.action: 操作
+title.receipt: Receipt
 render.key.height: 高度
 render.key.hash: 哈希
 render.key.timestamp: 年龄
@@ -69,6 +70,12 @@ render.key.data: 数据
 render.key.recipient: 接受者
 render.key.payload: 负载
 render.key.type: 奖励类型
+render.key.returnValue: Return Value
+render.key.status: Status
+render.key.blkHeight: Block Height
+render.key.gasConsumed: Gas Consumed
+render.key.contractAddress: Contract Address
+render.key.logs: Logs
 render.key.overview: 概览
 render.value.grantReward: 赠款奖励
 render.value.execution: 执行

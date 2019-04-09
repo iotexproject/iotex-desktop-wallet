@@ -178,6 +178,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "recipient":
     case "owner":
     case "subChainAddress":
+    case "contractAddress":
       return <FlexLink path={`/address/${record.value}`} text={text} />;
     case "timestamp":
       return <span>{translateFn(record.value)}</span>;
@@ -195,10 +196,12 @@ export function renderValue(text: string, record: any): JSX.Element | string {
 }
 
 // tslint:disable:no-any
-export function getColumns(): Array<ColumnProps<any>> {
+export function getColumns(
+  title: string = t("title.overview")
+): Array<ColumnProps<any>> {
   return [
     {
-      title: t("render.key.overview"),
+      title,
       key: "key",
       dataIndex: "key",
       render: renderKey

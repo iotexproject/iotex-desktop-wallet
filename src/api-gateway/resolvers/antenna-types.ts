@@ -12,6 +12,7 @@ import {
   IMerkleRoot,
   IPutBlock,
   IReceipt,
+  IReceiptInfo,
   IStartSubChain,
   ITransfer
 } from "iotex-antenna/lib/rpc-method/types";
@@ -97,15 +98,15 @@ export class GetAccountResponse {
 @ObjectType({ description: "Properties of an Log" })
 export class Log implements ILog {
   @Field(_ => String, { description: "iotex address" })
-  public address: string;
+  public contractAddress: string;
   @Field(_ => [BufferScalar])
   public topics: Array<Buffer | {}>;
   @Field(_ => BufferScalar)
   public data: Buffer | {};
   @Field(_ => Int)
-  public blockNumber: number;
+  public blkHeight: number;
   @Field(_ => BufferScalar)
-  public txnHash: Buffer | {};
+  public actHash: Buffer | {};
   @Field(_ => Int)
   public index: number;
 }
@@ -113,11 +114,13 @@ export class Log implements ILog {
 @ObjectType({ description: "Properties of an Receipt" })
 export class Receipt implements IReceipt {
   @Field(_ => BufferScalar)
-  public returnValue: {} | Buffer | {};
+  public returnValue: Buffer | {};
   @Field(_ => Int)
   public status: number;
+  @Field(_ => Int)
+  public blkHeight: number;
   @Field(_ => BufferScalar)
-  public actHash: {} | Buffer | {};
+  public actHash: Buffer | {};
   @Field(_ => Int)
   public gasConsumed: number;
   @Field(_ => String)
@@ -167,9 +170,17 @@ export class SuggestGasPriceResponse {
 }
 
 @ObjectType()
-export class GetReceiptByActionResponse {
+export class ReceiptInfo implements IReceiptInfo {
   @Field(_ => Receipt)
   public receipt: Receipt;
+  @Field(_ => String)
+  public blkHash: string;
+}
+
+@ObjectType()
+export class GetReceiptByActionResponse {
+  @Field(_ => ReceiptInfo)
+  public receiptInfo: ReceiptInfo;
 }
 
 @InputType()

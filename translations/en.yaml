@@ -90,6 +90,7 @@ action.recipient: Recipient
 title.overview: Overview
 title.actionList: List of Actions
 title.action: Action
+title.receipt: Receipt
 render.key.height: Height
 render.key.hash: Hash
 render.key.timestamp: Age
@@ -111,6 +112,12 @@ render.key.data: Data
 render.key.recipient: Recipient
 render.key.payload: Payload
 render.key.type: "Reward Type"
+render.key.returnValue: Return Value
+render.key.status: Status
+render.key.blkHeight: Block Height
+render.key.gasConsumed: Gas Consumed
+render.key.contractAddress: Contract Address
+render.key.logs: Logs
 render.key.overview: Overview
 render.value.grantReward: "Grant Reward"
 render.value.execution: Execution
