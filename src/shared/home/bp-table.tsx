@@ -4,7 +4,8 @@ import gql from "graphql-tag";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
-import { Query } from "react-apollo";
+import { Query, QueryResult } from "react-apollo";
+import { Candidate } from "../../api-gateway/resolvers/antenna-types";
 import { webBpApolloClient } from "../common/apollo-client";
 import { SpinPreloader } from "../common/spin-preloader";
 import { renderDelegateName, renderLiveVotes, renderStatus } from "./bp-render";
@@ -61,7 +62,11 @@ export function BpTable(): JSX.Element {
 
   return (
     <Query client={webBpApolloClient} query={GET_BP_CANDIDATES}>
-      {({ loading, error, data }) => {
+      {({
+        loading,
+        error,
+        data
+      }: QueryResult<{ bpCandidates: Array<Candidate> }>) => {
         if (!loading && error) {
           notification.error({
             message: "Error",
