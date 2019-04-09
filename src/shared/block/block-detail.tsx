@@ -168,6 +168,8 @@ export function renderKey(text: string): JSX.Element {
 // tslint:disable:no-any
 export function renderValue(text: string, record: any): JSX.Element | string {
   switch (record.key) {
+    case "transferAmount":
+      return `${fromRau(text || "0", "IOTX")} IOTX`;
     case "type":
       return <span>{t(`render.value.rewardType.${text}`)}</span>;
     case "amount":
