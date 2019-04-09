@@ -48,7 +48,7 @@ type State = {
 };
 
 export class ActionTable extends Component<{}, State> {
-  public state: State = { start: 0, count: 10 };
+  public state: State = { start: 0, count: 30 };
 
   public render(): JSX.Element {
     const { start, count } = this.state;
