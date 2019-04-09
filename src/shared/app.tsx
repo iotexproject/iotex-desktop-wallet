@@ -25,6 +25,7 @@ import { ScrollToTop } from "./common/scroll-top";
 import { colors } from "./common/styles/style-color";
 import { fonts } from "./common/styles/style-font";
 import { TopBar } from "./common/top-bar";
+import { ChooseFunction } from "./contract/choose-function";
 import { Home } from "./home/home";
 import Wallet from "./wallet/wallet";
 
@@ -104,6 +105,11 @@ export class App extends Component<Props> {
               <Route exact path="/actions" component={Actions} />
               <Route exact path="/wallet" component={ComingSoon} />
               <Route exact path="/dev/wallet" component={Wallet} />
+              <Route
+                exact
+                path="/dev/wallet/smart-contract"
+                component={ChooseFunction}
+              />
               <Route component={NotFound} />
             </Switch>
           </ScrollToTop>
