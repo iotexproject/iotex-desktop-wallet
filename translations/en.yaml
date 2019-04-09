@@ -112,7 +112,6 @@ render.key.data: Data
 render.key.recipient: Recipient
 render.key.payload: Payload
 render.key.type: "Reward Type"
-render.key.__typename: Type
 render.key.returnValue: Return Value
 render.key.status: Status
 render.key.blkHeight: Block Height

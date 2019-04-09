@@ -41,6 +41,9 @@ export class ActionReceipt extends Component<Props> {
           const receipt =
             get(data || {}, "getReceiptByAction.receiptInfo.receipt") || {};
 
+          // @ts-ignore
+          if (receipt.__typename) delete receipt.__typename;
+
           const dataSource = buildKeyValueArray(receipt);
 
           return (

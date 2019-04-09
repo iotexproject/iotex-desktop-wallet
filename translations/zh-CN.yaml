@@ -70,7 +70,6 @@ render.key.data: 数据
 render.key.recipient: 接受者
 render.key.payload: 负载
 render.key.type: 奖励类型
-render.key.__typename: 类型
 render.key.returnValue: Return Value
 render.key.status: Status
 render.key.blkHeight: Block Height
