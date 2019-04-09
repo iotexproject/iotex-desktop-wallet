@@ -1,6 +1,9 @@
 import Icon from "antd/lib/icon";
 import Layout from "antd/lib/layout";
 import { get } from "dottie";
+import BlockProducers from "iotex-react-block-producers";
+// @ts-ignore
+import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -12,7 +15,6 @@ import { CoinPrice } from "../../api-gateway/resolvers/meta";
 import { Flex } from "../common/flex";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_CHAIN_META, GET_TILE_DATA } from "../queries";
-import { BpTable } from "./bp-table";
 
 type State = {
   marketCap: number;
@@ -52,7 +54,7 @@ class HomeComponent extends Component<Props, State> {
 
     return [
       {
-        title: "PRODUCER",
+        title: t("home.producer"),
         value: producerAddress.substring(0, 8),
         icon: "fire",
         action: () => {
@@ -63,7 +65,7 @@ class HomeComponent extends Component<Props, State> {
         }
       },
       {
-        title: "BLOCK HEIGHT",
+        title: t("home.blockHeight"),
         value: parseInt(height, 10).toLocaleString(),
         icon: "build",
         action: () => {
@@ -74,7 +76,7 @@ class HomeComponent extends Component<Props, State> {
         }
       },
       {
-        title: "CURRENT TPS",
+        title: t("home.currentTPS"),
         value: parseInt(tps, 10).toLocaleString(),
         icon: "dashboard",
         action: () => {
@@ -82,7 +84,7 @@ class HomeComponent extends Component<Props, State> {
         }
       },
       {
-        title: "IOTX PRICE",
+        title: t("home.IOTXPrice"),
         value: `${priceUsd || 0} USD`,
         icon: "dollar",
         action: () => {
@@ -90,7 +92,7 @@ class HomeComponent extends Component<Props, State> {
         }
       },
       {
-        title: "MARKETCAP",
+        title: t("home.marketCap"),
         value: `${marketCapUsd || 0} M`,
         icon: "bank",
         action: () => {
@@ -163,7 +165,7 @@ class HomeComponent extends Component<Props, State> {
         <Layout tagName={"main"} className={"main-container"}>
           <Layout.Content tagName={"main"}>
             <div style={{ backgroundColor: "#fff" }}>
-              <BpTable />
+              <BlockProducers />
             </div>
           </Layout.Content>
         </Layout>

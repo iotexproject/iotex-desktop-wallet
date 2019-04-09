@@ -6,7 +6,7 @@ import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { GetReceiptByActionResponse } from "../../api-gateway/resolvers/antenna-types";
-import { columns } from "../block/block-detail";
+import { getColumns } from "../block/block-detail";
 import { Flex } from "../common/flex";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
@@ -55,7 +55,7 @@ export class ActionReceipt extends Component<Props> {
                 <Table
                   pagination={false}
                   dataSource={dataSource}
-                  columns={columns("")}
+                  columns={getColumns("")}
                   rowKey={"key"}
                   style={{ width: "100%" }}
                   scroll={{ x: false }}

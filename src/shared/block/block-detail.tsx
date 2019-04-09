@@ -1,3 +1,4 @@
+import { ColumnProps } from "antd/es/table";
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
@@ -10,15 +11,17 @@ import Helmet from "onefx/lib/react-helmet";
 import React, { PureComponent } from "react";
 import { Query } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
+import { BlockMeta } from "../../api-gateway/resolvers/antenna-types";
 import { ActionTable } from "../address-details/action-table";
 import { Flex } from "../common/flex";
 import { FlexLink } from "../common/flex-link";
-import { fromNow } from "../common/from-now";
+import { translateFn } from "../common/from-now";
+import { NotFound } from "../common/not-found";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
-import { GET_BLOCK_METAS_BY_HASH } from "../queries";
+import { GET_BLOCK_METAS } from "../queries";
 
 type PathParamsType = {
   hash: string;
@@ -32,13 +35,53 @@ type State = {
 class BlockDetailsInner extends PureComponent<Props, State> {
   public state: State = { totalActons: 20 };
 
+  private readonly transferParam = (param: string) => {
+    let parameter = {};
+    if (!isNaN(Number(param)) && Number(param) > 0) {
+      parameter = {
+        byIndex: { start: Number(param), count: 1 }
+      };
+    } else if (param.length === 64 && /^[0-9a-f]+$/.test(param)) {
+      parameter = { byHash: { blkHash: param } };
+    }
+    return parameter;
+  };
+
+  private renderActionList(blockMeta: BlockMeta): JSX.Element {
+    const { totalActons } = this.state;
+    return (
+      <div>
+        <Divider style={{ marginTop: 60 }} orientation="left">
+          {t("title.actionList")}
+        </Divider>
+        <ActionTable
+          totalActions={totalActons}
+          getVariable={({ current, pageSize }) => {
+            const start = (current - 1) * pageSize;
+            if (current > 0) {
+              this.setState({
+                totalActons: start + pageSize + 1
+              });
+            }
+            return {
+              byBlk: {
+                blkHash: blockMeta.hash,
+                start: start < 0 ? 0 : start,
+                count: pageSize
+              }
+            };
+          }}
+        />
+      </div>
+    );
+  }
+
   public render(): JSX.Element {
     const {
       match: {
         params: { hash }
       }
     } = this.props;
-    const { totalActons } = this.state;
     const fields = [
       "height",
       "timestamp",
@@ -51,13 +94,21 @@ class BlockDetailsInner extends PureComponent<Props, State> {
       "deltaStateDigest"
     ];
 
+    const parameter = this.transferParam(hash);
+
+    if (Object.keys(parameter).length === 0) {
+      return (
+        <ContentPadding>
+          <Helmet title={`IoTeX ${t("block.block")} ${hash}`} />
+          <NotFound />
+        </ContentPadding>
+      );
+    }
+
     return (
       <ContentPadding>
         <Helmet title={`IoTeX ${t("block.block")} ${hash}`} />
-        <Query
-          query={GET_BLOCK_METAS_BY_HASH}
-          variables={{ byHash: { blkHash: hash } }}
-        >
+        <Query query={GET_BLOCK_METAS} variables={parameter}>
           {({ loading, error, data }) => {
             if (error) {
               notification.error({
@@ -92,41 +143,19 @@ class BlockDetailsInner extends PureComponent<Props, State> {
                   </PageTitle>
                   <Divider orientation="left">{t("title.overview")}</Divider>
                   <Table
-                    className="single-table"
                     pagination={false}
                     dataSource={dataSource}
-                    columns={columns()}
+                    columns={getColumns()}
                     rowKey={"key"}
                     style={{ width: "100%" }}
                     scroll={{ x: true }}
                   />
                 </Flex>
+                {this.renderActionList(blockMeta)}
               </SpinPreloader>
             );
           }}
         </Query>
-
-        <Divider style={{ marginTop: 60 }} orientation="left">
-          {t("title.actionList")}
-        </Divider>
-        <ActionTable
-          totalActions={totalActons}
-          getVariable={({ current, pageSize }) => {
-            const start = (current - 1) * pageSize;
-            if (current > 0) {
-              this.setState({
-                totalActons: start + pageSize + 1
-              });
-            }
-            return {
-              byBlk: {
-                blkHash: hash,
-                start: start < 0 ? 0 : start,
-                count: pageSize
-              }
-            };
-          }}
-        />
       </ContentPadding>
     );
   }
@@ -139,6 +168,8 @@ export function renderKey(text: string): JSX.Element {
 // tslint:disable:no-any
 export function renderValue(text: string, record: any): JSX.Element | string {
   switch (record.key) {
+    case "type":
+      return <span>{t(`render.value.rewardType.${text}`)}</span>;
     case "amount":
       return `${fromRau(text, "IOTX")} IOTX`;
     case "producerAddress":
@@ -150,7 +181,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "contractAddress":
       return <FlexLink path={`/address/${record.value}`} text={text} />;
     case "timestamp":
-      return <span>{fromNow(record.value)}</span>;
+      return <span>{translateFn(record.value)}</span>;
     case "actHash":
       return <FlexLink path={`/action/${text}`} text={text} />;
     case "blkHash":
@@ -164,18 +195,23 @@ export function renderValue(text: string, record: any): JSX.Element | string {
   }
 }
 
-export const columns = (title: string = t("title.overview")) => [
-  {
-    title,
-    key: "key",
-    dataIndex: "key",
-    render: renderKey
-  },
-  {
-    title: "",
-    dataIndex: "value",
-    render: renderValue
-  }
-];
+// tslint:disable:no-any
+export function getColumns(
+  title: string = t("title.overview")
+): Array<ColumnProps<any>> {
+  return [
+    {
+      title,
+      key: "key",
+      dataIndex: "key",
+      render: renderKey
+    },
+    {
+      title: "",
+      dataIndex: "value",
+      render: renderValue
+    }
+  ];
+}
 
 export const BlockDetail = withRouter(BlockDetailsInner);

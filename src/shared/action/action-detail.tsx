@@ -12,7 +12,7 @@ import React, { PureComponent } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
-import { columns } from "../block/block-detail";
+import { getColumns } from "../block/block-detail";
 import { Flex } from "../common/flex";
 import { actionsTypes, getActionType } from "../common/get-action-type";
 import { PageTitle } from "../common/page-title";
@@ -75,12 +75,7 @@ class ActionDetailsInner extends PureComponent<Props> {
               return `failed to get account: ${error}`;
             }
 
-            const actionInfo =
-              (data &&
-                data.getActions &&
-                data.getActions.actionInfo &&
-                data.getActions.actionInfo[0]) ||
-              {};
+            const actionInfo = get(data || {}, "getActions.actionInfo.0") || {};
             // @ts-ignore
             const { actHash, blkHash, action } = actionInfo;
             let object = {};
@@ -99,6 +94,8 @@ class ActionDetailsInner extends PureComponent<Props> {
               sender: action
                 ? publicKeyToAddress(String(action.senderPubKey))
                 : "",
+              __typename: "",
+              gasPrice: action.core.gasPrice || "",
               actionType: getActionType(actionInfo),
               ...object
             };
@@ -121,7 +118,7 @@ class ActionDetailsInner extends PureComponent<Props> {
                     className="single-table"
                     pagination={false}
                     dataSource={dataSource}
-                    columns={columns()}
+                    columns={getColumns()}
                     rowKey={"key"}
                     style={{ width: "100%" }}
                     scroll={{ x: true }}

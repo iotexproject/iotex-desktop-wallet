@@ -21,6 +21,7 @@ import { Footer, FOOTER_ABOVE } from "./common/footer";
 // @ts-ignore
 import initGoogleAnalytics from "./common/google-analytics";
 import { NotFound } from "./common/not-found";
+import { ScrollToTop } from "./common/scroll-top";
 import { colors } from "./common/styles/style-color";
 import { fonts } from "./common/styles/style-font";
 import { TopBar } from "./common/top-bar";
@@ -89,17 +90,23 @@ export class App extends Component<Props> {
         </Helmet>
         <TopBar />
         <div style={FOOTER_ABOVE}>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/address/:address" component={AddressDetails} />
-            <Route exact path="/block/:hash" component={BlockDetail} />
-            <Route exact path="/blocks" component={Blocks} />
-            <Route exact path="/action/:hash" component={ActionDetail} />
-            <Route exact path="/actions" component={Actions} />
-            <Route exact path="/wallet" component={ComingSoon} />
-            <Route exact path="/dev/wallet" component={Wallet} />
-            <Route component={NotFound} />
-          </Switch>
+          <ScrollToTop>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route
+                exact
+                path="/address/:address"
+                component={AddressDetails}
+              />
+              <Route exact path="/block/:hash" component={BlockDetail} />
+              <Route exact path="/blocks" component={Blocks} />
+              <Route exact path="/action/:hash" component={ActionDetail} />
+              <Route exact path="/actions" component={Actions} />
+              <Route exact path="/wallet" component={ComingSoon} />
+              <Route exact path="/dev/wallet" component={Wallet} />
+              <Route component={NotFound} />
+            </Switch>
+          </ScrollToTop>
         </div>
         <Footer />
       </RootStyle>

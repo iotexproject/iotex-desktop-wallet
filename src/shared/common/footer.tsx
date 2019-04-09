@@ -28,13 +28,7 @@ export function Footer(): JSX.Element {
             error,
             data
           }: QueryResult<{ fetchVersionInfo: VersionInfo }>) => {
-            if (loading) {
-              return "Loading...";
-            }
-            if (error) {
-              return `Error! ${error.message}`;
-            }
-            if (!data) {
+            if (loading || error || !data) {
               return null;
             }
             return (
