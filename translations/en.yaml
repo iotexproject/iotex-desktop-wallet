@@ -168,3 +168,4 @@ time.fn.justnow: just now
 address.balance: balance
 address.nonce: nonce
 address.pendingNonce: pendingNonce
+button.backHome: Back Home
