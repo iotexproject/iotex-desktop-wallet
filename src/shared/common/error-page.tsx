@@ -46,7 +46,7 @@ class ErrorPageComponent extends PureComponent<Props> {
                 this.props.history.push("/");
               }}
             >
-              Back Home
+              {t("button.backHome")}
             </Button>
           </Flex>
         </Flex>

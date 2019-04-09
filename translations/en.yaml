@@ -168,6 +168,7 @@ time.fn.justnow: just now
 address.balance: balance
 address.nonce: nonce
 address.pendingNonce: pendingNonce
+button.backHome: Back Home
 wallet.title.wallet: Wallet
 wallet.contract.title: Contract
 wallet.contract.learn: Learn more
