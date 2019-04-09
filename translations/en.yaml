@@ -169,3 +169,11 @@ address.balance: balance
 address.nonce: nonce
 address.pendingNonce: pendingNonce
 button.backHome: Back Home
+wallet.title.wallet: Wallet
+wallet.contract.title: Contract
+wallet.contract.learn: Learn more
+wallet.contract.chooseFunction: Please choose an action.
+wallet.contract.interactWith: Interact with contract
+wallet.contract.deployContract: Deploy contract
+wallet.contract.interactWith.desc: This is a sentence of description. This is a sentence of description.
+wallet.contract.deployContract.desc: This is a sentence of description. This is a sentence of description.

@@ -252,7 +252,7 @@ type GetBlockMetasResponse {
 }
 
 type GetReceiptByActionResponse {
-  receipt: Receipt!
+  receiptInfo: ReceiptInfo!
 }
 
 input GetUnconfirmedActionsByAddressRequest {
@@ -273,11 +273,11 @@ input GrantRewardInput {
 # Properties of an Log
 type Log {
   # iotex address
-  address: String!
+  contractAddress: String!
   topics: [Buffer!]!
   data: Buffer!
-  blockNumber: Int!
-  txnHash: Buffer!
+  blkHeight: Int!
+  actHash: Buffer!
   index: Int!
 }
 
@@ -488,10 +488,16 @@ type ReadContractResponse {
 type Receipt {
   returnValue: Buffer!
   status: Int!
+  blkHeight: Int!
   actHash: Buffer!
   gasConsumed: Int!
   contractAddress: String!
   logs: [Log!]!
+}
+
+type ReceiptInfo {
+  receipt: Receipt!
+  blkHash: String!
 }
 
 enum RewardType {
