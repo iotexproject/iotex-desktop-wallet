@@ -1,15 +1,17 @@
 import Icon from "antd/lib/icon";
 import Layout from "antd/lib/layout";
 import { get } from "dottie";
+import { GetChainMetaResponse } from "iotex-antenna/protogen/proto/api/api_pb";
 import BlockProducers from "iotex-react-block-producers";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
-import { Query } from "react-apollo";
+import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
 import {
   BlockMeta,
-  ChainMeta
+  ChainMeta,
+  GetBlockMetasResponse
 } from "../../api-gateway/resolvers/antenna-types";
 import { CoinPrice } from "../../api-gateway/resolvers/meta";
 import { Flex } from "../common/flex";
@@ -107,12 +109,19 @@ class HomeComponent extends Component<Props, State> {
       <ContentPadding>
         <div className={"section-top"}>
           <Query query={GET_CHAIN_META}>
-            {({ loading, error, data }) => {
+            {({
+              loading,
+              error,
+              data
+            }: QueryResult<{ chainMetaData: GetChainMetaResponse }>) => {
               if (loading) {
                 return "Loading...";
               }
               if (error) {
                 return `Error! ${error.message}`;
+              }
+              if (!data) {
+                return `Faild to get data`;
               }
 
               const chainMetaData = data;
@@ -122,14 +131,25 @@ class HomeComponent extends Component<Props, State> {
               };
               return (
                 <Query query={GET_TILE_DATA} variables={{ byIndex }}>
-                  {({ loading, error, data }) => {
+                  {({
+                    loading,
+                    error,
+                    data
+                  }: QueryResult<{
+                    fetchCoinPrice: CoinPrice;
+                    getBlockMetas: GetBlockMetasResponse;
+                  }>) => {
                     if (loading) {
                       return "Loading...";
                     }
                     if (error) {
                       return `Error! ${error.message}`;
                     }
+                    if (!data) {
+                      return `Faild to get data`;
+                    }
 
+                    //@ts-ignore
                     const tiles = this.getTiles({ ...chainMetaData, ...data });
 
                     return (
