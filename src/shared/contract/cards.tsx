@@ -1,6 +1,5 @@
 // @ts-ignore
 import { Avatar, Card, Icon } from "antd";
-import { assetURL } from "onefx/lib/asset-url";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";

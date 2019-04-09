@@ -43,6 +43,7 @@ export class ActionReceipt extends Component<Props> {
 
           // @ts-ignore
           if (receipt.__typename) {
+            // @ts-ignore
             delete receipt.__typename;
           }
 
