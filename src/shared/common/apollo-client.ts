@@ -20,14 +20,3 @@ export const apolloClient = new ApolloClient({
   }),
   cache: new InMemoryCache().restore(apolloState)
 });
-
-export const webBpApolloClient = new ApolloClient({
-  ssrMode: !isBrowser,
-  link: new HttpLink({
-    uri: "https://member.iotex.io/api-gateway/",
-    fetch
-  }),
-  cache: isBrowser
-    ? new InMemoryCache().restore(state.webBpApolloState)
-    : new InMemoryCache()
-});
