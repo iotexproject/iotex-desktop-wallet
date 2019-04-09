@@ -147,6 +147,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "recipient":
     case "owner":
     case "subChainAddress":
+    case "contractAddress":
       return <FlexLink path={`/address/${record.value}`} text={text} />;
     case "timestamp":
       return <span>{fromNow(record.value)}</span>;

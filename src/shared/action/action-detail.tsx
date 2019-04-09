@@ -28,7 +28,7 @@ type PathParamsType = {
 
 type Props = RouteComponentProps<PathParamsType> & {};
 
-export function buildKeyValueArray(object: {}) {
+export function buildKeyValueArray(object: {}): Array<{}> {
   return Object.keys(object).map(key => {
     // @ts-ignore
     if (typeof object[key] === "object") {
@@ -131,7 +131,9 @@ class ActionDetailsInner extends PureComponent<Props> {
             );
           }}
         </Query>
-        <ActionReceipt actionHash={hash} />
+        <Flex marginTop={"30px"}>
+          <ActionReceipt actionHash={hash} />
+        </Flex>
       </ContentPadding>
     );
   }

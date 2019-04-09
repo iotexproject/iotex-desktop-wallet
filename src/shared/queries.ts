@@ -195,22 +195,26 @@ export const SUGGEST_GAS_PRICE = gql`
 `;
 
 export const GET_RECEIPT_BY_ACTION = gql`
-  query getReceiptByAction($actionHash: String!) {
+  query($actionHash: String!) {
     getReceiptByAction(actionHash: $actionHash) {
-      receipt {
-        returnValue
-        status
-        actHash
-        gasConsumed
-        contractAddress
-        logs {
-          address
-          topics
-          data
-          blockNumber
-          txnHash
-          index
+      receiptInfo {
+        receipt {
+          returnValue
+          status
+          actHash
+          blkHeight
+          gasConsumed
+          contractAddress
+          logs {
+            contractAddress
+            topics
+            data
+            blkHeight
+            actHash
+            index
+          }
         }
+        blkHash
       }
     }
   }

@@ -112,6 +112,12 @@ render.key.recipient: Recipient
 render.key.payload: Payload
 render.key.type: "Reward Type"
 render.key.__typename: Type
+render.key.returnValue: Return Value
+render.key.status: Status
+render.key.blkHeight: Block Height
+render.key.gasConsumed: Gas Consumed
+render.key.contractAddress: Contract Address
+render.key.logs: Logs
 render.value.grantReward: "Grant Reward"
 render.value.execution: Execution
 render.value.transfer: Transfer

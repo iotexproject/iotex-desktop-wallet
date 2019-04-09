@@ -69,6 +69,12 @@ render.key.recipient: 接受者
 render.key.payload: 负载
 render.key.type: 奖励类型
 render.key.__typename: 类型
+render.key.returnValue: Return Value
+render.key.status: Status
+render.key.blkHeight: Block Height
+render.key.gasConsumed: Gas Consumed
+render.key.contractAddress: Contract Address
+render.key.logs: Logs
 render.value.grantReward: 赠款奖励
 render.value.execution: 执行
 render.value.transfer: 转移

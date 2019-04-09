@@ -1,10 +1,11 @@
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
+import { get } from "dottie";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
 import { Query, QueryResult } from "react-apollo";
-import { Receipt } from "../../api-gateway/resolvers/antenna-types";
+import { GetReceiptByActionResponse } from "../../api-gateway/resolvers/antenna-types";
 import { columns } from "../block/block-detail";
 import { Flex } from "../common/flex";
 import { PageTitle } from "../common/page-title";
@@ -23,7 +24,11 @@ export class ActionReceipt extends Component<Props> {
 
     return (
       <Query query={GET_RECEIPT_BY_ACTION} variables={{ actionHash }}>
-        {({ loading, error, data }: QueryResult<{ receipt: Receipt }>) => {
+        {({
+          loading,
+          error,
+          data
+        }: QueryResult<{ getReceiptByAction: GetReceiptByActionResponse }>) => {
           if (error) {
             notification.error({
               message: "Error",
@@ -33,7 +38,8 @@ export class ActionReceipt extends Component<Props> {
             return `failed to get receipt: ${error}`;
           }
 
-          const receipt = (data && data.receipt) || {};
+          const receipt =
+            get(data || {}, "getReceiptByAction.receiptInfo.receipt") || {};
 
           const dataSource = buildKeyValueArray(receipt);
 
