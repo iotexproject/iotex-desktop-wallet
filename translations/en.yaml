@@ -1,24 +1,21 @@
-meta.title: "Blockchain Explorer - IoTeX"
-meta.description: "Exploring IoTeX blockchain Address, Actions, and Smart Contracts."
+meta.title: 'Blockchain Explorer - IoTeX'
+meta.description: 'Exploring IoTeX blockchain Address, Actions, and Smart Contracts.'
 topbar.brand: Brand
 topbar.blockchain: BLOCKCHAIN
 topbar.blocks: BLOCKS
 topbar.actions: ACTIONS
-topbar.search: "Search by Address / Public Key / Hash / Height"
 topbar.home: HOME
-not_found.bar: "Not Found"
+not_found.bar: 'Not Found'
 not_found.title: Oops!
-not_found.info: "We cannot find the page for you..."
-coming_soon.title: Coming Soon...
-coming_soon.bar: coming soon
-candidate.delegate_name: "Delegate Name"
+not_found.info: 'We cannot find the page for you...'
+candidate.delegate_name: 'Delegate Name'
 candidate.status: Status
 candidate.live_votes: LiveVotes
 candidate.percent: Percent
 candidates.election.ELECTED: Elected
-candidates.election.NOT_ELECTED: "Not Elected"
-candidates.election.UNQUALIFIED: "Not Elected"
-candidates.election.explain: "Delegates must self-stake at least <b>1,200,000 IOTX</b> and earn <b>2,000,000 IOTX</b> total votes to be elected."
+candidates.election.NOT_ELECTED: 'Not Elected'
+candidates.election.UNQUALIFIED: 'Not Elected'
+candidates.election.explain: 'Delegates must self-stake at least <b>1,200,000 IOTX</b> and earn <b>2,000,000 IOTX</b> total votes to be elected.'
 block.block: Block
 block.blocks: Blocks
 block.height: Height
@@ -26,46 +23,79 @@ block.hash: Hash
 block.timestamp: Age
 block.num_actions: Actions
 block.producer_address: Producer
-block.transfer_amount: "Transfer Amount"
-block.tx_root: "Tx Root"
-block.receipt_root: "Receipt Root"
-block.delta_state_digest: "Digest of Delta State"
+block.transfer_amount: 'Transfer Amount'
+block.tx_root: 'Tx Root'
+block.receipt_root: 'Receipt Root'
+block.delta_state_digest: 'Digest of Delta State'
 action.type: Type
 action.type.transfer: Transfer
-action.type.grant_reward: "Grant Reward"
+action.type.grant_reward: 'Grant Reward'
 action.type.execution: Execution
-action.type.grantReward: Grant Reward
-action.type.depositToRewardingFund: deposit To Rewarding Fund
-action.type.claimFromRewardingFund: claim From RewardingFund
-action.type.startSubChain: start SubChain
-action.type.stopSubChain: stop SubChain
-action.type.putBlock: put Block
-action.type.createDeposit: create Deposit
-action.type.settleDeposit: settle Deposit
-action.type.createPlumChain: create PlumChain
-action.type.terminatePlumChain: terminate PlumChain
-action.type.plumPutBlock: plum PutBlock
-action.type.plumCreateDeposit: plum CreateDeposit
-action.type.plumStartExit: plum StartExit
-action.type.plumChallengeExit: plum ChallengeExit
-action.type.plumResponseChallengeExit: plum Response Challenge Exit
-action.type.plumFinalizeExit: plum Finalize Exit
-action.type.plumSettleDeposit: plum Settle Deposit
-action.type.plumTransfer: plum Transfer
-action.type.putPollResult: put Poll Result
-render.key.chainID: chain ID
-render.key.securityDeposit: Security Deposit
-render.key.operationDeposit: Operation Deposit
-render.key.startHeight: Start Height
+action.data: Data
+topbar.graphql_playground: 'GraphQL Playground'
+topbar.graphql_doc: 'GraphQL Doc'
+action.hash: Hash
+action.block_hash: Block
+action.amount: Amount
+action.action: Action
+action.sender: Sender
+action.recipient: Recipient
+title.action: Action
+render.key.height: Height
+render.key.hash: Hash
+render.key.timestamp: Age
+render.key.numActions: Actions
+render.key.producerAddress: Producer
+render.key.transferAmount: 'Transfer Amount'
+render.key.txRoot: 'Tx Root'
+render.key.receiptRoot: 'Receipt Root'
+render.key.deltaStateDigest: 'Digest of Delta State'
+render.key.actHash: Hash
+render.key.blkHash: Block
+render.key.actionType: Type
+render.key.actionData: Data
+render.key.sender: Sender
+render.key.amount: Amount
+render.key.contract: Contract
+render.key.data: Data
+render.key.recipient: Recipient
+render.key.payload: Payload
+render.key.type: 'Reward Type'
+render.value.grantReward: 'Grant Reward'
+render.value.execution: Execution
+render.value.transfer: Transfer
+action.type.grantReward: 'Grant Reward'
+action.type.depositToRewardingFund: 'deposit To Rewarding Fund'
+action.type.claimFromRewardingFund: 'claim From RewardingFund'
+action.type.startSubChain: 'start SubChain'
+action.type.stopSubChain: 'stop SubChain'
+action.type.putBlock: 'put Block'
+action.type.createDeposit: 'create Deposit'
+action.type.settleDeposit: 'settle Deposit'
+action.type.createPlumChain: 'create PlumChain'
+action.type.terminatePlumChain: 'terminate PlumChain'
+action.type.plumPutBlock: 'plum PutBlock'
+action.type.plumCreateDeposit: 'plum CreateDeposit'
+action.type.plumStartExit: 'plum StartExit'
+action.type.plumChallengeExit: 'plum ChallengeExit'
+action.type.plumResponseChallengeExit: 'plum Response Challenge Exit'
+action.type.plumFinalizeExit: 'plum Finalize Exit'
+action.type.plumSettleDeposit: 'plum Settle Deposit'
+action.type.plumTransfer: 'plum Transfer'
+action.type.putPollResult: 'put Poll Result'
+render.key.chainID: 'chain ID'
+render.key.securityDeposit: 'Security Deposit'
+render.key.operationDeposit: 'Operation Deposit'
+render.key.startHeight: 'Start Height'
 render.key.parentHeightOffset: parentHeightOffset
-render.key.stopHeight: Stop Height
-render.key.subChainAddress: subChain Address
+render.key.stopHeight: 'Stop Height'
+render.key.subChainAddress: 'subChain Address'
 render.key.roots: roots
 render.key.index: Index
-render.key.previousTransfer: previous Transfer
-render.key.previousTransferBlockProof: previous Transfer Block Proof
-render.key.previousTransferBlockHeight: previous Transfer Block Height
-render.key.exitTransfer: exit Transfer
+render.key.previousTransfer: 'previous Transfer'
+render.key.previousTransferBlockProof: 'previous Transfer Block Proof'
+render.key.previousTransferBlockHeight: 'previous Transfer Block Height'
+render.key.exitTransfer: 'exit Transfer'
 render.key.exitTransferBlockProof: exitTransferBlockProof
 render.key.exitTransferBlockHeight: exitTransferBlockHeight
 render.key.challengeTransfer: challengeTransfer
@@ -73,85 +103,40 @@ render.key.challengeTransferBlockProof: challengeTransferBlockProof
 render.key.challengeTransferBlockHeight: challengeTransferBlockHeight
 render.key.responseTransfer: responseTransfer
 render.key.responseTransferBlockProof: responseTransferBlockProof
-render.key.coinID: coin ID
+render.key.coinID: 'coin ID'
 render.key.denomination: denomination
 render.key.owner: owner
 render.key.candidates: candidates
-action.data: Data
-topbar.graphql_playground: "GraphQL Playground"
-topbar.graphql_doc: "GraphQL Doc"
-action.hash: Hash
-action.block_hash: Block
-action.amount: Amount
-action.action: Action
+topbar.search: 'Search by Address / Public Key / Hash / Height'
+coming_soon.title: 'Coming Soon...'
+coming_soon.bar: 'coming soon'
 action.actions: Actions
-action.sender: Sender
-action.recipient: Recipient
-title.overview: Overview
-title.actionList: List of Actions
-title.action: Action
-title.receipt: Receipt
-render.key.height: Height
-render.key.hash: Hash
-render.key.timestamp: Age
-render.key.numActions: Actions
-render.key.producerAddress: Producer
-render.key.transferAmount: "Transfer Amount"
-render.key.txRoot: "Tx Root"
-render.key.receiptRoot: "Receipt Root"
-render.key.deltaStateDigest: "Digest of Delta State"
-render.key.actHash: Hash
-render.key.blkHash: Block
-render.key.actionType: Type
-render.key.actionData: Data
-render.key.sender: Sender
-render.key.amount: Amount
-render.key.gasPrice: Gas Price
-render.key.contract: Contract
-render.key.data: Data
-render.key.recipient: Recipient
-render.key.payload: Payload
-render.key.type: "Reward Type"
-render.key.returnValue: Return Value
-render.key.status: Status
-render.key.blkHeight: Block Height
-render.key.gasConsumed: Gas Consumed
-render.key.contractAddress: Contract Address
-render.key.logs: Logs
-render.key.overview: Overview
-render.value.grantReward: "Grant Reward"
-render.value.execution: Execution
-render.value.transfer: Transfer
-render.value.rewardType.BlockReward: Block Reward
-render.value.rewardType.EpochReward: Epoch Reward
 address.address: Address
-input.error.private_key.invalid: Please input your private key
-input.error.private_key.length: Private key has to be of length 64
-wallet.unlock.new.title: Please pay attention
-wallet.unlock.new.yes: "I understand, continue"
-wallet.unlock.new.p1: >-
-  We do not store your private key on the server. The private key generation is
-  handled on your browser only.
-wallet.unlock.new.p2: >-
-  Back up your private key because you will use it to access your wallet. If you
-  lose your private key, it cannot be recovered.
-unlock-wallet.title: Unlock your wallet
-unlock-wallet.warn.message: >-
-  Please double-check the URL & SSL cert. It should say https://www.iotexscan.io
-  in your URL bar.
-wallet.account.enterPrivateKey: Private Key
-wallet.account.placehold.privateKey: Paste your private key here
-account.empty.unlock: Unlock your wallet to see details!
-unlock-wallet.no-wallet: Don't have a IoTeX wallet yet?
-unlock-wallet.create: Create a new wallet
-unlock-wallet.main-chain: Please go to mainchain to create a wallet.
+title.overview: Overview
+title.actionList: 'List of Actions'
 copy.copied: Copied
-copy.toClipboard: Copy address to clipboard
-wallet.account.unlock: Unlock
+copy.toClipboard: 'Copy address to clipboard'
+input.error.private_key.invalid: 'Please input your private key'
+input.error.private_key.length: 'Private key has to be of length 72'
+wallet.unlock.new.title: 'Please pay attention'
+wallet.unlock.new.p1: 'We do not store your private key on the server. The private key generation is handled on your browser only.'
+wallet.unlock.new.p2: 'Back up your private key because you will use it to access your wallet. If you lose your private key, it cannot be recovered.'
+unlock-wallet.title: 'Unlock your wallet'
+unlock-wallet.warn.message: 'Please double-check the URL & SSL cert. It should say https://www.iotexscan.io in your URL bar.'
+wallet.account.enterPrivateKey: 'Private Key'
+wallet.account.placehold.privateKey: 'Paste your private key here'
+account.empty.unlock: 'Unlock your wallet to see details!'
+unlock-wallet.no-wallet: 'Don''t have a IoTeX wallet yet?'
+unlock-wallet.create: 'Create a new wallet'
+unlock-wallet.main-chain: 'Please go to mainchain to create a wallet.'
+render.key.gasPrice: 'Gas Price'
+render.key.overview: Overview
+render.value.rewardType.BlockReward: 'Block Reward'
+render.value.rewardType.EpochReward: 'Epoch Reward'
 home.producer: PRODUCER
-home.blockHeight: BLOCK HEIGHT
-home.currentTPS: CURRENT TPS
-home.IOTXPrice: IOTX PRICE
+home.blockHeight: 'BLOCK HEIGHT'
+home.currentTPS: 'CURRENT TPS'
+home.IOTXPrice: 'IOTX PRICE'
 home.marketCap: MARKETCAP
 time.fn.years: years
 time.fn.year: year
@@ -164,15 +149,24 @@ time.fn.hour: hour
 time.fn.minutes: minutes
 time.fn.minute: minute
 time.fn.ago: ago
-time.fn.justnow: just now
+time.fn.justnow: 'just now'
 address.balance: balance
 address.nonce: nonce
 address.pendingNonce: pendingNonce
+wallet.unlock.new.yes: 'I understand, continue'
+wallet.account.unlock: Unlock
+title.receipt: Receipt
+render.key.returnValue: 'Return Value'
+render.key.status: Status
+render.key.blkHeight: 'Block Height'
+render.key.gasConsumed: 'Gas Consumed'
+render.key.contractAddress: 'Contract Address'
+render.key.logs: Logs
 wallet.title.wallet: Wallet
 wallet.contract.title: Contract
-wallet.contract.learn: Learn more
-wallet.contract.chooseFunction: Please choose an action.
-wallet.contract.interactWith: Interact with contract
-wallet.contract.deployContract: Deploy contract
-wallet.contract.interactWith.desc: This is a sentence of description. This is a sentence of description.
-wallet.contract.deployContract.desc: This is a sentence of description. This is a sentence of description.
+wallet.contract.learn: 'Learn more'
+wallet.contract.chooseFunction: 'Please choose an action.'
+wallet.contract.interactWith: 'Interact with contract'
+wallet.contract.deployContract: 'Deploy contract'
+wallet.contract.interactWith.desc: 'This is a sentence of description. This is a sentence of description.'
+wallet.contract.deployContract.desc: 'This is a sentence of description. This is a sentence of description.'
