@@ -10,6 +10,7 @@ import { PageTitle } from "../common/page-title";
 import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "../wallet/account-section";
 import { CardFunction } from "./cards";
+import { Icon } from "antd";
 
 type Props = {};
 type State = {};
@@ -25,8 +26,8 @@ export class ChooseFunction extends Component<Props, State> {
         <Row>
           <Col md={16}>
             <Flex>
-              <PageTitle style={{ fontSize: "1.6em", fontWeight: "bold" }}>
-                {t("wallet.contract.chooseFunction")}
+              <PageTitle>
+                <Icon type="profile" /> {t("wallet.contract.chooseFunction")}
               </PageTitle>
               <CardFunction
                 title={t("wallet.contract.interactWith")}
