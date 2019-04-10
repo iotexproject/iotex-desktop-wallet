@@ -161,3 +161,11 @@ new-wallet.warn.cant-recover: It cannot be recovered if you lose it.
 new-wallet.warn.stolen: Your funds will be stolen if you use this file on a malicious/phishing site.
 new-wallet.warn.secure: Secure it like the millions of dollars it may one day be worth.
 new-wallet.button.unlock: "I understand, Unlock Wallet"
+account.why: Why save your private key?
+account.save: Save your private key to access your wallet later
+account.pay-attention: Pay attention
+account.not-hold: >-
+  IoTeX.io does not hold your keys for you. We cannot access accounts recover
+  keys, nor reverse transactions
+account.protect: Protect your keys & always check that you are on correct URL.
+account.responsible: You are responsible for your security.

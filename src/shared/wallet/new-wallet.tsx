@@ -1,17 +1,17 @@
-import * as React from "react";
-import { getAntenna } from "./get-antenna";
-import { Account } from "iotex-antenna/lib/account/account";
-import { copyCB } from "text-to-clipboard";
-// @ts-ignore
-import { styled } from "onefx/lib/styletron-react";
-// @ts-ignore
-import { t } from "onefx/lib/iso-i18n";
+import Alert from "antd/lib/alert";
+import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
+import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
 import Tooltip from "antd/lib/tooltip";
-import Icon from "antd/lib/icon";
-import Button from "antd/lib/button";
-import Alert from "antd/lib/alert";
+import { Account } from "iotex-antenna/lib/account/account";
+// @ts-ignore
+import { t } from "onefx/lib/iso-i18n";
+// @ts-ignore
+import { styled } from "onefx/lib/styletron-react";
+import * as React from "react";
+import { copyCB } from "text-to-clipboard";
+import { getAntenna } from "./get-antenna";
 
 export interface Props {
   form: WrappedFormUtils;

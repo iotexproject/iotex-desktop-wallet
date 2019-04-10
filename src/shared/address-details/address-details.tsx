@@ -103,7 +103,7 @@ class AddressDetailsInner extends PureComponent<Props> {
                   {t("title.actionList")}
                 </Divider>
                 <ActionTable
-                  totalActions={addressInfo.numActions}
+                  totalActions={+addressInfo.numActions}
                   getVariable={({ current, pageSize }) => {
                     const start = (current - 1) * pageSize;
                     return {
