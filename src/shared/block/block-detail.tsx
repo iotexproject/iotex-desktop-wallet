@@ -50,29 +50,24 @@ class BlockDetailsInner extends PureComponent<Props, State> {
   private renderActionList(blockMeta: BlockMeta): JSX.Element {
     const { totalActons } = this.state;
     return (
-      <div>
-        <Divider style={{ marginTop: 60 }} orientation="left">
-          {t("title.actionList")}
-        </Divider>
-        <ActionTable
-          totalActions={totalActons}
-          getVariable={({ current, pageSize }) => {
-            const start = (current - 1) * pageSize;
-            if (current > 0) {
-              this.setState({
-                totalActons: start + pageSize + 1
-              });
+      <ActionTable
+        totalActions={totalActons}
+        getVariable={({ current, pageSize }) => {
+          const start = (current - 1) * pageSize;
+          if (current > 0) {
+            this.setState({
+              totalActons: start + pageSize + 1
+            });
+          }
+          return {
+            byBlk: {
+              blkHash: blockMeta.hash,
+              start: start < 0 ? 0 : start,
+              count: pageSize
             }
-            return {
-              byBlk: {
-                blkHash: blockMeta.hash,
-                start: start < 0 ? 0 : start,
-                count: pageSize
-              }
-            };
-          }}
-        />
-      </div>
+          };
+        }}
+      />
     );
   }
 
@@ -131,28 +126,33 @@ class BlockDetailsInner extends PureComponent<Props, State> {
             }));
 
             return (
-              <SpinPreloader spinning={loading}>
-                <Flex
-                  width={"100%"}
-                  column={true}
-                  alignItems={"baselines"}
-                  backgroundColor={colors.white}
-                >
-                  <PageTitle>
-                    <Icon type="block" /> {t("block.block")}
-                  </PageTitle>
-                  <Divider orientation="left">{t("title.overview")}</Divider>
-                  <Table
-                    pagination={false}
-                    dataSource={dataSource}
-                    columns={getColumns()}
-                    rowKey={"key"}
-                    style={{ width: "100%" }}
-                    scroll={{ x: true }}
-                  />
-                </Flex>
-                {this.renderActionList(blockMeta)}
-              </SpinPreloader>
+              <div>
+                <SpinPreloader spinning={loading}>
+                  <Flex
+                    width={"100%"}
+                    column={true}
+                    alignItems={"baselines"}
+                    backgroundColor={colors.white}
+                  >
+                    <PageTitle>
+                      <Icon type="block" /> {t("block.block")}
+                    </PageTitle>
+                    <Divider orientation="left">{t("title.overview")}</Divider>
+                    <Table
+                      pagination={false}
+                      dataSource={dataSource}
+                      columns={getColumns()}
+                      rowKey={"key"}
+                      style={{ width: "100%" }}
+                      scroll={{ x: true }}
+                    />
+                  </Flex>
+                </SpinPreloader>
+                <Divider style={{ marginTop: 60 }} orientation="left">
+                  {t("title.actionList")}
+                </Divider>
+                {!loading ? this.renderActionList(blockMeta) : <div />}
+              </div>
             );
           }}
         </Query>

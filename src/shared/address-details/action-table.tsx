@@ -160,13 +160,6 @@ export function ActionTable({
   totalActions?: number;
   getVariable: GetVariable;
 }): JSX.Element {
-  const variable = getVariable({ pageSize, current: 0 });
-  if (
-    !(variable.byAddr && variable.byAddr.address) &&
-    !(variable.byBlk && variable.byBlk.blkHash)
-  ) {
-    return <div />;
-  }
   return (
     <Query
       query={GET_ACTIONS}
