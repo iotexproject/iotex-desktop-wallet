@@ -26,6 +26,8 @@ import { colors } from "./common/styles/style-color";
 import { fonts } from "./common/styles/style-font";
 import { TopBar } from "./common/top-bar";
 import { ChooseFunction } from "./contract/choose-function";
+import { Deploy } from "./contract/deploy";
+import { Interact } from "./contract/interact";
 import { Home } from "./home/home";
 import Wallet from "./wallet/wallet";
 
@@ -105,6 +107,16 @@ export class App extends Component<Props> {
               <Route exact path="/actions" component={Actions} />
               <Route exact path="/wallet" component={ComingSoon} />
               <Route exact path="/dev/wallet" component={Wallet} />
+              <Route
+                exact
+                path="/dev/wallet/smart-contract/deploy"
+                component={Deploy}
+              />
+              <Route
+                exact
+                path="/dev/wallet/smart-contract/interact"
+                component={Interact}
+              />
               <Route
                 exact
                 path="/dev/wallet/smart-contract"

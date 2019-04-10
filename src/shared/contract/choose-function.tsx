@@ -1,3 +1,4 @@
+import { Icon } from "antd";
 import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
 // @ts-ignore
@@ -10,7 +11,6 @@ import { PageTitle } from "../common/page-title";
 import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "../wallet/account-section";
 import { CardFunction } from "./cards";
-import { Icon } from "antd";
 
 type Props = {};
 type State = {};

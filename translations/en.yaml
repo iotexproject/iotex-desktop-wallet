@@ -177,3 +177,25 @@ wallet.contract.interactWith: Interact with contract
 wallet.contract.deployContract: Deploy contract
 wallet.contract.interactWith.desc: This is a sentence of description. This is a sentence of description.
 wallet.contract.deployContract.desc: This is a sentence of description. This is a sentence of description.
+wallet.contract.back: Back to actions
+wallet.interact.access: Access
+wallet.interact.title: Interact with contract
+wallet.input.to: Recipient address
+wallet.input.nonce: Nonce
+wallet.input.gasPrice: Gas Price
+wallet.input.gasLimit: Gas Limit
+wallet.input.abi: ABI / JSON Interface
+wallet.input.byteCode: Byte Code
+wallet.input.solidity: Solidity (optional)
+wallet.input.contractAddress: Contract address
+wallet.deploy.generateAbiAndByteCode: Generate ABI and Byte Code
+wallet.deploy.title: Deploy contract
+wallet.deploy.broadcast.fail: Please try to send Smart Contract later
+wallet.deploy.send-new: Send new contract
+wallet.deploy.detail-title: You are about to deploy ...
+wallet.deploy.deploy: Deploy Contract
+wallet.deploy.signTransaction: Sign Transaction
+wallet.placeholder.solidity: pragma solidity ^0.4.23; ...
+wallet.placeholder.abi: ...
+wallet.placeholder.byteCode: 0x1234 ...
+wallet.placeholder.contractAddress: io...
