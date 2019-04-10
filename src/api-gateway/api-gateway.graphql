@@ -81,7 +81,6 @@ type ActionInfo {
   action: Action!
   actHash: String!
   blkHash: String!
-  block: BlockMeta!
 }
 
 input ActionInput {
