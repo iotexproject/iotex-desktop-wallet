@@ -1,10 +1,11 @@
 // tslint:disable:no-any
 import BigNumber from "bignumber.js";
+import { get } from "dottie";
 import { Ctx, Query, Resolver, ResolverInterface } from "type-graphql";
 import { Field, ObjectType } from "type-graphql";
 //@ts-ignore
 import pkg from "../../../package.json";
-import { ICtx } from "./antenna.js";
+import { ICtx } from "./antenna";
 
 @ObjectType({ description: "IOTX price information from coinmarketcap" })
 export class CoinPrice {
@@ -43,21 +44,26 @@ export class MetaResolver implements ResolverInterface<() => String> {
     return data;
   }
 
+  private readonly version: {
+    explorerVersion: string;
+    iotexCoreVersion: string;
+  } = {
+    explorerVersion: `v${pkg.version}`,
+    iotexCoreVersion: ""
+  };
+
   @Query(_ => VersionInfo)
   public async fetchVersionInfo(@Ctx() { gateways }: ICtx): Promise<
     VersionInfo
   > {
-    const serverMeta = await gateways.antenna.getServerMeta({});
-
-    const explorerVersion = `v${pkg.version}`;
-    if (!serverMeta.serverMeta) {
-      return {
-        explorerVersion
-      };
+    if (!this.version.iotexCoreVersion) {
+      const serverMeta = await gateways.antenna.getServerMeta({});
+      this.version.iotexCoreVersion = get(
+        serverMeta,
+        "serverMeta.packageVersion"
+      );
     }
-    return {
-      explorerVersion,
-      iotexCoreVersion: serverMeta.serverMeta.packageVersion
-    };
+
+    return this.version;
   }
 }
