@@ -134,3 +134,18 @@
     }
   }
 }
+.ant-modal-content {
+  color: #000000 !important;
+  line-height: 24px;
+  .ant-modal-header {
+    border-bottom: none !important;
+    padding: 22px 24px !important;
+    .ant-modal-title {
+      line-height: 24px;
+    }
+  }
+  p {
+    line-height: 24px !important;
+    margin-bottom: 1.7em !important;
+  }
+}
