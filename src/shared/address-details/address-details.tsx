@@ -56,7 +56,7 @@ class AddressDetailsInner extends PureComponent<Props> {
               addressInfo = data.getAccount.accountMeta;
             }
             const copyAddress = (addressInfo && addressInfo.address) || address;
-            const numActions = addressInfo && addressInfo.numActions;
+            const numActions = +(addressInfo && addressInfo.numActions);
             return (
               <SpinPreloader spinning={loading}>
                 <div className="address-top">
@@ -104,7 +104,7 @@ class AddressDetailsInner extends PureComponent<Props> {
                   {t("title.actionList")}
                 </Divider>
                 <ActionTable
-                  totalActions={+addressInfo.numActions}
+                  totalActions={numActions}
                   getVariable={({ current, pageSize }) => {
                     const start = (current - 1) * pageSize;
                     return {
