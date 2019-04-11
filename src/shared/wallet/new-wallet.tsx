@@ -3,7 +3,6 @@ import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
-import Tooltip from "antd/lib/tooltip";
 import { Account } from "iotex-antenna/lib/account/account";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -66,11 +65,7 @@ class NewWalletComponent extends React.Component<Props, State> {
               onSearch={this.copyPriKey}
               value={wallet.privateKey}
               readOnly={true}
-              suffix={
-                <Tooltip title="Extra information">
-                  <Icon type="eye" style={{ color: "rgba(0,0,0,.45)" }} />
-                </Tooltip>
-              }
+              suffix={<Icon type="eye" style={{ color: "rgba(0,0,0,.45)" }} />}
             />
           </Form.Item>
         </Form>
