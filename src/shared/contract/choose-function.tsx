@@ -1,3 +1,4 @@
+import { Icon } from "antd";
 import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
 // @ts-ignore
@@ -25,8 +26,8 @@ export class ChooseFunction extends Component<Props, State> {
         <Row>
           <Col md={16}>
             <Flex>
-              <PageTitle style={{ fontSize: "1.6em", fontWeight: "bold" }}>
-                {t("wallet.contract.chooseFunction")}
+              <PageTitle>
+                <Icon type="profile" /> {t("wallet.contract.chooseFunction")}
               </PageTitle>
               <CardFunction
                 title={t("wallet.contract.interactWith")}

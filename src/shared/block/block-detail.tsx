@@ -3,6 +3,7 @@ import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
+import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -126,15 +127,10 @@ class BlockDetailsInner extends PureComponent<Props, State> {
               return `failed to get account: ${error}`;
             }
 
-            const blockMeta: BlockMeta =
-              data &&
-              data.getBlockMetas &&
-              data.getBlockMetas.blkMetas &&
-              data.getBlockMetas.blkMetas[0];
+            const blockMeta: BlockMeta = get(data, "getBlockMetas.blkMetas.0");
             const dataSource = fields.map(field => ({
               key: field,
-              // @ts-ignore
-              value: blockMeta[field]
+              value: get(blockMeta, field)
             }));
 
             return (
@@ -158,7 +154,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
                     scroll={{ x: true }}
                   />
                 </Flex>
-                {this.renderActionList(blockMeta)}
+                {blockMeta && this.renderActionList(blockMeta)}
               </SpinPreloader>
             );
           }}

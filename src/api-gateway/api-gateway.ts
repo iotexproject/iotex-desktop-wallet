@@ -4,12 +4,11 @@ import { Server } from "onefx";
 import * as path from "path";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
-import { ActionInfoResolver } from "./resolvers/action-info";
 import { AntennaResolver } from "./resolvers/antenna";
 import { MetaResolver } from "./resolvers/meta";
 
 export async function setApiGateway(server: Server): Promise<void> {
-  const resolvers = [MetaResolver, AntennaResolver, ActionInfoResolver];
+  const resolvers = [MetaResolver, AntennaResolver];
   server.resolvers = resolvers;
 
   const sdlPath = path.resolve(__dirname, "api-gateway.graphql");
