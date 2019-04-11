@@ -31,7 +31,7 @@ const cardStyle = {
 
 export const inputStyle = {
   width: "100%",
-  background: "#f7f7f7",
+  background: colors.black10,
   border: "none"
 };
 

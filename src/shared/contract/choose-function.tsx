@@ -27,7 +27,7 @@ export class ChooseFunction extends Component<Props, State> {
           <Col md={16}>
             <Flex>
               <PageTitle>
-                <Icon type="profile" /> {t("wallet.contract.chooseFunction")}
+                <Icon type="file-text" /> {t("wallet.contract.chooseFunction")}
               </PageTitle>
               <CardFunction
                 title={t("wallet.contract.interactWith")}
