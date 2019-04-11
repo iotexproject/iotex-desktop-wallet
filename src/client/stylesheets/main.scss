@@ -121,6 +121,52 @@
   word-break: break-word;
 }
 
+.wallet-title {
+  margin: 0 0 16px 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.new-wallet-text {
+  height: auto;
+  margin: 10% auto;
+  width: 80%;
+}
+
+.wallet-margin {
+  margin: 10% 8%;
+}
+
+.inline-item {
+  display: inline-block;
+}
+
+.float-right {
+  float: right;
+}
+
+#iotx-balance {
+  padding-top: 24px;
+  padding-bottom: 24px;
+  text-align: center;
+  font-size: 28px;
+}
+#iotx-balance b {
+  padding-left: 5px;
+  font-size: 16px;
+}
+
+.private-key {
+  font-size: 24px;
+  font-weight: bold;
+  color: #e54937;
+  background-color: rgb(253, 237, 235);
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 10px;
+  display: inline-block;
+}
+
 .centered-text {
   position: absolute;
   top: 40%;
@@ -132,5 +178,21 @@
     thead {
       display: none;
     }
+  }
+}
+.ant-modal-content {
+  color: #000000 !important;
+  line-height: 24px;
+  border-radius: 2px !important;
+  .ant-modal-header {
+    border-bottom: none !important;
+    padding: 22px 24px !important;
+    .ant-modal-title {
+      line-height: 24px;
+    }
+  }
+  p {
+    line-height: 24px !important;
+    margin-bottom: 1.7em !important;
   }
 }
