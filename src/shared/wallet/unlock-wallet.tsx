@@ -6,7 +6,6 @@ import { WrappedFormUtils } from "antd/lib/form/Form";
 import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
 import Modal from "antd/lib/modal";
-import Tooltip from "antd/lib/tooltip";
 import { get } from "dottie";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -104,12 +103,10 @@ class UnlockWalletComponent extends React.Component<Props, State> {
                 name="priKey"
                 onChange={e => this.handleInputChange(e)}
                 suffix={
-                  <Tooltip title="Extra information">
-                    <Icon
-                      type="eye-invisible"
-                      style={{ color: "rgba(0,0,0,.45)" }}
-                    />
-                  </Tooltip>
+                  <Icon
+                    type="eye-invisible"
+                    style={{ color: "rgba(0,0,0,.45)" }}
+                  />
                 }
               />
             )}
