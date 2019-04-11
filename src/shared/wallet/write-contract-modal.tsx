@@ -9,6 +9,8 @@ import { ModalBody } from "../common/modal-body";
 export interface Props {
   showModal: boolean;
   generateTransaction: Function;
+  networkAddress: string;
+  amount: Number;
 }
 
 export interface State {}
@@ -21,7 +23,7 @@ export default class WriteContractModal extends React.Component<Props> {
   };
 
   public render(): JSX.Element {
-    const { showModal } = this.props;
+    const { showModal, networkAddress, amount } = this.props;
     return (
       <Modal
         title={<b>{t("wallet.write.contract.title")}</b>}
@@ -32,14 +34,15 @@ export default class WriteContractModal extends React.Component<Props> {
       >
         <ModalBody>
           <p>
-            You are about to <b>execute a function on contract.</b>
+            {t("wallet.write.contract.p1")}
+            <b> {t("wallet.write.contract.p1.b")}</b>
             <br />
-            It will be deployed on the following network: <b>xxxxxxxxxxxx</b>
+            {t("wallet.write.contract.p2")}: <b>{networkAddress}</b>
           </p>
           <div>
-            <b>Amount to send. In most cases you should leave it as 0.</b>
+            <b>{t("wallet.write.contract.p3")}</b>
           </div>
-          <Board>0</Board>
+          <Board>{amount}</Board>
         </ModalBody>
         <Button
           href="#"

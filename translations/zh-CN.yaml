@@ -151,5 +151,3 @@ address.balance: 余额
 address.nonce: nonce
 address.pendingNonce: pendingNonce
 button.backHome: 返回首页
-wallet.write.contract.title: 警告
-wallet.write.contract.ok: 生成交易
