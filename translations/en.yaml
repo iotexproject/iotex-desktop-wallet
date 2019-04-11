@@ -168,3 +168,41 @@ time.fn.justnow: just now
 address.balance: balance
 address.nonce: nonce
 address.pendingNonce: pendingNonce
+button.backHome: Back Home
+wallet.title.wallet: Wallet
+wallet.contract.title: Contract
+wallet.contract.learn: Learn more
+wallet.contract.chooseFunction: Please choose an action.
+wallet.contract.interactWith: Interact with contract
+wallet.contract.deployContract: Deploy contract
+wallet.contract.interactWith.desc: This is a sentence of description. This is a sentence of description.
+wallet.contract.deployContract.desc: This is a sentence of description. This is a sentence of description.
+wallet.write.contract.title: Warining
+wallet.write.contract.ok: Generate transaction
+wallet.write.contract.p1: You are about to
+wallet.write.contract.p1.b: execute a function on contract.
+wallet.write.contract.p2: It will be deployed on the following network
+wallet.write.contract.p3: Amount to send. In most cases you should leave it as 0.
+wallet.account.raw: Account Address
+wallet.account.private: Private Key
+wallet.account.addressPlaceHolder: IoTeX Address...
+new-wallet.copy: Copy
+new-wallet.created: Wallet is created! Save your
+new-wallet.privateKey: Private Key
+new-wallet.warn.cant-recover: It cannot be recovered if you lose it.
+new-wallet.warn.stolen: Your funds will be stolen if you use this file on a malicious/phishing site.
+new-wallet.warn.secure: Secure it like the millions of dollars it may one day be worth.
+new-wallet.button.unlock: "I understand, Unlock Wallet"
+account.why: Why save your private key?
+account.save: Save your private key to access your wallet later
+account.pay-attention: Pay attention
+account.not-hold: >-
+  IoTeX.io does not hold your keys for you. We cannot access accounts recover
+  keys, nor reverse transactions
+account.protect: Protect your keys & always check that you are on correct URL.
+account.responsible: You are responsible for your security.
+account.wallet: Wallet
+account.change: Change Wallet
+account.testnet.token: IOTX
+account.address: Account Address
+account.transaction-history: Go to transaction history

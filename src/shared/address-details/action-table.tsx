@@ -14,7 +14,6 @@ import {
   GetActionsResponse
 } from "../../api-gateway/resolvers/antenna-types";
 import { FlexLink } from "../common/flex-link";
-import { translateFn } from "../common/from-now";
 import { getActionType } from "../common/get-action-type";
 import { SpinPreloader } from "../common/spin-preloader";
 import { GET_ACTIONS } from "../queries";
@@ -46,13 +45,14 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
         );
       }
     },
-    {
-      title: t("block.timestamp"),
-      dataIndex: "timestamp",
-      render(_: string, record: ActionInfo, __: number): JSX.Element {
-        return <span>{translateFn(get(record, "block.timestamp"))}</span>;
-      }
-    },
+    // TODO(tian): https://github.com/iotexproject/iotex-core/issues/998
+    // {
+    //   title: t("block.timestamp"),
+    //   dataIndex: "timestamp",
+    //   render(_: string, record: ActionInfo, __: number): JSX.Element {
+    //     return <span>{translateFn(get(record, "block.timestamp"))}</span>;
+    //   }
+    // },
     {
       title: t("action.block_hash"),
       dataIndex: "blkHash",

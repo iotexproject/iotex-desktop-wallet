@@ -82,11 +82,11 @@ export class AccountMeta {
   @Field(_ => String)
   public balance: string;
   @Field(_ => Int)
-  public nonce: number;
+  public nonce: string | number;
   @Field(_ => Int)
-  public pendingNonce: number;
+  public pendingNonce: string | number;
   @Field(_ => Int)
-  public numActions: number;
+  public numActions: string | number;
 }
 
 @ObjectType()

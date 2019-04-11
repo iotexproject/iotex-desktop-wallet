@@ -3,15 +3,19 @@ import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
+import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
 import React, { PureComponent } from "react";
-import { Query } from "react-apollo";
+import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
-import { BlockMeta } from "../../api-gateway/resolvers/antenna-types";
+import {
+  BlockMeta,
+  GetBlockMetasResponse
+} from "../../api-gateway/resolvers/antenna-types";
 import { ActionTable } from "../address-details/action-table";
 import { Flex } from "../common/flex";
 import { FlexLink } from "../common/flex-link";
@@ -104,8 +108,12 @@ class BlockDetailsInner extends PureComponent<Props, State> {
       <ContentPadding>
         <Helmet title={`IoTeX ${t("block.block")} ${hash}`} />
         <Query query={GET_BLOCK_METAS} variables={parameter}>
-          {({ loading, error, data }) => {
-            if (error) {
+          {({
+            loading,
+            error,
+            data
+          }: QueryResult<{ getBlockMetas: GetBlockMetasResponse }>) => {
+            if (error || !data) {
               notification.error({
                 message: "Error",
                 description: `failed to get account: ${error}`,
@@ -114,15 +122,10 @@ class BlockDetailsInner extends PureComponent<Props, State> {
               return `failed to get account: ${error}`;
             }
 
-            const blockMeta =
-              (data &&
-                data.getBlockMetas &&
-                data.getBlockMetas.blkMetas &&
-                data.getBlockMetas.blkMetas[0]) ||
-              {};
+            const blockMeta: BlockMeta = get(data, "getBlockMetas.blkMetas.0");
             const dataSource = fields.map(field => ({
               key: field,
-              value: blockMeta[field]
+              value: get(blockMeta, field)
             }));
 
             return (
@@ -168,6 +171,8 @@ export function renderKey(text: string): JSX.Element {
 // tslint:disable:no-any
 export function renderValue(text: string, record: any): JSX.Element | string {
   switch (record.key) {
+    case "transferAmount":
+      return `${fromRau(text || "0", "IOTX")} IOTX`;
     case "type":
       return <span>{t(`render.value.rewardType.${text}`)}</span>;
     case "amount":

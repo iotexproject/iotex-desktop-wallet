@@ -2,7 +2,6 @@
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
-import { get } from "dottie";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
 // @ts-ignore
@@ -10,8 +9,12 @@ import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
 import React, { PureComponent } from "react";
-import { Query } from "react-apollo";
+import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
+import {
+  AccountMeta,
+  GetAccountResponse
+} from "../../api-gateway/resolvers/antenna-types";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
@@ -32,18 +35,16 @@ class AddressDetailsInner extends PureComponent<Props> {
         params: { address }
       }
     } = this.props;
-    let addressInfo: {
-      address: string;
-      balance: string;
-      nonce: string;
-      pendingNonce: string;
-      __typename: string;
-    };
+    let addressInfo: AccountMeta;
     return (
       <ContentPadding>
         <Helmet title={`IoTeX ${t("address.address")} ${address}`} />
         <Query query={GET_ACCOUNT} variables={{ address }}>
-          {({ loading, error, data }) => {
+          {({
+            loading,
+            error,
+            data
+          }: QueryResult<{ getAccount: GetAccountResponse }>) => {
             if (error && String(error).indexOf("NOT_FOUND") === -1) {
               notification.error({
                 message: "Error",
@@ -55,6 +56,7 @@ class AddressDetailsInner extends PureComponent<Props> {
               addressInfo = data.getAccount.accountMeta;
             }
             const copyAddress = (addressInfo && addressInfo.address) || address;
+            const numActions = +(addressInfo && addressInfo.numActions);
             return (
               <SpinPreloader spinning={loading}>
                 <div className="address-top">
@@ -102,7 +104,7 @@ class AddressDetailsInner extends PureComponent<Props> {
                   {t("title.actionList")}
                 </Divider>
                 <ActionTable
-                  totalActions={get(data, "getAccount.accountMeta.numActions")}
+                  totalActions={numActions}
                   getVariable={({ current, pageSize }) => {
                     const start = (current - 1) * pageSize;
                     return {
