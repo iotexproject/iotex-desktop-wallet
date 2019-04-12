@@ -4,8 +4,14 @@ import Tabs from "antd/lib/tabs";
 import { Account } from "iotex-antenna/lib/account/account";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
-import React, { Component } from "react";
+// @ts-ignore
+import { styled } from "onefx/lib/styletron-react";
+import React from "react";
+import { PureComponent } from "react";
+import { Route, withRouter } from "react-router";
+import { RouteComponentProps } from "react-router-dom";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
+import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "./account-section";
 import { getAntenna } from "./get-antenna";
@@ -19,9 +25,23 @@ export interface State {
   createNew: boolean;
 }
 
-export interface Props {}
+type PathParamsType = {
+  address: string;
+};
 
-export default class Wallet extends Component<Props, State> {
+type Props = RouteComponentProps<PathParamsType> & {};
+
+export const inputStyle = {
+  width: "100%",
+  background: colors.black10,
+  border: "none"
+};
+
+export const FormItemLabel = styled("label", {
+  fontWeight: "bold"
+});
+
+class WalletComponent extends PureComponent<Props, State> {
   public state: State = {
     wallet: null,
     address: undefined,
@@ -45,6 +65,10 @@ export default class Wallet extends Component<Props, State> {
     }
   };
 
+  public onTabChange = (key: string) => {
+    this.props.history.push(key);
+  };
+
   public tabs = ({
     wallet,
     address
@@ -52,21 +76,33 @@ export default class Wallet extends Component<Props, State> {
     wallet: Account;
     address: AccountMeta;
   }) => {
+    const { location, match } = this.props;
     return (
-      <Tabs defaultActiveKey="1">
-        <Tabs.TabPane
-          key="1"
-          tab={t("wallet.tab.transfer", { token: t("account.testnet.token") })}
-        >
-          <Transfer wallet={wallet} address={address} />
-        </Tabs.TabPane>
-        <Tabs.TabPane key="2" tab={t("wallet.tab.vote")}>
-          //TODO
-        </Tabs.TabPane>
-        <Tabs.TabPane key="3" tab={t("wallet.tab.contract")}>
-          //TODO
-        </Tabs.TabPane>
-      </Tabs>
+      <div>
+        <Tabs defaultActiveKey={location.pathname} onChange={this.onTabChange}>
+          <Tabs.TabPane
+            key={match.url}
+            tab={t("wallet.tab.transfer", {
+              token: t("account.testnet.token")
+            })}
+          >
+            <Route
+              path={match.url}
+              exact
+              component={() => <Transfer wallet={wallet} address={address} />}
+            />
+          </Tabs.TabPane>
+          <Tabs.TabPane key={`${match.url}/vote`} tab={t("wallet.tab.vote")}>
+            // TODO
+          </Tabs.TabPane>
+          <Tabs.TabPane
+            key={`${match.url}/smart-contract`}
+            tab={t("wallet.tab.contract")}
+          >
+            // TODO
+          </Tabs.TabPane>
+        </Tabs>
+      </div>
     );
   };
 
@@ -106,3 +142,5 @@ export default class Wallet extends Component<Props, State> {
     );
   }
 }
+
+export default withRouter(WalletComponent);

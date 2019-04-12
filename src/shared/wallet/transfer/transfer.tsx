@@ -8,7 +8,8 @@ import { t } from "onefx/lib/iso-i18n";
 import Helmet from "onefx/lib/react-helmet";
 import * as React from "react";
 import { AccountMeta } from "../../../api-gateway/resolvers/antenna-types";
-
+import { formItemLayout } from "../../common/form-item-layout";
+import { FormItemLabel, inputStyle } from "../wallet";
 export interface Props {
   form: WrappedFormUtils;
   wallet: Account;
@@ -16,7 +17,6 @@ export interface Props {
   chainId?: number;
   updateWalletInfo?: Function;
 }
-
 export interface State {
   recipient: string;
   amount: number;
@@ -24,6 +24,13 @@ export interface State {
   dataInHex: string;
   generating: boolean;
 }
+
+export const rules = {
+  required: {
+    required: true,
+    message: t("wallet.error.required")
+  }
+};
 
 class TransferComponent extends React.Component<Props, State> {
   public state: State = {
@@ -33,28 +40,27 @@ class TransferComponent extends React.Component<Props, State> {
     dataInHex: "",
     generating: false
   };
-
   public generateTransfer = () => {
     this.setState({ generating: true });
   };
-
   public input = () => {
     const { getFieldDecorator } = this.props.form;
     const { recipient, amount, gasLimit, dataInHex, generating } = this.state;
     return (
-      <Form layout="horizontal">
-        <Form.Item label={t("wallet.input.to")}>
+      <Form layout="vertical">
+        <Form.Item
+          label={<FormItemLabel>{t("wallet.input.to")}</FormItemLabel>}
+          {...formItemLayout}
+        >
           {getFieldDecorator("recipient", {
             initialValue: recipient,
-            rules: [
-              {
-                required: true,
-                message: t("wallet.error.required")
-              }
-            ]
-          })(<Input placeholder="io..." name="recipient" />)}
+            rules: [rules.required]
+          })(<Input placeholder="io..." style={inputStyle} name="recipient" />)}
         </Form.Item>
-        <Form.Item label={t("wallet.input.amount")}>
+        <Form.Item
+          label={<FormItemLabel>{t("wallet.input.amount")} </FormItemLabel>}
+          {...formItemLayout}
+        >
           {getFieldDecorator("amount", {
             initialValue: amount,
             rules: [
@@ -65,15 +71,20 @@ class TransferComponent extends React.Component<Props, State> {
                   return Number(value);
                 }
               },
-              {
-                required: true,
-                message: t("wallet.error.required")
-              }
+              rules.required
             ]
-          })(<Input placeholder="1" addonAfter="IOTX" name="amount" />)}
+          })(
+            <Input
+              className="form-input"
+              placeholder="1"
+              addonAfter="IOTX"
+              name="amount"
+            />
+          )}
         </Form.Item>
         <Form.Item
-          label={t("wallet.input.gasLimit")}
+          {...formItemLayout}
+          label={<FormItemLabel>{t("wallet.input.gasLimit")}</FormItemLabel>}
           help={
             <span style={{ color: "#faad14" }}>
               {t("wall.input.gasLimit-help")}
@@ -87,27 +98,27 @@ class TransferComponent extends React.Component<Props, State> {
                 type: "number",
                 message: t("wallet.error.number")
               },
-              {
-                required: true,
-                message: t("wallet.error.required")
-              }
+              rules.required
             ]
-          })(<Input placeholder="0" disabled={true} name="gasLimit" />)}
+          })(
+            <Input
+              style={inputStyle}
+              placeholder="0"
+              disabled={true}
+              name="gasLimit"
+            />
+          )}
         </Form.Item>
-        <Form.Item label={t("wallet.input.dib")}>
+        <Form.Item
+          label={<FormItemLabel>{t("wallet.input.dib")}</FormItemLabel>}
+          {...formItemLayout}
+        >
           {getFieldDecorator("dataInHex", {
             initialValue: dataInHex,
-            rules: [
-              {
-                type: "number",
-                message: t("wallet.error.number")
-              },
-              {
-                required: true,
-                message: t("wallet.error.required")
-              }
-            ]
-          })(<Input placeholder="0x1234" name="dataInHex" />)}
+            rules: [rules.required]
+          })(
+            <Input style={inputStyle} placeholder="0x1234" name="dataInHex" />
+          )}
         </Form.Item>
         <Button
           href="#"
