@@ -206,3 +206,8 @@ account.change: Change Wallet
 account.testnet.token: IOTX
 account.address: Account Address
 account.transaction-history: Go to transaction history
+wallet.confirm.contract.title: You are about to send ...
+wallet.confirm.contract.p1: After sending this, your account balance will be
+wallet.confirm.contract.p2: Are you sure you want to do this?
+wallet.confirm.contract.yes: Yes, make transaction
+wallet.confirm.contract.cancel: No, cancel

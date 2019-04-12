@@ -3,8 +3,9 @@ import Modal from "antd/lib/modal/Modal";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
-import { Board } from "../common/board";
-import { ModalBody } from "../common/modal-body";
+import { Board } from "../src/shared/common/board";
+import { ModalBody } from "../src/shared/common/modal-body";
+import { ModalButtons } from "../src/shared/common/modal-btns";
 
 export interface Props {
   showModal: boolean;
@@ -44,14 +45,16 @@ export default class WriteContractModal extends React.Component<Props> {
           </div>
           <Board>{amount}</Board>
         </ModalBody>
-        <Button
-          href="#"
-          size="large"
-          type="primary"
-          onClick={() => this.generateTransaction(true)}
-        >
-          <b>{t("wallet.write.contract.ok")}</b>
-        </Button>
+        <ModalButtons>
+          <Button
+            href="#"
+            size="large"
+            type="primary"
+            onClick={() => this.generateTransaction(true)}
+          >
+            <b>{t("wallet.write.contract.ok")}</b>
+          </Button>
+        </ModalButtons>
       </Modal>
     );
   }

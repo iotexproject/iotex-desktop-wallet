@@ -191,8 +191,60 @@
       line-height: 24px;
     }
   }
+  .ant-modal-body {
+    padding-bottom: 0 !important;
+  }
+  .ant-modal-footer {
+    padding: 12px 0 !important;
+    margin: 0 24px;
+  }
+  .ant-btn {
+    border-radius: 2px !important;
+    height: 40px;
+    padding: 0 15px;
+    font-size: 16px;
+  }
   p {
     line-height: 24px !important;
     margin-bottom: 1.7em !important;
+  }
+  .dl-horizontal {
+    font-size: 12px;
+    dd {
+      margin-bottom: 4px !important;
+    }
+  }
+}
+
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.dl-horizontal {
+  margin: 12px;
+  dt {
+    float: left;
+    width: 88px;
+    clear: left;
+    text-align: left;
+  }
+
+  dd {
+    @include clearfix; // Clear the floated `dt` if an empty `dd` is present
+    margin-left: 116px;
+    color: #3d3d3d;
+  }
+
+  @media only screen and (max-width: 768px) {
+    dl.dl-horizontal dd {
+      margin-left: 0;
+    }
   }
 }
