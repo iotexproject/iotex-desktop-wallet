@@ -18,7 +18,7 @@ export function setServerRoutes(server: Server): void {
 
   server.get(
     "SPA",
-    "(/|/address/.*|/blocks|/block/.*|/actions|/action/.*|/wallet|/dev/.*)",
+    "(/|/address/.*|/blocks|/block/.*|/actions|/action/.*|/wallet|/dev/.*|/dev/wallet/.*)",
     async (ctx: koa.Context) => {
       ctx.setState("base.blah", "this is a sample initial state");
       ctx.body = await apolloSSR(ctx, server.config.apiGatewayUrl, {
