@@ -5,7 +5,7 @@ import { FormComponentProps } from "antd/lib/form";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
-import { formItemLayout } from "../common/form-item-layout";
+import { formItemLayout } from "../../common/form-item-layout";
 import {
   AbiFormInputItem,
   FormItemLabel,

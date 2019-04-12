@@ -14,6 +14,7 @@ import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "./account-section";
+import { Contract } from "./contract/contract";
 import { getAntenna } from "./get-antenna";
 import NewWallet from "./new-wallet";
 import Transfer from "./transfer/transfer";
@@ -99,7 +100,7 @@ class WalletComponent extends PureComponent<Props, State> {
             key={`${match.url}/smart-contract`}
             tab={t("wallet.tab.contract")}
           >
-            // TODO
+            <Route key={`${match.url}/smart-contract`} component={Contract} />
           </Tabs.TabPane>
         </Tabs>
       </div>
