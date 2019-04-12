@@ -19,7 +19,6 @@ export class ChooseFunction extends Component<Props, State> {
     return (
       <div>
         <Helmet title={`IoTeX ${t("wallet.contract.title")}`} />
-        <div style={{ margin: "48px" }} />
         <Flex>
           <PageTitle>
             <Icon type="file-text" /> {t("wallet.contract.chooseFunction")}

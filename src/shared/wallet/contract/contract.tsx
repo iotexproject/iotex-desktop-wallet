@@ -4,23 +4,32 @@ import { t } from "onefx/lib/iso-i18n";
 import Helmet from "onefx/lib/react-helmet";
 import React, { Component } from "react";
 
-import { Route, Switch } from "react-router";
+import { Route, withRouter } from "react-router";
+import { RouteComponentProps } from "react-router-dom";
 import { ChooseFunction } from "./choose-function";
 import { Deploy } from "./deploy";
 
-type Props = {};
+type PathParamsType = {
+  address: string;
+};
+
+type Props = RouteComponentProps<PathParamsType> & {};
 type State = {};
 
-export class Contract extends Component<Props, State> {
+class ContractComponent extends Component<Props, State> {
   public state: State = {};
 
   public render(): JSX.Element {
+    const { match } = this.props;
     return (
-      <Switch>
+      <div>
         <ChooseFunction />
-        <Route exact path="/deploy" Component={Deploy} />
-        <Route exact path="/interact" Component={Deploy} />
-      </Switch>
+        <Route path={match.url} Component={ChooseFunction} />
+        <Route path={`${match.url}/deploy`} Component={Deploy} />
+        <Route path={`${match.url}/interact`} Component={Deploy} />
+      </div>
     );
   }
 }
+
+export const Contract = withRouter(ContractComponent);
