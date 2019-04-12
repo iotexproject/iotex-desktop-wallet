@@ -7,11 +7,20 @@ const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 type Props = {
   children: JSX.Element | string | Array<JSX.Element>;
   spinning: boolean;
+  wrapperClassName?: string;
 };
 
-export function SpinPreloader({ children, spinning }: Props): JSX.Element {
+export function SpinPreloader({
+  children,
+  spinning,
+  wrapperClassName
+}: Props): JSX.Element {
   return (
-    <Spin spinning={spinning} indicator={antIcon}>
+    <Spin
+      spinning={spinning}
+      indicator={antIcon}
+      wrapperClassName={wrapperClassName}
+    >
       {children}
     </Spin>
   );
