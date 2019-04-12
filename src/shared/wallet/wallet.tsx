@@ -8,13 +8,15 @@ import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { PureComponent } from "react";
-import { Route, withRouter } from "react-router";
+import { Route, Switch, withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "./account-section";
-import { Contract } from "./contract/contract";
+import { ChooseFunction } from "./contract/choose-function";
+import { Deploy } from "./contract/deploy";
+import { Interact } from "./contract/interact";
 import { getAntenna } from "./get-antenna";
 import NewWallet from "./new-wallet";
 import Transfer from "./transfer/transfer";
@@ -78,9 +80,16 @@ class WalletComponent extends PureComponent<Props, State> {
     address: AccountMeta;
   }) => {
     const { location, match } = this.props;
+
+    let defaultActiveKey = match.url;
+    if (location.pathname.match(/vote/)) {
+      defaultActiveKey = `${match.url}/vote`;
+    } else if (location.pathname.match(/smart-contract/)) {
+      defaultActiveKey = `${match.url}/smart-contract`;
+    }
     return (
       <div>
-        <Tabs defaultActiveKey={location.pathname} onChange={this.onTabChange}>
+        <Tabs defaultActiveKey={defaultActiveKey} onChange={this.onTabChange}>
           <Tabs.TabPane
             key={match.url}
             tab={t("wallet.tab.transfer", {
@@ -100,7 +109,23 @@ class WalletComponent extends PureComponent<Props, State> {
             key={`${match.url}/smart-contract`}
             tab={t("wallet.tab.contract")}
           >
-            <Route key={`${match.url}/smart-contract`} component={Contract} />
+            <Switch>
+              <Route
+                exact
+                path={`${match.url}/smart-contract`}
+                component={ChooseFunction}
+              />
+              <Route
+                exact
+                path={`${match.url}/smart-contract/deploy`}
+                component={Deploy}
+              />
+              <Route
+                exact
+                path={`${match.url}/smart-contract/interact`}
+                component={Interact}
+              />
+            </Switch>
           </Tabs.TabPane>
         </Tabs>
       </div>
