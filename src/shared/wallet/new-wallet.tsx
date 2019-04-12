@@ -11,6 +11,7 @@ import { styled } from "onefx/lib/styletron-react";
 import * as React from "react";
 import { copyCB } from "text-to-clipboard";
 import { getAntenna } from "./get-antenna";
+import { FormItemLabel, inputStyle } from "./wallet";
 
 export interface Props {
   form: WrappedFormUtils;
@@ -51,15 +52,21 @@ class NewWalletComponent extends React.Component<Props, State> {
         </div>
         <br />
         <Form layout="vertical">
-          <Form.Item label={t("wallet.account.raw")}>
+          <Form.Item
+            label={<FormItemLabel>{t("wallet.account.raw")}</FormItemLabel>}
+          >
             <Input
+              style={inputStyle}
               placeholder={t("wallet.account.addressPlaceHolder")}
               value={wallet.address}
               readOnly={true}
             />
           </Form.Item>
-          <Form.Item label={t("wallet.account.private")}>
+          <Form.Item
+            label={<FormItemLabel>{t("wallet.account.private")}</FormItemLabel>}
+          >
             <Input.Search
+              className="form-input"
               placeholder={t("wallet.account.addressPlaceHolder")}
               enterButton={copyButton}
               onSearch={this.copyPriKey}
