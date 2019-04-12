@@ -106,7 +106,8 @@ export class App extends Component<Props> {
               <Route exact path="/action/:hash" component={ActionDetail} />
               <Route exact path="/actions" component={Actions} />
               <Route exact path="/wallet" component={ComingSoon} />
-              <Route exact path="/dev/wallet" component={Wallet} />
+              <Route path="/dev/wallet" component={Wallet} />
+
               <Route
                 exact
                 path="/dev/wallet/smart-contract/deploy"

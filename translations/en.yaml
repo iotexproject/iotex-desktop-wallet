@@ -228,3 +228,18 @@ account.change: Change Wallet
 account.testnet.token: IOTX
 account.address: Account Address
 account.transaction-history: Go to transaction history
+wallet.tab.transfer: "Send ${token}"
+wallet.tab.vote: Vote for delegate
+wallet.tab.contract: Smart Contracts
+wallet.input.to: Recipient address
+wallet.input.amount: Amount
+wallet.input.nonce: Nonce
+wallet.input.gasPrice: Gas Price
+wallet.input.gasLimit: Gas Limit
+wallet.choice.input.data: Data (optional)
+wallet.input.dib: Data Hex
+wallet.input.generate: Generate Transaction
+wall.input.gasLimit-help: The gas limit in the demo wallet is always 0.
+wallet.transfer.title: Send IOTX
+wallet.error.required: This field is required
+wallet.error.number: This field should be number

@@ -119,6 +119,7 @@
   max-width: 288px;
   height: 492px;
   word-break: break-word;
+  margin-top: 40px;
 }
 
 .wallet-title {
@@ -127,6 +128,14 @@
   font-weight: bold;
 }
 
+.form-input {
+  .ant-input,
+  .ant-input-group-addon {
+    width: "100%";
+    background: #f7f7f7;
+    border: none !important;
+  }
+}
 .new-wallet-text {
   height: auto;
   margin: 10% auto;
