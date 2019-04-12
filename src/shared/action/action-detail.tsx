@@ -35,7 +35,7 @@ export function buildKeyValueArray(object: {}): Array<{}> {
       return {
         key,
         // @ts-ignore
-        value: JSON.stringify(object[key])
+        value: <pre>{JSON.stringify(object[key], null, 2)}</pre>
       };
     }
     return {
