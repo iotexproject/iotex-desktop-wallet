@@ -218,3 +218,6 @@ wallet.choice.input.data: Data (optional)
 wallet.input.dib: Data Hex
 wallet.input.generate: Generate Transaction
 wall.input.gasLimit-help: The gas limit in the demo wallet is always 0.
+wallet.transfer.title: Send IOTX
+wallet.error.required: This field is required
+wallet.error.number: This field should be number
