@@ -7,7 +7,7 @@ import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
-import { formItemLayout } from "../common/form-item-layout";
+import { formItemLayout } from "../../common/form-item-layout";
 import {
   AbiFormInputItem,
   FormItemLabel,

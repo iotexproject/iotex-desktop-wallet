@@ -7,9 +7,9 @@ import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Flex } from "../common/flex";
-import { formItemLayout } from "../common/form-item-layout";
-import { colors } from "../common/styles/style-color";
+import { Flex } from "../../common/flex";
+import { formItemLayout } from "../../common/form-item-layout";
+import { colors } from "../../common/styles/style-color";
 const { TextArea } = Input;
 
 type CardFunctionProps = {

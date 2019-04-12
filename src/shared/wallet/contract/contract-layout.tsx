@@ -7,9 +7,9 @@ import { t } from "onefx/lib/iso-i18n";
 import Helmet from "onefx/lib/react-helmet";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { PageTitle } from "../common/page-title";
-import { ContentPadding } from "../common/styles/style-padding";
-import AccountSection from "../wallet/account-section";
+import { PageTitle } from "../../common/page-title";
+import { ContentPadding } from "../../common/styles/style-padding";
+import AccountSection from "../account-section";
 
 const ACTION_LINK = "/dev/wallet/smart-contract";
 
