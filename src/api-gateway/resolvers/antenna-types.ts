@@ -574,58 +574,58 @@ export class ActionCore implements IActionCore {
   public gasPrice: string;
 
   @Field(_ => Transfer, { nullable: true })
-  public transfer: Transfer;
+  public transfer?: Transfer | undefined;
 
   @Field(_ => Vote, { nullable: true })
-  public vote: Vote;
+  public vote?: Vote | undefined;
 
   @Field(_ => Execution, { nullable: true })
-  public execution: Execution | undefined;
+  public execution?: Execution | undefined;
 
   // FedChain
   @Field(_ => StartSubChain, { nullable: true })
-  public startSubChain: StartSubChain;
+  public startSubChain?: StartSubChain | undefined;
   @Field(_ => StopSubChain, { nullable: true })
-  public stopSubChain: StopSubChain;
+  public stopSubChain?: StopSubChain | undefined;
   @Field(_ => PutBlock, { nullable: true })
-  public putBlock: PutBlock;
+  public putBlock?: PutBlock | undefined;
   @Field(_ => CreateDeposit, { nullable: true })
-  public createDeposit: CreateDeposit;
+  public createDeposit?: CreateDeposit | undefined;
   @Field(_ => SettleDeposit, { nullable: true })
-  public settleDeposit: SettleDeposit;
+  public settleDeposit?: SettleDeposit | undefined;
 
   // PlumChain
   @Field(_ => CreatePlumChain, { nullable: true })
-  public createPlumChain: CreatePlumChain;
+  public createPlumChain?: CreatePlumChain | undefined;
   @Field(_ => TerminatePlumChain, { nullable: true })
-  public terminatePlumChain: TerminatePlumChain;
+  public terminatePlumChain?: TerminatePlumChain | undefined;
   @Field(_ => PlumPutBlock, { nullable: true })
-  public plumPutBlock: PlumPutBlock;
+  public plumPutBlock?: PlumPutBlock | undefined;
   @Field(_ => PlumCreateDeposit, { nullable: true })
-  public plumCreateDeposit: PlumCreateDeposit;
+  public plumCreateDeposit?: PlumCreateDeposit | undefined;
   @Field(_ => PlumStartExit, { nullable: true })
-  public plumStartExit: PlumStartExit;
+  public plumStartExit?: PlumStartExit | undefined;
   @Field(_ => PlumChallengeExit, { nullable: true })
-  public plumChallengeExit: PlumChallengeExit;
+  public plumChallengeExit?: PlumChallengeExit | undefined;
   @Field(_ => PlumResponseChallengeExit, { nullable: true })
-  public plumResponseChallengeExit: PlumResponseChallengeExit;
+  public plumResponseChallengeExit?: PlumResponseChallengeExit | undefined;
   @Field(_ => PlumFinalizeExit, { nullable: true })
-  public plumFinalizeExit: PlumFinalizeExit;
+  public plumFinalizeExit?: PlumFinalizeExit | undefined;
   @Field(_ => PlumSettleDeposit, { nullable: true })
-  public plumSettleDeposit: PlumSettleDeposit;
+  public plumSettleDeposit?: PlumSettleDeposit | undefined;
   @Field(_ => PlumTransfer, { nullable: true })
-  public plumTransfer: PlumTransfer;
+  public plumTransfer?: PlumTransfer | undefined;
 
   // Rewarding protocol actions
   @Field(_ => DepositToRewardingFund, { nullable: true })
-  public depositToRewardingFund: DepositToRewardingFund;
+  public depositToRewardingFund?: DepositToRewardingFund | undefined;
   @Field(_ => ClaimFromRewardingFund, { nullable: true })
-  public claimFromRewardingFund: ClaimFromRewardingFund;
+  public claimFromRewardingFund?: ClaimFromRewardingFund | undefined;
   @Field(_ => GrantReward, { nullable: true })
-  public grantReward: GrantReward;
+  public grantReward?: GrantReward | undefined;
 
   @Field(_ => PutPollResult, { nullable: true })
-  public putPollResult: PutPollResult | undefined;
+  public putPollResult?: PutPollResult | undefined;
 }
 
 @InputType("ActionInput")
@@ -635,10 +635,10 @@ export class Action implements IAction {
   public core: ActionCore | undefined;
 
   @Field(_ => BufferScalar)
-  public senderPubKey: Buffer | {};
+  public senderPubKey?: Buffer | {};
 
   @Field(_ => BufferScalar)
-  public signature: Buffer | {};
+  public signature?: Buffer | {};
 }
 
 @ObjectType()
