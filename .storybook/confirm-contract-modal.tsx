@@ -13,18 +13,14 @@ export interface Props {
   dataSource: object;
 }
 
-export interface State {
-  showModal: boolean;
-}
+export interface State {}
 
 export default class ConfirmContractModal extends React.Component<
   Props,
   State
 > {
-  public state: State = this.props;
-
   public confirmContractOk = (status: boolean) => {
-    this.setState({ showModal: false });
+    // this.setState({ showModal: false });
     if (status) {
       this.props.confirmContractOk();
     }
@@ -74,8 +70,7 @@ export default class ConfirmContractModal extends React.Component<
   }
 
   public render(): JSX.Element {
-    const { dataSource } = this.props;
-    const { showModal } = this.state;
+    const { dataSource, showModal } = this.props;
     return (
       <Modal
         title={<b>{t("wallet.confirm.contract.title")}</b>}
