@@ -9,20 +9,30 @@ import { ModalBody } from "../src/shared/common/modal-body";
 
 export interface Props {
   showModal: boolean;
-  generateTransaction: Function;
+  confirmContractOk: Function;
+  dataSource: object;
 }
 
-export interface State {}
+export interface State {
+  showModal: boolean;
+}
 
-export default class ConfirmContractModal extends React.Component<Props> {
-  public generateTransaction = (status: boolean) => {
+export default class ConfirmContractModal extends React.Component<
+  Props,
+  State
+> {
+  public state: State = this.props;
+
+  public confirmContractOk = (status: boolean) => {
+    this.setState({ showModal: false });
     if (status) {
-      this.props.generateTransaction();
+      this.props.confirmContractOk();
     }
   };
 
   // tslint:disable:no-any
   public getActionColumns(): Array<Column<any>> {
+    // this columns was just for example.
     return [
       {
         title: "Amount",
@@ -64,17 +74,8 @@ export default class ConfirmContractModal extends React.Component<Props> {
   }
 
   public render(): JSX.Element {
-    const { showModal } = this.props;
-    const dataSource = {
-      amount: "100000000000000000",
-      address: "ox293482032dnmkejr2893uohd293dj2odj92o39jfd938",
-      toAddress: "io1qyqsyqcyr0t0klgng7qfqmlq2laj24zyuexhul9sn7vtn9",
-      limit: 0,
-      price: 22,
-      nonce: 1,
-      data: 0
-    };
-
+    const { dataSource } = this.props;
+    const { showModal } = this.state;
     return (
       <Modal
         title={<b>{t("wallet.confirm.contract.title")}</b>}
@@ -83,6 +84,8 @@ export default class ConfirmContractModal extends React.Component<Props> {
         bodyStyle={{ paddingBottom: 28, paddingTop: 0 }}
         okText={t("wallet.confirm.contract.yes")}
         cancelText={t("wallet.confirm.contract.cancel")}
+        onOk={() => this.confirmContractOk(true)}
+        onCancel={() => this.confirmContractOk(false)}
       >
         <ModalBody>
           <Board>

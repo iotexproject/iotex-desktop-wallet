@@ -14,17 +14,22 @@ export interface Props {
   amount: Number;
 }
 
-export interface State {}
+export interface State {
+  showModal: boolean;
+}
 
-export default class WriteContractModal extends React.Component<Props> {
+export default class WriteContractModal extends React.Component<Props, State> {
+  public state: State = this.props;
   public generateTransaction = (status: boolean) => {
+    this.setState({ showModal: false });
     if (status) {
       this.props.generateTransaction();
     }
   };
 
   public render(): JSX.Element {
-    const { showModal, networkAddress, amount } = this.props;
+    const { networkAddress, amount } = this.props;
+    const { showModal } = this.state;
     return (
       <Modal
         title={<b>{t("wallet.write.contract.title")}</b>}

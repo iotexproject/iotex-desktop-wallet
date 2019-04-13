@@ -2,9 +2,17 @@ import { get } from "dottie";
 import { Component } from "react";
 import React from "react";
 
+/**
+ *  Use this component similar as less params antd-table component.
+ *  Columns decide what & how & the order.
+ *  Column<T> in Columns[] has 3 params at most: (title, dataIndex, render), 2 params at lest : (title, dataIndex).
+ *  DataSource should be object,we match the value by dataIndex and handle it by pass to Column:render function if needs.
+ *  Title show in <dt> && value show in <dd>
+ */
+
 // tslint:disable:no-any
 export interface Column<T> {
-  title?: React.ReactNode;
+  title: React.ReactNode;
   dataIndex: string;
   render?(text: any, record: T): React.ReactNode;
 }
