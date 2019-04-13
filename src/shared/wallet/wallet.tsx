@@ -60,12 +60,6 @@ class WalletComponent extends PureComponent<Props, State> {
     createNew: false
   };
 
-  public componentDidMount(): void {
-    // Dev
-    const wallet = getAntenna().iotx.accounts.create();
-    this.setWallet(wallet);
-  }
-
   public setWallet = (wallet: Account) => {
     const { match, history } = this.props;
     this.setState({ wallet, createNew: false });
