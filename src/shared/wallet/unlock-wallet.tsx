@@ -13,6 +13,7 @@ import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { getAntenna } from "./get-antenna";
+import { FormItemLabel } from "./wallet";
 
 export interface Props {
   form: WrappedFormUtils;
@@ -84,7 +85,13 @@ class UnlockWalletComponent extends React.Component<Props, State> {
         />
         <div style={{ margin: "24px" }} />
         <Form layout="vertical">
-          <Form.Item label={t("wallet.account.enterPrivateKey")}>
+          <Form.Item
+            label={
+              <FormItemLabel>
+                {t("wallet.account.enterPrivateKey")}
+              </FormItemLabel>
+            }
+          >
             {getFieldDecorator("priKey", {
               rules: [
                 {
@@ -98,6 +105,7 @@ class UnlockWalletComponent extends React.Component<Props, State> {
               ]
             })(
               <Input
+                className="form-input"
                 placeholder={t("wallet.account.placehold.privateKey")}
                 type="password"
                 name="priKey"

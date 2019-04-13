@@ -50,7 +50,10 @@ export class ActionReceipt extends Component<Props> {
           const dataSource = buildKeyValueArray(receipt);
 
           return (
-            <SpinPreloader spinning={loading}>
+            <SpinPreloader
+              spinning={loading}
+              wrapperClassName="full-width-spin-preloader"
+            >
               <Flex
                 width={"100%"}
                 column={true}
@@ -64,7 +67,7 @@ export class ActionReceipt extends Component<Props> {
                   columns={getColumns("")}
                   rowKey={"key"}
                   style={{ width: "100%" }}
-                  scroll={{ x: false }}
+                  scroll={{ x: true }}
                   showHeader={false}
                 />
               </Flex>
