@@ -196,9 +196,7 @@ export const GET_RECEIPT_BY_ACTION = gql`
     getReceiptByAction(actionHash: $actionHash) {
       receiptInfo {
         receipt {
-          returnValue
           status
-          actHash
           blkHeight
           gasConsumed
           contractAddress
