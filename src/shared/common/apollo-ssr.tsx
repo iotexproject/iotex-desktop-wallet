@@ -67,7 +67,7 @@ export async function apolloSSR(
     ctx.setState("apolloState", apolloState);
     ctx.setState("webBpApolloState", webBpApolloClient.extract());
   } catch (e) {
-    logger.error(`failed to hydrate apollo SSR: ${e}`);
+    logger.error(`failed to hydrate apollo SSR: ${e} ${e.stack}`);
   }
   return ctx.isoReactRender({
     VDom: <ApolloProvider client={apolloClient}>{VDom}</ApolloProvider>,

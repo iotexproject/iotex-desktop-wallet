@@ -2,6 +2,7 @@ import {
   IAction,
   IActionCore,
   IActionInfo,
+  IBlockMeta,
   IChainMeta,
   IDepositToRewardingFund,
   IEpochData,
@@ -13,6 +14,7 @@ import {
   IPutBlock,
   IReceipt,
   IReceiptInfo,
+  ISendActionResponse,
   IStartSubChain,
   ITransfer
 } from "iotex-antenna/lib/rpc-method/types";
@@ -28,6 +30,15 @@ import { BigNumberScalar } from "../scalars/bignumber-scalar";
 import { BufferScalar } from "../scalars/buffer-scalar";
 import { MapScalar } from "../scalars/map-scalar";
 
+@InputType("TimestampInput")
+@ObjectType()
+export class Timestamp {
+  @Field(_ => Int)
+  public seconds: number;
+  @Field(_ => Int)
+  public nanos: number;
+}
+
 @ObjectType()
 class Epoch implements IEpochData {
   @Field(_ => Int)
@@ -39,13 +50,13 @@ class Epoch implements IEpochData {
 }
 
 @ObjectType({ description: "Properties of an blockMeta" })
-export class BlockMeta {
+export class BlockMeta implements IBlockMeta {
   @Field(_ => String)
   public hash: string;
   @Field(_ => Int)
   public height: number;
-  @Field(_ => Int)
-  public timestamp: number;
+  @Field(_ => Timestamp)
+  public timestamp: Timestamp;
   @Field(_ => Int)
   public numActions: number;
   @Field(_ => String)
@@ -113,8 +124,6 @@ export class Log implements ILog {
 
 @ObjectType({ description: "Properties of an Receipt" })
 export class Receipt implements IReceipt {
-  @Field(_ => BufferScalar)
-  public returnValue: Buffer | {};
   @Field(_ => Int)
   public status: number;
   @Field(_ => Int)
@@ -125,8 +134,8 @@ export class Receipt implements IReceipt {
   public gasConsumed: number;
   @Field(_ => String)
   public contractAddress: string;
-  @Field(_ => [Log])
-  public logs: Array<Log>;
+  @Field(_ => [Log], { nullable: true })
+  public logs: Array<Log> | undefined;
 }
 
 @InputType()
@@ -171,16 +180,16 @@ export class SuggestGasPriceResponse {
 
 @ObjectType()
 export class ReceiptInfo implements IReceiptInfo {
-  @Field(_ => Receipt)
-  public receipt: Receipt;
+  @Field(_ => Receipt, { nullable: true })
+  public receipt: Receipt | undefined;
   @Field(_ => String)
   public blkHash: string;
 }
 
 @ObjectType()
 export class GetReceiptByActionResponse {
-  @Field(_ => ReceiptInfo)
-  public receiptInfo: ReceiptInfo;
+  @Field(_ => ReceiptInfo, { nullable: true })
+  public receiptInfo: ReceiptInfo | undefined;
 }
 
 @InputType()
@@ -268,15 +277,6 @@ export class Transfer implements ITransfer {
   public payload: Buffer | {};
 }
 
-@InputType("TimestampInput")
-@ObjectType()
-export class Timestamp {
-  @Field(_ => Int)
-  public seconds: number;
-  @Field(_ => Int)
-  public nanos: number;
-}
-
 @InputType("VoteInput")
 @ObjectType()
 export class Vote {
@@ -331,6 +331,8 @@ export class ClaimFromRewardingFund {
 export class GrantReward implements IGrantReward {
   @Field(_ => RewardType)
   public type: number;
+  @Field(_ => String)
+  public height: string | number;
 }
 
 @InputType("StartSubChainInput")
@@ -574,58 +576,58 @@ export class ActionCore implements IActionCore {
   public gasPrice: string;
 
   @Field(_ => Transfer, { nullable: true })
-  public transfer: Transfer;
+  public transfer?: Transfer | undefined;
 
   @Field(_ => Vote, { nullable: true })
-  public vote: Vote;
+  public vote?: Vote | undefined;
 
   @Field(_ => Execution, { nullable: true })
-  public execution: Execution | undefined;
+  public execution?: Execution | undefined;
 
   // FedChain
   @Field(_ => StartSubChain, { nullable: true })
-  public startSubChain: StartSubChain;
+  public startSubChain?: StartSubChain | undefined;
   @Field(_ => StopSubChain, { nullable: true })
-  public stopSubChain: StopSubChain;
+  public stopSubChain?: StopSubChain | undefined;
   @Field(_ => PutBlock, { nullable: true })
-  public putBlock: PutBlock;
+  public putBlock?: PutBlock | undefined;
   @Field(_ => CreateDeposit, { nullable: true })
-  public createDeposit: CreateDeposit;
+  public createDeposit?: CreateDeposit | undefined;
   @Field(_ => SettleDeposit, { nullable: true })
-  public settleDeposit: SettleDeposit;
+  public settleDeposit?: SettleDeposit | undefined;
 
   // PlumChain
   @Field(_ => CreatePlumChain, { nullable: true })
-  public createPlumChain: CreatePlumChain;
+  public createPlumChain?: CreatePlumChain | undefined;
   @Field(_ => TerminatePlumChain, { nullable: true })
-  public terminatePlumChain: TerminatePlumChain;
+  public terminatePlumChain?: TerminatePlumChain | undefined;
   @Field(_ => PlumPutBlock, { nullable: true })
-  public plumPutBlock: PlumPutBlock;
+  public plumPutBlock?: PlumPutBlock | undefined;
   @Field(_ => PlumCreateDeposit, { nullable: true })
-  public plumCreateDeposit: PlumCreateDeposit;
+  public plumCreateDeposit?: PlumCreateDeposit | undefined;
   @Field(_ => PlumStartExit, { nullable: true })
-  public plumStartExit: PlumStartExit;
+  public plumStartExit?: PlumStartExit | undefined;
   @Field(_ => PlumChallengeExit, { nullable: true })
-  public plumChallengeExit: PlumChallengeExit;
+  public plumChallengeExit?: PlumChallengeExit | undefined;
   @Field(_ => PlumResponseChallengeExit, { nullable: true })
-  public plumResponseChallengeExit: PlumResponseChallengeExit;
+  public plumResponseChallengeExit?: PlumResponseChallengeExit | undefined;
   @Field(_ => PlumFinalizeExit, { nullable: true })
-  public plumFinalizeExit: PlumFinalizeExit;
+  public plumFinalizeExit?: PlumFinalizeExit | undefined;
   @Field(_ => PlumSettleDeposit, { nullable: true })
-  public plumSettleDeposit: PlumSettleDeposit;
+  public plumSettleDeposit?: PlumSettleDeposit | undefined;
   @Field(_ => PlumTransfer, { nullable: true })
-  public plumTransfer: PlumTransfer;
+  public plumTransfer?: PlumTransfer | undefined;
 
   // Rewarding protocol actions
   @Field(_ => DepositToRewardingFund, { nullable: true })
-  public depositToRewardingFund: DepositToRewardingFund;
+  public depositToRewardingFund?: DepositToRewardingFund | undefined;
   @Field(_ => ClaimFromRewardingFund, { nullable: true })
-  public claimFromRewardingFund: ClaimFromRewardingFund;
+  public claimFromRewardingFund?: ClaimFromRewardingFund | undefined;
   @Field(_ => GrantReward, { nullable: true })
-  public grantReward: GrantReward;
+  public grantReward?: GrantReward | undefined;
 
   @Field(_ => PutPollResult, { nullable: true })
-  public putPollResult: PutPollResult | undefined;
+  public putPollResult?: PutPollResult | undefined;
 }
 
 @InputType("ActionInput")
@@ -635,10 +637,10 @@ export class Action implements IAction {
   public core: ActionCore | undefined;
 
   @Field(_ => BufferScalar)
-  public senderPubKey: Buffer | {};
+  public senderPubKey?: Buffer | {} | undefined;
 
   @Field(_ => BufferScalar)
-  public signature: Buffer | {};
+  public signature?: Buffer | {} | undefined;
 }
 
 @ObjectType()
@@ -676,10 +678,9 @@ export class SendActionRequest {
 }
 
 @ObjectType()
-export class SendActionResponse {
-  // TODO update when response is enrich from iotex - antenna
+export class SendActionResponse implements ISendActionResponse {
   @Field(_ => Boolean, { nullable: true })
-  public TBD?: boolean;
+  public actionHash: string;
 }
 
 @ArgsType()
