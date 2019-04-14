@@ -243,3 +243,11 @@ wall.input.gasLimit-help: The gas limit in the demo wallet is always 0.
 wallet.transfer.title: Send IOTX
 wallet.error.required: This field is required
 wallet.error.number: This field should be number
+wallet.contract.interaction.success: Broadcast transaction successfully.
+wallet.contract.interaction.success.p1: >-
+  Your TX has been broadcast to the network. This does not mean it has been mined on the blockchain. It usually take a few seconds to confirm.
+wallet.contract.interaction.success.p2: >-
+  You can check the status right now by click following button or save your TX hash and check the status later.
+wallet.contract.interaction.success.p3: Your TX hash
+wallet.contract.button.check: Check TX status
+wallet.contract.button.new: Send new IOTX & token
