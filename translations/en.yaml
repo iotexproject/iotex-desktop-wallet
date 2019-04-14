@@ -77,6 +77,7 @@ render.key.coinID: coin ID
 render.key.denomination: denomination
 render.key.owner: owner
 render.key.candidates: candidates
+render.key.nonce: nonce
 action.data: Data
 topbar.graphql_playground: "GraphQL Playground"
 topbar.graphql_doc: "GraphQL Doc"

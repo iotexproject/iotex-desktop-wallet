@@ -96,6 +96,7 @@ class ActionDetailsInner extends PureComponent<Props> {
                 : "",
               gasPrice: get(action, "core.gasPrice") || "",
               actionType: getActionType(actionInfo),
+              nonce: get(action, "core.nonce") || 0,
               ...object
             };
 
