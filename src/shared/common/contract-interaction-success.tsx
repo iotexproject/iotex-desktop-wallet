@@ -1,9 +1,9 @@
-import Button from "antd/lib/button/button";
+import Button from "antd/lib/button";
 import Icon from "antd/lib/icon";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
-import { Paragraph } from "../src/shared/common/paragraph";
+import { Paragraph } from "./paragraph";
 
 export interface Props {
   hash: string;
