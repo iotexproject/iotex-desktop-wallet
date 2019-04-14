@@ -37,7 +37,16 @@ type Props = RouteComponentProps<PathParamsType> & {};
 export const inputStyle = {
   width: "100%",
   background: colors.black10,
-  border: "none"
+  border: "none",
+  height: "38px",
+  lineHeight: "38px"
+};
+
+export const buttonStyle = {
+  backgroundColor: colors.deltaUp,
+  color: "white",
+  height: "40px",
+  lineHeight: "40px"
 };
 
 export const FormItemLabel = styled("label", {
@@ -52,8 +61,10 @@ class WalletComponent extends PureComponent<Props, State> {
   };
 
   public setWallet = (wallet: Account) => {
+    const { match, history } = this.props;
     this.setState({ wallet, createNew: false });
     this.getAddress(wallet);
+    history.push(`${match.url}/transfer`);
   };
 
   public getAddress = async (wallet: Account) => {
@@ -81,7 +92,7 @@ class WalletComponent extends PureComponent<Props, State> {
   }) => {
     const { location, match } = this.props;
 
-    let defaultActiveKey = match.url;
+    let defaultActiveKey = `${match.url}/transfer`;
     if (location.pathname.match(/vote/)) {
       defaultActiveKey = `${match.url}/vote`;
     } else if (location.pathname.match(/smart-contract/)) {
@@ -91,14 +102,13 @@ class WalletComponent extends PureComponent<Props, State> {
       <div>
         <Tabs defaultActiveKey={defaultActiveKey} onChange={this.onTabChange}>
           <Tabs.TabPane
-            key={match.url}
+            key={`${match.url}/transfer`}
             tab={t("wallet.tab.transfer", {
               token: t("account.testnet.token")
             })}
           >
             <Route
-              path={match.url}
-              exact
+              path={`${match.url}/transfer`}
               component={() => <Transfer wallet={wallet} address={address} />}
             />
           </Tabs.TabPane>

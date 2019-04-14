@@ -3,9 +3,9 @@ import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
-import { Board } from "../src/shared/common/board";
-import { Column, HorizontalTable } from "../src/shared/common/horizontal-table";
-import { ModalBody } from "../src/shared/common/modal-body";
+import { Board } from "./board";
+import { Column, HorizontalTable } from "./horizontal-table";
+import { ModalBody } from "./modal-body";
 
 export interface Props {
   showModal: boolean;
@@ -13,18 +13,13 @@ export interface Props {
   dataSource: object;
 }
 
-export interface State {
-  showModal: boolean;
-}
+export interface State {}
 
 export default class ConfirmContractModal extends React.Component<
   Props,
   State
 > {
-  public state: State = this.props;
-
   public confirmContractOk = (status: boolean) => {
-    this.setState({ showModal: false });
     if (status) {
       this.props.confirmContractOk();
     }
@@ -74,8 +69,7 @@ export default class ConfirmContractModal extends React.Component<
   }
 
   public render(): JSX.Element {
-    const { dataSource } = this.props;
-    const { showModal } = this.state;
+    const { dataSource, showModal } = this.props;
     return (
       <Modal
         title={<b>{t("wallet.confirm.contract.title")}</b>}
