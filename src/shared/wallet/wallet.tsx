@@ -43,7 +43,7 @@ export const inputStyle = {
 };
 
 export const buttonStyle = {
-  backgroundColor: "#00b4a0",
+  backgroundColor: colors.deltaUp,
   color: "white",
   height: "40px",
   lineHeight: "40px"

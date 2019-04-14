@@ -3,9 +3,9 @@ import Modal from "antd/lib/modal/Modal";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
-import { Board } from "../src/shared/common/board";
-import { ModalBody } from "../src/shared/common/modal-body";
-import { ModalButtons } from "../src/shared/common/modal-btns";
+import { Board } from "./board";
+import { ModalBody } from "./modal-body";
+import { ModalButtons } from "./modal-btns";
 
 export interface Props {
   showModal: boolean;

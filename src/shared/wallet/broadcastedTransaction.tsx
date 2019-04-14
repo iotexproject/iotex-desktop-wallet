@@ -4,10 +4,10 @@ import Icon from "antd/lib/icon";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
-import { EXECUTIONS, TRANSFER, VOTES } from "../common/site-url";
+import { TRANSFER } from "../common/site-url";
 import { buttonStyle } from "./wallet";
 
-export type BroadcastType = "transfer" | "vote" | "contract";
+export type BroadcastType = "transfer";
 export function BroadcastSuccess({
   txHash,
   action,
@@ -26,12 +26,6 @@ export function BroadcastSuccess({
     switch (type) {
       case "transfer":
         newIndex = TRANSFER.INDEX;
-        break;
-      case "vote":
-        newIndex = VOTES.INDEX;
-        break;
-      case "contract":
-        newIndex = EXECUTIONS.INDEX;
         break;
       default:
         return <div />;
@@ -63,7 +57,7 @@ export function BroadcastSuccess({
   );
 }
 
-export function BroadcastFail({
+export function BroadcastFailure({
   errorMessage,
   suggestedMessage,
   action

@@ -12,10 +12,11 @@ import Helmet from "onefx/lib/react-helmet";
 import * as React from "react";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import ConfirmContractModal from "../../../../.storybook/confirm-contract-modal";
 import { AccountMeta } from "../../../api-gateway/resolvers/antenna-types";
+import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
-import { BroadcastFail, BroadcastSuccess } from "../broadcastedTransaction";
+import { colors } from "../../common/styles/style-color";
+import { BroadcastFailure, BroadcastSuccess } from "../broadcastedTransaction";
 import { getAntenna } from "../get-antenna";
 import { buttonStyle, FormItemLabel, inputStyle } from "../wallet";
 
@@ -38,7 +39,7 @@ type State = {
   broadcast: {
     success: boolean;
   } | null;
-  showconfirmTransfer: boolean;
+  showConfirmTransfer: boolean;
 };
 
 export const rules = {
@@ -58,12 +59,12 @@ export const rules = {
 export const actionBtnStyle = {
   height: "40px",
   border: "none",
-  background: "#f8f8f8",
-  color: "#0c8de4",
+  background: colors.black10,
+  color: colors.secondary,
   fontWeight: 500,
   lineHeight: "40px"
 };
-class TransferComponent extends React.PureComponent<Props, State> {
+class TransferForm extends React.PureComponent<Props, State> {
   public state: State = {
     recipient:
       "bace9b2435db45b119e1570b4ea9c57993b2311e0c408d743d87cd22838ae892",
@@ -74,7 +75,7 @@ class TransferComponent extends React.PureComponent<Props, State> {
     sending: false,
     txHash: "",
     broadcast: null,
-    showconfirmTransfer: false
+    showConfirmTransfer: false
   };
   public generateTransfer = async () => {
     const antenna = getAntenna();
@@ -83,7 +84,7 @@ class TransferComponent extends React.PureComponent<Props, State> {
 
     form.validateFields(async err => {
       if (!err) {
-        this.setState({ sending: true, showconfirmTransfer: false });
+        this.setState({ sending: true, showConfirmTransfer: false });
         const txHash = await antenna.iotx.sendTransfer({
           from: wallet.address,
           to: recipient,
@@ -186,7 +187,7 @@ class TransferComponent extends React.PureComponent<Props, State> {
           loading={sending}
           onClick={() => {
             this.setState({
-              showconfirmTransfer: true
+              showConfirmTransfer: true
             });
           }}
         >
@@ -227,7 +228,7 @@ class TransferComponent extends React.PureComponent<Props, State> {
   public confirmTransfer = () => {
     const { wallet } = this.props;
     const {
-      showconfirmTransfer,
+      showConfirmTransfer,
       recipient,
       amount,
       gasLimit,
@@ -247,7 +248,7 @@ class TransferComponent extends React.PureComponent<Props, State> {
       <ConfirmContractModal
         dataSource={dataSource}
         confirmContractOk={this.generateTransfer}
-        showModal={showconfirmTransfer}
+        showModal={showConfirmTransfer}
       />
     );
   };
@@ -265,7 +266,7 @@ class TransferComponent extends React.PureComponent<Props, State> {
         );
       }
       return (
-        <BroadcastFail
+        <BroadcastFailure
           suggestedMessage={t("wallet.transfer.broadcast.fail", {
             token: t("account.testnet.token")
           })}
@@ -285,4 +286,4 @@ class TransferComponent extends React.PureComponent<Props, State> {
   }
 }
 
-export default withRouter(Form.create<TransferComponent>()(TransferComponent));
+export default withRouter(Form.create<TransferForm>()(TransferForm));
