@@ -259,3 +259,11 @@ broadcast.fail.network: The transaction failed to be broadcast to the network
 broadcast.error.message: "Error message:"
 broadcast.suggested.action: "Suggested actions:"
 wallet.transfer.sendNew: Send new
+wallet.contract.interaction.success: Broadcast transaction successfully.
+wallet.contract.interaction.success.p1: >-
+  Your TX has been broadcast to the network. This does not mean it has been mined on the blockchain. It usually take a few seconds to confirm.
+wallet.contract.interaction.success.p2: >-
+  You can check the status right now by click following button or save your TX hash and check the status later.
+wallet.contract.interaction.success.p3: Your TX hash
+wallet.contract.button.check: Check TX status
+wallet.contract.button.new: Send new IOTX & token
