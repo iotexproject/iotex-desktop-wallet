@@ -25,7 +25,8 @@ const ICON_SIZE = 168;
 const cardStyle = {
   maxWidth: 310,
   borderRadius: "4px",
-  boxShadow: "0 2px 8px 0 rgba(0, 0, 0, 0.16)"
+  boxShadow: "0 2px 8px 0 rgba(0, 0, 0, 0.16)",
+  margin: "10px 5px"
 };
 
 export const inputStyle = {
