@@ -19,6 +19,8 @@ import { colors } from "../../common/styles/style-color";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcastedTransaction";
 import { getAntenna } from "../get-antenna";
 import { buttonStyle, FormItemLabel, inputStyle } from "../wallet";
+import { PageTitle } from "../../common/page-title";
+import Icon from "antd/lib/icon";
 
 type Props = {
   form: WrappedFormUtils;
@@ -278,7 +280,12 @@ class TransferForm extends React.PureComponent<Props, State> {
 
     return (
       <div>
-        <Helmet title={`${t("wallet.transfer.title")} - IoTeX`} />
+        <Helmet
+          title={`${t("wallet.transfer.title")} - ${t("meta.description")}`}
+        />
+        <PageTitle>
+          <Icon type="pushpin" /> {t("wallet.transfer.title")}
+        </PageTitle>
         {this.input()}
         {this.confirmTransfer()}
       </div>
