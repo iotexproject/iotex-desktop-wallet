@@ -77,6 +77,7 @@ render.key.coinID: coin ID
 render.key.denomination: denomination
 render.key.owner: owner
 render.key.candidates: candidates
+render.key.nonce: nonce
 action.data: Data
 topbar.graphql_playground: "GraphQL Playground"
 topbar.graphql_doc: "GraphQL Doc"
@@ -239,7 +240,31 @@ wallet.tab.contract: Smart Contracts
 wallet.choice.input.data: Data (optional)
 wallet.input.dib: Data Hex
 wallet.input.generate: Generate Transaction
+wallet.transactions.send: Send Transaction
 wall.input.gasLimit-help: The gas limit in the demo wallet is always 0.
 wallet.transfer.title: Send IOTX
 wallet.error.required: This field is required
 wallet.error.number: This field should be number
+wallet.input.amount: Amount
+broadcast.success: Broadcast transaction successfully
+broadcast.warn.one: >-
+  Your TX has been broadcast to the network. This does not mean it has been
+  mined on the blockchain. It usually take a few seconds to confirm.
+broadcast.warn.two: >-
+  You can check the status right now by clicking the following button or save
+  your TX hash and check the status later
+broadcast.warn.three: "Your TX hash:"
+broadcast.button.check: Check TX Status
+broadcast.fail: Fail to broadcast transaction
+broadcast.fail.network: The transaction failed to be broadcast to the network
+broadcast.error.message: "Error message:"
+broadcast.suggested.action: "Suggested actions:"
+wallet.transfer.sendNew: Send new
+wallet.contract.interaction.success: Broadcast transaction successfully.
+wallet.contract.interaction.success.p1: >-
+  Your TX has been broadcast to the network. This does not mean it has been mined on the blockchain. It usually take a few seconds to confirm.
+wallet.contract.interaction.success.p2: >-
+  You can check the status right now by click following button or save your TX hash and check the status later.
+wallet.contract.interaction.success.p3: Your TX hash
+wallet.contract.button.check: Check TX status
+wallet.contract.button.new: Send new IOTX & token

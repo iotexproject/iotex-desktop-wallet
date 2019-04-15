@@ -21,7 +21,7 @@ const { TextArea } = Input;
 export class Deploy extends Component {
   public render(): JSX.Element {
     return (
-      <ContractLayout title={t("wallet.deploy.title")}>
+      <ContractLayout title={t("wallet.deploy.title")} icon={"upload"}>
         <DeployForm />
       </ContractLayout>
     );

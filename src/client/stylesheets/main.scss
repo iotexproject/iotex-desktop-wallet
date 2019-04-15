@@ -261,3 +261,11 @@
 .full-width-spin-preloader {
   width: 100%;
 }
+
+.ant-card {
+  &:hover {
+    -webkit-box-shadow: 0 2px 8px 0 rgba(21, 26, 33, 0.43) !important;
+    -moz-box-shadow: 0 2px 8px 0 rgba(21, 26, 33, 0.43) !important;
+    box-shadow: 0 2px 8px 0 rgba(21, 26, 33, 0.43) !important;
+  }
+}
