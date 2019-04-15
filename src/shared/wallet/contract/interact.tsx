@@ -23,7 +23,7 @@ const { TextArea } = Input;
 export class Interact extends Component {
   public render(): JSX.Element {
     return (
-      <ContractLayout title={t("wallet.interact.title")}>
+      <ContractLayout title={t("wallet.interact.title")} icon={"sync"}>
         <InteractForm />
       </ContractLayout>
     );
