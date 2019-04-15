@@ -198,6 +198,7 @@ export const GET_RECEIPT_BY_ACTION = gql`
         receipt {
           status
           blkHeight
+          actHash
           gasConsumed
           contractAddress
           logs {
@@ -221,7 +222,9 @@ export const GET_BLOCK_METAS_BY_INDEX = gql`
       blkMetas {
         hash
         height
-        timestamp
+        timestamp {
+          seconds
+        }
         numActions
         producerAddress
         transferAmount
@@ -239,7 +242,9 @@ export const GET_BLOCK_METAS_BY_HASH = gql`
       blkMetas {
         hash
         height
-        timestamp
+        timestamp {
+          seconds
+        }
         numActions
         producerAddress
         transferAmount
@@ -260,7 +265,9 @@ export const GET_BLOCK_METAS = gql`
       blkMetas {
         hash
         height
-        timestamp
+        timestamp {
+          seconds
+        }
         numActions
         producerAddress
         transferAmount

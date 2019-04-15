@@ -2,6 +2,7 @@ import {
   IAction,
   IActionCore,
   IActionInfo,
+  IBlockMeta,
   IChainMeta,
   IDepositToRewardingFund,
   IEpochData,
@@ -13,6 +14,7 @@ import {
   IPutBlock,
   IReceipt,
   IReceiptInfo,
+  ISendActionResponse,
   IStartSubChain,
   ITransfer
 } from "iotex-antenna/lib/rpc-method/types";
@@ -28,6 +30,15 @@ import { BigNumberScalar } from "../scalars/bignumber-scalar";
 import { BufferScalar } from "../scalars/buffer-scalar";
 import { MapScalar } from "../scalars/map-scalar";
 
+@InputType("TimestampInput")
+@ObjectType()
+export class Timestamp {
+  @Field(_ => Int)
+  public seconds: number;
+  @Field(_ => Int)
+  public nanos: number;
+}
+
 @ObjectType()
 class Epoch implements IEpochData {
   @Field(_ => Int)
@@ -39,13 +50,13 @@ class Epoch implements IEpochData {
 }
 
 @ObjectType({ description: "Properties of an blockMeta" })
-export class BlockMeta {
+export class BlockMeta implements IBlockMeta {
   @Field(_ => String)
   public hash: string;
   @Field(_ => Int)
   public height: number;
-  @Field(_ => Int)
-  public timestamp: number;
+  @Field(_ => Timestamp)
+  public timestamp: Timestamp;
   @Field(_ => Int)
   public numActions: number;
   @Field(_ => String)
@@ -113,8 +124,6 @@ export class Log implements ILog {
 
 @ObjectType({ description: "Properties of an Receipt" })
 export class Receipt implements IReceipt {
-  @Field(_ => BufferScalar)
-  public returnValue: Buffer | {};
   @Field(_ => Int)
   public status: number;
   @Field(_ => Int)
@@ -125,8 +134,8 @@ export class Receipt implements IReceipt {
   public gasConsumed: number;
   @Field(_ => String)
   public contractAddress: string;
-  @Field(_ => [Log])
-  public logs: Array<Log>;
+  @Field(_ => [Log], { nullable: true })
+  public logs: Array<Log> | undefined;
 }
 
 @InputType()
@@ -171,16 +180,16 @@ export class SuggestGasPriceResponse {
 
 @ObjectType()
 export class ReceiptInfo implements IReceiptInfo {
-  @Field(_ => Receipt)
-  public receipt: Receipt;
+  @Field(_ => Receipt, { nullable: true })
+  public receipt: Receipt | undefined;
   @Field(_ => String)
   public blkHash: string;
 }
 
 @ObjectType()
 export class GetReceiptByActionResponse {
-  @Field(_ => ReceiptInfo)
-  public receiptInfo: ReceiptInfo;
+  @Field(_ => ReceiptInfo, { nullable: true })
+  public receiptInfo: ReceiptInfo | undefined;
 }
 
 @InputType()
@@ -268,15 +277,6 @@ export class Transfer implements ITransfer {
   public payload: Buffer | {};
 }
 
-@InputType("TimestampInput")
-@ObjectType()
-export class Timestamp {
-  @Field(_ => Int)
-  public seconds: number;
-  @Field(_ => Int)
-  public nanos: number;
-}
-
 @InputType("VoteInput")
 @ObjectType()
 export class Vote {
@@ -331,6 +331,8 @@ export class ClaimFromRewardingFund {
 export class GrantReward implements IGrantReward {
   @Field(_ => RewardType)
   public type: number;
+  @Field(_ => String)
+  public height: string | number;
 }
 
 @InputType("StartSubChainInput")
@@ -635,10 +637,10 @@ export class Action implements IAction {
   public core: ActionCore | undefined;
 
   @Field(_ => BufferScalar)
-  public senderPubKey?: Buffer | {};
+  public senderPubKey?: Buffer | {} | undefined;
 
   @Field(_ => BufferScalar)
-  public signature?: Buffer | {};
+  public signature?: Buffer | {} | undefined;
 }
 
 @ObjectType()
@@ -676,10 +678,9 @@ export class SendActionRequest {
 }
 
 @ObjectType()
-export class SendActionResponse {
-  // TODO update when response is enrich from iotex - antenna
+export class SendActionResponse implements ISendActionResponse {
   @Field(_ => Boolean, { nullable: true })
-  public TBD?: boolean;
+  public actionHash: string;
 }
 
 @ArgsType()

@@ -96,7 +96,7 @@ scalar BigNumber
 type BlockMeta {
   hash: String!
   height: Int!
-  timestamp: Int!
+  timestamp: Timestamp!
   numActions: Int!
   producerAddress: String!
   transferAmount: String!
@@ -251,7 +251,7 @@ type GetBlockMetasResponse {
 }
 
 type GetReceiptByActionResponse {
-  receiptInfo: ReceiptInfo!
+  receiptInfo: ReceiptInfo
 }
 
 input GetUnconfirmedActionsByAddressRequest {
@@ -263,10 +263,12 @@ input GetUnconfirmedActionsByAddressRequest {
 
 type GrantReward {
   type: RewardType!
+  height: String!
 }
 
 input GrantRewardInput {
   type: RewardType!
+  height: String!
 }
 
 # Properties of an Log
@@ -485,17 +487,16 @@ type ReadContractResponse {
 
 # Properties of an Receipt
 type Receipt {
-  returnValue: Buffer!
   status: Int!
   blkHeight: Int!
   actHash: Buffer!
   gasConsumed: Int!
   contractAddress: String!
-  logs: [Log!]!
+  logs: [Log!]
 }
 
 type ReceiptInfo {
-  receipt: Receipt!
+  receipt: Receipt
   blkHash: String!
 }
 
@@ -505,7 +506,7 @@ enum RewardType {
 }
 
 type SendActionResponse {
-  TBD: Boolean
+  actionHash: Boolean
 }
 
 type SetReward {
