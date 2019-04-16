@@ -77,6 +77,7 @@ render.key.coinID: coin ID
 render.key.denomination: denomination
 render.key.owner: owner
 render.key.candidates: candidates
+render.key.nonce: nonce
 action.data: Data
 topbar.graphql_playground: "GraphQL Playground"
 topbar.graphql_doc: "GraphQL Doc"
@@ -177,6 +178,28 @@ wallet.contract.interactWith: Interact with contract
 wallet.contract.deployContract: Deploy contract
 wallet.contract.interactWith.desc: This is a sentence of description. This is a sentence of description.
 wallet.contract.deployContract.desc: This is a sentence of description. This is a sentence of description.
+wallet.contract.back: Back to actions
+wallet.interact.access: Access
+wallet.interact.title: Interact with contract
+wallet.input.to: Recipient address
+wallet.input.nonce: Nonce
+wallet.input.gasPrice: Gas Price
+wallet.input.gasLimit: Gas Limit
+wallet.input.abi: ABI / JSON Interface
+wallet.input.byteCode: Byte Code
+wallet.input.solidity: Solidity (optional)
+wallet.input.contractAddress: Contract address
+wallet.deploy.generateAbiAndByteCode: Generate ABI and Byte Code
+wallet.deploy.title: Deploy contract
+wallet.deploy.broadcast.fail: Please try to send Smart Contract later
+wallet.deploy.send-new: Send new contract
+wallet.deploy.detail-title: You are about to deploy ...
+wallet.deploy.deploy: Deploy Contract
+wallet.deploy.signTransaction: Sign Transaction
+wallet.placeholder.solidity: pragma solidity ^0.4.23; ...
+wallet.placeholder.abi: ...
+wallet.placeholder.byteCode: 0x1234 ...
+wallet.placeholder.contractAddress: io...
 wallet.write.contract.title: Warining
 wallet.write.contract.ok: Generate transaction
 wallet.write.contract.p1: You are about to
@@ -206,3 +229,42 @@ account.change: Change Wallet
 account.testnet.token: IOTX
 account.address: Account Address
 account.transaction-history: Go to transaction history
+wallet.confirm.contract.title: You are about to send ...
+wallet.confirm.contract.p1: After sending this, your account balance will be
+wallet.confirm.contract.p2: Are you sure you want to do this?
+wallet.confirm.contract.yes: Yes, make transaction
+wallet.confirm.contract.cancel: No, cancel
+wallet.tab.transfer: "Send ${token}"
+wallet.tab.vote: Vote for delegate
+wallet.tab.contract: Smart Contracts
+wallet.choice.input.data: Data (optional)
+wallet.input.dib: Data Hex
+wallet.input.generate: Generate Transaction
+wallet.transactions.send: Send Transaction
+wall.input.gasLimit-help: The gas limit in the demo wallet is always 0.
+wallet.transfer.title: Send IOTX
+wallet.error.required: This field is required
+wallet.error.number: This field should be number
+wallet.input.amount: Amount
+broadcast.success: Broadcast transaction successfully
+broadcast.warn.one: >-
+  Your TX has been broadcast to the network. This does not mean it has been
+  mined on the blockchain. It usually take a few seconds to confirm.
+broadcast.warn.two: >-
+  You can check the status right now by clicking the following button or save
+  your TX hash and check the status later
+broadcast.warn.three: "Your TX hash:"
+broadcast.button.check: Check TX Status
+broadcast.fail: Fail to broadcast transaction
+broadcast.fail.network: The transaction failed to be broadcast to the network
+broadcast.error.message: "Error message:"
+broadcast.suggested.action: "Suggested actions:"
+wallet.transfer.sendNew: Send new
+wallet.contract.interaction.success: Broadcast transaction successfully.
+wallet.contract.interaction.success.p1: >-
+  Your TX has been broadcast to the network. This does not mean it has been mined on the blockchain. It usually take a few seconds to confirm.
+wallet.contract.interaction.success.p2: >-
+  You can check the status right now by click following button or save your TX hash and check the status later.
+wallet.contract.interaction.success.p3: Your TX hash
+wallet.contract.button.check: Check TX status
+wallet.contract.button.new: Send new IOTX & token

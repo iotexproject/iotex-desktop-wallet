@@ -7,6 +7,7 @@ import Helmet from "onefx/lib/react-helmet";
 import React from "react";
 // @ts-ignore
 import { Client as StyletronClient } from "styletron-engine-atomic";
+import { HtmlHead } from "./html-head";
 
 const STYLETRON_GLOBAL = "styletron-global";
 
@@ -21,6 +22,7 @@ export function TestRoot({ children }: { children: JSX.Element }): JSX.Element {
   return (
     <RootServer store={store} styletron={styletron} context={{}}>
       <div>
+        <HtmlHead locale={"en"} />
         <Helmet>
           <link
             rel="stylesheet"

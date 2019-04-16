@@ -35,7 +35,7 @@ export function buildKeyValueArray(object: {}): Array<{}> {
       return {
         key,
         // @ts-ignore
-        value: JSON.stringify(object[key])
+        value: <pre>{JSON.stringify(object[key], null, 2)}</pre>
       };
     }
     return {
@@ -96,6 +96,7 @@ class ActionDetailsInner extends PureComponent<Props> {
                 : "",
               gasPrice: get(action, "core.gasPrice") || "",
               actionType: getActionType(actionInfo),
+              nonce: get(action, "core.nonce") || 0,
               ...object
             };
 

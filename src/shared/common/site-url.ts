@@ -53,3 +53,7 @@ export class WALLET {
     return `/api${this.CONTRACT}/readExecution`;
   }
 }
+
+export const TRANSFER = {
+  INDEX: "/transfers/"
+};

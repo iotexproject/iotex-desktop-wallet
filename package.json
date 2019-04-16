@@ -12,7 +12,7 @@
     "build": "gulp build",
     "build-production": "NODE_ENV=production gulp build",
     "server": "node server",
-    "lint": "pretty-quick --staged && tslint --fix --project tsconfig.json -t stylish",
+    "lint": "pretty-quick --staged && tslint --fix --project tsconfig.json -t stylish && yamllint ./translations/*.yaml",
     "postinstall": "npm run bp && npm run doc",
     "cover": "NODE_ENV=test tsc && nyc npm run ava",
     "size": "ls -lh dist/",
@@ -100,7 +100,8 @@
     "webpack": "4.29.6",
     "webpack-bundle-analyzer": "2.13.1",
     "webpack-cli": "3.2.3",
-    "webpack-manifest-plugin": "2.0.4"
+    "webpack-manifest-plugin": "2.0.4",
+    "yaml-lint": "^1.2.4"
   },
   "dependencies": {
     "@babel/cli": "7.2.3",
@@ -155,7 +156,7 @@
     "graphql": "14.1.1",
     "graphql-iso-date": "3.6.1",
     "graphql-tag": "2.10.1",
-    "iotex-antenna": "0.8.0",
+    "iotex-antenna": "0.10.0",
     "iotex-react-block-producers": "^1.0.0",
     "is-browser": "2.1.0",
     "isomorphic-unfetch": "3.0.0",

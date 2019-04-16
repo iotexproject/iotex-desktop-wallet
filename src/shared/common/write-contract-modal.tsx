@@ -3,8 +3,9 @@ import Modal from "antd/lib/modal/Modal";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
-import { Board } from "../common/board";
-import { ModalBody } from "../common/modal-body";
+import { Board } from "./board";
+import { ModalBody } from "./modal-body";
+import { ModalButtons } from "./modal-btns";
 
 export interface Props {
   showModal: boolean;
@@ -13,17 +14,22 @@ export interface Props {
   amount: Number;
 }
 
-export interface State {}
+export interface State {
+  showModal: boolean;
+}
 
-export default class WriteContractModal extends React.Component<Props> {
+export default class WriteContractModal extends React.Component<Props, State> {
+  public state: State = this.props;
   public generateTransaction = (status: boolean) => {
+    this.setState({ showModal: false });
     if (status) {
       this.props.generateTransaction();
     }
   };
 
   public render(): JSX.Element {
-    const { showModal, networkAddress, amount } = this.props;
+    const { networkAddress, amount } = this.props;
+    const { showModal } = this.state;
     return (
       <Modal
         title={<b>{t("wallet.write.contract.title")}</b>}
@@ -44,14 +50,16 @@ export default class WriteContractModal extends React.Component<Props> {
           </div>
           <Board>{amount}</Board>
         </ModalBody>
-        <Button
-          href="#"
-          size="large"
-          type="primary"
-          onClick={() => this.generateTransaction(true)}
-        >
-          <b>{t("wallet.write.contract.ok")}</b>
-        </Button>
+        <ModalButtons>
+          <Button
+            href="#"
+            size="large"
+            type="primary"
+            onClick={() => this.generateTransaction(true)}
+          >
+            <b>{t("wallet.write.contract.ok")}</b>
+          </Button>
+        </ModalButtons>
       </Modal>
     );
   }

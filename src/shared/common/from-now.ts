@@ -1,13 +1,16 @@
 import fn from "fromnow";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
+import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
 
-export function fromNow(ts: number): string {
-  // @ts-ignore
-  return fn(ts * 1000, { max: 3, suffix: true });
+export function fromNow(ts: Timestamp | undefined): string {
+  if (!ts) {
+    return "";
+  }
+  return fn(new Date(ts.seconds * 1000), { max: 3, suffix: true });
 }
 
-export function translateFn(ts: number): string {
+export function translateFn(ts: Timestamp): string {
   const keyMessage = [
     "years",
     "year",
