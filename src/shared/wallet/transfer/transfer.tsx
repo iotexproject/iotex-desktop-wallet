@@ -155,14 +155,7 @@ class TransferForm extends React.PureComponent<Props, State> {
           {getFieldDecorator("gasLimit", {
             initialValue: gasLimit,
             rules: [rules.number, rules.required]
-          })(
-            <Input
-              style={inputStyle}
-              placeholder="0"
-              disabled={true}
-              name="gasLimit"
-            />
-          )}
+          })(<Input style={inputStyle} placeholder="0" name="gasLimit" />)}
         </Form.Item>
         <Form.Item
           {...formItemLayout}

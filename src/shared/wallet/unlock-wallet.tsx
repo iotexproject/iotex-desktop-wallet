@@ -120,7 +120,7 @@ class UnlockWalletComponent extends React.Component<Props, State> {
             )}
           </Form.Item>
         </Form>
-        <Button disabled={validPrikey} onClick={this.unlockWallet}>
+        <Button disabled={!validPrikey} onClick={this.unlockWallet}>
           {t("wallet.account.unlock")}
         </Button>
         <div style={{ paddingTop: "24px" }}>
@@ -128,7 +128,7 @@ class UnlockWalletComponent extends React.Component<Props, State> {
             {t("unlock-wallet.no-wallet")}
             {chainId === 1 ? (
               <StyleLink
-                style={{ paddingLeft: "10px" }}
+                style={{ paddingLeft: "10px", cursor: "pointer" }}
                 onClick={() => {
                   this.setState({
                     showModal: true
