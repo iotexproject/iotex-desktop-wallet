@@ -21,6 +21,7 @@ import { getAntenna } from "./get-antenna";
 import NewWallet from "./new-wallet";
 import Transfer from "./transfer/transfer";
 import UnlockWallet from "./unlock-wallet";
+import routes from "../common/routes";
 
 export interface State {
   wallet: Account | null;
@@ -61,10 +62,10 @@ class WalletComponent extends PureComponent<Props, State> {
   };
 
   public setWallet = (wallet: Account) => {
-    const { match, history } = this.props;
+    const { history } = this.props;
     this.setState({ wallet, createNew: false });
     this.getAddress(wallet);
-    history.push(`${match.url}/transfer`);
+    history.push(routes.transfer);
   };
 
   public getAddress = async (wallet: Account) => {
