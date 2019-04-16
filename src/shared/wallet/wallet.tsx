@@ -6,8 +6,8 @@ import { Account } from "iotex-antenna/lib/account/account";
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
-import React from "react";
 import { PureComponent } from "react";
+import React from "react";
 import { Route, Switch, withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
@@ -17,6 +17,7 @@ import AccountSection from "./account-section";
 import { ChooseFunction } from "./contract/choose-function";
 import { Deploy } from "./contract/deploy";
 import { Interact } from "./contract/interact";
+import { Vote } from "./contract/vote";
 import { getAntenna } from "./get-antenna";
 import NewWallet from "./new-wallet";
 import Transfer from "./transfer/transfer";
@@ -113,7 +114,7 @@ class WalletComponent extends PureComponent<Props, State> {
             />
           </Tabs.TabPane>
           <Tabs.TabPane key={`${match.url}/vote`} tab={t("wallet.tab.vote")}>
-            // TODO
+            <Route path={`${match.url}/vote`} component={Vote} />
           </Tabs.TabPane>
           <Tabs.TabPane
             key={`${match.url}/smart-contract`}
