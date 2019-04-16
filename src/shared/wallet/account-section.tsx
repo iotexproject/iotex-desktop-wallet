@@ -1,4 +1,5 @@
 // @ts-ignore
+import Icon from "antd/lib/icon";
 import { Account } from "iotex-antenna/lib/account/account";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
@@ -9,6 +10,8 @@ import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
+import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
+import { TooltipButton } from "../common/tooltip-button";
 
 export interface Props {
   wallet?: Account | null;
@@ -82,7 +85,7 @@ export default class AccountSection extends React.Component<Props, State> {
               className="float-right"
               onClick={() => setWallet && setWallet(null)}
             >
-              {t("account.change")}
+              <Icon type="swap" /> {t("account.change")}
             </StyleLink>
           </div>
           <div style={{ alignContent: "center" }}>
@@ -94,18 +97,26 @@ export default class AccountSection extends React.Component<Props, State> {
           <div>
             <p>
               <strong>{t("account.address")}</strong>
+              <FloatRight>
+                <CopyButtonClipboardComponent
+                  text={wallet.address}
+                  size="small"
+                />{" "}
+                <TooltipButton
+                  href={`/address/${wallet.address}`}
+                  title={t("account.transaction-history")}
+                  icon="link"
+                  size="small"
+                />
+              </FloatRight>
             </p>
             <p>{wallet.address}</p>
-          </div>
-          <div className="transaction-history-tag">
-            <a href={`/address/${wallet.address}`}>
-              {t("account.transaction-history")}
-            </a>
           </div>
         </div>
       </div>
     );
   };
+
   public render(): JSX.Element {
     const { wallet, address, createNew, setWallet } = this.props;
 
@@ -121,5 +132,10 @@ export default class AccountSection extends React.Component<Props, State> {
 }
 
 const StyleLink = styled("span", {
-  color: "#00b4a0"
+  color: "#00b4a0",
+  cursor: "pointer"
+});
+
+const FloatRight = styled("span", {
+  float: "right"
 });
