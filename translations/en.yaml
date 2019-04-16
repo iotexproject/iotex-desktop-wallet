@@ -268,3 +268,6 @@ wallet.contract.interaction.success.p2: >-
 wallet.contract.interaction.success.p3: Your TX hash
 wallet.contract.button.check: Check TX status
 wallet.contract.button.new: Send new IOTX & token
+wallet.vote.title: Vote for delegate
+wallet.vote.content: Help IoTeX Build A Stronger Network
+wallet.vote.button: Vote on member.iotex.io
