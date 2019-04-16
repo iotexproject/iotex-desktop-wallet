@@ -2,6 +2,7 @@ import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
+import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
 import { Account } from "iotex-antenna/lib/account/account";
 import { toRau } from "iotex-antenna/lib/account/utils";
@@ -15,12 +16,11 @@ import { RouteComponentProps } from "react-router-dom";
 import { AccountMeta } from "../../../api-gateway/resolvers/antenna-types";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
+import { PageTitle } from "../../common/page-title";
 import { colors } from "../../common/styles/style-color";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcastedTransaction";
 import { getAntenna } from "../get-antenna";
 import { buttonStyle, FormItemLabel, inputStyle } from "../wallet";
-import { PageTitle } from "../../common/page-title";
-import Icon from "antd/lib/icon";
 
 type Props = {
   form: WrappedFormUtils;

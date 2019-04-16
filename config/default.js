@@ -59,7 +59,12 @@ module.exports = {
     "img-src": ["*", "data:"],
     "media-src": ["self"],
     "object-src": ["self"],
-    "script-src": ["self", "unsafe-eval", "https://www.google-analytics.com/"]
+    "script-src": [
+      "self",
+      "unsafe-eval",
+      "https://www.google-analytics.com/",
+      "https://ethereum.github.io/solc-bin/bin/"
+    ]
   },
   apiGatewayUrl:
     process.env.API_GATEWAY_URL || "http://localhost:4004/api-gateway/",

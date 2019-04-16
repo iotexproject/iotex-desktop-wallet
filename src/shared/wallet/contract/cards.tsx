@@ -89,7 +89,10 @@ export function AbiFormInputItem(form: WrappedFormUtils): JSX.Element {
   );
 }
 
-export function NonceFormInputItem(form: WrappedFormUtils): JSX.Element {
+export function NonceFormInputItem(
+  form: WrappedFormUtils,
+  initialValue?: string | number
+): JSX.Element {
   const { getFieldDecorator } = form;
   return (
     <Form.Item
@@ -97,14 +100,17 @@ export function NonceFormInputItem(form: WrappedFormUtils): JSX.Element {
       label={<FormItemLabel>{t("wallet.input.nonce")}</FormItemLabel>}
     >
       {getFieldDecorator("nonce", {
-        initialValue: "",
+        initialValue: initialValue || "",
         rules: []
       })(<InputNumber size="large" step={1} min={1} style={inputStyle} />)}
     </Form.Item>
   );
 }
 
-export function GasPriceFormInputItem(form: WrappedFormUtils): JSX.Element {
+export function GasPriceFormInputItem(
+  form: WrappedFormUtils,
+  initialValue?: string
+): JSX.Element {
   const { getFieldDecorator } = form;
   return (
     <Form.Item
@@ -112,14 +118,17 @@ export function GasPriceFormInputItem(form: WrappedFormUtils): JSX.Element {
       label={<FormItemLabel>{t("wallet.input.gasPrice")}</FormItemLabel>}
     >
       {getFieldDecorator("gasPrice", {
-        initialValue: "",
+        initialValue: initialValue || "",
         rules: []
       })(<InputNumber size="large" step={10} min={0} style={inputStyle} />)}
     </Form.Item>
   );
 }
 
-export function GasLimitFormInputItem(form: WrappedFormUtils): JSX.Element {
+export function GasLimitFormInputItem(
+  form: WrappedFormUtils,
+  initialValue?: number
+): JSX.Element {
   const { getFieldDecorator } = form;
   return (
     <Form.Item
@@ -127,7 +136,7 @@ export function GasLimitFormInputItem(form: WrappedFormUtils): JSX.Element {
       label={<FormItemLabel>{t("wallet.input.gasLimit")}</FormItemLabel>}
     >
       {getFieldDecorator("gasLimit", {
-        initialValue: "",
+        initialValue: initialValue || "",
         rules: []
       })(<InputNumber size="large" step={10} min={0} style={inputStyle} />)}
     </Form.Item>
