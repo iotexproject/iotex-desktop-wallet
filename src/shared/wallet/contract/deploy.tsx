@@ -1,4 +1,5 @@
 // tslint:disable:no-empty
+// tslint:disable:no-any
 import { Form, Input } from "antd";
 import Button from "antd/lib/button";
 import { FormComponentProps } from "antd/lib/form";
@@ -182,10 +183,10 @@ class DeployFormInner extends Component<DeployProps, State> {
             rules: [
               {
                 validator: (rule, value, callback) => {
-                  const isValidMessageKey = isValidBytes(value);
+                  const isValidErrorMessageKey = isValidBytes(value);
 
-                  if (isValidMessageKey) {
-                    callback(t(isValidMessageKey));
+                  if (isValidErrorMessageKey) {
+                    callback(t(isValidErrorMessageKey));
                   }
 
                   callback();
