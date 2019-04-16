@@ -10,6 +10,7 @@ import React from "react";
 
 type Props = {
   text: string;
+  size?: "small" | "default" | "large";
 };
 
 type State = {
@@ -57,6 +58,7 @@ export class CopyButtonClipboardComponent extends Component<Props, State> {
 
   public render(): JSX.Element {
     const { trigger, title, copied, visible } = this.state;
+    const { size } = this.props;
     return (
       <Tooltip
         placement="top"
@@ -69,6 +71,7 @@ export class CopyButtonClipboardComponent extends Component<Props, State> {
           className={copied}
           shape="circle"
           icon="copy"
+          size={size}
           onClick={() => this.copyToAddress()}
           onMouseLeave={() => this.hideTips()}
           onMouseOver={() => this.btnReload()}
