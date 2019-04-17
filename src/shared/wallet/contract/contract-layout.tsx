@@ -19,7 +19,7 @@ export class ContractLayout extends Component<Props, State> {
   public render(): JSX.Element {
     const { title, children, icon } = this.props;
     return (
-      <div>
+      <div style={{ paddingRight: 2 }}>
         <Helmet title={`${title} - ${t("meta.description")}`} />
         <PageTitle>
           <Icon type={icon} /> {title}
