@@ -18,7 +18,7 @@ import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { PageTitle } from "../../common/page-title";
 import { colors } from "../../common/styles/style-color";
-import { BroadcastFailure, BroadcastSuccess } from "../broadcastedTransaction";
+import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
 import { FormItemLabel, inputStyle } from "../wallet";
 

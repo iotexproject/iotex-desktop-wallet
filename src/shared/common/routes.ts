@@ -7,4 +7,4 @@ export const routes = {
   }
 };
 
-export default routes["dev"];
+export default routes.dev;

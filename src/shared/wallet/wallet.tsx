@@ -6,11 +6,12 @@ import { Account } from "iotex-antenna/lib/account/account";
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
-import { PureComponent } from "react";
 import React from "react";
+import { PureComponent } from "react";
 import { Route, Switch, withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
+import routes from "../common/routes";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "./account-section";
@@ -22,7 +23,6 @@ import { getAntenna } from "./get-antenna";
 import NewWallet from "./new-wallet";
 import Transfer from "./transfer/transfer";
 import UnlockWallet from "./unlock-wallet";
-import routes from "../common/routes";
 
 export interface State {
   wallet: Account | null;
