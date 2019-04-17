@@ -270,7 +270,7 @@ class TransferForm extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div>
+      <div style={{ paddingRight: 2 }}>
         <Helmet
           title={`${t("wallet.transfer.title")} - ${t("meta.description")}`}
         />
