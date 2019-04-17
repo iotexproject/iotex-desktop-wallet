@@ -31,11 +31,6 @@ type Props = {
 } & RouteComponentProps;
 
 type State = {
-  recipient: string;
-  amount: string;
-  gasLimit: number;
-  gasPrice: string;
-  dataInHex: string;
   sending: boolean;
   txHash: string;
   broadcast: {
@@ -55,6 +50,10 @@ export const rules = {
     transform: (value: string) => {
       return Number(value);
     }
+  },
+  addressLength: {
+    len: 41,
+    message: t("input.error.raw_address.length")
   }
 };
 
@@ -68,24 +67,24 @@ export const actionBtnStyle = {
 };
 class TransferForm extends React.PureComponent<Props, State> {
   public state: State = {
-    recipient:
-      "bace9b2435db45b119e1570b4ea9c57993b2311e0c408d743d87cd22838ae892",
-    amount: "0",
-    gasLimit: 0,
-    gasPrice: "0",
-    dataInHex: "0x123",
     sending: false,
     txHash: "",
     broadcast: null,
     showConfirmTransfer: false
   };
-  public generateTransfer = async () => {
+  public generateTransfer = async (status: boolean) => {
     const antenna = getAntenna();
     const { wallet, form } = this.props;
-    const { recipient, amount, gasLimit, gasPrice, dataInHex } = this.state;
+    if (!status) {
+      return this.setState({
+        showConfirmTransfer: false
+      });
+    }
 
-    form.validateFields(async err => {
+    form.validateFields(async (err, value) => {
       if (!err) {
+        const { recipient, amount, gasLimit, gasPrice, dataInHex } = value;
+
         this.setState({ sending: true, showConfirmTransfer: false });
         const txHash = await antenna.iotx.sendTransfer({
           from: wallet.address,
@@ -106,16 +105,20 @@ class TransferForm extends React.PureComponent<Props, State> {
       }
     });
   };
+
+  public showConfirmTransfer = () => {
+    this.props.form.validateFields(err => {
+      if (err) {
+        return;
+      }
+      this.setState({
+        showConfirmTransfer: true
+      });
+    });
+  };
   public input = () => {
     const { getFieldDecorator } = this.props.form;
-    const {
-      recipient,
-      amount,
-      gasLimit,
-      dataInHex,
-      sending,
-      gasPrice
-    } = this.state;
+    const { sending } = this.state;
     return (
       <Form layout="vertical">
         <Form.Item
@@ -123,8 +126,7 @@ class TransferForm extends React.PureComponent<Props, State> {
           {...formItemLayout}
         >
           {getFieldDecorator("recipient", {
-            initialValue: recipient,
-            rules: [rules.required]
+            rules: [rules.required, rules.addressLength]
           })(<Input placeholder="io..." style={inputStyle} name="recipient" />)}
         </Form.Item>
         <Form.Item
@@ -132,7 +134,6 @@ class TransferForm extends React.PureComponent<Props, State> {
           {...formItemLayout}
         >
           {getFieldDecorator("amount", {
-            initialValue: amount,
             rules: [rules.number, rules.required]
           })(
             <Input
@@ -153,7 +154,6 @@ class TransferForm extends React.PureComponent<Props, State> {
           }
         >
           {getFieldDecorator("gasLimit", {
-            initialValue: gasLimit,
             rules: [rules.number, rules.required]
           })(<Input style={inputStyle} placeholder="0" name="gasLimit" />)}
         </Form.Item>
@@ -162,7 +162,6 @@ class TransferForm extends React.PureComponent<Props, State> {
           label={<FormItemLabel>{t("wallet.input.gasPrice")}</FormItemLabel>}
         >
           {getFieldDecorator("gasPrice", {
-            initialValue: gasPrice,
             rules: [rules.required]
           })(<Input style={inputStyle} placeholder="0" name="gasPrice" />)}
         </Form.Item>
@@ -171,24 +170,21 @@ class TransferForm extends React.PureComponent<Props, State> {
           {...formItemLayout}
         >
           {getFieldDecorator("dataInHex", {
-            initialValue: dataInHex,
             rules: [rules.required]
           })(
             <Input style={inputStyle} placeholder="0x1234" name="dataInHex" />
           )}
         </Form.Item>
-        <Button
-          href="#"
-          type="primary"
-          loading={sending}
-          onClick={() => {
-            this.setState({
-              showConfirmTransfer: true
-            });
-          }}
-        >
-          {t("wallet.transactions.send")}
-        </Button>
+        {
+          // @ts-ignore
+          <Button
+            type="primary"
+            loading={sending}
+            onClick={this.showConfirmTransfer}
+          >
+            {t("wallet.transactions.send")}
+          </Button>
+        }
       </Form>
     );
   };
@@ -222,15 +218,16 @@ class TransferForm extends React.PureComponent<Props, State> {
   };
 
   public confirmTransfer = () => {
-    const { wallet } = this.props;
+    const { wallet, form } = this.props;
+    const { showConfirmTransfer } = this.state;
+
     const {
-      showConfirmTransfer,
       recipient,
       amount,
       gasLimit,
       gasPrice,
       dataInHex
-    } = this.state;
+    } = form.getFieldsValue();
     const dataSource = {
       address: wallet.address,
       toAddress: recipient,
