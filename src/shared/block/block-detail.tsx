@@ -36,8 +36,9 @@ type Props = RouteComponentProps<PathParamsType> & {};
 type State = {
   totalActons: number;
 };
+
 class BlockDetailsInner extends PureComponent<Props, State> {
-  public state: State = { totalActons: 20 };
+  public state: State = { totalActons: 10 };
 
   private readonly transferParam = (param: string) => {
     let parameter = {};
@@ -60,17 +61,18 @@ class BlockDetailsInner extends PureComponent<Props, State> {
         </Divider>
         <ActionTable
           totalActions={totalActons}
-          getVariable={({ current, pageSize }) => {
-            const start = (current - 1) * pageSize;
-            if (current > 0) {
-              this.setState({
-                totalActons: start + pageSize + 1
-              });
-            }
+          getVariable={({ current, pageSize, currentDataLength }) => {
+            const start = current > 0 ? (current - 1) * pageSize : 0;
+            this.setState({
+              totalActons:
+                currentDataLength < pageSize
+                  ? start + pageSize
+                  : start + pageSize + 1
+            });
             return {
               byBlk: {
                 blkHash: blockMeta.hash,
-                start: start < 0 ? 0 : start,
+                start: start,
                 count: pageSize
               }
             };
