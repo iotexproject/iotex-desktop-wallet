@@ -20,7 +20,7 @@ import { PageTitle } from "../../common/page-title";
 import { colors } from "../../common/styles/style-color";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcastedTransaction";
 import { getAntenna } from "../get-antenna";
-import { buttonStyle, FormItemLabel, inputStyle } from "../wallet";
+import { FormItemLabel, inputStyle } from "../wallet";
 
 type Props = {
   form: WrappedFormUtils;
@@ -155,14 +155,7 @@ class TransferForm extends React.PureComponent<Props, State> {
           {getFieldDecorator("gasLimit", {
             initialValue: gasLimit,
             rules: [rules.number, rules.required]
-          })(
-            <Input
-              style={inputStyle}
-              placeholder="0"
-              disabled={true}
-              name="gasLimit"
-            />
-          )}
+          })(<Input style={inputStyle} placeholder="0" name="gasLimit" />)}
         </Form.Item>
         <Form.Item
           {...formItemLayout}
@@ -185,7 +178,8 @@ class TransferForm extends React.PureComponent<Props, State> {
           )}
         </Form.Item>
         <Button
-          style={buttonStyle}
+          href="#"
+          type="primary"
           loading={sending}
           onClick={() => {
             this.setState({

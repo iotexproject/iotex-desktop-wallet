@@ -192,7 +192,6 @@
 .ant-modal-content {
   color: #000000 !important;
   line-height: 24px;
-  border-radius: 2px !important;
   .ant-modal-header {
     border-bottom: none !important;
     padding: 22px 24px !important;
@@ -206,12 +205,6 @@
   .ant-modal-footer {
     padding: 12px 0 !important;
     margin: 0 24px;
-  }
-  .ant-btn {
-    border-radius: 2px !important;
-    height: 40px;
-    padding: 0 15px;
-    font-size: 16px;
   }
   p {
     line-height: 24px !important;

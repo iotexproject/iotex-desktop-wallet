@@ -18,10 +18,12 @@ import { ChooseFunction } from "./contract/choose-function";
 import { Deploy } from "./contract/deploy";
 import { DeployPreloadHeader } from "./contract/deploy";
 import { Interact } from "./contract/interact";
+import { Vote } from "./contract/vote";
 import { getAntenna } from "./get-antenna";
 import NewWallet from "./new-wallet";
 import Transfer from "./transfer/transfer";
 import UnlockWallet from "./unlock-wallet";
+import routes from "../common/routes";
 
 export interface State {
   wallet: Account | null;
@@ -62,10 +64,10 @@ class WalletComponent extends PureComponent<Props, State> {
   };
 
   public setWallet = (wallet: Account) => {
-    const { match, history } = this.props;
+    const { history } = this.props;
     this.setState({ wallet, createNew: false });
     this.getAddress(wallet);
-    history.push(`${match.url}/transfer`);
+    history.push(routes.transfer);
   };
 
   public getAddress = async (wallet: Account) => {
@@ -114,7 +116,7 @@ class WalletComponent extends PureComponent<Props, State> {
             />
           </Tabs.TabPane>
           <Tabs.TabPane key={`${match.url}/vote`} tab={t("wallet.tab.vote")}>
-            // TODO
+            <Route path={`${match.url}/vote`} component={Vote} />
           </Tabs.TabPane>
           <Tabs.TabPane
             key={`${match.url}/smart-contract`}
