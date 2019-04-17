@@ -273,3 +273,4 @@ wallet.contract.button.new: Send new IOTX & token
 wallet.vote.title: Vote for delegate
 wallet.vote.content: Help IoTeX Build A Stronger Network
 wallet.vote.button: Vote on member.iotex.io
+input.error.raw_address.length: IOTX address has to be of length 41

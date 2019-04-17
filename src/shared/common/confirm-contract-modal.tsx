@@ -20,9 +20,7 @@ export default class ConfirmContractModal extends React.Component<
   State
 > {
   public confirmContractOk = (status: boolean) => {
-    if (status) {
-      this.props.confirmContractOk();
-    }
+    this.props.confirmContractOk(status);
   };
 
   // tslint:disable:no-any
