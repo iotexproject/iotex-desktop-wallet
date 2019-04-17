@@ -140,7 +140,7 @@ class DeployFormInner extends Component<DeployProps, State> {
             initialValue: "",
             rules: [
               {
-                validator: (rule, value, callback) => {
+                validator: (_, value, callback) => {
                   const verFound = /pragma solidity \^(.*);/.exec(value);
                   if (!verFound || !verFound[1]) {
                     return callback(t("wallet.missing_solidity_pragma"));
@@ -182,7 +182,7 @@ class DeployFormInner extends Component<DeployProps, State> {
             initialValue: "",
             rules: [
               {
-                validator: (rule, value, callback) => {
+                validator: (_, value, callback) => {
                   const isValidErrorMessageKey = isValidBytes(value);
 
                   if (isValidErrorMessageKey) {
