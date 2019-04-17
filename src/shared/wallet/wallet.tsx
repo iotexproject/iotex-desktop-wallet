@@ -17,6 +17,7 @@ import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "./account-section";
 import { ChooseFunction } from "./contract/choose-function";
 import { Deploy } from "./contract/deploy";
+import { DeployPreloadHeader } from "./contract/deploy";
 import { Interact } from "./contract/interact";
 import { Vote } from "./contract/vote";
 import { getAntenna } from "./get-antenna";
@@ -160,23 +161,26 @@ class WalletComponent extends PureComponent<Props, State> {
   public render(): JSX.Element {
     const { createNew, wallet, address } = this.state;
     return (
-      <ContentPadding>
-        <div style={{ margin: "48px" }} />
-        <Row>
-          <Col md={16}>
-            {wallet && address && this.tabs({ wallet, address })}
-            {!wallet && this.noWallet()}
-          </Col>
-          <Col md={6} push={2}>
-            <AccountSection
-              createNew={createNew}
-              setWallet={this.setWallet}
-              wallet={wallet}
-              address={address}
-            />
-          </Col>
-        </Row>
-      </ContentPadding>
+      <>
+        <DeployPreloadHeader />
+        <ContentPadding>
+          <div style={{ margin: "48px" }} />
+          <Row>
+            <Col md={16}>
+              {wallet && address && this.tabs({ wallet, address })}
+              {!wallet && this.noWallet()}
+            </Col>
+            <Col md={6} push={2}>
+              <AccountSection
+                createNew={createNew}
+                setWallet={this.setWallet}
+                wallet={wallet}
+                address={address}
+              />
+            </Col>
+          </Row>
+        </ContentPadding>
+      </>
     );
   }
 }
