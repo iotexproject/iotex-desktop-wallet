@@ -80,7 +80,6 @@ class TopBarComponent extends Component<Props, State> {
 
   public searchInput = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     let { value = "" } = e.target as HTMLInputElement;
-    const height = parseInt(value, 10);
     const { history, client } = this.props;
     value = value.trim();
 
@@ -88,13 +87,13 @@ class TopBarComponent extends Component<Props, State> {
       history.push(`/address/${value}`);
     } else if (value.length === 130) {
       history.push(`/address/${publicKeyToAddress(value)}`);
-    } else if (height) {
+    } else if (isNormalInteger(value)) {
       try {
         const { data } = await client.query({
           query: GET_BLOCK_METAS,
           variables: {
             byIndex: {
-              start: +value,
+              start: parseInt(value, 10) || 0,
               count: 1
             }
           } as GetBlockMetasRequest
@@ -388,3 +387,8 @@ const Dropdown = styled("div", {
   alignItems: "flex-end!important",
   boxSizing: "border-box"
 });
+
+function isNormalInteger(str: string): boolean {
+  const n = Math.floor(Number(str));
+  return n !== Infinity && String(n) === str && n >= 0;
+}

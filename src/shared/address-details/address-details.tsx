@@ -56,7 +56,7 @@ class AddressDetailsInner extends PureComponent<Props> {
               addressInfo = data.getAccount.accountMeta;
             }
             const copyAddress = (addressInfo && addressInfo.address) || address;
-            const numActions = +(addressInfo && addressInfo.numActions);
+            const numActions = +((addressInfo && addressInfo.numActions) || 0);
             return (
               <SpinPreloader spinning={loading}>
                 <div className="address-top">

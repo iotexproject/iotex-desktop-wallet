@@ -122,7 +122,7 @@ export function Blocks(): JSX.Element {
                         rowKey={"height"}
                         pagination={{
                           pageSize: PAGE_SIZE,
-                          total: +latestHeight
+                          total: +(latestHeight || 0)
                         }}
                         style={{ width: "100%" }}
                         scroll={{ x: true }}
