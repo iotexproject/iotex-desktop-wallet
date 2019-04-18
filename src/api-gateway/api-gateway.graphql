@@ -81,6 +81,7 @@ type ActionInfo {
   action: Action!
   actHash: String!
   blkHash: String!
+  timestamp: Timestamp!
 }
 
 input ActionInput {
