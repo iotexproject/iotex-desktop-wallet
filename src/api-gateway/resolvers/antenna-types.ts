@@ -651,6 +651,8 @@ export class ActionInfo implements IActionInfo {
   public actHash: string;
   @Field(_ => String)
   public blkHash: string;
+  @Field(_ => Timestamp)
+  public timestamp: Timestamp;
 }
 
 @ObjectType()

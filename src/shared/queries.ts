@@ -4,6 +4,9 @@ const FULL_ACTION_INFO = `
   actionInfo {
     actHash
     blkHash
+    timestamp {
+      seconds
+    }
     action {
       core {
         version
