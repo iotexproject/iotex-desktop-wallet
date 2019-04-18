@@ -9,6 +9,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Flex } from "../../common/flex";
 import { formItemLayout } from "../../common/form-item-layout";
+import { rulesMap } from "../../common/rules";
 import { colors } from "../../common/styles/style-color";
 const { TextArea } = Input;
 
@@ -68,7 +69,10 @@ export const CardFunction = ({
   </Card>
 );
 
-export function AbiFormInputItem(form: WrappedFormUtils): JSX.Element {
+export function AbiFormInputItem(
+  form: WrappedFormUtils,
+  initialValue?: string
+): JSX.Element {
   const { getFieldDecorator } = form;
   return (
     <Form.Item
@@ -76,13 +80,13 @@ export function AbiFormInputItem(form: WrappedFormUtils): JSX.Element {
       label={<FormItemLabel>{t("wallet.input.abi")}</FormItemLabel>}
     >
       {getFieldDecorator("abi", {
-        initialValue: "",
-        rules: []
+        initialValue: initialValue || "",
+        rules: rulesMap.abi
       })(
         <TextArea
           rows={4}
           style={inputStyle}
-          placeholder={t("wallet.placeholder.abi")}
+          placeholder={t("wallet.interact.abiTemplate")}
         />
       )}
     </Form.Item>
@@ -101,7 +105,7 @@ export function NonceFormInputItem(
     >
       {getFieldDecorator("nonce", {
         initialValue: initialValue || "",
-        rules: []
+        rules: rulesMap.nonce
       })(<InputNumber size="large" step={1} min={1} style={inputStyle} />)}
     </Form.Item>
   );
@@ -119,7 +123,7 @@ export function GasPriceFormInputItem(
     >
       {getFieldDecorator("gasPrice", {
         initialValue: initialValue || "",
-        rules: []
+        rules: rulesMap.gasPrice
       })(<InputNumber size="large" step={10} min={0} style={inputStyle} />)}
     </Form.Item>
   );
@@ -137,7 +141,7 @@ export function GasLimitFormInputItem(
     >
       {getFieldDecorator("gasLimit", {
         initialValue: initialValue || "",
-        rules: []
+        rules: rulesMap.gasLimit
       })(<InputNumber size="large" step={10} min={0} style={inputStyle} />)}
     </Form.Item>
   );

@@ -278,3 +278,13 @@ wallet.vote.title: Vote for delegate
 wallet.vote.content: Help IoTeX Build A Stronger Network
 wallet.vote.button: Vote on member.iotex.io
 input.error.raw_address.length: IOTX address has to be of length 41
+wallet.interact.invalidABI: Invalid JSON ABI
+wallet.interact.abiTemplate: >-
+  [{ "type":"contructor", "inputs": [{ "name":"param1", "type":"uint256",
+  "indexed":true }], "name":"Event" }, { "type":"function", "inputs":
+  [{"name":"a", "type":"uint256"}], "name":"foo", "outputs": [{"name":"a", "type":"uint256"}] }]
+wallet.interact.contract: Interact with smart contract
+abi.input: Input
+abi.return: Return
+wallet.abi.read: Read contract
+wallet.abi.write: Write contract

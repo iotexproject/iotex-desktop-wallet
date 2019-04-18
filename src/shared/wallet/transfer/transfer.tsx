@@ -17,6 +17,7 @@ import { AccountMeta } from "../../../api-gateway/resolvers/antenna-types";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { PageTitle } from "../../common/page-title";
+import { rulesMap } from "../../common/rules";
 import { colors } from "../../common/styles/style-color";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
@@ -37,24 +38,6 @@ type State = {
     success: boolean;
   } | null;
   showConfirmTransfer: boolean;
-};
-
-export const rules = {
-  required: {
-    required: true,
-    message: t("wallet.error.required")
-  },
-  number: {
-    type: "number",
-    message: t("wallet.error.number"),
-    transform: (value: string) => {
-      return Number(value);
-    }
-  },
-  addressLength: {
-    len: 41,
-    message: t("input.error.raw_address.length")
-  }
 };
 
 export const actionBtnStyle = {
@@ -126,7 +109,7 @@ class TransferForm extends React.PureComponent<Props, State> {
           {...formItemLayout}
         >
           {getFieldDecorator("recipient", {
-            rules: [rules.required, rules.addressLength]
+            rules: rulesMap.address
           })(<Input placeholder="io..." style={inputStyle} name="recipient" />)}
         </Form.Item>
         <Form.Item
@@ -134,7 +117,7 @@ class TransferForm extends React.PureComponent<Props, State> {
           {...formItemLayout}
         >
           {getFieldDecorator("amount", {
-            rules: [rules.number, rules.required]
+            rules: rulesMap.amount
           })(
             <Input
               className="form-input"
@@ -154,7 +137,7 @@ class TransferForm extends React.PureComponent<Props, State> {
           }
         >
           {getFieldDecorator("gasLimit", {
-            rules: [rules.number, rules.required]
+            rules: rulesMap.gasLimit
           })(<Input style={inputStyle} placeholder="0" name="gasLimit" />)}
         </Form.Item>
         <Form.Item
@@ -162,7 +145,7 @@ class TransferForm extends React.PureComponent<Props, State> {
           label={<FormItemLabel>{t("wallet.input.gasPrice")}</FormItemLabel>}
         >
           {getFieldDecorator("gasPrice", {
-            rules: [rules.required]
+            rules: rulesMap.gasPrice
           })(<Input style={inputStyle} placeholder="0" name="gasPrice" />)}
         </Form.Item>
         <Form.Item
@@ -170,7 +153,7 @@ class TransferForm extends React.PureComponent<Props, State> {
           {...formItemLayout}
         >
           {getFieldDecorator("dataInHex", {
-            rules: [rules.required]
+            rules: rulesMap.dataIndex
           })(
             <Input style={inputStyle} placeholder="0x1234" name="dataInHex" />
           )}
