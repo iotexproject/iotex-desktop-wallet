@@ -134,10 +134,12 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
 
 type GetVariable = ({
   current,
-  pageSize
+  pageSize,
+  currentDataLength
 }: {
   current: number;
   pageSize: number;
+  currentDataLength: number;
 }) => {
   byAddr?: {
     address: string;
@@ -163,7 +165,7 @@ export function ActionTable({
   return (
     <Query
       query={GET_ACTIONS}
-      variables={getVariable({ pageSize, current: 0 })}
+      variables={getVariable({ pageSize, current: 0, currentDataLength: 0 })}
     >
       {({
         loading,
@@ -181,6 +183,7 @@ export function ActionTable({
 
         const actionInfo =
           data && data.getActions && data.getActions.actionInfo;
+        const currentDataLength = actionInfo && actionInfo.length;
 
         return (
           <SpinPreloader spinning={loading}>
@@ -199,7 +202,8 @@ export function ActionTable({
                   query: GET_ACTIONS,
                   variables: getVariable({
                     current: pagination.current || 0,
-                    pageSize
+                    pageSize,
+                    currentDataLength: currentDataLength || 0
                   }),
                   updateQuery: (prev, { fetchMoreResult }) => {
                     if (!fetchMoreResult) {

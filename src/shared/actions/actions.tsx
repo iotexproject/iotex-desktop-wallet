@@ -72,6 +72,10 @@ export class ActionTable extends Component<{}, State> {
             return null;
           }
           const actions = data && data.getActions && data.getActions.actionInfo;
+          const currentDataLength =
+            actions && actions.length ? actions.length : 0;
+          const totalNum =
+            currentDataLength < count ? start + count : start + count + 1;
 
           return (
             <div style={{ width: "100%" }}>
@@ -84,6 +88,7 @@ export class ActionTable extends Component<{}, State> {
                   scroll={{ x: true }}
                   pagination={{
                     pageSize: count,
+                    total: totalNum,
                     // @ts-ignore
                     onChange: (page, pageSize) => {
                       const cStart = page > 0 ? (page - 1) * count : 0;
@@ -92,7 +97,6 @@ export class ActionTable extends Component<{}, State> {
                         count
                       });
                     },
-                    total: start + count + 1,
                     defaultCurrent: start / count
                   }}
                 />

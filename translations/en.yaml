@@ -19,6 +19,10 @@ candidates.election.ELECTED: Elected
 candidates.election.NOT_ELECTED: "Not Elected"
 candidates.election.UNQUALIFIED: "Not Elected"
 candidates.election.explain: "Delegates must self-stake at least <b>1,200,000 IOTX</b> and earn <b>2,000,000 IOTX</b> total votes to be elected."
+candidate.productivity: Productivity
+candidates.election.consensus_delegates: IoTeX Consensus Delegates
+candidates.election.delegates: IoTeX Delegates
+candidates.election.delegates_candidates: IoTeX Delegates Candidates
 block.block: Block
 block.blocks: Blocks
 block.height: Height
@@ -273,3 +277,4 @@ wallet.contract.button.new: Send new IOTX & token
 wallet.vote.title: Vote for delegate
 wallet.vote.content: Help IoTeX Build A Stronger Network
 wallet.vote.button: Vote on member.iotex.io
+input.error.raw_address.length: IOTX address has to be of length 41
