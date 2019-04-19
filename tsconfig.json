@@ -35,5 +35,8 @@
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules/**"],
-  "compileOnSave": false
+  "compileOnSave": false,
+  "awesomeTypescriptLoaderOptions": {
+    "transpileOnly": true
+  }
 }
