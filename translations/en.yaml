@@ -218,8 +218,11 @@ wallet.account.addressPlaceHolder: IoTeX Address...
 new-wallet.copy: Copy
 new-wallet.created: Wallet is created! Save your
 new-wallet.privateKey: Private Key
+new-wallet.warn.do-not-lose: Do not lose private key!
 new-wallet.warn.cant-recover: It cannot be recovered if you lose it.
+new-wallet.warn.do-not-share: Do not share private key!
 new-wallet.warn.stolen: Your funds will be stolen if you use this file on a malicious/phishing site.
+new-wallet.warn.backup: Make a backup!
 new-wallet.warn.secure: Secure it like the millions of dollars it may one day be worth.
 new-wallet.button.unlock: "I understand, Unlock Wallet"
 account.why: Why save your private key?
