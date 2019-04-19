@@ -1,4 +1,4 @@
-import { Icon } from "antd";
+import Icon from "antd/lib/icon";
 
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";

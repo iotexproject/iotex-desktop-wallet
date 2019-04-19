@@ -1,8 +1,9 @@
 // tslint:disable:no-empty
 // tslint:disable:no-any
-import { Form, Input } from "antd";
 import Button from "antd/lib/button";
 import { FormComponentProps } from "antd/lib/form";
+import Form from "antd/lib/form/Form";
+import Input from "antd/lib/input";
 // @ts-ignore
 import window from "global/window";
 // @ts-ignore

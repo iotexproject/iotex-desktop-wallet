@@ -1,6 +1,11 @@
 // @ts-ignore
-import { Avatar, Card, Form, Icon, Input, InputNumber } from "antd";
+import Avatar from "antd/lib/avatar";
+import Card from "antd/lib/card";
+import Form from "antd/lib/form/Form";
 import { WrappedFormUtils } from "antd/lib/form/Form";
+import Icon from "antd/lib/icon";
+import Input from "antd/lib/input";
+import InputNumber from "antd/lib/input-number";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
