@@ -298,6 +298,16 @@ export const GET_ACTIONS_BY_HASH = gql`
   }
 `;
 
+export const ACTION_EXISTS_BY_HASH = gql`
+  query getActions($byHash: GetActionsByHashRequest) {
+    getActions(byHash: $byHash) {
+      actionInfo {
+        actHash
+      }
+    }
+  }
+`;
+
 export const GET_ACTIONS_BY_INDEX = gql`
   query getActions($byIndex: GetActionsByIndexRequest) {
     getActions(byIndex: $byIndex) {

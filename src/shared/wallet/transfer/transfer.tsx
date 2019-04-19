@@ -69,13 +69,25 @@ class TransferForm extends React.PureComponent<Props, State> {
         const { recipient, amount, gasLimit, gasPrice, dataInHex } = value;
 
         this.setState({ sending: true, showConfirmTransfer: false });
+
+        window.console.log(
+          `antenna.iotx.sendTransfer(${JSON.stringify({
+            from: wallet.address,
+            to: recipient,
+            value: toRau(amount, "Iotx"),
+            payload: dataInHex,
+            gasLimit: gasLimit || undefined,
+            gasPrice: gasPrice || undefined
+          })})`
+        );
+
         const txHash = await antenna.iotx.sendTransfer({
           from: wallet.address,
           to: recipient,
           value: toRau(amount, "Iotx"),
           payload: dataInHex,
-          gasLimit: String(gasLimit),
-          gasPrice: String(gasPrice)
+          gasLimit: gasLimit || undefined,
+          gasPrice: gasPrice || undefined
         });
 
         this.setState({
@@ -130,23 +142,34 @@ class TransferForm extends React.PureComponent<Props, State> {
         <Form.Item
           {...formItemLayout}
           label={<FormItemLabel>{t("wallet.input.gasLimit")}</FormItemLabel>}
-          help={
-            <span style={{ color: "#faad14" }}>
-              {t("wall.input.gasLimit-help")}
-            </span>
-          }
         >
           {getFieldDecorator("gasLimit", {
+            initialValue: "100000",
             rules: rulesMap.gasLimit
-          })(<Input style={inputStyle} placeholder="0" name="gasLimit" />)}
+          })(
+            <Input
+              className="form-input"
+              placeholder="0"
+              name="gasLimit"
+              addonAfter="Rau"
+            />
+          )}
         </Form.Item>
         <Form.Item
           {...formItemLayout}
           label={<FormItemLabel>{t("wallet.input.gasPrice")}</FormItemLabel>}
         >
           {getFieldDecorator("gasPrice", {
+            initialValue: "1",
             rules: rulesMap.gasPrice
-          })(<Input style={inputStyle} placeholder="0" name="gasPrice" />)}
+          })(
+            <Input
+              className="form-input"
+              placeholder="0"
+              name="gasPrice"
+              addonAfter="Qev"
+            />
+          )}
         </Form.Item>
         <Form.Item
           label={<FormItemLabel>{t("wallet.input.dib")}</FormItemLabel>}
@@ -214,9 +237,9 @@ class TransferForm extends React.PureComponent<Props, State> {
     const dataSource = {
       address: wallet.address,
       toAddress: recipient,
-      amount,
+      amount: toRau(amount, "Iotx"),
       limit: gasLimit,
-      price: gasPrice,
+      price: toRau(gasPrice, "Qev"),
       nonce: dataInHex
     };
 

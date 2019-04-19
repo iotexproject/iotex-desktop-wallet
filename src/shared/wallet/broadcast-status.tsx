@@ -4,10 +4,17 @@ import Icon from "antd/lib/icon";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
+import { Query, QueryResult } from "react-apollo";
+import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
 import { TRANSFER } from "../common/site-url";
+import { colors } from "../common/styles/style-color";
+import { ACTION_EXISTS_BY_HASH } from "../queries";
 import { buttonStyle } from "./wallet";
 
 export type BroadcastType = "transfer";
+
+const POLL_INTERVAL = 6000;
+
 export function BroadcastSuccess({
   txHash,
   action,
@@ -35,14 +42,15 @@ export function BroadcastSuccess({
     <div>
       <div style={{ marginTop: "30px" }} />
       <p style={{ fontSize: "24px", fontWeight: "bold" }}>
-        <Icon type="check-circle" style={{ color: "#07a35a" }} />
+        <Icon type="check-circle" style={{ color: colors.success }} />
         <span style={{ marginLeft: "10px" }}>{t("broadcast.success")}</span>
       </p>
 
       <p>{t("broadcast.warn.one")}</p>
       <p>{t("broadcast.warn.two")}</p>
       <p>
-        {t("broadcast.warn.three")} <strong>{txHash}</strong>
+        {t("broadcast.warn.three")}
+        <ActionPoll txHash={txHash} />
       </p>
       <div style={{ marginTop: "40px" }} />
 
@@ -54,6 +62,48 @@ export function BroadcastSuccess({
       {!isCheckHidden && "\u0020"}
       {action}
     </div>
+  );
+}
+
+function ActionPoll({ txHash }: { txHash: string }): JSX.Element {
+  return (
+    <Query
+      query={ACTION_EXISTS_BY_HASH}
+      variables={{ byHash: { actionHash: txHash, checkingPending: true } }}
+      pollInterval={POLL_INTERVAL}
+    >
+      {({
+        loading,
+        error,
+        stopPolling
+      }: QueryResult<{ getActions: GetActionsResponse }>) => {
+        if (loading || error) {
+          return (
+            <span>
+              {" "}
+              <Icon type="loading" spin /> <strong>{txHash}</strong>
+            </span>
+          );
+        }
+        stopPolling();
+
+        return (
+          <span>
+            {" "}
+            <Icon type="check-circle" style={{ color: colors.success }} />{" "}
+            <strong>
+              <a
+                rel="noreferrer noopener"
+                href={`/action/${txHash}`}
+                target="_blank"
+              >
+                {txHash}
+              </a>
+            </strong>
+          </span>
+        );
+      }}
+    </Query>
   );
 }
 

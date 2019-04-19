@@ -34,6 +34,6 @@ export const rulesMap = {
   gasLimit: [rules.required, rules.number],
   gasPrice: [rules.required, rules.number],
   abi: [rules.required, rules.abi],
-  dataIndex: [rules.required],
+  dataIndex: [],
   nonce: [rules.required]
 };

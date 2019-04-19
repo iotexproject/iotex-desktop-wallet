@@ -87,12 +87,7 @@ export default class ConfirmContractModal extends React.Component<
             />
           </Board>
           <div style={{ marginTop: 24, paddingLeft: 6 }}>
-            <p>
-              {t("wallet.confirm.contract.p1")}
-              <b> {"3,000"}</b> IOTX.
-              <br />
-              {t("wallet.confirm.contract.p2")}
-            </p>
+            <p>{t("wallet.confirm.contract.p2")}</p>
           </div>
         </ModalBody>
       </Modal>
