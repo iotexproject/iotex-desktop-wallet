@@ -103,13 +103,13 @@
     "yaml-lint": "1.2.4"
   },
   "dependencies": {
-    "@babel/cli": "7.2.3",
-    "@babel/core": "7.3.4",
+    "@babel/cli": "7.4.3",
+    "@babel/core": "7.4.3",
     "@babel/plugin-proposal-class-properties": "7.4.0",
-    "@babel/preset-env": "7.3.4",
+    "@babel/preset-env": "7.4.3",
     "@babel/preset-react": "7.0.0",
     "@babel/preset-typescript": "7.3.3",
-    "@babel/register": "7.0.0",
+    "@babel/register": "7.4.0",
     "@types/bcryptjs": "2.4.2",
     "@types/config": "0.0.34",
     "@types/dateformat": "3.0.0",
