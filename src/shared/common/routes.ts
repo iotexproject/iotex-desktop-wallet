@@ -1,9 +1,11 @@
 export const routes = {
   dev: {
-    transfer: "/dev/wallet/transfer"
+    transfer: "/dev/wallet/transfer",
+    smartContract: "/dev/wallet/smart-contract"
   },
   prod: {
-    transfer: "/wallet/transfer"
+    transfer: "/wallet/transfer",
+    smartContract: "/wallet/smart-contract"
   }
 };
 

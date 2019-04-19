@@ -103,7 +103,7 @@ class WalletComponent extends PureComponent<Props, State> {
     }
     return (
       <div>
-        <Tabs defaultActiveKey={defaultActiveKey} onChange={this.onTabChange}>
+        <Tabs defaultActiveKey={defaultActiveKey} onTabClick={this.onTabChange}>
           <Tabs.TabPane
             key={`${match.url}/transfer`}
             tab={t("wallet.tab.transfer", {
@@ -129,12 +129,10 @@ class WalletComponent extends PureComponent<Props, State> {
                 component={ChooseFunction}
               />
               <Route
-                exact
                 path={`${match.url}/smart-contract/deploy`}
                 component={Deploy}
               />
               <Route
-                exact
                 path={`${match.url}/smart-contract/interact`}
                 component={Interact}
               />
