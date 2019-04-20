@@ -159,7 +159,7 @@
     "isomorphic-unfetch": "3.0.0",
     "jsdom": "12.2.0",
     "jsdom-global": "3.0.2",
-    "jsonwebtoken": "8.5.0",
+    "jsonwebtoken": "8.5.1",
     "koa-server-http-proxy": "0.1.0",
     "lodash.partition": "4.6.0",
     "onefx": "1.4.4",
