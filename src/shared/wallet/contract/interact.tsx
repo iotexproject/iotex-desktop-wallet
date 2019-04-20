@@ -1,9 +1,9 @@
 // tslint:disable:no-empty
-import notification from "antd/lib/notification";
 import Button from "antd/lib/button";
 import { FormComponentProps } from "antd/lib/form";
 import Form from "antd/lib/form/Form";
 import Input from "antd/lib/input";
+import notification from "antd/lib/notification";
 import Select from "antd/lib/select";
 import { Account } from "iotex-antenna/lib/account/account";
 import { toRau } from "iotex-antenna/lib/account/utils";
@@ -361,8 +361,7 @@ class InteractFormInner extends Component<InteractProps, State> {
           }
         >
           {getFieldDecorator("contractAddress", {
-            rules: rulesMap.address,
-            initialValue: "io1enfa3p3aysdueq85vvprzzndjs4fp6z32hf7xs" //TODO(tian): remove
+            rules: rulesMap.address
           })(
             <TextArea
               rows={4}
@@ -374,13 +373,7 @@ class InteractFormInner extends Component<InteractProps, State> {
         <AmountFormInputItem form={form} initialValue={0} />
         <GasPriceFormInputItem form={form} />
         <GasLimitFormInputItem form={form} initialValue={1000000} />
-        {
-          ////TODO(tian): remove
-        }
-        {AbiFormInputItem(
-          form,
-          `[{"constant":false,"inputs":[{"name":"x","type":"uint256"}],"name":"set","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"get","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}]`
-        )}
+        {AbiFormInputItem(form)}
         <Form.Item
           {...formItemLayout}
           label={

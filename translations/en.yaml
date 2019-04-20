@@ -6,6 +6,7 @@ topbar.blocks: BLOCKS
 topbar.actions: ACTIONS
 topbar.search: "Search by Address / Public Key / Hash / Height"
 topbar.home: HOME
+topbar.wallet: WALLET
 not_found.bar: "Not Found"
 not_found.title: Oops!
 not_found.info: "We cannot find the page for you..."

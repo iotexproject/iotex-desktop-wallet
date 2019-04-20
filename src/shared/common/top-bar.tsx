@@ -184,7 +184,10 @@ class TopBarComponent extends Component<Props, State> {
         <StyledLink className="ant-dropdown-link" to="#">
           {t("topbar.blockchain")} <Icon type="down" />
         </StyledLink>
-      </AntdDropdown>
+      </AntdDropdown>,
+      <StyledLink key={2} to="/wallet/" onClick={this.hideMobileMenu}>
+        {t("topbar.wallet")}
+      </StyledLink>
     ];
   };
 
