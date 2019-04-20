@@ -113,7 +113,7 @@
     "@types/bcryptjs": "2.4.2",
     "@types/config": "0.0.34",
     "@types/dateformat": "3.0.0",
-    "@types/dotenv": "6.1.0",
+    "@types/dotenv": "6.1.1",
     "@types/dottie": "2.0.3",
     "@types/form-serialize": "0.7.1",
     "@types/fromnow": "3.0.0",
