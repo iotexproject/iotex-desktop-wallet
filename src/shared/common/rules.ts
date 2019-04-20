@@ -19,6 +19,13 @@ export const rules: Rules = {
       return Number(value);
     }
   },
+  boolean: {
+    type: "boolean",
+    message: t("wallet.error.boolean"),
+    transform: (value: string) => {
+      return value === "true";
+    }
+  },
   abi: {
     message: t("wallet.interact.invalidABI")
   },
@@ -35,5 +42,11 @@ export const rulesMap = {
   gasPrice: [rules.required, rules.number],
   abi: [rules.required, rules.abi],
   dataIndex: [],
-  nonce: [rules.required]
-};
+  nonce: [rules.required],
+
+  // ABIDataTypes
+  uint256: [rules.number],
+  boolean: [rules.boolean],
+  string: [],
+  bytes: []
+} as { [key: string]: Array<ValidationRule> };

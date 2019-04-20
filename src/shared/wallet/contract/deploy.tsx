@@ -237,7 +237,7 @@ class DeployFormInner extends Component<DeployProps, State> {
     });
   };
 
-  public deployNewContract: JSX.Element = (
+  private readonly deployNewContract: JSX.Element = (
     <Button
       style={{ ...actionBtnStyle, marginLeft: "10px" }}
       onClick={() => {
@@ -246,7 +246,7 @@ class DeployFormInner extends Component<DeployProps, State> {
         });
       }}
     >
-      {`${t("wallet.transfer.sendNew")} ${t("account.testnet.token")}`}
+      {t("wallet.transfer.sendNew")}
     </Button>
   );
 

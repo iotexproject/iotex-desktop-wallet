@@ -134,7 +134,7 @@ class WalletComponent extends PureComponent<Props, State> {
               />
               <Route
                 path={`${match.url}/smart-contract/interact`}
-                component={Interact}
+                component={() => <Interact wallet={wallet} />}
               />
             </Switch>
           </Tabs.TabPane>

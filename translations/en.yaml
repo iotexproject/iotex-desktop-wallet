@@ -286,7 +286,7 @@ wallet.interact.abiTemplate: >-
   "indexed":true }], "name":"Event" }, { "type":"function", "inputs":
   [{"name":"a", "type":"uint256"}], "name":"foo", "outputs": [{"name":"a", "type":"uint256"}] }]
 wallet.interact.contract: Interact with smart contract
-abi.input: Input
+abi.input: Arguments
 abi.return: Return
 wallet.abi.read: Read contract
 wallet.abi.write: Write contract

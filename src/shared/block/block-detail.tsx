@@ -193,6 +193,8 @@ export function renderValue(text: string, record: any): JSX.Element | string {
       return <FlexLink path={`/action/${text}`} text={text} />;
     case "blkHash":
       return <FlexLink path={`/block/${text}`} text={text} />;
+    case "status":
+      return <span>{parseInt(text, 10) === 1 ? "success" : "failure"}</span>;
     case "txRoot":
     case "hash":
     case "receiptRoot":
