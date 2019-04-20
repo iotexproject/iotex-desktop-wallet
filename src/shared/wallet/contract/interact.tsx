@@ -1,5 +1,5 @@
 // tslint:disable:no-empty
-import { notification } from "antd";
+import notification from "antd/lib/notification";
 import Button from "antd/lib/button";
 import { FormComponentProps } from "antd/lib/form";
 import Form from "antd/lib/form/Form";
