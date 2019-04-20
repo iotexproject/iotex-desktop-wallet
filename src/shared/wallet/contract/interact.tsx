@@ -193,8 +193,8 @@ class InteractFormInner extends Component<InteractProps, State> {
           )}
         </Form.Item>
         {NonceFormInputItem(form, 1)}
-        {GasPriceFormInputItem(form, "1")}
-        {GasLimitFormInputItem(form, 1)}
+        <GasPriceFormInputItem form={form} />
+        <GasLimitFormInputItem form={form} />
         {AbiFormInputItem(form, t("wallet.interact.abiTemplate"))}
         <Form.Item
           {...formItemLayout}

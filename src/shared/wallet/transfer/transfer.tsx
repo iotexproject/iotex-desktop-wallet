@@ -20,6 +20,11 @@ import { PageTitle } from "../../common/page-title";
 import { rulesMap } from "../../common/rules";
 import { colors } from "../../common/styles/style-color";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
+import {
+  AmountFormInputItem,
+  GasLimitFormInputItem,
+  GasPriceFormInputItem
+} from "../contract/cards";
 import { getAntenna } from "../get-antenna";
 import { FormItemLabel, inputStyle } from "../wallet";
 
@@ -55,7 +60,8 @@ class TransferForm extends React.PureComponent<Props, State> {
     broadcast: null,
     showConfirmTransfer: false
   };
-  public generateTransfer = async (status: boolean) => {
+
+  public sendTransfer = async (status: boolean) => {
     const antenna = getAntenna();
     const { wallet, form } = this.props;
     if (!status) {
@@ -93,7 +99,7 @@ class TransferForm extends React.PureComponent<Props, State> {
         this.setState({
           sending: false,
           broadcast: {
-            success: txHash ? true : false
+            success: Boolean(txHash)
           },
           txHash
         });
@@ -111,8 +117,10 @@ class TransferForm extends React.PureComponent<Props, State> {
       });
     });
   };
+
   public input = () => {
-    const { getFieldDecorator } = this.props.form;
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
     const { sending } = this.state;
     return (
       <Form layout="vertical">
@@ -124,53 +132,9 @@ class TransferForm extends React.PureComponent<Props, State> {
             rules: rulesMap.address
           })(<Input placeholder="io..." style={inputStyle} name="recipient" />)}
         </Form.Item>
-        <Form.Item
-          label={<FormItemLabel>{t("wallet.input.amount")} </FormItemLabel>}
-          {...formItemLayout}
-        >
-          {getFieldDecorator("amount", {
-            rules: rulesMap.amount
-          })(
-            <Input
-              className="form-input"
-              placeholder="1"
-              addonAfter="IOTX"
-              name="amount"
-            />
-          )}
-        </Form.Item>
-        <Form.Item
-          {...formItemLayout}
-          label={<FormItemLabel>{t("wallet.input.gasLimit")}</FormItemLabel>}
-        >
-          {getFieldDecorator("gasLimit", {
-            initialValue: "100000",
-            rules: rulesMap.gasLimit
-          })(
-            <Input
-              className="form-input"
-              placeholder="0"
-              name="gasLimit"
-              addonAfter="Rau"
-            />
-          )}
-        </Form.Item>
-        <Form.Item
-          {...formItemLayout}
-          label={<FormItemLabel>{t("wallet.input.gasPrice")}</FormItemLabel>}
-        >
-          {getFieldDecorator("gasPrice", {
-            initialValue: "1",
-            rules: rulesMap.gasPrice
-          })(
-            <Input
-              className="form-input"
-              placeholder="0"
-              name="gasPrice"
-              addonAfter="Qev"
-            />
-          )}
-        </Form.Item>
+        <AmountFormInputItem form={form} />
+        <GasPriceFormInputItem form={form} />
+        <GasLimitFormInputItem form={form} />
         <Form.Item
           label={<FormItemLabel>{t("wallet.input.dib")}</FormItemLabel>}
           {...formItemLayout}
@@ -227,30 +191,24 @@ class TransferForm extends React.PureComponent<Props, State> {
     const { wallet, form } = this.props;
     const { showConfirmTransfer } = this.state;
 
-    const {
-      recipient,
-      amount,
-      gasLimit,
-      gasPrice,
-      dataInHex
-    } = form.getFieldsValue();
+    const { recipient, amount, gasLimit, gasPrice } = form.getFieldsValue();
     const dataSource = {
-      address: wallet.address,
+      address: wallet && wallet.address,
       toAddress: recipient,
       amount: toRau(amount, "Iotx"),
       limit: gasLimit,
-      price: toRau(gasPrice, "Qev"),
-      nonce: dataInHex
+      price: toRau(gasPrice, "Qev")
     };
 
     return (
       <ConfirmContractModal
         dataSource={dataSource}
-        confirmContractOk={this.generateTransfer}
+        confirmContractOk={this.sendTransfer}
         showModal={showConfirmTransfer}
       />
     );
   };
+
   public render(): JSX.Element {
     const { txHash, broadcast } = this.state;
 
