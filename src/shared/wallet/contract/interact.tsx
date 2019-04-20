@@ -123,7 +123,7 @@ class InteractFormInner extends Component<InteractProps, State> {
           amount,
           abi,
           contractAddress,
-          method: "string",
+          method: selectedFunction,
           gasPrice,
           gasLimit
         })},`,
@@ -179,7 +179,7 @@ class InteractFormInner extends Component<InteractProps, State> {
           amount,
           abi,
           contractAddress,
-          method: "string",
+          method: selectedFunction,
           gasPrice,
           gasLimit
         })},`,
