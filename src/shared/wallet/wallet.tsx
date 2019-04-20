@@ -130,7 +130,7 @@ class WalletComponent extends PureComponent<Props, State> {
               />
               <Route
                 path={`${match.url}/smart-contract/deploy`}
-                component={Deploy}
+                component={() => <Deploy wallet={wallet} />}
               />
               <Route
                 path={`${match.url}/smart-contract/interact`}

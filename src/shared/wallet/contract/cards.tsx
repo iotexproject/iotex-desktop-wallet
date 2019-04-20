@@ -116,10 +116,13 @@ export function NonceFormInputItem(
   );
 }
 
-export function GasPriceFormInputItem(
-  form: WrappedFormUtils,
-  initialValue?: string
-): JSX.Element {
+export function GasPriceFormInputItem({
+  form,
+  initialValue
+}: {
+  form: WrappedFormUtils;
+  initialValue?: string;
+}): JSX.Element {
   const { getFieldDecorator } = form;
   return (
     <Form.Item
@@ -127,17 +130,27 @@ export function GasPriceFormInputItem(
       label={<FormItemLabel>{t("wallet.input.gasPrice")}</FormItemLabel>}
     >
       {getFieldDecorator("gasPrice", {
-        initialValue: initialValue || "",
+        initialValue: initialValue || "1",
         rules: rulesMap.gasPrice
-      })(<InputNumber size="large" step={10} min={0} style={inputStyle} />)}
+      })(
+        <Input
+          className="form-input"
+          placeholder="0"
+          name="gasPrice"
+          addonAfter="Qev"
+        />
+      )}
     </Form.Item>
   );
 }
 
-export function GasLimitFormInputItem(
-  form: WrappedFormUtils,
-  initialValue?: number
-): JSX.Element {
+export function GasLimitFormInputItem({
+  form,
+  initialValue
+}: {
+  form: WrappedFormUtils;
+  initialValue?: number;
+}): JSX.Element {
   const { getFieldDecorator } = form;
   return (
     <Form.Item
@@ -145,9 +158,44 @@ export function GasLimitFormInputItem(
       label={<FormItemLabel>{t("wallet.input.gasLimit")}</FormItemLabel>}
     >
       {getFieldDecorator("gasLimit", {
-        initialValue: initialValue || "",
+        initialValue: initialValue || "100000",
         rules: rulesMap.gasLimit
-      })(<InputNumber size="large" step={10} min={0} style={inputStyle} />)}
+      })(
+        <Input
+          className="form-input"
+          placeholder="0"
+          name="gasLimit"
+          addonAfter="Rau"
+        />
+      )}
+    </Form.Item>
+  );
+}
+
+export function AmountFormInputItem({
+  form,
+  initialValue
+}: {
+  form: WrappedFormUtils;
+  initialValue?: number;
+}): JSX.Element {
+  const { getFieldDecorator } = form;
+  return (
+    <Form.Item
+      label={<FormItemLabel>{t("wallet.input.amount")} </FormItemLabel>}
+      {...formItemLayout}
+    >
+      {getFieldDecorator("amount", {
+        initialValue: initialValue,
+        rules: rulesMap.amount
+      })(
+        <Input
+          className="form-input"
+          placeholder="1"
+          addonAfter="IOTX"
+          name="amount"
+        />
+      )}
     </Form.Item>
   );
 }

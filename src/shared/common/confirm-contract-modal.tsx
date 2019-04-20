@@ -1,3 +1,4 @@
+/* tslint:disable:no-any */
 import Modal from "antd/lib/modal/Modal";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
@@ -10,7 +11,7 @@ import { ModalBody } from "./modal-body";
 export interface Props {
   showModal: boolean;
   confirmContractOk: Function;
-  dataSource: object;
+  dataSource: { [key: string]: any };
 }
 
 export interface State {}
@@ -43,10 +44,14 @@ export default class ConfirmContractModal extends React.Component<
         title: "From address",
         dataIndex: "address"
       },
-      {
-        title: "To address",
-        dataIndex: "toAddress"
-      },
+      ...(this.props.dataSource.toAddress
+        ? [
+            {
+              title: "To address",
+              dataIndex: "toAddress"
+            }
+          ]
+        : []),
       {
         title: "Gas limit",
         dataIndex: "limit"
@@ -54,10 +59,6 @@ export default class ConfirmContractModal extends React.Component<
       {
         title: "Gas price",
         dataIndex: "price"
-      },
-      {
-        title: "Nonce",
-        dataIndex: "nonce"
       },
       {
         title: "Data",
