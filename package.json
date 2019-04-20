@@ -144,7 +144,7 @@
     "casual": "1.6.0",
     "config": "3.0.1",
     "dateformat": "3.0.3",
-    "dotenv": "6.2.0",
+    "dotenv": "7.0.0",
     "dottie": "2.0.1",
     "form-serialize": "0.7.2",
     "fromnow": "3.0.0",
