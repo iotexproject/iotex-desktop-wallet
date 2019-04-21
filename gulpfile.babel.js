@@ -1,4 +1,3 @@
-const del = require("del");
 const gulp = require("gulp");
 const gulpLivereload = require("gulp-livereload");
 const logger = require("global/console");
@@ -9,10 +8,6 @@ const PluginError = require("plugin-error");
 const log = require("fancy-log");
 const less = require("gulp-less");
 const webpackConfig = require("./webpack");
-
-const clean = () => {
-  return del(["dist"]);
-};
 
 const watchServer = done => {
   nodemon({

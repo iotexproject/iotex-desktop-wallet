@@ -198,12 +198,13 @@ class DeployFormInner extends Component<DeployProps, State> {
       }
 
       const { byteCode, amount, gasLimit, gasPrice } = value;
+      const trimmed0xHex = String(byteCode).replace(/^0x/, "");
 
       window.console.log(
         `antenna.iotx.deployContract(${JSON.stringify({
           from: String(wallet && wallet.address),
           amount: toRau(amount, "Iotx"),
-          data: Buffer.from(byteCode, "hex"),
+          data: Buffer.from(trimmed0xHex, "hex"),
           gasPrice: gasPrice || undefined,
           gasLimit: gasLimit || undefined
         })})`
@@ -212,7 +213,7 @@ class DeployFormInner extends Component<DeployProps, State> {
       const txHash = await antenna.iotx.deployContract({
         from: String(wallet && wallet.address),
         amount: toRau(amount, "Iotx"),
-        data: Buffer.from(byteCode, "hex"),
+        data: Buffer.from(trimmed0xHex, "hex"),
         gasPrice: gasPrice || undefined,
         gasLimit: gasLimit || undefined
       });
