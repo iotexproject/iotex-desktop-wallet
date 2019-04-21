@@ -1,0 +1,360 @@
+2019-04-21 - 1.2.0 (1136101)
+1136101 (HEAD -> master, origin/master, origin/HEAD) Update dependency gulp to v4.0.1 (#362)
+830209d clean up
+b2c6d3f Update dependency tslint to v5.16.0 (#345)
+0a995bd Update dependency webpack to v4.30.0 (#349)
+26bb91f Update npm to v6.9.0 (#351)
+717b581 Update react monorepo to v16.8.6 (#352)
+382867a Update dependency dotenv to v7 (#354)
+e352e8a Update dependency gulp-sass to v4 (#355)
+4b73fd4 Update dependency nyc to v14 (#357)
+44665f7 fix console log error (#346)
+a72e14b cleanup wallet
+52b606b fix antd/lib/notification
+f959e17 remove jsonwebtoken
+b320174 continue contract interaction
+365a14f Update dependency prettier to v1.17.0 (#340)
+d006bfb remove unused deps
+2a73d56 Update dependency @types/graphql to v14.2.0 (#324)
+f998dfb Update dependency @types/dotenv to v6.1.1 (#323)
+22e6dc8 add deploy contract (#328)
+0907044 Update dependency @types/node-fetch to v2.3.2 (#325)
+6f27b49 Update babel monorepo (#322)
+7c5a80c Update Apollo GraphQL packages (#321)
+bccf071 Pin dependencies (#320)
+7deb4d6 import antd component not from root (#317)
+6f4bbf3 add translations (#318)
+e14963c add back to smart contract (#319)
+9667d44 improve transfer
+bbe7290 optimize dev experience / typescript is too slow (#315)
+0fe66f0 fix search
+5123214 update contract interact ui (#312)
+4c0aa73 Finish #258 (#313)
+f89e2ce bump block producers
+b5dbeeb fix wallet transfer (#304)
+7c9f60b fix input  border right show error (#305)
+2e6c3db init pagination total number (#306)
+8952f16 port solidity to abi and bytes from iotex-explorer v0.1.2 (#296)
+569be8b clean up storybook
+343ab7f add contract vote page (#295)
+ca31932 change modal-btn styles to default by antd (#294)
+95783d8 fix router push issues (#293)
+e39c12c fix various issue (#292)
+39c2999 add btn copy && btn link (#297)
+48d57bd bump antenna (#277)
+66d2067 add titles(icon, h2 title, html title) (#280)
+1da22f7 fixed the box-shadow (#281)
+ae37881 action detail issues (#276)
+227513e add hover boxshadow change (#275)
+92b575a #227 #264 sendTransfer & Transfer Result (#274)
+b615c8f contract interaction success page (#273)
+9ca46f9 add confirm contract modal && add horizontal-dl component && move wri… (#269)
+3f70427 Merge contract & update style & fix route (#268)
+ad64388 add deploy to storyboard
+753d5ec move /contract -> /wallet/contract (#266)
+b04d33b fix tests
+2e35b94  #229 P2 1.0 Transfer Token (#260)
+0469b49 Contract deploy interact (#256)
+a909f04 Fix #257 Apply full width to spin outside of table so that the table overflows only within itself (#262)
+c3f9c50 fix test
+83df5e3 write contract step1 UI (#255)
+30e0adb #217 create account with iotex-antenna (#254)
+11c1cf9 Revert "#172 add an age field to bp table (#183)"
+7f6e14c fix null exceptions
+75ce834 Fix title (#253)
+1f152c2 Merge branch 'fix-type-error' of https://github.com/uu-z/iotex-explorer
+b36ef21 (uu-z-fix-type-error) change actions list count from 10 to 30 (#249)
+975b84f transferAmount formRau (#248)
+3fcc5a6 back home btn translation (#246)
+52a10d6 Choose function (#244)
+9266624 clean tp-table codes (#243)
+6118b15 Receipt action (#242)
+ab95332 add react storyboard
+47e434d introduce iotex-react-block-producers
+351a736 query  getBlockMetas by height && hash && not found - issues199 (#213)
+f1ae052 #197 unlock private key with iotex-antenna (#221)
+33b463f add ScrollToTop Component to app (#218)
+dec03f3 if loading or error, just do not display (#219)
+f3a73b6 revisit all pages and fix translations (#220)
+fdefd44 Add gas price in action (#206)
+fe7dfe3 bump antenna
+0d34c67 #176 add wallet ui (#203)
+ab965ca copy to clipboard btn improve (#211)
+1139518 #173 add version information to footer (#212)
+0484b21 pretty page title && sections title - Issues 202 (#214)
+e5a69fd Issues 201 - replace the balance icon (#208)
+afbc508 Issues 200 - address details page convert age ts to time (#207)
+046afb1 Iotex core proxy (#204)
+9ee360c Add a button to copy address to clipboard (#193)
+1d701ab add specific title to each page (#191)
+0089bfe link should not be clickable if it points to the current route (#194)
+fc86134 fix block detail pagination (#189)
+7b84fb1 minor tps stats
+d1dc11e add coming soon page (#190)
+d7ac83e #172 add an age field to bp table (#183)
+e6cf9e7 fix placeholder of search box on topbar (#185)
+708acbf fix types annotation by using ICtx in antenna resolver (#186)
+1c44a95 redirect wallet
+a83f4b1 #164 display the latest block producer and add links to go to (#167)
+0315f2c add more fields to action core (#170)
+9e007c9 update google analytics id (#169)
+afe456e Merge pull request #171 from iotexproject/lokalise-2019-04-01_20-35-50
+20f56e8 #159 improve search box (#168)
+69c249f refactor getActionType
+0d3aa8d #155 finish up address-details pagination (#163)
+7fce429 hide mobile menu on route change (#161)
+67f29a4 table responsiveness (#162)
+c01be9e minor fix of transferAmount fromRau
+ab1b555 Merge pull request #157 from iotexproject/lokalise-2019-03-29_00-53-56
+6ab6b38 remove zh_CN
+062c87a add estimate gas for action query (#149)
+ab4ea36 fix: back home not working (#150)
+36b01a8 table responsiveness (#151)
+12d9d6f rebase master (#152)
+4621e1e topbar responsiveness (#153)
+f83a788 Update README.md
+bb67a40 update CloudinaryImage
+9f539b1 Update README.md
+61b4232 udpate chain status
+f257238 fix build
+a6742b6 fix translations
+fc80421 add comments to antenna and update doc (#145)
+cb63dcb update action block render (#143)
+3e20611 #111 add not found page (#144)
+36ff858 fix typo
+310d60d update connect-src
+1f255d8 fix footer text
+78cfe98 balance formatting: 4 digits precision (#141)
+8d062d1 topbar responsiveness and highlight (#142)
+c0860d6 add heroku integration
+88989ff Update README.md
+e064f92 flatten data field
+b65151b update IOTEX_CORE
+8211dcb bump onefx
+a849138 fix fetchCoinPrice
+0abeedf #88 (#97)
+e93e19f bump onefx
+11e420e fix z-index & dropdown scroll position (#131)
+cfaa691 add SendActionResponse (#132)
+ad533ff fix actHash types
+0039e35 bump antenna
+1b019d0 #99 (#127)
+483cf24 minor fix
+0f02581 add /actions (#126)
+b1bae73 avoid last page empty (#125)
+1e23c9c use individual antd import
+c478c72 Action (#116)
+783c0d6 Lokalise: Translations update (#124)
+dce9a72 update topbar
+c2ec423 Lokalise: update of locale/zh_CN.yaml (#115)
+951004d Revert "cut bundle size (#112)"
+8b5b9be remove zh-cn.yaml
+cce1f2a fix test
+68fb5ab cut bundle size (#112)
+0dc3059 partially remove any in antenna resolver
+c16e426 add pre-push (#107)
+a7f4576 #87 (#103)
+f124d82 #89 (#104)
+b5f81c9 add down icon (#100)
+b5a8f0c add publicKeyToAddress (#98)
+d6b1269 add "blockchain" to topbar with a dropdown (#96)
+4bdef51 fix block page
+071fa6f add pull request template
+381a79e fix tests
+928b3d2 merge (#90)
+649ded0 clean up types
+3664849 mock data in address details
+5580764 clean up blocklist
+c5d8d57 add block/hash and blocks (#86)
+9acaee8 add double queries in blocks
+715cdaa add blocks page
+bdba207 add Rewarding protocol actions
+75f1d09 Update README.md
+8e22330 fix tests
+612915a Port resolve p4 (#81)
+4bd9ff3 minify antd
+36e4caf Port resolve p3 (#80)
+45cc99c add API_GATEWAY_URL
+04ddf00 fix production config
+31589dc bump nyc
+93e3460 fix build
+10efbc5 merge address detail top info (#82)
+175d5f5  update bptable render (#83)
+0af2355 update query
+bc0b0f1 add more actions fields
+71a43e0 add buffer scalar
+557ba2f add getActions
+389a9b3 merge (#79)
+0275342 add resolver rpc call method (#78)
+b61fee4 update testnet addr
+3eee406 add web-bp integration
+54f04d0 update fonts
+ed9da25 do not compile less during build
+699a213 fix tests
+39831c4 merge home.tsx (#76)
+2e5f046 porting function to resolve part 1 (#75)
+1f0c967 update circleci config
+f4a7ad0 try fixing test
+ae9d956 issue68 (#73)
+6f9f65c add AddressDetails
+5634a9f add getAccount
+5bd556d update gateways
+3ebe0a8 Update README.md
+47fa076 add type-graphql
+2e1ea86 clean up
+02de973 adjust readme and package name
+81a151c add prettier
+d3c56a5 add license
+f3972d1 Update dependency @types/mongoose to v5.3.22
+175fb62 Update dependency tslint to v5.14.0
+2150d92 Update dependency mongoose to v5.4.19
+c5c858e Update Node.js
+6b72f15 Update dependency react-outside-click-handler to v1.2.3
+e9217aa fix lint
+4ee3365 Update dependency tslint-microsoft-contrib to v6.1.0 (#147)
+e23a8df Update Apollo GraphQL packages (#144)
+7c1f38d Pin dependencies (#143)
+cef3715 fix ci (#145)
+77aee1d clean up
+cbf3964 initial migration to typescript
+6c7ba21 clean up
+87a74b5 Update dependency antd to v3.14.0
+6315f9d Update dependency eslint to v5.15.0
+ec6dd81 Update dependency flow-bin to v0.94.0
+e8a9e58 Update Node.js to v10.15.2
+fe9678e Update Node.js
+d436e15 Update dependency webpack to v4.29.6
+434a88e Update Apollo GraphQL packages
+3d16342 Update dependency mongoose to v5.4.16
+5989d58 Update Apollo GraphQL packages
+1c38775 Update dependency apollo-server-koa to v2.4.8
+4c5713a Update dependency apollo-server-koa to v2.4.7
+3c0368f Update babel monorepo to v7.3.4
+2508281 Pin dependency gulp-less to 4.0.1
+a7e662c update package
+5713977 Update dependency antd to v3.13.6
+99b5490 Update dependency mongoose to v5.4.15
+76e9f6d add decorator, fix apollo SSR, add profile
+fee76eb Update dependency apollo-server-koa to v2.4.6
+6f7e940 Update dependency apollo-server-koa to v2.4.4
+84519d4 Update react monorepo to v16.8.3
+c4a2854 Update dependency apollo-server-koa to v2.4.3
+0ef60b7 Update dependency jsonwebtoken to v8.5.0
+fd9aa3e Update dependency mongoose to v5.4.14
+2e03b68 Update dependency antd to v3.13.5
+8b5cd42 Update dependency eslint to v5.14.1
+72ba21f Update dependency antd to v3.13.4
+1b0acec Update dependency webpack to v4.29.5
+3903d59 Update dependency antd to v3.13.3
+5ba4726 Update dependency eslint to v5.14.0
+9fc733b Update dependency mongoose to v5.4.13
+706f49d Update dependency webpack to v4.29.4
+fefd0d2 Update dependency apollo-server-koa to v2.4.2
+11a9ee6 Update dependency nyc to v13.3.0
+ddb67bb Update react monorepo to v16.8.2
+bfc4b7f Update npm to v6.8.0
+5bb5a86 Update dependency mongoose to v5.4.12
+bf16fbf Update Apollo GraphQL packages
+b64c240 Update dependency babel-plugin-module-resolver to v3.2.0
+db49e29 Update dependency mongoose to v5.4.11
+9cd9254 Update dependency apollo-server-koa to v2.4.0
+343e9c0 Update dependency webpack to v4.29.3
+6a9996f Update dependency antd to v3.13.2
+8ac9bae Update react monorepo to v16.8.1
+f7a1cfa Update dependency webpack to v4.29.2
+4b079b0 Update react monorepo to v16.8.0
+38077d8 Update dependency mongoose to v5.4.10
+552c947 Update dependency ava to v1.2.1
+a0a482d Update dependency flow-bin to v0.92.1
+10612c3 Update dependency nyc to v13.2.0
+d4e7e6d Update dependency @babel/plugin-proposal-object-rest-spread to v7.3.2
+2ea5ae0 Update dependency webpack to v4.29.1
+f130d3d Update dependency antd to v3.13.1
+6b2396f Update dependency mongoose to v5.4.9
+05d1622 Update dependency apollo-link-http to v1.5.11
+237d70c Update dependency eslint to v5.13.0
+d0fcf10 Update dependency flow-bin to v0.92.0
+0d58a3e Update dependency mongoose to v5.4.8
+6138102 Update Node.js to v10.15.1
+b9bc306 Update dependency eslint-plugin-import to v2.16.0
+791370e Update dependency apollo-server-koa to v2.3.3
+2a9916f Update dependency react-apollo to v2.4.1
+4a6dabb Update dependency babel-plugin-react-require to v3.1.1
+b07ee2f Update dependency ava to v1.2.0
+b424ebe Update dependency babel-plugin-react-require to v3.1.0
+39a9bc7 Update dependency babel-plugin-react-require to v3.0.2
+1ea677c Update dependency mongoose to v5.4.7
+a181678 Update dependency antd to v3.13.0
+0a2422e Update dependency apollo-server-koa to v2.3.2
+d3d0978 Update npm to v6.7.0
+26e981d Pin dependencies
+8bad508 Revert "first commit"
+079f637 first commit
+ca1f920 add ant.design
+daeee14 Update dependency eslint-plugin-react to v7.12.4
+833043e Update dependency mongoose to v5.4.6
+21d9396 Update dependency eslint-plugin-import to v2.15.0
+b4d1665 Update babel monorepo to v7.3.1
+972433e Update babel monorepo to v7.3.0
+6c76a75 Update dependency babel-plugin-module-resolver to v3.1.3
+842a3d3 Update README.md
+d775d3a Update dependency webpack to v4.29.0
+5ebc86a Update dependency react-apollo to v2.4.0
+e172679 Update dependency apollo-client to v2.4.12
+38f811f Update Apollo GraphQL packages
+4ceedac Pin dependencies (#52)
+27f2689 add auth
+5ab0054 Update dependency eslint to v5.12.1 (#50)
+85ac48a Update Apollo GraphQL packages
+5a8aaf7 Update Node.js
+a741174 Update npm to v6.6.0
+954cf43 Update Apollo GraphQL packages
+253c596 Update dependency flow-bin to v0.91.0
+903ae7d Update dependency graphql-tag to v2.10.1
+281709e bump onefx
+99a6e1d Update dependency graphql to v14.1.1
+30d916e clean circleci cache
+0b9a9f6 bump 10.14.1 node lts version
+a53d45a update webpack cfg
+7b3507a Update circleci/node:8.15.0-browsers Docker digest to a347d07
+157262b add LICENSE fix #32
+6bddfad Update circleci/node:8.15.0-browsers Docker digest to 213c023
+a1967b6 Update dependency ava to v1.1.0
+87c3416 Pin dependencies
+7b74dc4 fix test
+a411725 update graphdoc
+53d6bb5 add apollo
+f883cfc add api-gateway
+84a645b Update circleci/node:8.15.0-browsers Docker digest to ffe056d
+9f74504 Update circleci/node:8.15.0-browsers Docker digest to 76b95a2
+fe9439c Update dependency flow-bin to v0.90.0
+1730340 Update dependency webpack to v4.28.4
+04995bf Update dependency webpack to v4.28.1
+f931d27 Update react monorepo to v16.7.0
+8e0ff79 Update dependency flow-typed to v2.5.1
+b64831d Update dependency uglifyjs-webpack-plugin to v1.3.0
+a10d866 Update dependency flow-bin to v0.89.0
+bfaf363 Update dependency eslint to v5.12.0
+f793756 Update dependency config to v3.0.1
+2fd661b Update dependency babel-loader to v8.0.5
+2dd52ef Update dependency ava to v1.0.1
+abb74a7 Update circleci/node:8.15.0-browsers Docker digest to db22685
+ba75bae Update README.md
+9531cc6 Update babel monorepo
+0982cb0 Update Node.js
+fd618c8 Update README.md
+de7dc31 Update circleci/node:8.14.0-browsers Docker digest to d5d6fb8
+3700444 Pin dependency onefx to 1.2.0 (#3)
+755977b Update README.md
+ee3cded downgrade react-redux and fix tests
+b5e030d Update README.md
+9060b48 Update README.md
+bb65a0b Update README.md
+73aec9b Update README.md
+6ba3628 Update README.md
+8da5e26 Update README.md
+4237b2e bump node version
+a6742c4 Add Codacy badge (#1)
+e0010fb initial commit
+
+

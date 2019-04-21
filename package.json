@@ -1,6 +1,6 @@
 {
   "name": "iotex-explorer",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Frontend website for iotex-core blockchain",
   "main": "server.js",
   "scripts": {
@@ -8,9 +8,9 @@
     "test": "npm run lint && npm run cover",
     "check-coverage": "nyc check-coverage --lines 65 --functions 60 --Statements 65",
     "ava": "NODE_ENV=test ava",
-    "watch": "TS_NODE_TRANSPILE_ONLY=true gulp watch",
-    "build": "TS_NODE_TRANSPILE_ONLY=true gulp build",
-    "build-production": "TS_NODE_TRANSPILE_ONLY=true NODE_ENV=production gulp build",
+    "watch": "gulp watch",
+    "build": "gulp build",
+    "build-production": "NODE_ENV=production gulp build",
     "lint": "pretty-quick --staged && tslint --fix --project tsconfig.json -t stylish && yamllint ./translations/*.yaml",
     "postinstall": "npm run bp && npm run doc",
     "cover": "NODE_ENV=test tsc && nyc npm run ava",
@@ -19,7 +19,10 @@
     "kill": "lsof -n -i4TCP:4004 | grep LISTEN | awk '{ print $2 }' | xargs kill",
     "doc": "graphdoc --config ./package.json --force",
     "storybook": "start-storybook -s ./dist -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "changelog-major": "build-changelog --major",
+    "changelog-minor": "build-changelog --minor",
+    "changelog-patch": "build-changelog --patch"
   },
   "graphdoc": {
     "ga": "UA-111756489-2",
@@ -58,15 +61,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/puncsky/template_website.git"
+    "url": "git+ssh://git@github.com/iotexproject/iotex-explorer.git"
   },
   "keywords": [],
-  "author": "field_author",
-  "license": "UNLICENSED",
+  "author": "Tian Pan (https://tianpan.co)",
+  "contributors": [
+    "Hung Le",
+    "uu-z",
+    "Anshuo"
+  ],
+  "license": "Apache",
   "bugs": {
-    "url": "https://github.com/puncsky/template_website/issues"
+    "url": "https://github.com/iotexproject/iotex-explorer/issues"
   },
-  "homepage": "https://github.com/puncsky/template_website#readme",
+  "homepage": "https://github.com/iotexproject/iotex-explorer#readme",
   "devDependencies": {
     "@2fd/graphdoc": "2.4.0",
     "@storybook/addon-actions": "5.0.10",
@@ -76,6 +84,7 @@
     "apollo-codegen": "0.20.2",
     "ava": "1.1.0",
     "awesome-typescript-loader": "5.2.1",
+    "build-changelog": "2.1.2",
     "fancy-log": "1.3.3",
     "glob": "7.1.3",
     "gulp": "4.0.1",
