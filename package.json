@@ -156,7 +156,7 @@
     "iotex-react-block-producers": "1.1.2",
     "is-browser": "2.1.0",
     "isomorphic-unfetch": "3.0.0",
-    "jsdom": "12.2.0",
+    "jsdom": "14.0.0",
     "jsdom-global": "3.0.2",
     "koa-server-http-proxy": "0.1.0",
     "lodash.partition": "4.6.0",
