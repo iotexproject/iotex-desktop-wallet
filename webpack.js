@@ -1,5 +1,5 @@
 const path = require("path");
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+const UglifyJSPlugin = require("terser-webpack-plugin");
 const webpack = require("webpack");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const glob = require("glob");
@@ -8,23 +8,21 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
 const process = require("global/process");
 const SWPrecacheWebpackPlugin = require("sw-precache-webpack-plugin");
 
-const ANALYZE = false;
+const ANALYZE = true;
 const PROD = process.env.NODE_ENV === "production";
 const OUTPUT_DIR = "dist/";
 
 module.exports = {
   mode: PROD ? "production" : "development",
-  entry: glob
-    .sync("./src/client/javascripts/*.ts*")
-    .reduce(
-      (entries, entry) =>
-        Object.assign(entries, {
-          [entry
-            .replace("./src/client/javascripts/", "")
-            .replace(/(\.ts|\.tsx)$/, "")]: entry
-        }),
-      {}
-    ),
+  entry: glob.sync("./src/client/javascripts/*.ts*").reduce(
+    (entries, entry) =>
+      Object.assign(entries, {
+        [entry
+          .replace("./src/client/javascripts/", "")
+          .replace(/(\.ts|\.tsx)$/, "")]: entry
+      }),
+    {}
+  ),
   output: {
     filename: PROD ? "[name]-[chunkhash].js" : "[name].js",
     path: path.resolve(__dirname, OUTPUT_DIR)
@@ -65,14 +63,7 @@ module.exports = {
       ? [
           new UglifyJSPlugin({
             cache: true,
-            parallel: true,
-            uglifyOptions: {
-              compress: true,
-              ecma: 6,
-              mangle: true,
-              comments: false
-            },
-            extractComments: true
+            parallel: true
           }),
           new webpack.DefinePlugin({
             "process.env": {
