@@ -16,6 +16,12 @@ export function setServerRoutes(server: Server): void {
 
   setApiGateway(server);
 
+  server.get("delegate-details", "/delegate/:id", (ctx: koa.Context) => {
+    ctx.redirect(
+      `https://member.iotex.io/delegate/${ctx.params.id}/?utm_source=iotexscan`
+    );
+  });
+
   server.get(
     "SPA",
     "(/|/address/.*|/blocks|/block/.*|/actions|/action/.*|/wallet.*)",
