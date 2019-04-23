@@ -116,6 +116,7 @@ const FULL_ACTION_INFO = `
         }
         grantReward{
           type
+          height
         }
         putPollResult{
           height
