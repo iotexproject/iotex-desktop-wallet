@@ -12,6 +12,7 @@ import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
+import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { rulesMap } from "../../common/rules";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
@@ -71,6 +72,8 @@ type State = {
     success: boolean;
   } | null;
   txHash: string;
+  showConfirmInteract: boolean;
+  confirmInteractFunction: Function;
 };
 
 class InteractFormInner extends Component<InteractProps, State> {
@@ -79,7 +82,9 @@ class InteractFormInner extends Component<InteractProps, State> {
     selectedFunction: "",
     outputValues: [],
     broadcast: null,
-    txHash: ""
+    txHash: "",
+    showConfirmInteract: false,
+    confirmInteractFunction: () => {}
   };
 
   public handleAccess = () => {
@@ -214,6 +219,35 @@ class InteractFormInner extends Component<InteractProps, State> {
     });
   };
 
+  private readonly confirmInteract = () => {
+    const { wallet, form } = this.props;
+    const { showConfirmInteract, confirmInteractFunction } = this.state;
+
+    const { recipient, amount, gasLimit, gasPrice } = form.getFieldsValue();
+    const dataSource = {
+      address: wallet && wallet.address,
+      toAddress: recipient,
+      amount: toRau(amount, "Iotx"),
+      limit: gasLimit,
+      price: toRau(gasPrice, "Qev")
+    };
+
+    return (
+      <ConfirmContractModal
+        dataSource={dataSource}
+        confirmContractOk={(ok: boolean) => {
+          if (ok) {
+            confirmInteractFunction();
+          }
+          this.setState({
+            showConfirmInteract: false
+          });
+        }}
+        showModal={showConfirmInteract}
+      />
+    );
+  };
+
   private readonly newInteraction: JSX.Element = (
     <Button
       style={{ ...actionBtnStyle, marginLeft: "10px" }}
@@ -268,10 +302,7 @@ class InteractFormInner extends Component<InteractProps, State> {
         <Form.Item
           label={<FormItemLabel>{t("wallet.interact.contract")}</FormItemLabel>}
         >
-          {getFieldDecorator("selectedFunction", {
-            initialValue: "",
-            rules: []
-          })(
+          {getFieldDecorator("selectedFunction")(
             <Select className="form-input">
               {Object.keys(abiFunctions).map(name => (
                 <Option value={name} key={name}>
@@ -323,7 +354,15 @@ class InteractFormInner extends Component<InteractProps, State> {
         <span>
           {
             //@ts-ignore
-            <Button type="primary" onClick={this.handleReadWithInput}>
+            <Button
+              type="primary"
+              onClick={() => {
+                this.setState({
+                  showConfirmInteract: true,
+                  confirmInteractFunction: this.handleReadWithInput
+                });
+              }}
+            >
               {t("wallet.abi.read")}
             </Button>
           }
@@ -332,7 +371,12 @@ class InteractFormInner extends Component<InteractProps, State> {
             <Button
               type="primary"
               style={{ marginLeft: "10px" }}
-              onClick={this.handleWrite}
+              onClick={() => {
+                this.setState({
+                  showConfirmInteract: true,
+                  confirmInteractFunction: this.handleWrite
+                });
+              }}
             >
               {t("wallet.abi.write")}
             </Button>
@@ -384,6 +428,7 @@ class InteractFormInner extends Component<InteractProps, State> {
           }
         />
         {this.displayMethods()}
+        {this.confirmInteract()}
       </Form>
     );
   }
