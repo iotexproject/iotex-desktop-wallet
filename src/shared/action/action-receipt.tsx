@@ -47,6 +47,11 @@ export class ActionReceipt extends Component<Props> {
             delete receipt.__typename;
           }
 
+          if (receipt) {
+            // @ts-ignore
+            receipt.gasConsumed = `${receipt.gasConsumed} Rau`;
+          }
+
           const dataSource = buildKeyValueArray(receipt);
 
           return (
