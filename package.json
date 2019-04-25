@@ -161,7 +161,7 @@
     "graphql-iso-date": "3.6.1",
     "graphql-tag": "2.10.1",
     "iotex-antenna": "0.13.0",
-    "iotex-react-block-producers": "1.2.1",
+    "iotex-react-block-producers": "1.2.2",
     "is-browser": "2.1.0",
     "isomorphic-unfetch": "3.0.0",
     "koa-server-http-proxy": "0.1.0",
