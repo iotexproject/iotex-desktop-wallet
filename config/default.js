@@ -40,16 +40,14 @@ module.exports = {
       "self",
       "unsafe-inline",
       "https://fonts.googleapis.com/css",
-      "https://use.fontawesome.com/releases/v5.0.13/",
-      "https://translate.googleapis.com/translate_static/"
+      "https://use.fontawesome.com/releases/v5.0.13/"
     ],
     "frame-src": [],
     "connect-src": [
       "self",
       "https://api.coinmarketcap.com/v1/ticker/iotex/",
       "https://member.iotex.io/api-gateway/",
-      process.env.API_GATEWAY_URL,
-      "https://translate.googleapis.com/translate_a/"
+      process.env.API_GATEWAY_URL
     ],
     "child-src": ["self"],
     "font-src": [
@@ -65,9 +63,7 @@ module.exports = {
       "self",
       "unsafe-eval",
       "https://www.google-analytics.com/",
-      "https://ethereum.github.io/solc-bin/bin/",
-      "https://translate.google.com/translate_a/",
-      "https://translate.googleapis.com/"
+      "https://ethereum.github.io/solc-bin/bin/"
     ]
   },
   apiGatewayUrl:

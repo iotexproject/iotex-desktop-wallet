@@ -7,8 +7,6 @@ import notification from "antd/lib/notification";
 import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
-import LanguageSwitcher from "iotex-react-language-dropdown";
-// @ts-ignore
 import { assetURL } from "onefx/lib/asset-url";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -198,15 +196,9 @@ class TopBarComponent extends Component<Props, State> {
       return null;
     }
 
-    const mobileMenuOnly = [
-      <A key={3}>
-        <LanguageSwitcher style={{ width: "2em" }} />
-      </A>
-    ];
-
     return (
       <OutsideClickHandler onOutsideClick={this.hideMobileMenu}>
-        <Dropdown>{this.renderMenu().concat(mobileMenuOnly)}</Dropdown>
+        <Dropdown>{this.renderMenu()}</Dropdown>
       </OutsideClickHandler>
     );
   };
@@ -241,9 +233,6 @@ class TopBarComponent extends Component<Props, State> {
               }
             />
           </Flex>
-          <TranslateBtn>
-            <LanguageSwitcher style={{ width: "2em" }} />
-          </TranslateBtn>
           <HamburgerBtn
             onClick={this.displayMobileMenu}
             displayMobileMenu={displayMobileMenu}
@@ -312,25 +301,6 @@ function HamburgerBtn({
     justifyContent: "center"
   });
   return <Styled onClick={onClick}>{children}</Styled>;
-}
-
-function TranslateBtn({
-  children
-}: {
-  children: Array<JSX.Element> | JSX.Element;
-}): JSX.Element {
-  const Styled = styled("div", {
-    ":hover": {
-      color: colors.primary
-    },
-    display: "flex!important",
-    [media.palm]: {
-      display: "none!important"
-    },
-    cursor: "pointer",
-    justifyContent: "center"
-  });
-  return <Styled>{children}</Styled>;
 }
 
 function CrossBtn({
