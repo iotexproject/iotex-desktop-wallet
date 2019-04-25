@@ -106,7 +106,8 @@ class AddressDetailsInner extends PureComponent<Props> {
                 <ActionTable
                   totalActions={numActions}
                   getVariable={({ current, pageSize }) => {
-                    const start = (current - 1) * pageSize;
+                    const start =
+                      numActions - pageSize - (current - 1) * pageSize;
                     return {
                       byAddr: {
                         address,

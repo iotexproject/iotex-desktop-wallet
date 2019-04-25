@@ -88,7 +88,9 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     @Ctx()
     { gateways }: ICtx
   ): Promise<GetActionsResponse> {
-    return gateways.antenna.getActions(input);
+    const antennaAction = await gateways.antenna.getActions(input);
+    antennaAction.actionInfo.reverse();
+    return antennaAction;
   }
 
   @Query(_ => ReadContractResponse, { description: "read contract" })

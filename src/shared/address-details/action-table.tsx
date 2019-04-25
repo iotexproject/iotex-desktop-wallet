@@ -165,7 +165,7 @@ export function ActionTable({
   return (
     <Query
       query={GET_ACTIONS}
-      variables={getVariable({ pageSize, current: 0, currentDataLength: 0 })}
+      variables={getVariable({ pageSize, current: 1, currentDataLength: 0 })}
     >
       {({
         loading,
