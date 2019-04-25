@@ -88,14 +88,6 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     @Ctx()
     { gateways }: ICtx
   ): Promise<GetActionsResponse> {
-    if (input.byIndex) {
-      const chainMeta = await gateways.antenna.getChainMeta({});
-      const newStart =
-        Number(chainMeta.chainMeta.numActions) -
-        input.byIndex.start -
-        input.byIndex.count;
-      input.byIndex.start = newStart < 0 ? 0 : newStart;
-    }
     const antennaAction = await gateways.antenna.getActions(input);
     antennaAction.actionInfo.reverse();
     return antennaAction;
