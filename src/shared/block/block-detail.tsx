@@ -53,6 +53,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
   };
 
   private renderActionList(blockMeta: BlockMeta): JSX.Element {
+    const numActions = +((blockMeta && blockMeta.numActions) || 0);
     const { totalActons } = this.state;
     return (
       <div>
@@ -62,7 +63,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
         <ActionTable
           totalActions={totalActons}
           getVariable={({ current, pageSize, currentDataLength }) => {
-            const start = current > 0 ? (current - 1) * pageSize : 0;
+            const start = numActions - pageSize - (current - 1) * pageSize;
             this.setState({
               totalActons:
                 currentDataLength < pageSize
@@ -72,7 +73,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
             return {
               byBlk: {
                 blkHash: blockMeta.hash,
-                start: start,
+                start: start < 0 ? 0 : start,
                 count: pageSize
               }
             };

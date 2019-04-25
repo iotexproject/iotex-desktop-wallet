@@ -2,6 +2,10 @@ import Icon from "antd/lib/icon";
 import Layout from "antd/lib/layout";
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
+import { get } from "dottie";
+// @ts-ignore
+import window from "global/window";
+import { GetChainMetaResponse } from "iotex-antenna/protogen/proto/api/api_pb";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -15,7 +19,7 @@ import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
-import { GET_ACTIONS_BY_INDEX } from "../queries";
+import { GET_ACTIONS_BY_INDEX, GET_CHAIN_META } from "../queries";
 
 export class Actions extends Component {
   public render(): JSX.Element {
@@ -49,20 +53,16 @@ type State = {
 
 export class ActionTable extends Component<{}, State> {
   public state: State = { start: 0, count: 30 };
-
   public render(): JSX.Element {
-    const { start, count } = this.state;
-
+    const { count } = this.state;
+    let { start } = this.state;
     return (
-      <Query
-        query={GET_ACTIONS_BY_INDEX}
-        variables={{ byIndex: { start, count } }}
-      >
+      <Query query={GET_CHAIN_META}>
         {({
           loading,
           error,
           data
-        }: QueryResult<{ getActions: GetActionsResponse }>) => {
+        }: QueryResult<{ chainMetaData: GetChainMetaResponse }>) => {
           if (!loading && error) {
             notification.error({
               message: "Error",
@@ -71,37 +71,73 @@ export class ActionTable extends Component<{}, State> {
             });
             return null;
           }
-          const actions = data && data.getActions && data.getActions.actionInfo;
-          const currentDataLength =
-            actions && actions.length ? actions.length : 0;
-          const totalNum =
-            currentDataLength < count ? start + count : start + count + 1;
+          if (!data) {
+            return `Faild to get data`;
+          }
+
+          const chainMetaData = data;
+          const numActions = Number(get(chainMetaData, "chainMeta.numActions"));
+          start = numActions && numActions - count < 0 ? 0 : numActions - count;
 
           return (
-            <div style={{ width: "100%" }}>
-              <SpinPreloader spinning={loading}>
-                <Table
-                  rowKey={"actHash"}
-                  dataSource={actions}
-                  columns={getActionColumns()}
-                  style={{ width: "100%" }}
-                  scroll={{ x: true }}
-                  pagination={{
-                    pageSize: count,
-                    total: totalNum,
-                    // @ts-ignore
-                    onChange: (page, pageSize) => {
-                      const cStart = page > 0 ? (page - 1) * count : 0;
-                      this.setState({
-                        start: cStart,
-                        count
-                      });
-                    },
-                    defaultCurrent: start / count
-                  }}
-                />
-              </SpinPreloader>
-            </div>
+            <Query
+              query={GET_ACTIONS_BY_INDEX}
+              variables={{ byIndex: { start, count } }}
+            >
+              {({
+                loading,
+                error,
+                data,
+                fetchMore
+              }: QueryResult<{ getActions: GetActionsResponse }>) => {
+                if (!loading && error) {
+                  notification.error({
+                    message: "Error",
+                    description: `failed to get blocks: ${error.message}`,
+                    duration: 3
+                  });
+                  return null;
+                }
+                const actions =
+                  data && data.getActions && data.getActions.actionInfo;
+                return (
+                  <div style={{ width: "100%" }}>
+                    <SpinPreloader spinning={loading}>
+                      <Table
+                        rowKey={"actHash"}
+                        dataSource={actions}
+                        columns={getActionColumns()}
+                        style={{ width: "100%" }}
+                        scroll={{ x: true }}
+                        pagination={{
+                          pageSize: count,
+                          total: numActions
+                        }}
+                        onChange={pagination => {
+                          const current = pagination.current || 0;
+                          const cStart = start - (current - 1) * count;
+                          fetchMore({
+                            query: GET_ACTIONS_BY_INDEX,
+                            variables: {
+                              byIndex: {
+                                start: cStart < 0 ? 0 : cStart,
+                                count: count
+                              }
+                            },
+                            updateQuery: (prev, { fetchMoreResult }) => {
+                              if (!fetchMoreResult) {
+                                return prev;
+                              }
+                              return fetchMoreResult;
+                            }
+                          });
+                        }}
+                      />
+                    </SpinPreloader>
+                  </div>
+                );
+              }}
+            </Query>
           );
         }}
       </Query>
