@@ -125,7 +125,7 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
           get<string>(record, "action.core.execution.data") ||
           "";
         const hash = String(record.actHash || "").substr(0, 8);
-        if (!data || hash) {
+        if (!data || !hash) {
           return "-";
         }
         const downloadHref = `data:text/plan,${encodeURIComponent(data)}`;
