@@ -124,13 +124,13 @@ class ActionDetailsInner extends PureComponent<Props> {
                     scroll={{ x: true }}
                   />
                 </Flex>
+                <Flex marginTop={"30px"}>
+                  <ActionReceipt actionHash={hash} action={action} />
+                </Flex>
               </SpinPreloader>
             );
           }}
         </Query>
-        <Flex marginTop={"30px"}>
-          <ActionReceipt actionHash={hash} />
-        </Flex>
       </ContentPadding>
     );
   }
