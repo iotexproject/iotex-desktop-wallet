@@ -30,12 +30,7 @@ export class ActionReceipt extends Component<Props> {
           error,
           data
         }: QueryResult<{ getReceiptByAction: GetReceiptByActionResponse }>) => {
-          if (
-            error ||
-            !data ||
-            !data.getReceiptByAction.receiptInfo ||
-            !data.getReceiptByAction.receiptInfo.receipt
-          ) {
+          if (error) {
             notification.error({
               message: "Error",
               description: `failed to get receipt: ${error}`,
@@ -44,7 +39,8 @@ export class ActionReceipt extends Component<Props> {
             return `failed to get receipt: ${error}`;
           }
 
-          const receipt = data.getReceiptByAction.receiptInfo.receipt;
+          const receipt =
+            get(data || {}, "getReceiptByAction.receiptInfo.receipt") || {};
 
           // @ts-ignore
           if (receipt.__typename) {
@@ -53,10 +49,11 @@ export class ActionReceipt extends Component<Props> {
           }
 
           const gasPrice = Number(get(action, "core.gasPrice"));
+          const gasConsumed = Number(get(receipt, "gasConsumed"));
 
           const dataSource = buildKeyValueArray({
             ...receipt,
-            actionFee: `${receipt.gasConsumed * gasPrice} IOTX`
+            actionFee: `${gasConsumed * gasPrice} IOTX`
           });
 
           return (
