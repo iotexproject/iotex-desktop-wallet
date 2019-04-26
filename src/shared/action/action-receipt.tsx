@@ -38,7 +38,7 @@ export class ActionReceipt extends Component<Props> {
             return `failed to get receipt: ${error}`;
           }
 
-          const receipt =
+          let receipt =
             get(data || {}, "getReceiptByAction.receiptInfo.receipt") || {};
 
           // @ts-ignore
@@ -48,8 +48,10 @@ export class ActionReceipt extends Component<Props> {
           }
 
           if (receipt) {
-            // @ts-ignore
-            receipt.gasConsumed = `${receipt.gasConsumed} Rau`;
+            receipt = {
+              ...receipt,
+              gasConsumed: `${get(receipt, "gasConsumed")} Rau`
+            };
           }
 
           const dataSource = buildKeyValueArray(receipt);
