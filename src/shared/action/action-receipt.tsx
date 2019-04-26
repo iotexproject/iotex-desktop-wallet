@@ -16,11 +16,12 @@ import { buildKeyValueArray } from "./action-detail";
 
 type Props = {
   actionHash: string;
+  action: Object;
 };
 
 export class ActionReceipt extends Component<Props> {
   public render(): JSX.Element {
-    const { actionHash } = this.props;
+    const { actionHash, action } = this.props;
 
     return (
       <Query query={GET_RECEIPT_BY_ACTION} variables={{ actionHash }}>
@@ -29,7 +30,12 @@ export class ActionReceipt extends Component<Props> {
           error,
           data
         }: QueryResult<{ getReceiptByAction: GetReceiptByActionResponse }>) => {
-          if (error) {
+          if (
+            error ||
+            !data ||
+            !data.getReceiptByAction.receiptInfo ||
+            !data.getReceiptByAction.receiptInfo.receipt
+          ) {
             notification.error({
               message: "Error",
               description: `failed to get receipt: ${error}`,
@@ -38,8 +44,7 @@ export class ActionReceipt extends Component<Props> {
             return `failed to get receipt: ${error}`;
           }
 
-          let receipt =
-            get(data || {}, "getReceiptByAction.receiptInfo.receipt") || {};
+          const receipt = data.getReceiptByAction.receiptInfo.receipt;
 
           // @ts-ignore
           if (receipt.__typename) {
@@ -47,14 +52,12 @@ export class ActionReceipt extends Component<Props> {
             delete receipt.__typename;
           }
 
-          if (receipt) {
-            receipt = {
-              ...receipt,
-              gasConsumed: `${get(receipt, "gasConsumed")} Rau`
-            };
-          }
+          const gasPrice = Number(get(action, "core.gasPrice"));
 
-          const dataSource = buildKeyValueArray(receipt);
+          const dataSource = buildKeyValueArray({
+            ...receipt,
+            actionFee: `${receipt.gasConsumed * gasPrice} IOTX`
+          });
 
           return (
             <SpinPreloader
