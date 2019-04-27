@@ -150,10 +150,10 @@ class TopBarComponent extends Component<Props, State> {
     return (
       <AntdMenu>
         <AntdMenu.Item key={0}>
-          <StyledLink to="/actions">{t("topbar.actions")}</StyledLink>
+          <StyledLink to="/action">{t("topbar.actions")}</StyledLink>
         </AntdMenu.Item>
         <AntdMenu.Item key={1}>
-          <StyledLink to="/blocks">{t("topbar.blocks")}</StyledLink>
+          <StyledLink to="/block">{t("topbar.blocks")}</StyledLink>
         </AntdMenu.Item>
         <AntdMenu.Divider />
         <AntdMenu.Item key={2}>

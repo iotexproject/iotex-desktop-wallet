@@ -15,6 +15,7 @@ import {
 } from "../../api-gateway/resolvers/antenna-types";
 import { FlexLink } from "../common/flex-link";
 import { translateFn } from "../common/from-now";
+import { Navigation } from "../common/navigation";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -79,6 +80,7 @@ export function Blocks(): JSX.Element {
   return (
     <ContentPadding>
       <Helmet title={`${t("block.blocks")} - ${t("meta.description")}`} />
+      <Navigation />
       <Query query={GET_LATEST_HEIGHT}>
         {({ data }: QueryResult<{ chainMeta: { height: number } }>) => {
           const latestHeight =
