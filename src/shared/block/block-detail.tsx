@@ -9,6 +9,8 @@ import { fromRau } from "iotex-antenna/lib/account/utils";
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
+// @ts-ignore
+import { styled } from "onefx/lib/styletron-react";
 import React, { PureComponent } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -35,10 +37,11 @@ type Props = RouteComponentProps<PathParamsType> & {};
 
 type State = {
   totalActons: number;
+  isTableFold: boolean;
 };
 
 class BlockDetailsInner extends PureComponent<Props, State> {
-  public state: State = { totalActons: 10 };
+  public state: State = { totalActons: 10, isTableFold: true };
 
   private readonly transferParam = (param: string) => {
     let parameter = {};
@@ -83,19 +86,40 @@ class BlockDetailsInner extends PureComponent<Props, State> {
     );
   }
 
+  private renderFoldButton(): JSX.Element {
+    const { isTableFold } = this.state;
+    return (
+      <FoldButtonWrapper
+        onClick={() => this.setState({ isTableFold: !isTableFold })}
+      >
+        {isTableFold ? (
+          <span>
+            <FoldButton>Show More</FoldButton>
+            <Icon type="down" />
+          </span>
+        ) : (
+          <span>
+            <FoldButton>Show Less</FoldButton>
+            <Icon type="up" />
+          </span>
+        )}
+      </FoldButtonWrapper>
+    );
+  }
+
   public render(): JSX.Element {
     const {
       match: {
         params: { hash }
       }
     } = this.props;
-    const fields = [
+    let fields = [
       "height",
       "timestamp",
       "numActions",
       "producerAddress",
-      "hash",
       "transferAmount",
+      "hash",
       "txRoot",
       "receiptRoot",
       "deltaStateDigest"
@@ -131,6 +155,11 @@ class BlockDetailsInner extends PureComponent<Props, State> {
             }
 
             const blockMeta: BlockMeta = get(data, "getBlockMetas.blkMetas.0");
+            if (this.state.isTableFold) {
+              const hashFieldIndex = fields.findIndex(i => i === "hash");
+              fields = fields.slice(0, hashFieldIndex + 1);
+            }
+
             const dataSource = fields.map(field => ({
               key: field,
               value: get(blockMeta, field)
@@ -157,6 +186,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
                     scroll={{ x: true }}
                   />
                 </Flex>
+                {this.renderFoldButton()}
                 {blockMeta && this.renderActionList(blockMeta)}
               </SpinPreloader>
             );
@@ -166,6 +196,17 @@ class BlockDetailsInner extends PureComponent<Props, State> {
     );
   }
 }
+
+const FoldButtonWrapper = styled("div", {
+  color: "#00b4a0",
+  marginTop: "10px",
+  cursor: "pointer"
+});
+
+const FoldButton = styled("span", {
+  display: "inline-block",
+  marginRight: "20px"
+});
 
 export function renderKey(text: string): JSX.Element {
   return <span>{t(`render.key.${text}`)}</span>;
