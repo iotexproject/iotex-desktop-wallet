@@ -116,7 +116,6 @@ class BlockDetailsInner extends PureComponent<Props, State> {
     return (
       <ContentPadding>
         <Helmet title={`IoTeX ${t("block.block")} ${hash}`} />
-        <Navigation />
         <Query query={GET_BLOCK_METAS} variables={parameter}>
           {({
             loading,
@@ -140,6 +139,14 @@ class BlockDetailsInner extends PureComponent<Props, State> {
 
             return (
               <SpinPreloader spinning={loading}>
+                <Navigation
+                  routes={[
+                    {
+                      path: "/block/:id",
+                      breadcrumb: `Block# ${get(blockMeta, "height")}`
+                    }
+                  ]}
+                />
                 <Flex
                   width={"100%"}
                   column={true}
