@@ -1,5 +1,6 @@
 // tslint:disable:max-func-body-length
 import { ColumnProps } from "antd/es/table";
+import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
 import { get } from "dottie";
@@ -118,15 +119,26 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
     {
       title: t("action.data"),
       dataIndex: "status",
-      render(_: string, record: ActionInfo, __: number): string {
+      render(_: string, record: ActionInfo, __: number): JSX.Element | string {
         const data =
-          get(record, "action.core.transfer.payload") ||
-          get(record, "action.core.execution.data") ||
+          get<string>(record, "action.core.transfer.payload") ||
+          get<string>(record, "action.core.execution.data") ||
           "";
-        if (!data) {
+        const hash = String(record.actHash || "").substr(0, 8);
+        if (!data || !hash) {
           return "-";
         }
-        return String(data).substr(0, 8);
+        const downloadHref = `data:text/plan,${encodeURIComponent(data)}`;
+        return (
+          <a
+            href={`${downloadHref}`}
+            download={`${hash}.txt`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Icon type="download" />
+          </a>
+        );
       }
     }
   ];

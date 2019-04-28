@@ -125,6 +125,7 @@ render.key.gasConsumed: Gas Consumed
 render.key.contractAddress: Contract Address
 render.key.logs: Logs
 render.key.overview: Overview
+render.key.actionFee: Action Fee
 render.value.grantReward: "Grant Reward"
 render.value.execution: Execution
 render.value.transfer: Transfer

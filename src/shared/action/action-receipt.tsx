@@ -16,11 +16,12 @@ import { buildKeyValueArray } from "./action-detail";
 
 type Props = {
   actionHash: string;
+  action: Object;
 };
 
 export class ActionReceipt extends Component<Props> {
   public render(): JSX.Element {
-    const { actionHash } = this.props;
+    const { actionHash, action } = this.props;
 
     return (
       <Query query={GET_RECEIPT_BY_ACTION} variables={{ actionHash }}>
@@ -47,12 +48,13 @@ export class ActionReceipt extends Component<Props> {
             delete receipt.__typename;
           }
 
-          if (receipt) {
-            // @ts-ignore
-            receipt.gasConsumed = `${receipt.gasConsumed} Rau`;
-          }
+          const gasPrice = Number(get(action, "core.gasPrice"));
+          const gasConsumed = Number(get(receipt, "gasConsumed"));
 
-          const dataSource = buildKeyValueArray(receipt);
+          const dataSource = buildKeyValueArray({
+            ...receipt,
+            actionFee: `${gasConsumed * gasPrice} IOTX`
+          });
 
           return (
             <SpinPreloader
