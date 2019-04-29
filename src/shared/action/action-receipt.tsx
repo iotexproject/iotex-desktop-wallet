@@ -31,12 +31,7 @@ export class ActionReceipt extends Component<Props> {
           data
         }: QueryResult<{ getReceiptByAction: GetReceiptByActionResponse }>) => {
           if (error) {
-            notification.error({
-              message: "Error",
-              description: `failed to get receipt: ${error}`,
-              duration: 3
-            });
-            return `failed to get receipt: ${error}`;
+            return null;
           }
 
           const receipt =

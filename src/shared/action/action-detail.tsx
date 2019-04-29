@@ -67,14 +67,8 @@ class ActionDetailsInner extends PureComponent<Props> {
             data
           }: QueryResult<{ getActions: GetActionsResponse }>) => {
             if (error) {
-              notification.error({
-                message: "Error",
-                description: `failed to get account: ${error}`,
-                duration: 3
-              });
-              return `failed to get account: ${error}`;
+              return null;
             }
-
             const actionInfo = get(data || {}, "getActions.actionInfo.0") || {};
             // @ts-ignore
             const { actHash, blkHash, action } = actionInfo;

@@ -63,22 +63,16 @@ export class ActionTable extends Component<{}, State> {
           error,
           data
         }: QueryResult<{ chainMetaData: GetChainMetaResponse }>) => {
-          if (!loading && error) {
-            notification.error({
-              message: "Error",
-              description: `failed to get blocks: ${error.message}`,
-              duration: 3
-            });
+          if (loading) {
+            return <SpinPreloader spinning={loading}>Loading...</SpinPreloader>;
+          }
+          if (error || !data) {
+            // Error already handled at apollo-error-handling.ts
             return null;
           }
-          if (!data) {
-            return `Faild to get data`;
-          }
-
           const chainMetaData = data;
           const numActions = Number(get(chainMetaData, "chainMeta.numActions"));
           start = numActions && numActions - count < 0 ? 0 : numActions - count;
-
           return (
             <Query
               query={GET_ACTIONS_BY_INDEX}
@@ -90,12 +84,7 @@ export class ActionTable extends Component<{}, State> {
                 data,
                 fetchMore
               }: QueryResult<{ getActions: GetActionsResponse }>) => {
-                if (!loading && error) {
-                  notification.error({
-                    message: "Error",
-                    description: `failed to get blocks: ${error.message}`,
-                    duration: 3
-                  });
+                if (error) {
                   return null;
                 }
                 const actions =

@@ -1,7 +1,6 @@
 import { ColumnProps } from "antd/es/table";
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
-import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
@@ -121,16 +120,14 @@ class BlockDetailsInner extends PureComponent<Props, State> {
             error,
             data
           }: QueryResult<{ getBlockMetas: GetBlockMetasResponse }>) => {
-            if (error || !data) {
-              notification.error({
-                message: "Error",
-                description: `failed to get account: ${error}`,
-                duration: 3
-              });
-              return `failed to get account: ${error}`;
+            if (error) {
+              return null;
             }
 
-            const blockMeta: BlockMeta = get(data, "getBlockMetas.blkMetas.0");
+            const blockMeta: BlockMeta = get(
+              data || {},
+              "getBlockMetas.blkMetas.0"
+            );
             const dataSource = fields.map(field => ({
               key: field,
               value: get(blockMeta, field)
