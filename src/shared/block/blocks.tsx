@@ -1,6 +1,5 @@
 import Icon from "antd/lib/icon";
 import Layout from "antd/lib/layout";
-import notification from "antd/lib/notification";
 import Table, { ColumnProps } from "antd/lib/table";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
@@ -89,17 +88,9 @@ export function Blocks(): JSX.Element {
             <Query query={GET_BLOCK_METAS} variables={{ byIndex }}>
               {({
                 loading,
-                error,
                 data,
                 fetchMore
               }: QueryResult<{ getBlockMetas: GetBlockMetasResponse }>) => {
-                if (error) {
-                  notification.error({
-                    message: "Error",
-                    description: `failed to get blocks: ${error}`,
-                    duration: 5
-                  });
-                }
                 let blkMetas =
                   data && data.getBlockMetas && data.getBlockMetas.blkMetas;
                 if (Array.isArray(blkMetas)) {

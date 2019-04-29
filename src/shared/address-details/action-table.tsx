@@ -1,7 +1,6 @@
 // tslint:disable:max-func-body-length
 import { ColumnProps } from "antd/es/table";
 import Icon from "antd/lib/icon";
-import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
@@ -185,14 +184,9 @@ export function ActionTable({
         data,
         fetchMore
       }: QueryResult<{ getActions: GetActionsResponse }>) => {
-        if (error && String(error).indexOf("NOT_FOUND") === -1) {
-          notification.error({
-            message: "Error",
-            description: `failed to get actions: ${error}`,
-            duration: 5
-          });
+        if (error) {
+          return null;
         }
-
         const actionInfo =
           data && data.getActions && data.getActions.actionInfo;
         const currentDataLength = actionInfo && actionInfo.length;

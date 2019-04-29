@@ -15,6 +15,7 @@ import {
 } from "../../api-gateway/resolvers/antenna-types";
 import { CoinPrice } from "../../api-gateway/resolvers/meta";
 import { Flex } from "../common/flex";
+import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_CHAIN_META, GET_TILE_DATA } from "../queries";
 
@@ -117,11 +118,8 @@ class HomeComponent extends Component<Props, State> {
               if (loading) {
                 return "Loading...";
               }
-              if (error) {
-                return `Error! ${error.message}`;
-              }
-              if (!data) {
-                return `Faild to get data`;
+              if (error || !data) {
+                return null;
               }
 
               const chainMetaData = data;
@@ -139,42 +137,37 @@ class HomeComponent extends Component<Props, State> {
                     fetchCoinPrice: CoinPrice;
                     getBlockMetas: GetBlockMetasResponse;
                   }>) => {
-                    if (loading) {
-                      return "Loading...";
-                    }
-                    if (error) {
-                      return `Error! ${error.message}`;
-                    }
-                    if (!data) {
-                      return `Faild to get data`;
+                    if (error || (!loading && !data)) {
+                      return null;
                     }
 
                     //@ts-ignore
                     const tiles = this.getTiles({ ...chainMetaData, ...data });
-
                     return (
-                      <div
-                        className={"front-top-info"}
-                        style={{
-                          padding: 30,
-                          margin: "30px 0",
-                          border: "1px solid rgb(230,230,230)",
-                          borderRadius: 5
-                        }}
-                      >
-                        <Flex>
-                          {tiles.map((tile, i) => (
-                            <div key={i} className={"item"}>
-                              <Tile
-                                action={tile.action}
-                                title={tile.title}
-                                value={tile.value}
-                                icon={tile.icon}
-                              />
-                            </div>
-                          ))}
-                        </Flex>
-                      </div>
+                      <SpinPreloader spinning={loading}>
+                        <div
+                          className={"front-top-info"}
+                          style={{
+                            padding: 30,
+                            margin: "30px 0",
+                            border: "1px solid rgb(230,230,230)",
+                            borderRadius: 5
+                          }}
+                        >
+                          <Flex>
+                            {tiles.map((tile, i) => (
+                              <div key={i} className={"item"}>
+                                <Tile
+                                  action={tile.action}
+                                  title={tile.title}
+                                  value={tile.value}
+                                  icon={tile.icon}
+                                />
+                              </div>
+                            ))}
+                          </Flex>
+                        </div>
+                      </SpinPreloader>
                     );
                   }}
                 </Query>

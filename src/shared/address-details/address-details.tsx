@@ -1,7 +1,6 @@
 // @ts-ignore
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
-import notification from "antd/lib/notification";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
 // @ts-ignore
@@ -45,12 +44,8 @@ class AddressDetailsInner extends PureComponent<Props> {
             error,
             data
           }: QueryResult<{ getAccount: GetAccountResponse }>) => {
-            if (error && String(error).indexOf("NOT_FOUND") === -1) {
-              notification.error({
-                message: "Error",
-                description: `failed to get account: ${error}`,
-                duration: 5
-              });
+            if (error) {
+              return null;
             }
             if (data && data.getAccount && data.getAccount.accountMeta) {
               addressInfo = data.getAccount.accountMeta;
