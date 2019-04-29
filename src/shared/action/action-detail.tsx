@@ -1,6 +1,5 @@
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
-import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
 import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";

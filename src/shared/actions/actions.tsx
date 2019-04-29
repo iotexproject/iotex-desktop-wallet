@@ -1,6 +1,5 @@
 import Icon from "antd/lib/icon";
 import Layout from "antd/lib/layout";
-import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
 import { get } from "dottie";
 // @ts-ignore

@@ -1,7 +1,6 @@
 // @ts-ignore
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
-import notification from "antd/lib/notification";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
 // @ts-ignore

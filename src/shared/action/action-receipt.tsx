@@ -1,4 +1,3 @@
-import notification from "antd/lib/notification";
 import Table from "antd/lib/table";
 import { get } from "dottie";
 // @ts-ignore
