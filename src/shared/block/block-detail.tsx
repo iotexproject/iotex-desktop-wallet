@@ -19,6 +19,7 @@ import { ActionTable } from "../address-details/action-table";
 import { Flex } from "../common/flex";
 import { FlexLink } from "../common/flex-link";
 import { translateFn } from "../common/from-now";
+import { Navigation } from "../common/navigation";
 import { NotFound } from "../common/not-found";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
@@ -135,6 +136,14 @@ class BlockDetailsInner extends PureComponent<Props, State> {
 
             return (
               <SpinPreloader spinning={loading}>
+                <Navigation
+                  routes={[
+                    {
+                      path: "/block/:id",
+                      breadcrumb: `Block# ${get(blockMeta, "height")}`
+                    }
+                  ]}
+                />
                 <Flex
                   width={"100%"}
                   column={true}

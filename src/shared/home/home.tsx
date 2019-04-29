@@ -83,7 +83,7 @@ class HomeComponent extends Component<Props, State> {
         value: parseInt(tps, 10).toLocaleString(),
         icon: "dashboard",
         action: () => {
-          history.push(`/actions`);
+          history.push(`/action`);
         }
       },
       {

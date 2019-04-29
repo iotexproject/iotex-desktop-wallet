@@ -14,6 +14,7 @@ import { Query, QueryResult } from "react-apollo";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
 import { getActionColumns } from "../address-details/action-table";
 import { Flex } from "../common/flex";
+import { Navigation } from "../common/navigation";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
@@ -25,6 +26,7 @@ export class Actions extends Component {
     return (
       <ContentPadding>
         <Helmet title={`${t("action.actions")} - ${t("meta.description")}`} />
+        <Navigation />
         <Layout tagName={"main"} className={"main-container"}>
           <Layout.Content tagName={"main"}>
             <Flex

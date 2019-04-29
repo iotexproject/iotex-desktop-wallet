@@ -14,6 +14,7 @@ import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
 import { getColumns } from "../block/block-detail";
 import { Flex } from "../common/flex";
 import { actionsTypes, getActionType } from "../common/get-action-type";
+import { Navigation } from "../common/navigation";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
@@ -56,6 +57,7 @@ class ActionDetailsInner extends PureComponent<Props> {
     return (
       <ContentPadding>
         <Helmet title={`IoTeX ${t("action.action")} ${hash}`} />
+        <Navigation />
         <Query
           query={GET_ACTIONS_BY_HASH}
           variables={{ byHash: { actionHash: hash, checkingPending: true } }}
