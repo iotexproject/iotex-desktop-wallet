@@ -5,6 +5,7 @@ import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
 import React, { Component } from "react";
+import { assetURL } from "../../common/asset-url";
 import { Flex } from "../../common/flex";
 import { PageTitle } from "../../common/page-title";
 import { CardFunction } from "./cards";
@@ -29,14 +30,14 @@ export class ChooseFunction extends Component<Props, State> {
             title={t("wallet.contract.interactWith")}
             description={t("wallet.contract.interactWith.desc")}
             redirectUrl={"/wallet/smart-contract/interact"}
-            imageSrc={"/interact-contract.png"}
+            imageSrc={assetURL("/interact-contract.png")}
             moreUrl={"#"}
           />
           <CardFunction
             title={t("wallet.contract.deployContract")}
             description={t("wallet.contract.deployContract.desc")}
             redirectUrl={"/wallet/smart-contract/deploy"}
-            imageSrc={"/deploy-contract.png"}
+            imageSrc={assetURL("/deploy-contract.png")}
             moreUrl={"#"}
           />
         </Flex>

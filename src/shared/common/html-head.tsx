@@ -1,5 +1,5 @@
 // @ts-ignore
-import { assetURL } from "onefx/lib/asset-url";
+
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -7,6 +7,7 @@ import { mobileViewPortContent } from "onefx/lib/iso-react-render/root/mobile-vi
 // @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
 import React from "react";
+import { assetURL } from "./asset-url";
 import { colors } from "./styles/style-color";
 
 export function HtmlHead({ locale }: { locale: string }): JSX.Element {

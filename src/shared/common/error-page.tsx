@@ -1,6 +1,6 @@
 import Button from "antd/lib/button";
 // @ts-ignore
-import { assetURL } from "onefx/lib/asset-url";
+
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore

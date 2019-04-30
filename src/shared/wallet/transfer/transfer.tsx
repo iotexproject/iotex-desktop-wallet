@@ -4,7 +4,6 @@ import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
 import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
-import { Account } from "iotex-antenna/lib/account/account";
 import { toRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -13,7 +12,6 @@ import Helmet from "onefx/lib/react-helmet";
 import * as React from "react";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import { AccountMeta } from "../../../api-gateway/resolvers/antenna-types";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { PageTitle } from "../../common/page-title";
@@ -30,8 +28,7 @@ import { FormItemLabel, inputStyle } from "../wallet";
 
 type Props = {
   form: WrappedFormUtils;
-  wallet: Account;
-  address: AccountMeta;
+  address: string;
   chainId?: number;
   updateWalletInfo?: Function;
 } & RouteComponentProps;
@@ -63,7 +60,7 @@ class TransferForm extends React.PureComponent<Props, State> {
 
   public sendTransfer = async (status: boolean) => {
     const antenna = getAntenna();
-    const { wallet, form } = this.props;
+    const { form, address } = this.props;
     if (!status) {
       return this.setState({
         showConfirmTransfer: false
@@ -78,7 +75,7 @@ class TransferForm extends React.PureComponent<Props, State> {
 
         window.console.log(
           `antenna.iotx.sendTransfer(${JSON.stringify({
-            from: wallet.address,
+            from: address,
             to: recipient,
             value: toRau(amount, "Iotx"),
             payload: dataInHex,
@@ -88,7 +85,7 @@ class TransferForm extends React.PureComponent<Props, State> {
         );
 
         const txHash = await antenna.iotx.sendTransfer({
-          from: wallet.address,
+          from: address,
           to: recipient,
           value: toRau(amount, "Iotx"),
           payload: dataInHex,
@@ -188,12 +185,12 @@ class TransferForm extends React.PureComponent<Props, State> {
   };
 
   public confirmTransfer = () => {
-    const { wallet, form } = this.props;
+    const { address, form } = this.props;
     const { showConfirmTransfer } = this.state;
 
     const { recipient, amount, gasLimit, gasPrice } = form.getFieldsValue();
     const dataSource = {
-      address: wallet && wallet.address,
+      address: address,
       toAddress: recipient,
       amount: toRau(amount, "Iotx"),
       limit: gasLimit,

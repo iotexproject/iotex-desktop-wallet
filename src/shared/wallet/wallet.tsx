@@ -6,8 +6,8 @@ import { Account } from "iotex-antenna/lib/account/account";
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
-import React from "react";
 import { PureComponent } from "react";
+import React from "react";
 import { Route, Switch, withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
@@ -16,8 +16,8 @@ import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "./account-section";
 import { ChooseFunction } from "./contract/choose-function";
-import { Deploy } from "./contract/deploy";
 import { DeployPreloadHeader } from "./contract/deploy";
+import { Deploy } from "./contract/deploy";
 import { Interact } from "./contract/interact";
 import { Vote } from "./contract/vote";
 import { getAntenna } from "./get-antenna";
@@ -86,13 +86,7 @@ class WalletComponent extends PureComponent<Props, State> {
     this.props.history.push(key);
   };
 
-  public tabs = ({
-    wallet,
-    address
-  }: {
-    wallet: Account;
-    address: AccountMeta;
-  }) => {
+  public renderTabs = ({ address }: { address: string }) => {
     const { location, match } = this.props;
 
     let defaultActiveKey = `${match.url}/transfer`;
@@ -103,20 +97,17 @@ class WalletComponent extends PureComponent<Props, State> {
     }
     return (
       <div>
-        <Tabs defaultActiveKey={defaultActiveKey} onTabClick={this.onTabChange}>
+        <Tabs activeKey={defaultActiveKey} onTabClick={this.onTabChange}>
           <Tabs.TabPane
             key={`${match.url}/transfer`}
             tab={t("wallet.tab.transfer", {
               token: t("account.testnet.token")
             })}
           >
-            <Route
-              path={`${match.url}/transfer`}
-              component={() => <Transfer wallet={wallet} address={address} />}
-            />
+            <Transfer address={address} />
           </Tabs.TabPane>
           <Tabs.TabPane key={`${match.url}/vote`} tab={t("wallet.tab.vote")}>
-            <Route path={`${match.url}/vote`} component={Vote} />
+            <Vote />
           </Tabs.TabPane>
           <Tabs.TabPane
             key={`${match.url}/smart-contract`}
@@ -130,11 +121,11 @@ class WalletComponent extends PureComponent<Props, State> {
               />
               <Route
                 path={`${match.url}/smart-contract/deploy`}
-                component={() => <Deploy wallet={wallet} />}
+                component={() => <Deploy address={address} />}
               />
               <Route
                 path={`${match.url}/smart-contract/interact`}
-                component={() => <Interact wallet={wallet} />}
+                component={() => <Interact address={address} />}
               />
             </Switch>
           </Tabs.TabPane>
@@ -143,7 +134,7 @@ class WalletComponent extends PureComponent<Props, State> {
     );
   };
 
-  public noWallet = () => {
+  public renderNoWallet = () => {
     const { createNew } = this.state;
     return createNew ? (
       <NewWallet setWallet={this.setWallet} />
@@ -165,8 +156,11 @@ class WalletComponent extends PureComponent<Props, State> {
           <div style={{ margin: "48px" }} />
           <Row>
             <Col md={16}>
-              {wallet && address && this.tabs({ wallet, address })}
-              {!wallet && this.noWallet()}
+              {address &&
+                this.renderTabs({
+                  address: String(address)
+                })}
+              {!wallet && this.renderNoWallet()}
             </Col>
             <Col md={6} push={2}>
               <AccountSection

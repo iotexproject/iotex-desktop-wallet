@@ -7,7 +7,7 @@ import notification from "antd/lib/notification";
 import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
-import { assetURL } from "onefx/lib/asset-url";
+
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -22,6 +22,7 @@ import {
   GetBlockMetasRequest
 } from "../../api-gateway/resolvers/antenna-types";
 import { GET_ACTIONS, GET_BLOCK_METAS } from "../queries";
+import { assetURL } from "./asset-url";
 import { Logo } from "./icon";
 import { Cross } from "./icons/cross.svg";
 import { Hamburger } from "./icons/hamburger.svg";

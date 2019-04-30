@@ -3,13 +3,14 @@ import Icon from "antd/lib/icon";
 import { Account } from "iotex-antenna/lib/account/account";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
-import { assetURL } from "onefx/lib/asset-url";
+
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
+import { assetURL } from "../common/asset-url";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { TooltipButton } from "../common/tooltip-button";
 

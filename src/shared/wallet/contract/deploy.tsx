@@ -6,9 +6,8 @@ import Form from "antd/lib/form/Form";
 import Input from "antd/lib/input";
 // @ts-ignore
 import window from "global/window";
-import { Account } from "iotex-antenna/lib/account/account";
 // @ts-ignore
-import { assetURL } from "onefx/lib/asset-url";
+
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -18,7 +17,7 @@ import React, { Component } from "react";
 import { isValidBytes } from "../validator";
 
 import { toRau } from "iotex-antenna/lib/account/utils";
-import { AccountMeta } from "../../../api-gateway/resolvers/antenna-types";
+import { assetURL } from "../../common/asset-url";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
@@ -53,26 +52,23 @@ export function DeployPreloadHeader(): JSX.Element {
   );
 }
 
-export class Deploy extends Component<{ wallet: Account }> {
+export class Deploy extends Component<{ address: string }> {
   public render(): JSX.Element {
     return (
       <ContractLayout title={t("wallet.deploy.title")} icon={"upload"}>
-        <DeployForm wallet={this.props.wallet} />
+        <DeployForm address={this.props.address} />
       </ContractLayout>
     );
   }
 }
 
 interface DeployProps extends FormComponentProps {
-  wallet?: Account;
-  address?: AccountMeta;
+  address?: string;
   updateWalletInfo?: any;
 }
 
 interface State {
   solidityReleaseVersion: string | undefined;
-  currentNonce: string | number;
-  nonceMessage: string | number;
   message: string;
   sending: boolean;
   generatingByte: boolean;
@@ -89,10 +85,6 @@ interface State {
 class DeployFormInner extends Component<DeployProps, State> {
   public state: State = {
     solidityReleaseVersion: undefined,
-    currentNonce: this.props.address ? this.props.address.nonce : 1,
-    nonceMessage: t("wallet.input.nonce.suggestion", {
-      nonce: this.props.address ? this.props.address.nonce : 0
-    }),
     message: "",
     sending: false,
     generatingByte: false,
@@ -161,12 +153,12 @@ class DeployFormInner extends Component<DeployProps, State> {
   };
 
   public renderConfirmation = () => {
-    const { form, wallet } = this.props;
+    const { form, address } = this.props;
     const { showConfirmation } = this.state;
 
     const { byteCode, amount, gasLimit, gasPrice } = form.getFieldsValue();
     const dataSource = {
-      address: wallet && wallet.address,
+      address: address,
       data: byteCode,
       amount: toRau(amount, "Iotx"),
       price: toRau(gasPrice, "Qev"),
@@ -183,7 +175,7 @@ class DeployFormInner extends Component<DeployProps, State> {
   };
 
   public sendContract = async (shouldContinue: boolean) => {
-    const { form, wallet } = this.props;
+    const { form, address } = this.props;
     const antenna = getAntenna();
 
     if (!shouldContinue) {
@@ -202,7 +194,7 @@ class DeployFormInner extends Component<DeployProps, State> {
 
       window.console.log(
         `antenna.iotx.deployContract(${JSON.stringify({
-          from: String(wallet && wallet.address),
+          from: String(address),
           amount: toRau(amount, "Iotx"),
           data: Buffer.from(trimmed0xHex, "hex"),
           gasPrice: gasPrice || undefined,
@@ -211,7 +203,7 @@ class DeployFormInner extends Component<DeployProps, State> {
       );
 
       const txHash = await antenna.iotx.deployContract({
-        from: String(wallet && wallet.address),
+        from: String(address),
         amount: toRau(amount, "Iotx"),
         data: Buffer.from(trimmed0xHex, "hex"),
         gasPrice: gasPrice || undefined,

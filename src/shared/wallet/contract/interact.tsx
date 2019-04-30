@@ -5,7 +5,6 @@ import Form from "antd/lib/form/Form";
 import Input from "antd/lib/input";
 import notification from "antd/lib/notification";
 import Select from "antd/lib/select";
-import { Account } from "iotex-antenna/lib/account/account";
 import { toRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -31,11 +30,11 @@ import { ContractLayout } from "./contract-layout";
 const { TextArea } = Input;
 const { Option } = Select;
 
-export class Interact extends Component<{ wallet: Account }> {
+export class Interact extends Component<{ address: string }> {
   public render(): JSX.Element {
     return (
       <ContractLayout title={t("wallet.interact.title")} icon={"sync"}>
-        <InteractForm wallet={this.props.wallet} />
+        <InteractForm address={this.props.address} />
       </ContractLayout>
     );
   }
@@ -60,7 +59,7 @@ export interface AbiMap {
 }
 
 interface InteractProps extends FormComponentProps {
-  wallet: Account;
+  address: string;
 }
 
 type State = {
@@ -105,7 +104,7 @@ class InteractFormInner extends Component<InteractProps, State> {
   };
 
   public handleReadWithInput = () => {
-    const { wallet } = this.props;
+    const { address } = this.props;
     const antenna = getAntenna();
 
     this.props.form.validateFields(async (err, values) => {
@@ -124,7 +123,7 @@ class InteractFormInner extends Component<InteractProps, State> {
 
       window.console.log(
         `antenna.iotx.readContractByMethod(${JSON.stringify({
-          from: wallet.address,
+          from: address,
           amount,
           abi,
           contractAddress,
@@ -140,7 +139,7 @@ class InteractFormInner extends Component<InteractProps, State> {
         // TODO(tian): what if multiple values returned?
         const result = await antenna.iotx.readContractByMethod(
           {
-            from: wallet.address,
+            from: address,
             amount: toRau(amount, "Iotx"),
             abi,
             contractAddress,
@@ -160,7 +159,7 @@ class InteractFormInner extends Component<InteractProps, State> {
   };
 
   private readonly handleWrite = () => {
-    const { wallet } = this.props;
+    const { address } = this.props;
     const antenna = getAntenna();
 
     this.props.form.validateFields(async (err, values) => {
@@ -180,7 +179,7 @@ class InteractFormInner extends Component<InteractProps, State> {
 
       window.console.log(
         `antenna.iotx.executeContract(${JSON.stringify({
-          from: wallet.address,
+          from: address,
           amount,
           abi,
           contractAddress,
@@ -195,7 +194,7 @@ class InteractFormInner extends Component<InteractProps, State> {
       try {
         const txHash = await antenna.iotx.executeContract(
           {
-            from: wallet.address,
+            from: address,
             amount: toRau(amount, "Iotx"),
             abi,
             contractAddress,
@@ -220,12 +219,12 @@ class InteractFormInner extends Component<InteractProps, State> {
   };
 
   private readonly confirmInteract = () => {
-    const { wallet, form } = this.props;
+    const { address, form } = this.props;
     const { showConfirmInteract, confirmInteractFunction } = this.state;
 
     const { recipient, amount, gasLimit, gasPrice } = form.getFieldsValue();
     const dataSource = {
-      address: wallet && wallet.address,
+      address: address,
       toAddress: recipient,
       amount: toRau(amount, "Iotx"),
       limit: gasLimit,
