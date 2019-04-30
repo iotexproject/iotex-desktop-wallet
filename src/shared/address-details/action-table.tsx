@@ -35,17 +35,29 @@ export function getAddress(record: ActionInfo): string {
   return addr;
 }
 
-export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
+interface CustomCoulns {
+  [key: string]: ColumnProps<ActionInfo>;
+}
+
+export function getActionColumns({
+  customColumns = {}
+}: { customColumns?: CustomCoulns } = {}): Array<ColumnProps<ActionInfo>> {
+  const { actHash } = customColumns;
   return [
-    {
-      title: t("action.hash"),
-      dataIndex: "actHash",
-      render(text: string, _: ActionInfo, __: number): JSX.Element {
-        return (
-          <FlexLink path={`/action/${text}`} text={String(text).substr(0, 8)} />
-        );
-      }
-    },
+    actHash
+      ? actHash
+      : {
+          title: t("action.hash"),
+          dataIndex: "actHash",
+          render(text: string, _: ActionInfo, __: number): JSX.Element {
+            return (
+              <FlexLink
+                path={`/action/${text}`}
+                text={String(text).substr(0, 8)}
+              />
+            );
+          }
+        },
     {
       title: t("block.timestamp"),
       dataIndex: "timestamp",
@@ -167,11 +179,13 @@ type GetVariable = ({
 export function ActionTable({
   pageSize = 10,
   totalActions = 100,
-  getVariable
+  getVariable,
+  customColumns
 }: {
   pageSize?: number;
   totalActions?: number;
   getVariable: GetVariable;
+  customColumns?: CustomCoulns;
 }): JSX.Element {
   return (
     <Query
@@ -197,7 +211,7 @@ export function ActionTable({
               style={{ width: "100%" }}
               scroll={{ x: true }}
               rowKey={"hash"}
-              columns={getActionColumns()}
+              columns={getActionColumns({ customColumns })}
               dataSource={actionInfo}
               pagination={{
                 pageSize,
