@@ -136,6 +136,7 @@ input.error.private_key.invalid: Please input your private key
 input.error.private_key.length: Private key has to be of length 64
 wallet.missing_solidity_pragma: Incorrect Solidity
 wallet.cannot_find_solidity_version: Cannot find solidity version
+wallet.cannot_load_solidity_version: Cannot load solidity version
 wallet.unlock.new.title: Please pay attention
 wallet.unlock.new.yes: "I understand, continue"
 wallet.unlock.new.p1: >-
