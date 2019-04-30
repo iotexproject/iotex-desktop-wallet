@@ -94,12 +94,12 @@ class BlockDetailsInner extends PureComponent<Props, State> {
       >
         {isTableFold ? (
           <span>
-            <FoldButton>Show More</FoldButton>
+            <FoldButton>{t("block.show_more")}</FoldButton>
             <Icon type="down" />
           </span>
         ) : (
           <span>
-            <FoldButton>Show Less</FoldButton>
+            <FoldButton>{t("block.show_less")}</FoldButton>
             <Icon type="up" />
           </span>
         )}
@@ -204,7 +204,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
 }
 
 const FoldButtonWrapper = styled("div", {
-  color: "#00b4a0",
+  color: colors.primary,
   marginTop: "10px",
   cursor: "pointer"
 });

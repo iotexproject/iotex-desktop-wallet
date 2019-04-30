@@ -30,6 +30,8 @@ block.transfer_amount: 转账总额
 block.tx_root: "Tx Root"
 block.receipt_root: 收据根
 block.delta_state_digest: 状态增量摘要
+block.show_more: 展示更多
+block.show_less: 展示更少
 action.type: 类型
 action.type.transfer: 传递
 action.type.grant_reward: 授予的奖励
