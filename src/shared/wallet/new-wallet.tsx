@@ -3,15 +3,27 @@ import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
+import dateformat from "dateformat";
+import exportFromJSON from "export-from-json";
 import { Account } from "iotex-antenna/lib/account/account";
+import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import * as React from "react";
 import { copyCB } from "text-to-clipboard";
+import { CommonMargin } from "../common/common-margin";
 import { getAntenna } from "./get-antenna";
 import { FormItemLabel, inputStyle } from "./wallet";
+
+function dummyEncrypt(a: string, b: string): {} {
+  return { a, b };
+}
+
+function utcNow(): string {
+  return dateformat(new Date().toUTCString(), "UTC:yyyy-mm-dd'T'HH-MM-ss.l'Z'");
+}
 
 export interface Props {
   form: WrappedFormUtils;
@@ -22,6 +34,7 @@ export interface State {
   copied: boolean;
   wallet: Account;
 }
+
 class NewWalletComponent extends React.Component<Props, State> {
   public state: State = {
     copied: false,
@@ -41,7 +54,17 @@ class NewWalletComponent extends React.Component<Props, State> {
   public render(): JSX.Element {
     const { wallet, copied } = this.state;
 
-    const copyButton = copied ? <Icon type="check" /> : t("new-wallet.copy");
+    const copyButton = (
+      // @ts-ignore
+      <Button
+        type="primary"
+        onClick={this.copyPriKey}
+        style={{ margin: "0 -11px" }}
+      >
+        {copied ? <Icon type="check" /> : t("new-wallet.copy")}
+      </Button>
+    );
+
     return (
       <div>
         <div>
@@ -65,17 +88,33 @@ class NewWalletComponent extends React.Component<Props, State> {
           <Form.Item
             label={<FormItemLabel>{t("wallet.account.private")}</FormItemLabel>}
           >
-            <Input.Search
+            <Input.Password
               className="form-input"
               placeholder={t("wallet.account.addressPlaceHolder")}
-              enterButton={copyButton}
-              onSearch={this.copyPriKey}
+              addonAfter={copyButton}
               value={wallet.privateKey}
               readOnly={true}
-              suffix={<Icon type="eye" style={{ color: "rgba(0,0,0,.45)" }} />}
             />
           </Form.Item>
         </Form>
+
+        {isElectron() && (
+          // @ts-ignore
+          <Button
+            type="primary"
+            onClick={() => {
+              exportFromJSON({
+                data: dummyEncrypt(wallet.privateKey, "password"),
+                fileName: `UTC--${utcNow()}--${wallet.address}`,
+                exportType: "json"
+              });
+            }}
+          >
+            {t("new-wallet.download")}
+          </Button>
+        )}
+
+        <CommonMargin />
 
         <Alert
           message={

@@ -52,7 +52,7 @@ export class App extends Component<Props> {
                 path="/address/:address"
                 component={AddressDetails}
               />
-              <Route exact path="/block/:hash" component={BlockDetail} />
+              <Route path="/block/:hash" component={BlockDetail} />
               <Route exact path="/block" component={Blocks} />
               <Route exact path="/action/:hash" component={ActionDetail} />
               <Route exact path="/action" component={Actions} />

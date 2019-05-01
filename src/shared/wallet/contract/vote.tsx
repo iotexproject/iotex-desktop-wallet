@@ -1,11 +1,14 @@
 import Button from "antd/lib/button";
 import Icon from "antd/lib/icon";
 // @ts-ignore
+import window from "global/window";
+import isElectron from "is-electron";
+// @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
 // @ts-ignore
-import React, { Component } from "react";
+import React, { Component, MouseEvent } from "react";
 import { PageTitle } from "../../common/page-title";
 import { MEMBER } from "../../common/site-url";
 
@@ -26,7 +29,19 @@ export class Vote extends Component<Props, State> {
         </PageTitle>
         <p>{t("wallet.vote.content")}</p>
         <br />
-        <Button href={MEMBER.INDEX} target="_blank" type="primary">
+        <Button
+          type="primary"
+          href={MEMBER.INDEX}
+          target="_blank"
+          onClick={(e: MouseEvent) => {
+            if (!isElectron()) {
+              return true;
+            }
+            e.preventDefault();
+            window.xopen(MEMBER.INDEX);
+            return false;
+          }}
+        >
           {t("wallet.vote.button")}
         </Button>
       </div>

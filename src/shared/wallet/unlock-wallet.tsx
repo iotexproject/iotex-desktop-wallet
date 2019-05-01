@@ -7,6 +7,7 @@ import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
 import Modal from "antd/lib/modal";
 import { get } from "dottie";
+import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -32,6 +33,7 @@ class UnlockWalletComponent extends React.Component<Props, State> {
     showModal: false,
     priKey: ""
   };
+
   public handleInputChange = (e: React.FormEvent) => {
     const name: string = get(e, "target.name");
     const value = get(e, "target.value");
@@ -40,6 +42,7 @@ class UnlockWalletComponent extends React.Component<Props, State> {
       [name]: value
     });
   };
+
   public createNewWallet = (status: boolean) => {
     this.setState({ showModal: false });
     if (status) {
@@ -77,12 +80,14 @@ class UnlockWalletComponent extends React.Component<Props, State> {
           <p>{t("wallet.unlock.new.p2")}</p>
         </Modal>
         <WalletTitle>{t("unlock-wallet.title")}</WalletTitle>
-        <Alert
-          message={t("unlock-wallet.warn.message")}
-          type="warning"
-          closable
-          showIcon
-        />
+        {!isElectron() && (
+          <Alert
+            message={t("unlock-wallet.warn.message")}
+            type="warning"
+            closable
+            showIcon
+          />
+        )}
         <div style={{ margin: "24px" }} />
         <Form layout="vertical">
           <Form.Item

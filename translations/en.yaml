@@ -138,6 +138,7 @@ input.error.private_key.invalid: Please input your private key
 input.error.private_key.length: Private key has to be of length 64
 wallet.missing_solidity_pragma: Incorrect Solidity
 wallet.cannot_find_solidity_version: Cannot find solidity version
+wallet.cannot_load_solidity_version: Cannot load solidity version
 wallet.unlock.new.title: Please pay attention
 wallet.unlock.new.yes: "I understand, continue"
 wallet.unlock.new.p1: >-
@@ -221,7 +222,7 @@ wallet.account.private: Private Key
 wallet.account.addressPlaceHolder: IoTeX Address...
 new-wallet.copy: Copy
 new-wallet.created: Wallet is created! Save your
-new-wallet.privateKey: Private Key
+new-wallet.privateKey: Private Key or Keystore File
 new-wallet.warn.do-not-lose: Do not lose private key!
 new-wallet.warn.cant-recover: It cannot be recovered if you lose it.
 new-wallet.warn.do-not-share: Do not share private key!
@@ -294,3 +295,4 @@ abi.input: Arguments
 abi.return: Return
 wallet.abi.read: Read contract
 wallet.abi.write: Write contract
+new-wallet.download: Download Keystore File (UTC / JSON)
