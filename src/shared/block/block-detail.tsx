@@ -32,7 +32,7 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { GET_BLOCK_METAS } from "../queries";
 
 type PathParamsType = {
-  hash: string;
+  height: string;
 };
 
 type Props = RouteComponentProps<PathParamsType> & {};
@@ -153,7 +153,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
     const {
       match: {
         url,
-        params: { hash }
+        params: { height }
       }
     } = this.props;
     let fields = [
@@ -168,12 +168,12 @@ class BlockDetailsInner extends PureComponent<Props, State> {
       "deltaStateDigest"
     ];
 
-    const parameter = this.transferParam(hash);
+    const parameter = this.transferParam(height);
 
     if (Object.keys(parameter).length === 0) {
       return (
         <ContentPadding>
-          <Helmet title={`IoTeX ${t("block.block")} ${hash}`} />
+          <Helmet title={`IoTeX ${t("block.block")} ${height}`} />
           <NotFound />
         </ContentPadding>
       );
@@ -181,7 +181,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
 
     return (
       <ContentPadding>
-        <Helmet title={`IoTeX ${t("block.block")} ${hash}`} />
+        <Helmet title={`IoTeX ${t("block.block")} ${height}`} />
         <Query query={GET_BLOCK_METAS} variables={parameter}>
           {({
             loading,
