@@ -1,6 +1,6 @@
 import { ColumnProps } from "antd/es/table";
 import Divider from "antd/lib/divider";
-import Icon from "antd/lib/icon";
+import { Icon, Tooltip } from "antd";
 import Table from "antd/lib/table";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
@@ -26,8 +26,16 @@ import { NotFound } from "../common/not-found";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
+import { PALM_WIDTH } from "../common/styles/style-media";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_BLOCK_METAS } from "../queries";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
+import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
+// @ts-ignore
+import window from "global/window";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 type PathParamsType = {
   hash: string;
@@ -218,6 +226,25 @@ export function renderKey(text: string): JSX.Element {
   return <span>{t(`render.key.${text}`)}</span>;
 }
 
+function renderActualTime(ts: Timestamp | undefined): JSX.Element | string {
+  if (!ts) {
+    return "";
+  }
+  const time = `(${dayjs(ts.seconds * 1000)
+    .locale("en")
+    .utc()
+    .format("DD-MM-YYYY HH:mm:ss A")} +UTC)`;
+  return window.innerWidth > PALM_WIDTH ? (
+    <span style={{ marginLeft: "10px" }}>{time}</span>
+  ) : (
+    <span style={{ marginLeft: "10px" }}>
+      <Tooltip title={time} trigger="click">
+        <Icon type="clock-circle" style={{ color: colors.primary }} />
+      </Tooltip>
+    </span>
+  );
+}
+
 // tslint:disable:no-any
 export function renderValue(text: string, record: any): JSX.Element | string {
   switch (record.key) {
@@ -236,17 +263,51 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "contractAddress":
       return <FlexLink path={`/address/${record.value}`} text={text} />;
     case "timestamp":
-      return <span>{translateFn(record.value)}</span>;
+      return (
+        <span>
+          {translateFn(record.value)}
+          {renderActualTime(record.value)}
+        </span>
+      );
     case "actHash":
       return <FlexLink path={`/action/${text}`} text={text} />;
     case "blkHash":
       return <FlexLink path={`/block/${text}`} text={text} />;
     case "status":
       return <span>{parseInt(text, 10) === 1 ? "success" : "failure"}</span>;
+    case "height":
+      const height = Number(text);
+      return (
+        <span>
+          {text}
+          {height === 1 ? (
+            <Icon type="caret-left" style={{ color: colors.black60 }} />
+          ) : (
+            <FlexLink
+              path={`/block/${height - 1}`}
+              text={
+                <Icon type="caret-left" style={{ color: colors.primary }} />
+              }
+            />
+          )}
+          <FlexLink
+            path={`/block/${height + 1}`}
+            text={<Icon type="caret-right" style={{ color: colors.primary }} />}
+          />
+        </span>
+      );
     case "txRoot":
     case "hash":
     case "receiptRoot":
     case "deltaStateDigest":
+      return (
+        <span>
+          <span style={{ marginRight: "10px" }}>{text}</span>
+          <CopyToClipboard text={text}>
+            <Icon type="copy" style={{ color: colors.primary }} />
+          </CopyToClipboard>
+        </span>
+      );
     default:
       return <span>{text}</span>;
   }
