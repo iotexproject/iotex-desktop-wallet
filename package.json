@@ -163,7 +163,7 @@
     "graphql-iso-date": "3.6.1",
     "graphql-tag": "2.10.1",
     "graphql-tools": "4.0.4",
-    "iotex-antenna": "0.13.0",
+    "iotex-antenna": "^0.14.0",
     "iotex-react-block-producers": "1.2.2",
     "is-browser": "2.1.0",
     "is-electron": "2.2.0",
