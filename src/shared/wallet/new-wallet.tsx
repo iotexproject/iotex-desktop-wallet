@@ -1,29 +1,19 @@
 import Alert from "antd/lib/alert";
 import Button from "antd/lib/button";
-import Form, {WrappedFormUtils} from "antd/lib/form/Form";
+import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
-import dateformat from "dateformat";
-import exportFromJSON from "export-from-json"
-import {Account} from "iotex-antenna/lib/account/account";
-import isElectron from "is-electron";
+import { Account } from "iotex-antenna/lib/account/account";
 // @ts-ignore
-import {t} from "onefx/lib/iso-i18n";
+import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
-import {styled} from "onefx/lib/styletron-react";
+import { styled } from "onefx/lib/styletron-react";
 import * as React from "react";
-import {copyCB} from "text-to-clipboard";
-import {CommonMargin} from "../common/common-margin";
-import {getAntenna} from "./get-antenna";
-import {FormItemLabel, inputStyle} from "./wallet";
-
-function dummyEncrypt(a: string, b: string): {} {
-  return {a, b};
-}
-
-function utcNow(): string {
-  return dateformat(new Date().toUTCString(), "UTC:yyyy-mm-dd'T'HH-MM-ss.l'Z'");
-}
+import { copyCB } from "text-to-clipboard";
+import { CommonMargin } from "../common/common-margin";
+import { DownloadKeystoreForm } from "./download-keystore-form";
+import { getAntenna } from "./get-antenna";
+import { FormItemLabel, inputStyle } from "./wallet";
 
 export interface Props {
   form: WrappedFormUtils;
@@ -35,16 +25,16 @@ export interface State {
   wallet: Account;
 }
 
-class NewWalletComponent extends React.Component<Props, State> {
+class NewWallet extends React.Component<Props, State> {
   public state: State = {
     copied: false,
     wallet: getAntenna().iotx.accounts.create()
   };
 
   public copyPriKey = () => {
-    const {wallet} = this.state;
+    const { wallet } = this.state;
     copyCB(wallet.privateKey);
-    this.setState({copied: true});
+    this.setState({ copied: true });
   };
 
   public setWallet = () => {
@@ -52,18 +42,18 @@ class NewWalletComponent extends React.Component<Props, State> {
   };
 
   public render(): JSX.Element {
-    const {wallet, copied} = this.state;
+    const { wallet, copied } = this.state;
 
-    const copyButton = copied ? <Icon type="check"/> : t("new-wallet.copy");
+    const copyButton = copied ? <Icon type="check" /> : t("new-wallet.copy");
     return (
       <div>
         <div>
-          <p style={{display: "inline-block"}} className="wallet-title">
+          <p style={{ display: "inline-block" }} className="wallet-title">
             {t("new-wallet.created")}
           </p>
           <p className="private-key">{t("new-wallet.privateKey")}</p>
         </div>
-        <br/>
+        <br />
         <Form layout="vertical">
           <Form.Item
             label={<FormItemLabel>{t("wallet.account.raw")}</FormItemLabel>}
@@ -85,26 +75,17 @@ class NewWalletComponent extends React.Component<Props, State> {
               onSearch={this.copyPriKey}
               value={wallet.privateKey}
               readOnly={true}
-              suffix={<Icon type="eye" style={{color: "rgba(0,0,0,.45)"}}/>}
+              suffix={<Icon type="eye" style={{ color: "rgba(0,0,0,.45)" }} />}
             />
           </Form.Item>
         </Form>
 
-        {isElectron() && (
-          // @ts-ignore
-          <Button
-            type="primary"
-            onClick={() => {
-              exportFromJSON({
-                data: dummyEncrypt(wallet.privateKey, "password"),
-                fileName: `UTC--${utcNow()}--${wallet.address}`,
-                exportType: "json"
-              });
-            }}
-          >{t("new-wallet.download")}</Button>
-        )}
+        <DownloadKeystoreForm
+          privateKey={wallet.privateKey}
+          address={wallet.address}
+        />
 
-        <CommonMargin/>
+        <CommonMargin />
 
         <Alert
           message={
@@ -127,13 +108,14 @@ class NewWalletComponent extends React.Component<Props, State> {
           closable
           showIcon
         />
-        <br/>
+        <br />
         <Button href="#" type="primary" onClick={this.setWallet}>
           {t("new-wallet.button.unlock")}
         </Button>
+        <CommonMargin />
       </div>
     );
   }
 }
 
-export default Form.create<NewWalletComponent>()(NewWalletComponent);
+export default Form.create<NewWallet>()(NewWallet);

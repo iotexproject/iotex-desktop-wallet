@@ -199,3 +199,23 @@ export function AmountFormInputItem({
     </Form.Item>
   );
 }
+
+export function PasswordFormInputItem({
+  form,
+  initialValue
+}: {
+  form: WrappedFormUtils;
+  initialValue?: number;
+}): JSX.Element {
+  const { getFieldDecorator } = form;
+  return (
+    <Form.Item
+      label={<FormItemLabel>{t("wallet.input.password")}</FormItemLabel>}
+    >
+      {getFieldDecorator("password", {
+        initialValue: initialValue,
+        rules: rulesMap.password
+      })(<Input className="form-input" name="password" />)}
+    </Form.Item>
+  );
+}
