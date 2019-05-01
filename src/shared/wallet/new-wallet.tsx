@@ -54,7 +54,17 @@ class NewWalletComponent extends React.Component<Props, State> {
   public render(): JSX.Element {
     const { wallet, copied } = this.state;
 
-    const copyButton = copied ? <Icon type="check" /> : t("new-wallet.copy");
+    const copyButton = (
+      // @ts-ignore
+      <Button
+        type="primary"
+        onClick={this.copyPriKey}
+        style={{ margin: "0 -11px" }}
+      >
+        {copied ? <Icon type="check" /> : t("new-wallet.copy")}
+      </Button>
+    );
+
     return (
       <div>
         <div>
@@ -81,15 +91,7 @@ class NewWalletComponent extends React.Component<Props, State> {
             <Input.Password
               className="form-input"
               placeholder={t("wallet.account.addressPlaceHolder")}
-              addonAfter={
-                <Button
-                  type="primary"
-                  onClick={this.copyPriKey}
-                  style={{ margin: "0 -11px" }}
-                >
-                  {copyButton}
-                </Button>
-              }
+              addonAfter={copyButton}
               value={wallet.privateKey}
               readOnly={true}
             />
