@@ -1,7 +1,9 @@
+import { Icon, Tooltip } from "antd";
 import { ColumnProps } from "antd/es/table";
 import Divider from "antd/lib/divider";
-import { Icon, Tooltip } from "antd";
 import Table from "antd/lib/table";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
@@ -29,13 +31,12 @@ import { colors } from "../common/styles/style-color";
 import { PALM_WIDTH } from "../common/styles/style-media";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_BLOCK_METAS } from "../queries";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
-import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
 // @ts-ignore
 import window from "global/window";
+// @ts-ignore
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
 
 type PathParamsType = {
   hash: string;
