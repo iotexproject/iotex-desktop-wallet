@@ -12,7 +12,7 @@ const routesConfig = [
     path: "/block/:hash/action",
     breadcrumb: "Action List"
   },
-  { path: "/block/:hash/action/:hash", breadcrumb: "Action Detail" }
+  { path: "/block/:blockHash/action/:actionHash", breadcrumb: "Action Detail" }
 
   // { path: "/block/:id", breadcrumb: `Block# ` }
 ];
