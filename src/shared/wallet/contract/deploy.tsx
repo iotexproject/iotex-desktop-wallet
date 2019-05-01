@@ -181,7 +181,6 @@ class DeployFormInner extends Component<DeployProps, State> {
     const { showConfirmation } = this.state;
 
     const { byteCode, amount, gasLimit, gasPrice } = form.getFieldsValue();
-    const trimmed0xHex = String(byteCode).replace(/^0x/, "");
 
     const dataSource = {
       address: address,
@@ -190,16 +189,6 @@ class DeployFormInner extends Component<DeployProps, State> {
       price: toRau(gasPrice, "Qev"),
       limit: gasLimit
     };
-
-    window.console.log(
-      `antenna.iotx.deployContract(${JSON.stringify({
-        from: String(address),
-        amount: toRau(amount, "Iotx"),
-        data: Buffer.from(trimmed0xHex, "hex"),
-        gasPrice: gasPrice || undefined,
-        gasLimit: gasLimit || undefined
-      })})`
-    );
 
     return (
       <ConfirmContractModal
@@ -227,6 +216,16 @@ class DeployFormInner extends Component<DeployProps, State> {
 
       const { byteCode, amount, gasLimit, gasPrice } = value;
       const trimmed0xHex = String(byteCode).replace(/^0x/, "");
+
+      window.console.log(
+        `antenna.iotx.deployContract(${JSON.stringify({
+          from: String(address),
+          amount: toRau(amount, "Iotx"),
+          data: Buffer.from(trimmed0xHex, "hex"),
+          gasPrice: gasPrice || undefined,
+          gasLimit: gasLimit || undefined
+        })})`
+      );
 
       const txHash = await antenna.iotx.deployContract({
         from: String(address),
