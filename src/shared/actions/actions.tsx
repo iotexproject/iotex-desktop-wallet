@@ -53,7 +53,7 @@ type State = {
 };
 
 export class ActionTable extends Component<{}, State> {
-  public state: State = { start: 0, count: 30 };
+  public state: State = { start: 0, count: 15 };
   public render(): JSX.Element {
     const { count } = this.state;
     let { start } = this.state;
@@ -78,6 +78,7 @@ export class ActionTable extends Component<{}, State> {
             <Query
               query={GET_ACTIONS_BY_INDEX}
               variables={{ byIndex: { start, count } }}
+              notifyOnNetworkStatusChange={true}
             >
               {({
                 loading,
