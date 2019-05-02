@@ -3,10 +3,7 @@ import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
-import dateformat from "dateformat";
-import exportFromJSON from "export-from-json";
 import { Account } from "iotex-antenna/lib/account/account";
-import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -14,16 +11,9 @@ import { styled } from "onefx/lib/styletron-react";
 import * as React from "react";
 import { copyCB } from "text-to-clipboard";
 import { CommonMargin } from "../common/common-margin";
+import { DownloadKeystoreForm } from "./download-keystore-form";
 import { getAntenna } from "./get-antenna";
 import { FormItemLabel, inputStyle } from "./wallet";
-
-function dummyEncrypt(a: string, b: string): {} {
-  return { a, b };
-}
-
-function utcNow(): string {
-  return dateformat(new Date().toUTCString(), "UTC:yyyy-mm-dd'T'HH-MM-ss.l'Z'");
-}
 
 export interface Props {
   form: WrappedFormUtils;
@@ -35,7 +25,7 @@ export interface State {
   wallet: Account;
 }
 
-class NewWalletComponent extends React.Component<Props, State> {
+class NewWallet extends React.Component<Props, State> {
   public state: State = {
     copied: false,
     wallet: getAntenna().iotx.accounts.create()
@@ -98,21 +88,10 @@ class NewWalletComponent extends React.Component<Props, State> {
           </Form.Item>
         </Form>
 
-        {isElectron() && (
-          // @ts-ignore
-          <Button
-            type="primary"
-            onClick={() => {
-              exportFromJSON({
-                data: dummyEncrypt(wallet.privateKey, "password"),
-                fileName: `UTC--${utcNow()}--${wallet.address}`,
-                exportType: "json"
-              });
-            }}
-          >
-            {t("new-wallet.download")}
-          </Button>
-        )}
+        <DownloadKeystoreForm
+          privateKey={wallet.privateKey}
+          address={wallet.address}
+        />
 
         <CommonMargin />
 
@@ -141,9 +120,10 @@ class NewWalletComponent extends React.Component<Props, State> {
         <Button href="#" type="primary" onClick={this.setWallet}>
           {t("new-wallet.button.unlock")}
         </Button>
+        <CommonMargin />
       </div>
     );
   }
 }
 
-export default Form.create<NewWalletComponent>()(NewWalletComponent);
+export default Form.create<NewWallet>()(NewWallet);

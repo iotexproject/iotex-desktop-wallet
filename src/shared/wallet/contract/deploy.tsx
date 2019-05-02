@@ -26,13 +26,13 @@ import { formItemLayout } from "../../common/form-item-layout";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
 import { actionBtnStyle } from "../transfer/transfer";
+import { inputStyle } from "../wallet";
 import {
   AbiFormInputItem,
   AmountFormInputItem,
   FormItemLabel,
   GasLimitFormInputItem,
-  GasPriceFormInputItem,
-  inputStyle
+  GasPriceFormInputItem
 } from "./cards";
 import { ContractLayout } from "./contract-layout";
 
@@ -214,7 +214,7 @@ class DeployFormInner extends Component<DeployProps, State> {
         return;
       }
 
-      const { byteCode, amount, gasLimit, gasPrice } = value;
+      const { byteCode, amount, gasLimit, gasPrice, abi } = value;
       const trimmed0xHex = String(byteCode).replace(/^0x/, "");
 
       window.console.log(
@@ -228,6 +228,7 @@ class DeployFormInner extends Component<DeployProps, State> {
       );
 
       const txHash = await antenna.iotx.deployContract({
+        abi: JSON.parse(abi),
         from: String(address),
         amount: toRau(amount, "Iotx"),
         data: Buffer.from(trimmed0xHex, "hex"),

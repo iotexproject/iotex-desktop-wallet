@@ -39,10 +39,7 @@ type Props = RouteComponentProps<PathParamsType> & {};
 
 export const inputStyle = {
   width: "100%",
-  background: colors.black10,
-  border: "none",
-  height: "38px",
-  lineHeight: "38px"
+  background: colors.black10
 };
 
 export const buttonStyle = {
