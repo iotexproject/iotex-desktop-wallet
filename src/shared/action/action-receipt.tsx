@@ -1,5 +1,6 @@
 import Table from "antd/lib/table";
 import { get } from "dottie";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
@@ -12,7 +13,6 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { GET_RECEIPT_BY_ACTION } from "../queries";
 import { buildKeyValueArray } from "./action-detail";
-import { fromRau } from "iotex-antenna/lib/account/utils";
 
 type Props = {
   actionHash: string;

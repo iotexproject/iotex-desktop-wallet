@@ -9,15 +9,18 @@
     <script>
       (function() {
         if (!process.env.HOT) {
-          ["../../dist/stylesheets/main.css", "../../dist/antd.css"].forEach(
-            it => {
-              const link = document.createElement("link");
-              link.rel = "stylesheet";
-              link.href = it;
-              // HACK: Writing the script path should be done with webpack
-              document.getElementsByTagName("head")[0].appendChild(link);
-            }
-          );
+          [
+            "../../../dist/stylesheets/main.css",
+            "../../../dist/antd.css",
+            "main.css",
+            "antd.css"
+          ].forEach(it => {
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.href = it;
+            // HACK: Writing the script path should be done with webpack
+            document.getElementsByTagName("head")[0].appendChild(link);
+          });
         }
       })();
     </script>
