@@ -18,7 +18,7 @@ import { Navigation } from "../common/navigation";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
-import { ContentPadding } from "../common/styles/style-padding";
+import { ContentPadding, NonePadding } from "../common/styles/style-padding";
 import { GET_ACTIONS_BY_HASH } from "../queries";
 import { ActionReceipt } from "./action-receipt";
 
@@ -26,7 +26,10 @@ type PathParamsType = {
   hash: string;
 };
 
-type Props = RouteComponentProps<PathParamsType> & {};
+type Props = RouteComponentProps<PathParamsType> & {
+  showNavigation?: boolean;
+  showContentPadding?: boolean;
+};
 
 export function buildKeyValueArray(object: {}): Array<{}> {
   return Object.keys(object).map(key => {
@@ -51,13 +54,17 @@ class ActionDetailsInner extends PureComponent<Props> {
     const {
       match: {
         params: { hash }
-      }
+      },
+      showContentPadding = true,
+      showNavigation = true
     } = this.props;
 
+    const Root = showContentPadding ? ContentPadding : NonePadding;
+
     return (
-      <ContentPadding>
+      <Root>
         <Helmet title={`IoTeX ${t("action.action")} ${hash}`} />
-        <Navigation />
+        {showNavigation && <Navigation />}
         <Query
           query={GET_ACTIONS_BY_HASH}
           variables={{ byHash: { actionHash: hash, checkingPending: true } }}
@@ -126,7 +133,7 @@ class ActionDetailsInner extends PureComponent<Props> {
             );
           }}
         </Query>
-      </ContentPadding>
+      </Root>
     );
   }
 }
