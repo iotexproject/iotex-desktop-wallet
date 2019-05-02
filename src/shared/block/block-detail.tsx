@@ -1,8 +1,8 @@
 import { ColumnProps } from "antd/es/table";
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
-import Table from "antd/lib/table";
 import Popover from "antd/lib/popover";
+import Table from "antd/lib/table";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
@@ -263,13 +263,7 @@ export function renderKey(text: string): JSX.Element {
 }
 
 const EmailSvg = () => (
-  <svg
-    viewBox="0 0 1024 1024"
-    version="1.1"
-    xmlns="http://www.w3.org/2000/svg"
-    width="25"
-    height="25"
-  >
+  <svg viewBox="0 0 1024 1024" version="1.1" width="25" height="25">
     <path d="M0 128l0 768 1024 0L1024 128 0 128zM934.016 320 512 616 86.016 320 86.016 210.688 512 506.688l422.016-296L934.016 320z" />
   </svg>
 );
