@@ -36,15 +36,16 @@ import { GET_BLOCK_METAS } from "../queries";
 dayjs.extend(utc);
 // @ts-ignore
 import window from "global/window";
-// @ts-ignore
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
+import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
+import { connect } from "react-redux";
+import { GET_LATEST_HEIGHT } from "../queries";
 
 type PathParamsType = {
   height: string;
 };
 
-type Props = RouteComponentProps<PathParamsType> & {};
+type Props = RouteComponentProps<PathParamsType> & { locale: string };
 
 type State = {
   totalActons: number;
@@ -270,12 +271,16 @@ export function renderKey(text: string): JSX.Element {
   return <span>{t(`render.key.${text}`)}</span>;
 }
 
-function renderActualTime(ts: Timestamp | undefined): JSX.Element | string {
+function renderActualTime(props: {
+  ts: Timestamp | undefined;
+  locale: string;
+}): JSX.Element {
+  const { ts, locale } = props;
   if (!ts) {
-    return "";
+    return <span />;
   }
   const time = `(${dayjs(ts.seconds * 1000)
-    .locale("en")
+    .locale(locale.toLowerCase())
     .utc()
     .format("DD-MM-YYYY HH:mm:ss A")} +UTC)`;
   return window.innerWidth > PALM_WIDTH ? (
@@ -288,6 +293,12 @@ function renderActualTime(ts: Timestamp | undefined): JSX.Element | string {
     </span>
   );
 }
+
+const RenderActualTimeContainer = connect<{ locale: string }>(state => {
+  // @ts-ignore
+  const { locale } = state.base;
+  return { locale };
+})(renderActualTime);
 
 // tslint:disable:no-any
 export function renderValue(text: string, record: any): JSX.Element | string {
@@ -312,7 +323,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
       return (
         <span>
           {translateFn(record.value)}
-          {renderActualTime(record.value)}
+          <RenderActualTimeContainer ts={record.value} />
         </span>
       );
     case "actHash":
@@ -336,10 +347,25 @@ export function renderValue(text: string, record: any): JSX.Element | string {
               }
             />
           )}
-          <FlexLink
-            path={`/block/${height + 1}`}
-            text={<Icon type="caret-right" style={{ color: colors.primary }} />}
-          />
+          <Query query={GET_LATEST_HEIGHT}>
+            {({ data }: QueryResult<{ chainMeta: { height: number } }>) => {
+              const latestHeight =
+                (data && data.chainMeta && data.chainMeta.height) || 0;
+              return Number(latestHeight) === height ? (
+                <Icon type="caret-right" style={{ color: colors.black60 }} />
+              ) : (
+                <FlexLink
+                  path={`/block/${height + 1}`}
+                  text={
+                    <Icon
+                      type="caret-right"
+                      style={{ color: colors.primary }}
+                    />
+                  }
+                />
+              );
+            }}
+          </Query>
         </span>
       );
     case "txRoot":
@@ -349,9 +375,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
       return (
         <span>
           <span style={{ marginRight: "10px" }}>{text}</span>
-          <CopyToClipboard text={text}>
-            <Icon type="copy" style={{ color: colors.primary }} />
-          </CopyToClipboard>
+          <CopyButtonClipboardComponent text={text} />
         </span>
       );
     default:
