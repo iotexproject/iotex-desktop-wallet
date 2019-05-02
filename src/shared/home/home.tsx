@@ -1,4 +1,4 @@
-import { Icon, Input, Statistic } from "antd";
+import { Icon, Statistic } from "antd";
 import Card from "antd/lib/card";
 import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
@@ -62,7 +62,7 @@ const MapTile = () => {
 };
 
 class HomeComponent extends Component {
-  public renderSearchBar(): JSX.Element {
+  public renderSearchBox(): JSX.Element {
     return (
       <Layout tagName="main" style={{ marginTop: 20, background: "#f0f2f5" }}>
         <SearchBox
@@ -115,7 +115,7 @@ class HomeComponent extends Component {
             className={"main-container"}
             style={{ background: "#f0f2f5" }}
           >
-            {this.renderSearchBar()}
+            {this.renderSearchBox()}
             {this.renderStats()}
 
             <Layout tagName="main">
