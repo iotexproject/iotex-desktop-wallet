@@ -263,3 +263,9 @@
     box-shadow: 0 2px 8px 0 rgba(21, 26, 33, 0.43) !important;
   }
 }
+
+.home-search .ant-input-lg,
+.home-search .ant-input-search-button {
+  height: 48px;
+  border-color: #d9d9d9;
+}

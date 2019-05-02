@@ -165,6 +165,8 @@ home.blockHeight: BLOCK HEIGHT
 home.currentTPS: CURRENT TPS
 home.IOTXPrice: IOTX PRICE
 home.marketCap: MARKETCAP
+home.blockList: Block List
+home.search: SEARCH
 time.fn.years: years
 time.fn.year: year
 time.fn.months: months
