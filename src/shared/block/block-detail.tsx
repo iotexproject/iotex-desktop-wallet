@@ -2,6 +2,7 @@ import { ColumnProps } from "antd/es/table";
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 import Table from "antd/lib/table";
+import Popover from "antd/lib/popover";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
@@ -261,6 +262,18 @@ export function renderKey(text: string): JSX.Element {
   return <span>{t(`render.key.${text}`)}</span>;
 }
 
+const EmailSvg = () => (
+  <svg
+    viewBox="0 0 1024 1024"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    width="25"
+    height="25"
+  >
+    <path d="M0 128l0 768 1024 0L1024 128 0 128zM934.016 320 512 616 86.016 320 86.016 210.688 512 506.688l422.016-296L934.016 320z" />
+  </svg>
+);
+
 // tslint:disable:no-any
 export function renderValue(text: string, record: any): JSX.Element | string {
   switch (record.key) {
@@ -283,7 +296,30 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "timestamp":
       return <span>{translateFn(record.value)}</span>;
     case "actHash":
-      return <FlexLink path={`/action/${text}`} text={text} />;
+      const content = (
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <div>
+            <Icon type="link" style={{ fontSize: "25px" }} />
+            <br />
+            <span style={{ fontSize: "14px" }}>Copy Link</span>
+          </div>
+          <div>
+            <Icon component={EmailSvg} />
+            <br />
+            <span style={{ fontSize: "14px" }}>Email</span>
+          </div>
+        </div>
+      );
+      return (
+        <span>
+          <FlexLink path={`/action/${text}`} text={text} />
+          <span style={{ marginLeft: "10px" }}>
+            <Popover content={content} title="Share this Action">
+              <Icon type="share-alt" style={{ color: colors.primary }} />
+            </Popover>
+          </span>
+        </span>
+      );
     case "blkHash":
       return <FlexLink path={`/block/${text}`} text={text} />;
     case "status":

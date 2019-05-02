@@ -18,6 +18,7 @@ import { translateFn } from "../common/from-now";
 import { getActionType } from "../common/get-action-type";
 import { SpinPreloader } from "../common/spin-preloader";
 import { GET_ACTIONS } from "../queries";
+import { LAP_WIDTH } from "../common/styles/style-media";
 
 export function getAddress(record: ActionInfo): string {
   const addr: string =
@@ -100,11 +101,13 @@ export function getActionColumns({
       dataIndex: "recipient",
       render(_: string, record: ActionInfo, __: number): JSX.Element | string {
         const addr = getAddress(record);
-        return (
+        return addr !== "-" ? (
           <FlexLink
             path={`/address/${addr}`}
             text={String(addr).substr(0, 8)}
           />
+        ) : (
+          <span>-</span>
         );
       }
     },
@@ -209,13 +212,14 @@ export function ActionTable({
           <SpinPreloader spinning={loading}>
             <Table
               style={{ width: "100%" }}
-              scroll={{ x: true }}
+              scroll={{ x: `${LAP_WIDTH}px` }}
               rowKey={"hash"}
               columns={getActionColumns({ customColumns })}
               dataSource={actionInfo}
               pagination={{
                 pageSize,
-                total: totalActions
+                total: totalActions,
+                showQuickJumper: true
               }}
               onChange={pagination => {
                 fetchMore({

@@ -1,4 +1,5 @@
 export const PALM_WIDTH = 575;
+export const LAP_WIDTH = 768;
 
 export const media = {
   palm: `@media only screen and (max-width: ${PALM_WIDTH}px)`,
