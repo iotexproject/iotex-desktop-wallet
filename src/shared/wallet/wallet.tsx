@@ -157,7 +157,8 @@ class WalletComponent extends PureComponent<Props, State> {
           <div style={{ margin: "48px" }} />
           <Row>
             <Col md={16}>
-              {address &&
+              {wallet &&
+                address &&
                 this.renderTabs({
                   address: String(address)
                 })}

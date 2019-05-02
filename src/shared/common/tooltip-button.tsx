@@ -26,7 +26,8 @@ export class TooltipButton extends Component<Props, State> {
           shape="circle"
           icon={icon}
           size={size}
-          onClick={() => onClick}
+          // @ts-ignore
+          onClick={(e: MouseEvent) => onClick && onClick(e)}
         />
       </Tooltip>
     );
