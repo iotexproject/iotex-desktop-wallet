@@ -12,6 +12,7 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { GET_RECEIPT_BY_ACTION } from "../queries";
 import { buildKeyValueArray } from "./action-detail";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 
 type Props = {
   actionHash: string;
@@ -47,7 +48,7 @@ export class ActionReceipt extends Component<Props> {
 
           const dataSource = buildKeyValueArray({
             ...receipt,
-            actionFee: `${gasConsumed * gasPrice} IOTX`
+            actionFee: `${fromRau(`${gasConsumed * gasPrice}`, "IOTX")} IOTX`
           });
 
           return (
