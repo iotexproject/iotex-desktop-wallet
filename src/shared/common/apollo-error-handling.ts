@@ -6,6 +6,11 @@ const onErrorLink = onError(error => {
   if (graphQLErrors) {
     graphQLErrors.map(graphError => {
       const { message } = graphError;
+
+      if (message.indexOf("failed to get action") !== -1) {
+        return;
+      }
+
       notification.error({
         message: "Query error!",
         description: `${message}`,
