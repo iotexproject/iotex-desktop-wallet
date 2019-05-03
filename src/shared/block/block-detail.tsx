@@ -1,4 +1,4 @@
-import { Icon, Tooltip, Popover } from "antd";
+import { Icon, Popover, Tooltip } from "antd";
 import { ColumnProps } from "antd/es/table";
 import Divider from "antd/lib/divider";
 import Table from "antd/lib/table";
@@ -333,38 +333,8 @@ export function renderValue(text: string, record: any): JSX.Element | string {
         </span>
       );
     case "actHash":
-      let href = (window.location && window.location.href) || "";
-      href = `mailto:?subject=I wanted you to see this site&amp;body=Check out this site ${href}`;
-      const content = (
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <div>
-            <div style={{ textAlign: "center" }}>
-              <CopyButtonClipboardComponent text={text} />
-            </div>
-            <span style={{ fontSize: "12px", color: colors.primary }}>
-              {t("action.copy_link")}
-            </span>
-          </div>
-          <div>
-            <a href={href}>
-              <div style={{ textAlign: "center" }}>
-                <Icon component={EmailSvg} />
-              </div>
-              <span style={{ fontSize: "12px" }}>{t("action.email")}</span>
-            </a>
-          </div>
-        </div>
-      );
-      return (
-        <span>
-          <FlexLink path={`/action/${text}`} text={text} />
-          <span style={{ marginLeft: "10px" }}>
-            <Popover content={content} title={t("action.share_this_action")}>
-              <Icon type="share-alt" style={{ color: colors.primary }} />
-            </Popover>
-          </span>
-        </span>
-      );
+      const content = renderActHash(text);
+      return content;
     case "blkHash":
       return <FlexLink path={`/block/${text}`} text={text} />;
     case "status":
@@ -418,6 +388,41 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     default:
       return <span>{text}</span>;
   }
+}
+
+function renderActHash(text: string): JSX.Element | string {
+  let href = (window.location && window.location.href) || "";
+  href = `mailto:?subject=I wanted you to see this site&amp;body=Check out this site ${href}`;
+  const content = (
+    <div style={{ display: "flex", justifyContent: "space-around" }}>
+      <div>
+        <div style={{ textAlign: "center" }}>
+          <CopyButtonClipboardComponent text={text} />
+        </div>
+        <span style={{ fontSize: "12px", color: colors.primary }}>
+          {t("action.copy_link")}
+        </span>
+      </div>
+      <div>
+        <a href={href}>
+          <div style={{ textAlign: "center" }}>
+            <Icon component={EmailSvg} />
+          </div>
+          <span style={{ fontSize: "12px" }}>{t("action.email")}</span>
+        </a>
+      </div>
+    </div>
+  );
+  return (
+    <span>
+      <FlexLink path={`/action/${text}`} text={text} />
+      <span style={{ marginLeft: "10px" }}>
+        <Popover content={content} title={t("action.share_this_action")}>
+          <Icon type="share-alt" style={{ color: colors.primary }} />
+        </Popover>
+      </span>
+    </span>
+  );
 }
 
 // tslint:disable:no-any
