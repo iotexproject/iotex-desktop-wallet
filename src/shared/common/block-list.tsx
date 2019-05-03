@@ -11,6 +11,8 @@ import { FlexLink } from "./flex-link";
 import { translateFn } from "./from-now";
 
 const PAGE_SIZE = 30;
+const POLL_INTERVAL = 10000; // 10s
+
 const blockHolders: Array<IBlockMeta | null> = [];
 blockHolders.length = PAGE_SIZE;
 blockHolders.fill(null);
@@ -86,7 +88,7 @@ export const BlockList = () => {
     <div style={{ padding: 16, backgroundColor: "#fff" }}>
       <h3 style={{ marginBottom: 16 }}>{t("home.blockList")}</h3>
 
-      <Query query={GET_LATEST_HEIGHT}>
+      <Query query={GET_LATEST_HEIGHT} pollInterval={POLL_INTERVAL}>
         {({ data }: QueryResult<{ chainMeta: { height: number } }>) => {
           const height = (data && data.chainMeta && data.chainMeta.height) || 0;
           if (height !== latestHeight) {
