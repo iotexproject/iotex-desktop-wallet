@@ -15,11 +15,11 @@ import { styled } from "onefx/lib/styletron-react";
 import React, { PureComponent } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { Route, RouteComponentProps, withRouter } from "react-router";
+import { ActionInfo } from "../../api-gateway/resolvers/antenna-types";
 import {
   BlockMeta,
   GetBlockMetasResponse
 } from "../../api-gateway/resolvers/antenna-types";
-import { ActionInfo } from "../../api-gateway/resolvers/antenna-types";
 import { ActionDetail } from "../action/action-detail";
 import { ActionTable } from "../address-details/action-table";
 import { Flex } from "../common/flex";
@@ -330,13 +330,22 @@ export function renderValue(text: string, record: any): JSX.Element | string {
       return <FlexLink path={`/action/${text}`} text={text} />;
     case "blkHash":
       return <FlexLink path={`/block/${text}`} text={text} />;
-    case "status":
-      return <span>{parseInt(text, 10) === 1 ? "success" : "failure"}</span>;
+    case "status": {
+      const success = parseInt(text, 10) === 1;
+      const iconName = success ? "check-circle" : "close-circle";
+      const color = success ? colors.success : colors.error;
+      const statusText = t(`block.${success ? "success" : "failure"}`);
+      return (
+        <span style={{ color }}>
+          <Icon type={iconName} style={{ fontSize: "16px" }} /> {statusText}
+        </span>
+      );
+    }
     case "height":
+    case "blkHeight":
       const height = Number(text);
       return (
         <span>
-          {text}
           {height === 1 ? (
             <Icon type="caret-left" style={{ color: colors.black60 }} />
           ) : (
@@ -347,6 +356,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
               }
             />
           )}
+          <FlexLink path={`/block/${text}`} text={` ${text} `} />
           <Query query={GET_LATEST_HEIGHT}>
             {({ data }: QueryResult<{ chainMeta: { height: number } }>) => {
               const latestHeight =
