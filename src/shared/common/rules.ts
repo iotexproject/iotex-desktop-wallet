@@ -20,24 +20,41 @@ export const rules: Rules = {
   },
   number: {
     type: "number",
-    message: t("wallet.error.number"),
     transform: (value: string) => {
       return Number(value);
+    },
+    validator: (_, value, callback) => {
+      if (typeof value === "number") {
+        callback();
+      } else {
+        callback(t("wallet.error.number"));
+      }
     }
   },
   boolean: {
     type: "boolean",
-    message: t("wallet.error.boolean"),
     transform: (value: string) => {
       return value === "true";
+    },
+    validator: (_, value, callback) => {
+      if (typeof value === "boolean") {
+        callback();
+      } else {
+        callback(t("wallet.error.boolean"));
+      }
     }
   },
   abi: {
     message: t("wallet.interact.invalidABI")
   },
   addressLength: {
-    len: 41,
-    message: t("input.error.raw_address.length")
+    validator: (_, value, callback) => {
+      if (String(value).trim().length === 41) {
+        callback();
+      } else {
+        callback(t("input.error.raw_address.length"));
+      }
+    }
   },
   strongPassword: {
     validator: (_, value, callback) => {
