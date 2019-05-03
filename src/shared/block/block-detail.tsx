@@ -292,12 +292,11 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "status": {
       const success = parseInt(text, 10) === 1;
       const iconName = success ? "check-circle" : "close-circle";
-      const color = success ? "#52c41a" : "#f5222d";
-      const statusText = success ? " Success" : " Failure";
+      const color = success ? colors.success : colors.error;
+      const statusText = t(`block.${success ? "success" : "failure"}`);
       return (
         <span style={{ color }}>
-          <Icon type={iconName} style={{ fontSize: "16px" }} />
-          {statusText}
+          <Icon type={iconName} style={{ fontSize: "16px" }} /> {statusText}
         </span>
       );
     }

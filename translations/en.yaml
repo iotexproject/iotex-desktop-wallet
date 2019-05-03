@@ -37,6 +37,8 @@ block.receipt_root: "Receipt Root"
 block.delta_state_digest: "Digest of Delta State"
 block.show_more: Show More
 block.show_less: Show Less
+block.success: Success
+block.failure: Failure
 action.type: Type
 action.type.transfer: Transfer
 action.type.grant_reward: "Grant Reward"
