@@ -25,7 +25,6 @@ import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
-import { actionBtnStyle } from "../transfer/transfer";
 import { inputStyle } from "../wallet";
 import {
   AbiFormInputItem,
@@ -251,7 +250,6 @@ class DeployFormInner extends Component<DeployProps, State> {
 
   private readonly deployNewContract: JSX.Element = (
     <Button
-      style={{ ...actionBtnStyle, marginLeft: "10px" }}
       onClick={() => {
         this.setState({
           broadcast: null
@@ -269,11 +267,7 @@ class DeployFormInner extends Component<DeployProps, State> {
     }
     if (broadcast.success) {
       return (
-        <BroadcastSuccess
-          type="transfer"
-          txHash={txHash}
-          action={this.deployNewContract}
-        />
+        <BroadcastSuccess txHash={txHash} action={this.deployNewContract} />
       );
     }
     return (

@@ -16,7 +16,6 @@ import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { PageTitle } from "../../common/page-title";
 import { rulesMap } from "../../common/rules";
-import { colors } from "../../common/styles/style-color";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import {
   AmountFormInputItem,
@@ -42,14 +41,6 @@ type State = {
   showConfirmTransfer: boolean;
 };
 
-export const actionBtnStyle = {
-  height: "40px",
-  border: "none",
-  background: colors.black10,
-  color: colors.secondary,
-  fontWeight: 500,
-  lineHeight: "40px"
-};
 class TransferForm extends React.PureComponent<Props, State> {
   public state: State = {
     sending: false,
@@ -158,7 +149,6 @@ class TransferForm extends React.PureComponent<Props, State> {
 
   public sendNewIOTX: JSX.Element = (
     <Button
-      style={{ ...actionBtnStyle, marginLeft: "10px" }}
       onClick={() => {
         this.setState({
           broadcast: null
@@ -211,13 +201,7 @@ class TransferForm extends React.PureComponent<Props, State> {
 
     if (broadcast) {
       if (broadcast.success) {
-        return (
-          <BroadcastSuccess
-            type="transfer"
-            txHash={txHash}
-            action={this.sendNewIOTX}
-          />
-        );
+        return <BroadcastSuccess txHash={txHash} action={this.sendNewIOTX} />;
       }
       return (
         <BroadcastFailure

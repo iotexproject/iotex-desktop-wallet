@@ -102,7 +102,11 @@ class UnlockByKeystoreFileInner extends PureComponent<
 
           <PasswordFormInputItem form={form} />
 
-          <Button onClick={this.unlockWallet} loading={isDecrypting}>
+          <Button
+            htmlType="submit"
+            onClick={this.unlockWallet}
+            loading={isDecrypting}
+          >
             {t("wallet.account.unlock")}
           </Button>
         </Form>
