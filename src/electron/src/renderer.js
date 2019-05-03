@@ -5,4 +5,4 @@ const { shell } = require("electron");
 require("global/window").xopen = function(url, frameName, features) {
   shell.openExternal(url);
 };
-require("../../dist/memory-main.js");
+require("../../../dist/memory-main.js");
