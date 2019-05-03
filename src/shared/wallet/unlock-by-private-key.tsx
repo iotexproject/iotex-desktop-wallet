@@ -88,7 +88,11 @@ class UnlockByPrivateKeyInner extends PureComponent<
               />
             )}
           </Form.Item>
-          <Button disabled={!validPrikey} onClick={this.unlockWallet}>
+          <Button
+            htmlType="submit"
+            disabled={!validPrikey}
+            onClick={this.unlockWallet}
+          >
             {t("wallet.account.unlock")}
           </Button>
         </Form>

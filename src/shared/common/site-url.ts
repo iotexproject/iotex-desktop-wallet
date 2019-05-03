@@ -1,7 +1,7 @@
 export const SITE_URL = "/";
 
-export const TRANSFER = {
-  INDEX: "/transfers/"
+export const ACTION = {
+  INDEX: "/action/"
 };
 
 export const MEMBER = {

@@ -14,17 +14,53 @@ import { assetURL } from "../common/asset-url";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { onElectronClick } from "../common/on-electron-click";
 import { TooltipButton } from "../common/tooltip-button";
+import { getAntenna } from "./get-antenna";
 
 export interface Props {
   wallet?: Account | null;
   setWallet?: Function;
-  address?: AccountMeta;
   createNew?: boolean;
 }
 
-export interface State {}
+export interface State {
+  accountMeta: AccountMeta | undefined;
+}
 
 export default class AccountSection extends React.Component<Props, State> {
+  public state: State = {
+    accountMeta: undefined
+  };
+
+  private pollAccountInterval: number | undefined;
+
+  public componentDidMount(): void {
+    this.pollAccount();
+    this.pollAccountInterval = window.setInterval(this.pollAccount, 3000);
+  }
+
+  public componentWillUnmount(): void {
+    window.clearInterval(this.pollAccountInterval);
+  }
+
+  public pollAccount = async () => {
+    const { wallet } = this.props;
+    if (wallet) {
+      await this.getAccount(wallet);
+    }
+  };
+
+  public getAccount = async (wallet: Account) => {
+    if (!wallet) {
+      return;
+    }
+    const addressRes = await getAntenna().iotx.getAccount({
+      address: wallet.address
+    });
+    if (addressRes) {
+      this.setState({ accountMeta: addressRes.accountMeta });
+    }
+  };
+
   public newWallet = (): JSX.Element => {
     return (
       <div className="wallet">
@@ -67,7 +103,7 @@ export default class AccountSection extends React.Component<Props, State> {
 
   public wallet = (
     wallet: Account,
-    address: AccountMeta,
+    accountMeta: AccountMeta,
     setWallet: Function
   ) => {
     return (
@@ -92,7 +128,7 @@ export default class AccountSection extends React.Component<Props, State> {
           </div>
           <div style={{ alignContent: "center" }}>
             <p id="iotx-balance">
-              {address ? fromRau(address.balance, "Iotx") : 0}
+              {accountMeta ? fromRau(accountMeta.balance, "Iotx") : 0}
               <b>{t("account.testnet.token")}</b>
             </p>
           </div>
@@ -123,10 +159,11 @@ export default class AccountSection extends React.Component<Props, State> {
   };
 
   public render(): JSX.Element {
-    const { wallet, address, createNew, setWallet } = this.props;
+    const { wallet, createNew, setWallet } = this.props;
+    const { accountMeta } = this.state;
 
-    if (wallet && address && setWallet) {
-      return this.wallet(wallet, address, setWallet);
+    if (wallet && accountMeta && setWallet) {
+      return this.wallet(wallet, accountMeta, setWallet);
     }
     if (createNew) {
       return this.newWallet();

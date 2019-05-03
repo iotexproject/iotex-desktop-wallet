@@ -11,7 +11,6 @@ import React from "react";
 import { PureComponent } from "react";
 import { Route, Switch, withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
 import routes from "../common/routes";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -21,14 +20,12 @@ import { Deploy } from "./contract/deploy";
 import { DeployPreloadHeader } from "./contract/deploy";
 import { Interact } from "./contract/interact";
 import { Vote } from "./contract/vote";
-import { getAntenna } from "./get-antenna";
 import NewWallet from "./new-wallet";
 import Transfer from "./transfer/transfer";
 import UnlockWallet from "./unlock-wallet";
 
 export interface State {
   wallet: Account | null;
-  address?: AccountMeta | undefined;
   createNew: boolean;
 }
 
@@ -43,13 +40,6 @@ export const inputStyle = {
   background: colors.black10
 };
 
-export const buttonStyle = {
-  backgroundColor: colors.deltaUp,
-  color: "white",
-  height: "40px",
-  lineHeight: "40px"
-};
-
 export const FormItemLabel = styled("label", {
   fontWeight: "bold"
 });
@@ -57,27 +47,13 @@ export const FormItemLabel = styled("label", {
 class WalletComponent extends PureComponent<Props, State> {
   public state: State = {
     wallet: null,
-    address: undefined,
     createNew: false
   };
 
   public setWallet = (wallet: Account) => {
     const { history } = this.props;
     this.setState({ wallet, createNew: false });
-    this.getAddress(wallet);
     history.push(routes.transfer);
-  };
-
-  public getAddress = async (wallet: Account) => {
-    if (!wallet) {
-      return;
-    }
-    const addressRes = await getAntenna().iotx.getAccount({
-      address: wallet.address
-    });
-    if (addressRes) {
-      this.setState({ address: addressRes.accountMeta });
-    }
   };
 
   public onTabChange = (key: string) => {
@@ -149,7 +125,7 @@ class WalletComponent extends PureComponent<Props, State> {
   };
 
   public render(): JSX.Element {
-    const { createNew, wallet, address } = this.state;
+    const { createNew, wallet } = this.state;
     return (
       <>
         {!isElectron() && <DeployPreloadHeader />}
@@ -158,9 +134,8 @@ class WalletComponent extends PureComponent<Props, State> {
           <Row>
             <Col md={16}>
               {wallet &&
-                address &&
                 this.renderTabs({
-                  address: String(address)
+                  address: wallet.address
                 })}
               {!wallet && this.renderNoWallet()}
             </Col>
@@ -169,7 +144,6 @@ class WalletComponent extends PureComponent<Props, State> {
                 createNew={createNew}
                 setWallet={this.setWallet}
                 wallet={wallet}
-                address={address}
               />
             </Col>
           </Row>

@@ -265,7 +265,7 @@ broadcast.warn.one: >-
   Your TX has been broadcast to the network. This does not mean it has been
   mined on the blockchain. It usually take a few seconds to confirm.
 broadcast.warn.two: >-
-  You can check the status right now by clicking the following button or save
+  You can check the status right now by clicking the following link when it is ready or save
   your TX hash and check the status later
 broadcast.warn.three: "Your TX hash:"
 broadcast.button.check: Check TX Status
