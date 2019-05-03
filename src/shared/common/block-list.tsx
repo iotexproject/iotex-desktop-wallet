@@ -1,5 +1,5 @@
 import Card from "antd/lib/card";
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import { Query, QueryResult } from "react-apollo";
 
 import { IBlockMeta } from "iotex-antenna/lib/rpc-method/types";
@@ -17,67 +17,109 @@ const blockHolders: Array<IBlockMeta | null> = [];
 blockHolders.length = PAGE_SIZE;
 blockHolders.fill(null);
 
-export const BlockCard = ({
-  loading,
-  block,
-  index
-}: {
+interface IBlockCardProps {
   loading: boolean;
   block: IBlockMeta | null;
   index: number;
-}) => {
-  const blockdata = block || {
-    height: 0,
-    producerAddress: "none",
-    timestamp: {
-      nanos: 0,
-      seconds: 0
-    },
-    numActions: 0
-  };
-  return (
-    <Card
-      loading={loading}
-      bordered={true}
-      style={{
-        backgroundColor: "#FFF",
-        marginBottom: 16,
-        transform: `rotateY(${loading ? 0 : 180}deg)`,
-        transition: `all ease-out 0.8s ${index * 0.08}s`,
-        opacity: loading ? 0.5 : 1,
-        perspective: 1000,
-        transformStyle: "preserve-3d",
-        transformOrigin: "center"
-      }}
-      bodyStyle={{
-        padding: 10
-      }}
-      className="flip-card"
-    >
-      <div
+}
+
+interface IBlockCardState {
+  block: IBlockMeta | null;
+  index: number;
+  loading: boolean;
+  rotateY: number;
+}
+
+export class BlockCard extends Component<IBlockCardProps, IBlockCardState> {
+  constructor(props: IBlockCardProps) {
+    super(props);
+    const { index, loading, block } = props;
+    this.state = {
+      index,
+      loading,
+      block,
+      rotateY: 0
+    };
+  }
+
+  public componentDidUpdate(prevprops: IBlockCardProps): void {
+    const { loading, block, index } = this.props;
+    if (loading || !block) {
+      return;
+    }
+    if (prevprops.block && block.height === prevprops.block.height) {
+      return;
+    }
+    if (this.state.block && block.height === this.state.block.height) {
+      return;
+    }
+    this.setState({
+      loading,
+      block,
+      index,
+      rotateY: (this.state.rotateY + 180) % 360
+    });
+  }
+
+  public render(): JSX.Element {
+    const { index, loading, block, rotateY } = this.state;
+    const blockdata = block || {
+      height: 0,
+      producerAddress: "none",
+      timestamp: {
+        nanos: 0,
+        seconds: 0
+      },
+      numActions: 0
+    };
+    return (
+      <Card
+        loading={loading}
+        bordered={true}
         style={{
-          transform: `rotateY(-180deg)`,
-          opacity: loading ? 0 : 1
+          backgroundColor: "#FFF",
+          marginBottom: 16,
+          transform: `rotateY(${rotateY}deg)`,
+          transition: `all ease-out 0.8s ${index * 0.1}s`,
+          perspective: 1000,
+          transformStyle: "preserve-3d",
+          transformOrigin: "center"
         }}
+        bodyStyle={{
+          padding: 10
+        }}
+        className="flip-card"
       >
-        <h3>
-          <FlexLink
-            path={`/block/${blockdata.height}`}
-            text={`#${blockdata.height}`}
-          />
-        </h3>
-        <div>
-          <FlexLink
-            path={`/address/${blockdata.producerAddress}`}
-            text={`${blockdata.producerAddress || ""}`.substr(0, 8)}
-          />
+        <div
+          style={{
+            backgroundColor: "#FFF",
+            marginBottom: 16,
+            transform: `rotateY(${-rotateY}deg)`,
+            transition: `all ease-out 0s ${index * 0.1 + 0.3}s`,
+            transformOrigin: "center"
+          }}
+        >
+          <h3>
+            <FlexLink
+              path={`/block/${blockdata.height}`}
+              text={`#${blockdata.height}`}
+            />
+          </h3>
+          <div style={{ textAlign: "center" }}>
+            <div>
+              <FlexLink
+                path={`/address/${blockdata.producerAddress}`}
+                text={`${blockdata.producerAddress || ""}`.substr(0, 8)}
+              />
+            </div>
+            <div>{translateFn(blockdata.timestamp)}</div>
+            <div>{blockdata.numActions} actions</div>
+          </div>
         </div>
-        <div>{translateFn(blockdata.timestamp)}</div>
-        <div>{blockdata.numActions} actions</div>
-      </div>
-    </Card>
-  );
-};
+      </Card>
+    );
+  }
+}
 
 export const BlockList = () => {
   const [latestHeight, setLatestHeight] = useState(0);
@@ -117,7 +159,10 @@ export const BlockList = () => {
               setLoading(loading);
             }
             if (!loading && !error && data) {
-              setBlocks(data.getBlockMetas.blkMetas.reverse());
+              const sortedBlocks = data.getBlockMetas.blkMetas.sort(
+                (a, b) => b.height - a.height
+              );
+              setBlocks(sortedBlocks);
             }
             return null;
           }}

@@ -167,6 +167,11 @@ home.IOTXPrice: IOTX PRICE
 home.marketCap: MARKETCAP
 home.blockList: Block List
 home.search: SEARCH
+home.stats.tps: TPS
+home.stats.delegates: "# of Delegates"
+home.stats.map: MAP
+home.stats.productivity: Productivity
+home.stats.voters: "# of Voters"
 time.fn.years: years
 time.fn.year: year
 time.fn.months: months

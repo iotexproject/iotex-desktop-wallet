@@ -55,7 +55,7 @@ const MapTile = () => {
     >
       <h3>{"Map"}</h3>
       {
-        //TODO
+        //TODO: Adding MAP content according to new design
       }
     </Card>
   );
@@ -85,16 +85,16 @@ class HomeComponent extends Component {
           <Col md={16}>
             <Row gutter={GUTTER}>
               <Col md={12}>
-                <Tile title={"TPS"} value={`0`} />
+                <Tile title={t("home.stats.tps")} value={`0`} />
               </Col>
               <Col md={12}>
-                <Tile title={"# of Delegates"} value={`99`} />
+                <Tile title={t("home.stats.delegates")} value={`99`} />
               </Col>
               <Col md={12}>
-                <Tile title={"Productivity"} value={`1/6`} />
+                <Tile title={t("home.stats.productivity")} value={`1/6`} />
               </Col>
               <Col md={12}>
-                <Tile title={"# of Voters"} value={`999`} />
+                <Tile title={t("home.stats.voters")} value={`999`} />
               </Col>
             </Row>
           </Col>
