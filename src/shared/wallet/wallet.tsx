@@ -40,13 +40,6 @@ export const inputStyle = {
   background: colors.black10
 };
 
-export const buttonStyle = {
-  backgroundColor: colors.deltaUp,
-  color: "white",
-  height: "40px",
-  lineHeight: "40px"
-};
-
 export const FormItemLabel = styled("label", {
   fontWeight: "bold"
 });

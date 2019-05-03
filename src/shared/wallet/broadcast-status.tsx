@@ -1,15 +1,12 @@
-// import { Button } from "../common/button";
-import Button from "antd/lib/button";
 import Icon from "antd/lib/icon";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
-import { TRANSFER } from "../common/site-url";
+import { onElectronClick } from "../common/on-electron-click";
 import { colors } from "../common/styles/style-color";
 import { ACTION_EXISTS_BY_HASH } from "../queries";
-import { buttonStyle } from "./wallet";
 
 export type BroadcastType = "transfer";
 
@@ -17,27 +14,11 @@ const POLL_INTERVAL = 6000;
 
 export function BroadcastSuccess({
   txHash,
-  action,
-  isCheckHidden,
-  type,
-  index
+  action
 }: {
   txHash: string;
-  type: BroadcastType;
   action?: Object;
-  isCheckHidden?: boolean;
-  index?: string;
 }): JSX.Element {
-  let newIndex = index;
-  if (!index) {
-    switch (type) {
-      case "transfer":
-        newIndex = TRANSFER.INDEX;
-        break;
-      default:
-        return <div />;
-    }
-  }
   return (
     <div>
       <div style={{ marginTop: "30px" }} />
@@ -53,13 +34,6 @@ export function BroadcastSuccess({
         <ActionPoll txHash={txHash} />
       </p>
       <div style={{ marginTop: "40px" }} />
-
-      {!isCheckHidden && (
-        <Button href={`${newIndex}${txHash}`} style={buttonStyle}>
-          {t("broadcast.button.check")}
-        </Button>
-      )}
-      {!isCheckHidden && "\u0020"}
       {action}
     </div>
   );
@@ -96,6 +70,9 @@ function ActionPoll({ txHash }: { txHash: string }): JSX.Element {
                 rel="noreferrer noopener"
                 href={`/action/${txHash}`}
                 target="_blank"
+                onClick={onElectronClick(
+                  `https://iotexscan.io/action/${txHash}`
+                )}
               >
                 {txHash}
               </a>
