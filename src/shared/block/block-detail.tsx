@@ -333,8 +333,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
         </span>
       );
     case "actHash":
-      const content = renderActHash(text);
-      return content;
+      return renderActHash(text);
     case "blkHash":
       return <FlexLink path={`/block/${text}`} text={text} />;
     case "status":
