@@ -346,7 +346,6 @@ export function renderValue(text: string, record: any): JSX.Element | string {
       const height = Number(text);
       return (
         <span>
-          {text}
           {height === 1 ? (
             <Icon type="caret-left" style={{ color: colors.black60 }} />
           ) : (
@@ -357,6 +356,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
               }
             />
           )}
+          <FlexLink path={`/block/${text}`} text={` ${text} `} />
           <Query query={GET_LATEST_HEIGHT}>
             {({ data }: QueryResult<{ chainMeta: { height: number } }>) => {
               const latestHeight =
