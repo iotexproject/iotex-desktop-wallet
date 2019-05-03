@@ -1,7 +1,9 @@
+import { Icon, Tooltip } from "antd";
 import { ColumnProps } from "antd/es/table";
 import Divider from "antd/lib/divider";
-import Icon from "antd/lib/icon";
 import Table from "antd/lib/table";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
@@ -28,14 +30,22 @@ import { NotFound } from "../common/not-found";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
+import { PALM_WIDTH } from "../common/styles/style-media";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_BLOCK_METAS } from "../queries";
+dayjs.extend(utc);
+// @ts-ignore
+import window from "global/window";
+import { connect } from "react-redux";
+import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
+import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
+import { GET_LATEST_HEIGHT } from "../queries";
 
 type PathParamsType = {
   height: string;
 };
 
-type Props = RouteComponentProps<PathParamsType> & {};
+type Props = RouteComponentProps<PathParamsType> & { locale: string };
 
 type State = {
   totalActons: number;
@@ -261,6 +271,35 @@ export function renderKey(text: string): JSX.Element {
   return <span>{t(`render.key.${text}`)}</span>;
 }
 
+function renderActualTime(props: {
+  ts: Timestamp | undefined;
+  locale: string;
+}): JSX.Element {
+  const { ts, locale } = props;
+  if (!ts) {
+    return <span />;
+  }
+  const time = `(${dayjs(ts.seconds * 1000)
+    .locale(locale.toLowerCase())
+    .utc()
+    .format("DD-MM-YYYY HH:mm:ss A")} +UTC)`;
+  return window.innerWidth > PALM_WIDTH ? (
+    <span style={{ marginLeft: "10px" }}>{time}</span>
+  ) : (
+    <span style={{ marginLeft: "10px" }}>
+      <Tooltip title={time} trigger="click">
+        <Icon type="clock-circle" style={{ color: colors.primary }} />
+      </Tooltip>
+    </span>
+  );
+}
+
+const RenderActualTimeContainer = connect<{ locale: string }>(state => {
+  // @ts-ignore
+  const { locale } = state.base;
+  return { locale };
+})(renderActualTime);
+
 // tslint:disable:no-any
 export function renderValue(text: string, record: any): JSX.Element | string {
   switch (record.key) {
@@ -281,13 +320,15 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "numActions":
       return <FlexLink path={`${record.url}/action`} text={text} />;
     case "timestamp":
-      return <span>{translateFn(record.value)}</span>;
+      return (
+        <span>
+          {translateFn(record.value)}
+          <RenderActualTimeContainer ts={record.value} />
+        </span>
+      );
     case "actHash":
       return <FlexLink path={`/action/${text}`} text={text} />;
     case "blkHash":
-      return <FlexLink path={`/block/${text}`} text={text} />;
-    case "height":
-    case "blkHeight":
       return <FlexLink path={`/block/${text}`} text={text} />;
     case "status": {
       const success = parseInt(text, 10) === 1;
@@ -300,10 +341,53 @@ export function renderValue(text: string, record: any): JSX.Element | string {
         </span>
       );
     }
+    case "height":
+    case "blkHeight":
+      const height = Number(text);
+      return (
+        <span>
+          {text}
+          {height === 1 ? (
+            <Icon type="caret-left" style={{ color: colors.black60 }} />
+          ) : (
+            <FlexLink
+              path={`/block/${height - 1}`}
+              text={
+                <Icon type="caret-left" style={{ color: colors.primary }} />
+              }
+            />
+          )}
+          <Query query={GET_LATEST_HEIGHT}>
+            {({ data }: QueryResult<{ chainMeta: { height: number } }>) => {
+              const latestHeight =
+                (data && data.chainMeta && data.chainMeta.height) || 0;
+              return Number(latestHeight) === height ? (
+                <Icon type="caret-right" style={{ color: colors.black60 }} />
+              ) : (
+                <FlexLink
+                  path={`/block/${height + 1}`}
+                  text={
+                    <Icon
+                      type="caret-right"
+                      style={{ color: colors.primary }}
+                    />
+                  }
+                />
+              );
+            }}
+          </Query>
+        </span>
+      );
     case "txRoot":
     case "hash":
     case "receiptRoot":
     case "deltaStateDigest":
+      return (
+        <span>
+          <span style={{ marginRight: "10px" }}>{text}</span>
+          <CopyButtonClipboardComponent text={text} />
+        </span>
+      );
     default:
       return <span>{text}</span>;
   }

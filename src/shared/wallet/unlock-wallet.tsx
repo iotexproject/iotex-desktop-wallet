@@ -1,23 +1,17 @@
-// import { ContentPadding } from "../common/styles/style-padding";
 import Alert from "antd/lib/alert";
-import Button from "antd/lib/button";
-import Form from "antd/lib/form";
-import { WrappedFormUtils } from "antd/lib/form/Form";
-import Icon from "antd/lib/icon";
-import Input from "antd/lib/input";
 import Modal from "antd/lib/modal";
-import { get } from "dottie";
+import Tabs from "antd/lib/tabs";
 import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
-import { getAntenna } from "./get-antenna";
-import { FormItemLabel } from "./wallet";
+import { CommonMargin } from "../common/common-margin";
+import { UnlockByKeystoreFile } from "./unlock-by-keystore-file";
+import { UnlockByPrivateKey } from "./unlock-by-private-key";
 
 export interface Props {
-  form: WrappedFormUtils;
   chainId: number;
   setCreateNew: Function;
   setWallet: Function;
@@ -25,22 +19,11 @@ export interface Props {
 
 export interface State {
   showModal: boolean;
-  priKey: string;
 }
 
-class UnlockWalletComponent extends React.Component<Props, State> {
+class UnlockWallet extends React.Component<Props, State> {
   public state: State = {
-    showModal: false,
-    priKey: ""
-  };
-
-  public handleInputChange = (e: React.FormEvent) => {
-    const name: string = get(e, "target.name");
-    const value = get(e, "target.value");
-    // @ts-ignore
-    this.setState({
-      [name]: value
-    });
+    showModal: false
   };
 
   public createNewWallet = (status: boolean) => {
@@ -50,22 +33,9 @@ class UnlockWalletComponent extends React.Component<Props, State> {
     }
   };
 
-  public unlockWallet = async () => {
-    this.props.form.validateFields(async err => {
-      if (!err) {
-        const { priKey } = this.state;
-        const antenna = getAntenna();
-        const account = await antenna.iotx.accounts.privateKeyToAccount(priKey);
-        this.props.setWallet(account);
-      }
-    });
-  };
-
   public render(): JSX.Element {
-    const { getFieldDecorator } = this.props.form;
-    const { chainId } = this.props;
-    const { showModal, priKey } = this.state;
-    const validPrikey = priKey.length === 64;
+    const { chainId, setWallet } = this.props;
+    const { showModal } = this.state;
 
     return (
       <div>
@@ -79,55 +49,30 @@ class UnlockWalletComponent extends React.Component<Props, State> {
           <p>{t("wallet.unlock.new.p1")}</p>
           <p>{t("wallet.unlock.new.p2")}</p>
         </Modal>
+
         <WalletTitle>{t("unlock-wallet.title")}</WalletTitle>
+
         {!isElectron() && (
-          <Alert
-            message={t("unlock-wallet.warn.message")}
-            type="warning"
-            closable
-            showIcon
-          />
+          <React.Fragment>
+            <Alert
+              message={t("unlock-wallet.warn.message")}
+              type="warning"
+              closable
+              showIcon
+            />
+            <CommonMargin />
+          </React.Fragment>
         )}
-        <div style={{ margin: "24px" }} />
-        <Form layout="vertical">
-          <Form.Item
-            label={
-              <FormItemLabel>
-                {t("wallet.account.enterPrivateKey")}
-              </FormItemLabel>
-            }
-          >
-            {getFieldDecorator("priKey", {
-              rules: [
-                {
-                  required: true,
-                  message: t("input.error.private_key.invalid")
-                },
-                {
-                  len: 64,
-                  message: t("input.error.private_key.length")
-                }
-              ]
-            })(
-              <Input
-                className="form-input"
-                placeholder={t("wallet.account.placehold.privateKey")}
-                type="password"
-                name="priKey"
-                onChange={e => this.handleInputChange(e)}
-                suffix={
-                  <Icon
-                    type="eye-invisible"
-                    style={{ color: "rgba(0,0,0,.45)" }}
-                  />
-                }
-              />
-            )}
-          </Form.Item>
-        </Form>
-        <Button disabled={!validPrikey} onClick={this.unlockWallet}>
-          {t("wallet.account.unlock")}
-        </Button>
+
+        <Tabs onChange={() => undefined} type="card">
+          <Tabs.TabPane tab={t("unlock-wallet.by_keystore")} key="1">
+            <UnlockByKeystoreFile setWallet={setWallet} />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab={t("unlock-wallet.by_private_key")} key="2">
+            <UnlockByPrivateKey setWallet={setWallet} />
+          </Tabs.TabPane>
+        </Tabs>
+
         <div style={{ paddingTop: "24px" }}>
           <p>
             {t("unlock-wallet.no-wallet")}
@@ -163,4 +108,4 @@ const StyleLink = styled("span", {
   color: "#00b4a0"
 });
 
-export default Form.create<UnlockWalletComponent>()(UnlockWalletComponent);
+export default UnlockWallet;

@@ -1,9 +1,9 @@
 // @ts-ignore
 import Icon from "antd/lib/icon";
+// @ts-ignore
+import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
 import { fromRau } from "iotex-antenna/lib/account/utils";
-// @ts-ignore
-
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -12,6 +12,7 @@ import React from "react";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
 import { assetURL } from "../common/asset-url";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
+import { onElectronClick } from "../common/on-electron-click";
 import { TooltipButton } from "../common/tooltip-button";
 
 export interface Props {
@@ -104,6 +105,9 @@ export default class AccountSection extends React.Component<Props, State> {
                   size="small"
                 />{" "}
                 <TooltipButton
+                  onClick={onElectronClick(
+                    `https://iotexscan.io/address/${wallet.address}`
+                  )}
                   href={`/address/${wallet.address}`}
                   title={t("account.transaction-history")}
                   icon="link"
