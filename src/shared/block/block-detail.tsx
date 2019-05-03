@@ -272,7 +272,7 @@ export function renderKey(text: string): JSX.Element {
 }
 
 const EmailSvg = () => (
-  <svg viewBox="0 0 1024 1024" version="1.1" width="25" height="25">
+  <svg viewBox="0 0 1024 1024" version="1.1" width="28" height="28">
     <path d="M0 128l0 768 1024 0L1024 128 0 128zM934.016 320 512 616 86.016 320 86.016 210.688 512 506.688l422.016-296L934.016 320z" />
   </svg>
 );
@@ -333,17 +333,25 @@ export function renderValue(text: string, record: any): JSX.Element | string {
         </span>
       );
     case "actHash":
+      let href = (window.location && window.location.href) || "";
+      href = `mailto:?subject=I wanted you to see this site&amp;body=Check out this site ${href}`;
       const content = (
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <div>
-            <Icon type="link" style={{ fontSize: "25px" }} />
-            <br />
-            <span style={{ fontSize: "14px" }}>Copy Link</span>
+            <div style={{ textAlign: "center" }}>
+              <CopyButtonClipboardComponent text={text} />
+            </div>
+            <span style={{ fontSize: "12px", color: colors.primary }}>
+              {t("action.copy_link")}
+            </span>
           </div>
           <div>
-            <Icon component={EmailSvg} />
-            <br />
-            <span style={{ fontSize: "14px" }}>Email</span>
+            <a href={href}>
+              <div style={{ textAlign: "center" }}>
+                <Icon component={EmailSvg} />
+              </div>
+              <span style={{ fontSize: "12px" }}>{t("action.email")}</span>
+            </a>
           </div>
         </div>
       );
@@ -351,7 +359,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
         <span>
           <FlexLink path={`/action/${text}`} text={text} />
           <span style={{ marginLeft: "10px" }}>
-            <Popover content={content} title="Share this Action">
+            <Popover content={content} title={t("action.share_this_action")}>
               <Icon type="share-alt" style={{ color: colors.primary }} />
             </Popover>
           </span>

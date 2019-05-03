@@ -47,6 +47,9 @@ action.action: 行动
 action.actions: Actions
 action.sender: 发送方
 action.recipient: 接收方
+action.copy_link: 复制链接
+action.email: 邮件
+action.share_this_action: 通过邮件分享
 title.overview: 概览
 title.actionList: Actions 列表
 title.action: 操作
