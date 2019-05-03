@@ -17,8 +17,8 @@ import { FlexLink } from "../common/flex-link";
 import { translateFn } from "../common/from-now";
 import { getActionType } from "../common/get-action-type";
 import { SpinPreloader } from "../common/spin-preloader";
-import { GET_ACTIONS } from "../queries";
 import { LAP_WIDTH } from "../common/styles/style-media";
+import { GET_ACTIONS } from "../queries";
 
 export function getAddress(record: ActionInfo): string {
   const addr: string =

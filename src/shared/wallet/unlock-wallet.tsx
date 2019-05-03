@@ -1,15 +1,15 @@
+import Alert from "antd/lib/alert";
 import Modal from "antd/lib/modal";
 import Tabs from "antd/lib/tabs";
+import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
+import { CommonMargin } from "../common/common-margin";
 import { UnlockByKeystoreFile } from "./unlock-by-keystore-file";
 import { UnlockByPrivateKey } from "./unlock-by-private-key";
-import isElectron from "is-electron";
-import Alert from "antd/lib/alert";
-import { CommonMargin } from "../common/common-margin";
 
 export interface Props {
   chainId: number;
