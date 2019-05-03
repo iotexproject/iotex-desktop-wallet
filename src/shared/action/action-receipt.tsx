@@ -1,5 +1,6 @@
 import Table from "antd/lib/table";
 import { get } from "dottie";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
@@ -47,7 +48,7 @@ export class ActionReceipt extends Component<Props> {
 
           const dataSource = buildKeyValueArray({
             ...receipt,
-            actionFee: `${gasConsumed * gasPrice} IOTX`
+            actionFee: `${fromRau(`${gasConsumed * gasPrice}`, "IOTX")} IOTX`
           });
 
           return (

@@ -10,6 +10,8 @@ import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import * as React from "react";
 import { copyCB } from "text-to-clipboard";
+import { CommonMargin } from "../common/common-margin";
+import { DownloadKeystoreForm } from "./download-keystore-form";
 import { getAntenna } from "./get-antenna";
 import { FormItemLabel, inputStyle } from "./wallet";
 
@@ -22,7 +24,8 @@ export interface State {
   copied: boolean;
   wallet: Account;
 }
-class NewWalletComponent extends React.Component<Props, State> {
+
+class NewWallet extends React.Component<Props, State> {
   public state: State = {
     copied: false,
     wallet: getAntenna().iotx.accounts.create()
@@ -41,7 +44,17 @@ class NewWalletComponent extends React.Component<Props, State> {
   public render(): JSX.Element {
     const { wallet, copied } = this.state;
 
-    const copyButton = copied ? <Icon type="check" /> : t("new-wallet.copy");
+    const copyButton = (
+      // @ts-ignore
+      <Button
+        type="primary"
+        onClick={this.copyPriKey}
+        style={{ margin: "0 -11px" }}
+      >
+        {copied ? <Icon type="check" /> : t("new-wallet.copy")}
+      </Button>
+    );
+
     return (
       <div>
         <div>
@@ -65,17 +78,22 @@ class NewWalletComponent extends React.Component<Props, State> {
           <Form.Item
             label={<FormItemLabel>{t("wallet.account.private")}</FormItemLabel>}
           >
-            <Input.Search
+            <Input.Password
               className="form-input"
               placeholder={t("wallet.account.addressPlaceHolder")}
-              enterButton={copyButton}
-              onSearch={this.copyPriKey}
+              addonAfter={copyButton}
               value={wallet.privateKey}
               readOnly={true}
-              suffix={<Icon type="eye" style={{ color: "rgba(0,0,0,.45)" }} />}
             />
           </Form.Item>
         </Form>
+
+        <DownloadKeystoreForm
+          privateKey={wallet.privateKey}
+          address={wallet.address}
+        />
+
+        <CommonMargin />
 
         <Alert
           message={
@@ -102,9 +120,10 @@ class NewWalletComponent extends React.Component<Props, State> {
         <Button href="#" type="primary" onClick={this.setWallet}>
           {t("new-wallet.button.unlock")}
         </Button>
+        <CommonMargin />
       </div>
     );
   }
 }
 
-export default Form.create<NewWalletComponent>()(NewWalletComponent);
+export default Form.create<NewWallet>()(NewWallet);

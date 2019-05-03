@@ -17,13 +17,13 @@ import { rulesMap } from "../../common/rules";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
 import { actionBtnStyle } from "../transfer/transfer";
+import { inputStyle } from "../wallet";
 import {
   AbiFormInputItem,
   AmountFormInputItem,
   FormItemLabel,
   GasLimitFormInputItem,
-  GasPriceFormInputItem,
-  inputStyle
+  GasPriceFormInputItem
 } from "./cards";
 import { ContractLayout } from "./contract-layout";
 

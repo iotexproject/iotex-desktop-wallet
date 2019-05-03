@@ -5,7 +5,8 @@ import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
 // @ts-ignore
-import React, { Component } from "react";
+import React, { Component, MouseEvent } from "react";
+import { onElectronClick } from "../../common/on-electron-click";
 import { PageTitle } from "../../common/page-title";
 import { MEMBER } from "../../common/site-url";
 
@@ -26,7 +27,12 @@ export class Vote extends Component<Props, State> {
         </PageTitle>
         <p>{t("wallet.vote.content")}</p>
         <br />
-        <Button href={MEMBER.INDEX} target="_blank" type="primary">
+        <Button
+          type="primary"
+          href={MEMBER.INDEX}
+          target="_blank"
+          onClick={onElectronClick(MEMBER.INDEX)}
+        >
           {t("wallet.vote.button")}
         </Button>
       </div>

@@ -6,8 +6,14 @@ import { NavLink } from "react-router-dom";
 
 const routesConfig = [
   { path: "/action", breadcrumb: "Action List" },
-  { path: "/action/:id", breadcrumb: "Action Detail" },
-  { path: "/block", breadcrumb: "Block List" }
+  { path: "/action/:hash", breadcrumb: "Action Detail" },
+  { path: "/block", breadcrumb: "Block List" },
+  {
+    path: "/block/:hash/action",
+    breadcrumb: "Action List"
+  },
+  { path: "/block/:blockHash/action/:actionHash", breadcrumb: "Action Detail" }
+
   // { path: "/block/:id", breadcrumb: `Block# ` }
 ];
 

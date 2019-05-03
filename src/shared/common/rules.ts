@@ -10,7 +10,13 @@ interface Rules {
 export const rules: Rules = {
   required: {
     required: true,
-    message: t("wallet.error.required")
+    validator: (_, value, callback) => {
+      if (value) {
+        callback();
+      } else {
+        callback(t("wallet.error.required"));
+      }
+    }
   },
   number: {
     type: "number",
@@ -32,6 +38,15 @@ export const rules: Rules = {
   addressLength: {
     len: 41,
     message: t("input.error.raw_address.length")
+  },
+  strongPassword: {
+    validator: (_, value, callback) => {
+      if (String(value).length <= 6) {
+        callback(t("input.error.password.too_weak"));
+      }
+
+      callback();
+    }
   }
 };
 
@@ -43,6 +58,7 @@ export const rulesMap = {
   abi: [rules.required, rules.abi],
   dataIndex: [],
   nonce: [rules.required],
+  password: [rules.required, rules.strongPassword],
 
   // ABIDataTypes
   uint256: [rules.number],
