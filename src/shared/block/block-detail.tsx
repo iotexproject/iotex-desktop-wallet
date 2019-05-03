@@ -36,9 +36,9 @@ import { GET_BLOCK_METAS } from "../queries";
 dayjs.extend(utc);
 // @ts-ignore
 import window from "global/window";
+import { connect } from "react-redux";
 import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
-import { connect } from "react-redux";
 import { GET_LATEST_HEIGHT } from "../queries";
 
 type PathParamsType = {
