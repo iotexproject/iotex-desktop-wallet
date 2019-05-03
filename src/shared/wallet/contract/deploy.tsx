@@ -83,7 +83,6 @@ interface State {
     success: boolean;
   } | null;
   compiledOutput: any;
-  canSignTransaction: boolean;
   txHash: string;
 }
 
@@ -99,7 +98,6 @@ class DeployFormInner extends Component<DeployProps, State> {
     showConfirmation: false,
     broadcast: null,
     compiledOutput: null,
-    canSignTransaction: false,
     txHash: ""
   };
 
@@ -118,10 +116,6 @@ class DeployFormInner extends Component<DeployProps, State> {
   }
 
   public handleGenerateAbiAndByteCode(contract: any): void {
-    if (!contract) {
-      this.setState({ canSignTransaction: false });
-      return;
-    }
     const {
       form: { setFieldsValue }
     } = this.props;
@@ -129,7 +123,6 @@ class DeployFormInner extends Component<DeployProps, State> {
       byteCode: contract.bytecode,
       abi: contract.interface
     });
-    this.setState({ canSignTransaction: true });
   }
 
   private readonly solidityValidator = (
@@ -421,7 +414,6 @@ class DeployFormInner extends Component<DeployProps, State> {
         {/*
           // @ts-ignore */}
         <Button
-          disabled={!this.state.canSignTransaction}
           type="primary"
           onClick={() => this.onClickSubmit()}
           style={{ marginBottom: "32px" }}
