@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, Menu } = require("electron");
 const path = require("path");
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -56,3 +56,40 @@ app.on("activate", function() {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 // refresh
+const { autoUpdater } = require("electron-updater");
+const log = require("electron-log");
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = "info";
+log.info("App starting...");
+
+//-------------------------------------------------------------------
+// Define the menu
+//
+// THIS SECTION IS NOT REQUIRED
+//-------------------------------------------------------------------
+let template = [];
+if (process.platform === "darwin") {
+  // OS X
+  const name = app.getName();
+  template.unshift({
+    label: name,
+    submenu: [
+      {
+        label: "About " + name,
+        role: "about"
+      },
+      {
+        label: "Quit",
+        accelerator: "Command+Q",
+        click() {
+          app.quit();
+        }
+      }
+    ]
+  });
+}
+
+// check for updates
+app.on("ready", function() {
+  autoUpdater.checkForUpdatesAndNotify();
+});
