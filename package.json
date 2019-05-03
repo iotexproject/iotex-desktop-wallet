@@ -153,7 +153,7 @@
     "casual": "1.6.0",
     "config": "3.1.0",
     "dateformat": "3.0.3",
-    "dayjs": "^1.8.13",
+    "dayjs": "1.8.13",
     "dotenv": "8.0.0",
     "dottie": "2.0.1",
     "export-from-json": "1.1.3",
