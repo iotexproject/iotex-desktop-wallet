@@ -302,6 +302,29 @@ const RenderActualTimeContainer = connect<{ locale: string }>(state => {
 })(renderActualTime);
 
 // tslint:disable:no-any
+function queryRegisteredName(text: string, record: any): JSX.Element {
+  return (
+    <Query
+      query={GET_BP_CANDIDATE}
+      variables={{ ioOperatorAddress: text }}
+      client={localApolloClient}
+    >
+      {({ loading, error, data }: QueryResult) => {
+        if (loading) {
+          return "Loading...";
+        }
+        if (error) {
+          return <FlexLink path={`/address/${record.value}`} text={text} />;
+        }
+        const txt =
+          (data.bpCandidate && data.bpCandidate.registeredName) || text;
+        return <FlexLink path={`/address/${record.value}`} text={txt} />;
+      }}
+    </Query>
+  );
+}
+
+// tslint:disable:no-any
 export function renderValue(text: string, record: any): JSX.Element | string {
   switch (record.key) {
     case "transferAmount":
@@ -311,22 +334,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "amount":
       return `${fromRau(text, "IOTX")} IOTX`;
     case "producerAddress":
-      return (
-        <Query
-          query={GET_BP_CANDIDATE}
-          variables={{ ioOperatorAddress: text }}
-          client={localApolloClient}
-        >
-          {({ loading, error, data }: QueryResult) => {
-            if (loading) return "Loading...";
-            if (error)
-              return <FlexLink path={`/address/${record.value}`} text={text} />;
-            text =
-              (data.bpCandidate && data.bpCandidate.registeredName) || text;
-            return <FlexLink path={`/address/${record.value}`} text={text} />;
-          }}
-        </Query>
-      );
+      return queryRegisteredName(text, record);
     case "sender":
     case "contract":
     case "recipient":
