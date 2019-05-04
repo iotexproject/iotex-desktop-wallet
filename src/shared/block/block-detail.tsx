@@ -408,7 +408,9 @@ function renderActHash(text: string): JSX.Element | string {
         <div style={{ textAlign: "center" }}>
           <CopyButtonClipboardComponent text={text} />
         </div>
-        <span style={{ fontSize: "12px", color: colors.primary }}>
+        <span
+          style={{ fontSize: "12px", color: colors.primary, cursor: "pointer" }}
+        >
           {t("action.copy_link")}
         </span>
       </div>
@@ -417,7 +419,9 @@ function renderActHash(text: string): JSX.Element | string {
           <div style={{ textAlign: "center" }}>
             <Icon component={EmailSvg} />
           </div>
-          <span style={{ fontSize: "12px" }}>{t("action.email")}</span>
+          <span style={{ fontSize: "12px", cursor: "pointer" }}>
+            {t("action.email")}
+          </span>
         </a>
       </div>
     </div>
