@@ -32,7 +32,7 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { PALM_WIDTH } from "../common/styles/style-media";
 import { ContentPadding } from "../common/styles/style-padding";
-import { GET_BLOCK_METAS } from "../queries";
+import { GET_BLOCK_METAS, GET_BP_CANDIDATE } from "../queries";
 dayjs.extend(utc);
 // @ts-ignore
 import window from "global/window";
@@ -40,6 +40,7 @@ import { connect } from "react-redux";
 import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { GET_LATEST_HEIGHT } from "../queries";
+import { localApolloClient } from "./local-apollo-client";
 
 type PathParamsType = {
   height: string;
@@ -310,6 +311,22 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "amount":
       return `${fromRau(text, "IOTX")} IOTX`;
     case "producerAddress":
+      return (
+        <Query
+          query={GET_BP_CANDIDATE}
+          variables={{ ioOperatorAddress: text }}
+          client={localApolloClient}
+        >
+          {({ loading, error, data }: QueryResult) => {
+            if (loading) return "Loading...";
+            if (error)
+              return <FlexLink path={`/address/${record.value}`} text={text} />;
+            text =
+              (data.bpCandidate && data.bpCandidate.registeredName) || text;
+            return <FlexLink path={`/address/${record.value}`} text={text} />;
+          }}
+        </Query>
+      );
     case "sender":
     case "contract":
     case "recipient":

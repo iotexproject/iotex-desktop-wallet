@@ -357,3 +357,11 @@ export const FETCH_VERSION_INFO = gql`
     }
   }
 `;
+
+export const GET_BP_CANDIDATE = gql`
+  query bpCandidate($ioOperatorAddress: ID) {
+    bpCandidate(ioOperatorAddress: $ioOperatorAddress) {
+      registeredName
+    }
+  }
+`;
