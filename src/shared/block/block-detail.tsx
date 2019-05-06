@@ -40,7 +40,7 @@ import { connect } from "react-redux";
 import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { GET_LATEST_HEIGHT } from "../queries";
-import { localApolloClient } from "./local-apollo-client";
+import { webBpApolloClient } from "iotex-react-block-producers";
 
 type PathParamsType = {
   height: string;
@@ -307,7 +307,7 @@ function queryRegisteredName(text: string, record: any): JSX.Element {
     <Query
       query={GET_BP_CANDIDATE}
       variables={{ ioOperatorAddress: text }}
-      client={localApolloClient}
+      client={webBpApolloClient}
     >
       {({ loading, error, data }: QueryResult) => {
         if (loading) {
