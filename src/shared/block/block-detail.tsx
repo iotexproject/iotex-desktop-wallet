@@ -32,7 +32,7 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { PALM_WIDTH } from "../common/styles/style-media";
 import { ContentPadding } from "../common/styles/style-padding";
-import { GET_BLOCK_METAS } from "../queries";
+import { GET_BLOCK_METAS, GET_BP_CANDIDATE } from "../queries";
 dayjs.extend(utc);
 // @ts-ignore
 import window from "global/window";
@@ -40,6 +40,7 @@ import { connect } from "react-redux";
 import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { GET_LATEST_HEIGHT } from "../queries";
+import { webBpApolloClient } from "iotex-react-block-producers";
 
 type PathParamsType = {
   height: string;
@@ -307,6 +308,29 @@ const RenderActualTimeContainer = connect<{ locale: string }>(state => {
 })(renderActualTime);
 
 // tslint:disable:no-any
+function queryRegisteredName(text: string, record: any): JSX.Element {
+  return (
+    <Query
+      query={GET_BP_CANDIDATE}
+      variables={{ ioOperatorAddress: text }}
+      client={webBpApolloClient}
+    >
+      {({ loading, error, data }: QueryResult) => {
+        if (loading) {
+          return "Loading...";
+        }
+        if (error) {
+          return <FlexLink path={`/address/${record.value}`} text={text} />;
+        }
+        const txt =
+          (data.bpCandidate && data.bpCandidate.registeredName) || text;
+        return <FlexLink path={`/address/${record.value}`} text={txt} />;
+      }}
+    </Query>
+  );
+}
+
+// tslint:disable:no-any
 export function renderValue(text: string, record: any): JSX.Element | string {
   switch (record.key) {
     case "transferAmount":
@@ -316,6 +340,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "amount":
       return `${fromRau(text, "IOTX")} IOTX`;
     case "producerAddress":
+      return queryRegisteredName(text, record);
     case "sender":
     case "contract":
     case "recipient":
