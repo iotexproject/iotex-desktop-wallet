@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
+import { webBpApolloClient } from "iotex-react-block-producers";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -40,7 +41,6 @@ import { connect } from "react-redux";
 import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { GET_LATEST_HEIGHT } from "../queries";
-import { webBpApolloClient } from "iotex-react-block-producers";
 
 type PathParamsType = {
   height: string;
@@ -259,7 +259,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
 
 const FoldButtonWrapper = styled("div", {
   color: colors.primary,
-  marginTop: "10px",
+  margin: "8px 0",
   cursor: "pointer"
 });
 
