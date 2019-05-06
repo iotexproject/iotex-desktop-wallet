@@ -53,7 +53,7 @@ const SearchBoxComponent = (props: SearchBoxProps): JSX.Element => {
               }
             }
           } catch (e) {
-            return history.push(`/notfound`);
+            return history.push("/notfound");
           }
         }
         try {
@@ -73,21 +73,19 @@ const SearchBoxComponent = (props: SearchBoxProps): JSX.Element => {
         } catch (e) {
           try {
             const validBlock = await client.query({
-              query: GET_ACTIONS,
+              query: GET_BLOCK_METAS,
               variables: {
                 ignoreErrorNotification: true,
-                byBlk: {
-                  blkHash: value,
-                  start: 0,
-                  count: 1
+                byHash: {
+                  blkHash: value
                 }
-              } as GetActionsRequest
+              } as GetBlockMetasRequest
             });
             if (validBlock) {
               return history.push(`/block/${value}`);
             }
           } catch (error) {
-            return history.push(`/notfound`);
+            return history.push("/notfound");
           }
         }
       }}
