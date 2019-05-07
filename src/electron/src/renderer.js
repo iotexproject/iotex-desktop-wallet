@@ -14,8 +14,8 @@ win.xopen = function(url, frameName, features) {
 // The xconf is used to store user configurations with electron.
 // Config's value should be able to store under JSON string.
 win.xconf = new (function() {
-  const userDatapath = (app || remote.app).getPath("userData");
-  const userConfName = resolve(userDatapath, "xconf.json");
+  const userDataPath = (app || remote.app).getPath("userData");
+  const userConfName = resolve(userDataPath, "xconf.json");
   let confData = {};
   try {
     confData = JSON.parse(readFileSync(userConfName, { encoding: "utf8" }));
