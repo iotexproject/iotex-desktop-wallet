@@ -231,14 +231,10 @@ class Keystore extends React.Component<KeystoreProps, KeystoreState> {
         newKeystores[name] = keystores[name];
       }
     });
-    const newState: KeystoreState = {
-      keystores: newKeystores,
-      keyname: this.state.keyname
-    };
     if (keyname === this.state.keyname) {
-      newState.keyname = "";
+      this.clearSelected();
     }
-    this.setState(newState);
+    this.setState({ keystores: newKeystores });
     // Update keystores list
     xconf.setConf("keystores", newKeystores);
     return true;
