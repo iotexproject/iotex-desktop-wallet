@@ -175,7 +175,7 @@ class Keystore extends React.Component<KeystoreProps, KeystoreState> {
       return (
         <Upload {...uploadProps}>
           <Button>
-            <Icon type="key" /> {t("unlock_by_keystore_file.select_file")}
+            <Icon type="key" /> {t("unlock_by_keystore_file.browse_file")}
           </Button>
         </Upload>
       );
