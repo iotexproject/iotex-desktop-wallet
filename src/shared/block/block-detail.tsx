@@ -1,4 +1,4 @@
-import { Icon, Popover, Tooltip } from "antd";
+import { Icon, Popover, Tooltip, Button } from "antd";
 import { ColumnProps } from "antd/es/table";
 import Divider from "antd/lib/divider";
 import Table from "antd/lib/table";
@@ -272,12 +272,6 @@ export function renderKey(text: string): JSX.Element {
   return <span>{t(`render.key.${text}`)}</span>;
 }
 
-const EmailSvg = () => (
-  <svg viewBox="0 0 1024 1024" version="1.1" width="28" height="28">
-    <path d="M0 128l0 768 1024 0L1024 128 0 128zM934.016 320 512 616 86.016 320 86.016 210.688 512 506.688l422.016-296L934.016 320z" />
-  </svg>
-);
-
 function renderActualTime(props: {
   ts: Timestamp | undefined;
   locale: string;
@@ -432,21 +426,31 @@ function renderActHash(text: string): JSX.Element | string {
       <div>
         <div style={{ textAlign: "center" }}>
           <CopyButtonClipboardComponent text={text} />
+          <div>
+            <span
+              style={{
+                fontSize: "12px",
+                color: colors.primary,
+                cursor: "pointer"
+              }}
+            >
+              {t("action.copy_link")}
+            </span>
+          </div>
         </div>
-        <span
-          style={{ fontSize: "12px", color: colors.primary, cursor: "pointer" }}
-        >
-          {t("action.copy_link")}
-        </span>
       </div>
       <div>
         <a href={href}>
           <div style={{ textAlign: "center" }}>
-            <Icon component={EmailSvg} />
+            <Tooltip placement="top" title={t("action.click_send_email")}>
+              <Button className="copied" shape="circle" icon="mail" />
+            </Tooltip>
+            <div>
+              <span style={{ fontSize: "12px", cursor: "pointer" }}>
+                {t("action.email")}
+              </span>
+            </div>
           </div>
-          <span style={{ fontSize: "12px", cursor: "pointer" }}>
-            {t("action.email")}
-          </span>
         </a>
       </div>
     </div>
