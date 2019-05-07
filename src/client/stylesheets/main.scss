@@ -262,3 +262,16 @@
     box-shadow: 0 2px 8px 0 rgba(21, 26, 33, 0.43) !important;
   }
 }
+
+.keystore-tag {
+  background-color: unset !important;
+  border: none !important;
+  font-size: 14px !important;
+  white-space: pre-wrap !important;
+}
+
+.keystore-tag i:last-child {
+  color: #e54937;
+  font-size: 14px !important;
+  padding-left: 14px;
+}
