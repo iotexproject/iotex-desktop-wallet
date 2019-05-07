@@ -4,7 +4,7 @@ import window from "global/window";
 // tslint:disable: no-any
 const tmpdata: { [index: string]: any } = {};
 
-// The xconf is a mockup for user configurations with electron.
+// The xconf is a polyfill for user configurations used by electron.
 export const xconf: {
   getConf(name: string, defaultvalue?: any): any;
   setConf(name: string, value: any): boolean;
