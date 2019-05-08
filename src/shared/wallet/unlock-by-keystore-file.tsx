@@ -13,7 +13,7 @@ import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { PureComponent } from "react";
-import { xconf } from "../common/xconf";
+import { xconf, XConfKeys } from "../common/xconf";
 import { PasswordFormInputItem } from "./contract/cards";
 import { getAntenna } from "./get-antenna";
 import { FormItemLabel } from "./wallet";
@@ -113,14 +113,20 @@ class Keystore extends React.Component<KeystoreProps, KeystoreState> {
   constructor(props: KeystoreProps) {
     super(props);
     this.state = {
-      keystores: xconf.getConf("keystores", {}),
-      keyname: ""
+      keystores: xconf.getConf(XConfKeys.KEYSTORES, {}),
+      keyname: xconf.getConf(XConfKeys.LAST_USED_KEYSTORE_NAME, "")
     };
+  }
+
+  public componentDidMount(): void {
+    const { keyname } = this.state;
+    if (keyname) {
+      this.selectKeystore(keyname);
+    }
   }
 
   public readFileStore = (file: RcFile): boolean => {
     const { keystores } = this.state;
-    const { form } = this.props;
     const reader = new FileReader();
     // Safe check for the file size. It should be < 10KB.
     if (file.size > 10 * 1024) {
@@ -136,18 +142,15 @@ class Keystore extends React.Component<KeystoreProps, KeystoreState> {
         if (JSON.parse(result)) {
           keystores[file.name] = result;
           // Update keystores list
-          xconf.setConf("keystores", keystores);
-          // Pass to the form
-          form.setFieldsValue({
-            keystore: result
-          });
+          xconf.setConf(XConfKeys.KEYSTORES, keystores);
           // Update component state
           this.setState({
-            keyname: file.name,
             keystores: {
               ...keystores
             }
           });
+          // Select current file store.
+          this.selectKeystore(file.name);
         } else {
           throw new Error(t("input.error.keystore.invalid"));
         }
@@ -216,13 +219,17 @@ class Keystore extends React.Component<KeystoreProps, KeystoreState> {
   }
 
   public selectKeystore(keyname: string): boolean {
-    const keystores = xconf.getConf("keystores", {});
+    const keystores = xconf.getConf<{ [index: string]: string }>(
+      XConfKeys.KEYSTORES,
+      {}
+    );
     if (keystores[keyname]) {
       this.setState({ keyname });
       const { form } = this.props;
       form.setFieldsValue({
         keystore: this.state.keystores[keyname]
       });
+      xconf.setConf(XConfKeys.LAST_USED_KEYSTORE_NAME, keyname);
     }
     return true;
   }
@@ -240,7 +247,7 @@ class Keystore extends React.Component<KeystoreProps, KeystoreState> {
     }
     this.setState({ keystores: newKeystores });
     // Update keystores list
-    xconf.setConf("keystores", newKeystores);
+    xconf.setConf(XConfKeys.KEYSTORES, newKeystores);
     return true;
   }
 
@@ -249,6 +256,8 @@ class Keystore extends React.Component<KeystoreProps, KeystoreState> {
     form.setFieldsValue({
       keystore: ""
     });
+    // Clear remember for last keystore used also.
+    xconf.setConf(XConfKeys.LAST_USED_KEYSTORE_NAME, "");
     this.setState({ keyname: "" });
   };
 
