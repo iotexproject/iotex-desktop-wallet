@@ -165,6 +165,7 @@ unlock-wallet.create: Create a new wallet
 unlock-wallet.main-chain: Please go to mainchain to create a wallet.
 copy.copied: Copied
 copy.toClipboard: Copy address to clipboard
+copy.toClipboardAndScan: Click to Copy address to clipboard or Scan the QR code
 wallet.account.unlock: Unlock
 home.producer: PRODUCER
 home.blockHeight: BLOCK HEIGHT

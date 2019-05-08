@@ -5,6 +5,8 @@ import Tooltip from "antd/lib/tooltip";
 import { t } from "onefx/lib/iso-i18n";
 import { Component } from "react";
 import * as copy from "text-to-clipboard";
+// @ts-ignore
+import QRcode from "qrcode.react";
 
 import React from "react";
 
@@ -23,7 +25,7 @@ type State = {
 export class CopyButtonClipboardComponent extends Component<Props, State> {
   public state: State = {
     trigger: "hover",
-    title: t("copy.toClipboard"),
+    title: t("copy.toClipboardAndScan"),
     copied: "",
     visible: false
   };
@@ -50,7 +52,7 @@ export class CopyButtonClipboardComponent extends Component<Props, State> {
   private readonly btnReload = () => {
     this.setState({
       trigger: "hover",
-      title: t("copy.toClipboard"),
+      title: t("copy.toClipboardAndScan"),
       copied: "",
       visible: true
     });
@@ -58,12 +60,28 @@ export class CopyButtonClipboardComponent extends Component<Props, State> {
 
   public render(): JSX.Element {
     const { trigger, title, copied, visible } = this.state;
-    const { size } = this.props;
+    const { size, text } = this.props;
+    const InnerToolTip = (
+      <div>
+        <div style={{ marginBottom: "5px" }}>{title}</div>
+        <div style={{ textAlign: "center" }}>
+          <QRcode
+            value={text}
+            size={128}
+            bgColor={"#ffffff"}
+            fgColor={"#000000"}
+            level={"M"}
+            includeMargin={false}
+            renderAs={"svg"}
+          />
+        </div>
+      </div>
+    );
     return (
       <Tooltip
         placement="top"
         trigger={trigger}
-        title={title}
+        title={InnerToolTip}
         visible={visible}
         onVisibleChange={this.handleVisibleChange}
       >
