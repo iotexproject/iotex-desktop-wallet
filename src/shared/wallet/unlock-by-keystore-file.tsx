@@ -171,7 +171,7 @@ class Keystore extends React.Component<KeystoreProps, KeystoreState> {
       accept: ".json,application/json,text/json"
     };
 
-    if (!keystoresList.length) {
+    if (!keystoresList.length || !isElectron()) {
       return (
         <Upload {...uploadProps}>
           <Button>
