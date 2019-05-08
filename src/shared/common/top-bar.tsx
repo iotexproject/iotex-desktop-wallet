@@ -184,6 +184,23 @@ class TopBarComponent extends Component<Props, State> {
     );
   };
 
+  public renderMutichainMenu = (): JSX.Element | null => {
+    if (!multiChain) {
+      return null;
+    }
+    return (
+      <AntdMenu>
+        {multiChain.chains.map(chain => (
+          <AntdMenu.Item key={chain.name}>
+            <A href={chain.url} target="_blank" rel="noreferrer">
+              {chain.name}
+            </A>
+          </AntdMenu.Item>
+        ))}
+      </AntdMenu>
+    );
+  };
+
   public renderMenu = () => {
     return [
       <StyledLink key={0} to="/" onClick={this.hideMobileMenu}>
@@ -201,7 +218,24 @@ class TopBarComponent extends Component<Props, State> {
       </AntdDropdown>,
       <StyledLink key={2} to="/wallet/" onClick={this.hideMobileMenu}>
         {t("topbar.wallet")}
-      </StyledLink>
+      </StyledLink>,
+      <>
+        {this.state.displayMobileMenu && multiChain && (
+          <AntdDropdown
+            key={3}
+            trigger={["click", "hover"]}
+            overlay={this.renderMutichainMenu()}
+          >
+            <StyledLink
+              className="ant-dropdown-link"
+              style={{ textTransform: "uppercase" }}
+              to="#"
+            >
+              {multiChain.current} <Icon type="down" />
+            </StyledLink>
+          </AntdDropdown>
+        )}
+      </>
     ];
   };
 
@@ -217,25 +251,15 @@ class TopBarComponent extends Component<Props, State> {
     );
   };
 
-  public renderMultiChainMenu(): JSX.Element | null {
+  public renderChainMenu(): JSX.Element | null {
     if (!multiChain) {
       return null;
     }
-    const chainmenu = (
-      <AntdMenu>
-        {multiChain.chains.map(chain => {
-          return (
-            <AntdMenu.Item key={chain.name}>
-              <A href={chain.url} target="_blank" rel="noreferrer noopener">
-                {chain.name}
-              </A>
-            </AntdMenu.Item>
-          );
-        })}
-      </AntdMenu>
-    );
     return (
-      <AntdDropdown overlay={chainmenu} trigger={["click", "hover"]}>
+      <AntdDropdown
+        overlay={this.renderMutichainMenu()}
+        trigger={["click", "hover"]}
+      >
         <StyledButton>{multiChain.current}</StyledButton>
       </AntdDropdown>
     );
@@ -272,7 +296,7 @@ class TopBarComponent extends Component<Props, State> {
             />
           </Flex>
           <Flex style={{ flex: 1, paddingLeft: 1, whiteSpace: "nowrap" }}>
-            <Menu>{this.renderMultiChainMenu()}</Menu>
+            <Menu>{this.renderChainMenu()}</Menu>
           </Flex>
           <HamburgerBtn
             onClick={this.displayMobileMenu}
@@ -405,7 +429,11 @@ const A = styled("a", menuItem);
 // @ts-ignore
 const StyledLink = styled(Link, menuItem);
 
-const StyledButton = styled(Button, { ...menuItem, color: colors.text01 });
+const StyledButton = styled(Button, {
+  ...menuItem,
+  color: colors.text01,
+  textTransform: "uppercase"
+});
 
 const Flex = styled("div", (_: React.CSSProperties) => ({
   flexDirection: "row",
