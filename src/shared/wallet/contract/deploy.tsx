@@ -25,14 +25,13 @@ import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
-import { actionBtnStyle } from "../transfer/transfer";
+import { inputStyle } from "../wallet";
 import {
   AbiFormInputItem,
   AmountFormInputItem,
   FormItemLabel,
   GasLimitFormInputItem,
-  GasPriceFormInputItem,
-  inputStyle
+  GasPriceFormInputItem
 } from "./cards";
 import { ContractLayout } from "./contract-layout";
 
@@ -83,7 +82,6 @@ interface State {
     success: boolean;
   } | null;
   compiledOutput: any;
-  canSignTransaction: boolean;
   txHash: string;
 }
 
@@ -99,7 +97,6 @@ class DeployFormInner extends Component<DeployProps, State> {
     showConfirmation: false,
     broadcast: null,
     compiledOutput: null,
-    canSignTransaction: false,
     txHash: ""
   };
 
@@ -118,10 +115,6 @@ class DeployFormInner extends Component<DeployProps, State> {
   }
 
   public handleGenerateAbiAndByteCode(contract: any): void {
-    if (!contract) {
-      this.setState({ canSignTransaction: false });
-      return;
-    }
     const {
       form: { setFieldsValue }
     } = this.props;
@@ -129,7 +122,6 @@ class DeployFormInner extends Component<DeployProps, State> {
       byteCode: contract.bytecode,
       abi: contract.interface
     });
-    this.setState({ canSignTransaction: true });
   }
 
   private readonly solidityValidator = (
@@ -214,7 +206,7 @@ class DeployFormInner extends Component<DeployProps, State> {
         return;
       }
 
-      const { byteCode, amount, gasLimit, gasPrice } = value;
+      const { byteCode, amount, gasLimit, gasPrice, abi } = value;
       const trimmed0xHex = String(byteCode).replace(/^0x/, "");
 
       window.console.log(
@@ -228,6 +220,7 @@ class DeployFormInner extends Component<DeployProps, State> {
       );
 
       const txHash = await antenna.iotx.deployContract({
+        abi: JSON.parse(abi),
         from: String(address),
         amount: toRau(amount, "Iotx"),
         data: Buffer.from(trimmed0xHex, "hex"),
@@ -257,7 +250,6 @@ class DeployFormInner extends Component<DeployProps, State> {
 
   private readonly deployNewContract: JSX.Element = (
     <Button
-      style={{ ...actionBtnStyle, marginLeft: "10px" }}
       onClick={() => {
         this.setState({
           broadcast: null
@@ -275,11 +267,7 @@ class DeployFormInner extends Component<DeployProps, State> {
     }
     if (broadcast.success) {
       return (
-        <BroadcastSuccess
-          type="transfer"
-          txHash={txHash}
-          action={this.deployNewContract}
-        />
+        <BroadcastSuccess txHash={txHash} action={this.deployNewContract} />
       );
     }
     return (
@@ -421,7 +409,6 @@ class DeployFormInner extends Component<DeployProps, State> {
         {/*
           // @ts-ignore */}
         <Button
-          disabled={!this.state.canSignTransaction}
           type="primary"
           onClick={() => this.onClickSubmit()}
           style={{ marginBottom: "32px" }}

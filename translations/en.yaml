@@ -37,6 +37,8 @@ block.receipt_root: "Receipt Root"
 block.delta_state_digest: "Digest of Delta State"
 block.show_more: Show More
 block.show_less: Show Less
+block.success: Success
+block.failure: Failure
 action.type: Type
 action.type.transfer: Transfer
 action.type.grant_reward: "Grant Reward"
@@ -95,6 +97,10 @@ action.action: Action
 action.actions: Actions
 action.sender: Sender
 action.recipient: Recipient
+action.copy_link: Copy Link
+action.email: Email
+action.share_this_action: Share this Action
+action.click_send_email: Click to send email
 title.overview: Overview
 title.actionList: List of Actions
 title.action: Action
@@ -229,7 +235,7 @@ wallet.account.private: Private Key
 wallet.account.addressPlaceHolder: IoTeX Address...
 new-wallet.copy: Copy
 new-wallet.created: Wallet is created! Save your
-new-wallet.privateKey: Private Key or Keystore File
+new-wallet.privateKey: Private Key
 new-wallet.warn.do-not-lose: Do not lose private key!
 new-wallet.warn.cant-recover: It cannot be recovered if you lose it.
 new-wallet.warn.do-not-share: Do not share private key!
@@ -263,7 +269,7 @@ wallet.input.dib: Data Hex
 wallet.input.generate: Generate Transaction
 wallet.transactions.send: Send Transaction
 wallet.transfer.title: Send IOTX
-wallet.error.required: This field is required
+wallet.error.required: This field is required.
 wallet.error.number: This field should be number
 wallet.input.amount: Amount
 broadcast.success: Broadcast transaction successfully
@@ -271,7 +277,7 @@ broadcast.warn.one: >-
   Your TX has been broadcast to the network. This does not mean it has been
   mined on the blockchain. It usually take a few seconds to confirm.
 broadcast.warn.two: >-
-  You can check the status right now by clicking the following button or save
+  You can check the status right now by clicking the following link when it is ready or save
   your TX hash and check the status later
 broadcast.warn.three: "Your TX hash:"
 broadcast.button.check: Check TX Status
@@ -303,3 +309,14 @@ abi.return: Return
 wallet.abi.read: Read contract
 wallet.abi.write: Write contract
 new-wallet.download: Download Keystore File (UTC / JSON)
+new-wallet.save_keystore: '<div><p class="wallet-title" style="display: inline-block;">Save your</p><p class="private-key">keystore file</p></div>'
+wallet.input.password: Password
+input.error.password.too_weak: Password is too weak.
+unlock_by_keystore_file.never_upload: We never upload or store your private key on the server. The keystore file here is handled locally.
+wallet.input.keystore: Keystore File
+unlock-wallet.by_keystore: By Keystore
+unlock-wallet.by_private_key: By Private Key
+unlock_by_keystore_file.select_file: Select File
+input.error.keystore.required: Keystore file is required.
+input.error.keystore.invalid: Keystore file is invalid.
+input.error.keystore.failed_to_derive: Key derivation failed. Possibly wrong password.

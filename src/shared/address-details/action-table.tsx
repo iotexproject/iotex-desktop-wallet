@@ -17,6 +17,7 @@ import { FlexLink } from "../common/flex-link";
 import { translateFn } from "../common/from-now";
 import { getActionType } from "../common/get-action-type";
 import { SpinPreloader } from "../common/spin-preloader";
+import { LAP_WIDTH } from "../common/styles/style-media";
 import { GET_ACTIONS } from "../queries";
 
 export function getAddress(record: ActionInfo): string {
@@ -35,17 +36,29 @@ export function getAddress(record: ActionInfo): string {
   return addr;
 }
 
-export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
+interface CustomCoulns {
+  [key: string]: ColumnProps<ActionInfo>;
+}
+
+export function getActionColumns({
+  customColumns = {}
+}: { customColumns?: CustomCoulns } = {}): Array<ColumnProps<ActionInfo>> {
+  const { actHash } = customColumns;
   return [
-    {
-      title: t("action.hash"),
-      dataIndex: "actHash",
-      render(text: string, _: ActionInfo, __: number): JSX.Element {
-        return (
-          <FlexLink path={`/action/${text}`} text={String(text).substr(0, 8)} />
-        );
-      }
-    },
+    actHash
+      ? actHash
+      : {
+          title: t("action.hash"),
+          dataIndex: "actHash",
+          render(text: string, _: ActionInfo, __: number): JSX.Element {
+            return (
+              <FlexLink
+                path={`/action/${text}`}
+                text={String(text).substr(0, 8)}
+              />
+            );
+          }
+        },
     {
       title: t("block.timestamp"),
       dataIndex: "timestamp",
@@ -88,11 +101,13 @@ export function getActionColumns(): Array<ColumnProps<ActionInfo>> {
       dataIndex: "recipient",
       render(_: string, record: ActionInfo, __: number): JSX.Element | string {
         const addr = getAddress(record);
-        return (
+        return addr !== "-" ? (
           <FlexLink
             path={`/address/${addr}`}
             text={String(addr).substr(0, 8)}
           />
+        ) : (
+          <span>-</span>
         );
       }
     },
@@ -167,11 +182,13 @@ type GetVariable = ({
 export function ActionTable({
   pageSize = 10,
   totalActions = 100,
-  getVariable
+  getVariable,
+  customColumns
 }: {
   pageSize?: number;
   totalActions?: number;
   getVariable: GetVariable;
+  customColumns?: CustomCoulns;
 }): JSX.Element {
   return (
     <Query
@@ -195,13 +212,14 @@ export function ActionTable({
           <SpinPreloader spinning={loading}>
             <Table
               style={{ width: "100%" }}
-              scroll={{ x: true }}
+              scroll={{ x: `${LAP_WIDTH}px` }}
               rowKey={"hash"}
-              columns={getActionColumns()}
+              columns={getActionColumns({ customColumns })}
               dataSource={actionInfo}
               pagination={{
                 pageSize,
-                total: totalActions
+                total: totalActions,
+                showQuickJumper: true
               }}
               onChange={pagination => {
                 fetchMore({

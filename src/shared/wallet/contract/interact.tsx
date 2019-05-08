@@ -16,14 +16,13 @@ import { formItemLayout } from "../../common/form-item-layout";
 import { rulesMap } from "../../common/rules";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
-import { actionBtnStyle } from "../transfer/transfer";
+import { inputStyle } from "../wallet";
 import {
   AbiFormInputItem,
   AmountFormInputItem,
   FormItemLabel,
   GasLimitFormInputItem,
-  GasPriceFormInputItem,
-  inputStyle
+  GasPriceFormInputItem
 } from "./cards";
 import { ContractLayout } from "./contract-layout";
 
@@ -249,7 +248,6 @@ class InteractFormInner extends Component<InteractProps, State> {
 
   private readonly newInteraction: JSX.Element = (
     <Button
-      style={{ ...actionBtnStyle, marginLeft: "10px" }}
       onClick={() => {
         this.setState({
           broadcast: null
@@ -266,13 +264,7 @@ class InteractFormInner extends Component<InteractProps, State> {
       return null;
     }
     if (broadcast.success) {
-      return (
-        <BroadcastSuccess
-          type="transfer"
-          txHash={txHash}
-          action={this.newInteraction}
-        />
-      );
+      return <BroadcastSuccess txHash={txHash} action={this.newInteraction} />;
     }
     return (
       <BroadcastFailure

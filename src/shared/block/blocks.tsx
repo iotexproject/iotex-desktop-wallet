@@ -26,7 +26,9 @@ function getColumns(): Array<ColumnProps<BlockMeta>> {
       title: t("block.height"),
       dataIndex: "height",
       render(_: string, record: BlockMeta, __: number): JSX.Element {
-        return <FlexLink path={`/block/${record.hash}`} text={record.height} />;
+        return (
+          <FlexLink path={`/block/${record.height}`} text={record.height} />
+        );
       }
     },
     {

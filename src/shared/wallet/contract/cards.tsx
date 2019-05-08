@@ -16,6 +16,8 @@ import { Flex } from "../../common/flex";
 import { formItemLayout } from "../../common/form-item-layout";
 import { rulesMap } from "../../common/rules";
 import { colors } from "../../common/styles/style-color";
+import { inputStyle } from "../wallet";
+
 const { TextArea } = Input;
 
 type CardFunctionProps = {
@@ -33,12 +35,6 @@ const cardStyle = {
   borderRadius: "4px",
   boxShadow: "0 2px 8px 0 rgba(0, 0, 0, 0.16)",
   margin: "10px 5px"
-};
-
-export const inputStyle = {
-  width: "100%",
-  background: colors.black10,
-  border: "none"
 };
 
 export const FormItemLabel = styled("label", {
@@ -158,7 +154,7 @@ export function GasLimitFormInputItem({
       label={<FormItemLabel>{t("wallet.input.gasLimit")}</FormItemLabel>}
     >
       {getFieldDecorator("gasLimit", {
-        initialValue: initialValue || "100000",
+        initialValue: initialValue || "10000",
         rules: rulesMap.gasLimit
       })(
         <Input
@@ -194,6 +190,32 @@ export function AmountFormInputItem({
           placeholder="1"
           addonAfter="IOTX"
           name="amount"
+        />
+      )}
+    </Form.Item>
+  );
+}
+
+export function PasswordFormInputItem({
+  form,
+  initialValue
+}: {
+  form: WrappedFormUtils;
+  initialValue?: number;
+}): JSX.Element {
+  const { getFieldDecorator } = form;
+  return (
+    <Form.Item
+      label={<FormItemLabel>{t("wallet.input.password")}</FormItemLabel>}
+    >
+      {getFieldDecorator("password", {
+        initialValue: initialValue,
+        rules: rulesMap.password
+      })(
+        <Input.Password
+          className="form-input"
+          name="password"
+          autoComplete="on"
         />
       )}
     </Form.Item>
