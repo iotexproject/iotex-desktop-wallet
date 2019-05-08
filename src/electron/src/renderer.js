@@ -15,7 +15,7 @@ win.xopen = function(url, frameName, features) {
 // Config's value should be able to store under JSON string.
 win.xconf = new (function() {
   const userDataPath = (app || remote.app).getPath("userData");
-  const userConfName = resolve(userDataPath, "xconf.json");
+  const userConfName = resolve(userDataPath, "iotex-wallet-conf.json");
   let confData = {};
   try {
     confData = JSON.parse(readFileSync(userConfName, { encoding: "utf8" }));
@@ -31,8 +31,12 @@ win.xconf = new (function() {
   };
 
   const setConf = function(name, value) {
-    if (typeof name !== "string" || !name) return false;
-    if ((typeof value).match(/undefined|function|symbol/i)) return false;
+    if (typeof name !== "string" || !name) {
+      return false;
+    }
+    if ((typeof value).match(/undefined|function|symbol/i)) {
+      return false;
+    }
     try {
       confData[name] = value;
       writeFileSync(userConfName, JSON.stringify(confData));
