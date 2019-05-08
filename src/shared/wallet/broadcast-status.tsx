@@ -7,6 +7,7 @@ import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
 import { onElectronClick } from "../common/on-electron-click";
 import { colors } from "../common/styles/style-color";
 import { ACTION_EXISTS_BY_HASH } from "../queries";
+import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 
 export type BroadcastType = "transfer";
 
@@ -32,6 +33,9 @@ export function BroadcastSuccess({
       <p>
         {t("broadcast.warn.three")}
         <ActionPoll txHash={txHash} />
+        <span style={{ marginLeft: "5px" }}>
+          <CopyButtonClipboardComponent text={txHash} />
+        </span>
       </p>
       <div style={{ marginTop: "40px" }} />
       {action}

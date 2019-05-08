@@ -310,6 +310,7 @@ wallet.input.keystore: Keystore File
 unlock-wallet.by_keystore: By Keystore
 unlock-wallet.by_private_key: By Private Key
 unlock_by_keystore_file.select_file: Select File
+unlock_by_keystore_file.browse_file: Browse file...
 input.error.keystore.required: Keystore file is required.
 input.error.keystore.invalid: Keystore file is invalid.
 input.error.keystore.failed_to_derive: Key derivation failed. Possibly wrong password.
