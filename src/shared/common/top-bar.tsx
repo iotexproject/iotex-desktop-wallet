@@ -1,4 +1,5 @@
 // @ts-ignore
+import Button from "antd/lib/button";
 import AntdDropdown from "antd/lib/dropdown";
 import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
@@ -6,17 +7,18 @@ import AntdMenu from "antd/lib/menu";
 import notification from "antd/lib/notification";
 import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
-// @ts-ignore
-
+import isBrowser from "is-browser";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
-import React from "react";
 import { Component } from "react";
+import React from "react";
 import { withApollo, WithApolloClient } from "react-apollo";
 import OutsideClickHandler from "react-outside-click-handler";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
+// @ts-ignore
+import JsonGlobal from "safe-json-globals/get";
 import {
   GetActionsRequest,
   GetBlockMetasRequest
@@ -32,6 +34,17 @@ import { media, PALM_WIDTH } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
 
 export const TOP_BAR_HEIGHT = 62;
+
+const globalState = isBrowser && JsonGlobal("state");
+const multiChain: {
+  current: string;
+  chains: [
+    {
+      name: string;
+      url: string;
+    }
+  ];
+} = isBrowser && globalState.base.multiChain;
 
 type State = {
   displayMobileMenu: boolean;
@@ -204,6 +217,30 @@ class TopBarComponent extends Component<Props, State> {
     );
   };
 
+  public renderMultiChainMenu(): JSX.Element | null {
+    if (!multiChain) {
+      return null;
+    }
+    const chainmenu = (
+      <AntdMenu>
+        {multiChain.chains.map(chain => {
+          return (
+            <AntdMenu.Item key={chain.name}>
+              <A href={chain.url} target="_blank" rel="noreferrer noopener">
+                {chain.name}
+              </A>
+            </AntdMenu.Item>
+          );
+        })}
+      </AntdMenu>
+    );
+    return (
+      <AntdDropdown overlay={chainmenu} trigger={["click", "hover"]}>
+        <StyledButton>{multiChain.current}</StyledButton>
+      </AntdDropdown>
+    );
+  }
+
   public render(): JSX.Element {
     const displayMobileMenu = this.state.displayMobileMenu;
 
@@ -233,6 +270,9 @@ class TopBarComponent extends Component<Props, State> {
                 <Icon type="search" className={"certain-category-icon"} />
               }
             />
+          </Flex>
+          <Flex style={{ flex: 1, paddingLeft: 1, whiteSpace: "nowrap" }}>
+            <Menu>{this.renderMultiChainMenu()}</Menu>
           </Flex>
           <HamburgerBtn
             onClick={this.displayMobileMenu}
@@ -364,6 +404,8 @@ const A = styled("a", menuItem);
 // });
 // @ts-ignore
 const StyledLink = styled(Link, menuItem);
+
+const StyledButton = styled(Button, { ...menuItem, color: colors.text01 });
 
 const Flex = styled("div", (_: React.CSSProperties) => ({
   flexDirection: "row",
