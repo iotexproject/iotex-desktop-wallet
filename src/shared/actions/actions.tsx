@@ -102,7 +102,8 @@ export class ActionTable extends Component<{}, State> {
                         scroll={{ x: true }}
                         pagination={{
                           pageSize: count,
-                          total: numActions
+                          total: numActions,
+                          showQuickJumper: true
                         }}
                         onChange={pagination => {
                           const current = pagination.current || 0;

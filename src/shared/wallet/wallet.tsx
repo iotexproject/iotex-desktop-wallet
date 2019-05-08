@@ -2,7 +2,6 @@ import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
 import Tabs from "antd/lib/tabs";
 import { Account } from "iotex-antenna/lib/account/account";
-import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -61,51 +60,48 @@ class WalletComponent extends PureComponent<Props, State> {
   };
 
   public renderTabs = ({ address }: { address: string }) => {
-    const { location, match } = this.props;
-
-    let defaultActiveKey = `${match.url}/transfer`;
+    const { location } = this.props;
+    let defaultActiveKey = `/wallet/transfer`;
     if (location.pathname.match(/vote/)) {
-      defaultActiveKey = `${match.url}/vote`;
+      defaultActiveKey = `/wallet/vote`;
     } else if (location.pathname.match(/smart-contract/)) {
-      defaultActiveKey = `${match.url}/smart-contract`;
+      defaultActiveKey = `/wallet/smart-contract`;
     }
     return (
       <div>
         <Tabs activeKey={defaultActiveKey} onTabClick={this.onTabChange}>
           <Tabs.TabPane
-            key={`${match.url}/transfer`}
+            key={`/wallet/transfer`}
             tab={t("wallet.tab.transfer", {
               token: t("account.testnet.token")
             })}
           >
             <Transfer address={address} />
           </Tabs.TabPane>
-          <Tabs.TabPane key={`${match.url}/vote`} tab={t("wallet.tab.vote")}>
+          <Tabs.TabPane key={`/wallet/vote`} tab={t("wallet.tab.vote")}>
             <Vote />
           </Tabs.TabPane>
 
-          {!isElectron() && (
-            <Tabs.TabPane
-              key={`${match.url}/smart-contract`}
-              tab={t("wallet.tab.contract")}
-            >
-              <Switch>
-                <Route
-                  exact
-                  path={`${match.url}/smart-contract`}
-                  component={ChooseFunction}
-                />
-                <Route
-                  path={`${match.url}/smart-contract/deploy`}
-                  component={() => <Deploy address={address} />}
-                />
-                <Route
-                  path={`${match.url}/smart-contract/interact`}
-                  component={() => <Interact address={address} />}
-                />
-              </Switch>
-            </Tabs.TabPane>
-          )}
+          <Tabs.TabPane
+            key={`/wallet/smart-contract`}
+            tab={t("wallet.tab.contract")}
+          >
+            <Switch>
+              <Route
+                path={`/wallet/smart-contract/deploy`}
+                component={() => <Deploy address={address} />}
+              />
+              <Route
+                path={`/wallet/smart-contract/interact`}
+                component={() => <Interact address={address} />}
+              />
+              <Route
+                exact
+                path={`/wallet/smart-contract`}
+                component={ChooseFunction}
+              />
+            </Switch>
+          </Tabs.TabPane>
         </Tabs>
       </div>
     );
@@ -128,7 +124,7 @@ class WalletComponent extends PureComponent<Props, State> {
     const { createNew, wallet } = this.state;
     return (
       <>
-        {!isElectron() && <DeployPreloadHeader />}
+        <DeployPreloadHeader />
         <ContentPadding>
           <div style={{ margin: "48px" }} />
           <Row>

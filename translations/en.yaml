@@ -97,6 +97,10 @@ action.action: Action
 action.actions: Actions
 action.sender: Sender
 action.recipient: Recipient
+action.copy_link: Copy Link
+action.email: Email
+action.share_this_action: Share this Action
+action.click_send_email: Click to send email
 title.overview: Overview
 title.actionList: List of Actions
 title.action: Action
