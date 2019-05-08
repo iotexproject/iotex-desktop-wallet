@@ -171,7 +171,7 @@ class Keystore extends React.Component<KeystoreProps, KeystoreState> {
       accept: ".json,application/json,text/json"
     };
 
-    if (!keystoresList.length || !isElectron()) {
+    if (!keystoresList.length) {
       return (
         <Upload {...uploadProps}>
           <Button>
@@ -184,7 +184,11 @@ class Keystore extends React.Component<KeystoreProps, KeystoreState> {
     const menu = (
       <Menu>
         {keystoresList.map(name => (
-          <Menu.Item key={name} onClick={() => this.selectKeystore(name)}>
+          <Menu.Item
+            key={name}
+            onClick={() => this.selectKeystore(name)}
+            style={{ textAlign: "right" }}
+          >
             <Tag
               onClose={() => this.deleteKeystore(name)}
               closable={true}
