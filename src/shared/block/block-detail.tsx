@@ -1,4 +1,4 @@
-import { Icon, Popover, Tooltip, Button } from "antd";
+import { Button, Icon, Popover, Tooltip } from "antd";
 import { ColumnProps } from "antd/es/table";
 import Divider from "antd/lib/divider";
 import Table from "antd/lib/table";

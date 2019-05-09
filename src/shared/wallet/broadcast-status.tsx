@@ -4,10 +4,10 @@ import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
+import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { onElectronClick } from "../common/on-electron-click";
 import { colors } from "../common/styles/style-color";
 import { ACTION_EXISTS_BY_HASH } from "../queries";
-import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 
 export type BroadcastType = "transfer";
 
