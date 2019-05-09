@@ -44,8 +44,8 @@ action.type.transfer: Transfer
 action.type.grant_reward: "Grant Reward"
 action.type.execution: Execution
 action.type.grantReward: Grant Reward
-action.type.depositToRewardingFund: deposit To Rewarding Fund
-action.type.claimFromRewardingFund: claim From RewardingFund
+action.type.depositToRewardingFund: Deposit To Rewarding Fund
+action.type.claimFromRewardingFund: Claim From Rewarding Fund
 action.type.startSubChain: start SubChain
 action.type.stopSubChain: stop SubChain
 action.type.putBlock: put Block
