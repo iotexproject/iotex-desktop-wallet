@@ -25,7 +25,7 @@ type State = {
 export class CopyButtonClipboardComponent extends Component<Props, State> {
   public state: State = {
     trigger: "hover",
-    title: t("copy.toClipboardAndScan"),
+    title: t("copy.toClipboard"),
     copied: "",
     visible: false
   };
@@ -52,7 +52,7 @@ export class CopyButtonClipboardComponent extends Component<Props, State> {
   private readonly btnReload = () => {
     this.setState({
       trigger: "hover",
-      title: t("copy.toClipboardAndScan"),
+      title: t("copy.toClipboard"),
       copied: "",
       visible: true
     });
@@ -63,7 +63,9 @@ export class CopyButtonClipboardComponent extends Component<Props, State> {
     const { size, text } = this.props;
     const InnerToolTip = (
       <div>
-        <div style={{ marginBottom: "5px" }}>{title}</div>
+        <div style={{ marginBottom: "5px", textAlign: "center" }}>
+          {t("copy.scan")}
+        </div>
         <div style={{ textAlign: "center" }}>
           <QRcode
             value={text}
@@ -79,21 +81,29 @@ export class CopyButtonClipboardComponent extends Component<Props, State> {
     );
     return (
       <Tooltip
-        placement="top"
+        placement="bottomRight"
         trigger={trigger}
-        title={InnerToolTip}
+        title={title}
         visible={visible}
-        onVisibleChange={this.handleVisibleChange}
       >
-        <Button
-          className={copied}
-          shape="circle"
-          icon="copy"
-          size={size}
-          onClick={() => this.copyToAddress()}
-          onMouseLeave={() => this.hideTips()}
-          onMouseOver={() => this.btnReload()}
-        />
+        <Tooltip
+          placement="bottomLeft"
+          trigger={trigger}
+          title={InnerToolTip}
+          visible={visible}
+          onVisibleChange={this.handleVisibleChange}
+          align={{ offset: [35, 4] }}
+        >
+          <Button
+            className={copied}
+            shape="circle"
+            icon="copy"
+            size={size}
+            onClick={() => this.copyToAddress()}
+            onMouseLeave={() => this.hideTips()}
+            onMouseOver={() => this.btnReload()}
+          />
+        </Tooltip>
       </Tooltip>
     );
   }
