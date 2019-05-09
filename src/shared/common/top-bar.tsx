@@ -141,7 +141,7 @@ class TopBarComponent extends Component<Props, State> {
             history.push(`/block/${value}`);
           }
         } catch (error) {
-          history.push(`/notfound`);
+          history.push(`/not-found`);
         }
       }
     }

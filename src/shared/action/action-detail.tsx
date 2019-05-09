@@ -21,6 +21,7 @@ import { colors } from "../common/styles/style-color";
 import { ContentPadding, NonePadding } from "../common/styles/style-padding";
 import { GET_ACTIONS_BY_HASH } from "../queries";
 import { ActionReceipt } from "./action-receipt";
+import { NotFound } from "../common/not-found";
 
 type PathParamsType = {
   hash: string;
@@ -75,7 +76,7 @@ class ActionDetailsInner extends PureComponent<Props> {
             data
           }: QueryResult<{ getActions: GetActionsResponse }>) => {
             if (error) {
-              return null;
+              return <NotFound />;
             }
             const actionInfo = get(data || {}, "getActions.actionInfo.0") || {};
             // @ts-ignore
