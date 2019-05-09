@@ -15,6 +15,7 @@ import {
   GetAccountResponse
 } from "../../api-gateway/resolvers/antenna-types";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
+import { ShowQrcodeButton } from "../common/show-qrcode-button";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -62,6 +63,9 @@ class AddressDetailsInner extends PureComponent<Props> {
                       {(addressInfo && addressInfo.address) || address}{" "}
                     </span>
                     <CopyButtonClipboardComponent text={copyAddress} />
+                    <span style={{ marginLeft: "5px" }}>
+                      <ShowQrcodeButton text={copyAddress} />
+                    </span>
                   </PageTitle>
                   <Divider orientation="left">{t("title.overview")}</Divider>
                   <div className="overview-list">
