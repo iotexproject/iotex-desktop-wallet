@@ -2,12 +2,15 @@ import notification from "antd/lib/notification";
 import { onError } from "apollo-link-error";
 
 const onErrorLink = onError(error => {
-  const { graphQLErrors, networkError } = error;
+  const { graphQLErrors, networkError, operation } = error;
   if (graphQLErrors) {
     graphQLErrors.map(graphError => {
       const { message } = graphError;
-
       if (message.indexOf("failed to get action") !== -1) {
+        return;
+      }
+
+      if (operation.operationName === "getActions") {
         return;
       }
 
