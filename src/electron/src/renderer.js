@@ -53,4 +53,6 @@ win.xconf = new (function() {
   };
 })();
 
-require("../../../dist/memory-main.js");
+win.document.addEventListener("DOMContentLoaded", () => {
+  require("../../../dist/memory-main.js");
+});

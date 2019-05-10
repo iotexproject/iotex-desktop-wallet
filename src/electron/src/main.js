@@ -1,6 +1,16 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Menu } = require("electron");
+const { app, BrowserWindow } = require("electron");
 const path = require("path");
+const { session } = require("electron");
+
+const allowRequestOrigins = [
+  "https://iotexscan.io",
+  "https://ethereum.github.io"
+];
+
+const allowedElectronModules = new Set(["app", "shell"]);
+const allowedModules = new Set(["renderer"]);
+const allowedGlobals = new Set();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -9,10 +19,11 @@ let mainWindow;
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1000,
+    width: 1280,
     height: 800,
     webPreferences: {
-      nodeIntegration: true
+      contextIsolation: true,
+      preload: path.resolve(__dirname, "renderer.js")
     }
   });
 
@@ -88,6 +99,102 @@ if (process.platform === "darwin") {
     ]
   });
 }
+
+// Verify WebView Options Before Creation
+app.on("web-contents-created", (event, contents) => {
+  contents.on("will-attach-webview", (event, webPreferences, params) => {
+    // Strip away preload scripts if unused or verify their location is legitimate
+    delete webPreferences.preload;
+    delete webPreferences.preloadURL;
+
+    // Disable Node.js integration
+    webPreferences.nodeIntegration = false;
+
+    // Verify URL being loaded
+    const allowOrigin = allowRequestOrigins.find(origin =>
+      params.src.startsWith(origin)
+    );
+    if (!allowOrigin) {
+      event.preventDefault();
+    }
+  });
+});
+
+// Disable navigation
+app.on("web-contents-created", (_, contents) => {
+  contents.on("will-navigate", e => {
+    e.preventDefault();
+  });
+});
+
+// Disable creating new window
+app.on("web-contents-created", (_, contents) => {
+  contents.on("new-window", event => {
+    event.preventDefault();
+  });
+});
+
+// check for session
+app.on("ready", function() {
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      ...details,
+      responseHeaders: {
+        ...details.responseHeaders,
+        "Content-Security-Policy": [
+          `default-src 'self' ${allowRequestOrigins.join(" ")} `
+        ]
+      }
+    });
+  });
+  session
+    .fromPartition("requests")
+    .setPermissionRequestHandler((webContents, permission, callback) => {
+      const url = webContents.getURL();
+      if (permission === "notifications") {
+        // Approves the permissions request
+        callback(true);
+      }
+      // Verify URL
+      const allowOrigin = allowRequestOrigins.find(origin =>
+        url.startsWith(origin)
+      );
+      callback(!!allowOrigin);
+    });
+});
+
+app.on("remote-require", (event, webContents, moduleName) => {
+  if (!allowedModules.has(moduleName)) {
+    event.preventDefault();
+  }
+});
+
+app.on("remote-get-builtin", (event, webContents, moduleName) => {
+  if (!allowedElectronModules.has(moduleName)) {
+    event.preventDefault();
+  }
+});
+
+app.on("remote-get-global", (event, webContents, globalName) => {
+  if (!allowedGlobals.has(globalName)) {
+    event.preventDefault();
+  }
+});
+
+app.on("remote-get-current-window", (event, webContents) => {
+  event.preventDefault();
+});
+
+app.on("remote-get-current-web-contents", (event, webContents) => {
+  event.preventDefault();
+});
+
+app.on(
+  "remote-get-guest-web-contents",
+  (event, webContents, guestWebContents) => {
+    event.preventDefault();
+  }
+);
 
 // check for updates
 app.on("ready", function() {
