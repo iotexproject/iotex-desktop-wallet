@@ -135,6 +135,7 @@ unlock-wallet.create: Create a new wallet
 unlock-wallet.main-chain: Please go to mainchain to create a wallet.
 copy.copied: 复制成功
 copy.toClipboard: 复制地址到粘贴板
+copy.scan: 扫描二维码
 wallet.account.unlock: 解锁
 home.producer: 生产者
 home.blockHeight: 区块高度

@@ -24,9 +24,9 @@ export function setServerRoutes(server: Server): void {
 
   server.get(
     "SPA",
-    "(/|/address/.*|/block|/block/.*|/action|/action/.*|/wallet.*)",
+    "(/|/address/.*|/block|/block/.*|/action|/action/.*|/wallet.*|/not-found)",
     async (ctx: koa.Context) => {
-      ctx.setState("base.blah", "this is a sample initial state");
+      ctx.setState("base.multiChain", server.config.multiChain);
       ctx.body = await apolloSSR(ctx, server.config.apiGatewayUrl, {
         VDom: <AppContainer />,
         reducer: noopReducer,
