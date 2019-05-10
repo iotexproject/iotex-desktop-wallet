@@ -8,6 +8,10 @@ const allowRequestOrigins = [
   "https://ethereum.github.io"
 ];
 
+const allowedElectronModules = new Set(["app", "shell"]);
+const allowedModules = new Set(["renderer"]);
+const allowedGlobals = new Set();
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -158,6 +162,39 @@ app.on("ready", function() {
       callback(!!allowOrigin);
     });
 });
+
+app.on("remote-require", (event, webContents, moduleName) => {
+  if (!allowedModules.has(moduleName)) {
+    event.preventDefault();
+  }
+});
+
+app.on("remote-get-builtin", (event, webContents, moduleName) => {
+  if (!allowedElectronModules.has(moduleName)) {
+    event.preventDefault();
+  }
+});
+
+app.on("remote-get-global", (event, webContents, globalName) => {
+  if (!allowedGlobals.has(globalName)) {
+    event.preventDefault();
+  }
+});
+
+app.on("remote-get-current-window", (event, webContents) => {
+  event.preventDefault();
+});
+
+app.on("remote-get-current-web-contents", (event, webContents) => {
+  event.preventDefault();
+});
+
+app.on(
+  "remote-get-guest-web-contents",
+  (event, webContents, guestWebContents) => {
+    event.preventDefault();
+  }
+);
 
 // check for updates
 app.on("ready", function() {
