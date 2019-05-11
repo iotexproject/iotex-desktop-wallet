@@ -3,11 +3,13 @@ import {
   IActionCore,
   IActionInfo,
   IBlockMeta,
+  IBlockProducerInfo,
   IChainMeta,
   IDepositToRewardingFund,
   IEpochData,
   IExecution,
   IGetActionsResponse,
+  IGetEpochMetaResponse,
   IGrantReward,
   ILog,
   IMerkleRoot,
@@ -695,4 +697,39 @@ export class EstimateGasForActionRequest {
 export class EstimateGasForActionResponse {
   @Field(_ => String)
   public gas: string;
+}
+
+@ObjectType({ description: "Properties of a BlockProducerInfo" })
+class BlockProducerInfo implements IBlockProducerInfo {
+  @Field(_ => String, { description: "BlockProducerInfo address" })
+  public address: string;
+
+  @Field(_ => String, { description: "BlockProducerInfo votes" })
+  public votes: string;
+
+  @Field(_ => Boolean, { description: "BlockProducerInfo active" })
+  public active: boolean;
+
+  @Field(_ => Int, { description: "BlockProducerInfo production" })
+  public production: number;
+}
+
+@ArgsType()
+export class GetEpochMetaRequest {
+  @Field(_ => Int)
+  public epochNumber: number;
+}
+
+@ObjectType({ description: "Properties of a GetEpochMetaResponse" })
+export class GetEpochMetaResponse implements IGetEpochMetaResponse {
+  @Field(_ => Epoch, { description: "GetEpochMetaResponse epochData" })
+  public epochData: Epoch;
+
+  @Field(_ => Int, { description: "GetEpochMetaResponse totalBlocks" })
+  public totalBlocks: number;
+
+  @Field(_ => [BlockProducerInfo], {
+    description: "GetEpochMetaResponse blockProducersInfo"
+  })
+  public blockProducersInfo: Array<BlockProducerInfo>;
 }

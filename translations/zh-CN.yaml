@@ -6,6 +6,10 @@ topbar.blocks: 区块
 topbar.actions: 行动
 topbar.home: 首页
 topbar.search: "Search by Address / Public Key / Hash / Height"
+topbar.goback_home: 回到首页
+topbar.voting: 投票
+topbar.dashboard: 仪表盘
+topbar.tools: 工具
 not_found.bar: 未找到
 not_found.title: 糟糕!
 not_found.info: 找不到页面...
