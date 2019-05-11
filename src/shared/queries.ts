@@ -365,3 +365,22 @@ export const GET_BP_CANDIDATE = gql`
     }
   }
 `;
+
+export const GET_EPOCH_META = gql`
+  query($epochNumber: Int!) {
+    getEpochMeta(epochNumber: $epochNumber) {
+      epochData {
+        num
+        height
+        gravityChainStartHeight
+      }
+      totalBlocks
+      blockProducersInfo {
+        address
+        votes
+        active
+        production
+      }
+    }
+  }
+`;

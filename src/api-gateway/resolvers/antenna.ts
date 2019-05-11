@@ -19,6 +19,8 @@ import {
   GetActionsResponse,
   GetBlockMetasRequest,
   GetBlockMetasResponse,
+  GetEpochMetaRequest,
+  GetEpochMetaResponse,
   GetReceiptByActionResponse,
   ReadContractRequest,
   ReadContractResponse,
@@ -123,5 +125,15 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     { gateways }: ICtx
   ): Promise<EstimateGasForActionResponse> {
     return gateways.antenna.estimateGasForAction(input);
+  }
+
+  @Query(_ => GetEpochMetaResponse, {
+    description: "get epoch meta"
+  })
+  public async getEpochMeta(
+    @Args() { epochNumber }: GetEpochMetaRequest,
+    @Ctx() { gateways }: ICtx
+  ): Promise<GetEpochMetaResponse> {
+    return gateways.antenna.getEpochMeta({ epochNumber });
   }
 }
