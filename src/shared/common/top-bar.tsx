@@ -488,7 +488,7 @@ const overlayStyle = {
 };
 
 const menuItem = {
-  color: `${colors.topbarGray} !important"`,
+  color: `${colors.topbarGray} !important`,
   marginLeft: "14px",
   textDecoration: "none",
   ":hover": {
