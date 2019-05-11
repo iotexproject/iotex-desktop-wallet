@@ -7,7 +7,7 @@ export function fromNow(ts: Timestamp | undefined): string {
   if (!ts) {
     return "";
   }
-  return fn(new Date(ts.seconds * 1000), { max: 3, suffix: true });
+  return fn(new Date(ts.seconds * 1000), { max: 1, suffix: true });
 }
 
 export function translateFn(ts: Timestamp): string {
