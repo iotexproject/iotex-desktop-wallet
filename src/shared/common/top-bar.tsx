@@ -2,7 +2,7 @@
 import Button from "antd/lib/button";
 import AntdDropdown from "antd/lib/dropdown";
 import Icon from "antd/lib/icon";
-import Input from "antd/lib/input";
+// import Input from "antd/lib/input";
 import AntdMenu from "antd/lib/menu";
 import notification from "antd/lib/notification";
 import { get } from "dottie";
@@ -33,7 +33,7 @@ import { colors } from "./styles/style-color";
 import { media, PALM_WIDTH } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
 
-export const TOP_BAR_HEIGHT = 62;
+export const TOP_BAR_HEIGHT = 100;
 
 const globalState = isBrowser && JsonGlobal("state");
 const multiChain: {
@@ -48,6 +48,7 @@ const multiChain: {
 
 type State = {
   displayMobileMenu: boolean;
+  blockChainMenu: "dashboard" | "actions" | "blocks";
 };
 
 type PathParamsType = {
@@ -60,12 +61,21 @@ class TopBarComponent extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      displayMobileMenu: false
+      displayMobileMenu: false,
+      blockChainMenu: "dashboard"
     };
   }
 
   public componentDidMount(): void {
-    this.props.history.listen(() => {
+    const { location, history } = this.props;
+    if (location.pathname === "/") {
+      this.setState({ blockChainMenu: "dashboard" });
+    } else if (location.pathname.match(/action/)) {
+      this.setState({ blockChainMenu: "actions" });
+    } else if (location.pathname.match(/block/)) {
+      this.setState({ blockChainMenu: "blocks" });
+    }
+    history.listen(() => {
       this.hideMobileMenu();
     });
     window.addEventListener("resize", () => {
@@ -162,20 +172,44 @@ class TopBarComponent extends Component<Props, State> {
 
   public renderBlockchainMenu = () => {
     return (
-      <AntdMenu>
+      <AntdMenu style={overlayStyle}>
         <AntdMenu.Item key={0}>
-          <StyledLink to="/action">{t("topbar.actions")}</StyledLink>
+          <StyledLink
+            to="/"
+            onClick={() => this.setState({ blockChainMenu: "dashboard" })}
+          >
+            {t("topbar.dashboard")}
+          </StyledLink>
         </AntdMenu.Item>
         <AntdMenu.Item key={1}>
-          <StyledLink to="/block">{t("topbar.blocks")}</StyledLink>
+          <StyledLink
+            to="/action"
+            onClick={() => this.setState({ blockChainMenu: "actions" })}
+          >
+            {t("topbar.actions")}
+          </StyledLink>
         </AntdMenu.Item>
-        <AntdMenu.Divider />
         <AntdMenu.Item key={2}>
+          <StyledLink
+            to="/block"
+            onClick={() => this.setState({ blockChainMenu: "blocks" })}
+          >
+            {t("topbar.blocks")}
+          </StyledLink>
+        </AntdMenu.Item>
+      </AntdMenu>
+    );
+  };
+
+  public renderToolMenu = (): JSX.Element => {
+    return (
+      <AntdMenu style={overlayStyle}>
+        <AntdMenu.Item key={0}>
           <A href="/api-gateway/" target="_blank">
             {t("topbar.graphql_playground")}
           </A>
         </AntdMenu.Item>
-        <AntdMenu.Item key={3}>
+        <AntdMenu.Item key={1}>
           <A href="/doc/api-gateway/" target="_blank">
             {t("topbar.graphql_doc")}
           </A>
@@ -189,7 +223,7 @@ class TopBarComponent extends Component<Props, State> {
       return null;
     }
     return (
-      <AntdMenu>
+      <AntdMenu style={overlayStyle}>
         {multiChain.chains.map(chain => (
           <AntdMenu.Item key={chain.name}>
             <A href={chain.url} target="_blank" rel="noreferrer">
@@ -202,23 +236,31 @@ class TopBarComponent extends Component<Props, State> {
   };
 
   public renderMenu = () => {
+    const votingPageUrl = "https://member.iotex.io";
     return [
-      <StyledLink key={0} to="/" onClick={this.hideMobileMenu}>
-        {t("topbar.home")}
-      </StyledLink>,
       <AntdDropdown
-        key={1}
+        key={0}
         trigger={["click", "hover"]}
         overlay={this.renderBlockchainMenu()}
         getPopupContainer={trigger => trigger.parentElement || document.body}
       >
-        <StyledLink className="ant-dropdown-link" to="#">
-          {t("topbar.blockchain")} <Icon type="down" />
-        </StyledLink>
+        <DropDownTitle>
+          {t(`topbar.${this.state.blockChainMenu}`)} {DownIcon()}
+        </DropDownTitle>
       </AntdDropdown>,
-      <StyledLink key={2} to="/wallet/" onClick={this.hideMobileMenu}>
-        {t("topbar.wallet")}
-      </StyledLink>,
+      <AntdDropdown
+        key={1}
+        trigger={["click", "hover"]}
+        overlay={this.renderToolMenu()}
+        getPopupContainer={trigger => trigger.parentElement || document.body}
+      >
+        <DropDownTitle>
+          {t("topbar.tools")} {DownIcon()}
+        </DropDownTitle>
+      </AntdDropdown>,
+      <NoBgA href={votingPageUrl} key={2}>
+        {t("topbar.voting")}
+      </NoBgA>,
       <>
         {this.state.displayMobileMenu && multiChain && (
           <AntdDropdown
@@ -231,7 +273,7 @@ class TopBarComponent extends Component<Props, State> {
               style={{ textTransform: "uppercase" }}
               to="#"
             >
-              {multiChain.current} <Icon type="down" />
+              {multiChain.current} {DownIcon()}
             </StyledLink>
           </AntdDropdown>
         )}
@@ -260,7 +302,9 @@ class TopBarComponent extends Component<Props, State> {
         overlay={this.renderMutichainMenu()}
         trigger={["click", "hover"]}
       >
-        <StyledButton>{multiChain.current}</StyledButton>
+        <DropDownTitle>
+          {multiChain.current} {DownIcon()}
+        </DropDownTitle>
       </AntdDropdown>
     );
   }
@@ -271,13 +315,14 @@ class TopBarComponent extends Component<Props, State> {
     return (
       <div>
         <Bar>
+          <BackHome />
           <Flex>
             <LogoContent />
           </Flex>
           <Flex style={{ flex: 1, paddingLeft: 1, whiteSpace: "nowrap" }}>
             <Menu>{this.renderMenu()}</Menu>
           </Flex>
-          <Flex
+          {/* <Flex
             className={"certain-category-search-wrapper"}
             style={{
               width: 350,
@@ -294,8 +339,15 @@ class TopBarComponent extends Component<Props, State> {
                 <Icon type="search" className={"certain-category-icon"} />
               }
             />
-          </Flex>
-          <Flex style={{ flex: 1, paddingLeft: 1, whiteSpace: "nowrap" }}>
+          </Flex> */}
+          <Flex
+            style={{
+              flex: 1,
+              paddingLeft: 1,
+              whiteSpace: "nowrap",
+              justifyContent: "flex-end"
+            }}
+          >
             <Menu>{this.renderChainMenu()}</Menu>
           </Flex>
           <HamburgerBtn
@@ -393,23 +445,54 @@ function CrossBtn({
 
 const LogoWrapper = styled("a", {
   width: "120px",
-  height: "50px"
+  height: "50px",
+  marginRight: "66px"
 });
 
 function LogoContent(): JSX.Element {
   return (
     <LogoWrapper href="/">
-      <Logo url={assetURL("//iotex.io/logo.svg")} />
+      <Logo url={assetURL("/logo_explorer.png")} />
     </LogoWrapper>
   );
 }
 
+function BackHome(): JSX.Element {
+  const homePageUrl = "https://iotex.io/";
+  return (
+    <div
+      style={{
+        padding: "0 10px",
+        borderLeft: `1px solid ${colors.backHome}`,
+        borderRight: `1px solid ${colors.backHome}`,
+        marginRight: "10px"
+      }}
+    >
+      <a
+        href={homePageUrl}
+        style={{ color: colors.backHome, lineHeight: 1, fontSize: "14px" }}
+      >
+        <div>Go back</div>
+        <div style={{ fontSize: "16px", letterSpacing: "2.5px" }}>home</div>
+      </a>
+    </div>
+  );
+}
+
+function DownIcon(): JSX.Element {
+  return <Icon type="caret-down" style={{ color: colors.topbarGray }} />;
+}
+
+const overlayStyle = {
+  backgroundColor: colors.nav01
+};
+
 const menuItem = {
-  color: colors.white,
+  color: colors.topbarGray + " !important",
   marginLeft: "14px",
   textDecoration: "none",
   ":hover": {
-    color: colors.primary
+    color: colors.primary + " !important"
   },
   transition,
   fontWeight: "bold",
@@ -418,21 +501,29 @@ const menuItem = {
     width: "100%",
     padding: "16px 0 16px 0",
     borderBottom: "1px #EDEDED solid"
-  }
+  },
+  cursor: "pointer"
 };
-const A = styled("a", menuItem);
-// const BrandText = styled("a", {
-//   ...menuItem,
-//   marginLeft: 0,
-//   [media.palm]: {}
-// });
-// @ts-ignore
-const StyledLink = styled(Link, menuItem);
 
-const StyledButton = styled(Button, {
+const DropDownTitle = styled("div", menuItem);
+
+const A = styled("a", {
   ...menuItem,
-  color: colors.text01,
-  textTransform: "uppercase"
+  ":hover": {
+    color: colors.primary + " !important",
+    backgroundColor: colors.topbarGray
+  }
+});
+
+const NoBgA = styled("a", menuItem);
+
+// @ts-ignore
+const StyledLink = styled(Link, {
+  ...menuItem,
+  ":hover": {
+    color: colors.primary + " !important",
+    backgroundColor: colors.topbarGray
+  }
 });
 
 const Flex = styled("div", (_: React.CSSProperties) => ({
