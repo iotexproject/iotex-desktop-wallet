@@ -6,7 +6,6 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
-import { webBpApolloClient } from "iotex-react-block-producers";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -39,6 +38,7 @@ dayjs.extend(utc);
 import window from "global/window";
 import { connect } from "react-redux";
 import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
+import { webBpApolloClient } from "../common/apollo-client";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { GET_LATEST_HEIGHT } from "../queries";
 

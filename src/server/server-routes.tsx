@@ -27,6 +27,7 @@ export function setServerRoutes(server: Server): void {
     "(/|/address/.*|/block|/block/.*|/action|/action/.*|/wallet.*|/not-found)",
     async (ctx: koa.Context) => {
       ctx.setState("base.multiChain", server.config.multiChain);
+      ctx.setState("base.webBpApiGatewayUrl", server.config.webBpApiGatewayUrl);
       ctx.body = await apolloSSR(ctx, server.config.apiGatewayUrl, {
         VDom: <AppContainer />,
         reducer: noopReducer,

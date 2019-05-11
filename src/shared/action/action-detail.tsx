@@ -15,13 +15,13 @@ import { getColumns } from "../block/block-detail";
 import { Flex } from "../common/flex";
 import { actionsTypes, getActionType } from "../common/get-action-type";
 import { Navigation } from "../common/navigation";
+import { NotFound } from "../common/not-found";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding, NonePadding } from "../common/styles/style-padding";
 import { GET_ACTIONS_BY_HASH } from "../queries";
 import { ActionReceipt } from "./action-receipt";
-import { NotFound } from "../common/not-found";
 
 type PathParamsType = {
   hash: string;

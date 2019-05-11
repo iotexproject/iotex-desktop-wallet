@@ -15,8 +15,8 @@ import {
   GetAccountResponse
 } from "../../api-gateway/resolvers/antenna-types";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
-import { ShowQrcodeButton } from "../common/show-qrcode-button";
 import { PageTitle } from "../common/page-title";
+import { ShowQrcodeButton } from "../common/show-qrcode-button";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_ACCOUNT } from "../queries";

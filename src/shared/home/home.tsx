@@ -14,6 +14,7 @@ import {
   GetBlockMetasResponse
 } from "../../api-gateway/resolvers/antenna-types";
 import { CoinPrice } from "../../api-gateway/resolvers/meta";
+import { webBpApolloClient } from "../common/apollo-client";
 import { Flex } from "../common/flex";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -178,7 +179,7 @@ class HomeComponent extends Component<Props, State> {
         <Layout tagName={"main"} className={"main-container"}>
           <Layout.Content tagName={"main"}>
             <div style={{ backgroundColor: "#fff" }}>
-              <BlockProducers />
+              <BlockProducers apolloClient={webBpApolloClient} />
             </div>
           </Layout.Content>
         </Layout>
