@@ -14,6 +14,7 @@ import {
   GET_ACTIONS_BY_INDEX,
   GET_BLOCK_METAS_BY_HASH,
   GET_BLOCK_METAS_BY_INDEX,
+  GET_EPOCH_META,
   GET_RECEIPT_BY_ACTION,
   READ_CONTRACT,
   SEND_ACTION,
@@ -147,12 +148,11 @@ class TestAntennaInner extends PureComponent<Props> {
   public render(): JSX.Element {
     const tmp = [
       {
-        query: GET_RECEIPT_BY_ACTION,
+        query: GET_EPOCH_META,
         variables: {
-          actionHash:
-            "9cad3ee1f3f017faa6f160e25d8a5e5a73509bce738f920ff6e5873f86f50439"
+          epochNumber: 1
         },
-        name: "GET_RECEIPT_BY_ACTION"
+        name: "GET_EPOCH_META"
       }
     ];
 
