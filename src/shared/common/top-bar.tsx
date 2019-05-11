@@ -488,11 +488,11 @@ const overlayStyle = {
 };
 
 const menuItem = {
-  color: colors.topbarGray + " !important",
+  color: `${colors.topbarGray} !important"`,
   marginLeft: "14px",
   textDecoration: "none",
   ":hover": {
-    color: colors.primary + " !important"
+    color: `${colors.primary} !important`
   },
   transition,
   fontWeight: "bold",
@@ -510,7 +510,7 @@ const DropDownTitle = styled("div", menuItem);
 const A = styled("a", {
   ...menuItem,
   ":hover": {
-    color: colors.primary + " !important",
+    color: `${colors.primary} !important`,
     backgroundColor: colors.topbarGray
   }
 });
@@ -521,7 +521,7 @@ const NoBgA = styled("a", menuItem);
 const StyledLink = styled(Link, {
   ...menuItem,
   ":hover": {
-    color: colors.primary + " !important",
+    color: `${colors.primary} !important`,
     backgroundColor: colors.topbarGray
   }
 });
