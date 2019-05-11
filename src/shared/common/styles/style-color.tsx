@@ -18,7 +18,7 @@ export const colors = {
   warning: "#FFA000", //	Warning
   information: "#5aaafa", //	Information
 
-  nav01: "#011627",
+  nav01: "#262632",
   nav02: "#20232a",
   nav03: "#151d27",
 
@@ -26,5 +26,7 @@ export const colors = {
   ELECTED: "#06a35a",
   NOT_ELECTED: "#ff9100",
   UNQUALIFIED: "#999999",
-  deltaUp: "#00b4a0"
+  deltaUp: "#00b4a0",
+  backHome: "#00958E",
+  topbarGray: "#6F7081"
 };
