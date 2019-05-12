@@ -1,12 +1,12 @@
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
+import { media } from "../common/styles/style-media";
+import { assetURL } from "./asset-url";
 import { Flex } from "./flex";
 import { colors } from "./styles/style-color";
 import { contentPadding } from "./styles/style-padding";
 import { TOP_BAR_HEIGHT } from "./top-bar";
-import { assetURL } from "./asset-url";
-import { media } from "../common/styles/style-media";
 
 export const FOOTER_HEIGHT = 260;
 
