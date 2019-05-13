@@ -60,7 +60,7 @@ win.solidityCompile = function(source, callback) {
     id: solcID++,
     source
   };
-  ipcRenderer.on(`solc-reply-${arg.id}`, (_, arg) => callback(arg));
+  ipcRenderer.once(`solc-reply-${arg.id}`, (_, arg) => callback(arg));
   ipcRenderer.send("solc", arg);
 };
 
