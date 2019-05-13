@@ -20,6 +20,7 @@ import Dropdown from "antd/lib/dropdown";
 import Icon from "antd/lib/icon";
 import Menu from "antd/lib/menu";
 import { toRau } from "iotex-antenna/lib/account/utils";
+import isElectron from "is-electron";
 import { assetURL } from "../../common/asset-url";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
@@ -67,6 +68,12 @@ export class Deploy extends Component<{ address: string }> {
 interface DeployProps extends FormComponentProps {
   address?: string;
   updateWalletInfo?: any;
+}
+
+interface ISolcOutput {
+  error?: string;
+  errors?: Array<string>;
+  contracts?: { [index: string]: any };
 }
 
 interface State {
@@ -124,14 +131,41 @@ class DeployFormInner extends Component<DeployProps, State> {
     });
   }
 
+  private readonly handleSolcOutput = (output: ISolcOutput, cb: Function) => {
+    if (output.error) {
+      cb(t(output.error));
+    } else if (
+      output.errors &&
+      output.errors.length > 0 &&
+      output.errors.some((err: any) => err.indexOf("Warning:") === -1)
+    ) {
+      cb(JSON.stringify(output.errors));
+    } else {
+      cb();
+      return output;
+    }
+    return null;
+  };
+
   private readonly solidityValidator = (
     _: any,
     value: any,
     callback: Function
   ): void => {
+    // reset compiledOutput
+    this.setState({ compiledOutput: null });
     if (!value) {
       return callback();
     }
+
+    if (isElectron()) {
+      window.solidityCompile(value, (output: ISolcOutput) => {
+        const compiledOutput = this.handleSolcOutput(output, callback);
+        this.setState({ compiledOutput });
+      });
+      return;
+    }
+
     const verFound = /pragma solidity \^(.*);/.exec(value);
     if (!verFound || !verFound[1]) {
       return callback(t("wallet.missing_solidity_pragma"));
@@ -142,29 +176,19 @@ class DeployFormInner extends Component<DeployProps, State> {
     if (!solidityVersion) {
       return callback(t("wallet.cannot_find_solidity_version"));
     }
-    const newState: any = {
-      solidityReleaseVersion: solidityVersion,
-      compiledOutput: null
-    };
+    if (solidityVersion !== this.state.solidityReleaseVersion) {
+      this.setState({ solidityReleaseVersion: solidityVersion });
+    }
     this.loadSolc(solidityVersion, (solc: any) => {
       if (!solc) {
         // Just incase loading solc failed
         callback(t("wallet.cannot_load_solidity_version"));
-        this.setState(newState);
+
         return;
       }
       const output = solc.compile(value);
-      if (
-        output.errors &&
-        output.errors.length > 0 &&
-        output.errors.some((err: any) => err.indexOf("Warning:") === -1)
-      ) {
-        callback(JSON.stringify(output.errors));
-      } else {
-        newState.compiledOutput = output;
-        callback();
-      }
-      this.setState(newState);
+      const compiledOutput = this.handleSolcOutput(output, callback);
+      this.setState({ compiledOutput });
     });
   };
 
