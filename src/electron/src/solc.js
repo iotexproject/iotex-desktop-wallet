@@ -84,27 +84,8 @@ module.exports.initSolc = async () => {
     }
     try {
       const remoteSolc = await loadSolc(verFound[1]);
-      const inputSource = JSON.stringify({
-        language: "Solidity",
-        sources: {
-          "input.sol": {
-            content: source
-          }
-        },
-        settings: {
-          outputSelection: {
-            "*": {
-              "*": ["*"]
-            }
-          }
-        }
-      });
-      const output = JSON.parse(remoteSolc.compile(inputSource));
-      event.reply(replyId, {
-        errors: (output.errors || []).map(error => error.formattedMessage),
-        contracts: output.contracts["input.sol"],
-        sources: output.sources["input.sol"]
-      });
+      const output = JSON.parse(remoteSolc.lowlevel.compileSingle(source));
+      event.reply(replyId, output);
     } catch (e) {
       log.error(e);
       event.reply(replyId, { error: e.message });
