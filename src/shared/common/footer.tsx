@@ -1,12 +1,17 @@
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
+import { Query, QueryResult } from "react-apollo";
+import { VersionInfo } from "../../api-gateway/resolvers/meta";
+import { FETCH_VERSION_INFO } from "../queries";
 import { media } from "../common/styles/style-media";
 import { assetURL } from "./asset-url";
 import { Flex } from "./flex";
 import { colors } from "./styles/style-color";
 import { contentPadding } from "./styles/style-padding";
 import { TOP_BAR_HEIGHT } from "./top-bar";
+// @ts-ignore
+import { t } from "onefx/lib/iso-i18n";
 
 export const FOOTER_HEIGHT = 260;
 
@@ -43,8 +48,42 @@ export function Footer(): JSX.Element {
         </Flex>
       </Align>
       <CopyRightWrapper>
-        <div>{`© ${new Date().getFullYear()} IoTeX`}</div>
-        <div>Team of Use & Privacy Policy.</div>
+        <div
+          style={{
+            display: "flex",
+            [media.media960]: {
+              flexDirection: "column"
+            }
+          }}
+        >
+          <span
+            style={{ marginRight: 15 }}
+          >{`© ${new Date().getFullYear()} IoTeX`}</span>
+          <Query query={FETCH_VERSION_INFO}>
+            {({
+              loading,
+              error,
+              data
+            }: QueryResult<{ fetchVersionInfo: VersionInfo }>) => {
+              if (loading || error || !data) {
+                return null;
+              }
+              return (
+                <span>
+                  <span style={{ marginRight: 15 }}>
+                    {`  iotex-explorer ${
+                      data.fetchVersionInfo.explorerVersion
+                    }`}
+                  </span>
+                  <span>
+                    {`  iotex-core ${data.fetchVersionInfo.iotexCoreVersion}`}
+                  </span>
+                </span>
+              );
+            }}
+          </Query>
+        </div>
+        <div>{t("footer.policy")}</div>
       </CopyRightWrapper>
     </Bottom>
   );
@@ -58,11 +97,15 @@ const Bottom = styled("div", (_: React.CSSProperties) => ({
 }));
 
 const CopyRightWrapper = styled("div", (_: React.CSSProperties) => ({
+  ...contentPadding,
   color: colors.topbarGray,
   margin: "0 auto",
-  width: "350px",
   display: "flex",
-  justifyContent: "space-between"
+  justifyContent: "space-between",
+  [media.media960]: {
+    flexDirection: "column",
+    alignItems: "center"
+  }
 }));
 
 const SocialIconWrapper = ({ imgName }: { imgName: string }): JSX.Element => {
@@ -109,6 +152,6 @@ const Align = styled("div", (_: React.CSSProperties) => ({
   color: colors.topbarGray,
   [media.media960]: {
     flexDirection: "column",
-    marginBottom: "40px"
+    marginBottom: "30px"
   }
 }));
