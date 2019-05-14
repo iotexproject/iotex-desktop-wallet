@@ -63,12 +63,14 @@ class ActionDetailsInner extends PureComponent<Props> {
     const Root = showContentPadding ? ContentPadding : NonePadding;
 
     return (
-      <Root>
+      <>
         <Helmet title={`IoTeX ${t("action.action")} ${hash}`} />
-        {showNavigation && <Navigation />}
         <Query
           query={GET_ACTIONS_BY_HASH}
-          variables={{ byHash: { actionHash: hash, checkingPending: true } }}
+          variables={{
+            byHash: { actionHash: hash, checkingPending: true },
+            ignoreErrorNotification: true
+          }}
         >
           {({
             loading,
@@ -106,35 +108,38 @@ class ActionDetailsInner extends PureComponent<Props> {
             const dataSource = buildKeyValueArray(actionUnion);
 
             return (
-              <SpinPreloader spinning={loading}>
-                <Flex
-                  width={"100%"}
-                  column={true}
-                  alignItems={"baselines"}
-                  backgroundColor={colors.white}
-                >
-                  <PageTitle>
-                    <Icon type="project" /> {t("action.action")}
-                  </PageTitle>
-                  <Divider orientation="left">{t("title.overview")}</Divider>
-                  <Table
-                    className="single-table"
-                    pagination={false}
-                    dataSource={dataSource}
-                    columns={getColumns()}
-                    rowKey={"key"}
-                    style={{ width: "100%" }}
-                    scroll={{ x: true }}
-                  />
-                </Flex>
-                <Flex marginTop={"30px"}>
-                  <ActionReceipt actionHash={hash} action={action} />
-                </Flex>
-              </SpinPreloader>
+              <Root>
+                {showNavigation && <Navigation />}
+                <SpinPreloader spinning={loading}>
+                  <Flex
+                    width={"100%"}
+                    column={true}
+                    alignItems={"baselines"}
+                    backgroundColor={colors.white}
+                  >
+                    <PageTitle>
+                      <Icon type="project" /> {t("action.action")}
+                    </PageTitle>
+                    <Divider orientation="left">{t("title.overview")}</Divider>
+                    <Table
+                      className="single-table"
+                      pagination={false}
+                      dataSource={dataSource}
+                      columns={getColumns()}
+                      rowKey={"key"}
+                      style={{ width: "100%" }}
+                      scroll={{ x: true }}
+                    />
+                  </Flex>
+                  <Flex marginTop={"30px"}>
+                    <ActionReceipt actionHash={hash} action={action} />
+                  </Flex>
+                </SpinPreloader>
+              </Root>
             );
           }}
         </Query>
-      </Root>
+      </>
     );
   }
 }

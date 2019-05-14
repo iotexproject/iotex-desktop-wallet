@@ -183,17 +183,20 @@ class BlockDetailsInner extends PureComponent<Props, State> {
 
     if (Object.keys(parameter).length === 0) {
       return (
-        <ContentPadding>
+        <>
           <Helmet title={`IoTeX ${t("block.block")} ${height}`} />
           <NotFound />
-        </ContentPadding>
+        </>
       );
     }
 
     return (
       <ContentPadding>
         <Helmet title={`IoTeX ${t("block.block")} ${height}`} />
-        <Query query={GET_BLOCK_METAS} variables={parameter}>
+        <Query
+          query={GET_BLOCK_METAS}
+          variables={{ ...parameter, ignoreErrorNotification: true }}
+        >
           {({
             loading,
             error,

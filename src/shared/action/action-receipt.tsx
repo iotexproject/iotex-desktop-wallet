@@ -24,7 +24,10 @@ export class ActionReceipt extends Component<Props> {
     const { actionHash, action } = this.props;
 
     return (
-      <Query query={GET_RECEIPT_BY_ACTION} variables={{ actionHash }}>
+      <Query
+        query={GET_RECEIPT_BY_ACTION}
+        variables={{ actionHash, ignoreErrorNotification: true }}
+      >
         {({
           loading,
           error,
