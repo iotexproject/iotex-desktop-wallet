@@ -6,6 +6,7 @@ const { resolve } = require("path");
 const { readFileSync, writeFileSync } = require("fs");
 const win = require("global/window");
 const log = require("electron-log");
+const { ipcRenderer } = require("electron");
 
 win.xopen = function(url, frameName, features) {
   shell.openExternal(url);
@@ -52,6 +53,16 @@ win.xconf = new (function() {
     setConf
   };
 })();
+
+let solcID = 1;
+win.solidityCompile = function(source, callback) {
+  const arg = {
+    id: solcID++,
+    source
+  };
+  ipcRenderer.once(`solc-reply-${arg.id}`, (_, arg) => callback(arg));
+  ipcRenderer.send("solc", arg);
+};
 
 win.document.addEventListener("DOMContentLoaded", () => {
   require("../../../dist/memory-main.js");

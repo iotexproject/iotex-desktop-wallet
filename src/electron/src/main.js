@@ -2,6 +2,7 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const { session } = require("electron");
+const { initSolc } = require("./solc");
 
 const allowRequestOrigins = [
   "https://iotexscan.io",
@@ -21,6 +22,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1280,
     height: 800,
+    show: false,
     webPreferences: {
       contextIsolation: true,
       preload: path.resolve(__dirname, "renderer.js")
@@ -43,6 +45,11 @@ function createWindow() {
 
   mainWindow.on("reload", function() {
     mainWindow.reload();
+  });
+
+  mainWindow.once("ready-to-show", function() {
+    // show mainWindow here to prevent visual flash.
+    mainWindow.show();
   });
 }
 
@@ -132,6 +139,11 @@ app.on("web-contents-created", (_, contents) => {
   contents.on("new-window", event => {
     event.preventDefault();
   });
+});
+
+// Init solidity compiler
+app.on("ready", function() {
+  initSolc();
 });
 
 // check for session

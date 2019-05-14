@@ -106,6 +106,21 @@ type BlockMeta {
   deltaStateDigest: String!
 }
 
+# Properties of a BlockProducerInfo
+type BlockProducerInfo {
+  # BlockProducerInfo address
+  address: String!
+
+  # BlockProducerInfo votes
+  votes: String!
+
+  # BlockProducerInfo active
+  active: Boolean!
+
+  # BlockProducerInfo production
+  production: Int!
+}
+
 # JS Buffer or Uint8Array
 scalar Buffer
 
@@ -249,6 +264,18 @@ input GetBlockMetasByIndexRequest {
 
 type GetBlockMetasResponse {
   blkMetas: [BlockMeta!]!
+}
+
+# Properties of a GetEpochMetaResponse
+type GetEpochMetaResponse {
+  # GetEpochMetaResponse epochData
+  epochData: Epoch!
+
+  # GetEpochMetaResponse totalBlocks
+  totalBlocks: Int!
+
+  # GetEpochMetaResponse blockProducersInfo
+  blockProducersInfo: [BlockProducerInfo!]!
 }
 
 type GetReceiptByActionResponse {
@@ -477,6 +504,9 @@ type Query {
 
   # estimate gas for action
   estimateGasForAction(action: ActionInput!): EstimateGasForActionResponse!
+
+  # get epoch meta
+  getEpochMeta(epochNumber: Int!): GetEpochMetaResponse!
   health: String!
   fetchCoinPrice: CoinPrice!
   fetchVersionInfo: VersionInfo!
