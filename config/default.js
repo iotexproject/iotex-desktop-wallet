@@ -63,7 +63,8 @@ module.exports = {
       "self",
       "unsafe-eval",
       "https://www.google-analytics.com/",
-      "https://ethereum.github.io/solc-bin/bin/"
+      "https://ethereum.github.io/solc-bin/bin/",
+      "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
     ]
   },
   apiGatewayUrl:
