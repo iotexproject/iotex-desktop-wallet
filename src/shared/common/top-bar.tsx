@@ -4,9 +4,6 @@ import AntdDropdown from "antd/lib/dropdown";
 import Icon from "antd/lib/icon";
 // import Input from "antd/lib/input";
 import AntdMenu from "antd/lib/menu";
-import notification from "antd/lib/notification";
-import { get } from "dottie";
-import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import isBrowser from "is-browser";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -19,11 +16,7 @@ import OutsideClickHandler from "react-outside-click-handler";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
-import {
-  GetActionsRequest,
-  GetBlockMetasRequest
-} from "../../api-gateway/resolvers/antenna-types";
-import { GET_ACTIONS, GET_BLOCK_METAS } from "../queries";
+
 import { assetURL } from "./asset-url";
 import { Logo } from "./icon";
 import { Cross } from "./icons/cross.svg";
@@ -100,74 +93,6 @@ class TopBarComponent extends Component<Props, State> {
     this.setState({
       displayMobileMenu: false
     });
-  };
-
-  public searchInput = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    let { value = "" } = e.target as HTMLInputElement;
-    const { history, client } = this.props;
-    value = value.trim();
-
-    if (value.startsWith("io")) {
-      history.push(`/address/${value}`);
-    } else if (value.length === 130) {
-      history.push(`/address/${publicKeyToAddress(value)}`);
-    } else if (isNormalInteger(value)) {
-      try {
-        const { data } = await client.query({
-          query: GET_BLOCK_METAS,
-          variables: {
-            byIndex: {
-              start: parseInt(value, 10) || 0,
-              count: 1
-            }
-          } as GetBlockMetasRequest
-        });
-        if (data) {
-          const hash = get(data, "getBlockMetas.blkMetas.0.hash");
-          history.push(`/block/${hash}`);
-        }
-      } catch (error) {
-        notification.error({
-          message: "Error",
-          description: `failed to search block: ${error.message}`,
-          duration: 3
-        });
-      }
-    } else {
-      try {
-        const validAction = await client.query({
-          query: GET_ACTIONS,
-          variables: {
-            byHash: {
-              actionHash: value,
-              checkingPending: true
-            }
-          } as GetActionsRequest
-        });
-        if (validAction) {
-          history.push(`/action/${value}`);
-        }
-      } catch (error) {
-        try {
-          const validBlock = await client.query({
-            query: GET_ACTIONS,
-            variables: {
-              byBlk: {
-                blkHash: value,
-                start: 0,
-                count: 1
-              }
-            } as GetActionsRequest
-          });
-
-          if (validBlock) {
-            history.push(`/block/${value}`);
-          }
-        } catch (error) {
-          history.push(`/not-found`);
-        }
-      }
-    }
   };
 
   public renderBlockchainMenu = () => {
@@ -322,24 +247,6 @@ class TopBarComponent extends Component<Props, State> {
           <Flex style={{ flex: 1, paddingLeft: 1, whiteSpace: "nowrap" }}>
             <Menu>{this.renderMenu()}</Menu>
           </Flex>
-          {/* <Flex
-            className={"certain-category-search-wrapper"}
-            style={{
-              width: 350,
-              marginBottom: 0,
-              float: "right",
-              padding: "0 1em"
-            }}
-          >
-            <Input
-              className={"certain-category-search"}
-              placeholder={t("topbar.search")}
-              onPressEnter={this.searchInput}
-              suffix={
-                <Icon type="search" className={"certain-category-icon"} />
-              }
-            />
-          </Flex> */}
           <Flex
             style={{
               flex: 1,
@@ -552,8 +459,3 @@ const Dropdown = styled("div", {
   alignItems: "flex-end!important",
   boxSizing: "border-box"
 });
-
-function isNormalInteger(str: string): boolean {
-  const n = Math.floor(Number(str));
-  return n !== Infinity && String(n) === str && n >= 0;
-}

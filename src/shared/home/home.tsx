@@ -1,3 +1,4 @@
+import { Col, Row } from "antd";
 import Icon from "antd/lib/icon";
 import Layout from "antd/lib/layout";
 import { get } from "dottie";
@@ -15,10 +16,12 @@ import {
 } from "../../api-gateway/resolvers/antenna-types";
 import { CoinPrice } from "../../api-gateway/resolvers/meta";
 import { webBpApolloClient } from "../common/apollo-client";
+import { assetURL } from "../common/asset-url";
 import { Flex } from "../common/flex";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_CHAIN_META, GET_TILE_DATA } from "../queries";
+import { SearchBox } from "./search-box";
 
 type State = {
   marketCap: number;
@@ -106,84 +109,117 @@ class HomeComponent extends Component<Props, State> {
     ];
   };
 
+  public renderStats(): JSX.Element {
+    return (
+      <div className={"section-top"}>
+        <Query query={GET_CHAIN_META}>
+          {({
+            loading,
+            error,
+            data
+          }: QueryResult<{ chainMetaData: GetChainMetaResponse }>) => {
+            if (loading) {
+              return "Loading...";
+            }
+            if (error || !data) {
+              return null;
+            }
+
+            const chainMetaData = data;
+            const byIndex = {
+              start: parseInt(get(chainMetaData, "chainMeta.height"), 10),
+              count: 1
+            };
+            return (
+              <Query query={GET_TILE_DATA} variables={{ byIndex }}>
+                {({
+                  loading,
+                  error,
+                  data
+                }: QueryResult<{
+                  fetchCoinPrice: CoinPrice;
+                  getBlockMetas: GetBlockMetasResponse;
+                }>) => {
+                  if (error || (!loading && !data)) {
+                    return null;
+                  }
+
+                  //@ts-ignore
+                  const tiles = this.getTiles({ ...chainMetaData, ...data });
+                  return (
+                    <SpinPreloader spinning={loading}>
+                      <div
+                        className={"front-top-info"}
+                        style={{
+                          padding: 30,
+                          margin: "30px 0",
+                          border: "1px solid rgb(230,230,230)",
+                          borderRadius: 5
+                        }}
+                      >
+                        <Flex>
+                          {tiles.map((tile, i) => (
+                            <div key={i} className={"item"}>
+                              <Tile
+                                action={tile.action}
+                                title={tile.title}
+                                value={tile.value}
+                                icon={tile.icon}
+                              />
+                            </div>
+                          ))}
+                        </Flex>
+                      </div>
+                    </SpinPreloader>
+                  );
+                }}
+              </Query>
+            );
+          }}
+        </Query>
+      </div>
+    );
+  }
+
   public render(): JSX.Element {
     return (
-      <ContentPadding>
-        <div className={"section-top"}>
-          <Query query={GET_CHAIN_META}>
-            {({
-              loading,
-              error,
-              data
-            }: QueryResult<{ chainMetaData: GetChainMetaResponse }>) => {
-              if (loading) {
-                return "Loading...";
-              }
-              if (error || !data) {
-                return null;
-              }
-
-              const chainMetaData = data;
-              const byIndex = {
-                start: parseInt(get(chainMetaData, "chainMeta.height"), 10),
-                count: 1
-              };
-              return (
-                <Query query={GET_TILE_DATA} variables={{ byIndex }}>
-                  {({
-                    loading,
-                    error,
-                    data
-                  }: QueryResult<{
-                    fetchCoinPrice: CoinPrice;
-                    getBlockMetas: GetBlockMetasResponse;
-                  }>) => {
-                    if (error || (!loading && !data)) {
-                      return null;
-                    }
-
-                    //@ts-ignore
-                    const tiles = this.getTiles({ ...chainMetaData, ...data });
-                    return (
-                      <SpinPreloader spinning={loading}>
-                        <div
-                          className={"front-top-info"}
-                          style={{
-                            padding: 30,
-                            margin: "30px 0",
-                            border: "1px solid rgb(230,230,230)",
-                            borderRadius: 5
-                          }}
-                        >
-                          <Flex>
-                            {tiles.map((tile, i) => (
-                              <div key={i} className={"item"}>
-                                <Tile
-                                  action={tile.action}
-                                  title={tile.title}
-                                  value={tile.value}
-                                  icon={tile.icon}
-                                />
-                              </div>
-                            ))}
-                          </Flex>
-                        </div>
-                      </SpinPreloader>
-                    );
-                  }}
-                </Query>
-              );
+      <Layout tagName={"main"} className={"main-container"}>
+        <Layout.Content tagName={"main"}>
+          <div
+            style={{
+              backgroundImage: `url(${assetURL("/bg_search.png")})`,
+              width: "100%",
+              height: "40vh",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center"
             }}
-          </Query>
-        </div>
-        <Layout tagName={"main"} className={"main-container"}>
+          >
+            <Row type="flex" justify="center" align="middle">
+              <Col xs={20} md={12} style={{ padding: "8vh 0" }}>
+                <SearchBox
+                  enterButton
+                  size="large"
+                  placeholder={t("topbar.search")}
+                />
+              </Col>
+            </Row>
+          </div>
+        </Layout.Content>
+        <ContentPadding>
+          <Layout.Content
+            tagName={"main"}
+            style={{ backgroundColor: "rgba(0,0,0,0)", marginTop: "-10vh" }}
+          >
+            {this.renderStats()}
+          </Layout.Content>
           <Layout.Content tagName={"main"}>
             <div style={{ backgroundColor: "#fff" }}>
               <BlockProducers apolloClient={webBpApolloClient} />
             </div>
           </Layout.Content>
-        </Layout>
-      </ContentPadding>
+        </ContentPadding>
+      </Layout>
     );
   }
 }
