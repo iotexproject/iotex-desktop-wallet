@@ -181,3 +181,5 @@ account.not-hold: >-
 account.protect: Protect your keys & always check that you are on correct URL.
 account.responsible: You are responsible for your security.
 footer.policy: 使用和隐私政策团队
+footer.enter_email: 输入邮箱获取 Iotex 更新!
+footer.subscribe: 订阅
