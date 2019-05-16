@@ -1,5 +1,7 @@
 import { Modal } from "antd";
 import { Button } from "./button";
+// @ts-ignore
+import { t } from "onefx/lib/iso-i18n";
 
 import React from "react";
 import { Component } from "react";
@@ -67,23 +69,22 @@ class SignInModal extends Component<Props, State> {
     const { downloadLink } = this.state;
     return (
       <Modal
-        title={<b>IoTeX Wallet</b>}
+        title={<b>{t("signin_modal.wallet")}</b>}
         visible={visible}
-        width={550}
         onCancel={() => closeModal()}
         footer={[
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Button
               key="switch"
               secondary
-              width="220px"
+              width="210px"
               onClick={() => closeModal()}
             >
-              Sign In with IoTeX Wallet
+              {t("signin_modal.sign_in")}
             </Button>
-            <Button key="logout" width="260px">
+            <Button key="logout" width="250px">
               <a style={{ color: colors.white }} href={downloadLink}>
-                Haven't installed yet? Download
+                {t("signin_modal.download")}
               </a>
             </Button>
           </div>
