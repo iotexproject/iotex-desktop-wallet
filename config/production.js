@@ -10,5 +10,6 @@ module.exports = {
     logger: {
       level: "info"
     }
-  }
+  },
+  enableSignIn: false
 };

@@ -28,6 +28,7 @@ export function setServerRoutes(server: Server): void {
     async (ctx: koa.Context) => {
       ctx.setState("base.multiChain", server.config.multiChain);
       ctx.setState("base.webBpApiGatewayUrl", server.config.webBpApiGatewayUrl);
+      ctx.setState("base.enableSignIn", server.config.enableSignIn);
       ctx.body = await apolloSSR(ctx, server.config.apiGatewayUrl, {
         VDom: <AppContainer />,
         reducer: noopReducer,

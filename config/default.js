@@ -47,6 +47,7 @@ module.exports = {
       "self",
       "https://api.coinmarketcap.com/v1/ticker/iotex/",
       "https://member.iotex.io/api-gateway/",
+      "https://api.github.com/",
       process.env.API_GATEWAY_URL
     ],
     "child-src": ["self"],
@@ -81,5 +82,6 @@ module.exports = {
         url: "https://testnet.iotexscan.io/"
       }
     ]
-  }
+  },
+  enableSignIn: true
 };
