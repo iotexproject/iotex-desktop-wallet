@@ -33,7 +33,7 @@ class SignInModal extends Component<Props, State> {
     const packages = { mac: "", linux: "", window: "" };
     if (resp.status === 200 && resp.data.assets) {
       // @ts-ignore
-      resp.data.assets.forEach((item: any) => {
+      resp.data.assets.forEach(item => {
         if (/mac.zip$/.test(item.name)) {
           packages.mac = item.browser_download_url;
         }
