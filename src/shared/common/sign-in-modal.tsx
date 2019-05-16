@@ -1,13 +1,13 @@
 import { Modal } from "antd";
-import { Button } from "./button";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
+import { Button } from "./button";
 
-import React from "react";
-import { Component } from "react";
 import axios from "axios";
 // @ts-ignore
 import platform from "platform";
+import React from "react";
+import { Component } from "react";
 import { colors } from "./styles/style-color";
 
 const apiUrl =
@@ -26,12 +26,13 @@ class SignInModal extends Component<Props, State> {
     downloadLink: "https://github.com/iotexproject/iotex-explorer/releases"
   };
 
-  async componentDidMount() {
+  public async componentDidMount(): Promise<void> {
     const axiosInstance = axios.create({ timeout: 5000 });
     const resp = await axiosInstance.get(apiUrl);
 
-    let packages = { mac: "", linux: "", window: "" };
+    const packages = { mac: "", linux: "", window: "" };
     if (resp.status === 200 && resp.data.assets) {
+      // @ts-ignore
       resp.data.assets.forEach((item: any) => {
         if (/mac.zip$/.test(item.name)) {
           packages.mac = item.browser_download_url;
@@ -46,7 +47,9 @@ class SignInModal extends Component<Props, State> {
 
       const osName = (platform.os && platform.os.family) || "";
       if (osName === "OS X") {
-        packages.mac && this.setState({ downloadLink: packages.mac });
+        if (packages.mac) {
+          this.setState({ downloadLink: packages.mac });
+        }
       } else if (
         osName === "Ubuntu" ||
         osName === "Debian" ||
@@ -54,32 +57,31 @@ class SignInModal extends Component<Props, State> {
         osName === "Red Hat" ||
         osName === "SuSE"
       ) {
-        packages.linux && this.setState({ downloadLink: packages.linux });
+        if (packages.linux) {
+          this.setState({ downloadLink: packages.linux });
+        }
       } else if (
         osName.indexOf("Windows") !== -1 &&
         osName !== "Windows Phone"
       ) {
-        packages.window && this.setState({ downloadLink: packages.window });
+        if (packages.window) {
+          this.setState({ downloadLink: packages.window });
+        }
       }
     }
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { visible, closeModal } = this.props;
     const { downloadLink } = this.state;
     return (
       <Modal
         title={<b>{t("signin_modal.wallet")}</b>}
         visible={visible}
-        onCancel={() => closeModal()}
+        onCancel={closeModal}
         footer={[
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Button
-              key="switch"
-              secondary
-              width="210px"
-              onClick={() => closeModal()}
-            >
+            <Button key="switch" secondary width="210px" onClick={closeModal}>
               {t("signin_modal.sign_in")}
             </Button>
             <Button key="logout" width="250px">

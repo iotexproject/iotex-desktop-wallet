@@ -17,16 +17,16 @@ import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
 
+import { connect } from "react-redux";
 import { assetURL } from "./asset-url";
 import { Logo } from "./icon";
 import { Cross } from "./icons/cross.svg";
 import { Hamburger } from "./icons/hamburger.svg";
+import { SignInModal } from "./sign-in-modal";
 import { transition } from "./styles/style-animation";
 import { colors } from "./styles/style-color";
 import { media, PALM_WIDTH } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
-import { SignInModal } from "./sign-in-modal";
-import { connect } from "react-redux";
 
 export const TOP_BAR_HEIGHT = 100;
 
@@ -239,11 +239,11 @@ class TopBarComponent extends Component<Props, State> {
     );
   }
 
-  public showSignInModal() {
+  public showSignInModal(): void {
     this.setState({ isSignInModalShow: true });
   }
 
-  public closeSignInModal = () => {
+  public closeSignInModal = (): void => {
     this.setState({ isSignInModalShow: false });
   };
 
