@@ -259,11 +259,9 @@ class TopBarComponent extends Component<Props, State> {
           >
             <Menu>{this.renderChainMenu()}</Menu>
             <span style={{ marginLeft: "60px" }}>
-              {/* <a> */}
               <LanguageSwitcher
                 supportLanguages={[Languages.EN, Languages.ZH_CN]}
               />
-              {/* </a> */}
             </span>
           </Flex>
           <HamburgerBtn
