@@ -34,28 +34,18 @@ export function Footer(): JSX.Element {
       <Align>
         <Flex>
           <InputWrapper>
-            <input
-              placeholder="Enter email for Iotex updates!"
-              style={inputStyle}
-            />
-            <button style={buttonStyle}>Subscribe</button>
+            <Input placeholder={`${t("footer.enter_email")}`} />
+            <Button>{t("footer.subscribe")}</Button>
           </InputWrapper>
         </Flex>
         <Flex>
-          {socialIconList.map(iconName => {
-            return <SocialIconWrapper imgName={iconName} />;
+          {socialIconList.map((iconName, index) => {
+            return <SocialIconWrapper key={index} imgName={iconName} />;
           })}
         </Flex>
       </Align>
       <CopyRightWrapper>
-        <div
-          style={{
-            display: "flex",
-            [media.media960]: {
-              flexDirection: "column"
-            }
-          }}
-        >
+        <CopyRight>
           <span
             style={{ marginRight: 15 }}
           >{`© ${new Date().getFullYear()} IoTeX`}</span>
@@ -69,7 +59,7 @@ export function Footer(): JSX.Element {
                 return null;
               }
               return (
-                <span>
+                <VersionWrapper>
                   <span style={{ marginRight: 15 }}>
                     {`  iotex-explorer ${
                       data.fetchVersionInfo.explorerVersion
@@ -78,11 +68,11 @@ export function Footer(): JSX.Element {
                   <span>
                     {`  iotex-core ${data.fetchVersionInfo.iotexCoreVersion}`}
                   </span>
-                </span>
+                </VersionWrapper>
               );
             }}
           </Query>
-        </div>
+        </CopyRight>
         <div>{t("footer.policy")}</div>
       </CopyRightWrapper>
     </Bottom>
@@ -93,7 +83,10 @@ const Bottom = styled("div", (_: React.CSSProperties) => ({
   paddingTop: "65px",
   paddingBottom: "53px",
   height: `${FOOTER_HEIGHT}px`,
-  backgroundColor: colors.nav02
+  backgroundColor: colors.nav02,
+  [media.palm]: {
+    paddingTop: "15px"
+  }
 }));
 
 const CopyRightWrapper = styled("div", (_: React.CSSProperties) => ({
@@ -108,6 +101,25 @@ const CopyRightWrapper = styled("div", (_: React.CSSProperties) => ({
   }
 }));
 
+const CopyRight = styled("div", (_: React.CSSProperties) => ({
+  display: "flex",
+  [media.media960]: {
+    flexDirection: "column",
+    textAlign: "center"
+  }
+  // [media.palm]: {
+  //   textAlign: 'center',
+  //   flexDirection: "column"
+  // }
+}));
+
+const VersionWrapper = styled("span", (_: React.CSSProperties) => ({
+  [media.palm]: {
+    display: "flex",
+    flexDirection: "column"
+  }
+}));
+
 const SocialIconWrapper = ({ imgName }: { imgName: string }): JSX.Element => {
   return (
     <span style={{ marginLeft: "10px" }}>
@@ -118,29 +130,46 @@ const SocialIconWrapper = ({ imgName }: { imgName: string }): JSX.Element => {
 
 const InputWrapper = styled("div", (_: React.CSSProperties) => ({
   [media.media960]: {
-    marginBottom: "30px"
+    marginBottom: "10px"
+  },
+  [media.palm]: {
+    textAlign: "center"
   }
 }));
 
-const inputStyle = {
+const Input = styled("input", (_: React.CSSProperties) => ({
   width: "290px",
   border: `1px solid ${colors.topbarGray}`,
   background: "none",
   borderBottomLeftRadius: "5px",
   borderTopLeftRadius: "5px",
-  padding: "9px 123px 9px 17px",
-  outline: "none"
-};
+  padding: "9px 0 9px 17px",
+  outline: "none",
+  [media.palm]: {
+    borderBottomRightRadius: "5px",
+    borderTopRightRadius: "5px"
+  }
+}));
 
-const buttonStyle = {
+const Button = styled("button", (_: React.CSSProperties) => ({
   padding: "9px 23px",
-  border: `1px solid ${colors.topbarGray}`,
+  borderColor: `${colors.topbarGray}`,
+  borderStyle: "solid",
   background: "none",
   borderBottomRightRadius: "5px",
   borderTopRightRadius: "5px",
   outline: "none",
-  borderLeftWidth: 0
-};
+  borderLeftWidth: 0,
+  borderRightWidth: "1px",
+  borderTopWidth: "1px",
+  borderBottomWidth: "1px",
+  [media.palm]: {
+    borderLeftWidth: "1px",
+    marginTop: "10px",
+    borderBottomLeftRadius: "5px",
+    borderTopLeftRadius: "5px"
+  }
+}));
 
 const Align = styled("div", (_: React.CSSProperties) => ({
   ...contentPadding,
@@ -153,5 +182,8 @@ const Align = styled("div", (_: React.CSSProperties) => ({
   [media.media960]: {
     flexDirection: "column",
     marginBottom: "30px"
+  },
+  [media.palm]: {
+    marginBottom: "10px"
   }
 }));
