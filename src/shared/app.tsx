@@ -42,6 +42,7 @@ export class App extends Component<Props> {
     return (
       <RootStyle>
         <HtmlHead locale={locale} />
+        // @ts-ignore
         <TopBar />
         <div style={FOOTER_ABOVE}>
           <ScrollToTop>

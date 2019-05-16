@@ -15,7 +15,7 @@ const apiUrl =
 
 type Props = {
   visible: boolean;
-  closeModal: Function;
+  closeModal(): void;
 };
 type State = {
   downloadLink: string;
