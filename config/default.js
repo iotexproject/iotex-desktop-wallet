@@ -40,7 +40,8 @@ module.exports = {
       "self",
       "unsafe-inline",
       "https://fonts.googleapis.com/css",
-      "https://use.fontawesome.com/releases/v5.0.13/"
+      "https://use.fontawesome.com/releases/v5.0.13/",
+      "https://translate.googleapis.com/"
     ],
     "frame-src": [],
     "connect-src": [
@@ -64,6 +65,8 @@ module.exports = {
       "self",
       "unsafe-eval",
       "https://www.google-analytics.com/",
+      "https://translate.google.com/",
+      "https://translate.googleapis.com/",
       "https://ethereum.github.io/solc-bin/bin/"
     ]
   },
