@@ -409,7 +409,8 @@ const menuItem = {
     borderBottom: "1px #EDEDED solid"
   },
   cursor: "pointer",
-  textTransform: "capitalize"
+  textTransform: "capitalize",
+  fontSize: "16px"
 };
 
 const DropDownTitle = styled("div", menuItem);
