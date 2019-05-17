@@ -18,6 +18,8 @@ import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import JsonGlobal from "safe-json-globals/get";
 
 import { connect } from "react-redux";
+// @ts-ignore
+import LanguageSwitcher, { Languages } from "iotex-react-language-dropdown";
 import { assetURL } from "./asset-url";
 import { Logo } from "./icon";
 import { Cross } from "./icons/cross.svg";
@@ -27,8 +29,6 @@ import { transition } from "./styles/style-animation";
 import { colors } from "./styles/style-color";
 import { media, PALM_WIDTH } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
-// @ts-ignore
-import LanguageSwitcher, { Languages } from "iotex-react-language-dropdown";
 
 export const TOP_BAR_HEIGHT = 100;
 
@@ -202,7 +202,7 @@ class TopBarComponent extends Component<Props, State> {
           >
             <StyledLink
               className="ant-dropdown-link"
-              style={{ textTransform: "uppercase" }}
+              style={{ textTransform: "capitalize" }}
               to="#"
             >
               {multiChain.current} {DownIcon()}
@@ -278,11 +278,11 @@ class TopBarComponent extends Component<Props, State> {
             {enableSignIn ? (
               <SignIn onClick={() => this.showSignInModal()}>Sign In</SignIn>
             ) : null}
-            <span style={{ marginLeft: "60px" }}>
+            <LanguageSwitcherWrapper>
               <LanguageSwitcher
                 supportLanguages={[Languages.EN, Languages.ZH_CN]}
               />
-            </span>
+            </LanguageSwitcherWrapper>
           </Flex>
           <HamburgerBtn
             onClick={this.displayMobileMenu}
@@ -437,17 +437,33 @@ const menuItem = {
     color: `${colors.primary} !important`
   },
   transition,
-  fontWeight: "bold",
   [media.palm]: {
     boxSizing: "border-box",
     width: "100%",
     padding: "16px 0 16px 0",
     borderBottom: "1px #EDEDED solid"
   },
-  cursor: "pointer"
+  cursor: "pointer",
+  textTransform: "capitalize",
+  fontSize: "16px"
 };
 
-const SignIn = styled("span", menuItem);
+const LanguageSwitcherWrapper = styled("span", {
+  marginLeft: "10px",
+  [media.palm]: {
+    lineHeight: "130px"
+  }
+});
+
+const SignIn = styled("span", {
+  ...menuItem,
+  [media.palm]: {
+    boxSizing: "border-box",
+    width: "100%",
+    padding: "16px 0 16px 0",
+    marginLeft: "-25px"
+  }
+});
 
 const DropDownTitle = styled("div", menuItem);
 

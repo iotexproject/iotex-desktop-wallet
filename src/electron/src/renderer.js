@@ -7,6 +7,7 @@ const { readFileSync, writeFileSync } = require("fs");
 const win = require("global/window");
 const log = require("electron-log");
 const { ipcRenderer } = require("electron");
+const isDev = require("electron-is-dev");
 
 win.xopen = function(url, frameName, features) {
   shell.openExternal(url);
@@ -66,4 +67,14 @@ win.solidityCompile = function(source, callback) {
 
 win.document.addEventListener("DOMContentLoaded", () => {
   require("../../../dist/memory-main.js");
+  if (isDev) {
+    ["../../../dist/stylesheets/main.css", "../../../dist/antd.css"].forEach(
+      it => {
+        const link = win.document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = it;
+        win.document.getElementsByTagName("head")[0].appendChild(link);
+      }
+    );
+  }
 });

@@ -8,7 +8,6 @@ import axios from "axios";
 import platform from "platform";
 import React from "react";
 import { Component } from "react";
-import { colors } from "./styles/style-color";
 
 const apiUrl =
   "https://api.github.com/repos/iotexproject/iotex-explorer/releases/latest";
@@ -76,22 +75,24 @@ class SignInModal extends Component<Props, State> {
     const { downloadLink } = this.state;
     return (
       <Modal
-        title={<b>{t("signin_modal.wallet")}</b>}
+        title={
+          <div style={{ textAlign: "center" }}>{t("signin_modal.wallet")}</div>
+        }
         visible={visible}
         onCancel={closeModal}
-        footer={[
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Button key="switch" secondary width="210px" onClick={closeModal}>
-              {t("signin_modal.sign_in")}
-            </Button>
-            <Button key="logout" width="250px">
-              <a style={{ color: colors.white }} href={downloadLink}>
-                {t("signin_modal.download")}
-              </a>
-            </Button>
-          </div>
-        ]}
-      />
+        footer={null}
+      >
+        <div style={{ textAlign: "center" }}>
+          <Button key="switch" width="80%" onClick={closeModal}>
+            {t("signin_modal.sign_in")}
+          </Button>
+        </div>
+        <div
+          style={{ textAlign: "center", fontSize: "18px", padding: "20px 0" }}
+        >
+          <a href={downloadLink}>{t("signin_modal.download")}</a>
+        </div>
+      </Modal>
     );
   }
 }

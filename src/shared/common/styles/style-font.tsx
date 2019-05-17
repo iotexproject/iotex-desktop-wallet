@@ -1,5 +1,7 @@
-const fontFamily =
-  "Noto Sans,Helvetica Neue,sans-serif,Microsoft YaHei !important";
+// @ts-ignore
+import window from "global/window";
+
+const fontFamily = "'Heebo',sans-serif,Microsoft YaHei !important";
 
 export const fonts = {
   body: {
@@ -9,7 +11,7 @@ export const fonts = {
     fontSize: "3rem",
     color: "#152935",
     textTransform: "capitalize",
-    fontWeight: 700,
+    fontWeight: "500 !important",
     margin: "-1.15rem 0 0 -3px",
     padding: 0,
     transition: "250ms cubic-bezier(0.5, 0, 0.1, 1)"
@@ -22,10 +24,15 @@ export const fonts = {
   inputLabel: {
     fontFamily,
     fontSize: "14px",
-    fontWeight: "700"
+    fontWeight: "500"
+  },
+  input: {
+    fontFamily,
+    fontWeight: "300 !important"
   },
   inputError: {
     fontFamily,
-    fontSize: "12px !important"
+    fontSize: "12px !important",
+    fontWeight: "100 !important"
   }
 };
