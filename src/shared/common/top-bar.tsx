@@ -25,6 +25,8 @@ import { transition } from "./styles/style-animation";
 import { colors } from "./styles/style-color";
 import { media, PALM_WIDTH } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
+// @ts-ignore
+import LanguageSwitcher, { Languages } from "iotex-react-language-dropdown";
 
 export const TOP_BAR_HEIGHT = 100;
 
@@ -256,6 +258,11 @@ class TopBarComponent extends Component<Props, State> {
             }}
           >
             <Menu>{this.renderChainMenu()}</Menu>
+            <span style={{ marginLeft: "60px" }}>
+              <LanguageSwitcher
+                supportLanguages={[Languages.EN, Languages.ZH_CN]}
+              />
+            </span>
           </Flex>
           <HamburgerBtn
             onClick={this.displayMobileMenu}

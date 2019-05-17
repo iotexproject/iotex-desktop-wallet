@@ -28,5 +28,5 @@ export const colors = {
   UNQUALIFIED: "#999999",
   deltaUp: "#00b4a0",
   backHome: "#00958E",
-  topbarGray: "#6F7081"
+  topbarGray: "#AAAFC1"
 };
