@@ -17,6 +17,8 @@ import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
 
+// @ts-ignore
+import LanguageSwitcher, { Languages } from "iotex-react-language-dropdown";
 import { assetURL } from "./asset-url";
 import { Logo } from "./icon";
 import { Cross } from "./icons/cross.svg";
@@ -25,8 +27,6 @@ import { transition } from "./styles/style-animation";
 import { colors } from "./styles/style-color";
 import { media, PALM_WIDTH } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
-// @ts-ignore
-import LanguageSwitcher, { Languages } from "iotex-react-language-dropdown";
 
 export const TOP_BAR_HEIGHT = 100;
 
