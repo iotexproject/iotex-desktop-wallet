@@ -40,7 +40,7 @@ export const btnStyle = {
   fontSize: "16px !important",
   lineHeight: "22px !important",
   letterSpacing: "undefined !important",
-  fontWeight: "700 !important",
+  fontWeight: "500 !important", // semi-bold
   padding: "6px 6px 6px 6px !important",
   boxSizing: "border-box",
   ...primaryBtnColor

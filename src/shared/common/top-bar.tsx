@@ -197,7 +197,7 @@ class TopBarComponent extends Component<Props, State> {
           >
             <StyledLink
               className="ant-dropdown-link"
-              style={{ textTransform: "uppercase" }}
+              style={{ textTransform: "capitalize" }}
               to="#"
             >
               {multiChain.current} {DownIcon()}
@@ -409,14 +409,15 @@ const menuItem = {
     color: `${colors.primary} !important`
   },
   transition,
-  fontWeight: "bold",
   [media.palm]: {
     boxSizing: "border-box",
     width: "100%",
     padding: "16px 0 16px 0",
     borderBottom: "1px #EDEDED solid"
   },
-  cursor: "pointer"
+  cursor: "pointer",
+  textTransform: "capitalize",
+  fontSize: "16px"
 };
 
 const DropDownTitle = styled("div", menuItem);

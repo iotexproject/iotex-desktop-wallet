@@ -49,7 +49,7 @@ export function HtmlHead({ locale }: { locale: string }): JSX.Element {
         },
         {
           href:
-            "https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic",
+            "https://fonts.googleapis.com/css?family=Heebo:100,300,400,500,700",
           rel: "stylesheet",
           type: "text/css"
         }
