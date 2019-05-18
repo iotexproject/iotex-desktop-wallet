@@ -27,7 +27,7 @@ import { Hamburger } from "./icons/hamburger.svg";
 import { SignInModal } from "./sign-in-modal";
 import { transition } from "./styles/style-animation";
 import { colors } from "./styles/style-color";
-import { media, PALM_WIDTH } from "./styles/style-media";
+import { media, LAP_WIDTH } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
 
 export const TOP_BAR_HEIGHT = 100;
@@ -81,7 +81,7 @@ class TopBarComponent extends Component<Props, State> {
     window.addEventListener("resize", () => {
       if (
         document.documentElement &&
-        document.documentElement.clientWidth > PALM_WIDTH
+        document.documentElement.clientWidth > LAP_WIDTH
       ) {
         this.setState({
           displayMobileMenu: false
@@ -353,7 +353,7 @@ function HamburgerBtn({
       color: colors.primary
     },
     display: "none!important",
-    [media.palm]: {
+    [media.toLap]: {
       display: "flex!important",
       ...(displayMobileMenu ? { display: "none!important" } : {})
     },
@@ -375,7 +375,7 @@ function CrossBtn({
       color: colors.primary
     },
     display: "none!important",
-    [media.palm]: {
+    [media.toLap]: {
       display: "none!important",
       ...(displayMobileMenu ? { display: "flex!important" } : {})
     },
@@ -438,7 +438,7 @@ const menuItem = {
     color: `${colors.primary} !important`
   },
   transition,
-  [media.palm]: {
+  [media.toLap]: {
     boxSizing: "border-box",
     width: "100%",
     padding: "16px 0 16px 0",
@@ -451,18 +451,18 @@ const menuItem = {
 
 const LanguageSwitcherWrapper = styled("span", {
   marginLeft: "10px",
-  [media.palm]: {
+  [media.toLap]: {
     lineHeight: "130px"
   }
 });
 
 const SignIn = styled("span", {
   ...menuItem,
-  [media.palm]: {
+  [media.toLap]: {
     boxSizing: "border-box",
     width: "100%",
     padding: "16px 0 16px 0",
-    marginLeft: "-25px"
+    marginLeft: "-20px"
   }
 });
 
@@ -495,7 +495,7 @@ const Flex = styled("div", (_: React.CSSProperties) => ({
 
 const Menu = styled("div", {
   display: "flex!important",
-  [media.palm]: {
+  [media.toLap]: {
     display: "none!important"
   }
 });
