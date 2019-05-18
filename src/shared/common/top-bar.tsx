@@ -17,9 +17,9 @@ import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
 
-import { connect } from "react-redux";
 // @ts-ignore
 import LanguageSwitcher, { Languages } from "iotex-react-language-dropdown";
+import { connect } from "react-redux";
 import { assetURL } from "./asset-url";
 import { Logo } from "./icon";
 import { Cross } from "./icons/cross.svg";
