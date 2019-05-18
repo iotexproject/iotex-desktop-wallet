@@ -271,7 +271,8 @@ class TopBarComponent extends Component<Props, State> {
               flex: 1,
               paddingLeft: 1,
               whiteSpace: "nowrap",
-              justifyContent: "flex-end"
+              justifyContent: "flex-end",
+              paddingTop: "4px"
             }}
           >
             <Menu>{this.renderChainMenu()}</Menu>
