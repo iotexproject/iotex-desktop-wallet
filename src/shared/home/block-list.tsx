@@ -33,7 +33,7 @@ export const BlockCard = (props: {
     <Card
       loading={!props.block}
       style={{
-        marginTop: "1rem",
+        marginTop: "0.5rem",
         width: "100%",
         backgroundImage: `url(${assetURL(
           props.index > 0 ? "/block_old.png" : "/block_new.png"
@@ -153,7 +153,7 @@ export const BlockList = (): JSX.Element => {
               height: 6,
               backgroundColor: colors.black80,
               borderRadius: 3,
-              margin: "0 6px 2rem 0"
+              margin: "0 6px 2.5rem 0"
             }}
           />
         ))}
