@@ -49,13 +49,13 @@ export const BlockCard = (props: {
       <Row type="flex" justify="start" align="middle">
         <Col
           style={{
-            width: "10px",
-            height: "10px",
-            backgroundColor: colors.primary,
+            width: "0.5rem",
+            height: "0.5rem",
+            backgroundColor: props.index ? colors.white : colors.primary,
             marginRight: "0.5rem"
           }}
         />
-        <Col>{`#${height}`}</Col>
+        <Col>{`# ${height}`}</Col>
       </Row>
       <div
         style={{
