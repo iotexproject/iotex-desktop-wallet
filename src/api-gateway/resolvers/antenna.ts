@@ -22,8 +22,11 @@ import {
   GetEpochMetaRequest,
   GetEpochMetaResponse,
   GetReceiptByActionResponse,
+  GetServerMetaResponse,
   ReadContractRequest,
   ReadContractResponse,
+  ReadStateRequest,
+  ReadStateResponse,
   SendActionRequest,
   SendActionResponse,
   SuggestGasPriceResponse
@@ -63,6 +66,15 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     @Ctx() { gateways }: ICtx
   ): Promise<GetBlockMetasResponse> {
     return gateways.antenna.getBlockMetas({ byIndex, byHash });
+  }
+
+  @Query(_ => GetServerMetaResponse, {
+    description: "get server meta data by:"
+  })
+  public async getServerMeta(@Ctx() { gateways }: ICtx): Promise<
+    GetServerMetaResponse
+  > {
+    return gateways.antenna.getServerMeta({});
   }
 
   @Query(_ => SuggestGasPriceResponse, { description: "suggest gas price" })
@@ -113,6 +125,15 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     { gateways }: ICtx
   ): Promise<SendActionResponse> {
     return gateways.antenna.sendAction(input);
+  }
+
+  @Query(_ => ReadStateResponse, { description: "read state" })
+  public async readState(
+    @Args(_ => ReadStateRequest)
+    input: ReadStateRequest,
+    @Ctx() { gateways }: ICtx
+  ): Promise<ReadStateResponse> {
+    return gateways.antenna.readState(input);
   }
 
   @Query(_ => EstimateGasForActionResponse, {
