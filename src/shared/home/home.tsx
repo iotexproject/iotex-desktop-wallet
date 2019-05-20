@@ -21,6 +21,7 @@ import { Flex } from "../common/flex";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_CHAIN_META, GET_TILE_DATA } from "../queries";
+import { BlockList } from "./block-list";
 import { SearchBox } from "./search-box";
 
 type State = {
@@ -214,9 +215,17 @@ class HomeComponent extends Component<Props, State> {
             {this.renderStats()}
           </Layout.Content>
           <Layout.Content tagName={"main"}>
-            <div style={{ backgroundColor: "#fff" }}>
-              <BlockProducers apolloClient={webBpApolloClient} />
-            </div>
+            <Row>
+              <Col xs={24} sm={24} md={20} lg={21}>
+                <div style={{ backgroundColor: "#fff" }}>
+                  <BlockProducers apolloClient={webBpApolloClient} />
+                </div>
+              </Col>
+              <Col xs={0} sm={0} md={4} lg={3}>
+                {/** Don't show block list on small devices */}
+                <BlockList />
+              </Col>
+            </Row>
           </Layout.Content>
         </ContentPadding>
       </Layout>

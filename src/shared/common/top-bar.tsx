@@ -146,6 +146,11 @@ class TopBarComponent extends Component<Props, State> {
             {t("topbar.graphql_doc")}
           </A>
         </AntdMenu.Item>
+        <AntdMenu.Item key={2}>
+          <A href="/wallet" target="_blank">
+            {t("topbar.wallet")}
+          </A>
+        </AntdMenu.Item>
       </AntdMenu>
     );
   };

@@ -5,6 +5,9 @@ topbar.blockchain: 区块链
 topbar.blocks: 区块
 topbar.actions: 行动
 topbar.home: 首页
+topbar.graphql_playground: "GraphQL 测试区"
+topbar.graphql_doc: "GraphQL 文档"
+topbar.wallet: 钱包
 topbar.search: "Search by Address / Public Key / Hash / Height"
 topbar.goback_home: 回到首页
 topbar.voting: 投票
@@ -42,8 +45,6 @@ action.type.grant_reward: 授予的奖励
 action.type.execution: 执行
 action.type.grantReward: 赠款奖励
 action.data: 数据
-topbar.graphql_playground: "GraphQL 测试区"
-topbar.graphql_doc: "GraphQL 文档"
 action.hash: 哈希
 action.block_hash: 区块
 action.amount: 总量

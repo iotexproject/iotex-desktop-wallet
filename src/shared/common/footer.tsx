@@ -21,13 +21,35 @@ export const FOOTER_ABOVE = {
 
 export function Footer(): JSX.Element {
   const socialIconList = [
-    "social_twitter",
-    "social_airfree",
-    "social_reddit",
-    "social_m",
-    "social_youtube",
-    "social_facebook",
-    "social_instagram"
+    {
+      name: "social_twitter",
+      href: "https://twitter.com/iotex_io"
+    },
+    {
+      name: "social_airfree",
+      href: "https://t.me/IoTeXGroup"
+    },
+    {
+      name: "social_reddit",
+      href: "https://www.reddit.com/r/IoTeX/"
+    },
+    {
+      name: "social_m",
+      href: "https://medium.com/iotex"
+    },
+    {
+      name: "social_youtube",
+      href: "https://www.youtube.com/channel/UCdj3xY3LCktuamvuFusWOZw"
+    },
+    {
+      name: "social_facebook",
+      href: "https://www.facebook.com/iotex.io/"
+    },
+    {
+      name: "social_instagram",
+      href:
+        "https://instagram.com/iotexproject?utm_source=ig_profile_share&igshid=n1x5vxo61e00"
+    }
   ];
   return (
     <Bottom>
@@ -39,8 +61,8 @@ export function Footer(): JSX.Element {
           </InputWrapper>
         </Flex>
         <Flex>
-          {socialIconList.map((iconName, index) => {
-            return <SocialIconWrapper key={index} imgName={iconName} />;
+          {socialIconList.map((icon, index) => {
+            return <SocialIconWrapper key={index} icon={icon} />;
           })}
         </Flex>
       </Align>
@@ -73,7 +95,12 @@ export function Footer(): JSX.Element {
             }}
           </Query>
         </CopyRight>
-        <div>{t("footer.policy")}</div>
+        <a
+          href="https://iotex.io/policy"
+          style={{ textDecoration: "underline", color: colors.topbarGray }}
+        >
+          <div>{t("footer.policy")}</div>
+        </a>
       </CopyRightWrapper>
     </Bottom>
   );
@@ -107,10 +134,6 @@ const CopyRight = styled("div", (_: React.CSSProperties) => ({
     flexDirection: "column",
     textAlign: "center"
   }
-  // [media.palm]: {
-  //   textAlign: 'center',
-  //   flexDirection: "column"
-  // }
 }));
 
 const VersionWrapper = styled("span", (_: React.CSSProperties) => ({
@@ -120,11 +143,17 @@ const VersionWrapper = styled("span", (_: React.CSSProperties) => ({
   }
 }));
 
-const SocialIconWrapper = ({ imgName }: { imgName: string }): JSX.Element => {
+const SocialIconWrapper = ({
+  icon
+}: {
+  icon: { name: string; href: string };
+}): JSX.Element => {
   return (
-    <span style={{ marginLeft: "10px" }}>
-      <img src={assetURL(`/${imgName}.png`)} alt={imgName} />
-    </span>
+    <a href={icon.href}>
+      <span style={{ marginLeft: "10px" }}>
+        <img src={assetURL(`/${icon.name}.png`)} alt={icon.name} />
+      </span>
+    </a>
   );
 };
 

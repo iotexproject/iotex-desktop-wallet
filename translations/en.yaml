@@ -6,6 +6,8 @@ topbar.blocks: Blocks
 topbar.actions: Actions
 topbar.search: "Search by Address / Public Key / Hash / Height"
 topbar.home: HOME
+topbar.graphql_playground: "GraphQL Playground"
+topbar.graphql_doc: "GraphQL Doc"
 topbar.wallet: WALLET
 topbar.goback_home: Go back home
 topbar.voting: Voting
@@ -92,8 +94,6 @@ render.key.owner: owner
 render.key.candidates: candidates
 render.key.nonce: nonce
 action.data: Data
-topbar.graphql_playground: "GraphQL Playground"
-topbar.graphql_doc: "GraphQL Doc"
 action.hash: Hash
 action.block_hash: Block
 action.amount: Amount
@@ -322,6 +322,7 @@ input.error.keystore.failed_to_derive: Key derivation failed. Possibly wrong pas
 footer.policy: Team of Use & Privacy Policy.
 footer.enter_email: Enter email for Iotex updates!
 footer.subscribe: Subscribe
+home.blocklist.ofActions: of actions
 signin_modal.wallet: IoTeX Wallet
 signin_modal.sign_in: Sign In with IoTeX Wallet
 signin_modal.download: Haven't installed yet? Download
