@@ -164,7 +164,7 @@ export const BlockList = (): JSX.Element => {
           loading,
           data
         }: QueryResult<{
-          chainMeta: { height: number };
+          chainMeta: { height: string };
         }>): JSX.Element | null => {
           if (
             error ||
@@ -175,7 +175,8 @@ export const BlockList = (): JSX.Element => {
           ) {
             return <BlockListPlaceHolder count={BLOCK_COUNT} />;
           }
-          const start = Math.max(1, data.chainMeta.height - BLOCK_COUNT);
+          const height = parseInt(`${data.chainMeta.height}`, 10);
+          const start = Math.max(1, height - BLOCK_COUNT);
           return <BlockListByIndex count={BLOCK_COUNT} start={start} />;
         }}
       </Query>
