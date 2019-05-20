@@ -19,13 +19,15 @@ import JsonGlobal from "safe-json-globals/get";
 
 // @ts-ignore
 import LanguageSwitcher, { Languages } from "iotex-react-language-dropdown";
+import { connect } from "react-redux";
 import { assetURL } from "./asset-url";
 import { Logo } from "./icon";
 import { Cross } from "./icons/cross.svg";
 import { Hamburger } from "./icons/hamburger.svg";
+import { SignInModal } from "./sign-in-modal";
 import { transition } from "./styles/style-animation";
 import { colors } from "./styles/style-color";
-import { media, PALM_WIDTH } from "./styles/style-media";
+import { media, LAP_WIDTH } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
 
 export const TOP_BAR_HEIGHT = 100;
@@ -44,20 +46,23 @@ const multiChain: {
 type State = {
   displayMobileMenu: boolean;
   blockChainMenu: "dashboard" | "actions" | "blocks";
+  isSignInModalShow: boolean;
 };
 
 type PathParamsType = {
   hash: string;
 };
 
-type Props = RouteComponentProps<PathParamsType> & WithApolloClient<{}> & {};
+type Props = RouteComponentProps<PathParamsType> &
+  WithApolloClient<{}> & { enableSignIn: boolean };
 
 class TopBarComponent extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
       displayMobileMenu: false,
-      blockChainMenu: "dashboard"
+      blockChainMenu: "dashboard",
+      isSignInModalShow: false
     };
   }
 
@@ -76,7 +81,7 @@ class TopBarComponent extends Component<Props, State> {
     window.addEventListener("resize", () => {
       if (
         document.documentElement &&
-        document.documentElement.clientWidth > PALM_WIDTH
+        document.documentElement.clientWidth > LAP_WIDTH
       ) {
         this.setState({
           displayMobileMenu: false
@@ -241,11 +246,23 @@ class TopBarComponent extends Component<Props, State> {
     );
   }
 
+  public showSignInModal(): void {
+    this.setState({ isSignInModalShow: true });
+  }
+
+  public closeSignInModal = (): void => {
+    this.setState({ isSignInModalShow: false });
+  };
+
   public render(): JSX.Element {
     const displayMobileMenu = this.state.displayMobileMenu;
-
+    const { enableSignIn } = this.props;
     return (
       <div>
+        <SignInModal
+          visible={this.state.isSignInModalShow}
+          closeModal={this.closeSignInModal}
+        />
         <Bar>
           <BackHome />
           <Flex>
@@ -259,15 +276,19 @@ class TopBarComponent extends Component<Props, State> {
               flex: 1,
               paddingLeft: 1,
               whiteSpace: "nowrap",
-              justifyContent: "flex-end"
+              justifyContent: "flex-end",
+              paddingTop: "4px"
             }}
           >
             <Menu>{this.renderChainMenu()}</Menu>
-            <span style={{ marginLeft: "60px" }}>
+            {enableSignIn ? (
+              <SignIn onClick={() => this.showSignInModal()}>Sign In</SignIn>
+            ) : null}
+            <LanguageSwitcherWrapper>
               <LanguageSwitcher
                 supportLanguages={[Languages.EN, Languages.ZH_CN]}
               />
-            </span>
+            </LanguageSwitcherWrapper>
           </Flex>
           <HamburgerBtn
             onClick={this.displayMobileMenu}
@@ -286,7 +307,15 @@ class TopBarComponent extends Component<Props, State> {
   }
 }
 
-export const TopBar = withRouter(withApollo(TopBarComponent));
+export const TopBar = withRouter(
+  withApollo(
+    connect<{ enableSignIn: boolean }>(state => {
+      // @ts-ignore
+      const { enableSignIn } = state.base;
+      return { enableSignIn };
+    })(TopBarComponent)
+  )
+);
 
 const Bar = styled("div", {
   display: "flex",
@@ -329,7 +358,7 @@ function HamburgerBtn({
       color: colors.primary
     },
     display: "none!important",
-    [media.palm]: {
+    [media.toLap]: {
       display: "flex!important",
       ...(displayMobileMenu ? { display: "none!important" } : {})
     },
@@ -351,7 +380,7 @@ function CrossBtn({
       color: colors.primary
     },
     display: "none!important",
-    [media.palm]: {
+    [media.toLap]: {
       display: "none!important",
       ...(displayMobileMenu ? { display: "flex!important" } : {})
     },
@@ -414,7 +443,7 @@ const menuItem = {
     color: `${colors.primary} !important`
   },
   transition,
-  [media.palm]: {
+  [media.toLap]: {
     boxSizing: "border-box",
     width: "100%",
     padding: "16px 0 16px 0",
@@ -424,6 +453,23 @@ const menuItem = {
   textTransform: "capitalize",
   fontSize: "16px"
 };
+
+const LanguageSwitcherWrapper = styled("span", {
+  marginLeft: "10px",
+  [media.toLap]: {
+    lineHeight: "130px"
+  }
+});
+
+const SignIn = styled("span", {
+  ...menuItem,
+  [media.toLap]: {
+    boxSizing: "border-box",
+    width: "100%",
+    padding: "16px 0 16px 0",
+    marginLeft: "-20px"
+  }
+});
 
 const DropDownTitle = styled("div", menuItem);
 
@@ -454,7 +500,7 @@ const Flex = styled("div", (_: React.CSSProperties) => ({
 
 const Menu = styled("div", {
   display: "flex!important",
-  [media.palm]: {
+  [media.toLap]: {
     display: "none!important"
   }
 });
