@@ -322,3 +322,4 @@ input.error.keystore.failed_to_derive: Key derivation failed. Possibly wrong pas
 footer.policy: Team of Use & Privacy Policy.
 footer.enter_email: Enter email for Iotex updates!
 footer.subscribe: Subscribe
+home.blocklist.ofActions: of actions
