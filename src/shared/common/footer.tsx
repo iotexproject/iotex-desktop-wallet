@@ -95,7 +95,12 @@ export function Footer(): JSX.Element {
             }}
           </Query>
         </CopyRight>
-        <div>{t("footer.policy")}</div>
+        <a
+          href="https://iotex.io/policy"
+          style={{ textDecoration: "underline", color: colors.topbarGray }}
+        >
+          <div>{t("footer.policy")}</div>
+        </a>
       </CopyRightWrapper>
     </Bottom>
   );
