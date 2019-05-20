@@ -513,7 +513,7 @@ type Query {
   readState(
     protocolID: Buffer!
     methodName: Buffer!
-    args: [Buffer!]!
+    arguments: [Buffer!]!
   ): ReadStateResponse!
 
   # estimate gas for action
