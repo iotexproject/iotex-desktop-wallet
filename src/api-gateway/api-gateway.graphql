@@ -282,6 +282,10 @@ type GetReceiptByActionResponse {
   receiptInfo: ReceiptInfo
 }
 
+type GetServerMetaResponse {
+  serverMeta: ServerMeta!
+}
+
 input GetUnconfirmedActionsByAddressRequest {
   # iotex address
   address: String!
@@ -474,6 +478,9 @@ type Query {
     byHash: GetBlockMetasByHashRequest
   ): GetBlockMetasResponse!
 
+  # get server meta data by:
+  getServerMeta: GetServerMetaResponse!
+
   # suggest gas price
   suggestGasPrice: SuggestGasPriceResponse!
 
@@ -502,6 +509,13 @@ type Query {
   # sendAction
   sendAction(action: ActionInput!): SendActionResponse!
 
+  # read state
+  readState(
+    protocolID: Buffer!
+    methodName: Buffer!
+    args: [Buffer!]!
+  ): ReadStateResponse!
+
   # estimate gas for action
   estimateGasForAction(action: ActionInput!): EstimateGasForActionResponse!
 
@@ -514,6 +528,10 @@ type Query {
 
 type ReadContractResponse {
   data: String!
+}
+
+type ReadStateResponse {
+  data: Buffer!
 }
 
 # Properties of an Receipt
@@ -538,6 +556,15 @@ enum RewardType {
 
 type SendActionResponse {
   actionHash: Boolean
+}
+
+# Server meta data
+type ServerMeta {
+  packageVersion: String!
+  packageCommitID: String!
+  gitStatus: String!
+  goVersion: String!
+  buildTime: String!
 }
 
 type SetReward {

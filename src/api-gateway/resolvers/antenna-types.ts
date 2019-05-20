@@ -14,9 +14,11 @@ import {
   ILog,
   IMerkleRoot,
   IPutBlock,
+  IReadStateResponse,
   IReceipt,
   IReceiptInfo,
   ISendActionResponse,
+  IServerMeta,
   IStartSubChain,
   ITransfer
 } from "iotex-antenna/lib/rpc-method/types";
@@ -71,6 +73,24 @@ export class BlockMeta implements IBlockMeta {
   public receiptRoot: string;
   @Field(_ => String)
   public deltaStateDigest: string;
+}
+
+@ObjectType({ description: "Server meta data" })
+export class ServerMeta implements IServerMeta {
+  @Field(_ => String)
+  public packageVersion: string;
+
+  @Field(_ => String)
+  public packageCommitID: string;
+
+  @Field(_ => String)
+  public gitStatus: string;
+
+  @Field(_ => String)
+  public goVersion: string;
+
+  @Field(_ => String)
+  public buildTime: string;
 }
 
 @ObjectType({ description: "" })
@@ -172,6 +192,12 @@ export class GetBlockMetasRequest {
 export class GetBlockMetasResponse {
   @Field(_ => [BlockMeta])
   public blkMetas: Array<BlockMeta>;
+}
+
+@ObjectType()
+export class GetServerMetaResponse {
+  @Field(_ => ServerMeta)
+  public serverMeta: ServerMeta | undefined;
 }
 
 @ObjectType()
@@ -685,6 +711,24 @@ export class SendActionRequest {
 export class SendActionResponse implements ISendActionResponse {
   @Field(_ => Boolean, { nullable: true })
   public actionHash: string;
+}
+
+@ArgsType()
+export class ReadStateRequest {
+  @Field(_ => BufferScalar)
+  public protocolID: Buffer;
+
+  @Field(_ => BufferScalar)
+  public methodName: Buffer;
+
+  @Field(_ => [BufferScalar])
+  public args: Array<Buffer>;
+}
+
+@ObjectType()
+export class ReadStateResponse implements IReadStateResponse {
+  @Field(_ => BufferScalar)
+  public data: Buffer | {};
 }
 
 @ArgsType()
