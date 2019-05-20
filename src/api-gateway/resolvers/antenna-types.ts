@@ -721,8 +721,9 @@ export class ReadStateRequest {
   @Field(_ => BufferScalar)
   public methodName: Buffer;
 
+  // tslint:disable-next-line:no-banned-terms
   @Field(_ => [BufferScalar])
-  public args: Array<Buffer>;
+  public arguments: Array<Buffer>;
 }
 
 @ObjectType()

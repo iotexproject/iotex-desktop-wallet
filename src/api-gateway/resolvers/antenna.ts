@@ -130,10 +130,10 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
   @Query(_ => ReadStateResponse, { description: "read state" })
   public async readState(
     @Args(_ => ReadStateRequest)
-    { args, ...others }: ReadStateRequest,
+    input: ReadStateRequest,
     @Ctx() { gateways }: ICtx
   ): Promise<ReadStateResponse> {
-    return gateways.antenna.readState({ arguments: args, ...others });
+    return gateways.antenna.readState(input);
   }
 
   @Query(_ => EstimateGasForActionResponse, {
