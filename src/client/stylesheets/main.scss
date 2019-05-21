@@ -280,3 +280,8 @@ input {
   font: unset !important;
   font-family: "Heebo", sans-serif, Microsoft YaHei !important;
 }
+
+/* disable default menu hover */
+.ant-dropdown-menu-item:hover {
+  background-color: transparent !important;
+}
