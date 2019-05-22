@@ -13,6 +13,7 @@ topbar.goback_home: Go back home
 topbar.voting: Voting
 topbar.dashboard: Dashboard
 topbar.tools: Tools
+topbar.sign_in: Sign In
 not_found.bar: "Not Found"
 not_found.title: Oops!
 not_found.info: "We cannot find the page for you..."

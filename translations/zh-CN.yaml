@@ -13,6 +13,7 @@ topbar.goback_home: 回到首页
 topbar.voting: 投票
 topbar.dashboard: 仪表盘
 topbar.tools: 工具
+topbar.sign_in: 登录
 not_found.bar: 未找到
 not_found.title: 糟糕!
 not_found.info: 找不到页面...
