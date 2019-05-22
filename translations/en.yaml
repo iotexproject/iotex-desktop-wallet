@@ -176,6 +176,15 @@ home.blockHeight: BLOCK HEIGHT
 home.currentTPS: CURRENT TPS
 home.IOTXPrice: IOTX PRICE
 home.marketCap: MARKETCAP
+home.stats.tps: Peak / Curent TPS
+home.stats.candidates: Candidates / Consensus Delegates
+home.stats.productivity: Average Productivity
+home.stats.votes: Votes
+home.stats.map: Map
+home.stats.energyConsumption: Daily Energy Consumption
+home.stats.numberOfAddresses: "# of Addresses"
+home.stats.numberOfTransactions: "# of Transactions"
+home.stats.day: Day
 time.fn.years: years
 time.fn.year: year
 time.fn.months: months
