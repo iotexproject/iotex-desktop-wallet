@@ -63,7 +63,7 @@ export class ShowQrcodeButton extends Component<Props, State> {
     );
     return (
       <Tooltip
-        placement="top"
+        placement="bottom"
         trigger={trigger}
         title={InnerToolTip}
         visible={visible}
