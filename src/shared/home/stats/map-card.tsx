@@ -36,8 +36,7 @@ const Styles = {
     margin: 5,
     color: colors.black60,
     textOverflow: "ellipsis",
-    overflow: "hidden",
-    whiteSpace: "nowrap"
+    overflow: "hidden"
   }
 };
 
@@ -72,8 +71,18 @@ const MockMapData = [
   }
 ];
 
-export const MapButton = (props: any): JSX.Element => {
-  return <div {...props} style={Styles.mapButton} />;
+export const MapButton = (
+  props: React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  >
+): JSX.Element => {
+  return (
+    <div
+      {...props}
+      style={{ ...Styles.mapButton, whiteSpace: "nowrap", ...props.style }}
+    />
+  );
 };
 
 export const MapCard = (): JSX.Element => {
