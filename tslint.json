@@ -12,11 +12,13 @@
   "rules": {
     "react-no-dangerous-html": [
       true,
-      {
-        "file": "src/shared/wallet/download-keystore-form.tsx",
-        "method": "render",
-        "comment": "Usage has been approved by Tian on 2019-04-30 19:10"
-      }
+      [
+        {
+          "file": "src/shared/wallet/download-keystore-form.tsx",
+          "method": "render",
+          "comment": "Usage has been approved by Tian on 2019-04-30 19:10"
+        }
+      ]
     ],
     "no-object-literal-type-assertion": false,
     "no-null-keyword": false,
