@@ -22,23 +22,23 @@ export class ChooseFunction extends Component<Props, State> {
         <Helmet
           title={`${t("wallet.contract.title")} - ${t("meta.description")}`}
         />
-        <Flex>
+        <Flex justifyContent="space-around">
           <PageTitle>
             <Icon type="file-text" /> {t("wallet.contract.chooseFunction")}
           </PageTitle>
           <CardFunction
             title={t("wallet.contract.interactWith")}
-            description={t("wallet.contract.interactWith.desc")}
+            description=""
             redirectUrl={"/wallet/smart-contract/interact"}
             imageSrc={assetURL("/interact-contract.png")}
-            moreUrl={"#"}
+            moreUrl=""
           />
           <CardFunction
             title={t("wallet.contract.deployContract")}
-            description={t("wallet.contract.deployContract.desc")}
+            description=""
             redirectUrl={"/wallet/smart-contract/deploy"}
             imageSrc={assetURL("/deploy-contract.png")}
-            moreUrl={"#"}
+            moreUrl=""
           />
         </Flex>
       </div>

@@ -60,12 +60,14 @@ export const CardFunction = ({
       </Link>
       <h3 style={{ fontSize: "1.2em", fontWeight: "bold" }}>{title}</h3>
       <p style={{ color: colors.black60 }}>{description}</p>
-      <Link to={moreUrl} style={{ color: colors.secondary }}>
-        <Flex alignItems={"end"}>
-          <span>{t("wallet.contract.learn")}</span>
-          <Icon type={"right"} style={{ fontSize: "12px", padding: "6px" }} />
-        </Flex>
-      </Link>
+      {moreUrl && (
+        <Link to={moreUrl} style={{ color: colors.secondary }}>
+          <Flex alignItems={"end"}>
+            <span>{t("wallet.contract.learn")}</span>
+            <Icon type={"right"} style={{ fontSize: "12px", padding: "6px" }} />
+          </Flex>
+        </Link>
+      )}
     </Flex>
   </Card>
 );
