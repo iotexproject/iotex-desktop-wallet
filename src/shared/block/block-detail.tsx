@@ -32,6 +32,7 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { PALM_WIDTH } from "../common/styles/style-media";
 import { ContentPadding } from "../common/styles/style-padding";
+import { CommonMargin } from "../common/common-margin";
 import { GET_BLOCK_METAS, GET_BP_CANDIDATE } from "../queries";
 dayjs.extend(utc);
 // @ts-ignore
@@ -156,6 +157,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
           scroll={{ x: true }}
         />
         {this.renderFoldButton()}
+        <CommonMargin />
       </Flex>
     );
   }
