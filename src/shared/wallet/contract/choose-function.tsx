@@ -28,17 +28,17 @@ export class ChooseFunction extends Component<Props, State> {
           </PageTitle>
           <CardFunction
             title={t("wallet.contract.interactWith")}
-            description={t("wallet.contract.interactWith.desc")}
+            description=""
             redirectUrl={"/wallet/smart-contract/interact"}
             imageSrc={assetURL("/interact-contract.png")}
-            moreUrl={"#"}
+            moreUrl=""
           />
           <CardFunction
             title={t("wallet.contract.deployContract")}
-            description={t("wallet.contract.deployContract.desc")}
+            description=""
             redirectUrl={"/wallet/smart-contract/deploy"}
             imageSrc={assetURL("/deploy-contract.png")}
-            moreUrl={"#"}
+            moreUrl=""
           />
         </Flex>
       </div>
