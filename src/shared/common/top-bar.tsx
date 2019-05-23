@@ -263,7 +263,6 @@ class TopBarComponent extends Component<Props, State> {
           closeModal={this.closeSignInModal}
         />
         <Bar>
-          <BackHome />
           <Flex>
             <LogoContent />
           </Flex>
@@ -403,28 +402,6 @@ function LogoContent(): JSX.Element {
     <LogoWrapper href="/">
       <Logo url={assetURL("/logo_explorer.png")} />
     </LogoWrapper>
-  );
-}
-
-function BackHome(): JSX.Element {
-  const homePageUrl = "https://iotex.io/";
-  return (
-    <div
-      style={{
-        padding: "0 10px",
-        borderLeft: `1px solid ${colors.backHome}`,
-        borderRight: `1px solid ${colors.backHome}`,
-        marginRight: "10px"
-      }}
-    >
-      <a
-        href={homePageUrl}
-        style={{ color: colors.backHome, lineHeight: 1, fontSize: "14px" }}
-      >
-        <div>Go back</div>
-        <div style={{ fontSize: "16px", letterSpacing: "2.5px" }}>home</div>
-      </a>
-    </div>
   );
 }
 
