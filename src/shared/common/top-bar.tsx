@@ -27,7 +27,7 @@ import { Hamburger } from "./icons/hamburger.svg";
 import { SignInModal } from "./sign-in-modal";
 import { transition } from "./styles/style-animation";
 import { colors } from "./styles/style-color";
-import { media, LAP_WIDTH } from "./styles/style-media";
+import { LAP_WIDTH, media } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
 
 export const TOP_BAR_HEIGHT = 100;

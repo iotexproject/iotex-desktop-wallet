@@ -1,12 +1,13 @@
+import notification from "antd/lib/notification";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
-import React from "react";
-import { Query, QueryResult } from "react-apollo";
-import { VersionInfo } from "../../api-gateway/resolvers/meta";
+import React, { ChangeEvent, useState } from "react";
+import { Query, QueryResult, withApollo, WithApolloClient } from "react-apollo";
+import { SendGridInfo, VersionInfo } from "../../api-gateway/resolvers/meta";
 import { media } from "../common/styles/style-media";
-import { FETCH_VERSION_INFO } from "../queries";
+import { ADD_SUBSCRIPTION, FETCH_VERSION_INFO } from "../queries";
 import { assetURL } from "./asset-url";
 import { Flex } from "./flex";
 import { colors } from "./styles/style-color";
@@ -19,46 +20,102 @@ export const FOOTER_ABOVE = {
   minHeight: `calc(100vh - ${FOOTER_HEIGHT + TOP_BAR_HEIGHT}px)`
 };
 
+const socialIconList = [
+  {
+    name: "social_twitter",
+    href: "https://twitter.com/iotex_io"
+  },
+  {
+    name: "social_airfree",
+    href: "https://t.me/IoTeXGroup"
+  },
+  {
+    name: "social_reddit",
+    href: "https://www.reddit.com/r/IoTeX/"
+  },
+  {
+    name: "social_m",
+    href: "https://medium.com/iotex"
+  },
+  {
+    name: "social_youtube",
+    href: "https://www.youtube.com/channel/UCdj3xY3LCktuamvuFusWOZw"
+  },
+  {
+    name: "social_facebook",
+    href: "https://www.facebook.com/iotex.io/"
+  },
+  {
+    name: "social_instagram",
+    href:
+      "https://instagram.com/iotexproject?utm_source=ig_profile_share&igshid=n1x5vxo61e00"
+  }
+];
+
+type SubscriptionProps = WithApolloClient<object>;
+
+const SubscriptionComponent = ({ client }: SubscriptionProps): JSX.Element => {
+  const [email, setEmail] = useState("");
+  const [isEmailValid, setEmailValid] = useState(false);
+  const emailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      value,
+      validity: { valid }
+    } = event.target;
+
+    setEmail(value);
+    setEmailValid(!!value && !!valid);
+  };
+
+  const onSubscribe = () =>
+    client
+      .query<{ addSubscription: SendGridInfo }>({
+        query: ADD_SUBSCRIPTION,
+        variables: {
+          email
+        }
+      })
+      .then(({ data: { addSubscription: { isSubscribeSuccess } } }) => {
+        const message = isSubscribeSuccess
+          ? "footer.subscribe.success"
+          : "footer.subscribe.failed";
+        const notice = { message: t(message), duration: 3 };
+
+        if (isSubscribeSuccess) {
+          notification.success(notice);
+        } else {
+          notification.error(notice);
+        }
+      });
+
+  return (
+    <InputWrapper>
+      <Input
+        type="email"
+        placeholder={`${t("footer.enter_email")}`}
+        onChange={emailChange}
+      />
+      {isEmailValid ? (
+        <Button onClick={onSubscribe} className="ant-btn-primary">
+          {t("footer.subscribe")}
+        </Button>
+      ) : (
+        <Button style={disabledButton} disabled>
+          {t("footer.subscribe")}
+        </Button>
+      )}
+    </InputWrapper>
+  );
+};
+
+const Subscription = withApollo(SubscriptionComponent);
+
 export function Footer(): JSX.Element {
-  const socialIconList = [
-    {
-      name: "social_twitter",
-      href: "https://twitter.com/iotex_io"
-    },
-    {
-      name: "social_airfree",
-      href: "https://t.me/IoTeXGroup"
-    },
-    {
-      name: "social_reddit",
-      href: "https://www.reddit.com/r/IoTeX/"
-    },
-    {
-      name: "social_m",
-      href: "https://medium.com/iotex"
-    },
-    {
-      name: "social_youtube",
-      href: "https://www.youtube.com/channel/UCdj3xY3LCktuamvuFusWOZw"
-    },
-    {
-      name: "social_facebook",
-      href: "https://www.facebook.com/iotex.io/"
-    },
-    {
-      name: "social_instagram",
-      href:
-        "https://instagram.com/iotexproject?utm_source=ig_profile_share&igshid=n1x5vxo61e00"
-    }
-  ];
   return (
     <Bottom>
       <Align>
         <Flex>
-          <InputWrapper>
-            <Input placeholder={`${t("footer.enter_email")}`} />
-            <Button>{t("footer.subscribe")}</Button>
-          </InputWrapper>
+          <Subscription />
         </Flex>
         <Flex>
           {socialIconList.map((icon, index) => {
@@ -184,7 +241,6 @@ const Button = styled("button", (_: React.CSSProperties) => ({
   padding: "9px 23px",
   borderColor: `${colors.topbarGray}`,
   borderStyle: "solid",
-  background: "none",
   borderBottomRightRadius: "5px",
   borderTopRightRadius: "5px",
   outline: "none",
@@ -192,6 +248,7 @@ const Button = styled("button", (_: React.CSSProperties) => ({
   borderRightWidth: "1px",
   borderTopWidth: "1px",
   borderBottomWidth: "1px",
+  cursor: "pointer",
   [media.palm]: {
     borderLeftWidth: "1px",
     marginTop: "10px",
@@ -199,6 +256,12 @@ const Button = styled("button", (_: React.CSSProperties) => ({
     borderTopLeftRadius: "5px"
   }
 }));
+
+const disabledButton = {
+  cursor: "inherit",
+  background: "none",
+  color: "inherit"
+};
 
 const Align = styled("div", (_: React.CSSProperties) => ({
   ...contentPadding,

@@ -524,6 +524,7 @@ type Query {
   health: String!
   fetchCoinPrice: CoinPrice!
   fetchVersionInfo: VersionInfo!
+  addSubscription(email: String!): SendGridInfo!
 }
 
 type ReadContractResponse {
@@ -556,6 +557,10 @@ enum RewardType {
 
 type SendActionResponse {
   actionHash: Boolean
+}
+
+type SendGridInfo {
+  isSubscribeSuccess: Boolean!
 }
 
 # Server meta data
