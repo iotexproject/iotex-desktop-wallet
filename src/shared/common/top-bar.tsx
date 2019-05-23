@@ -30,7 +30,7 @@ import { colors } from "./styles/style-color";
 import { LAP_WIDTH, media } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
 
-export const TOP_BAR_HEIGHT = 100;
+export const TOP_BAR_HEIGHT = 80;
 
 const globalState = isBrowser && JsonGlobal("state");
 const multiChain: {
@@ -308,7 +308,8 @@ class TopBarComponent extends Component<Props, State> {
 }
 
 export const TopBar = withRouter(
-  withApollo(
+  withApollo<{}>(
+    // @ts-ignore
     connect<{ enableSignIn: boolean }>(state => {
       // @ts-ignore
       const { enableSignIn } = state.base;
