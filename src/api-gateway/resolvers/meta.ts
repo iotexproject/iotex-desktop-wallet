@@ -5,6 +5,7 @@ import {
   Args,
   ArgsType,
   Ctx,
+  Mutation,
   Query,
   Resolver,
   ResolverInterface
@@ -86,13 +87,13 @@ export class MetaResolver implements ResolverInterface<() => String> {
     return this.version;
   }
 
-  @Query(_ => SendGridInfo)
+  @Mutation(_ => SendGridInfo)
   public async addSubscription(
     @Args() { email }: SendGridInfoRequest,
-    @Ctx() { gateways }: any
+    @Ctx() { gateways }: ICtx
   ): Promise<SendGridInfo> {
     const isSubscribeSuccess: boolean = await gateways.sendGrid.addSubscription(
-      email
+      email as string
     );
 
     return { isSubscribeSuccess };

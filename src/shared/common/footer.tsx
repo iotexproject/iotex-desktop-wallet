@@ -69,13 +69,15 @@ const SubscriptionComponent = ({ client }: SubscriptionProps): JSX.Element => {
 
   const onSubscribe = () =>
     client
-      .query<{ addSubscription: SendGridInfo }>({
-        query: ADD_SUBSCRIPTION,
+      .mutate<{ addSubscription: SendGridInfo }>({
+        mutation: ADD_SUBSCRIPTION,
         variables: {
           email
         }
       })
-      .then(({ data: { addSubscription: { isSubscribeSuccess } } }) => {
+      .then(({ data }) => {
+        const isSubscribeSuccess = (data as { addSubscription: SendGridInfo })
+          .addSubscription.isSubscribeSuccess;
         const message = isSubscribeSuccess
           ? "footer.subscribe.success"
           : "footer.subscribe.failed";

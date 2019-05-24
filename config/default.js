@@ -7,7 +7,7 @@ const getApiGatewayUrl = () => {
   if (!!initial) {
     return initial.endsWith("/") ? initial : initial + "/";
   } else {
-    return void 0;
+    return "";
   }
 };
 

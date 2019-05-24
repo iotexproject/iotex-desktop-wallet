@@ -35,6 +35,9 @@ import {
 export interface ICtx {
   gateways: {
     antenna: RpcMethod;
+    sendGrid: {
+      addSubscription(email: string): Promise<boolean>;
+    };
   };
 }
 
