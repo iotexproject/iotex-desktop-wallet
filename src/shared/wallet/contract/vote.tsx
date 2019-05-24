@@ -23,7 +23,7 @@ export class Vote extends Component<Props, State> {
           title={`${t("wallet.transfer.title")} - ${t("meta.description")}`}
         />
         <PageTitle>
-          <Icon type="pushpin" /> {t("wallet.transfer.title")}
+          <Icon type="pushpin" /> {t("wallet.vote.title")}
         </PageTitle>
         <p>{t("wallet.vote.content")}</p>
         <br />
