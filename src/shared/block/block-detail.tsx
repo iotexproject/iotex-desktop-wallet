@@ -22,6 +22,7 @@ import {
 } from "../../api-gateway/resolvers/antenna-types";
 import { ActionDetail } from "../action/action-detail";
 import { ActionTable } from "../address-details/action-table";
+import { CommonMargin } from "../common/common-margin";
 import { Flex } from "../common/flex";
 import { FlexLink } from "../common/flex-link";
 import { translateFn } from "../common/from-now";
@@ -32,7 +33,6 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { PALM_WIDTH } from "../common/styles/style-media";
 import { ContentPadding } from "../common/styles/style-padding";
-import { CommonMargin } from "../common/common-margin";
 import { GET_BLOCK_METAS, GET_BP_CANDIDATE } from "../queries";
 dayjs.extend(utc);
 // @ts-ignore
