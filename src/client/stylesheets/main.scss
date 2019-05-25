@@ -283,3 +283,19 @@ input {
 .ant-dropdown-menu-item:hover {
   background-color: transparent !important;
 }
+
+.ant-spin-blur {
+  overflow: unset !important;
+}
+
+.no-scrollbar {
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.no-scrollbar::-webkit-scrollbar,
+.no-scrollbar::scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
