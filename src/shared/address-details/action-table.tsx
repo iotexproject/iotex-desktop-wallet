@@ -194,6 +194,8 @@ export function ActionTable({
     <Query
       query={GET_ACTIONS}
       variables={getVariable({ pageSize, current: 1, currentDataLength: 0 })}
+      fetchPolicy="network-only"
+      ssr={false}
     >
       {({
         loading,

@@ -67,6 +67,8 @@ class ActionDetailsInner extends PureComponent<Props> {
         <Helmet title={`IoTeX ${t("action.action")} ${hash}`} />
         <Query
           query={GET_ACTIONS_BY_HASH}
+          fetchPolicy="network-only"
+          ssr={false}
           variables={{
             byHash: { actionHash: hash, checkingPending: true },
             ignoreErrorNotification: true
