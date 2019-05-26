@@ -153,7 +153,7 @@ export class ERC20 implements IERC20 {
     // @ts-ignore
     // tslint:disable-next-line: typedef
     ...args
-  ): string {
+  ): Promise<string> {
     const result = await this.provider.readContract({
       execution: this.contract.pureEncodeMethod("0", method, ...args),
       callerAddress: callerAddress
