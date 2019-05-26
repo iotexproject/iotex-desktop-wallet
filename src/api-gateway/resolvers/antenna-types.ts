@@ -495,9 +495,9 @@ export class PlumChallengeExit {
   @Field(_ => Int)
   public coinID: number;
   @Field(_ => BufferScalar)
-  public challengeTransfer: Buffer;
+  public challengeTransfer: Buffer | string;
   @Field(_ => BufferScalar)
-  public challengeTransferBlockProof: Buffer;
+  public challengeTransferBlockProof: Buffer | string;
   @Field(_ => Int)
   public challengeTransferBlockHeight: number;
 }
