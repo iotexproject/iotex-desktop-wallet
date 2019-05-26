@@ -53,7 +53,6 @@ input ActionCoreInput {
   gasLimit: BigNumber!
   gasPrice: String!
   transfer: TransferInput
-  vote: VoteInput
   execution: ExecutionInput
   startSubChain: StartSubChainInput
   stopSubChain: StopSubChainInput
@@ -503,7 +502,10 @@ type Query {
   ): GetActionsResponse!
 
   # read contract
-  readContract(action: ActionInput!): ReadContractResponse!
+  readContract(
+    execution: ExecutionInput!
+    callerAddress: String!
+  ): ReadContractResponse!
 
   # sendAction
   sendAction(action: ActionInput!): SendActionResponse!
