@@ -96,6 +96,26 @@ export function AbiFormInputItem(
   );
 }
 
+export function MessageFormInputItem({
+  form,
+  initialValue
+}: {
+  form: WrappedFormUtils;
+  initialValue?: string;
+}): JSX.Element {
+  const { getFieldDecorator } = form;
+  return (
+    <Form.Item
+      {...formItemLayout}
+      label={<FormItemLabel>{t("wallet.input.message")}</FormItemLabel>}
+    >
+      {getFieldDecorator("message", {
+        initialValue: initialValue || ""
+      })(<TextArea rows={4} style={inputStyle} />)}
+    </Form.Item>
+  );
+}
+
 export function NonceFormInputItem(
   form: WrappedFormUtils,
   initialValue?: string | number
