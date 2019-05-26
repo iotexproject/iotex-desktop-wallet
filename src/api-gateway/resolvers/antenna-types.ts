@@ -480,9 +480,9 @@ export class PlumStartExit {
   @Field(_ => Int)
   public previousTransferBlockHeight: number;
   @Field(_ => BufferScalar)
-  public exitTransfer: Buffer;
+  public exitTransfer: Buffer | string;
   @Field(_ => BufferScalar)
-  public exitTransferBlockProof: Buffer;
+  public exitTransferBlockProof: Buffer | string;
   @Field(_ => Int)
   public exitTransferBlockHeight: number;
 }
