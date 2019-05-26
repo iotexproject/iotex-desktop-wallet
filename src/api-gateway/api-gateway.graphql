@@ -25,7 +25,6 @@ type ActionCore {
   gasLimit: BigNumber!
   gasPrice: String!
   transfer: Transfer
-  vote: Vote
   execution: Execution
   startSubChain: StartSubChain
   stopSubChain: StopSubChain
