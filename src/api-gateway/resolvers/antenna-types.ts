@@ -324,7 +324,7 @@ export class Execution implements IExecution {
   public contract: string;
 
   @Field(_ => BufferScalar)
-  public data: Buffer;
+  public data: Buffer | string;
 }
 
 export enum RewardType {
