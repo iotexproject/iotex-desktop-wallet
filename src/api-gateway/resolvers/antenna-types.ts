@@ -302,7 +302,7 @@ export class Transfer implements ITransfer {
   public recipient: string;
 
   @Field(_ => BufferScalar)
-  public payload: Buffer;
+  public payload: Buffer | string;
 }
 
 @InputType("VoteInput")
