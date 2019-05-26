@@ -4,8 +4,23 @@ import { ClientRequest } from "@sendgrid/client/src/request";
 import { ClientResponse } from "@sendgrid/client/src/response";
 import config from "config";
 
+export interface GatewaysConfig {
+  logger: {
+    enabled: boolean;
+    level: string;
+  };
+  iotexAntenna: string;
+  sendgridApiKey: string;
+  sendgrid: {
+    url: string;
+    method: string;
+  };
+}
+
 export function getSendgrid(opts: any): any {
-  client.setApiKey(config.gateways.sendgridApiKey);
+  const gateways: GatewaysConfig = config.get("gateways");
+
+  client.setApiKey(gateways.sendgridApiKey);
 
   const sendgrid = {
     ...opts,
