@@ -1,5 +1,6 @@
 // tslint:disable:no-any
 // import casual from "casual";
+import { ClientResponse } from "@sendgrid/client/src/response";
 import RpcMethod from "iotex-antenna/lib/rpc-method/node-rpc-method";
 import {
   Arg,
@@ -35,8 +36,8 @@ import {
 export interface ICtx {
   gateways: {
     antenna: RpcMethod;
-    sendGrid: {
-      addSubscription(email: string): Promise<boolean>;
+    sendgrid: {
+      addSubscription(email: string): Promise<[ClientResponse, any]>;
     };
   };
 }

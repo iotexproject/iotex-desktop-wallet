@@ -92,10 +92,8 @@ export class MetaResolver implements ResolverInterface<() => String> {
     @Args() { email }: SendGridInfoRequest,
     @Ctx() { gateways }: ICtx
   ): Promise<SendGridInfo> {
-    const isSubscribeSuccess: boolean = await gateways.sendGrid.addSubscription(
-      email as string
-    );
+    const [response] = await gateways.sendgrid.addSubscription(email as string);
 
-    return { isSubscribeSuccess };
+    return { isSubscribeSuccess: response.body };
   }
 }
