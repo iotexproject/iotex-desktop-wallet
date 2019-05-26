@@ -606,9 +606,6 @@ export class ActionCore implements IActionCore {
   @Field(_ => Transfer, { nullable: true })
   public transfer?: Transfer | undefined;
 
-  @Field(_ => Vote, { nullable: true })
-  public vote?: Vote | undefined;
-
   @Field(_ => Execution, { nullable: true })
   public execution?: Execution | undefined;
 
@@ -691,8 +688,11 @@ export class GetActionsResponse implements IGetActionsResponse {
 
 @ArgsType()
 export class ReadContractRequest {
-  @Field(_ => Action)
-  public action: Action;
+  @Field(_ => Execution)
+  public execution: Execution;
+
+  @Field(_ => String)
+  public callerAddress: string;
 }
 
 @ObjectType()
