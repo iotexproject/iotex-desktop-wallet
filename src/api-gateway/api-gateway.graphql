@@ -327,6 +327,10 @@ input MerkleRootInput {
   value: Buffer!
 }
 
+type Mutation {
+  addSubscription(email: String!): SendGridInfo!
+}
+
 type PlumChallengeExit {
   subChainAddress: String!
   coinID: Int!
@@ -556,6 +560,10 @@ enum RewardType {
 
 type SendActionResponse {
   actionHash: Boolean
+}
+
+type SendGridInfo {
+  isSubscribeSuccess: Boolean!
 }
 
 # Server meta data

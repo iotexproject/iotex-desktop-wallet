@@ -119,6 +119,7 @@
     "@babel/preset-react": "7.0.0",
     "@babel/preset-typescript": "7.3.3",
     "@babel/register": "7.4.4",
+    "@sendgrid/client": "^6.4.0",
     "@types/bcryptjs": "2.4.2",
     "@types/config": "0.0.34",
     "@types/dateformat": "3.0.0",

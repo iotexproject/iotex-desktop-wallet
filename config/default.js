@@ -1,6 +1,16 @@
 const { config } = require("dotenv");
 config();
 
+const getApiGatewayUrl = () => {
+  const initial = process.env.API_GATEWAY_URL;
+
+  if (!!initial) {
+    return initial.endsWith("/") ? initial : initial + "/";
+  } else {
+    return "";
+  }
+};
+
 module.exports = {
   project: "iotex-explorer",
   server: {
@@ -28,7 +38,12 @@ module.exports = {
       enabled: true,
       level: "debug"
     },
-    iotexAntenna: process.env.IOTEX_CORE || "35.239.122.109:80"
+    iotexAntenna: process.env.IOTEX_CORE || "35.239.122.109:80",
+    sendgridApiKey: process.env.SENDGRID_API_KEY,
+    sendgrid: {
+      url: "/v3/api_keys",
+      method: "POST"
+    }
   },
   analytics: {
     googleTid: "UA-111756489-2"
@@ -70,8 +85,7 @@ module.exports = {
       "https://ethereum.github.io/solc-bin/bin/"
     ]
   },
-  apiGatewayUrl:
-    process.env.API_GATEWAY_URL || "http://localhost:4004/api-gateway/",
+  apiGatewayUrl: getApiGatewayUrl() || "http://localhost:4004/api-gateway/",
   webBpApiGatewayUrl: "https://member.iotex.io/api-gateway/",
   multiChain: {
     current: process.env.CURRENT_CHAIN_NAME || "mainnnet",
