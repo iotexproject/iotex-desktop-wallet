@@ -2,7 +2,6 @@
 import Button from "antd/lib/button";
 import AntdDropdown from "antd/lib/dropdown";
 import Icon from "antd/lib/icon";
-// import Input from "antd/lib/input";
 import AntdMenu from "antd/lib/menu";
 import isBrowser from "is-browser";
 // @ts-ignore
@@ -264,7 +263,6 @@ class TopBarComponent extends Component<Props, State> {
           closeModal={this.closeSignInModal}
         />
         <Bar>
-          <BackHome />
           <Flex>
             <LogoContent />
           </Flex>
@@ -282,7 +280,9 @@ class TopBarComponent extends Component<Props, State> {
           >
             <Menu>{this.renderChainMenu()}</Menu>
             {enableSignIn ? (
-              <SignIn onClick={() => this.showSignInModal()}>Sign In</SignIn>
+              <SignIn onClick={() => this.showSignInModal()}>
+                {t("topbar.sign_in")}
+              </SignIn>
             ) : null}
             <LanguageSwitcherWrapper>
               <LanguageSwitcher
@@ -406,28 +406,6 @@ function LogoContent(): JSX.Element {
   );
 }
 
-function BackHome(): JSX.Element {
-  const homePageUrl = "https://iotex.io/";
-  return (
-    <div
-      style={{
-        padding: "0 10px",
-        borderLeft: `1px solid ${colors.backHome}`,
-        borderRight: `1px solid ${colors.backHome}`,
-        marginRight: "10px"
-      }}
-    >
-      <a
-        href={homePageUrl}
-        style={{ color: colors.backHome, lineHeight: 1, fontSize: "14px" }}
-      >
-        <div>Go back</div>
-        <div style={{ fontSize: "16px", letterSpacing: "2.5px" }}>home</div>
-      </a>
-    </div>
-  );
-}
-
 function DownIcon(): JSX.Element {
   return <Icon type="caret-down" style={{ color: colors.topbarGray }} />;
 }
@@ -476,9 +454,10 @@ const DropDownTitle = styled("div", menuItem);
 
 const A = styled("a", {
   ...menuItem,
+  padding: "5px 45px 5px 12px !important",
   ":hover": {
     color: `${colors.primary} !important`,
-    backgroundColor: colors.topbarGray
+    backgroundColor: colors.menuHover
   }
 });
 
@@ -487,9 +466,10 @@ const NoBgA = styled("a", menuItem);
 // @ts-ignore
 const StyledLink = styled(Link, {
   ...menuItem,
+  padding: "5px 45px 5px 12px !important",
   ":hover": {
     color: `${colors.primary} !important`,
-    backgroundColor: colors.topbarGray
+    backgroundColor: colors.menuHover
   }
 });
 

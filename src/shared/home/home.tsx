@@ -115,13 +115,9 @@ class HomeComponent extends Component<Props, State> {
       <div className={"section-top"}>
         <Query query={GET_CHAIN_META}>
           {({
-            loading,
             error,
             data
           }: QueryResult<{ chainMetaData: GetChainMetaResponse }>) => {
-            if (loading) {
-              return "Loading...";
-            }
             if (error || !data) {
               return null;
             }
@@ -148,7 +144,7 @@ class HomeComponent extends Component<Props, State> {
                   //@ts-ignore
                   const tiles = this.getTiles({ ...chainMetaData, ...data });
                   return (
-                    <SpinPreloader spinning={loading}>
+                    <SpinPreloader spinning={!data}>
                       <div
                         className={"front-top-info"}
                         style={{
@@ -214,11 +210,14 @@ class HomeComponent extends Component<Props, State> {
           >
             {this.renderStats()}
           </Layout.Content>
-          <Layout.Content tagName={"main"}>
+          <Layout.Content tagName={"main"} style={{ marginBottom: "15px" }}>
             <Row>
               <Col xs={24} sm={24} md={20} lg={21}>
                 <div style={{ backgroundColor: "#fff" }}>
-                  <BlockProducers apolloClient={webBpApolloClient} />
+                  <BlockProducers
+                    apolloClient={webBpApolloClient}
+                    height="1300px"
+                  />
                 </div>
               </Col>
               <Col xs={0} sm={0} md={4} lg={3}>

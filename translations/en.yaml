@@ -13,6 +13,7 @@ topbar.goback_home: Go back home
 topbar.voting: Voting
 topbar.dashboard: Dashboard
 topbar.tools: Tools
+topbar.sign_in: Sign In
 not_found.bar: "Not Found"
 not_found.title: Oops!
 not_found.info: "We cannot find the page for you..."
@@ -27,9 +28,14 @@ candidates.election.NOT_ELECTED: "Not Elected"
 candidates.election.UNQUALIFIED: "Not Elected"
 candidates.election.explain: "Delegates must self-stake at least <b>1,200,000 IOTX</b> and earn <b>2,000,000 IOTX</b> total votes to be elected."
 candidate.productivity: Productivity
-candidates.election.consensus_delegates: IoTeX Consensus Delegates
+candidates.election.consensus_delegates: Consensus Delegates
 candidates.election.delegates: IoTeX Delegates
 candidates.election.delegates_candidates: IoTeX Delegates Candidates
+candidates.delegate_list: Delegate List
+candidates.rank: Rank
+candidates.election.NOT_EQUIPPED: "Not Equipped"
+candidates.election.ONLINE: Online
+candidates.election.OFFLINE: Offline
 block.block: Block
 block.blocks: Blocks
 block.height: Height

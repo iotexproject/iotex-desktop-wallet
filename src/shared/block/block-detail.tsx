@@ -22,6 +22,7 @@ import {
 } from "../../api-gateway/resolvers/antenna-types";
 import { ActionDetail } from "../action/action-detail";
 import { ActionTable } from "../address-details/action-table";
+import { CommonMargin } from "../common/common-margin";
 import { Flex } from "../common/flex";
 import { FlexLink } from "../common/flex-link";
 import { translateFn } from "../common/from-now";
@@ -156,6 +157,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
           scroll={{ x: true }}
         />
         {this.renderFoldButton()}
+        <CommonMargin />
       </Flex>
     );
   }
