@@ -1,7 +1,7 @@
 // tslint:disable:no-empty
 import Button from "antd/lib/button";
 import { FormComponentProps } from "antd/lib/form";
-import Form from "antd/lib/form/Form";
+import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Input from "antd/lib/input";
 import notification from "antd/lib/notification";
 import Select from "antd/lib/select";
@@ -26,7 +26,7 @@ import {
 } from "./cards";
 import { ContractLayout } from "./contract-layout";
 
-const { TextArea } = Input;
+// const { TextArea } = Input;
 const { Option } = Select;
 
 export class Interact extends Component<{ address: string }> {
@@ -72,6 +72,31 @@ type State = {
   txHash: string;
   showConfirmInteract: boolean;
   confirmInteractFunction: Function;
+};
+
+const ContractAddressFormInputItem = ({
+  form
+}: {
+  form: WrappedFormUtils;
+}): JSX.Element => {
+  const { getFieldDecorator } = form;
+
+  return (
+    <Form.Item
+      {...formItemLayout}
+      label={<FormItemLabel>{t("wallet.input.contractAddress")}</FormItemLabel>}
+    >
+      {getFieldDecorator("contractAddress", {
+        rules: rulesMap.address
+      })(
+        <Input
+          className="form-input"
+          placeholder={t("wallet.placeholder.contractAddress")}
+          name="contractAddress"
+        />
+      )}
+    </Form.Item>
+  );
 };
 
 class InteractFormInner extends Component<InteractProps, State> {
@@ -385,26 +410,10 @@ class InteractFormInner extends Component<InteractProps, State> {
     }
 
     const { form } = this.props;
-    const { getFieldDecorator } = form;
 
     return (
       <Form layout={"vertical"}>
-        <Form.Item
-          {...formItemLayout}
-          label={
-            <FormItemLabel>{t("wallet.input.contractAddress")}</FormItemLabel>
-          }
-        >
-          {getFieldDecorator("contractAddress", {
-            rules: rulesMap.address
-          })(
-            <TextArea
-              rows={4}
-              style={inputStyle}
-              placeholder={t("wallet.placeholder.contractAddress")}
-            />
-          )}
-        </Form.Item>
+        <ContractAddressFormInputItem form={form} />
         <AmountFormInputItem form={form} initialValue={0} />
         <GasPriceFormInputItem form={form} />
         <GasLimitFormInputItem form={form} initialValue={1000000} />
