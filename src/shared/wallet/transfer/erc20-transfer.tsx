@@ -65,14 +65,14 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
   };
 
   public sendTransfer = async (status: boolean) => {
+    if (!status) {
+      return this.setState({
+        showConfirmTransfer: false
+      });
+    }
     // TODO: Implement for ERC20
     // const antenna = getAntenna();
     // const { form, address } = this.props;
-    // if (!status) {
-    //   return this.setState({
-    //     showConfirmTransfer: false
-    //   });
-    // }
     // form.validateFields(async (err, value) => {
     //   if (!err) {
     //     const { recipient, amount, gasLimit, gasPrice, dataInHex } = value;
