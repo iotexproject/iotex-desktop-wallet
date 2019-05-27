@@ -29,7 +29,6 @@ import { getAntenna } from "../get-antenna";
 import { inputStyle } from "../wallet";
 import {
   AbiFormInputItem,
-  AmountFormInputItem,
   FormItemLabel,
   GasLimitFormInputItem,
   GasPriceFormInputItem
@@ -196,12 +195,12 @@ class DeployFormInner extends Component<DeployProps, State> {
     const { form, address } = this.props;
     const { showConfirmation } = this.state;
 
-    const { byteCode, amount, gasLimit, gasPrice } = form.getFieldsValue();
+    const { byteCode, gasLimit, gasPrice } = form.getFieldsValue();
 
     const dataSource = {
       address: address,
       data: byteCode,
-      amount: toRau(amount, "Iotx"),
+      amount: "0",
       price: toRau(gasPrice, "Qev"),
       limit: gasLimit
     };
@@ -244,7 +243,7 @@ class DeployFormInner extends Component<DeployProps, State> {
       );
 
       const txHash = await antenna.iotx.deployContract({
-        abi: JSON.parse(abi),
+        abi: abi,
         from: String(address),
         amount: toRau(amount, "Iotx"),
         data: Buffer.from(trimmed0xHex, "hex"),
@@ -407,6 +406,7 @@ class DeployFormInner extends Component<DeployProps, State> {
           {getFieldDecorator("byteCode", {
             initialValue: "",
             rules: [
+              { required: true, message: t("wallet.error.required") },
               {
                 validator: (_, value, callback) => {
                   const isValidErrorMessageKey = isValidBytes(value);
@@ -427,7 +427,6 @@ class DeployFormInner extends Component<DeployProps, State> {
             />
           )}
         </Form.Item>
-        <AmountFormInputItem form={form} initialValue={0} />
         <GasPriceFormInputItem form={form} />
         <GasLimitFormInputItem form={form} />
         {/*

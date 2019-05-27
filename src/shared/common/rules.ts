@@ -69,7 +69,7 @@ export const rules: Rules = {
 
 export const rulesMap = {
   address: [rules.required, rules.addressLength],
-  amount: [rules.required, rules.number],
+  amount: [rules.number],
   gasLimit: [rules.required, rules.number],
   gasPrice: [rules.required, rules.number],
   abi: [rules.required, rules.abi],
