@@ -56,6 +56,15 @@ export const rules: Rules = {
       }
     }
   },
+  erc20AddressLength: {
+    validator: (_, value, callback) => {
+      if (String(value).trim().length === 41) {
+        callback();
+      } else {
+        callback(t("input.error.erc20_address.length"));
+      }
+    }
+  },
   strongPassword: {
     validator: (_, value, callback) => {
       if (String(value).length <= 6) {
@@ -69,6 +78,7 @@ export const rules: Rules = {
 
 export const rulesMap = {
   address: [rules.required, rules.addressLength],
+  erc20Address: [rules.required, rules.erc20AddressLength],
   amount: [rules.required, rules.number],
   gasLimit: [rules.required, rules.number],
   gasPrice: [rules.required, rules.number],
