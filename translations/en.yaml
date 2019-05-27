@@ -277,6 +277,7 @@ wallet.input.dib: Data Hex
 wallet.input.balance: "Balance:"
 wallet.input.generate: Generate Transaction
 wallet.transactions.send: Send Transaction
+wallet.transfer.send-erc20: Send ERC20 tokens
 wallet.transfer.title: Send IOTX
 wallet.error.required: This field is required.
 wallet.error.number: This field should be number
