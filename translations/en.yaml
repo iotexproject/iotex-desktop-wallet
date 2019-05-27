@@ -256,6 +256,7 @@ account.not-hold: >-
 account.protect: Protect your keys & always check that you are on correct URL.
 account.responsible: You are responsible for your security.
 account.wallet: Wallet
+account.wallet.download: Download desktop wallet
 account.change: Change Wallet
 account.testnet.token: IOTX
 account.address: Account Address

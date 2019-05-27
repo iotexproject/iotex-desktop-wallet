@@ -153,6 +153,16 @@ export default class AccountSection extends React.Component<Props, State> {
             </p>
             <p>{wallet.address}</p>
           </div>
+          <div>
+            <StyleLink>
+              <a
+                href="https://github.com/iotexproject/iotex-explorer/releases"
+                target="__blank"
+              >
+                {t("account.wallet.download")}
+              </a>
+            </StyleLink>
+          </div>
         </div>
       </div>
     );

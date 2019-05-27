@@ -190,3 +190,4 @@ footer.subscribe.failed: 订阅失败，请稍侯再试!
 signin_modal.wallet: IoTeX 钱包
 signin_modal.sign_in: 用 IoTeX 钱包登录
 signin_modal.download: 还没安装？点击下载
+account.wallet.download: 下载桌面版钱包
