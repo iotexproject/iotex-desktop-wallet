@@ -231,9 +231,7 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
     return (
       <Form layout="vertical">
         {this.erc20AddressForm()}
-        {erc20Info &&
-          erc20Info.balance.isGreaterThan(-1) &&
-          this.transferForm()}
+        {erc20Info && erc20Info.balance.isGreaterThan(0) && this.transferForm()}
       </Form>
     );
   };
