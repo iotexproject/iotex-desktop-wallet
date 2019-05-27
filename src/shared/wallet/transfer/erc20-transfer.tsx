@@ -193,7 +193,7 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
           {getFieldDecorator("erc20Address", {
             rules: rulesMap.erc20Address
           })(
-            <Input placeholder="0x..." style={inputStyle} name="erc20Address" />
+            <Input placeholder="io..." style={inputStyle} name="erc20Address" />
           )}
         </Form.Item>
         {this.renderERC20Info()}
@@ -216,7 +216,7 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
     return (
       <Form layout="vertical">
         {this.erc20AddressForm()}
-        {this.transferForm()}
+        {this.state.erc20Info && this.transferForm()}
       </Form>
     );
   };
