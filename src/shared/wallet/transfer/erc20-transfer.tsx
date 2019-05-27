@@ -1,4 +1,4 @@
-import { Statistic, Table } from "antd";
+import { Statistic } from "antd";
 import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Col from "antd/lib/grid/col";
