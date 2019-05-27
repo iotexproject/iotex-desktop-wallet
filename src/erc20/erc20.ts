@@ -1,4 +1,5 @@
 import BigNumber from "bignumber.js";
+import ethereumjs from "ethereumjs-abi";
 import { Account } from "iotex-antenna/lib/account/account";
 import { Contract } from "iotex-antenna/lib/contract/contract";
 import { IRpcMethod } from "iotex-antenna/lib/rpc-method/types";
@@ -6,6 +7,12 @@ import { ABI } from "./abi";
 
 export interface IERC20 {
   address: string;
+
+  name(callerAddress: string): Promise<string>;
+
+  symbol(callerAddress: string): Promise<string>;
+
+  decimals(callerAddress: string): Promise<Number>;
 
   totalSupply(callerAddress: string): Promise<BigNumber>;
 
@@ -58,6 +65,33 @@ export class ERC20 implements IERC20 {
       provider: provider
     });
     return erc20;
+  }
+
+  public async name(callerAddress: string): Promise<string> {
+    const result = await this.readMethod("name", callerAddress);
+    const data = ethereumjs.rawDecode(["string"], Buffer.from(result, "hex"));
+    if (data.length > 0) {
+      return data[0];
+    }
+    return "";
+  }
+
+  public async symbol(callerAddress: string): Promise<string> {
+    const result = await this.readMethod("symbol", callerAddress);
+    const data = ethereumjs.rawDecode(["string"], Buffer.from(result, "hex"));
+    if (data.length > 0) {
+      return data[0];
+    }
+    return "";
+  }
+
+  public async decimals(callerAddress: string): Promise<Number> {
+    const result = await this.readMethod("decimals", callerAddress);
+    const data = ethereumjs.rawDecode(["uint8"], Buffer.from(result, "hex"));
+    if (data.length > 0) {
+      return data[0];
+    }
+    return 0;
   }
 
   public async totalSupply(callerAddress: string): Promise<BigNumber> {
