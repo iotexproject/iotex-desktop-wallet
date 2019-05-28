@@ -184,7 +184,7 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
         }
       });
     } catch (error) {
-      // @ts-ignore
+      // tslint:disable-next-line:no-console
       console.error(error);
       this.setState({
         requestingERC20Info: false
