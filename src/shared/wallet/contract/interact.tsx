@@ -26,7 +26,6 @@ import {
 } from "./cards";
 import { ContractLayout } from "./contract-layout";
 
-// const { TextArea } = Input;
 const { Option } = Select;
 
 export class Interact extends Component<{ address: string }> {
