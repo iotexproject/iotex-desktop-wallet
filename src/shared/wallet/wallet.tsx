@@ -6,8 +6,8 @@ import { Account } from "iotex-antenna/lib/account/account";
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
-import React from "react";
 import { PureComponent } from "react";
+import React from "react";
 import { Route, Switch, withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import routes from "../common/routes";
@@ -21,6 +21,7 @@ import { Interact } from "./contract/interact";
 import { Vote } from "./contract/vote";
 import NewWallet from "./new-wallet";
 import ERC20Transfer from "./transfer/erc20-transfer";
+import { Sign } from "./sign";
 import Transfer from "./transfer/transfer";
 import UnlockWallet from "./unlock-wallet";
 
@@ -44,6 +45,8 @@ export const FormItemLabel = styled("label", {
   fontWeight: "bold"
 });
 
+const ENABLE_SIGN = false;
+
 class WalletComponent extends PureComponent<Props, State> {
   public state: State = {
     wallet: null,
@@ -62,17 +65,19 @@ class WalletComponent extends PureComponent<Props, State> {
 
   public renderTabs = ({ address }: { address: string }) => {
     const { location } = this.props;
-    let defaultActiveKey = `/wallet/transfer`;
+    let activeKey = `/wallet/transfer`;
     if (location.pathname.match(/vote/)) {
-      defaultActiveKey = `/wallet/vote`;
+      activeKey = `/wallet/vote`;
     } else if (location.pathname.match(/smart-contract/)) {
-      defaultActiveKey = `/wallet/smart-contract`;
+      activeKey = `/wallet/smart-contract`;
     } else if (location.pathname.match(/erc20/i)) {
-      defaultActiveKey = `/wallet/erc20`;
+      activeKey = `/wallet/erc20`;
+    } else if (location.pathname.match(/sign/)) {
+      activeKey = `/wallet/sign`;
     }
     return (
       <div>
-        <Tabs activeKey={defaultActiveKey} onTabClick={this.onTabChange}>
+        <Tabs activeKey={activeKey} onTabClick={this.onTabChange}>
           <Tabs.TabPane
             key={`/wallet/transfer`}
             tab={t("wallet.tab.transfer", {
@@ -81,9 +86,11 @@ class WalletComponent extends PureComponent<Props, State> {
           >
             <Transfer address={address} />
           </Tabs.TabPane>
+
           <Tabs.TabPane key={`/wallet/erc20`} tab={t("wallet.tab.erc20")}>
             <ERC20Transfer address={address} />
           </Tabs.TabPane>
+
           <Tabs.TabPane key={`/wallet/vote`} tab={t("wallet.tab.vote")}>
             <Vote />
           </Tabs.TabPane>
@@ -108,6 +115,12 @@ class WalletComponent extends PureComponent<Props, State> {
               />
             </Switch>
           </Tabs.TabPane>
+
+          {ENABLE_SIGN && (
+            <Tabs.TabPane key={`/wallet/sign`} tab={t("wallet.tab.sign")}>
+              <Sign />
+            </Tabs.TabPane>
+          )}
         </Tabs>
       </div>
     );

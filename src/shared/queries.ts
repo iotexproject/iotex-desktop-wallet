@@ -384,3 +384,11 @@ export const GET_EPOCH_META = gql`
     }
   }
 `;
+
+export const ADD_SUBSCRIPTION = gql`
+  mutation addSubscription($email: String!) {
+    addSubscription(email: $email) {
+      isSubscribeSuccess
+    }
+  }
+`;

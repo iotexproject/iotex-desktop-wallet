@@ -335,6 +335,8 @@ input.error.keystore.failed_to_derive: Key derivation failed. Possibly wrong pas
 footer.policy: Team of Use & Privacy Policy.
 footer.enter_email: Enter email for Iotex updates!
 footer.subscribe: Subscribe
+footer.subscribe.success: Subscribe success!
+footer.subscribe.failed: Subscribe fail, please try again later!
 home.blocklist.ofActions: of actions
 signin_modal.wallet: IoTeX Wallet
 signin_modal.sign_in: Sign In with IoTeX Wallet
