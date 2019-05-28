@@ -119,12 +119,16 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
     });
   };
 
-  public transferForm = () => {
+  public renderTransferForm = () => {
+    const { erc20Info } = this.state;
+    if (!erc20Info || !erc20Info.balance.isGreaterThan(0)) {
+      return null;
+    }
+    const { symbol = "" } = erc20Info || {};
     const { form } = this.props;
     const { getFieldDecorator } = form;
     const { sending } = this.state;
-    const { erc20Info } = this.state;
-    const { symbol = "" } = erc20Info || {};
+
     return (
       <>
         {" "}
@@ -161,9 +165,15 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
     const erc20Address = form.getFieldValue("erc20Address");
     const erc20 = ERC20.create(address, getAntenna().iotx);
     try {
-      const balance = await erc20.balanceOf(erc20Address, erc20Address);
-      const name = await erc20.name(erc20Address);
-      const symbol = await erc20.symbol(erc20Address);
+      const [balance, name, symbol] = await Promise.all<
+        BigNumber,
+        string,
+        string
+      >([
+        erc20.balanceOf(erc20Address, erc20Address),
+        erc20.name(erc20Address),
+        erc20.symbol(erc20Address)
+      ]);
       this.setState({
         requestingERC20Info: false,
         erc20Address,
@@ -174,6 +184,8 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
         }
       });
     } catch (error) {
+      // @ts-ignore
+      console.error(error);
       this.setState({
         requestingERC20Info: false
       });
@@ -194,7 +206,7 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
     );
   };
 
-  public erc20AddressForm = () => {
+  public renderErc20AddressForm = () => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
     const { requestingERC20Info } = this.state;
@@ -226,17 +238,16 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
     );
   };
 
-  public input = () => {
-    const { erc20Info } = this.state;
+  public renderInputForm = () => {
     return (
       <Form layout="vertical">
-        {this.erc20AddressForm()}
-        {erc20Info && erc20Info.balance.isGreaterThan(0) && this.transferForm()}
+        {this.renderErc20AddressForm()}
+        {this.renderTransferForm()}
       </Form>
     );
   };
 
-  public sendNewIOTX: JSX.Element = (
+  public renderSendNewIOTXButton: JSX.Element = (
     <Button
       onClick={() => {
         this.setState({
@@ -290,7 +301,12 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
 
     if (broadcast) {
       if (broadcast.success) {
-        return <BroadcastSuccess txHash={txHash} action={this.sendNewIOTX} />;
+        return (
+          <BroadcastSuccess
+            txHash={txHash}
+            action={this.renderSendNewIOTXButton}
+          />
+        );
       }
       return (
         <BroadcastFailure
@@ -298,7 +314,7 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
             token: t("account.testnet.token")
           })}
           errorMessage={""}
-          action={this.sendNewIOTX}
+          action={this.renderSendNewIOTXButton}
         />
       );
     }
@@ -311,7 +327,7 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
         <PageTitle>
           <Icon type="wallet" /> {t("wallet.erc20.title")}
         </PageTitle>
-        {this.input()}
+        {this.renderInputForm()}
         {this.confirmTransfer()}
       </div>
     );
