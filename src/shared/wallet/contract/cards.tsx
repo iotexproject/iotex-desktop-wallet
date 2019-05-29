@@ -14,7 +14,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Flex } from "../../common/flex";
 import { formItemLayout } from "../../common/form-item-layout";
-import { rulesMap } from "../../common/rules";
+import { rules, rulesMap } from "../../common/rules";
 import { colors } from "../../common/styles/style-color";
 import { inputStyle } from "../wallet";
 
@@ -74,7 +74,8 @@ export const CardFunction = ({
 
 export function AbiFormInputItem(
   form: WrappedFormUtils,
-  initialValue?: string
+  initialValue?: string,
+  onValidABI?: Function
 ): JSX.Element {
   const { getFieldDecorator } = form;
   return (
@@ -84,7 +85,29 @@ export function AbiFormInputItem(
     >
       {getFieldDecorator("abi", {
         initialValue: initialValue || "",
-        rules: rulesMap.abi
+        rules: [
+          rules.required,
+          {
+            validator: (_, value, callback) => {
+              if (!value) {
+                callback();
+              }
+              try {
+                const abi = JSON.parse(value);
+                if (abi instanceof Array && abi.length) {
+                  callback();
+                  if (onValidABI) {
+                    onValidABI(abi);
+                  }
+                } else {
+                  callback(t("wallet.interact.invalidABI"));
+                }
+              } catch (error) {
+                callback(error.message);
+              }
+            }
+          }
+        ]
       })(
         <TextArea
           rows={4}
