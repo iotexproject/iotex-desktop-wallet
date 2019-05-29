@@ -212,17 +212,17 @@ class HomeComponent extends Component<Props, State> {
           </Layout.Content>
           <Layout.Content tagName={"main"} style={{ marginBottom: "15px" }}>
             <Row>
-              <Col xs={24} sm={24} md={20} lg={21}>
+              <Col xs={24} sm={24} md={19} lg={20} xl={20} xxl={21}>
                 <div style={{ backgroundColor: "#fff" }}>
                   <BlockProducers
                     apolloClient={webBpApolloClient}
-                    height="1300px"
+                    height="750px"
                   />
                 </div>
               </Col>
-              <Col xs={0} sm={0} md={4} lg={3}>
+              <Col xs={0} sm={0} md={5} lg={4} xl={4} xxl={3}>
                 {/** Don't show block list on small devices */}
-                <BlockList />
+                <BlockList height="836px" />
               </Col>
             </Row>
           </Layout.Content>
