@@ -25,7 +25,6 @@ type ActionCore {
   gasLimit: BigNumber!
   gasPrice: String!
   transfer: Transfer
-  vote: Vote
   execution: Execution
   startSubChain: StartSubChain
   stopSubChain: StopSubChain
@@ -54,7 +53,6 @@ input ActionCoreInput {
   gasLimit: BigNumber!
   gasPrice: String!
   transfer: TransferInput
-  vote: VoteInput
   execution: ExecutionInput
   startSubChain: StartSubChainInput
   stopSubChain: StopSubChainInput
@@ -508,7 +506,10 @@ type Query {
   ): GetActionsResponse!
 
   # read contract
-  readContract(action: ActionInput!): ReadContractResponse!
+  readContract(
+    execution: ExecutionInput!
+    callerAddress: String!
+  ): ReadContractResponse!
 
   # sendAction
   sendAction(action: ActionInput!): SendActionResponse!
@@ -664,14 +665,4 @@ input TransferInput {
 type VersionInfo {
   explorerVersion: String!
   iotexCoreVersion: String
-}
-
-type Vote {
-  timestamp: Timestamp!
-  voteeAddress: String!
-}
-
-input VoteInput {
-  timestamp: TimestampInput!
-  voteeAddress: String!
 }
