@@ -74,7 +74,8 @@ export const CardFunction = ({
 
 export function AbiFormInputItem(
   form: WrappedFormUtils,
-  initialValue?: string
+  initialValue?: string,
+  onChange?: React.ChangeEventHandler
 ): JSX.Element {
   const { getFieldDecorator } = form;
   return (
@@ -90,6 +91,7 @@ export function AbiFormInputItem(
           rows={4}
           style={inputStyle}
           placeholder={t("wallet.interact.abiTemplate")}
+          onChange={onChange}
         />
       )}
     </Form.Item>

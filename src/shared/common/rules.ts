@@ -45,7 +45,21 @@ export const rules: Rules = {
     }
   },
   abi: {
-    message: t("wallet.interact.invalidABI")
+    validator: (_, value, callback) => {
+      if (!value) {
+        callback();
+      }
+      try {
+        const abi = JSON.parse(value);
+        if (abi instanceof Array && abi.length) {
+          callback();
+        } else {
+          callback(t("wallet.interact.invalidABI"));
+        }
+      } catch (error) {
+        callback(error.message);
+      }
+    }
   },
   addressLength: {
     validator: (_, value, callback) => {
