@@ -21,6 +21,7 @@ import { Interact } from "./contract/interact";
 import { Vote } from "./contract/vote";
 import NewWallet from "./new-wallet";
 import { Sign } from "./sign";
+import ERC20Transfer from "./transfer/erc20-transfer";
 import Transfer from "./transfer/transfer";
 import UnlockWallet from "./unlock-wallet";
 
@@ -69,6 +70,8 @@ class WalletComponent extends PureComponent<Props, State> {
       activeKey = `/wallet/vote`;
     } else if (location.pathname.match(/smart-contract/)) {
       activeKey = `/wallet/smart-contract`;
+    } else if (location.pathname.match(/erc20/i)) {
+      activeKey = `/wallet/erc20`;
     } else if (location.pathname.match(/sign/)) {
       activeKey = `/wallet/sign`;
     }
@@ -82,6 +85,10 @@ class WalletComponent extends PureComponent<Props, State> {
             })}
           >
             <Transfer address={address} />
+          </Tabs.TabPane>
+
+          <Tabs.TabPane key={`/wallet/erc20`} tab={t("wallet.tab.erc20")}>
+            <ERC20Transfer address={address} />
           </Tabs.TabPane>
 
           <Tabs.TabPane key={`/wallet/vote`} tab={t("wallet.tab.vote")}>

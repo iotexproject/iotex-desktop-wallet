@@ -194,10 +194,12 @@ export function GasLimitFormInputItem({
 
 export function AmountFormInputItem({
   form,
-  initialValue
+  initialValue,
+  symbol = "IOTX"
 }: {
   form: WrappedFormUtils;
   initialValue?: number;
+  symbol?: string;
 }): JSX.Element {
   const { getFieldDecorator } = form;
   return (
@@ -212,7 +214,7 @@ export function AmountFormInputItem({
         <Input
           className="form-input"
           placeholder="1"
-          addonAfter="IOTX"
+          addonAfter={symbol}
           name="amount"
         />
       )}
