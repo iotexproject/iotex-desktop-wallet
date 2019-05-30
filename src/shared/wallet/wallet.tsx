@@ -20,8 +20,8 @@ import { DeployPreloadHeader } from "./contract/deploy";
 import { Interact } from "./contract/interact";
 import { Vote } from "./contract/vote";
 import NewWallet from "./new-wallet";
-import ERC20Transfer from "./transfer/erc20-transfer";
 import { Sign } from "./sign";
+import ERC20Transfer from "./transfer/erc20-transfer";
 import Transfer from "./transfer/transfer";
 import UnlockWallet from "./unlock-wallet";
 

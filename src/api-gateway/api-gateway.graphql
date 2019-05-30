@@ -666,13 +666,3 @@ type VersionInfo {
   explorerVersion: String!
   iotexCoreVersion: String
 }
-
-type Vote {
-  timestamp: Timestamp!
-  voteeAddress: String!
-}
-
-input VoteInput {
-  timestamp: TimestampInput!
-  voteeAddress: String!
-}
