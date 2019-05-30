@@ -14,6 +14,13 @@ import { GET_BLOCK_METAS, GET_LATEST_HEIGHT } from "../queries";
 
 const BLOCK_COUNT = 10;
 
+const SLIDE_ANIMS = [
+  { transition: "transform 0s ease-out", transform: `translateY(0)` },
+  { transition: "transform 0.45s ease-out", transform: `translateY(140%)` },
+  { transition: "transform 0s ease-out", transform: `translateY(-140%)` },
+  { transition: "transform 0.45s ease-in", transform: `translateY(0)` }
+];
+
 export interface IBlockMetaObject {
   height: number;
   producerAddress: string;
@@ -21,28 +28,40 @@ export interface IBlockMetaObject {
   timestamp: { seconds: number; nanos: number };
 }
 
+interface IBlockCardState {
+  block: IBlockMetaObject | undefined;
+  step: number;
+}
+
 export const BlockCard = (props: {
   index: number;
   block: IBlockMetaObject | undefined;
 }): JSX.Element => {
+  const [state, setState] = useState<IBlockCardState>({
+    block: undefined,
+    step: 0
+  });
   const {
     height = 0,
     producerAddress = "-",
     numActions = 0,
     timestamp = { seconds: Date.now() / 1000, nanos: 0 }
-  } = props.block || {};
-  const [state, setState] = useState({
-    count: 0,
-    height: 0
-  });
-  const rotateY = state.count * 360;
-  if (height !== state.height) {
-    setTimeout(() => {
-      const count =
-        state.count + (document.visibilityState === "hidden" ? 0 : 1);
-      setState({ height, count });
-    }, 100);
+  } = state.block || {};
+  const anim = SLIDE_ANIMS[state.step || 0];
+  const setStateAt = (t: number, s: IBlockCardState) =>
+    setTimeout(() => setState(s), t);
+
+  if (state.step === 0 && props.block && props.block.height !== height) {
+    if (props.index !== 0 || !state.block) {
+      setState({ block: props.block, step: 0 });
+    } else {
+      setStateAt(100, { block: state.block, step: 1 });
+      setStateAt(650, { block: state.block, step: 2 });
+      setStateAt(750, { block: props.block, step: 3 });
+      setStateAt(1250, { block: props.block, step: 0 });
+    }
   }
+
   return (
     <SpinPreloader spinning={!props.block}>
       <Card
@@ -51,14 +70,11 @@ export const BlockCard = (props: {
           background: "transparent",
           color: props.index ? colors.black : colors.white,
           borderRadius: 8,
-          transition: "transform 1.8s ease-out",
-          transitionDelay: `${props.index * 0.3}s`,
-          transformStyle: "preserve-3d",
-          transform: `rotateY(${rotateY}deg)`,
           backgroundSize: "cover",
           backgroundImage: `url(${assetURL(
             props.index > 0 ? "/block_old.png" : "/block_new.png"
-          )}`
+          )}`,
+          overflow: "hidden"
         }}
         bodyStyle={{
           padding: "1rem 0"
@@ -66,7 +82,8 @@ export const BlockCard = (props: {
       >
         <div
           style={{
-            opacity: props.block ? 1 : 0
+            opacity: props.block ? 1 : 0,
+            ...anim
           }}
         >
           <Row type="flex" justify="start" align="middle">
@@ -167,20 +184,23 @@ export const BlockListByIndex = (props: {
   );
 };
 
-export const BlockList = (): JSX.Element => {
+export const BlockList = (props: { height: string }): JSX.Element => {
   return (
     <div
       style={{
+        height: props.height,
+        overflow: "hidden",
         width: "100%",
-        height: "calc(100vh)",
-        overflow: "hidden"
+        paddingLeft: 20,
+        paddingBottom: 30
       }}
     >
       <div
         style={{
-          height: "calc(100vh - 30px)",
-          marginLeft: "1rem",
-          width: "100%"
+          height: props.height,
+          width: "calc(100% + 110px)",
+          paddingRight: 100,
+          paddingBottom: 20
         }}
         className="no-scrollbar"
       >
@@ -230,18 +250,19 @@ export const BlockList = (): JSX.Element => {
       <div
         style={{
           pointerEvents: "none",
-          height: 50,
-          marginTop: -50,
+          height: 60,
+          marginTop: -60,
           position: "relative",
-          marginLeft: "1rem",
           background:
-            "linear-gradient(to bottom, rgba(240,242,245,0) 0%,rgba(240,242,245,1) 100%)"
+            "linear-gradient(to bottom, rgba(240,242,245,0) 0%, rgba(240,242,245,1) 50%, rgba(240,242,245,1) 100%)"
         }}
       />
       <div
         style={{
           textAlign: "center",
-          marginLeft: "1rem"
+          position: "relative",
+          marginTop: -20,
+          backgroundColor: colors.background
         }}
       >
         <Link style={{ color: colors.black95, fontWeight: 300 }} to="/block">

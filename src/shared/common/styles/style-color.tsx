@@ -29,6 +29,6 @@ export const colors = {
   deltaUp: "#00b4a0",
   backHome: "#00958E",
   topbarGray: "#AAAFC1",
-
+  background: "#f0f2f5",
   menuHover: "#51515a"
 };
