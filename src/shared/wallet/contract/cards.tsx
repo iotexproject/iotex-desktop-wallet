@@ -14,7 +14,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Flex } from "../../common/flex";
 import { formItemLayout } from "../../common/form-item-layout";
-import { rules, rulesMap } from "../../common/rules";
+import { rulesMap } from "../../common/rules";
 import { colors } from "../../common/styles/style-color";
 import { inputStyle } from "../wallet";
 
