@@ -75,7 +75,7 @@ export const CardFunction = ({
 export function AbiFormInputItem(
   form: WrappedFormUtils,
   initialValue?: string,
-  onValidABI?: Function
+  onChange?: React.ChangeEventHandler
 ): JSX.Element {
   const { getFieldDecorator } = form;
   return (
@@ -85,34 +85,13 @@ export function AbiFormInputItem(
     >
       {getFieldDecorator("abi", {
         initialValue: initialValue || "",
-        rules: [
-          rules.required,
-          {
-            validator: (_, value, callback) => {
-              if (!value) {
-                callback();
-              }
-              try {
-                const abi = JSON.parse(value);
-                if (abi instanceof Array && abi.length) {
-                  callback();
-                  if (onValidABI) {
-                    onValidABI(abi);
-                  }
-                } else {
-                  callback(t("wallet.interact.invalidABI"));
-                }
-              } catch (error) {
-                callback(error.message);
-              }
-            }
-          }
-        ]
+        rules: rulesMap.abi
       })(
         <TextArea
           rows={4}
           style={inputStyle}
           placeholder={t("wallet.interact.abiTemplate")}
+          onChange={onChange}
         />
       )}
     </Form.Item>

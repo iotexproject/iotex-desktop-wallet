@@ -375,14 +375,25 @@ class DeployFormInner extends Component<DeployProps, State> {
     );
   }
 
-  public onValidABI = (abi: Array<any>) => {
-    const ctor = abi.find(a => a.type === "constructor");
-    if (!ctor) {
-      this.setState({ constructorArgs: [] });
-      return;
-    }
-    const { inputs } = ctor;
-    this.setState({ constructorArgs: [...inputs] });
+  public onABIChange = () => {
+    const { form } = this.props;
+    setTimeout(() => {
+      form.validateFields(["abi"], (error, { abi }) => {
+        this.setState({ constructorArgs: [] });
+        if (error) {
+          return;
+        }
+        const jsonABI = JSON.parse(abi);
+        const ctor = jsonABI.find(
+          (a: { type: string }) => a.type === "constructor"
+        );
+        if (!ctor) {
+          return;
+        }
+        const { inputs } = ctor;
+        this.setState({ constructorArgs: [...inputs] });
+      });
+    }, 1);
   };
 
   public renderConstructorArgsForm(): JSX.Element | null {
@@ -445,7 +456,7 @@ class DeployFormInner extends Component<DeployProps, State> {
           )}
         </Form.Item>
         {this.renderGenerateAbiButton()}
-        {AbiFormInputItem(form, "", this.onValidABI)}
+        {AbiFormInputItem(form, "", this.onABIChange)}
         <Form.Item
           {...formItemLayout}
           label={<FormItemLabel>{t("wallet.input.byteCode")}</FormItemLabel>}
