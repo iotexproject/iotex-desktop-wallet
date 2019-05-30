@@ -305,15 +305,6 @@ export class Transfer implements ITransfer {
   public payload: Buffer | string;
 }
 
-@InputType("VoteInput")
-@ObjectType()
-export class Vote {
-  @Field(_ => Timestamp)
-  public timestamp: Timestamp;
-  @Field(_ => String)
-  public voteeAddress: string;
-}
-
 @InputType("ExecutionInput")
 @ObjectType()
 export class Execution implements IExecution {
