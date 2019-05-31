@@ -86,7 +86,7 @@ export class ERC20 implements IERC20 {
   }
 
   public async decimals(callerAddress: string): Promise<BigNumber> {
-    const result = await this.readMethod("totalSupply", callerAddress);
+    const result = await this.readMethod("decimals", callerAddress);
     return new BigNumber(result, 16);
   }
 
