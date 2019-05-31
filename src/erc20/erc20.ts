@@ -12,7 +12,7 @@ export interface IERC20 {
 
   symbol(callerAddress: string): Promise<string>;
 
-  decimals(callerAddress: string): Promise<Number>;
+  decimals(callerAddress: string): Promise<BigNumber>;
 
   totalSupply(callerAddress: string): Promise<BigNumber>;
 
@@ -85,13 +85,9 @@ export class ERC20 implements IERC20 {
     return "";
   }
 
-  public async decimals(callerAddress: string): Promise<Number> {
-    const result = await this.readMethod("decimals", callerAddress);
-    const data = ethereumjs.rawDecode(["uint8"], Buffer.from(result, "hex"));
-    if (data.length > 0) {
-      return data[0];
-    }
-    return 0;
+  public async decimals(callerAddress: string): Promise<BigNumber> {
+    const result = await this.readMethod("totalSupply", callerAddress);
+    return new BigNumber(result, 16);
   }
 
   public async totalSupply(callerAddress: string): Promise<BigNumber> {
