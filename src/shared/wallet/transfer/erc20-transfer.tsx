@@ -1,4 +1,4 @@
-import { Statistic } from "antd";
+import { Statistic, notification } from "antd";
 import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Col from "antd/lib/grid/col";
@@ -41,6 +41,7 @@ type ERC20Info = {
   name: string;
   balance: BigNumber;
   symbol: string;
+  decimals: BigNumber;
 };
 
 type State = {
@@ -163,29 +164,41 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
     });
     const { form, address } = this.props;
     const erc20Address = form.getFieldValue("erc20Address");
-    const erc20 = ERC20.create(address, getAntenna().iotx);
+    const erc20 = ERC20.create(erc20Address, getAntenna().iotx);
     try {
-      const [balance, name, symbol] = await Promise.all<
+      const [balance, name, symbol, decimals] = await Promise.all<
         BigNumber,
         string,
-        string
+        string,
+        BigNumber
       >([
-        erc20.balanceOf(erc20Address, erc20Address),
-        erc20.name(erc20Address),
-        erc20.symbol(erc20Address)
+        erc20.balanceOf(address, address),
+        erc20.name(address),
+        erc20.symbol(address),
+        erc20.decimals(address)
       ]);
+
       this.setState({
         requestingERC20Info: false,
         erc20Address,
         erc20Info: {
           name,
           balance,
-          symbol
+          symbol,
+          decimals
         }
       });
     } catch (error) {
       // tslint:disable-next-line:no-console
-      console.error(error);
+      console.error(`
+        erc20.balanceOf("${address}", "${address}"),
+        erc20.name("${address}"),
+        erc20.symbol("${address}")
+        ${error}
+      `);
+      notification.error({
+        message: `${error}`
+      });
       this.setState({
         requestingERC20Info: false
       });
@@ -197,10 +210,14 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
     if (!erc20Info) {
       return null;
     }
+    const { balance, decimals } = erc20Info;
+    const balanceValue = balance
+      .dividedBy(10 ** decimals.toNumber())
+      .toString();
     return (
       <Statistic
         title={t("wallet.input.balance")}
-        value={erc20Info.balance.toString(10)}
+        value={balanceValue}
         style={{ marginBottom: 20 }}
       />
     );
