@@ -199,7 +199,7 @@ export const BlockList = (props: { height: string }): JSX.Element => {
         style={{
           height: props.height,
           width: "calc(100% + 110px)",
-          paddingRight: 100,
+          paddingRight: 108,
           paddingBottom: 20
         }}
         className="no-scrollbar"
