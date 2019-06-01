@@ -213,7 +213,7 @@ class HomeComponent extends Component<Props, State> {
           <Layout.Content tagName={"main"} style={{ marginBottom: "15px" }}>
             <Row>
               <Col xs={24} sm={24} md={19} lg={20} xl={20} xxl={21}>
-                <div style={{ backgroundColor: "#fff" }}>
+                <div style={{ backgroundColor: "#fff", borderRadius: 5 }}>
                   <BlockProducers
                     apolloClient={webBpApolloClient}
                     height="750px"
