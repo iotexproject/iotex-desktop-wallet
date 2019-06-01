@@ -320,6 +320,7 @@ abi.input: Arguments
 abi.return: Return
 wallet.abi.read: Read contract
 wallet.abi.write: Write contract
+wallet.bytecode.copy: Copy ByteCode
 new-wallet.download: Download Keystore File (UTC / JSON)
 new-wallet.save_keystore: '<div><p class="wallet-title" style="display: inline-block;">Save your</p><p class="private-key">keystore file</p></div>'
 wallet.input.password: Password
