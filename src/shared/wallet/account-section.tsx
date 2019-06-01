@@ -156,11 +156,7 @@ class AccountSection extends React.Component<Props, State> {
     );
   }
 
-  public wallet = (
-    wallet: Account,
-    accountMeta: AccountMeta,
-    setWallet: Function
-  ) => {
+  public wallet = (wallet: Account, accountMeta: AccountMeta) => {
     return (
       <div className="wallet">
         <div className="wallet-margin">
@@ -215,11 +211,11 @@ class AccountSection extends React.Component<Props, State> {
   };
 
   public render(): JSX.Element {
-    const { wallet, createNew, setWallet } = this.props;
+    const { wallet, createNew } = this.props;
     const { accountMeta } = this.state;
 
-    if (wallet && accountMeta && setWallet) {
-      return this.wallet(wallet, accountMeta, setWallet);
+    if (wallet && accountMeta) {
+      return this.wallet(wallet, accountMeta);
     }
     if (createNew) {
       return this.newWallet();
