@@ -1,4 +1,6 @@
 // @ts-ignore
+import { Form, Input, Modal } from "antd";
+import { WrappedFormUtils } from "antd/lib/form/Form";
 import Icon from "antd/lib/icon";
 // @ts-ignore
 import window from "global/window";
@@ -12,15 +14,13 @@ import React from "react";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
 import { assetURL } from "../common/asset-url";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
-import { onElectronClick } from "../common/on-electron-click";
-import { TooltipButton } from "../common/tooltip-button";
-import { getAntenna } from "./get-antenna";
-import { Modal, Form, Input } from "antd";
-import { WrappedFormUtils } from "antd/lib/form/Form";
-import { FormItemLabel } from "./contract/cards";
 import { formItemLayout } from "../common/form-item-layout";
+import { onElectronClick } from "../common/on-electron-click";
 import { rulesMap } from "../common/rules";
 import { colors } from "../common/styles/style-color";
+import { TooltipButton } from "../common/tooltip-button";
+import { FormItemLabel } from "./contract/cards";
+import { getAntenna } from "./get-antenna";
 
 export interface Props {
   form: WrappedFormUtils;

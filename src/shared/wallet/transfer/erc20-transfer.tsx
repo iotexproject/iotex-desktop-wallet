@@ -21,6 +21,7 @@ import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { PageTitle } from "../../common/page-title";
 import { rulesMap } from "../../common/rules";
+import { colors } from "../../common/styles/style-color";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import {
   AmountFormInputItem,
@@ -29,7 +30,6 @@ import {
 } from "../contract/cards";
 import { getAntenna } from "../get-antenna";
 import { FormItemLabel, inputStyle } from "../wallet";
-import { colors } from "../../common/styles/style-color";
 
 type Props = {
   form: WrappedFormUtils;
