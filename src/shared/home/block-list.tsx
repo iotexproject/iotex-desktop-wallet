@@ -63,63 +63,65 @@ export const BlockCard = (props: {
   }
 
   return (
-    <SpinPreloader spinning={!props.block}>
-      <Card
-        style={{
-          marginTop: "0.5rem",
-          background: "transparent",
-          color: props.index ? colors.black : colors.white,
-          borderRadius: 8,
-          backgroundSize: "cover",
-          backgroundImage: `url(${assetURL(
-            props.index > 0 ? "/block_old.png" : "/block_new.png"
-          )}`,
-          overflow: "hidden"
-        }}
-        bodyStyle={{
-          padding: "1rem 0"
-        }}
-      >
-        <div
+    <div style={{ padding: 5 }}>
+      <SpinPreloader spinning={!props.block}>
+        <Card
           style={{
-            opacity: props.block ? 1 : 0,
-            ...anim
+            marginTop: "0.5rem",
+            background: "transparent",
+            color: props.index ? colors.black : colors.white,
+            borderRadius: 5,
+            backgroundSize: "cover",
+            backgroundImage: `url(${assetURL(
+              props.index > 0 ? "/block_old.png" : "/block_new.png"
+            )}`,
+            overflow: "hidden"
+          }}
+          bodyStyle={{
+            padding: "1rem 0"
           }}
         >
-          <Row type="flex" justify="start" align="middle">
-            <Col
-              style={{
-                width: "0.5rem",
-                height: "0.5rem",
-                backgroundColor: props.index ? colors.white : colors.primary,
-                marginRight: "0.5rem"
-              }}
-            />
-            <Col>{`# ${height}`}</Col>
-          </Row>
           <div
             style={{
-              padding: "0 1rem",
-              fontSize: "12px",
-              fontWeight: 300,
-              marginTop: "0.5rem",
-              lineHeight: 1.8,
-              whiteSpace: "nowrap"
+              opacity: props.block ? 1 : 0,
+              ...anim
             }}
           >
-            <FlexLink
-              path={`/address/${producerAddress}`}
-              text={`${producerAddress}`.substr(0, 8)}
-            />
-            <div>{`${translateFn(timestamp)}`}</div>
-            <Row type="flex" justify="space-between">
-              <Col>{`${numActions}`}</Col>
-              <Col>{t("home.blocklist.ofActions")}</Col>
+            <Row type="flex" justify="start" align="middle">
+              <Col
+                style={{
+                  width: "0.5rem",
+                  height: "0.5rem",
+                  backgroundColor: props.index ? colors.white : colors.primary,
+                  marginRight: "0.5rem"
+                }}
+              />
+              <Col>{`# ${height}`}</Col>
             </Row>
+            <div
+              style={{
+                padding: "0 1rem",
+                fontSize: "12px",
+                fontWeight: 300,
+                marginTop: "0.5rem",
+                lineHeight: 1.8,
+                whiteSpace: "nowrap"
+              }}
+            >
+              <FlexLink
+                path={`/address/${producerAddress}`}
+                text={`${producerAddress}`.substr(0, 8)}
+              />
+              <div>{`${translateFn(timestamp)}`}</div>
+              <Row type="flex" justify="space-between">
+                <Col>{`${numActions}`}</Col>
+                <Col>{t("home.blocklist.ofActions")}</Col>
+              </Row>
+            </div>
           </div>
-        </div>
-      </Card>
-    </SpinPreloader>
+        </Card>
+      </SpinPreloader>
+    </div>
   );
 };
 
@@ -191,16 +193,18 @@ export const BlockList = (props: { height: string }): JSX.Element => {
         height: props.height,
         overflow: "hidden",
         width: "100%",
-        paddingLeft: 20,
+        paddingLeft: 5,
         paddingBottom: 30
       }}
     >
       <div
         style={{
           height: props.height,
-          width: "calc(100% + 110px)",
-          paddingRight: 100,
-          paddingBottom: 20
+          width: "calc(100% + 1000px)",
+          paddingLeft: 1000,
+          marginLeft: -1000,
+          paddingBottom: 10,
+          direction: "rtl"
         }}
         className="no-scrollbar"
       >
@@ -218,33 +222,35 @@ export const BlockList = (props: { height: string }): JSX.Element => {
             />
           ))}
         </Row>
-        <Query
-          query={GET_LATEST_HEIGHT}
-          pollInterval={10000}
-          fetchPolicy="network-only"
-          ssr={false}
-        >
-          {({
-            error,
-            loading,
-            data
-          }: QueryResult<{
-            chainMeta: { height: string };
-          }>): JSX.Element | null => {
-            if (
-              error ||
-              loading ||
-              !data ||
-              !data.chainMeta ||
-              !data.chainMeta.height
-            ) {
-              return <BlockListPlaceHolder count={BLOCK_COUNT} />;
-            }
-            const height = parseInt(`${data.chainMeta.height}`, 10);
-            const start = Math.max(1, height - BLOCK_COUNT);
-            return <BlockListByIndex count={BLOCK_COUNT} start={start} />;
-          }}
-        </Query>
+        <div style={{ direction: "ltr" }}>
+          <Query
+            query={GET_LATEST_HEIGHT}
+            pollInterval={10000}
+            fetchPolicy="network-only"
+            ssr={false}
+          >
+            {({
+              error,
+              loading,
+              data
+            }: QueryResult<{
+              chainMeta: { height: string };
+            }>): JSX.Element | null => {
+              if (
+                error ||
+                loading ||
+                !data ||
+                !data.chainMeta ||
+                !data.chainMeta.height
+              ) {
+                return <BlockListPlaceHolder count={BLOCK_COUNT} />;
+              }
+              const height = parseInt(`${data.chainMeta.height}`, 10);
+              const start = Math.max(1, height - BLOCK_COUNT);
+              return <BlockListByIndex count={BLOCK_COUNT} start={start} />;
+            }}
+          </Query>
+        </div>
         <div style={{ paddingBottom: 30 }} />
       </div>
       <div
