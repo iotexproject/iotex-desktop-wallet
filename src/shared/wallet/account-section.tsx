@@ -116,15 +116,13 @@ class AccountSection extends React.Component<Props, State> {
     });
   };
 
-  public handleOk = e => {
-    console.log(e);
+  public handleOk = () => {
     this.setState({
       customTokensFormVisible: false
     });
   };
 
-  public handleCancel = e => {
-    console.log(e);
+  public handleCancel = () => {
     this.setState({
       customTokensFormVisible: false
     });
