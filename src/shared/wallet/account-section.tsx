@@ -15,8 +15,15 @@ import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { onElectronClick } from "../common/on-electron-click";
 import { TooltipButton } from "../common/tooltip-button";
 import { getAntenna } from "./get-antenna";
+import { Modal, Form, Input } from "antd";
+import { WrappedFormUtils } from "antd/lib/form/Form";
+import { FormItemLabel } from "./contract/cards";
+import { formItemLayout } from "../common/form-item-layout";
+import { rulesMap } from "../common/rules";
+import { colors } from "../common/styles/style-color";
 
 export interface Props {
+  form: WrappedFormUtils;
   wallet?: Account | null;
   setWallet?: Function;
   createNew?: boolean;
@@ -24,11 +31,13 @@ export interface Props {
 
 export interface State {
   accountMeta: AccountMeta | undefined;
+  customTokensFormVisible: boolean;
 }
 
-export default class AccountSection extends React.Component<Props, State> {
+class AccountSection extends React.Component<Props, State> {
   public state: State = {
-    accountMeta: undefined
+    accountMeta: undefined,
+    customTokensFormVisible: false
   };
 
   private pollAccountInterval: number | undefined;
@@ -101,6 +110,54 @@ export default class AccountSection extends React.Component<Props, State> {
     );
   };
 
+  public showCustomTokensForm = () => {
+    this.setState({
+      customTokensFormVisible: true
+    });
+  };
+
+  public handleOk = e => {
+    console.log(e);
+    this.setState({
+      customTokensFormVisible: false
+    });
+  };
+
+  public handleCancel = e => {
+    console.log(e);
+    this.setState({
+      customTokensFormVisible: false
+    });
+  };
+
+  public renderCustomTokenForm() {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+    return (
+      <Modal
+        title={t("account.erc20.addCustom")}
+        visible={this.state.customTokensFormVisible}
+        onOk={this.handleOk}
+        onCancel={this.handleCancel}
+      >
+        <Form.Item
+          label={<FormItemLabel>{t("wallet.input.fromErc20")}</FormItemLabel>}
+          {...formItemLayout}
+        >
+          {getFieldDecorator("erc20Address", {
+            rules: rulesMap.erc20Address
+          })(
+            <Input
+              placeholder="io..."
+              style={{ width: "100%", background: colors.black10 }}
+              name="erc20Address"
+            />
+          )}
+        </Form.Item>
+      </Modal>
+    );
+  }
+
   public wallet = (
     wallet: Account,
     accountMeta: AccountMeta,
@@ -121,9 +178,9 @@ export default class AccountSection extends React.Component<Props, State> {
             </p>
             <StyleLink
               className="float-right"
-              onClick={() => setWallet && setWallet(null)}
+              onClick={() => this.showCustomTokensForm()}
             >
-              <Icon type="swap" /> {t("account.change")}
+              <Icon type="plus" /> {t("account.erc20.addCustom")}
             </StyleLink>
           </div>
           <div style={{ alignContent: "center" }}>
@@ -154,6 +211,7 @@ export default class AccountSection extends React.Component<Props, State> {
             <p>{wallet.address}</p>
           </div>
         </div>
+        {this.renderCustomTokenForm()}
       </div>
     );
   };
@@ -181,3 +239,5 @@ const StyleLink = styled("span", {
 const FloatRight = styled("span", {
   float: "right"
 });
+
+export default Form.create<AccountSection>()(AccountSection);

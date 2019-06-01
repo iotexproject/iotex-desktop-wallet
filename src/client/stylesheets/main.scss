@@ -108,16 +108,17 @@
 
 .blur-image {
   filter: blur(9px);
+  width: 100%;
 }
 
 .wallet {
   position: relative;
   border-radius: 4px;
   border: solid 1px #f0f0f0;
-  max-width: 288px;
-  height: 492px;
+  min-height: 450px;
   word-break: break-word;
-  margin-top: 40px;
+  margin: 40px;
+  overflow: hidden;
 }
 
 .wallet-title {

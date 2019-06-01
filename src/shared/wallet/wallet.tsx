@@ -146,15 +146,15 @@ class WalletComponent extends PureComponent<Props, State> {
         <DeployPreloadHeader />
         <ContentPadding>
           <div style={{ margin: "48px" }} />
-          <Row>
-            <Col md={16}>
+          <Row type="flex">
+            <Col xs={24} sm={12} md={16}>
               {wallet &&
                 this.renderTabs({
                   address: wallet.address
                 })}
               {!wallet && this.renderNoWallet()}
             </Col>
-            <Col md={6} push={2}>
+            <Col xs={24} sm={12} md={8}>
               <AccountSection
                 createNew={createNew}
                 setWallet={this.setWallet}

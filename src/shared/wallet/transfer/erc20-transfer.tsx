@@ -29,6 +29,7 @@ import {
 } from "../contract/cards";
 import { getAntenna } from "../get-antenna";
 import { FormItemLabel, inputStyle } from "../wallet";
+import { colors } from "../../common/styles/style-color";
 
 type Props = {
   form: WrappedFormUtils;
@@ -236,7 +237,11 @@ class ERC20TransferForm extends React.PureComponent<Props, State> {
           {getFieldDecorator("erc20Address", {
             rules: rulesMap.erc20Address
           })(
-            <Input placeholder="io..." style={inputStyle} name="erc20Address" />
+            <Input
+              placeholder="io..."
+              style={{ width: "100%", background: colors.black10 }}
+              name="erc20Address"
+            />
           )}
         </Form.Item>
         {this.renderERC20Info()}
