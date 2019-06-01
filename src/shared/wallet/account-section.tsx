@@ -128,7 +128,7 @@ class AccountSection extends React.Component<Props, State> {
     });
   };
 
-  public renderCustomTokenForm() {
+  public renderCustomTokenForm(): JSX.Element {
     const { form } = this.props;
     const { getFieldDecorator } = form;
     return (
