@@ -17,7 +17,7 @@ import { Reducer } from "redux";
 import JSONGlobals from "safe-json-globals/get";
 // @ts-ignore
 import { Client as StyletronClient } from "styletron-engine-atomic";
-import { apolloClient } from "../../shared/common/apollo-client";
+import { createApolloClient } from "../../shared/common/apollo-client";
 import { RootMemory } from "../../shared/common/root-memory";
 import Wallet from "../../shared/wallet/wallet";
 
@@ -45,11 +45,15 @@ export function memoryReactRender({ reducer = noopReducer, VDom }: Opts): void {
   );
 }
 
-memoryReactRender({
-  VDom: (
-    <ApolloProvider client={apolloClient}>
-      <Wallet />
-    </ApolloProvider>
-  ),
-  reducer: noopReducer
-});
+const clientRender = async () => {
+  const apolloClient = await createApolloClient();
+  memoryReactRender({
+    VDom: (
+      <ApolloProvider client={apolloClient}>
+        <Wallet />
+      </ApolloProvider>
+    ),
+    reducer: noopReducer
+  });
+};
+clientRender();
