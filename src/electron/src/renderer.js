@@ -78,7 +78,3 @@ win.document.addEventListener("DOMContentLoaded", () => {
     );
   }
 });
-
-ipcRenderer.on("query", function(event, store) {
-  win.query = store;
-});
