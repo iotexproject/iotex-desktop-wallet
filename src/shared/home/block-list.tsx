@@ -37,6 +37,29 @@ interface IBlockCardContentProps {
   block: IBlockMetaObject | undefined;
 }
 
+const BlockCardStyles: { [index: string]: CSSProperties } = {
+  card: {
+    marginTop: "0.5rem",
+    background: "transparent",
+    borderRadius: 5,
+    backgroundSize: "cover",
+    overflow: "hidden"
+  },
+  content: {
+    padding: 10,
+    fontSize: "12px",
+    fontWeight: 300,
+    lineHeight: 1.8,
+    whiteSpace: "nowrap"
+  },
+  blockLink: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    top: 0
+  }
+};
+
 export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
   const [state, setState] = useState<IBlockCardState>({
     block: undefined,
@@ -68,25 +91,15 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
       <SpinPreloader spinning={!props.block}>
         <Card
           style={{
-            marginTop: "0.5rem",
-            background: "transparent",
+            ...BlockCardStyles.card,
             color: props.index ? colors.black : colors.white,
-            borderRadius: 5,
-            backgroundSize: "cover",
             backgroundImage: `url(${assetURL(
               props.index > 0 ? "/block_old.png" : "/block_new.png"
-            )}`,
-            overflow: "hidden"
+            )}`
           }}
-          bodyStyle={{
-            padding: 0
-          }}
+          bodyStyle={{ padding: 0 }}
         >
-          <div
-            style={{
-              opacity: props.block ? 1 : 0
-            }}
-          >
+          <div style={{ opacity: props.block ? 1 : 0 }}>
             <Row
               type="flex"
               justify="start"
@@ -103,24 +116,8 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
               />
               <Col style={{ ...anim }}>{`# ${height}`}</Col>
             </Row>
-            <Link
-              to={`/block/${height}`}
-              style={{
-                width: "100%",
-                height: "100%",
-                position: "absolute",
-                top: 0
-              }}
-            />
-            <div
-              style={{
-                padding: 10,
-                fontSize: "12px",
-                fontWeight: 300,
-                lineHeight: 1.8,
-                whiteSpace: "nowrap"
-              }}
-            >
+            <Link to={`/block/${height}`} style={BlockCardStyles.blockLink} />
+            <div style={BlockCardStyles.content}>
               <Link
                 to={`/address/${producerAddress}`}
                 style={{ position: "relative" }}
