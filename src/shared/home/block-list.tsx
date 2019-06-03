@@ -1,12 +1,11 @@
 import { Card, Col, Row } from "antd";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
-import React, { useState } from "react";
+import React, { CSSProperties, useState } from "react";
 import { Query, QueryResult } from "react-apollo";
 
 import { Link } from "react-router-dom";
 import { assetURL } from "../common/asset-url";
-import { FlexLink } from "../common/flex-link";
 import { translateFn } from "../common/from-now";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
@@ -33,10 +32,12 @@ interface IBlockCardState {
   step: number;
 }
 
-export const BlockCard = (props: {
+interface IBlockCardContentProps {
   index: number;
   block: IBlockMetaObject | undefined;
-}): JSX.Element => {
+}
+
+export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
   const [state, setState] = useState<IBlockCardState>({
     block: undefined,
     step: 0
@@ -78,16 +79,20 @@ export const BlockCard = (props: {
             overflow: "hidden"
           }}
           bodyStyle={{
-            padding: "1rem 0"
+            padding: 0
           }}
         >
           <div
             style={{
-              opacity: props.block ? 1 : 0,
-              ...anim
+              opacity: props.block ? 1 : 0
             }}
           >
-            <Row type="flex" justify="start" align="middle">
+            <Row
+              type="flex"
+              justify="start"
+              align="middle"
+              style={{ paddingTop: 10, height: 32, overflow: "hidden" }}
+            >
               <Col
                 style={{
                   width: "0.5rem",
@@ -96,22 +101,32 @@ export const BlockCard = (props: {
                   marginRight: "0.5rem"
                 }}
               />
-              <Col>{`# ${height}`}</Col>
+              <Col style={{ ...anim }}>{`# ${height}`}</Col>
             </Row>
+            <Link
+              to={`/block/${height}`}
+              style={{
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                top: 0
+              }}
+            />
             <div
               style={{
-                padding: "0 1rem",
+                padding: 10,
                 fontSize: "12px",
                 fontWeight: 300,
-                marginTop: "0.5rem",
                 lineHeight: 1.8,
                 whiteSpace: "nowrap"
               }}
             >
-              <FlexLink
-                path={`/address/${producerAddress}`}
-                text={`${producerAddress}`.substr(0, 8)}
-              />
+              <Link
+                to={`/address/${producerAddress}`}
+                style={{ position: "relative" }}
+              >
+                {`${producerAddress}`.substr(0, 8)}
+              </Link>
               <div>{`${translateFn(timestamp)}`}</div>
               <Row type="flex" justify="space-between">
                 <Col>{`${numActions}`}</Col>
@@ -186,42 +201,67 @@ export const BlockListByIndex = (props: {
   );
 };
 
+const BlockListStyles: { [index: string]: CSSProperties } = {
+  root: {
+    overflow: "hidden",
+    width: "100%",
+    paddingLeft: 10,
+    paddingBottom: 30
+  },
+  content: {
+    width: "calc(100% + 1000px)",
+    paddingLeft: 1000,
+    marginLeft: -1000,
+    paddingBottom: 10,
+    direction: "rtl"
+  },
+  dot: {
+    width: 6,
+    height: 6,
+    backgroundColor: colors.black80,
+    borderRadius: 3,
+    margin: 3
+  },
+  shadowCoverBottom: {
+    pointerEvents: "none",
+    height: 60,
+    marginTop: -60,
+    position: "relative",
+    background:
+      "linear-gradient(to bottom, rgba(240,242,245,0) 0%, rgba(240,242,245,1) 50%, rgba(240,242,245,1) 100%)"
+  },
+  showMoreButton: {
+    textAlign: "center",
+    position: "relative",
+    marginTop: -20,
+    backgroundColor: colors.background
+  }
+};
+
 export const BlockList = (props: { height: string }): JSX.Element => {
   return (
     <div
       style={{
         height: props.height,
-        overflow: "hidden",
-        width: "100%",
-        paddingLeft: 5,
-        paddingBottom: 30
+        ...BlockListStyles.root
       }}
     >
+      <Row
+        type="flex"
+        justify="center"
+        style={{ padding: 10, paddingBottom: 20 }}
+      >
+        {[...Array(4)].map((_, i) => (
+          <Col key={`dot-${i}`} style={BlockListStyles.dot} />
+        ))}
+      </Row>
       <div
         style={{
-          height: props.height,
-          width: "calc(100% + 1000px)",
-          paddingLeft: 1000,
-          marginLeft: -1000,
-          paddingBottom: 10,
-          direction: "rtl"
+          height: parseInt(props.height, 10) - 50,
+          ...BlockListStyles.content
         }}
         className="no-scrollbar"
       >
-        <Row type="flex" justify="center">
-          {[...Array(4)].map((_, i) => (
-            <Col
-              key={`dot-${i}`}
-              style={{
-                width: 6,
-                height: 6,
-                backgroundColor: colors.black80,
-                borderRadius: 3,
-                margin: "0 6px 2.5rem 0"
-              }}
-            />
-          ))}
-        </Row>
         <div style={{ direction: "ltr" }}>
           <Query
             query={GET_LATEST_HEIGHT}
@@ -253,24 +293,8 @@ export const BlockList = (props: { height: string }): JSX.Element => {
         </div>
         <div style={{ paddingBottom: 30 }} />
       </div>
-      <div
-        style={{
-          pointerEvents: "none",
-          height: 60,
-          marginTop: -60,
-          position: "relative",
-          background:
-            "linear-gradient(to bottom, rgba(240,242,245,0) 0%, rgba(240,242,245,1) 50%, rgba(240,242,245,1) 100%)"
-        }}
-      />
-      <div
-        style={{
-          textAlign: "center",
-          position: "relative",
-          marginTop: -20,
-          backgroundColor: colors.background
-        }}
-      >
+      <div style={BlockListStyles.shadowCoverBottom} />
+      <div style={BlockListStyles.showMoreButton}>
         <Link style={{ color: colors.black95, fontWeight: 300 }} to="/block">
           {t("block.show_more")}
         </Link>
