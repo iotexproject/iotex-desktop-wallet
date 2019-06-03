@@ -394,7 +394,7 @@ class InteractFormInner extends Component<InteractProps, State> {
         <div>
           {
             //@ts-ignore
-            <Button type="primary" onClick={this.copyByteCode}>
+            <Button type="link" onClick={this.copyByteCode}>
               {t("wallet.bytecode.copy")}
             </Button>
           }
