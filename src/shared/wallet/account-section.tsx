@@ -14,12 +14,11 @@ import React from "react";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
 import { assetURL } from "../common/asset-url";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
-import { formItemLayout } from "../common/form-item-layout";
 import { onElectronClick } from "../common/on-electron-click";
 import { rulesMap } from "../common/rules";
 import { colors } from "../common/styles/style-color";
 import { TooltipButton } from "../common/tooltip-button";
-import { FormItemLabel } from "./contract/cards";
+import AddCustomTokensFormModal from "./add-erc20-tokens-form-modal";
 import { getAntenna } from "./get-antenna";
 
 export interface Props {
@@ -129,30 +128,11 @@ class AccountSection extends React.Component<Props, State> {
   };
 
   public renderCustomTokenForm(): JSX.Element {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     return (
-      <Modal
-        title={t("account.erc20.addCustom")}
-        visible={this.state.customTokensFormVisible}
-        onOk={this.handleOk}
-        onCancel={this.handleCancel}
-      >
-        <Form.Item
-          label={<FormItemLabel>{t("wallet.input.fromErc20")}</FormItemLabel>}
-          {...formItemLayout}
-        >
-          {getFieldDecorator("erc20Address", {
-            rules: rulesMap.erc20Address
-          })(
-            <Input
-              placeholder="io..."
-              style={{ width: "100%", background: colors.black10 }}
-              name="erc20Address"
-            />
-          )}
-        </Form.Item>
-      </Modal>
+      <AddCustomTokensFormModal
+        onOK={addr => console.log(addr)}
+        onCancel={console.log}
+      />
     );
   }
 
