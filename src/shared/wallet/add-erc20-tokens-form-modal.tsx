@@ -9,29 +9,41 @@ import { colors } from "../common/styles/style-color";
 export interface IAddCustomTokensFormModalProps {
   onOK(erc20Address: string): void;
   onCancel(): void;
+  visible?: boolean;
   form: WrappedFormUtils;
 }
 class AddCustomTokensFormModal extends React.PureComponent<
   IAddCustomTokensFormModalProps
 > {
-  public handleOk = () => {
+  public state: { confirming: boolean } = {
+    confirming: false
+  };
+  public handleOk = async () => {
     const { form, onOK } = this.props;
-    form.validateFields(
-      ["erc20Address"],
-      (err, { erc20Address }) => !err && onOK(erc20Address)
-    );
+    if (!onOK) {
+      return;
+    }
+    this.setState({ confirming: true });
+    form.validateFields(["erc20Address"], async (err, { erc20Address }) => {
+      if (err) {
+        return;
+      }
+      await onOK(erc20Address);
+      this.setState({ confirming: false });
+    });
   };
   public render(): JSX.Element {
-    const { form, onCancel } = this.props;
+    const { form, onCancel, visible = false } = this.props;
     const { getFieldDecorator } = form;
     return (
       <Modal
         title={t("account.erc20.addCustom")}
-        visible={true}
+        visible={visible}
         onOk={this.handleOk}
         onCancel={onCancel}
+        confirmLoading={this.state.confirming}
         bodyStyle={{
-          padding: "0px 20px !important"
+          paddingTop: "0px !important"
         }}
       >
         <Form.Item

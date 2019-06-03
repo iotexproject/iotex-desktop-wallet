@@ -283,6 +283,7 @@ wallet.transfer.title: Send IOTX
 wallet.error.required: This field is required.
 wallet.error.number: This field should be number
 wallet.input.amount: Amount
+wallet.input.type: Type
 broadcast.success: Broadcast transaction successfully
 broadcast.warn.one: >-
   Your TX has been broadcast to the network. This does not mean it has been

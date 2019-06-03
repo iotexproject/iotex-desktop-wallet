@@ -1,9 +1,11 @@
+import { Select } from "antd";
 import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
-import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
+import BigNumber from "bignumber.js";
+import { Account } from "iotex-antenna/lib/account/account";
 import { toRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -12,13 +14,13 @@ import Helmet from "onefx/lib/react-helmet";
 import * as React from "react";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+import { ERC20 } from "../../../erc20";
+import { IERC20TokenInfoDict } from "../../../erc20/erc20Token";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
-import { PageTitle } from "../../common/page-title";
 import { rulesMap } from "../../common/rules";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import {
-  AmountFormInputItem,
   GasLimitFormInputItem,
   GasPriceFormInputItem
 } from "../contract/cards";
@@ -27,9 +29,11 @@ import { FormItemLabel, inputStyle } from "../wallet";
 
 type Props = {
   form: WrappedFormUtils;
+  wallet: Account | null;
   address: string;
   chainId?: number;
   updateWalletInfo?: Function;
+  erc20TokensInfo: IERC20TokenInfoDict;
 } & RouteComponentProps;
 
 type State = {
@@ -51,7 +55,7 @@ class TransferForm extends React.PureComponent<Props, State> {
 
   public sendTransfer = async (status: boolean) => {
     const antenna = getAntenna();
-    const { form, address } = this.props;
+    const { form, address, wallet } = this.props;
     if (!status) {
       return this.setState({
         showConfirmTransfer: false
@@ -60,30 +64,50 @@ class TransferForm extends React.PureComponent<Props, State> {
 
     form.validateFields(async (err, value) => {
       if (!err) {
-        const { recipient, amount, gasLimit, gasPrice, dataInHex } = value;
+        const {
+          recipient,
+          amount,
+          gasLimit,
+          gasPrice,
+          dataInHex,
+          symbol
+        } = value;
+        const erc20 =
+          symbol === "iotx" ? null : ERC20.create(symbol, getAntenna().iotx);
 
         this.setState({ sending: true, showConfirmTransfer: false });
+        let txHash = "";
+        if (!erc20) {
+          window.console.log(
+            `antenna.iotx.sendTransfer(${JSON.stringify({
+              from: address,
+              to: recipient,
+              value: toRau(amount, "Iotx"),
+              payload: dataInHex,
+              gasLimit: gasLimit || undefined,
+              gasPrice: gasPrice || undefined
+            })})`
+          );
 
-        window.console.log(
-          `antenna.iotx.sendTransfer(${JSON.stringify({
+          txHash = await antenna.iotx.sendTransfer({
             from: address,
             to: recipient,
             value: toRau(amount, "Iotx"),
             payload: dataInHex,
             gasLimit: gasLimit || undefined,
             gasPrice: gasPrice || undefined
-          })})`
-        );
-
-        const txHash = await antenna.iotx.sendTransfer({
-          from: address,
-          to: recipient,
-          value: toRau(amount, "Iotx"),
-          payload: dataInHex,
-          gasLimit: gasLimit || undefined,
-          gasPrice: gasPrice || undefined
-        });
-
+          });
+        } else {
+          if (wallet) {
+            txHash = await erc20.transfer(
+              recipient,
+              new BigNumber(amount),
+              wallet,
+              gasPrice,
+              gasLimit
+            );
+          }
+        }
         this.setState({
           sending: false,
           broadcast: {
@@ -106,10 +130,69 @@ class TransferForm extends React.PureComponent<Props, State> {
     });
   };
 
-  public input = () => {
+  public renderSelectTokenSymbol(): JSX.Element | null {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+    const { Option } = Select;
+    const { erc20TokensInfo } = this.props;
+    const tokenTypes = [
+      {
+        label: "IOTX",
+        key: "iotx"
+      }
+    ];
+    Object.keys(erc20TokensInfo).forEach(addr => {
+      const info = erc20TokensInfo[addr];
+      if (info) {
+        tokenTypes.push({
+          label: info.symbol,
+          key: addr
+        });
+      }
+    });
+    return (
+      <>
+        {getFieldDecorator("symbol", {
+          initialValue: tokenTypes[0].key
+        })(
+          <Select style={{ width: 100 }}>
+            {tokenTypes.map(type => (
+              <Option value={type.key}>{type.label}</Option>
+            ))}
+          </Select>
+        )}
+      </>
+    );
+  }
+
+  public renderAmountFormItem(): JSX.Element {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+    return (
+      <Form.Item
+        label={<FormItemLabel>{t("wallet.input.amount")} </FormItemLabel>}
+        {...formItemLayout}
+      >
+        {getFieldDecorator("amount", {
+          initialValue: 1,
+          rules: rulesMap.amount
+        })(
+          <Input
+            className="form-input"
+            placeholder="1"
+            addonAfter={this.renderSelectTokenSymbol()}
+            name="amount"
+          />
+        )}
+      </Form.Item>
+    );
+  }
+
+  public renderTransferForm = () => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
     const { sending } = this.state;
+
     return (
       <Form layout="vertical">
         <Form.Item
@@ -120,7 +203,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             rules: rulesMap.address
           })(<Input placeholder="io..." style={inputStyle} name="recipient" />)}
         </Form.Item>
-        <AmountFormInputItem form={form} />
+        {this.renderAmountFormItem()}
         <GasPriceFormInputItem form={form} />
         <GasLimitFormInputItem form={form} />
         <Form.Item
@@ -175,14 +258,22 @@ class TransferForm extends React.PureComponent<Props, State> {
   };
 
   public confirmTransfer = () => {
-    const { address, form } = this.props;
+    const { address, form, erc20TokensInfo } = this.props;
     const { showConfirmTransfer } = this.state;
 
-    const { recipient, amount, gasLimit, gasPrice } = form.getFieldsValue();
+    const {
+      recipient,
+      amount,
+      gasLimit,
+      gasPrice,
+      symbol
+    } = form.getFieldsValue();
+    const tokenSymbol =
+      symbol === "iotx" ? "IOTX" : erc20TokensInfo[symbol].symbol;
     const dataSource = {
       address: address,
       toAddress: recipient,
-      amount: toRau(amount, "Iotx"),
+      amount: `${new BigNumber(amount).toString()} ${tokenSymbol}`,
       limit: gasLimit,
       price: toRau(gasPrice, "Qev")
     };
@@ -215,14 +306,11 @@ class TransferForm extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div style={{ paddingRight: 2 }}>
+      <div style={{ paddingRight: 2, paddingTop: 20 }}>
         <Helmet
           title={`${t("wallet.transfer.title")} - ${t("meta.description")}`}
         />
-        <PageTitle>
-          <Icon type="pushpin" /> {t("wallet.transfer.title")}
-        </PageTitle>
-        {this.input()}
+        {this.renderTransferForm()}
         {this.confirmTransfer()}
       </div>
     );
