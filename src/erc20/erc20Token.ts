@@ -20,7 +20,7 @@ export interface IERC20TokenInfoDict {
 }
 
 export class ERC20Token {
-  private erc20: IERC20;
+  private readonly erc20: IERC20;
   constructor(erc20TokenAddress: string) {
     this.erc20 = ERC20.create(erc20TokenAddress, getAntenna().iotx);
   }

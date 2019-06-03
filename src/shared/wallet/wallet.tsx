@@ -10,7 +10,7 @@ import { PureComponent } from "react";
 import React from "react";
 import { Route, Switch, withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import { IERC20TokenDict, IERC20TokenInfoDict } from "../../erc20/erc20Token";
+import { IERC20TokenInfoDict } from "../../erc20/erc20Token";
 import routes from "../common/routes";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
