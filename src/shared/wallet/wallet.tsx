@@ -82,9 +82,9 @@ class WalletComponent extends PureComponent<Props, State> {
             <Transfer address={address} />
           </Tabs.TabPane>
 
-          <Tabs.TabPane key={`/wallet/erc20`} tab={t("wallet.tab.erc20")}>
+          {/* <Tabs.TabPane key={`/wallet/erc20`} tab={t("wallet.tab.erc20")}>
             <ERC20Transfer address={address} />
-          </Tabs.TabPane>
+          </Tabs.TabPane> */}
 
           <Tabs.TabPane key={`/wallet/vote`} tab={t("wallet.tab.vote")}>
             <Vote />
