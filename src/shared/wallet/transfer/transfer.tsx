@@ -72,6 +72,7 @@ class TransferForm extends React.PureComponent<Props, State> {
           dataInHex,
           symbol
         } = value;
+
         const erc20 =
           symbol === "iotx" ? null : ERC20.create(symbol, getAntenna().iotx);
 
@@ -99,6 +100,15 @@ class TransferForm extends React.PureComponent<Props, State> {
           });
         } else {
           if (wallet) {
+            window.console.log(
+              `erc20.transfer(
+                ${recipient},
+                new BigNumber(${amount}),
+                <wallet>,
+                ${gasPrice},
+                ${gasLimit}
+              )`
+            );
             txHash = await erc20.transfer(
               recipient,
               new BigNumber(amount),
