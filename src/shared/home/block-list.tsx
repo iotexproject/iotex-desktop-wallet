@@ -66,10 +66,11 @@ export const BlockCard = (props: {
     <SpinPreloader spinning={!props.block}>
       <Card
         style={{
-          marginTop: "0.5rem",
+          marginTop: "0.7rem",
           background: "transparent",
           color: props.index ? colors.black : colors.white,
           borderRadius: 8,
+          border: 0,
           backgroundSize: "cover",
           backgroundImage: `url(${assetURL(
             props.index > 0 ? "/block_old.png" : "/block_new.png"
