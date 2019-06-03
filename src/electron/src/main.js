@@ -209,19 +209,6 @@ app.on(
 );
 
 // check for updates
-const queryString = require("query-string");
-
 app.on("ready", function() {
   autoUpdater.checkForUpdatesAndNotify();
-});
-
-// check for deep link
-app.setAsDefaultProtocolClient("iopay");
-
-// Protocol handler for osx
-app.on("open-url", function(event, url) {
-  event.preventDefault();
-  const { query } = queryString.parseUrl(url);
-  log.debug("deeplink url with query params: " + JSON.stringify(query));
-  mainWindow.webContents.send("query", query);
 });
