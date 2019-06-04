@@ -425,7 +425,8 @@ export function renderValue(text: string, record: any): JSX.Element | string {
 
 function renderActHash(text: string): JSX.Element | string {
   let href = (window.location && window.location.href) || "";
-  href = `mailto:?subject=I wanted you to see this site&amp;body=Check out this site ${href}`;
+  const emailBody = encodeURIComponent(`Check out this site\n\n ${href}`);
+  href = `mailto:?subject=Checkout this block hash on IoTeX blockchain&body=${emailBody}`;
   const content = (
     <div style={{ display: "flex", justifyContent: "space-around" }}>
       <div>
