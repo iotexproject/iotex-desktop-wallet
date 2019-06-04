@@ -25,6 +25,8 @@ import {
   GasPriceFormInputItem
 } from "./cards";
 import { ContractLayout } from "./contract-layout";
+import { Contract } from "iotex-antenna/lib/contract/contract";
+import { copyCB } from "text-to-clipboard";
 
 const { Option } = Select;
 
@@ -270,6 +272,21 @@ class InteractFormInner extends Component<InteractProps, State> {
     );
   };
 
+  private readonly copyByteCode = () => {
+    this.props.form.validateFields(async (err, values) => {
+      if (err) {
+        return;
+      }
+
+      const { contractAddress, abi, selectedFunction, args = [] } = values;
+      const contract = new Contract(JSON.parse(abi), contractAddress);
+      const bytecode = contract
+        .pureEncodeMethod("0", selectedFunction, ...args)
+        .data.toString("hex");
+      copyCB(bytecode);
+    });
+  };
+
   private readonly newInteraction: JSX.Element = (
     <Button
       onClick={() => {
@@ -366,7 +383,23 @@ class InteractFormInner extends Component<InteractProps, State> {
             ))}
           </div>
         )}
-        <span>
+        {this.contractActions()}
+      </div>
+    );
+  };
+
+  public contractActions = (): JSX.Element => {
+    return (
+      <div>
+        <div>
+          {
+            //@ts-ignore
+            <Button type="link" onClick={this.copyByteCode}>
+              {t("wallet.bytecode.copy")}
+            </Button>
+          }
+        </div>
+        <div style={{ marginTop: "10px", display: "flex" }}>
           {
             //@ts-ignore
             <Button
@@ -396,7 +429,7 @@ class InteractFormInner extends Component<InteractProps, State> {
               {t("wallet.abi.write")}
             </Button>
           }
-        </span>
+        </div>
         <div style={{ marginTop: "20px" }} />
       </div>
     );
