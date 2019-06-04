@@ -22,7 +22,7 @@ export const xconf: {
   },
   setConf: (name: string, value: any): boolean => {
     try {
-      window.localStorage.setItem(name, value);
+      window.localStorage.setItem(name, JSON.stringify(value));
     } catch (e) {
       tmpdata[name] = value;
     }

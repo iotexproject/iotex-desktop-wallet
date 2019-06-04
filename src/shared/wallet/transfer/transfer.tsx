@@ -56,76 +56,82 @@ class TransferForm extends React.PureComponent<Props, State> {
   public sendTransfer = async (status: boolean) => {
     const antenna = getAntenna();
     const { form, address, wallet } = this.props;
-    if (!status) {
+    if (!status || !wallet) {
       return this.setState({
         showConfirmTransfer: false
       });
     }
 
     form.validateFields(async (err, value) => {
-      if (!err) {
-        const {
-          recipient,
-          amount,
-          gasLimit,
-          gasPrice,
-          dataInHex,
-          symbol
-        } = value;
+      if (err) {
+        return this.setState({
+          showConfirmTransfer: false
+        });
+      }
+      const {
+        recipient,
+        amount,
+        gasLimit,
+        gasPrice,
+        dataInHex,
+        symbol
+      } = value;
 
-        const erc20 =
-          symbol === "iotx" ? null : ERC20.create(symbol, getAntenna().iotx);
+      const erc20 =
+        symbol === "iotx" ? null : ERC20.create(symbol, getAntenna().iotx);
 
-        this.setState({ sending: true, showConfirmTransfer: false });
-        let txHash = "";
-        if (!erc20) {
-          window.console.log(
-            `antenna.iotx.sendTransfer(${JSON.stringify({
-              from: address,
-              to: recipient,
-              value: toRau(amount, "Iotx"),
-              payload: dataInHex,
-              gasLimit: gasLimit || undefined,
-              gasPrice: gasPrice || undefined
-            })})`
-          );
-
-          txHash = await antenna.iotx.sendTransfer({
+      this.setState({ sending: true, showConfirmTransfer: false });
+      let txHash = "";
+      if (!erc20) {
+        window.console.log(
+          `antenna.iotx.sendTransfer(${JSON.stringify({
             from: address,
             to: recipient,
             value: toRau(amount, "Iotx"),
             payload: dataInHex,
             gasLimit: gasLimit || undefined,
             gasPrice: gasPrice || undefined
-          });
-        } else {
-          if (wallet) {
-            window.console.log(
-              `erc20.transfer(
+          })})`
+        );
+
+        txHash = await antenna.iotx.sendTransfer({
+          from: address,
+          to: recipient,
+          value: toRau(amount, "Iotx"),
+          payload: dataInHex,
+          gasLimit: gasLimit || undefined,
+          gasPrice: gasPrice || undefined
+        });
+      } else {
+        const erc20Info = this.props.erc20TokensInfo[symbol];
+        const erc20Amount = new BigNumber(amount).multipliedBy(
+          10 ** erc20Info.decimals.toNumber()
+        );
+        const gasPriceRau = toRau(gasPrice, "Qev");
+        window.console.log(
+          `erc20.transfer(
                 ${recipient},
-                new BigNumber(${amount}),
+                ${erc20Amount},
                 <wallet>,
-                ${gasPrice},
+                ${gasPriceRau},
                 ${gasLimit}
               )`
-            );
-            txHash = await erc20.transfer(
-              recipient,
-              new BigNumber(amount),
-              wallet,
-              gasPrice,
-              gasLimit
-            );
-          }
-        }
-        this.setState({
-          sending: false,
-          broadcast: {
-            success: Boolean(txHash)
-          },
-          txHash
-        });
+        );
+        txHash = await erc20.transfer(
+          recipient,
+          erc20Amount,
+          wallet,
+          gasPriceRau,
+          gasLimit
+        );
       }
+      this.setState({
+        sending: false,
+        broadcast: {
+          success: Boolean(txHash)
+        },
+        txHash
+      });
     });
   };
 

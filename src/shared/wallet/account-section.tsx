@@ -22,6 +22,7 @@ import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { onElectronClick } from "../common/on-electron-click";
 import { colors } from "../common/styles/style-color";
 import { TooltipButton } from "../common/tooltip-button";
+import { xconf, XConfKeys } from "../common/xconf";
 import AddCustomTokensFormModal from "./add-erc20-tokens-form-modal";
 import { getAntenna } from "./get-antenna";
 
@@ -56,6 +57,34 @@ export default class AccountSection extends React.Component<Props, State> {
 
   public componentWillUnmount(): void {
     window.clearInterval(this.pollAccountInterval);
+  }
+
+  public componentDidUpdate(): void {
+    const { wallet } = this.props;
+    if (!wallet) {
+      return;
+    }
+    const erc20Addresses = xconf.getConf<Array<string>>(
+      `${XConfKeys.ERC20_TOKENS_ADDRS}_${wallet.address}`,
+      []
+    );
+    if (!erc20Addresses.length) {
+      return;
+    }
+    const { erc20Tokens } = this.state;
+    let needUpdate = false;
+    erc20Addresses.forEach(addr => {
+      if (erc20Tokens[addr]) {
+        return;
+      }
+      const erc20Token = new ERC20Token(addr);
+      erc20Tokens[addr] = erc20Token;
+      needUpdate = true;
+    });
+    if (needUpdate) {
+      this.setState({ erc20Tokens: { ...erc20Tokens } });
+      this.pollAccount();
+    }
   }
 
   public pollAccount = async () => {
@@ -158,6 +187,10 @@ export default class AccountSection extends React.Component<Props, State> {
     if (wallet) {
       const tokenInfo = await erc20Token.getInfo(wallet.address);
       erc20TokenInfos[erc20Address] = tokenInfo;
+      xconf.setConf(
+        `${XConfKeys.ERC20_TOKENS_ADDRS}_${wallet.address}`,
+        Object.keys(erc20Tokens)
+      );
     }
     this.setState({
       customTokensFormVisible: false,
@@ -172,7 +205,7 @@ export default class AccountSection extends React.Component<Props, State> {
   public onDeleteErc20Token = (erc20Address: string) => {
     const erc20TokenInfos: { [index: string]: IERC20TokenInfo | null } = {};
     const erc20Tokens: { [index: string]: ERC20Token } = {};
-    const { setErc20TokensInfo } = this.props;
+    const { setErc20TokensInfo, wallet } = this.props;
     Object.keys(this.state.erc20Tokens).forEach((addr: string) => {
       if (addr !== erc20Address) {
         erc20TokenInfos[addr] = this.state.erc20TokenInfos[addr] || null;
@@ -185,6 +218,12 @@ export default class AccountSection extends React.Component<Props, State> {
     });
     if (setErc20TokensInfo) {
       setErc20TokensInfo(erc20TokenInfos);
+    }
+    if (wallet) {
+      xconf.setConf(
+        `${XConfKeys.ERC20_TOKENS_ADDRS}_${wallet.address}`,
+        Object.keys(erc20Tokens)
+      );
     }
   };
 
