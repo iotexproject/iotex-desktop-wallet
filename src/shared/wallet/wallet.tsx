@@ -20,6 +20,7 @@ import { DeployPreloadHeader } from "./contract/deploy";
 import { Interact } from "./contract/interact";
 import { Vote } from "./contract/vote";
 import NewWallet from "./new-wallet";
+import { Sign } from "./sign";
 import ERC20Transfer from "./transfer/erc20-transfer";
 import Transfer from "./transfer/transfer";
 import UnlockWallet from "./unlock-wallet";
@@ -43,6 +44,8 @@ export const inputStyle = {
 export const FormItemLabel = styled("label", {
   fontWeight: "bold"
 });
+
+const ENABLE_SIGN = false;
 
 class WalletComponent extends PureComponent<Props, State> {
   public state: State = {
@@ -69,6 +72,8 @@ class WalletComponent extends PureComponent<Props, State> {
       activeKey = `/wallet/smart-contract`;
     } else if (location.pathname.match(/erc20/i)) {
       activeKey = `/wallet/erc20`;
+    } else if (location.pathname.match(/sign/)) {
+      activeKey = `/wallet/sign`;
     }
     return (
       <div>
@@ -110,6 +115,12 @@ class WalletComponent extends PureComponent<Props, State> {
               />
             </Switch>
           </Tabs.TabPane>
+
+          {ENABLE_SIGN && (
+            <Tabs.TabPane key={`/wallet/sign`} tab={t("wallet.tab.sign")}>
+              <Sign />
+            </Tabs.TabPane>
+          )}
         </Tabs>
       </div>
     );
