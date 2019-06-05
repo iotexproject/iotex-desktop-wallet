@@ -132,41 +132,37 @@ export default class AccountSection extends React.Component<Props, State> {
 
   public newWallet = (): JSX.Element => {
     return (
-      <div className="wallet">
-        <div style={{ position: "relative" }}>
-          <div className="new-wallet-text">
-            <p>
-              <strong>{t("account.why")}</strong>
-            </p>
-            <p>{t("account.save")}</p>
-            <p>
-              <strong>{t("account.pay-attention")}</strong>
-            </p>
-            <p>{t("account.not-hold")}</p>
-            <p>
-              {t("account.protect")} <strong>{t("account.responsible")}</strong>
-            </p>
-          </div>
+      <Card bodyStyle={{ padding: 0 }} style={{ borderRadius: 5 }}>
+        <div className="new-wallet-text">
+          <p>
+            <strong>{t("account.why")}</strong>
+          </p>
+          <p>{t("account.save")}</p>
+          <p>
+            <strong>{t("account.pay-attention")}</strong>
+          </p>
+          <p>{t("account.not-hold")}</p>
+          <p>
+            {t("account.protect")} <strong>{t("account.responsible")}</strong>
+          </p>
         </div>
-      </div>
+      </Card>
     );
   };
   public emptyWallet = (): JSX.Element => {
     return (
-      <div className="wallet">
-        <div style={{ position: "relative" }}>
-          <img
-            id="globe"
-            className="blur-image"
-            style={{ maxWidth: "100%" }}
-            alt="globe"
-            src={assetURL("/unlock-wallet.png")}
-          />
-          <div className="centered-text">
-            <p>{t("account.empty.unlock")}</p>
-          </div>
+      <Card bodyStyle={{ padding: 0 }} style={{ borderRadius: 5 }}>
+        <img
+          id="globe"
+          className="blur-image"
+          style={{ maxWidth: "100%", maxHeight: 400 }}
+          alt="globe"
+          src={assetURL("/unlock-wallet.png")}
+        />
+        <div className="centered-text">
+          <p>{t("account.empty.unlock")}</p>
         </div>
-      </div>
+      </Card>
     );
   };
 
