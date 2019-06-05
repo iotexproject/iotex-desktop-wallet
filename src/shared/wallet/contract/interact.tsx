@@ -27,8 +27,6 @@ import {
   GasPriceFormInputItem
 } from "./cards";
 import { ContractLayout } from "./contract-layout";
-import { Contract } from "iotex-antenna/lib/contract/contract";
-import { copyCB } from "text-to-clipboard";
 
 const { Option } = Select;
 
