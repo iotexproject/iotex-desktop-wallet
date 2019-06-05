@@ -164,7 +164,7 @@ class WalletComponent extends PureComponent<Props, State> {
                 })}
               {!wallet && this.renderNoWallet()}
             </Col>
-            <Col xs={24} sm={12} md={9} lg={8}>
+            <Col xs={24} sm={12} md={9} lg={8} style={{ marginTop: 40 }}>
               <AccountSection
                 createNew={createNew}
                 setWallet={this.setWallet}
