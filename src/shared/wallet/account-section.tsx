@@ -299,14 +299,18 @@ export default class AccountSection extends React.Component<Props, State> {
 
   public renderWallet = (wallet: Account) => {
     return (
-      <Card bodyStyle={{ padding: 0, wordBreak: "break-word" }}>
+      <Card
+        bodyStyle={{ padding: 0, wordBreak: "break-word" }}
+        style={{ borderRadius: 5 }}
+      >
         <Row
           type="flex"
           justify="space-between"
           style={{
             backgroundColor: colors.primary,
             color: colors.white,
-            padding: 20
+            padding: 20,
+            borderRadius: "5px 5px 0px 0px"
           }}
         >
           <Col>
