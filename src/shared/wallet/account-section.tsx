@@ -316,7 +316,10 @@ export default class AccountSection extends React.Component<Props, State> {
           <Col>
             <Icon type="wallet" /> {t("account.wallet")}
           </Col>
-          <Col onClick={() => this.showCustomTokensForm()}>
+          <Col
+            style={{ cursor: "pointer" }}
+            onClick={() => this.showCustomTokensForm()}
+          >
             <Icon type="plus" /> {t("account.erc20.addCustom")}
           </Col>
         </Row>
