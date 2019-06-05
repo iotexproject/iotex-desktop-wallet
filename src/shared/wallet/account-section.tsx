@@ -272,7 +272,7 @@ export default class AccountSection extends React.Component<Props, State> {
               type="close-circle"
               onClick={() => this.onDeleteErc20Token(text)}
               style={{
-                color: colors.error,
+                color: colors.black80,
                 cursor: "pointer"
               }}
             />
