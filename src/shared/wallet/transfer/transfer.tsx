@@ -1,4 +1,4 @@
-import { Select } from "antd";
+import { Icon, Select } from "antd";
 import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Col from "antd/lib/grid/col";
@@ -217,7 +217,14 @@ class TransferForm extends React.PureComponent<Props, State> {
         >
           {getFieldDecorator("recipient", {
             rules: rulesMap.address
-          })(<Input placeholder="io..." style={inputStyle} name="recipient" />)}
+          })(
+            <Input
+              placeholder="io..."
+              style={inputStyle}
+              name="recipient"
+              addonAfter={<Icon type="wallet" />}
+            />
+          )}
         </Form.Item>
         {this.renderAmountFormItem()}
         <GasPriceFormInputItem form={form} />
