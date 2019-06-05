@@ -6,11 +6,13 @@ import Input from "antd/lib/input";
 import notification from "antd/lib/notification";
 import Select from "antd/lib/select";
 import { toRau } from "iotex-antenna/lib/account/utils";
+import { Contract } from "iotex-antenna/lib/contract/contract";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
+import { copyCB } from "text-to-clipboard";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { rulesMap } from "../../common/rules";
@@ -25,8 +27,6 @@ import {
   GasPriceFormInputItem
 } from "./cards";
 import { ContractLayout } from "./contract-layout";
-import { Contract } from "iotex-antenna/lib/contract/contract";
-import { copyCB } from "text-to-clipboard";
 
 const { Option } = Select;
 
