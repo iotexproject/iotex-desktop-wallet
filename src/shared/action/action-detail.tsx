@@ -89,7 +89,10 @@ class ActionDetailsInner extends PureComponent<Props> {
             amount: object.amount,
             contract: object.contract,
             to: info.data.to,
-            tokens: `${tokenTransfered} ${tokenInfo.symbol} (${tokenInfo.name})`
+            tokens: `${tokenTransfered} ${tokenInfo.symbol} (${
+              tokenInfo.name
+            })`,
+            data: object.data
           };
         }
       }
