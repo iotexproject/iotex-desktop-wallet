@@ -18,7 +18,9 @@ import { CoinPrice } from "../../api-gateway/resolvers/meta";
 import { webBpApolloClient } from "../common/apollo-client";
 import { assetURL } from "../common/asset-url";
 import { Flex } from "../common/flex";
+import { IoTeXExplorer } from "../common/icons/iotex.svg";
 import { SpinPreloader } from "../common/spin-preloader";
+import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_CHAIN_META, GET_TILE_DATA } from "../queries";
 import { BlockList } from "./block-list";
@@ -189,11 +191,27 @@ class HomeComponent extends Component<Props, State> {
               height: "40vh",
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
-              backgroundPosition: "center"
+              backgroundPosition: "center",
+              minHeight: 400
             }}
           >
+            <Row
+              type="flex"
+              justify="center"
+              align="middle"
+              style={{
+                fontSize: 34,
+                color: colors.white,
+                paddingTop: 50,
+                paddingBottom: 20
+              }}
+            >
+              I{" "}
+              <Icon component={IoTeXExplorer} style={{ padding: "0px 6px" }} />{" "}
+              TeX.Explorer
+            </Row>
             <Row type="flex" justify="center" align="middle">
-              <Col xs={20} md={12} style={{ padding: "8vh 0" }}>
+              <Col xs={20} md={12}>
                 <SearchBox
                   enterButton
                   size="large"
