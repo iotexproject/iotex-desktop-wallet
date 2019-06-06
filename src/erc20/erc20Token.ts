@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import { getAntenna } from "../shared/wallet/get-antenna";
-import { ERC20, IERC20 } from "./erc20";
+import { DecodeData, ERC20, IERC20 } from "./erc20";
 
 export interface IERC20TokenInfo {
   erc20TokenAddress: string;
@@ -21,8 +21,31 @@ export interface IERC20TokenInfoDict {
 
 export class ERC20Token {
   private readonly erc20: IERC20;
+  private static readonly erc20Refs: { [index: string]: IERC20 } = {};
+  private static readonly erc20TokenRefs: { [index: string]: ERC20Token } = {};
+
   constructor(erc20TokenAddress: string) {
-    this.erc20 = ERC20.create(erc20TokenAddress, getAntenna().iotx);
+    if (!ERC20Token.erc20Refs[erc20TokenAddress]) {
+      ERC20Token.erc20Refs[erc20TokenAddress] = ERC20.create(
+        erc20TokenAddress,
+        getAntenna().iotx
+      );
+    }
+    this.erc20 = ERC20Token.erc20Refs[erc20TokenAddress];
+    ERC20Token.erc20TokenRefs[erc20TokenAddress] = this;
+  }
+
+  public static getToken(erc20TokenAddress: string): ERC20Token {
+    if (!ERC20Token.erc20TokenRefs[erc20TokenAddress]) {
+      ERC20Token.erc20TokenRefs[erc20TokenAddress] = new ERC20Token(
+        erc20TokenAddress
+      );
+    }
+    return ERC20Token.erc20TokenRefs[erc20TokenAddress];
+  }
+
+  public decode(data: string): DecodeData {
+    return this.erc20.decode(data);
   }
 
   public async getInfo(walletAddress: string): Promise<IERC20TokenInfo | null> {

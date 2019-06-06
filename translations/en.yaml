@@ -99,6 +99,8 @@ render.key.denomination: denomination
 render.key.owner: owner
 render.key.candidates: candidates
 render.key.nonce: nonce
+render.key.to: To
+render.key.tokens: Tokens Transferred
 action.data: Data
 action.hash: Hash
 action.block_hash: Block

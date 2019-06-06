@@ -342,6 +342,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
       return queryRegisteredName(text, record);
     case "sender":
     case "contract":
+    case "to":
     case "recipient":
     case "owner":
     case "subChainAddress":
