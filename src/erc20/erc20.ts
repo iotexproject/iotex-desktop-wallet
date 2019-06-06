@@ -1,9 +1,26 @@
 import BigNumber from "bignumber.js";
 import ethereumjs from "ethereumjs-abi";
 import { Account } from "iotex-antenna/lib/account/account";
+import {
+  getArgTypes,
+  getHeaderHash
+} from "iotex-antenna/lib/contract/abi-to-byte";
 import { Contract } from "iotex-antenna/lib/contract/contract";
+import { fromBytes } from "iotex-antenna/lib/crypto/address";
 import { IRpcMethod } from "iotex-antenna/lib/rpc-method/types";
 import { ABI } from "./abi";
+
+export interface Method {
+  name: string;
+  inputsNames: [string];
+  inputsTypes: [string];
+}
+
+export interface DecodeData {
+  method: string;
+  // tslint:disable-next-line: no-any
+  data: { [key: string]: any };
+}
 
 export interface IERC20 {
   address: string;
@@ -50,12 +67,15 @@ export interface IERC20 {
     gasPrice: string,
     gasLimit: string
   ): Promise<string>;
+
+  decode(data: string): DecodeData;
 }
 
 export class ERC20 implements IERC20 {
   public address: string;
   private contract: Contract;
   public provider: IRpcMethod;
+  private methods: { [key: string]: Method };
 
   public static create(address: string, provider: IRpcMethod): IERC20 {
     const erc20 = new ERC20();
@@ -64,6 +84,32 @@ export class ERC20 implements IERC20 {
     erc20.contract = new Contract(ABI, address, {
       provider: provider
     });
+
+    const methods = {};
+    // @ts-ignore
+    for (const fnName of Object.keys(erc20.contract.getABI())) {
+      // @ts-ignore
+      const fnAbi = erc20.contract.getABI()[fnName];
+      if (fnAbi.type === "constructor") {
+        continue;
+      }
+
+      const args = getArgTypes(fnAbi);
+      const header = getHeaderHash(fnAbi, args);
+
+      // @ts-ignore
+      methods[header] = {
+        name: fnName,
+        inputsNames: args.map(i => {
+          return `${i.name}`;
+        }),
+        inputsTypes: args.map(i => {
+          return `${i.type}`;
+        })
+      };
+    }
+    erc20.methods = methods;
+
     return erc20;
   }
 
@@ -208,5 +254,35 @@ export class ERC20 implements IERC20 {
       gasLimit: gasLimit,
       gasPrice: gasPrice
     });
+  }
+
+  public decode(data: string): DecodeData {
+    if (data.length < 8) {
+      throw new Error("input data error");
+    }
+    const method = this.methods[data.substr(0, 8)];
+    if (!method) {
+      throw new Error("method is not erc20 method");
+    }
+    const params = ethereumjs.rawDecode(
+      method.inputsTypes,
+      Buffer.from(data.substring(8), "hex")
+    );
+    const values = {};
+
+    for (let i = 0; i < method.inputsTypes.length; i++) {
+      if (method.inputsTypes[i] === "address") {
+        params[i] = fromBytes(
+          Buffer.from(params[i].toString(), "hex")
+        ).string();
+      }
+      // @ts-ignore
+      values[method.inputsNames[i]] = params[i];
+    }
+
+    return {
+      method: method.name,
+      data: values
+    };
   }
 }
