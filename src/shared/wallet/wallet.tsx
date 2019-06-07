@@ -1,6 +1,8 @@
 import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
 import Tabs from "antd/lib/tabs";
+// @ts-ignore
+import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -8,15 +10,17 @@ import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import { PureComponent } from "react";
 import React from "react";
+import { connect, DispatchProp } from "react-redux";
 import { Route, Switch, withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+import { IERC20TokenInfoDict } from "../../erc20/erc20Token";
 import routes from "../common/routes";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "./account-section";
 import { ChooseFunction } from "./contract/choose-function";
-import { Deploy } from "./contract/deploy";
 import { DeployPreloadHeader } from "./contract/deploy";
+import { Deploy } from "./contract/deploy";
 import { Interact } from "./contract/interact";
 import { Vote } from "./contract/vote";
 import NewWallet from "./new-wallet";
@@ -24,17 +28,22 @@ import NewWallet from "./new-wallet";
 import { Sign } from "./sign";
 import Transfer from "./transfer/transfer";
 import UnlockWallet from "./unlock-wallet";
+import { QueryParams, QueryType } from "./wallet-reducer";
 
 export interface State {
   wallet: Account | null;
   createNew: boolean;
+  erc20TokensInfo: IERC20TokenInfoDict;
 }
 
 type PathParamsType = {
   address: string;
 };
 
-type Props = RouteComponentProps<PathParamsType> & {};
+type Props = RouteComponentProps<PathParamsType> &
+  DispatchProp & {
+    queryType?: QueryType;
+  };
 
 export const inputStyle = {
   width: "100%",
@@ -47,16 +56,29 @@ export const FormItemLabel = styled("label", {
 
 const ENABLE_SIGN = false;
 
-class WalletComponent extends PureComponent<Props, State> {
+class WalletInner extends PureComponent<Props, State> {
   public state: State = {
     wallet: null,
-    createNew: false
+    createNew: false,
+    erc20TokensInfo: {}
   };
 
   public setWallet = (wallet: Account) => {
-    const { history } = this.props;
+    const { history, queryType } = this.props;
     this.setState({ wallet, createNew: false });
-    history.push(routes.transfer);
+
+    let activeKey = routes.transfer;
+    if (queryType === "CONTRACT_INTERACT") {
+      activeKey = `/wallet/smart-contract/interact`;
+    }
+
+    history.push(activeKey);
+  };
+
+  public setERC20TokensInfo = (tokens: IERC20TokenInfoDict) => {
+    this.setState({
+      erc20TokensInfo: tokens
+    });
   };
 
   public onTabChange = (key: string) => {
@@ -65,6 +87,7 @@ class WalletComponent extends PureComponent<Props, State> {
 
   public renderTabs = ({ address }: { address: string }) => {
     const { location } = this.props;
+
     let activeKey = `/wallet/transfer`;
     if (location.pathname.match(/vote/)) {
       activeKey = `/wallet/vote`;
@@ -75,21 +98,20 @@ class WalletComponent extends PureComponent<Props, State> {
     } else if (location.pathname.match(/sign/)) {
       activeKey = `/wallet/sign`;
     }
+
     return (
       <div>
         <Tabs activeKey={activeKey} onTabClick={this.onTabChange}>
           <Tabs.TabPane
             key={`/wallet/transfer`}
-            tab={t("wallet.tab.transfer", {
-              token: t("account.testnet.token")
-            })}
+            tab={t("wallet.transactions.send")}
           >
-            <Transfer address={address} />
+            <Transfer
+              wallet={this.state.wallet}
+              address={address}
+              erc20TokensInfo={this.state.erc20TokensInfo}
+            />
           </Tabs.TabPane>
-
-          {/* <Tabs.TabPane key={`/wallet/erc20`} tab={t("wallet.tab.erc20")}>
-            <ERC20Transfer address={address} />
-          </Tabs.TabPane> */}
 
           <Tabs.TabPane key={`/wallet/vote`} tab={t("wallet.tab.vote")}>
             <Vote />
@@ -106,7 +128,7 @@ class WalletComponent extends PureComponent<Props, State> {
               />
               <Route
                 path={`/wallet/smart-contract/interact`}
-                component={() => <Interact address={address} />}
+                component={() => <Interact fromAddress={address} />}
               />
               <Route
                 exact
@@ -139,25 +161,35 @@ class WalletComponent extends PureComponent<Props, State> {
     );
   };
 
+  public componentDidMount(): void {
+    const { dispatch } = this.props;
+    window.dispatch = dispatch;
+  }
+
   public render(): JSX.Element {
     const { createNew, wallet } = this.state;
     return (
       <>
         <DeployPreloadHeader />
         <ContentPadding>
-          <div style={{ margin: "48px" }} />
-          <Row>
-            <Col md={16}>
+          <Row
+            type="flex"
+            justify="space-between"
+            gutter={30}
+            style={{ margin: "40px 0px" }}
+          >
+            <Col xs={24} sm={12} md={15} lg={16}>
               {wallet &&
                 this.renderTabs({
                   address: wallet.address
                 })}
               {!wallet && this.renderNoWallet()}
             </Col>
-            <Col md={6} push={2}>
+            <Col xs={24} sm={12} md={9} lg={8} style={{ marginTop: 40 }}>
               <AccountSection
                 createNew={createNew}
                 setWallet={this.setWallet}
+                setErc20TokensInfo={this.setERC20TokensInfo}
                 wallet={wallet}
               />
             </Col>
@@ -168,4 +200,10 @@ class WalletComponent extends PureComponent<Props, State> {
   }
 }
 
-export default withRouter(WalletComponent);
+const mapStateToProps = (state: {
+  queryParams: QueryParams;
+}): { queryType?: QueryType } => ({
+  queryType: state.queryParams && state.queryParams.type
+});
+
+export const Wallet = withRouter(connect(mapStateToProps)(WalletInner));

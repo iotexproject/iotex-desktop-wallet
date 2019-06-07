@@ -342,6 +342,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
       return queryRegisteredName(text, record);
     case "sender":
     case "contract":
+    case "to":
     case "recipient":
     case "owner":
     case "subChainAddress":
@@ -419,7 +420,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
         </span>
       );
     default:
-      return <span>{text}</span>;
+      return <span style={{ wordBreak: "break-word" }}>{text}</span>;
   }
 }
 

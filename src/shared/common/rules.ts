@@ -2,6 +2,7 @@
 import { t } from "onefx/lib/iso-i18n";
 
 import { ValidationRule } from "antd/lib/form";
+import BigNumber from "bignumber.js";
 
 interface Rules {
   [key: string]: ValidationRule;
@@ -25,6 +26,19 @@ export const rules: Rules = {
     },
     validator: (_, value, callback) => {
       if (typeof value === "number") {
+        callback();
+      } else {
+        callback(t("wallet.error.number"));
+      }
+    }
+  },
+  amount: {
+    type: "number",
+    transform: (value: string) => {
+      return new BigNumber(value);
+    },
+    validator: (_, value: BigNumber, callback) => {
+      if (value instanceof BigNumber && value.isGreaterThan(0)) {
         callback();
       } else {
         callback(t("wallet.error.number"));
@@ -93,7 +107,7 @@ export const rules: Rules = {
 export const rulesMap = {
   address: [rules.required, rules.addressLength],
   erc20Address: [rules.required, rules.erc20AddressLength],
-  amount: [rules.number],
+  amount: [rules.required, rules.amount],
   gasLimit: [rules.required, rules.number],
   gasPrice: [rules.required, rules.number],
   abi: [rules.required, rules.abi],

@@ -42,9 +42,11 @@ const multiChain: {
   ];
 } = isBrowser && globalState.base.multiChain;
 
+type BlockChainMenu = "dashboard" | "actions" | "blocks";
+
 type State = {
   displayMobileMenu: boolean;
-  blockChainMenu: "dashboard" | "actions" | "blocks";
+  blockChainMenu: BlockChainMenu;
   isSignInModalShow: boolean;
 };
 
@@ -55,7 +57,28 @@ type PathParamsType = {
 type Props = RouteComponentProps<PathParamsType> &
   WithApolloClient<{}> & { enableSignIn: boolean };
 
+interface MenuItem {
+  directTo: string;
+  itemText: string;
+}
+
+interface LocationMenuItem extends MenuItem {
+  menuText: BlockChainMenu;
+}
+
 class TopBarComponent extends Component<Props, State> {
+  private readonly blockChainMenus: Array<LocationMenuItem> = [
+    { directTo: "/", menuText: "dashboard", itemText: "topbar.dashboard" },
+    { directTo: "/action", menuText: "actions", itemText: "topbar.actions" },
+    { directTo: "/block", menuText: "blocks", itemText: "topbar.blocks" }
+  ];
+
+  private readonly toolMenus: Array<MenuItem> = [
+    { directTo: "/api-gateway/", itemText: "topbar.graphql_playground" },
+    { directTo: "/doc/api-gateway/", itemText: "topbar.graphql_doc" },
+    { directTo: "/wallet", itemText: "topbar.wallet" }
+  ];
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -104,30 +127,16 @@ class TopBarComponent extends Component<Props, State> {
   public renderBlockchainMenu = () => {
     return (
       <AntdMenu style={overlayStyle}>
-        <AntdMenu.Item key={0}>
-          <StyledLink
-            to="/"
-            onClick={() => this.setState({ blockChainMenu: "dashboard" })}
-          >
-            {t("topbar.dashboard")}
-          </StyledLink>
-        </AntdMenu.Item>
-        <AntdMenu.Item key={1}>
-          <StyledLink
-            to="/action"
-            onClick={() => this.setState({ blockChainMenu: "actions" })}
-          >
-            {t("topbar.actions")}
-          </StyledLink>
-        </AntdMenu.Item>
-        <AntdMenu.Item key={2}>
-          <StyledLink
-            to="/block"
-            onClick={() => this.setState({ blockChainMenu: "blocks" })}
-          >
-            {t("topbar.blocks")}
-          </StyledLink>
-        </AntdMenu.Item>
+        {this.blockChainMenus.map(({ itemText, menuText, directTo }) => (
+          <AntdMenu.Item key={itemText}>
+            <StyledLink
+              to={directTo}
+              onClick={() => this.setState({ blockChainMenu: menuText })}
+            >
+              {t(itemText)}
+            </StyledLink>
+          </AntdMenu.Item>
+        ))}
       </AntdMenu>
     );
   };
@@ -135,21 +144,13 @@ class TopBarComponent extends Component<Props, State> {
   public renderToolMenu = (): JSX.Element => {
     return (
       <AntdMenu style={overlayStyle}>
-        <AntdMenu.Item key={0}>
-          <A href="/api-gateway/" target="_blank">
-            {t("topbar.graphql_playground")}
-          </A>
-        </AntdMenu.Item>
-        <AntdMenu.Item key={1}>
-          <A href="/doc/api-gateway/" target="_blank">
-            {t("topbar.graphql_doc")}
-          </A>
-        </AntdMenu.Item>
-        <AntdMenu.Item key={2}>
-          <A href="/wallet" target="_blank">
-            {t("topbar.wallet")}
-          </A>
-        </AntdMenu.Item>
+        {this.toolMenus.map(({ directTo, itemText }) => (
+          <AntdMenu.Item key={itemText}>
+            <A href={directTo} target="_blank">
+              {t(itemText)}
+            </A>
+          </AntdMenu.Item>
+        ))}
       </AntdMenu>
     );
   };
@@ -173,7 +174,7 @@ class TopBarComponent extends Component<Props, State> {
 
   public renderMenu = () => {
     const votingPageUrl = "https://member.iotex.io";
-    return [
+    const result = [
       <AntdDropdown
         key={0}
         trigger={["click", "hover"]}
@@ -196,9 +197,12 @@ class TopBarComponent extends Component<Props, State> {
       </AntdDropdown>,
       <NoBgA href={votingPageUrl} key={2}>
         {t("topbar.voting")}
-      </NoBgA>,
-      <>
-        {this.state.displayMobileMenu && multiChain && (
+      </NoBgA>
+    ];
+
+    return this.state.displayMobileMenu && multiChain
+      ? [
+          ...result,
           <AntdDropdown
             key={3}
             trigger={["click", "hover"]}
@@ -212,9 +216,8 @@ class TopBarComponent extends Component<Props, State> {
               {multiChain.current} {DownIcon()}
             </StyledLink>
           </AntdDropdown>
-        )}
-      </>
-    ];
+        ]
+      : result;
   };
 
   public renderMobileMenu = () => {

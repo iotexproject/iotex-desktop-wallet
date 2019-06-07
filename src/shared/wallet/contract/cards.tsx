@@ -72,11 +72,15 @@ export const CardFunction = ({
   </Card>
 );
 
-export function AbiFormInputItem(
-  form: WrappedFormUtils,
-  initialValue?: string,
-  onChange?: React.ChangeEventHandler
-): JSX.Element {
+export function AbiFormInputItem({
+  form,
+  initialValue,
+  onChange
+}: {
+  form: WrappedFormUtils;
+  initialValue?: string;
+  onChange?: React.ChangeEventHandler;
+}): JSX.Element {
   const { getFieldDecorator } = form;
   return (
     <Form.Item
@@ -178,7 +182,7 @@ export function GasLimitFormInputItem({
       label={<FormItemLabel>{t("wallet.input.gasLimit")}</FormItemLabel>}
     >
       {getFieldDecorator("gasLimit", {
-        initialValue: initialValue || "10000",
+        initialValue: initialValue || "100000",
         rules: rulesMap.gasLimit
       })(
         <Input

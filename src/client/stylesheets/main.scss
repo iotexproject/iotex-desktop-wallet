@@ -109,16 +109,18 @@
 
 .blur-image {
   filter: blur(9px);
+  width: 100%;
 }
 
 .wallet {
   position: relative;
   border-radius: 4px;
   border: solid 1px #f0f0f0;
-  max-width: 288px;
-  height: 492px;
+  min-height: 450px;
   word-break: break-word;
+  overflow: hidden;
   margin-top: 40px;
+  margin-left: 20px;
 }
 
 .wallet-title {
@@ -306,7 +308,17 @@ input {
   width: 0;
   height: 0;
 }
-
 .no-scrollbar .ant-spin-container {
   padding: 5px;
+
+.ant-modal-body {
+  padding-top: 0 !important;
+}
+
+.wallet-token-balance {
+  text-align: right;
+}
+
+.wallet-delete-token {
+  width: 20px;
 }
