@@ -48,22 +48,28 @@ function ActionPoll({ txHash }: { txHash: string }): JSX.Element {
     <Query
       query={ACTION_EXISTS_BY_HASH}
       variables={{ byHash: { actionHash: txHash, checkingPending: true } }}
-      pollInterval={POLL_INTERVAL}
+      fetchPolicy="network-only"
+      ssr={false}
+      notifyOnNetworkStatusChange={true}
     >
       {({
         loading,
         error,
-        stopPolling
+        refetch
       }: QueryResult<{ getActions: GetActionsResponse }>) => {
+        if (!loading && error) {
+          setTimeout(() => {
+            refetch();
+          }, POLL_INTERVAL);
+        }
         if (loading || error) {
           return (
             <span>
               {" "}
-              <Icon type="loading" spin /> <strong>{txHash}</strong>
+              <Icon type="loading" spin /> <strong>{txHash}</strong>{" "}
             </span>
           );
         }
-        stopPolling();
 
         return (
           <span>

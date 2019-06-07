@@ -1,6 +1,5 @@
 /* tslint:disable:no-any */
 import Modal from "antd/lib/modal/Modal";
-import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
@@ -34,8 +33,7 @@ export default class ConfirmContractModal extends React.Component<
         render(text: string, _: any): JSX.Element {
           return (
             <span>
-              <h1 style={{ display: "inline" }}>{fromRau(text, "IOTX")}</h1>{" "}
-              IOTX
+              <h1 style={{ display: "inline" }}>{text}</h1>{" "}
             </span>
           );
         }

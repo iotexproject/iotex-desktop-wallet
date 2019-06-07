@@ -13,6 +13,7 @@ import React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { Route, Switch, withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+import { IERC20TokenInfoDict } from "../../erc20/erc20Token";
 import routes from "../common/routes";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -32,6 +33,7 @@ import { QueryParams, QueryType } from "./wallet-reducer";
 export interface State {
   wallet: Account | null;
   createNew: boolean;
+  erc20TokensInfo: IERC20TokenInfoDict;
 }
 
 type PathParamsType = {
@@ -57,7 +59,8 @@ const ENABLE_SIGN = false;
 class WalletInner extends PureComponent<Props, State> {
   public state: State = {
     wallet: null,
-    createNew: false
+    createNew: false,
+    erc20TokensInfo: {}
   };
 
   public setWallet = (wallet: Account) => {
@@ -70,6 +73,12 @@ class WalletInner extends PureComponent<Props, State> {
     }
 
     history.push(activeKey);
+  };
+
+  public setERC20TokensInfo = (tokens: IERC20TokenInfoDict) => {
+    this.setState({
+      erc20TokensInfo: tokens
+    });
   };
 
   public onTabChange = (key: string) => {
@@ -95,16 +104,14 @@ class WalletInner extends PureComponent<Props, State> {
         <Tabs activeKey={activeKey} onTabClick={this.onTabChange}>
           <Tabs.TabPane
             key={`/wallet/transfer`}
-            tab={t("wallet.tab.transfer", {
-              token: t("account.testnet.token")
-            })}
+            tab={t("wallet.transactions.send")}
           >
-            <Transfer address={address} />
+            <Transfer
+              wallet={this.state.wallet}
+              address={address}
+              erc20TokensInfo={this.state.erc20TokensInfo}
+            />
           </Tabs.TabPane>
-
-          {/* <Tabs.TabPane key={`/wallet/erc20`} tab={t("wallet.tab.erc20")}>
-            <ERC20Transfer address={address} />
-          </Tabs.TabPane> */}
 
           <Tabs.TabPane key={`/wallet/vote`} tab={t("wallet.tab.vote")}>
             <Vote />
@@ -165,19 +172,24 @@ class WalletInner extends PureComponent<Props, State> {
       <>
         <DeployPreloadHeader />
         <ContentPadding>
-          <div style={{ margin: "48px" }} />
-          <Row>
-            <Col md={16}>
+          <Row
+            type="flex"
+            justify="space-between"
+            gutter={30}
+            style={{ margin: "40px 0px" }}
+          >
+            <Col xs={24} sm={12} md={15} lg={16}>
               {wallet &&
                 this.renderTabs({
                   address: wallet.address
                 })}
               {!wallet && this.renderNoWallet()}
             </Col>
-            <Col md={6} push={2}>
+            <Col xs={24} sm={12} md={9} lg={8} style={{ marginTop: 40 }}>
               <AccountSection
                 createNew={createNew}
                 setWallet={this.setWallet}
+                setErc20TokensInfo={this.setERC20TokensInfo}
                 wallet={wallet}
               />
             </Col>

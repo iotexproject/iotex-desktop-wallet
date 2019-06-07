@@ -8,16 +8,31 @@ export const xconf: {
   getConf<T>(name: string, defaultvalue?: T): T;
   setConf<T>(name: string, value: T): boolean;
 } = window.xconf || {
+  // tslint:disable-next-line:no-any
   getConf: (name: string, defaultvalue?: any): any => {
-    return tmpdata[name] || defaultvalue;
+    try {
+      const value = window.localStorage.getItem(name);
+      if (value) {
+        return JSON.parse(value);
+      }
+      return defaultvalue;
+    } catch (e) {
+      return tmpdata[name] || defaultvalue;
+    }
   },
   setConf: (name: string, value: any): boolean => {
-    tmpdata[name] = value;
+    try {
+      window.localStorage.setItem(name, JSON.stringify(value));
+    } catch (e) {
+      tmpdata[name] = value;
+    }
     return true;
   }
 };
+window.xconf = xconf;
 
 export enum XConfKeys {
   KEYSTORES = "keystores",
-  LAST_USED_KEYSTORE_NAME = "last_used_keystore_name"
+  LAST_USED_KEYSTORE_NAME = "last_used_keystore_name",
+  ERC20_TOKENS_ADDRS = "erc20_tokens_address"
 }

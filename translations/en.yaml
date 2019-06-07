@@ -99,6 +99,8 @@ render.key.denomination: denomination
 render.key.owner: owner
 render.key.candidates: candidates
 render.key.nonce: nonce
+render.key.to: To
+render.key.tokens: Tokens Transferred
 action.data: Data
 action.hash: Hash
 action.block_hash: Block
@@ -260,6 +262,7 @@ account.protect: Protect your keys & always check that you are on correct URL.
 account.responsible: You are responsible for your security.
 account.wallet: Wallet
 account.change: Change Wallet
+account.erc20.addCustom: Custom Tokens
 account.testnet.token: IOTX
 account.address: Account Address
 account.transaction-history: Go to transaction history
@@ -282,6 +285,7 @@ wallet.transfer.title: Send IOTX
 wallet.error.required: This field is required.
 wallet.error.number: This field should be number
 wallet.input.amount: Amount
+wallet.input.type: Type
 broadcast.success: Broadcast transaction successfully
 broadcast.warn.one: >-
   Your TX has been broadcast to the network. This does not mean it has been
