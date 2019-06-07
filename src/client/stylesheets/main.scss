@@ -308,8 +308,6 @@ input {
   width: 0;
   height: 0;
 }
-.no-scrollbar .ant-spin-container {
-  padding: 5px;
 
 .ant-modal-body {
   padding-top: 0 !important;
@@ -321,4 +319,13 @@ input {
 
 .wallet-delete-token {
   width: 20px;
+}
+
+.chain-network-switch .ant-select-selection {
+  border-radius: 16px;
+}
+
+.chain-network-switch .ant-select-selection-selected-value {
+  float: unset;
+  text-align: center;
 }

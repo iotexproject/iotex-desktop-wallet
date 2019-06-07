@@ -1,3 +1,6 @@
+import { Account } from "iotex-antenna/lib/account/account";
+import { IERC20TokenInfoDict } from "../../erc20/erc20Token";
+
 export type QueryType = "CONTRACT_INTERACT";
 
 export type QueryParams = {
@@ -25,3 +28,30 @@ export const queryParamsReducer = (
   }
   return state || {};
 };
+
+export interface IRPCProvider {
+  name: string;
+  url: string;
+}
+
+export type WalletAction = {
+  type: "SET_WALLET" | "SET_NETWORK" | "ADD_CUSTOM_RPC" | "UPDATE_ERC20_TOKENS";
+  payload: {
+    account?: Account;
+    network?: string;
+    customRPC?: Array<IRPCProvider>;
+    erc20Tokens?: IERC20TokenInfoDict;
+  };
+};
+
+export type WalletState = {
+  account?: Account;
+  network?: string;
+  customRPC?: Array<IRPCProvider>;
+  erc20Tokens?: IERC20TokenInfoDict;
+};
+
+export const walletReducer = (
+  state: WalletState = {},
+  action: WalletAction
+) => {};

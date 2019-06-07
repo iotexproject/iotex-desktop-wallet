@@ -20,6 +20,7 @@ import { colors } from "../common/styles/style-color";
 import { TooltipButton } from "../common/tooltip-button";
 import { xconf, XConfKeys } from "../common/xconf";
 import AddCustomTokensFormModal from "./add-erc20-tokens-form-modal";
+import { ChainNetworkSwitch } from "./chain-network-switch";
 import { getAntenna } from "./get-antenna";
 
 export interface Props {
@@ -288,9 +289,7 @@ export default class AccountSection extends React.Component<Props, State> {
         bodyStyle={{ padding: 0, wordBreak: "break-word" }}
         style={{ borderRadius: 5 }}
       >
-        <Row
-          type="flex"
-          justify="space-between"
+        <div
           style={{
             backgroundColor: colors.primary,
             color: colors.white,
@@ -298,16 +297,21 @@ export default class AccountSection extends React.Component<Props, State> {
             borderRadius: "5px 5px 0px 0px"
           }}
         >
-          <Col>
-            <Icon type="wallet" /> {t("account.wallet")}
-          </Col>
-          <Col
-            style={{ cursor: "pointer" }}
-            onClick={() => this.showCustomTokensForm()}
-          >
-            <Icon type="plus" /> {t("account.erc20.addCustom")}
-          </Col>
-        </Row>
+          <Row type="flex" justify="space-between" align="middle">
+            <Col>
+              <Icon type="wallet" /> {t("account.wallet")}
+            </Col>
+            <Col
+              style={{ cursor: "pointer" }}
+              onClick={() => this.showCustomTokensForm()}
+            >
+              <Icon type="plus" /> {t("account.erc20.addCustom")}
+            </Col>
+          </Row>
+          <Row type="flex" justify="center" align="middle">
+            <ChainNetworkSwitch />
+          </Row>
+        </div>
         {this.renderBalance()}
         <Row
           type="flex"

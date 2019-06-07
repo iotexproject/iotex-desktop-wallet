@@ -88,10 +88,10 @@ module.exports = {
   apiGatewayUrl: getApiGatewayUrl() || "http://localhost:4004/api-gateway/",
   webBpApiGatewayUrl: "https://member.iotex.io/api-gateway/",
   multiChain: {
-    current: process.env.CURRENT_CHAIN_NAME || "mainnnet",
+    current: process.env.CURRENT_CHAIN_NAME || "mainnet",
     chains: [
       {
-        name: "mainnnet",
+        name: "mainnet",
         url: "https://iotexscan.io/"
       },
       {
