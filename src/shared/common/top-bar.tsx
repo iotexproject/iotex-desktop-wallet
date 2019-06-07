@@ -146,9 +146,13 @@ class TopBarComponent extends Component<Props, State> {
       <AntdMenu style={overlayStyle}>
         {this.toolMenus.map(({ directTo, itemText }) => (
           <AntdMenu.Item key={itemText}>
-            <A href={directTo} target="_blank">
-              {t(itemText)}
-            </A>
+            {directTo.match(/\/wallet/i) ? (
+              <StyledLink to={directTo}>{t(itemText)}</StyledLink>
+            ) : (
+              <A href={directTo} target="_blank">
+                {t(itemText)}
+              </A>
+            )}
           </AntdMenu.Item>
         ))}
       </AntdMenu>
