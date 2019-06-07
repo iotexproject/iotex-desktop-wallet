@@ -1,4 +1,5 @@
 import BigNumber from "bignumber.js";
+import { Account } from "iotex-antenna/lib/account/account";
 import { getAntenna } from "../shared/wallet/get-antenna";
 import { DecodeData, ERC20, IERC20 } from "./erc20";
 
@@ -48,33 +49,39 @@ export class ERC20Token {
     return this.erc20.decode(data);
   }
 
-  public async getInfo(walletAddress: string): Promise<IERC20TokenInfo | null> {
+  public async getInfo(walletAddress: string): Promise<IERC20TokenInfo> {
     const erc20 = this.erc20;
-    try {
-      const [balance, name, symbol, decimals] = await Promise.all<
-        BigNumber,
-        string,
-        string,
-        BigNumber
-      >([
-        erc20.balanceOf(walletAddress, walletAddress),
-        erc20.name(walletAddress),
-        erc20.symbol(walletAddress),
-        erc20.decimals(walletAddress)
-      ]);
-      const balanceString = balance
-        .dividedBy(10 ** decimals.toNumber())
-        .toString();
-      return {
-        erc20TokenAddress: this.erc20.address,
-        balance,
-        decimals,
-        symbol,
-        name,
-        balanceString
-      };
-    } catch (error) {
-      return null;
-    }
+    const [balance, name, symbol, decimals] = await Promise.all<
+      BigNumber,
+      string,
+      string,
+      BigNumber
+    >([
+      erc20.balanceOf(walletAddress, walletAddress),
+      erc20.name(walletAddress),
+      erc20.symbol(walletAddress),
+      erc20.decimals(walletAddress)
+    ]);
+    const balanceString = balance
+      .dividedBy(10 ** decimals.toNumber())
+      .toString();
+    return {
+      erc20TokenAddress: this.erc20.address,
+      balance,
+      decimals,
+      symbol,
+      name,
+      balanceString
+    };
+  }
+
+  public async transfer(
+    to: string,
+    value: BigNumber,
+    account: Account,
+    gasPrice: string,
+    gasLimit: string
+  ): Promise<string> {
+    return this.erc20.transfer(to, value, account, gasPrice, gasLimit);
   }
 }

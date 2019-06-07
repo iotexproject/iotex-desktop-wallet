@@ -1,4 +1,4 @@
-import { Icon, Select } from "antd";
+import { Icon, notification, Select } from "antd";
 import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Col from "antd/lib/grid/col";
@@ -14,8 +14,7 @@ import Helmet from "onefx/lib/react-helmet";
 import * as React from "react";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import { ERC20 } from "../../../erc20";
-import { IERC20TokenInfoDict } from "../../../erc20/erc20Token";
+import { ERC20Token, IERC20TokenInfoDict } from "../../../erc20/erc20Token";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { rulesMap } from "../../common/rules";
@@ -77,8 +76,7 @@ class TransferForm extends React.PureComponent<Props, State> {
         symbol
       } = value;
 
-      const erc20 =
-        symbol === "iotx" ? null : ERC20.create(symbol, getAntenna().iotx);
+      const erc20 = symbol.match(/iotx/) ? null : ERC20Token.getToken(symbol);
 
       this.setState({ sending: true, showConfirmTransfer: false });
       let txHash = "";
@@ -93,15 +91,21 @@ class TransferForm extends React.PureComponent<Props, State> {
             gasPrice: gasPrice || undefined
           })})`
         );
-
-        txHash = await antenna.iotx.sendTransfer({
-          from: address,
-          to: recipient,
-          value: toRau(amount, "Iotx"),
-          payload: dataInHex,
-          gasLimit: gasLimit || undefined,
-          gasPrice: gasPrice || undefined
-        });
+        try {
+          txHash = await antenna.iotx.sendTransfer({
+            from: address,
+            to: recipient,
+            value: toRau(amount, "Iotx"),
+            payload: dataInHex,
+            gasLimit: gasLimit || undefined,
+            gasPrice: gasPrice || undefined
+          });
+        } catch (error) {
+          notification.error({
+            message: `${error.message}`,
+            duration: 3
+          });
+        }
       } else {
         const erc20Info = this.props.erc20TokensInfo[symbol];
         const erc20Amount = new BigNumber(amount).multipliedBy(
@@ -117,13 +121,20 @@ class TransferForm extends React.PureComponent<Props, State> {
                 ${gasLimit}
               )`
         );
-        txHash = await erc20.transfer(
-          recipient,
-          erc20Amount,
-          wallet,
-          gasPriceRau,
-          gasLimit
-        );
+        try {
+          txHash = await erc20.transfer(
+            recipient,
+            erc20Amount,
+            wallet,
+            gasPriceRau,
+            gasLimit
+          );
+        } catch (error) {
+          notification.error({
+            message: `${error.message}`,
+            duration: 3
+          });
+        }
       }
       this.setState({
         sending: false,
