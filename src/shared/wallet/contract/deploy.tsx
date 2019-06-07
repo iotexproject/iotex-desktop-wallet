@@ -456,7 +456,11 @@ class DeployFormInner extends Component<DeployProps, State> {
           )}
         </Form.Item>
         {this.renderGenerateAbiButton()}
-        {AbiFormInputItem(form, "", this.onABIChange)}
+        <AbiFormInputItem
+          form={form}
+          initialValue=""
+          onChange={this.onABIChange}
+        />
         <Form.Item
           {...formItemLayout}
           label={<FormItemLabel>{t("wallet.input.byteCode")}</FormItemLabel>}
