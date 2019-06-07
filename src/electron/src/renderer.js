@@ -4,18 +4,18 @@
 const { shell, app, remote } = require("electron");
 const { resolve } = require("path");
 const { readFileSync, writeFileSync } = require("fs");
-const win = require("global/window");
+const window = require("global/window");
 const log = require("electron-log");
 const { ipcRenderer } = require("electron");
 const isDev = require("electron-is-dev");
 
-win.xopen = function(url, frameName, features) {
+window.xopen = function(url, frameName, features) {
   shell.openExternal(url);
 };
 
 // The xconf is used to store user configurations with electron.
 // Config's value should be able to store under JSON string.
-win.xconf = new (function() {
+window.xconf = new (function() {
   const userDataPath = (app || remote.app).getPath("userData");
   const userConfName = resolve(userDataPath, "iotex-wallet-conf.json");
   let confData = {};
@@ -56,7 +56,7 @@ win.xconf = new (function() {
 })();
 
 let solcID = 1;
-win.solidityCompile = function(source, callback) {
+window.solidityCompile = function(source, callback) {
   const arg = {
     id: solcID++,
     source
@@ -65,20 +65,26 @@ win.solidityCompile = function(source, callback) {
   ipcRenderer.send("solc", arg);
 };
 
-win.document.addEventListener("DOMContentLoaded", () => {
+window.document.addEventListener("DOMContentLoaded", () => {
   require("../../../dist/memory-main.js");
   if (isDev) {
     ["../../../dist/stylesheets/main.css", "../../../dist/antd.css"].forEach(
       it => {
-        const link = win.document.createElement("link");
+        const link = window.document.createElement("link");
         link.rel = "stylesheet";
         link.href = it;
-        win.document.getElementsByTagName("head")[0].appendChild(link);
+        window.document.getElementsByTagName("head")[0].appendChild(link);
       }
     );
   }
 });
 
-ipcRenderer.on("query", function(event, store) {
-  win.query = store;
+ipcRenderer.on("query", function(event, query) {
+  const actionEvent = {
+    type: "QUERY_PARAMS",
+    payload: query,
+    nonce: Math.random()
+  };
+  console.log("dispatching ", JSON.stringify(actionEvent));
+  window.dispatch(actionEvent);
 });
