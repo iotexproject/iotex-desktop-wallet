@@ -8,7 +8,7 @@ topbar.search: "Search by Address / Public Key / Hash / Height"
 topbar.home: HOME
 topbar.graphql_playground: "GraphQL Playground"
 topbar.graphql_doc: "GraphQL Doc"
-topbar.wallet: WALLET
+topbar.wallet: Wallet
 topbar.goback_home: Go back home
 topbar.voting: Voting
 topbar.dashboard: Dashboard
