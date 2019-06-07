@@ -7,6 +7,7 @@
 .section-top {
   background: #fff;
   margin-bottom: 20px;
+  border-radius: 5px;
 }
 .page-title {
   font-size: 22px;
@@ -256,11 +257,17 @@
 }
 
 .ant-card {
+  -webkit-box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.3) !important;
+  -moz-box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.3) !important;
+  box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.3) !important;
   &:hover {
-    -webkit-box-shadow: 0 2px 8px 0 rgba(21, 26, 33, 0.43) !important;
-    -moz-box-shadow: 0 2px 8px 0 rgba(21, 26, 33, 0.43) !important;
-    box-shadow: 0 2px 8px 0 rgba(21, 26, 33, 0.43) !important;
+    transform: scale(1.02);
   }
+}
+.block-card-wrap:nth-child(1) .ant-card {
+  -webkit-box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.5) !important;
+  -moz-box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.5) !important;
+  box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.5) !important;
 }
 
 .keystore-tag {
@@ -301,6 +308,8 @@ input {
   width: 0;
   height: 0;
 }
+.no-scrollbar .ant-spin-container {
+  padding: 5px;
 
 .ant-modal-body {
   padding-top: 0 !important;

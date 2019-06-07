@@ -43,7 +43,8 @@ const BlockCardStyles: { [index: string]: CSSProperties } = {
     background: "transparent",
     borderRadius: 5,
     backgroundSize: "cover",
-    overflow: "hidden"
+    overflow: "hidden",
+    border: 0
   },
   content: {
     padding: 10,
@@ -87,7 +88,7 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
   }
 
   return (
-    <div style={{ padding: 5 }}>
+    <div style={{ padding: 5 }} className="block-card-wrap">
       <SpinPreloader spinning={!props.block}>
         <Card
           style={{
