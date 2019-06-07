@@ -24,7 +24,7 @@ import { colors } from "./common/styles/style-color";
 import { fonts } from "./common/styles/style-font";
 import { TopBar } from "./common/top-bar";
 import { Home } from "./home/home";
-import Wallet from "./wallet/wallet";
+import { Wallet } from "./wallet/wallet";
 
 type Props = {
   googleTid: string;

@@ -209,11 +209,11 @@ app.on(
 );
 
 // check for updates
-const queryString = require("query-string");
-
 app.on("ready", function() {
   autoUpdater.checkForUpdatesAndNotify();
 });
+
+const queryString = require("query-string");
 
 // check for deep link
 app.setAsDefaultProtocolClient("iopay");
