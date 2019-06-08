@@ -17,23 +17,37 @@ export const ABI = [
     constant: false,
     inputs: [
       {
-        name: "spender",
+        name: "_spender",
         type: "address"
       },
       {
-        name: "tokens",
+        name: "_value",
         type: "uint256"
       }
     ],
     name: "approve",
     outputs: [
       {
-        name: "success",
+        name: "",
         type: "bool"
       }
     ],
     payable: false,
     stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "cycleIncrementalSupply",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
     type: "function"
   },
   {
@@ -54,22 +68,22 @@ export const ABI = [
     constant: false,
     inputs: [
       {
-        name: "from",
+        name: "_from",
         type: "address"
       },
       {
-        name: "to",
+        name: "_to",
         type: "address"
       },
       {
-        name: "tokens",
+        name: "_value",
         type: "uint256"
       }
     ],
     name: "transferFrom",
     outputs: [
       {
-        name: "success",
+        name: "",
         type: "bool"
       }
     ],
@@ -95,14 +109,158 @@ export const ABI = [
     constant: true,
     inputs: [
       {
-        name: "tokenOwner",
+        name: "",
+        type: "address"
+      }
+    ],
+    name: "lastClaimViewIDs",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_newVPS",
+        type: "address"
+      }
+    ],
+    name: "setVPS",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [],
+    name: "unpause",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "genesisPoolAddress",
+    outputs: [
+      {
+        name: "",
+        type: "address"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "amount",
+        type: "uint256"
+      }
+    ],
+    name: "burn",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [],
+    name: "claim",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "poolSize",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "vps",
+    outputs: [
+      {
+        name: "",
+        type: "address"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "paused",
+    outputs: [
+      {
+        name: "",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_spender",
+        type: "address"
+      },
+      {
+        name: "_subtractedValue",
+        type: "uint256"
+      }
+    ],
+    name: "decreaseApproval",
+    outputs: [
+      {
+        name: "success",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_owner",
         type: "address"
       }
     ],
     name: "balanceOf",
     outputs: [
       {
-        name: "balance",
+        name: "",
         type: "uint256"
       }
     ],
@@ -113,10 +271,24 @@ export const ABI = [
   {
     constant: false,
     inputs: [],
-    name: "acceptOwnership",
+    name: "pause",
     outputs: [],
     payable: false,
     stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "rewardPoolAddress",
+    outputs: [
+      {
+        name: "",
+        type: "address"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
     type: "function"
   },
   {
@@ -131,6 +303,34 @@ export const ABI = [
     ],
     payable: false,
     stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "lastTradingPoolClaimViewID",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_newTradingPool",
+        type: "address"
+      }
+    ],
+    name: "setTradingPoolAddress",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
     type: "function"
   },
   {
@@ -151,18 +351,18 @@ export const ABI = [
     constant: false,
     inputs: [
       {
-        name: "to",
+        name: "_to",
         type: "address"
       },
       {
-        name: "tokens",
+        name: "_value",
         type: "uint256"
       }
     ],
     name: "transfer",
     outputs: [
       {
-        name: "success",
+        name: "",
         type: "bool"
       }
     ],
@@ -171,22 +371,69 @@ export const ABI = [
     type: "function"
   },
   {
+    constant: true,
+    inputs: [],
+    name: "claimable",
+    outputs: [
+      {
+        name: "",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
     constant: false,
     inputs: [
       {
-        name: "spender",
+        name: "_newRewardPool",
+        type: "address"
+      }
+    ],
+    name: "setRewardPoolAddress",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [],
+    name: "updateCycle",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "lastRewardPoolClaimViewID",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_spender",
         type: "address"
       },
       {
-        name: "tokens",
+        name: "_addedValue",
         type: "uint256"
-      },
-      {
-        name: "data",
-        type: "bytes"
       }
     ],
-    name: "approveAndCall",
+    name: "increaseApproval",
     outputs: [
       {
         name: "success",
@@ -199,8 +446,45 @@ export const ABI = [
   },
   {
     constant: true,
+    inputs: [
+      {
+        name: "_owner",
+        type: "address"
+      },
+      {
+        name: "_spender",
+        type: "address"
+      }
+    ],
+    name: "allowance",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "newOwner",
+        type: "address"
+      }
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: true,
     inputs: [],
-    name: "newOwner",
+    name: "tradingPoolAddress",
     outputs: [
       {
         name: "",
@@ -212,91 +496,99 @@ export const ABI = [
     type: "function"
   },
   {
-    constant: false,
     inputs: [
       {
-        name: "tokenAddress",
+        name: "_vps",
         type: "address"
       },
       {
-        name: "tokens",
-        type: "uint256"
-      }
-    ],
-    name: "transferAnyERC20Token",
-    outputs: [
-      {
-        name: "success",
-        type: "bool"
-      }
-    ],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
-    constant: true,
-    inputs: [
-      {
-        name: "tokenOwner",
+        name: "_genesisPoolAddress",
         type: "address"
       },
       {
-        name: "spender",
+        name: "_rewardPoolAddress",
+        type: "address"
+      },
+      {
+        name: "_tradingPoolAddress",
         type: "address"
       }
     ],
-    name: "allowance",
-    outputs: [
-      {
-        name: "remaining",
-        type: "uint256"
-      }
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function"
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_newOwner",
-        type: "address"
-      }
-    ],
-    name: "transferOwnership",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
-    inputs: [],
     payable: false,
     stateMutability: "nonpayable",
     type: "constructor"
   },
   {
-    payable: true,
-    stateMutability: "payable",
-    type: "fallback"
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        name: "claimer",
+        type: "address"
+      },
+      {
+        indexed: false,
+        name: "amount",
+        type: "uint256"
+      },
+      {
+        indexed: false,
+        name: "viewID",
+        type: "uint256"
+      }
+    ],
+    name: "Claim",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [],
+    name: "Pause",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [],
+    name: "Unpause",
+    type: "event"
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        name: "_from",
+        name: "previousOwner",
         type: "address"
       },
       {
         indexed: true,
-        name: "_to",
+        name: "newOwner",
         type: "address"
       }
     ],
     name: "OwnershipTransferred",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        name: "owner",
+        type: "address"
+      },
+      {
+        indexed: true,
+        name: "spender",
+        type: "address"
+      },
+      {
+        indexed: false,
+        name: "value",
+        type: "uint256"
+      }
+    ],
+    name: "Approval",
     type: "event"
   },
   {
@@ -314,33 +606,11 @@ export const ABI = [
       },
       {
         indexed: false,
-        name: "tokens",
+        name: "value",
         type: "uint256"
       }
     ],
     name: "Transfer",
-    type: "event"
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        name: "tokenOwner",
-        type: "address"
-      },
-      {
-        indexed: true,
-        name: "spender",
-        type: "address"
-      },
-      {
-        indexed: false,
-        name: "tokens",
-        type: "uint256"
-      }
-    ],
-    name: "Approval",
     type: "event"
   }
 ];
