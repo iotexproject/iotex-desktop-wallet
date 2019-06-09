@@ -9,6 +9,7 @@ export type QueryParams = {
   gasLimit?: number;
   abi?: string;
   type?: QueryType;
+  queryNonce?: number;
 };
 
 type QueryParamAction = {

@@ -82,8 +82,7 @@ window.document.addEventListener("DOMContentLoaded", () => {
 ipcRenderer.on("query", function(event, query) {
   const actionEvent = {
     type: "QUERY_PARAMS",
-    payload: query,
-    nonce: Math.random()
+    payload: { ...query, queryNonce: Math.random() }
   };
   console.log("dispatching ", JSON.stringify(actionEvent));
   window.dispatch(actionEvent);

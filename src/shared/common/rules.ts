@@ -38,7 +38,7 @@ export const rules: Rules = {
       return new BigNumber(value);
     },
     validator: (_, value: BigNumber, callback) => {
-      if (value instanceof BigNumber && value.isGreaterThan(0)) {
+      if (value instanceof BigNumber && value.isGreaterThanOrEqualTo(0)) {
         callback();
       } else {
         callback(t("wallet.error.number"));

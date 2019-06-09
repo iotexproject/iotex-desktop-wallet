@@ -73,6 +73,7 @@ interface InteractProps extends FormComponentProps {
   gasLimit?: number;
   abi?: string;
   contractAddress?: string;
+  method?: string;
 }
 
 type State = {
@@ -117,15 +118,20 @@ const ContractAddressFormInputItem = ({
 };
 
 class InteractFormInner extends Component<InteractProps, State> {
-  public state: State = {
-    abiFunctions: null,
-    selectedFunction: "",
-    outputValues: [],
-    broadcast: null,
-    txHash: "",
-    showConfirmInteract: false,
-    confirmInteractFunction: () => {}
-  };
+  public state: State;
+
+  constructor(props: InteractProps) {
+    super(props);
+    this.state = {
+      abiFunctions: null,
+      selectedFunction: props.method || "",
+      outputValues: [],
+      broadcast: null,
+      txHash: "",
+      showConfirmInteract: false,
+      confirmInteractFunction: () => {}
+    };
+  }
 
   public handleAccess = () => {
     this.props.form.validateFields((err, values) => {
@@ -143,6 +149,12 @@ class InteractFormInner extends Component<InteractProps, State> {
       }
     });
   };
+
+  public componentDidMount(): void {
+    if (this.props.method) {
+      this.handleAccess();
+    }
+  }
 
   public handleReadWithInput = () => {
     const { fromAddress } = this.props;
@@ -228,7 +240,7 @@ class InteractFormInner extends Component<InteractProps, State> {
           gasPrice,
           gasLimit
         })},`,
-        ...args,
+        ...(args || []),
         ")"
       );
 
@@ -243,7 +255,7 @@ class InteractFormInner extends Component<InteractProps, State> {
             gasPrice,
             gasLimit
           },
-          ...args
+          ...(args || [])
         );
         this.setState({
           broadcast: {
@@ -253,7 +265,7 @@ class InteractFormInner extends Component<InteractProps, State> {
         });
       } catch (e) {
         notification.error({
-          message: e.message
+          message: `failed to executeContract: ${e}`
         });
       }
     });
@@ -350,7 +362,9 @@ class InteractFormInner extends Component<InteractProps, State> {
         <Form.Item
           label={<FormItemLabel>{t("wallet.interact.contract")}</FormItemLabel>}
         >
-          {getFieldDecorator("selectedFunction")(
+          {getFieldDecorator("selectedFunction", {
+            initialValue: this.state.selectedFunction
+          })(
             <Select className="form-input">
               {Object.keys(abiFunctions).map(name => (
                 <Option value={name} key={name}>

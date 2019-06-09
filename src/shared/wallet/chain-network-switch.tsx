@@ -110,7 +110,7 @@ export const ChainNetworkSwitch = connect<IChainNetworkSwitchComponentProps>(
   // tslint:disable-next-line:no-any
   (state: any) => {
     const {
-      base: { multiChain, defaultERC20Tokens = [] }
+      base: { multiChain = {}, defaultERC20Tokens = [] }
     } = state;
     const { customRPCs = [], network } = state.wallet;
     return {
