@@ -69,7 +69,7 @@ class AddCustomRPCFormModal extends React.PureComponent<
             rules: rulesMap.name
           })(
             <Input
-              placeholder="custom net name"
+              placeholder={t("account.rpc.nameHolder")}
               style={{ width: "100%", background: colors.black10 }}
               name="name"
             />

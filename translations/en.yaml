@@ -354,5 +354,6 @@ multiChain.chains.custom: Custom RPC
 wallet.input.name: Name
 wallet.input.url: Url
 account.addCustomRPC: Add custom RPC
+account.rpc.nameHolder: My RPC
 input.error.url.invalid: Invalid URL
 input.error.rpc.invalid: Can't connect to Network Provider!
