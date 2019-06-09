@@ -77,24 +77,28 @@ class ActionDetailsInner extends PureComponent<Props> {
     }
     object = object || {};
     if (object.contract && object.data) {
-      const info = ERC20Token.getToken(object.contract).decode(object.data);
-      if (info) {
-        const tokenInfo = await ERC20Token.getToken(object.contract).getInfo(
-          object.contract
-        );
-        if (tokenInfo) {
-          const tokenTransfered =
-            info.data.tokens / 10 ** tokenInfo.decimals.toNumber();
-          object = {
-            amount: object.amount,
-            contract: object.contract,
-            to: info.data.to,
-            tokens: `${tokenTransfered} ${tokenInfo.symbol} (${
-              tokenInfo.name
-            })`,
-            data: object.data
-          };
+      try {
+        const info = ERC20Token.getToken(object.contract).decode(object.data);
+        if (info) {
+          const tokenInfo = await ERC20Token.getToken(object.contract).getInfo(
+            object.contract
+          );
+          if (tokenInfo) {
+            const tokenTransfered =
+              info.data.tokens / 10 ** tokenInfo.decimals.toNumber();
+            object = {
+              amount: object.amount,
+              contract: object.contract,
+              to: info.data.to,
+              tokens: `${tokenTransfered} ${tokenInfo.symbol} (${
+                tokenInfo.name
+              })`,
+              data: object.data
+            };
+          }
         }
+      } catch (e) {
+        window.console.error(`failed to parse ERC20 token: ${e}`);
       }
     }
 

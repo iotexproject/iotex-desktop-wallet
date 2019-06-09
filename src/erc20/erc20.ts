@@ -260,9 +260,10 @@ export class ERC20 implements IERC20 {
     if (data.length < 8) {
       throw new Error("input data error");
     }
-    const method = this.methods[data.substr(0, 8)];
+    const methodKey = data.substr(0, 8);
+    const method = this.methods[methodKey];
     if (!method) {
-      throw new Error("method is not erc20 method");
+      throw new Error(`method ${methodKey} is not erc20 method`);
     }
     const params = ethereumjs.rawDecode(
       method.inputsTypes,
