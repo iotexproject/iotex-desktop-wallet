@@ -74,9 +74,9 @@ class WalletInner extends PureComponent<Props, State> {
     let activeKey = routes.transfer;
     if (queryType === "CONTRACT_INTERACT") {
       activeKey = `/wallet/smart-contract/interact`;
-    }
-    if (history.location.pathname !== activeKey) {
-      history.push(activeKey);
+      if (history.location.pathname !== activeKey) {
+        history.push(activeKey);
+      }
     }
   }
 

@@ -18,8 +18,8 @@ export const addCustomRPC = (network: IRPCProvider): WalletAction => ({
   }
 });
 
-export const setWallet = (account: Account): WalletAction => ({
-  type: "SET_WALLET",
+export const setAccount = (account: Account): WalletAction => ({
+  type: "SET_ACCOUNT",
   payload: {
     account
   }

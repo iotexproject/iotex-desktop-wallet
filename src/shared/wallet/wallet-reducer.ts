@@ -35,7 +35,11 @@ export interface IRPCProvider {
 }
 
 export type WalletAction = {
-  type: "SET_WALLET" | "SET_NETWORK" | "ADD_CUSTOM_RPC" | "UPDATE_ERC20_TOKENS";
+  type:
+    | "SET_ACCOUNT"
+    | "SET_NETWORK"
+    | "ADD_CUSTOM_RPC"
+    | "UPDATE_ERC20_TOKENS";
   payload: {
     account?: Account;
     network?: IRPCProvider;
@@ -59,7 +63,7 @@ export const walletReducer = (
   action: WalletAction
 ) => {
   switch (action.type) {
-    case "SET_WALLET":
+    case "SET_ACCOUNT":
       const { account } = action.payload;
       if (!account) {
         return state;

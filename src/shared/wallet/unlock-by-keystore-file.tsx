@@ -18,7 +18,7 @@ import { xconf, XConfKeys } from "../common/xconf";
 import { PasswordFormInputItem } from "./contract/cards";
 import { getAntenna } from "./get-antenna";
 import { FormItemLabel } from "./wallet";
-import { setWallet } from "./wallet-actions";
+import { setAccount } from "./wallet-actions";
 
 export interface State {
   priKey: string;
@@ -55,7 +55,7 @@ class UnlockByKeystoreFileInnerComponent extends PureComponent<
           const account = await antenna.iotx.accounts.privateKeyToAccount(
             privateKey
           );
-          this.props.dispatch(setWallet(account));
+          this.props.dispatch(setAccount(account));
         } catch (e) {
           const msg = String(e);
           if (msg.indexOf("SyntaxError") !== -1) {

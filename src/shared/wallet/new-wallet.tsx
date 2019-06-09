@@ -15,7 +15,7 @@ import { CommonMargin } from "../common/common-margin";
 import { DownloadKeystoreForm } from "./download-keystore-form";
 import { getAntenna } from "./get-antenna";
 import { FormItemLabel, inputStyle } from "./wallet";
-import { setWallet } from "./wallet-actions";
+import { setAccount } from "./wallet-actions";
 
 export interface Props extends DispatchProp {
   form: WrappedFormUtils;
@@ -23,27 +23,27 @@ export interface Props extends DispatchProp {
 
 export interface State {
   copied: boolean;
-  wallet: Account;
+  account: Account;
 }
 
 class NewWallet extends React.Component<Props, State> {
   public state: State = {
     copied: false,
-    wallet: getAntenna().iotx.accounts.create()
+    account: getAntenna().iotx.accounts.create()
   };
 
   public copyPriKey = () => {
-    const { wallet } = this.state;
-    copyCB(wallet.privateKey);
+    const { account } = this.state;
+    copyCB(account.privateKey);
     this.setState({ copied: true });
   };
 
-  public setWallet = () => {
-    this.props.dispatch(setWallet(this.state.wallet));
+  public setAccount = () => {
+    this.props.dispatch(setAccount(this.state.account));
   };
 
   public render(): JSX.Element {
-    const { wallet, copied } = this.state;
+    const { account, copied } = this.state;
 
     const copyButton = (
       // @ts-ignore
@@ -72,7 +72,7 @@ class NewWallet extends React.Component<Props, State> {
             <Input
               style={inputStyle}
               placeholder={t("wallet.account.addressPlaceHolder")}
-              value={wallet.address}
+              value={account.address}
               readOnly={true}
             />
           </Form.Item>
@@ -83,15 +83,15 @@ class NewWallet extends React.Component<Props, State> {
               className="form-input"
               placeholder={t("wallet.account.addressPlaceHolder")}
               addonAfter={copyButton}
-              value={wallet.privateKey}
+              value={account.privateKey}
               readOnly={true}
             />
           </Form.Item>
         </Form>
 
         <DownloadKeystoreForm
-          privateKey={wallet.privateKey}
-          address={wallet.address}
+          privateKey={account.privateKey}
+          address={account.address}
         />
 
         <CommonMargin />
@@ -118,7 +118,7 @@ class NewWallet extends React.Component<Props, State> {
           showIcon
         />
         <br />
-        <Button href="#" type="primary" onClick={this.setWallet}>
+        <Button href="#" type="primary" onClick={this.setAccount}>
           {t("new-wallet.button.unlock")}
         </Button>
         <CommonMargin />

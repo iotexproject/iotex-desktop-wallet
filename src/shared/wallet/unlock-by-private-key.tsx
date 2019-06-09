@@ -9,7 +9,7 @@ import React, { PureComponent } from "react";
 import { connect, DispatchProp } from "react-redux";
 import { getAntenna } from "./get-antenna";
 import { FormItemLabel } from "./wallet";
-import { setWallet } from "./wallet-actions";
+import { setAccount } from "./wallet-actions";
 
 export interface State {
   priKey: string;
@@ -40,7 +40,7 @@ class UnlockByPrivateKeyInner extends PureComponent<
         const { priKey } = this.state;
         const antenna = getAntenna();
         const account = await antenna.iotx.accounts.privateKeyToAccount(priKey);
-        this.props.dispatch(setWallet(account));
+        this.props.dispatch(setAccount(account));
       }
     });
   };
