@@ -348,3 +348,12 @@ home.blocklist.ofActions: of actions
 signin_modal.wallet: IoTeX Wallet
 signin_modal.sign_in: Sign In with IoTeX Wallet
 signin_modal.download: Haven't installed yet? Download
+multiChain.chains.mainnet: Main IoTeX Network
+multiChain.chains.testnet: IoTeX Test Network
+multiChain.chains.custom: Custom RPC
+wallet.input.name: Name
+wallet.input.url: Url
+account.addCustomRPC: Add custom RPC
+account.rpc.nameHolder: My RPC
+input.error.url.invalid: Invalid URL
+input.error.rpc.invalid: Can't connect to Network Provider!

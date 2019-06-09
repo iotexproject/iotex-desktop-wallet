@@ -11,64 +11,87 @@ import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
+import { connect, DispatchProp } from "react-redux";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
 import { ERC20Token, IERC20TokenInfoDict } from "../../erc20/erc20Token";
 import { assetURL } from "../common/asset-url";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { onElectronClick } from "../common/on-electron-click";
+import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { TooltipButton } from "../common/tooltip-button";
 import { xconf, XConfKeys } from "../common/xconf";
 import AddCustomTokensFormModal from "./add-erc20-tokens-form-modal";
+import { ChainNetworkSwitch } from "./chain-network-switch";
 import { getAntenna } from "./get-antenna";
+import { setERC20Tokens } from "./wallet-actions";
+import { IRPCProvider, IWalletState } from "./wallet-reducer";
 
-export interface Props {
-  wallet?: Account | null;
-  setWallet?: Function;
-  setErc20TokensInfo?: Function;
+export interface Props extends DispatchProp {
+  account?: Account;
   createNew?: boolean;
+  network?: IRPCProvider;
 }
 
 export interface State {
   accountMeta: AccountMeta | undefined;
   erc20TokenInfos: IERC20TokenInfoDict;
   customTokensFormVisible: boolean;
+  accountCheckID: string;
+  isLoading: boolean;
 }
 
-export default class AccountSection extends React.Component<Props, State> {
+class AccountSection extends React.Component<Props, State> {
   public state: State = {
     accountMeta: undefined,
     erc20TokenInfos: {},
-    customTokensFormVisible: false
+    customTokensFormVisible: false,
+    accountCheckID: "",
+    isLoading: false
   };
 
   private pollAccountInterval: number | undefined;
 
   public componentDidMount(): void {
     this.pollAccount();
-    this.pollAccountInterval = window.setInterval(this.pollAccount, 3000);
   }
 
   public componentWillUnmount(): void {
-    window.clearInterval(this.pollAccountInterval);
+    window.clearTimeout(this.pollAccountInterval);
+  }
+
+  public componentDidUpdate(): void {
+    const { account, network } = this.props;
+    const accountCheckID = `${account && account.address}:${network &&
+      network.url}`;
+    if (this.state.accountCheckID !== accountCheckID) {
+      this.setState({ isLoading: true });
+      this.pollAccount();
+      this.setState({ accountCheckID });
+    }
   }
 
   public pollAccount = async () => {
-    const { wallet } = this.props;
-    if (wallet) {
-      await this.getAccount(wallet);
+    window.clearTimeout(this.pollAccountInterval);
+    const { account } = this.props;
+    if (account) {
+      await this.getAccount(account);
       await this.getErc20TokensInfo();
+      if (this.state.isLoading) {
+        this.setState({ isLoading: false });
+      }
     }
+    this.pollAccountInterval = window.setTimeout(this.pollAccount, 10000);
   };
 
   public getErc20TokensInfo = async () => {
-    const { wallet, setErc20TokensInfo } = this.props;
-    if (!wallet) {
+    const { account, dispatch } = this.props;
+    if (!account) {
       return;
     }
 
     const erc20Addresses = xconf.getConf<Array<string>>(
-      `${XConfKeys.ERC20_TOKENS_ADDRS}_${wallet.address}`,
+      `${XConfKeys.ERC20_TOKENS_ADDRS}_${account.address}`,
       []
     );
     if (!erc20Addresses.length) {
@@ -76,7 +99,7 @@ export default class AccountSection extends React.Component<Props, State> {
     }
     const tokenInfos = await Promise.all(
       erc20Addresses.map(addr =>
-        ERC20Token.getToken(addr).getInfo(wallet.address)
+        ERC20Token.getToken(addr).getInfo(account.address)
       )
     );
     const newErc20TokenInfos: IERC20TokenInfoDict = {};
@@ -86,17 +109,15 @@ export default class AccountSection extends React.Component<Props, State> {
       }
     });
     this.setState({ erc20TokenInfos: newErc20TokenInfos });
-    if (setErc20TokensInfo) {
-      setErc20TokensInfo(newErc20TokenInfos);
-    }
+    dispatch(setERC20Tokens(newErc20TokenInfos));
   };
 
-  public getAccount = async (wallet: Account) => {
-    if (!wallet) {
+  public getAccount = async (account: Account) => {
+    if (!account) {
       return;
     }
     const addressRes = await getAntenna().iotx.getAccount({
-      address: wallet.address
+      address: account.address
     });
     if (addressRes) {
       this.setState({ accountMeta: addressRes.accountMeta });
@@ -147,8 +168,8 @@ export default class AccountSection extends React.Component<Props, State> {
 
   public onAddCustomToken = async (erc20Address: string) => {
     const { erc20TokenInfos } = this.state;
-    const { wallet, setErc20TokensInfo } = this.props;
-    if (erc20TokenInfos[erc20Address] || !wallet) {
+    const { account, dispatch } = this.props;
+    if (erc20TokenInfos[erc20Address] || !account) {
       this.setState({
         customTokensFormVisible: false
       });
@@ -157,7 +178,7 @@ export default class AccountSection extends React.Component<Props, State> {
 
     try {
       const tokenInfo = await ERC20Token.getToken(erc20Address).getInfo(
-        wallet.address
+        account.address
       );
       if (!tokenInfo || !tokenInfo.symbol) {
         notification.error({
@@ -179,20 +200,18 @@ export default class AccountSection extends React.Component<Props, State> {
     }
 
     xconf.setConf(
-      `${XConfKeys.ERC20_TOKENS_ADDRS}_${wallet.address}`,
+      `${XConfKeys.ERC20_TOKENS_ADDRS}_${account.address}`,
       Object.keys(erc20TokenInfos)
     );
     this.setState({
       customTokensFormVisible: false,
       erc20TokenInfos: { ...erc20TokenInfos }
     });
-    if (setErc20TokensInfo) {
-      setErc20TokensInfo({ ...erc20TokenInfos });
-    }
+    dispatch(setERC20Tokens({ ...erc20TokenInfos }));
   };
 
   public onDeleteErc20Token = (erc20Address: string) => {
-    const { setErc20TokensInfo, wallet } = this.props;
+    const { dispatch, account } = this.props;
     const { erc20TokenInfos } = this.state;
 
     if (!erc20TokenInfos[erc20Address]) {
@@ -201,12 +220,10 @@ export default class AccountSection extends React.Component<Props, State> {
     // tslint:disable-next-line:no-dynamic-delete
     delete erc20TokenInfos[erc20Address];
     this.setState({ erc20TokenInfos: { ...erc20TokenInfos } });
-    if (setErc20TokensInfo) {
-      setErc20TokensInfo({ ...erc20TokenInfos });
-    }
-    if (wallet) {
+    dispatch(setERC20Tokens({ ...erc20TokenInfos }));
+    if (account) {
       xconf.setConf(
-        `${XConfKeys.ERC20_TOKENS_ADDRS}_${wallet.address}`,
+        `${XConfKeys.ERC20_TOKENS_ADDRS}_${account.address}`,
         Object.keys(erc20TokenInfos)
       );
     }
@@ -227,10 +244,7 @@ export default class AccountSection extends React.Component<Props, State> {
   }
 
   public renderBalance(): JSX.Element | null {
-    const { erc20TokenInfos, accountMeta } = this.state;
-    if (!accountMeta) {
-      return null;
-    }
+    const { erc20TokenInfos, accountMeta, isLoading } = this.state;
     const dataSource = Object.keys(erc20TokenInfos)
       .map(addr => erc20TokenInfos[addr])
       .filter(tokenInfo => tokenInfo && tokenInfo.symbol);
@@ -264,33 +278,40 @@ export default class AccountSection extends React.Component<Props, State> {
           ) : null
       }
     ];
-    dataSource.unshift({
-      symbol: "IOTX",
-      balanceString: fromRau(accountMeta.balance, ""),
-      erc20TokenAddress: "",
-      balance: new BigNumber(accountMeta.balance),
-      decimals: new BigNumber(0),
-      name: "IOTX"
-    });
+    if (accountMeta) {
+      dataSource.unshift({
+        symbol: "IOTX",
+        balanceString: fromRau(accountMeta.balance, ""),
+        erc20TokenAddress: "",
+        balance: new BigNumber(accountMeta.balance),
+        decimals: new BigNumber(0),
+        name: "IOTX"
+      });
+    }
     return (
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        pagination={false}
-        showHeader={false}
-      />
+      <SpinPreloader spinning={isLoading}>
+        <Table
+          dataSource={dataSource}
+          columns={columns}
+          pagination={false}
+          showHeader={false}
+        />
+      </SpinPreloader>
     );
   }
 
-  public renderWallet = (wallet: Account) => {
+  public renderWallet = (): JSX.Element | null => {
+    const { account } = this.props;
+    if (!account) {
+      return null;
+    }
+
     return (
       <Card
         bodyStyle={{ padding: 0, wordBreak: "break-word" }}
         style={{ borderRadius: 5 }}
       >
-        <Row
-          type="flex"
-          justify="space-between"
+        <div
           style={{
             backgroundColor: colors.primary,
             color: colors.white,
@@ -298,16 +319,21 @@ export default class AccountSection extends React.Component<Props, State> {
             borderRadius: "5px 5px 0px 0px"
           }}
         >
-          <Col>
-            <Icon type="wallet" /> {t("account.wallet")}
-          </Col>
-          <Col
-            style={{ cursor: "pointer" }}
-            onClick={() => this.showCustomTokensForm()}
-          >
-            <Icon type="plus" /> {t("account.erc20.addCustom")}
-          </Col>
-        </Row>
+          <Row type="flex" justify="space-between" align="middle">
+            <Col>
+              <Icon type="wallet" /> {t("account.wallet")}
+            </Col>
+            <Col
+              style={{ cursor: "pointer" }}
+              onClick={() => this.showCustomTokensForm()}
+            >
+              <Icon type="plus" /> {t("account.erc20.addCustom")}
+            </Col>
+          </Row>
+          <Row type="flex" justify="center" align="middle">
+            <ChainNetworkSwitch />
+          </Row>
+        </div>
         {this.renderBalance()}
         <Row
           type="flex"
@@ -320,16 +346,16 @@ export default class AccountSection extends React.Component<Props, State> {
               <strong>{t("account.address")}</strong>
             </div>
             <div>
-              <small>{wallet.address}</small>
+              <small>{account.address}</small>
             </div>
           </Col>
           <Col>
-            <CopyButtonClipboardComponent text={wallet.address} size="small" />{" "}
+            <CopyButtonClipboardComponent text={account.address} size="small" />{" "}
             <TooltipButton
               onClick={onElectronClick(
-                `https://iotexscan.io/address/${wallet.address}`
+                `https://iotexscan.io/address/${account.address}`
               )}
-              href={`/address/${wallet.address}`}
+              href={`/address/${account.address}`}
               title={t("account.transaction-history")}
               icon="link"
               size="small"
@@ -341,12 +367,11 @@ export default class AccountSection extends React.Component<Props, State> {
     );
   };
 
-  public render(): JSX.Element {
-    const { wallet, createNew } = this.props;
+  public render(): JSX.Element | null {
+    const { account, createNew } = this.props;
     const { accountMeta } = this.state;
-
-    if (wallet && accountMeta) {
-      return this.renderWallet(wallet);
+    if (account && accountMeta) {
+      return this.renderWallet();
     }
     if (createNew) {
       return this.newWallet();
@@ -355,3 +380,12 @@ export default class AccountSection extends React.Component<Props, State> {
     }
   }
 }
+
+const mapStateToProps = (state: {
+  wallet: IWalletState;
+}): { account?: Account; network?: IRPCProvider } => ({
+  account: (state.wallet || {}).account,
+  network: (state.wallet || {}).network
+});
+
+export default connect(mapStateToProps)(AccountSection);

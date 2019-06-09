@@ -13,21 +13,21 @@ import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { PureComponent } from "react";
+import { connect, DispatchProp } from "react-redux";
 import { xconf, XConfKeys } from "../common/xconf";
 import { PasswordFormInputItem } from "./contract/cards";
 import { getAntenna } from "./get-antenna";
 import { FormItemLabel } from "./wallet";
+import { setAccount } from "./wallet-actions";
 
 export interface State {
   priKey: string;
   isDecrypting: boolean;
 }
 
-export interface Props {
-  setWallet: Function;
-}
+export interface Props extends DispatchProp {}
 
-class UnlockByKeystoreFileInner extends PureComponent<
+class UnlockByKeystoreFileInnerComponent extends PureComponent<
   Props & FormComponentProps,
   State
 > {
@@ -55,7 +55,7 @@ class UnlockByKeystoreFileInner extends PureComponent<
           const account = await antenna.iotx.accounts.privateKeyToAccount(
             privateKey
           );
-          this.props.setWallet(account);
+          this.props.dispatch(setAccount(account));
         } catch (e) {
           const msg = String(e);
           if (msg.indexOf("SyntaxError") !== -1) {
@@ -294,6 +294,8 @@ class Keystore extends React.Component<KeystoreProps, KeystoreState> {
     );
   }
 }
+
+const UnlockByKeystoreFileInner = connect()(UnlockByKeystoreFileInnerComponent);
 
 export const UnlockByKeystoreFile = Form.create({
   name: "unlock-by-keystore-file"

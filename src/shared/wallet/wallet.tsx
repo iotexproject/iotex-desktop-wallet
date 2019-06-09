@@ -28,10 +28,9 @@ import NewWallet from "./new-wallet";
 import { Sign } from "./sign";
 import Transfer from "./transfer/transfer";
 import UnlockWallet from "./unlock-wallet";
-import { QueryParams, QueryType } from "./wallet-reducer";
+import { IWalletState, QueryParams, QueryType } from "./wallet-reducer";
 
 export interface State {
-  wallet: Account | null;
   createNew: boolean;
   erc20TokensInfo: IERC20TokenInfoDict;
 }
@@ -43,6 +42,7 @@ type PathParamsType = {
 type Props = RouteComponentProps<PathParamsType> &
   DispatchProp & {
     queryType?: QueryType;
+    account?: Account;
   };
 
 export const inputStyle = {
@@ -58,22 +58,27 @@ const ENABLE_SIGN = false;
 
 class WalletInner extends PureComponent<Props, State> {
   public state: State = {
-    wallet: null,
     createNew: false,
     erc20TokensInfo: {}
   };
 
-  public setWallet = (wallet: Account) => {
-    const { history, queryType } = this.props;
-    this.setState({ wallet, createNew: false });
-
+  public componentDidUpdate(): void {
+    const { history, queryType, account } = this.props;
+    const { createNew } = this.state;
+    if (account && createNew) {
+      this.setState({ createNew: false });
+    }
+    if (!account) {
+      return;
+    }
     let activeKey = routes.transfer;
     if (queryType === "CONTRACT_INTERACT") {
       activeKey = `/wallet/smart-contract/interact`;
+      if (history.location.pathname !== activeKey) {
+        history.push(activeKey);
+      }
     }
-
-    history.push(activeKey);
-  };
+  }
 
   public setERC20TokensInfo = (tokens: IERC20TokenInfoDict) => {
     this.setState({
@@ -85,8 +90,9 @@ class WalletInner extends PureComponent<Props, State> {
     this.props.history.push(key);
   };
 
-  public renderTabs = ({ address }: { address: string }) => {
-    const { location } = this.props;
+  public renderTabs = () => {
+    const { location, account } = this.props;
+    const { address = "" } = account || {};
 
     let activeKey = `/wallet/transfer`;
     if (location.pathname.match(/vote/)) {
@@ -106,11 +112,7 @@ class WalletInner extends PureComponent<Props, State> {
             key={`/wallet/transfer`}
             tab={t("wallet.transactions.send")}
           >
-            <Transfer
-              wallet={this.state.wallet}
-              address={address}
-              erc20TokensInfo={this.state.erc20TokensInfo}
-            />
+            <Transfer />
           </Tabs.TabPane>
 
           <Tabs.TabPane key={`/wallet/vote`} tab={t("wallet.tab.vote")}>
@@ -151,10 +153,9 @@ class WalletInner extends PureComponent<Props, State> {
   public renderNoWallet = () => {
     const { createNew } = this.state;
     return createNew ? (
-      <NewWallet setWallet={this.setWallet} />
+      <NewWallet />
     ) : (
       <UnlockWallet
-        setWallet={this.setWallet}
         setCreateNew={() => this.setState({ createNew: true })}
         chainId={1}
       />
@@ -167,7 +168,8 @@ class WalletInner extends PureComponent<Props, State> {
   }
 
   public render(): JSX.Element {
-    const { createNew, wallet } = this.state;
+    const { createNew } = this.state;
+    const { account } = this.props;
     return (
       <>
         <DeployPreloadHeader />
@@ -179,19 +181,11 @@ class WalletInner extends PureComponent<Props, State> {
             style={{ margin: "40px 0px" }}
           >
             <Col xs={24} sm={12} md={15} lg={16}>
-              {wallet &&
-                this.renderTabs({
-                  address: wallet.address
-                })}
-              {!wallet && this.renderNoWallet()}
+              {account && this.renderTabs()}
+              {!account && this.renderNoWallet()}
             </Col>
             <Col xs={24} sm={12} md={9} lg={8} style={{ marginTop: 40 }}>
-              <AccountSection
-                createNew={createNew}
-                setWallet={this.setWallet}
-                setErc20TokensInfo={this.setERC20TokensInfo}
-                wallet={wallet}
-              />
+              <AccountSection createNew={createNew} />
             </Col>
           </Row>
         </ContentPadding>
@@ -202,8 +196,10 @@ class WalletInner extends PureComponent<Props, State> {
 
 const mapStateToProps = (state: {
   queryParams: QueryParams;
-}): { queryType?: QueryType } => ({
-  queryType: state.queryParams && state.queryParams.type
+  wallet: IWalletState;
+}): { queryType?: QueryType; account?: Account } => ({
+  queryType: state.queryParams && state.queryParams.type,
+  account: (state.wallet || {}).account
 });
 
 export const Wallet = withRouter(connect(mapStateToProps)(WalletInner));

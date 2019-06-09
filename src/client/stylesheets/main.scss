@@ -320,3 +320,12 @@ input {
 .wallet-delete-token {
   width: 20px;
 }
+
+.chain-network-switch .ant-select-selection {
+  border-radius: 16px;
+}
+
+.chain-network-switch .ant-select-selection-selected-value {
+  float: unset;
+  text-align: center;
+}
