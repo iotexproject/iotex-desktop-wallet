@@ -31,6 +31,7 @@ export interface Props extends DispatchProp {
   account?: Account;
   createNew?: boolean;
   network?: IRPCProvider;
+  defaultNetworkTokens: Array<string>;
 }
 
 export interface State {
@@ -85,18 +86,18 @@ class AccountSection extends React.Component<Props, State> {
   };
 
   public getErc20TokensInfo = async () => {
-    const { account, dispatch } = this.props;
+    const { account, dispatch, defaultNetworkTokens } = this.props;
+    const { accountCheckID } = this.state;
     if (!account) {
       return;
     }
 
-    const erc20Addresses = xconf.getConf<Array<string>>(
-      `${XConfKeys.ERC20_TOKENS_ADDRS}_${account.address}`,
+    let erc20Addresses = xconf.getConf<Array<string>>(
+      `${XConfKeys.ERC20_TOKENS_ADDRS}_${accountCheckID}`,
       []
     );
-    if (!erc20Addresses.length) {
-      return;
-    }
+
+    erc20Addresses = [...defaultNetworkTokens, ...erc20Addresses];
     const tokenInfos = await Promise.all(
       erc20Addresses.map(addr =>
         ERC20Token.getToken(addr).getInfo(account.address)
@@ -200,7 +201,7 @@ class AccountSection extends React.Component<Props, State> {
     }
 
     xconf.setConf(
-      `${XConfKeys.ERC20_TOKENS_ADDRS}_${account.address}`,
+      `${XConfKeys.ERC20_TOKENS_ADDRS}_${this.state.accountCheckID}`,
       Object.keys(erc20TokenInfos)
     );
     this.setState({
@@ -223,7 +224,7 @@ class AccountSection extends React.Component<Props, State> {
     dispatch(setERC20Tokens({ ...erc20TokenInfos }));
     if (account) {
       xconf.setConf(
-        `${XConfKeys.ERC20_TOKENS_ADDRS}_${account.address}`,
+        `${XConfKeys.ERC20_TOKENS_ADDRS}_${this.state.accountCheckID}`,
         Object.keys(erc20TokenInfos)
       );
     }
@@ -244,6 +245,7 @@ class AccountSection extends React.Component<Props, State> {
   }
 
   public renderBalance(): JSX.Element | null {
+    const { defaultNetworkTokens } = this.props;
     const { erc20TokenInfos, accountMeta, isLoading } = this.state;
     const dataSource = Object.keys(erc20TokenInfos)
       .map(addr => erc20TokenInfos[addr])
@@ -266,7 +268,7 @@ class AccountSection extends React.Component<Props, State> {
         className: "wallet-delete-token",
         key: "erc20TokenAddress",
         render: (text: string): JSX.Element | null =>
-          text ? (
+          text && defaultNetworkTokens.indexOf(text) < 0 ? (
             <Icon
               type="close-circle"
               onClick={() => this.onDeleteErc20Token(text)}
@@ -383,9 +385,14 @@ class AccountSection extends React.Component<Props, State> {
 
 const mapStateToProps = (state: {
   wallet: IWalletState;
-}): { account?: Account; network?: IRPCProvider } => ({
+}): {
+  account?: Account;
+  network?: IRPCProvider;
+  defaultNetworkTokens: Array<string>;
+} => ({
   account: (state.wallet || {}).account,
-  network: (state.wallet || {}).network
+  network: (state.wallet || {}).network,
+  defaultNetworkTokens: (state.wallet || {}).defaultNetworkTokens || []
 });
 
 export default connect(mapStateToProps)(AccountSection);

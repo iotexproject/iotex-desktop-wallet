@@ -55,7 +55,8 @@ export async function apolloSSR(
 
   const walletState: IWalletState = {
     customRPCs: [],
-    erc20Tokens: {}
+    erc20Tokens: {},
+    defaultNetworkTokens: []
   };
 
   try {
