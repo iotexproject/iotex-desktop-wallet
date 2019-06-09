@@ -101,6 +101,19 @@ export const rules: Rules = {
 
       callback();
     }
+  },
+  url: {
+    validator: (_, value, callback) => {
+      if (
+        `${value}`.match(
+          /^(http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+        )
+      ) {
+        callback();
+      } else {
+        callback(t("input.error.url.invalid"));
+      }
+    }
   }
 };
 
@@ -114,6 +127,8 @@ export const rulesMap = {
   dataIndex: [],
   nonce: [rules.required],
   password: [rules.required, rules.strongPassword],
+  name: [rules.required],
+  url: [rules.required, rules.url],
 
   // ABIDataTypes
   uint256: [rules.number],

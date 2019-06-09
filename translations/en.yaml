@@ -351,3 +351,8 @@ signin_modal.download: Haven't installed yet? Download
 multiChain.chains.mainnet: Main IoTeX Network
 multiChain.chains.testnet: IoTeX Test Network
 multiChain.chains.custom: Custom RPC
+wallet.input.name: Name
+wallet.input.url: Url
+account.addCustomRPC: Add custom RPC
+input.error.url.invalid: Invalid URL
+input.error.rpc.invalid: Can't connect to Network Provider!

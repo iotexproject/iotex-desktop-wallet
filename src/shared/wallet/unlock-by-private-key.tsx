@@ -6,16 +6,16 @@ import { get } from "dottie";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { PureComponent } from "react";
+import { connect, DispatchProp } from "react-redux";
 import { getAntenna } from "./get-antenna";
 import { FormItemLabel } from "./wallet";
+import { setWallet } from "./wallet-actions";
 
 export interface State {
   priKey: string;
 }
 
-export interface Props {
-  setWallet: Function;
-}
+export interface Props extends DispatchProp {}
 
 class UnlockByPrivateKeyInner extends PureComponent<
   Props & FormComponentProps,
@@ -40,7 +40,7 @@ class UnlockByPrivateKeyInner extends PureComponent<
         const { priKey } = this.state;
         const antenna = getAntenna();
         const account = await antenna.iotx.accounts.privateKeyToAccount(priKey);
-        this.props.setWallet(account);
+        this.props.dispatch(setWallet(account));
       }
     });
   };
@@ -101,4 +101,6 @@ class UnlockByPrivateKeyInner extends PureComponent<
   }
 }
 
-export const UnlockByPrivateKey = Form.create()(UnlockByPrivateKeyInner);
+export const UnlockByPrivateKey = Form.create()(
+  connect()(UnlockByPrivateKeyInner)
+);

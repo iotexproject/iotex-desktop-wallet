@@ -9,15 +9,16 @@ import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import * as React from "react";
+import { connect, DispatchProp } from "react-redux";
 import { copyCB } from "text-to-clipboard";
 import { CommonMargin } from "../common/common-margin";
 import { DownloadKeystoreForm } from "./download-keystore-form";
 import { getAntenna } from "./get-antenna";
 import { FormItemLabel, inputStyle } from "./wallet";
+import { setWallet } from "./wallet-actions";
 
-export interface Props {
+export interface Props extends DispatchProp {
   form: WrappedFormUtils;
-  setWallet: Function;
 }
 
 export interface State {
@@ -38,7 +39,7 @@ class NewWallet extends React.Component<Props, State> {
   };
 
   public setWallet = () => {
-    this.props.setWallet(this.state.wallet);
+    this.props.dispatch(setWallet(this.state.wallet));
   };
 
   public render(): JSX.Element {
@@ -126,4 +127,4 @@ class NewWallet extends React.Component<Props, State> {
   }
 }
 
-export default Form.create<NewWallet>()(NewWallet);
+export default Form.create<NewWallet>()(connect()(NewWallet));
