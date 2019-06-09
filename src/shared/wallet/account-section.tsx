@@ -383,7 +383,7 @@ class AccountSection extends React.Component<Props, State> {
 
 const mapStateToProps = (state: {
   wallet: IWalletState;
-}): { account?: Account } => ({
+}): { account?: Account; network?: IRPCProvider } => ({
   account: (state.wallet || {}).account,
   network: (state.wallet || {}).network
 });

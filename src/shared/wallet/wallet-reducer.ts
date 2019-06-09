@@ -46,7 +46,7 @@ export type WalletAction = {
 
 export interface IWalletState {
   account?: Account;
-  network?: string;
+  network?: IRPCProvider;
   customRPCs: Array<IRPCProvider>;
   erc20Tokens: IERC20TokenInfoDict;
 }
