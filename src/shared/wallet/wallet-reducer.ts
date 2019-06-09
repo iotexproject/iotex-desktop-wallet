@@ -45,6 +45,7 @@ export type WalletAction = {
     network?: IRPCProvider;
     customRPC?: IRPCProvider;
     erc20Tokens?: IERC20TokenInfoDict;
+    defaultNetworkTokens?: Array<string>;
   };
 };
 
@@ -53,11 +54,13 @@ export interface IWalletState {
   network?: IRPCProvider;
   customRPCs: Array<IRPCProvider>;
   erc20Tokens: IERC20TokenInfoDict;
+  defaultNetworkTokens: Array<string>;
 }
 
 export const walletReducer = (
   state: IWalletState = {
     customRPCs: [],
+    defaultNetworkTokens: [],
     erc20Tokens: {}
   },
   action: WalletAction
@@ -86,7 +89,8 @@ export const walletReducer = (
     case "SET_NETWORK":
       return {
         ...state,
-        network: action.payload.network
+        network: action.payload.network,
+        defaultNetworkTokens: action.payload.defaultNetworkTokens
       };
     case "UPDATE_ERC20_TOKENS":
       return {

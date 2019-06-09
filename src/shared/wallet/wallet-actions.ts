@@ -2,11 +2,15 @@ import { Account } from "iotex-antenna/lib/account/account";
 import { IERC20TokenInfoDict } from "../../erc20/erc20Token";
 import { IRPCProvider, WalletAction } from "./wallet-reducer";
 
-export const setNetwork = (network: IRPCProvider): WalletAction => {
+export const setNetwork = (
+  network: IRPCProvider,
+  defaultNetworkTokens: Array<string> = []
+): WalletAction => {
   return {
     type: "SET_NETWORK",
     payload: {
-      network
+      network,
+      defaultNetworkTokens
     }
   };
 };

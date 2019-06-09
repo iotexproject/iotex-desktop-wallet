@@ -49,6 +49,15 @@ export class ERC20Token {
     return this.erc20.decode(data);
   }
 
+  public async checkValid(): Promise<boolean> {
+    try {
+      const symbol = await this.erc20.symbol(this.erc20.address);
+      return `${symbol}`.length > 0;
+    } catch (error) {
+      return false;
+    }
+  }
+
   public async getInfo(walletAddress: string): Promise<IERC20TokenInfo> {
     const erc20 = this.erc20;
     const [balance, name, symbol, decimals] = await Promise.all<

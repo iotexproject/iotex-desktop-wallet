@@ -5,6 +5,7 @@ import React, { useState } from "react";
 
 // @ts-ignore
 import { connect, DispatchProp } from "react-redux";
+import { ERC20Token } from "../../erc20/erc20Token";
 import AddCustomRpcFormModal from "./add-custom-rpc-form-modal";
 import { getAntenna } from "./get-antenna";
 import { addCustomRPC, setNetwork } from "./wallet-actions";
@@ -14,6 +15,7 @@ export interface IChainNetworkSwitchComponentProps extends DispatchProp {
   multiChain: { current: string; chains: Array<{ name: string; url: string }> };
   customRPCs: Array<IRPCProvider>;
   network: IRPCProvider;
+  defaultERC20Tokens: Array<string>;
 }
 
 const networkName = (name: string): string => {
@@ -21,12 +23,22 @@ const networkName = (name: string): string => {
   return locName === `multiChain.chains.${name}` ? name : locName;
 };
 
+const getDefaultNetworkTokens = async (
+  defaultTokens: Array<string>
+): Promise<Array<string>> => {
+  // Check for default erc20 tokens supported.
+  const supportStatus = await Promise.all(
+    defaultTokens.map(token => ERC20Token.getToken(token).checkValid())
+  );
+  return defaultTokens.filter((_, i) => supportStatus[i]);
+};
+
 export const ChainNetworkSwitchComponent = (
   props: IChainNetworkSwitchComponentProps
 ) => {
   const { Option } = Select;
   const { current, chains } = props.multiChain;
-  const { network, customRPCs, dispatch } = props;
+  const { network, customRPCs, dispatch, defaultERC20Tokens } = props;
 
   const availableNetworks: { [index: string]: IRPCProvider } = {};
   const builtInNetworks = chains.map(chain => ({
@@ -63,7 +75,10 @@ export const ChainNetworkSwitchComponent = (
             showForm(true);
           } else {
             getAntenna().iotx.setProvider(`${availableNetworks[value].url}`);
-            dispatch(setNetwork(availableNetworks[value]));
+            const supportTokens = await getDefaultNetworkTokens(
+              defaultERC20Tokens
+            );
+            dispatch(setNetwork(availableNetworks[value], supportTokens));
           }
         }}
       >
@@ -75,10 +90,13 @@ export const ChainNetworkSwitchComponent = (
       </Select>
       <AddCustomRpcFormModal
         onCancel={() => showForm(false)}
-        onOK={(network: IRPCProvider) => {
+        onOK={async (network: IRPCProvider) => {
           dispatch(addCustomRPC(network));
-          dispatch(setNetwork(network));
           getAntenna().iotx.setProvider(`${network.url}`);
+          const supportTokens = await getDefaultNetworkTokens(
+            defaultERC20Tokens
+          );
+          dispatch(setNetwork(network, supportTokens));
           showForm(false);
         }}
         visible={isShowForm}
@@ -92,13 +110,14 @@ export const ChainNetworkSwitch = connect<IChainNetworkSwitchComponentProps>(
   // tslint:disable-next-line:no-any
   (state: any) => {
     const {
-      base: { multiChain }
+      base: { multiChain, defaultERC20Tokens = [] }
     } = state;
     const { customRPCs = [], network } = state.wallet;
     return {
       multiChain,
       customRPCs,
-      network
+      network,
+      defaultERC20Tokens
     };
   }
 )(ChainNetworkSwitchComponent);
