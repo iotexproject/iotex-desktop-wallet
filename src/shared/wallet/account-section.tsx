@@ -112,12 +112,12 @@ class AccountSection extends React.Component<Props, State> {
     dispatch(setERC20Tokens(newErc20TokenInfos));
   };
 
-  public getAccount = async (acount: Account) => {
-    if (!acount) {
+  public getAccount = async (account: Account) => {
+    if (!account) {
       return;
     }
     const addressRes = await getAntenna().iotx.getAccount({
-      address: acount.address
+      address: account.address
     });
     if (addressRes) {
       this.setState({ accountMeta: addressRes.accountMeta });
