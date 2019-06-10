@@ -1,4 +1,5 @@
 // tslint:disable:no-empty
+import { Row } from "antd";
 import Button from "antd/lib/button";
 import { FormComponentProps } from "antd/lib/form";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
@@ -17,6 +18,7 @@ import { copyCB } from "text-to-clipboard";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { rulesMap } from "../../common/rules";
+import { xconf, XConfKeys } from "../../common/xconf";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
 import { inputStyle } from "../wallet";
@@ -365,7 +367,16 @@ class InteractFormInner extends Component<InteractProps, State> {
           {getFieldDecorator("selectedFunction", {
             initialValue: this.state.selectedFunction
           })(
-            <Select className="form-input">
+            <Select
+              className="form-input"
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input: string, option: JSX.Element) =>
+                option.props.children
+                  .toLowerCase()
+                  .indexOf(input.toLowerCase()) >= 0
+              }
+            >
               {Object.keys(abiFunctions).map(name => (
                 <Option value={name} key={name}>
                   {name}
@@ -396,6 +407,8 @@ class InteractFormInner extends Component<InteractProps, State> {
           </div>
         )}
 
+        {this.contractActions()}
+
         {currentFunction && currentFunction.outputs.length > 0 && (
           <div>
             <Form.Item
@@ -413,55 +426,51 @@ class InteractFormInner extends Component<InteractProps, State> {
             ))}
           </div>
         )}
-        {this.contractActions()}
       </div>
     );
   };
 
   public contractActions = (): JSX.Element => {
     return (
-      <div>
-        <div>
-          {
-            //@ts-ignore
-            <Button type="link" onClick={this.copyByteCode}>
-              {t("wallet.bytecode.copy")}
-            </Button>
-          }
-        </div>
-        <div style={{ marginTop: "10px", display: "flex" }}>
-          {
-            //@ts-ignore
-            <Button
-              type="primary"
-              onClick={() => {
-                this.setState({
-                  showConfirmInteract: true,
-                  confirmInteractFunction: this.handleReadWithInput
-                });
-              }}
-            >
-              {t("wallet.abi.read")}
-            </Button>
-          }
-          {
-            //@ts-ignore
-            <Button
-              type="primary"
-              style={{ marginLeft: "10px" }}
-              onClick={() => {
-                this.setState({
-                  showConfirmInteract: true,
-                  confirmInteractFunction: this.handleWrite
-                });
-              }}
-            >
-              {t("wallet.abi.write")}
-            </Button>
-          }
-        </div>
-        <div style={{ marginTop: "20px" }} />
-      </div>
+      <Row type="flex" style={{ margin: "20px 0px" }}>
+        {
+          // @ts-ignore
+          <Button
+            type="primary"
+            onClick={() => {
+              this.setState({
+                showConfirmInteract: true,
+                confirmInteractFunction: this.handleReadWithInput
+              });
+            }}
+          >
+            {t("wallet.abi.read")}
+          </Button>
+        }
+        {
+          // @ts-ignore
+          <Button
+            type="primary"
+            style={{ marginLeft: "10px" }}
+            onClick={() => {
+              this.setState({
+                showConfirmInteract: true,
+                confirmInteractFunction: this.handleWrite
+              });
+            }}
+          >
+            {t("wallet.abi.write")}
+          </Button>
+        }
+        <Button
+          // @ts-ignore
+          type="link"
+          style={{ marginLeft: "10px" }}
+          onClick={this.copyByteCode}
+        >
+          {t("wallet.bytecode.copy")}
+        </Button>
+      </Row>
     );
   };
 
@@ -471,7 +480,16 @@ class InteractFormInner extends Component<InteractProps, State> {
       return this.renderBroadcast();
     }
 
-    const { form, gasPrice, gasLimit, abi, contractAddress } = this.props;
+    const { form } = this.props;
+    const { gasPrice, gasLimit, abi, contractAddress } = xconf.getConf(
+      XConfKeys.LAST_INTERACT_CONTRACT,
+      {
+        gasPrice: this.props.gasPrice,
+        gasLimit: this.props.gasLimit,
+        abi: "",
+        contractAddress: ""
+      }
+    );
 
     return (
       <Form layout={"vertical"}>
@@ -499,7 +517,16 @@ class InteractFormInner extends Component<InteractProps, State> {
   }
 }
 
-export const InteractForm = Form.create({ name: "interact-contract" })(
+export const InteractForm = Form.create({
+  name: "interact-contract",
+  onFieldsChange: (_, __, allFields) => {
+    const formData: { [index: string]: string } = {};
+    Object.keys(allFields).forEach(field => {
+      formData[field] = allFields[field].value;
+    });
+    xconf.setConf(XConfKeys.LAST_INTERACT_CONTRACT, formData);
+  }
+})(
   connect((state: { queryParams: QueryParams }) => {
     return state.queryParams;
   })(InteractFormInner)
