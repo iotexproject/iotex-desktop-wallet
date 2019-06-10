@@ -6,7 +6,8 @@ const { initSolc } = require("./solc");
 
 const allowRequestOrigins = [
   "https://iotexscan.io",
-  "https://ethereum.github.io"
+  "https://ethereum.github.io",
+  "https://testnet.iotexscan.io"
 ];
 
 const allowedElectronModules = new Set(["app", "shell"]);
