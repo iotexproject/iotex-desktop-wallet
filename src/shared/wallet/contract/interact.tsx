@@ -471,14 +471,7 @@ class InteractFormInner extends Component<InteractProps, State> {
       return this.renderBroadcast();
     }
 
-    const {
-      form,
-      amount,
-      gasPrice,
-      gasLimit,
-      abi,
-      contractAddress
-    } = this.props;
+    const { form, gasPrice, gasLimit, abi, contractAddress } = this.props;
 
     return (
       <Form layout={"vertical"}>
@@ -486,7 +479,7 @@ class InteractFormInner extends Component<InteractProps, State> {
           form={form}
           initialValue={contractAddress || ""}
         />
-        <AmountFormInputItem form={form} initialValue={amount} />
+        <AmountFormInputItem form={form} initialValue={0} required={false} />
         <GasPriceFormInputItem form={form} initialValue={gasPrice} />
         <GasLimitFormInputItem form={form} initialValue={gasLimit || 1000000} />
         <AbiFormInputItem form={form} initialValue={abi} />
