@@ -158,7 +158,7 @@
     "dayjs": "1.8.14",
     "dotenv": "8.0.0",
     "dottie": "2.0.1",
-    "export-from-json": "1.1.3",
+    "export-from-json": "1.1.4",
     "form-serialize": "0.7.2",
     "fromnow": "3.0.0",
     "global": "4.4.0",
