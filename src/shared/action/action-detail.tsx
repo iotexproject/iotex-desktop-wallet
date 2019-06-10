@@ -83,13 +83,13 @@ class ActionDetailsInner extends PureComponent<Props> {
           const tokenInfo = await ERC20Token.getToken(object.contract).getInfo(
             object.contract
           );
-          if (tokenInfo) {
+          if (tokenInfo && info.method === "transfer") {
             const tokenTransfered =
-              info.data.tokens / 10 ** tokenInfo.decimals.toNumber();
+              info.data._value / 10 ** tokenInfo.decimals.toNumber();
             object = {
               amount: object.amount,
               contract: object.contract,
-              to: info.data.to,
+              to: info.data._to,
               tokens: `${tokenTransfered} ${tokenInfo.symbol} (${
                 tokenInfo.name
               })`,
