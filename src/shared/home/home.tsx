@@ -125,8 +125,12 @@ class HomeComponent extends Component<Props, State> {
             }
 
             const chainMetaData = data;
+            const start = parseInt(get(chainMetaData, "chainMeta.height"), 10);
+            if (!start) {
+              return null;
+            }
             const byIndex = {
-              start: parseInt(get(chainMetaData, "chainMeta.height"), 10),
+              start,
               count: 1
             };
             return (
