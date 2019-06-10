@@ -1,10 +1,12 @@
 import Icon from "antd/lib/icon";
+import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
+import { FlexLink } from "../common/flex-link";
 import { onElectronClick } from "../common/on-electron-click";
 import { colors } from "../common/styles/style-color";
 import { ACTION_EXISTS_BY_HASH } from "../queries";
@@ -76,16 +78,20 @@ function ActionPoll({ txHash }: { txHash: string }): JSX.Element {
             {" "}
             <Icon type="check-circle" style={{ color: colors.success }} />{" "}
             <strong>
-              <a
-                rel="noreferrer noopener"
-                href={`/action/${txHash}`}
-                target="_blank"
-                onClick={onElectronClick(
-                  `https://iotexscan.io/action/${txHash}`
-                )}
-              >
-                {txHash}
-              </a>
+              {isElectron() ? (
+                <a
+                  rel="noreferrer noopener"
+                  href={`/action/${txHash}`}
+                  target="_blank"
+                  onClick={onElectronClick(
+                    `https://iotexscan.io/action/${txHash}`
+                  )}
+                >
+                  {txHash}
+                </a>
+              ) : (
+                <FlexLink path={`/action/${txHash}`} text={txHash} />
+              )}
             </strong>
           </span>
         );
