@@ -205,7 +205,7 @@ class TransferForm extends React.PureComponent<Props, State> {
       >
         {getFieldDecorator("amount", {
           initialValue: 1,
-          rules: rulesMap.amount
+          rules: rulesMap.transactionAmount
         })(
           <Input
             className="form-input"

@@ -120,7 +120,8 @@ export const rules: Rules = {
 export const rulesMap = {
   address: [rules.required, rules.addressLength],
   erc20Address: [rules.required, rules.erc20AddressLength],
-  amount: [rules.required, rules.amount],
+  transactionAmount: [rules.required, rules.amount],
+  interactAmount: [rules.amount],
   gasLimit: [rules.required, rules.number],
   gasPrice: [rules.required, rules.number],
   abi: [rules.required, rules.abi],
