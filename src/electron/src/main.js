@@ -223,5 +223,14 @@ app.on("open-url", function(event, url) {
   event.preventDefault();
   const { query } = queryString.parseUrl(url);
   log.debug("deeplink url with query params: " + JSON.stringify(query));
-  mainWindow.webContents.send("query", query);
+
+  if (mainWindow && mainWindow.webContents) {
+    return mainWindow.webContents.send("query", query);
+  }
+
+  app.on("ready", () => {
+    setTimeout(() => {
+      return mainWindow.webContents.send("query", query);
+    }, 3000);
+  });
 });
