@@ -3,6 +3,8 @@ import { Account } from "iotex-antenna/lib/account/account";
 import { getAntenna } from "../shared/wallet/get-antenna";
 import { DecodeData, ERC20, IERC20 } from "./erc20";
 
+BigNumber.config({ DECIMAL_PLACES: 6 });
+
 export interface IERC20TokenInfo {
   erc20TokenAddress: string;
   balance: BigNumber;
@@ -73,7 +75,8 @@ export class ERC20Token {
     ]);
     const balanceString = balance
       .dividedBy(10 ** decimals.toNumber())
-      .toString();
+      .toString(10);
+
     return {
       erc20TokenAddress: this.erc20.address,
       balance,
