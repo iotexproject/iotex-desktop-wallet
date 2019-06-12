@@ -26,6 +26,8 @@ export default class ConfirmContractModal extends React.Component<
   // tslint:disable:no-any
   public getActionColumns(): Array<Column<any>> {
     // this columns was just for example.
+    const { toAddress, dataInHex } = this.props.dataSource;
+
     return [
       {
         title: "Amount",
@@ -42,7 +44,7 @@ export default class ConfirmContractModal extends React.Component<
         title: "From address",
         dataIndex: "address"
       },
-      ...(this.props.dataSource.toAddress
+      ...(toAddress
         ? [
             {
               title: "To address",
@@ -58,10 +60,14 @@ export default class ConfirmContractModal extends React.Component<
         title: "Gas price",
         dataIndex: "price"
       },
-      {
-        title: "Data",
-        dataIndex: "data"
-      }
+      ...(dataInHex
+        ? [
+            {
+              title: "Data",
+              dataIndex: "dataInHex"
+            }
+          ]
+        : [])
     ];
   }
 

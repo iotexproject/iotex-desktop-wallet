@@ -254,6 +254,7 @@ class AccountSection extends React.Component<Props, State> {
       {
         title: "",
         dataIndex: "symbol",
+        className: "wallet-token-symbol",
         key: "symbol"
       },
       {

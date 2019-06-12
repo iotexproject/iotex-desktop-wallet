@@ -43,6 +43,7 @@ type State = {
     success: boolean;
   } | null;
   showConfirmTransfer: boolean;
+  showDataHex: boolean;
 };
 
 class TransferForm extends React.PureComponent<Props, State> {
@@ -50,7 +51,8 @@ class TransferForm extends React.PureComponent<Props, State> {
     sending: false,
     txHash: "",
     broadcast: null,
-    showConfirmTransfer: false
+    showConfirmTransfer: false,
+    showDataHex: true
   };
 
   public sendTransfer = async (status: boolean) => {
@@ -183,7 +185,15 @@ class TransferForm extends React.PureComponent<Props, State> {
     return (
       <>
         {getFieldDecorator("symbol", {
-          initialValue: tokenTypes[0].key
+          initialValue: tokenTypes[0].key,
+          rules: [
+            {
+              validator: (_, value, callback) => {
+                this.setState({ showDataHex: !!value.match(/iotx/i) });
+                callback();
+              }
+            }
+          ]
         })(
           <Select style={{ width: 100 }}>
             {tokenTypes.map(type => (
@@ -243,16 +253,18 @@ class TransferForm extends React.PureComponent<Props, State> {
         {this.renderAmountFormItem()}
         <GasPriceFormInputItem form={form} />
         <GasLimitFormInputItem form={form} />
-        <Form.Item
-          label={<FormItemLabel>{t("wallet.input.dib")}</FormItemLabel>}
-          {...formItemLayout}
-        >
-          {getFieldDecorator("dataInHex", {
-            rules: rulesMap.dataIndex
-          })(
-            <Input style={inputStyle} placeholder="0x1234" name="dataInHex" />
-          )}
-        </Form.Item>
+        {this.state.showDataHex && (
+          <Form.Item
+            label={<FormItemLabel>{t("wallet.input.dib")}</FormItemLabel>}
+            {...formItemLayout}
+          >
+            {getFieldDecorator("dataInHex", {
+              rules: rulesMap.dataIndex
+            })(
+              <Input style={inputStyle} placeholder="0x1234" name="dataInHex" />
+            )}
+          </Form.Item>
+        )}
         {
           // @ts-ignore
           <Button
@@ -307,16 +319,21 @@ class TransferForm extends React.PureComponent<Props, State> {
       amount,
       gasLimit,
       gasPrice,
-      symbol
+      symbol,
+      dataInHex
     } = form.getFieldsValue();
     const tokenSymbol = symbol === "iotx" ? "IOTX" : erc20Tokens[symbol].symbol;
-    const dataSource = {
+    const dataSource: { [index: string]: string } = {
       address: address,
       toAddress: recipient,
       amount: `${new BigNumber(amount).toString()} ${tokenSymbol}`,
       limit: gasLimit,
       price: toRau(gasPrice, "Qev")
     };
+
+    if (tokenSymbol.match(/iotx/i)) {
+      dataSource.dataInHex = `${dataInHex}`;
+    }
 
     return (
       <ConfirmContractModal
