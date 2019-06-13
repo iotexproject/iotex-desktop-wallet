@@ -1,5 +1,5 @@
 // @ts-ignore
-import { Button, Card, Col, notification, Row, Table } from "antd";
+import { Button, Card, Col, notification, Row, Table, Tooltip } from "antd";
 import Icon from "antd/lib/icon";
 import BigNumber from "bignumber.js";
 // @ts-ignore
@@ -348,17 +348,23 @@ class AccountSection extends React.Component<Props, State> {
               <ChainNetworkSwitch />
             </Col>
             <Col xs={4}>
-              <Button
-                shape="circle"
-                icon="redo"
-                style={{
-                  float: "right",
-                  lineHeight: "32px",
-                  transform: "rotate(-45deg)"
-                }}
-                onClick={this.onSyncAccount}
-                loading={this.state.isSyncing}
-              />
+              <Tooltip
+                placement="top"
+                trigger="hover"
+                title={t("account.refresh")}
+              >
+                <Button
+                  shape="circle"
+                  icon="redo"
+                  style={{
+                    float: "right",
+                    lineHeight: "32px",
+                    transform: "rotate(-45deg)"
+                  }}
+                  onClick={this.onSyncAccount}
+                  loading={this.state.isSyncing}
+                />
+              </Tooltip>
             </Col>
           </Row>
         </div>
