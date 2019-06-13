@@ -9,7 +9,12 @@ import { assetURL } from "../common/asset-url";
 import { translateFn } from "../common/from-now";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
-import { GET_BLOCK_METAS, GET_LATEST_HEIGHT } from "../queries";
+import {
+  GET_BLOCK_METAS,
+  GET_LATEST_HEIGHT,
+  GET_BP_CANDIDATE
+} from "../queries";
+import { webBpApolloClient } from "../common/apollo-client";
 
 const BLOCK_COUNT = 10;
 
@@ -123,7 +128,25 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
                 to={`/address/${producerAddress}`}
                 style={{ position: "relative" }}
               >
-                {`${producerAddress}`.substr(0, 8)}
+                <Query
+                  query={GET_BP_CANDIDATE}
+                  variables={{ ioOperatorAddress: producerAddress }}
+                  client={webBpApolloClient}
+                >
+                  {({ loading, error, data }: QueryResult) => {
+                    const address = producerAddress.substr(0, 8);
+
+                    if (loading) {
+                      return address;
+                    }
+
+                    const name =
+                      (data.bpCandidate && data.bpCandidate.registeredName) ||
+                      address;
+
+                    return <span>{name}</span>;
+                  }}
+                </Query>
               </Link>
               <div>{`${translateFn(timestamp)}`}</div>
               <Row type="flex" justify="space-between">
