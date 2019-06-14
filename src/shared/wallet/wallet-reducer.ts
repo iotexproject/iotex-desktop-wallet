@@ -10,6 +10,8 @@ export type QueryParams = {
   abi?: string;
   type?: QueryType;
   queryNonce?: number;
+  contractAddress?: string;
+  method?: string;
 };
 
 type QueryParamAction = {
