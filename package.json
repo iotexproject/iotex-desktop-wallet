@@ -195,7 +195,7 @@
     "text-to-clipboard": "3.0.5",
     "ts-node": "8.2.0",
     "type-graphql": "0.17.4",
-    "typescript": "3.5.1",
+    "typescript": "3.4.5",
     "uuid": "3.3.2",
     "validator": "10.11.0"
   },

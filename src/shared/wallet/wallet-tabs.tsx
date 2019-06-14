@@ -81,10 +81,6 @@ class WalletTabsInner extends Component<Props> {
             <Transfer />
           </Tabs.TabPane>
 
-          <Tabs.TabPane key={`/wallet/vote`} tab={t("wallet.tab.vote")}>
-            <Vote />
-          </Tabs.TabPane>
-
           <Tabs.TabPane
             key={`/wallet/smart-contract`}
             tab={t("wallet.tab.contract")}
@@ -104,6 +100,10 @@ class WalletTabsInner extends Component<Props> {
                 component={ChooseFunction}
               />
             </Switch>
+          </Tabs.TabPane>
+
+          <Tabs.TabPane key={`/wallet/vote`} tab={t("wallet.tab.vote")}>
+            <Vote />
           </Tabs.TabPane>
 
           {ENABLE_SIGN && (
