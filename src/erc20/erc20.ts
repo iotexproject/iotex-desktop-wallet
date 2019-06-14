@@ -59,6 +59,8 @@ export interface IERC20 {
     gasLimit: string
   ): Promise<string>;
 
+  claim(account: Account, gasPrice: string, gasLimit: string): Promise<string>;
+
   transferFrom(
     from: string,
     to: string,
@@ -201,6 +203,14 @@ export class ERC20 implements IERC20 {
       spender,
       value.toString()
     );
+  }
+
+  public async claim(
+    account: Account,
+    gasPrice: string,
+    gasLimit: string
+  ): Promise<string> {
+    return this.executeMethod("claim", account, gasPrice, gasLimit, "0");
   }
 
   public async transferFrom(

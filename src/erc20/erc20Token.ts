@@ -1,5 +1,6 @@
 import BigNumber from "bignumber.js";
 import { Account } from "iotex-antenna/lib/account/account";
+import { toRau } from "iotex-antenna/lib/account/utils";
 import { getAntenna } from "../shared/wallet/get-antenna";
 import { DecodeData, ERC20, IERC20 } from "./erc20";
 
@@ -95,5 +96,9 @@ export class ERC20Token {
     gasLimit: string
   ): Promise<string> {
     return this.erc20.transfer(to, value, account, gasPrice, gasLimit);
+  }
+
+  public async claim(account: Account): Promise<string> {
+    return this.erc20.claim(account, toRau("1", "Qev"), "100000");
   }
 }

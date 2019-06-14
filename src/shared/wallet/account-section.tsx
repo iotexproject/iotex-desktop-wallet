@@ -1,5 +1,5 @@
 // @ts-ignore
-import { Card, Col, Form, Input, Modal, notification, Row, Table } from "antd";
+import { Button, Card, Col, notification, Row, Table } from "antd";
 import Icon from "antd/lib/icon";
 import BigNumber from "bignumber.js";
 // @ts-ignore
@@ -13,7 +13,11 @@ import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
-import { ERC20Token, IERC20TokenInfoDict } from "../../erc20/erc20Token";
+import {
+  ERC20Token,
+  IERC20TokenInfo,
+  IERC20TokenInfoDict
+} from "../../erc20/erc20Token";
 import { assetURL } from "../common/asset-url";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { onElectronClick } from "../common/on-electron-click";
@@ -40,6 +44,7 @@ export interface State {
   customTokensFormVisible: boolean;
   accountCheckID: string;
   isLoading: boolean;
+  isClaimingVita: boolean;
 }
 
 class AccountSection extends React.Component<Props, State> {
@@ -48,7 +53,8 @@ class AccountSection extends React.Component<Props, State> {
     erc20TokenInfos: {},
     customTokensFormVisible: false,
     accountCheckID: "",
-    isLoading: false
+    isLoading: false,
+    isClaimingVita: false
   };
 
   private pollAccountInterval: number | undefined;
@@ -244,18 +250,77 @@ class AccountSection extends React.Component<Props, State> {
     );
   }
 
-  public renderBalance(): JSX.Element | null {
+  public claimVita = (token: IERC20TokenInfo) => async () => {
+    const { account } = this.props;
+    if (!account) {
+      return;
+    }
+    this.setState({
+      isClaimingVita: true
+    });
+    try {
+      await ERC20Token.getToken(token.erc20TokenAddress).claim(account);
+      this.setState({
+        isClaimingVita: false
+      });
+    } catch (e) {
+      notification.error({
+        message: `Failed to claim: ${e}`
+      });
+    }
+  };
+
+  private getColumns(): Array<Object> {
     const { defaultNetworkTokens } = this.props;
-    const { erc20TokenInfos, accountMeta, isLoading } = this.state;
-    const dataSource = Object.keys(erc20TokenInfos)
-      .map(addr => erc20TokenInfos[addr])
-      .filter(tokenInfo => tokenInfo && tokenInfo.symbol);
-    const columns = [
+    return [
       {
         title: "",
         dataIndex: "symbol",
         className: "wallet-token-symbol",
-        key: "symbol"
+        key: "symbol",
+        render: (
+          text: string,
+          token: IERC20TokenInfo
+        ): JSX.Element | string | null => {
+          if (!text.match(/vita/i)) {
+            return text;
+          }
+          return (
+            <div style={{ paddingBottom: 42 }}>
+              <Row>{text}</Row>
+              <Row
+                type="flex"
+                justify="end"
+                align="middle"
+                style={{
+                  position: "absolute",
+                  padding: 10,
+                  width: "100%",
+                  margin: "0 -20px"
+                }}
+              >
+                <Button
+                  type="primary"
+                  href="https://discord.gg/4z3BTcd"
+                  style={{ marginRight: 10 }}
+                  target="_blank"
+                >
+                  {t("account.joinDiscord")}
+                </Button>
+                {
+                  // @ts-ignore
+                  <Button
+                    type="primary"
+                    loading={this.state.isClaimingVita}
+                    onClick={this.claimVita(token)}
+                  >
+                    {t("account.claim")}
+                  </Button>
+                }
+              </Row>
+            </div>
+          );
+        }
       },
       {
         title: "",
@@ -268,8 +333,11 @@ class AccountSection extends React.Component<Props, State> {
         dataIndex: "erc20TokenAddress",
         className: "wallet-delete-token",
         key: "erc20TokenAddress",
-        render: (text: string): JSX.Element | null =>
-          text && defaultNetworkTokens.indexOf(text) < 0 ? (
+        render: (text: string): JSX.Element | null => {
+          if (!text || defaultNetworkTokens.indexOf(text) >= 0) {
+            return null;
+          }
+          return (
             <Icon
               type="close-circle"
               onClick={() => this.onDeleteErc20Token(text)}
@@ -278,9 +346,18 @@ class AccountSection extends React.Component<Props, State> {
                 cursor: "pointer"
               }}
             />
-          ) : null
+          );
+        }
       }
     ];
+  }
+
+  public renderBalance(): JSX.Element | null {
+    const { erc20TokenInfos, accountMeta, isLoading } = this.state;
+    const dataSource = Object.keys(erc20TokenInfos)
+      .map(addr => erc20TokenInfos[addr])
+      .filter(tokenInfo => tokenInfo && tokenInfo.symbol);
+    const columns = this.getColumns();
     if (accountMeta) {
       dataSource.unshift({
         symbol: "IOTX",
