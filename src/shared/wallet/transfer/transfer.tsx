@@ -327,12 +327,12 @@ class TransferForm extends React.PureComponent<Props, State> {
       address: address,
       toAddress: recipient,
       amount: `${new BigNumber(amount).toString()} ${tokenSymbol}`,
-      limit: gasLimit,
-      price: toRau(gasPrice, "Qev")
+      limit: gasLimit + " Rau",
+      price: toRau(gasPrice, "Qev") + ` ${gasPrice} Qev`
     };
 
     if (tokenSymbol.match(/iotx/i)) {
-      dataSource.dataInHex = `${dataInHex}`;
+      dataSource.dataInHex = `${dataInHex || " "}`; // Fix undefined and always display Data field in modal if it is needed.
     }
 
     return (
