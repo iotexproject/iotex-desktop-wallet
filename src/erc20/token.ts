@@ -66,17 +66,17 @@ export class Token {
   }
 
   public async getInfo(walletAddress: string): Promise<ITokenInfo> {
-    const erc20 = this.api;
+    const api = this.api;
     const [balance, name, symbol, decimals] = await Promise.all<
       BigNumber,
       string,
       string,
       BigNumber
     >([
-      erc20.balanceOf(walletAddress, walletAddress),
-      erc20.name(walletAddress),
-      erc20.symbol(walletAddress),
-      erc20.decimals(walletAddress)
+      api.balanceOf(walletAddress, walletAddress),
+      api.name(walletAddress),
+      api.symbol(walletAddress),
+      api.decimals(walletAddress)
     ]);
     const balanceString = balance
       .dividedBy(10 ** decimals.toNumber())
