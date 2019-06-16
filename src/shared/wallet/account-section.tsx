@@ -24,7 +24,7 @@ import { xconf, XConfKeys } from "../common/xconf";
 import AddCustomTokensFormModal from "./add-erc20-tokens-form-modal";
 import { ChainNetworkSwitch } from "./chain-network-switch";
 import { getAntenna } from "./get-antenna";
-import { setERC20Tokens } from "./wallet-actions";
+import { setAccount, setERC20Tokens } from "./wallet-actions";
 import { IRPCProvider, IWalletState } from "./wallet-reducer";
 
 export interface Props extends DispatchProp {
@@ -309,7 +309,7 @@ class AccountSection extends React.Component<Props, State> {
   }
 
   public renderWallet = (): JSX.Element | null => {
-    const { account } = this.props;
+    const { account, dispatch } = this.props;
     if (!account) {
       return null;
     }
@@ -327,12 +327,20 @@ class AccountSection extends React.Component<Props, State> {
             borderRadius: "5px 5px 0px 0px"
           }}
         >
-          <Row type="flex" justify="space-between" align="middle">
-            <Col>
-              <Icon type="wallet" /> {t("account.wallet")}
+          <Row
+            type="flex"
+            justify="space-between"
+            align="middle"
+            style={{ paddingBottom: 5 }}
+          >
+            <Col
+              style={{ cursor: "pointer", fontSize: 13 }}
+              onClick={() => dispatch(setAccount())}
+            >
+              <Icon type="retweet" /> {t("account.switchAccount")}
             </Col>
             <Col
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", fontSize: 13 }}
               onClick={() => this.showCustomTokensForm()}
             >
               <Icon type="plus" /> {t("account.erc20.addCustom")}

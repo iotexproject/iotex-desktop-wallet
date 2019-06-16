@@ -71,9 +71,6 @@ export const walletReducer = (
   switch (action.type) {
     case "SET_ACCOUNT":
       const { account } = action.payload;
-      if (!account) {
-        return state;
-      }
       return { ...state, account };
     case "ADD_CUSTOM_RPC":
       const { customRPC } = action.payload;
