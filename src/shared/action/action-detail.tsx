@@ -98,7 +98,7 @@ class ActionDetailsInner extends PureComponent<Props> {
           }
         }
       } catch (e) {
-        window.console.error(`failed to parse ERC20 token: ${e}`);
+        window.console.error(`failed to parse XRC20 token: ${e}`);
       }
     }
 

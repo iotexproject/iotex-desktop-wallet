@@ -212,7 +212,7 @@ wallet.contract.back: Back to actions
 wallet.interact.access: Access
 wallet.interact.title: Interact with contract
 wallet.input.to: Recipient address
-wallet.input.fromErc20: ERC20 Token address
+wallet.input.fromXrc20: XRC20 Token address
 wallet.input.nonce: Nonce
 wallet.input.gasPrice: Gas Price
 wallet.input.gasLimit: Gas Limit
@@ -275,13 +275,13 @@ wallet.confirm.contract.cancel: No, cancel
 wallet.tab.transfer: "Send ${token}"
 wallet.tab.vote: Vote for delegate
 wallet.tab.contract: Smart Contracts
-wallet.tab.erc20: ERC20
+wallet.tab.xrc20: XRC20
 wallet.choice.input.data: Data (optional)
 wallet.input.dib: Data Hex
 wallet.input.balance: "Balance:"
 wallet.input.generate: Generate Transaction
 wallet.transactions.send: Send Transaction
-wallet.transfer.send-erc20: Send ERC20 tokens
+wallet.transfer.send-xrc20: Send XRC20 tokens
 wallet.transfer.title: Send IOTX
 wallet.error.required: This field is required.
 wallet.error.number: This field should be number
@@ -314,7 +314,7 @@ wallet.vote.title: Vote for delegate
 wallet.vote.content: Help IoTeX Build A Stronger Network
 wallet.vote.button: Vote on member.iotex.io
 input.error.raw_address.length: IOTX address has to be of length 41
-input.error.erc20_address.length: ERC20 Token address has to be of length 41
+input.error.xrc20_address.length: XRC20 Token address has to be of length 41
 wallet.interact.invalidABI: Invalid JSON ABI
 wallet.interact.abiTemplate: >-
   [{ "type":"contructor", "inputs": [{ "name":"param1", "type":"uint256",
@@ -357,3 +357,4 @@ account.addCustomRPC: Add custom RPC
 account.rpc.nameHolder: My RPC
 input.error.url.invalid: Invalid URL
 input.error.rpc.invalid: Can't connect to Network Provider!
+account.refresh: Refresh balances
