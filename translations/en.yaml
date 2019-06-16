@@ -358,4 +358,5 @@ input.error.url.invalid: Invalid URL
 input.error.rpc.invalid: Can't connect to Network Provider!
 account.joinDiscord: Join Discord
 account.claim: Claim
+account.switchAccount: Switch Account
 account.refresh: Refresh balances
