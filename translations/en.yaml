@@ -241,7 +241,6 @@ wallet.write.contract.p3: Amount to send. In most cases you should leave it as 0
 wallet.account.raw: Account Address
 wallet.account.private: Private Key
 wallet.account.addressPlaceHolder: IoTeX Address...
-wallet.erc20.title: "Send VITA"
 new-wallet.copy: Copy
 new-wallet.created: Wallet is created! Save your
 new-wallet.privateKey: Private Key
@@ -262,8 +261,8 @@ account.protect: Protect your keys & always check that you are on correct URL.
 account.responsible: You are responsible for your security.
 account.wallet: Wallet
 account.change: Change Wallet
-account.erc20.addCustom: Custom Tokens
-account.erc20.notfound: Token not found!
+account.token.addCustom: Custom Tokens
+account.token.notfound: Token not found!
 account.testnet.token: IOTX
 account.address: Account Address
 account.transaction-history: Go to transaction history

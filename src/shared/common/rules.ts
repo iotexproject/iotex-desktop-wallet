@@ -84,7 +84,7 @@ export const rules: Rules = {
       }
     }
   },
-  erc20AddressLength: {
+  tokenAddressLength: {
     validator: (_, value, callback) => {
       if (String(value).trim().length === 41) {
         callback();
@@ -119,7 +119,7 @@ export const rules: Rules = {
 
 export const rulesMap = {
   address: [rules.required, rules.addressLength],
-  erc20Address: [rules.required, rules.erc20AddressLength],
+  tokenAddress: [rules.required, rules.tokenAddressLength],
   transactionAmount: [rules.required, rules.amount],
   interactAmount: [rules.amount],
   gasLimit: [rules.required, rules.number],

@@ -21,7 +21,7 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { TooltipButton } from "../common/tooltip-button";
 import { xconf, XConfKeys } from "../common/xconf";
-import AddCustomTokensFormModal from "./add-erc20-tokens-form-modal";
+import AddCustomTokensFormModal from "./add-custom-tokens-form-modal";
 import { ChainNetworkSwitch } from "./chain-network-switch";
 import { getAntenna } from "./get-antenna";
 import { setTokens } from "./wallet-actions";
@@ -188,7 +188,7 @@ class AccountSection extends React.Component<Props, State> {
       );
       if (!tokenInfo || !tokenInfo.symbol) {
         notification.error({
-          message: t("account.erc20.notfound"),
+          message: t("account.token.notfound"),
           duration: 3
         });
         this.setState({
@@ -199,7 +199,7 @@ class AccountSection extends React.Component<Props, State> {
       tokenInfos[tokenAddress] = tokenInfo;
     } catch (error) {
       notification.error({
-        message: t("account.erc20.addCustom"),
+        message: t("account.token.addCustom"),
         description: `${error.message}`,
         duration: 3
       });
@@ -408,7 +408,7 @@ class AccountSection extends React.Component<Props, State> {
               style={{ cursor: "pointer" }}
               onClick={() => this.showCustomTokensForm()}
             >
-              <Icon type="plus" /> {t("account.erc20.addCustom")}
+              <Icon type="plus" /> {t("account.token.addCustom")}
             </Col>
           </Row>
           <Row
