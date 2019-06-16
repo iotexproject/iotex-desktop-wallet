@@ -259,6 +259,7 @@ class AccountSection extends React.Component<Props, State> {
     });
     try {
       const txHash = await Token.getToken(token.tokenAddress).claim(account);
+      // @ts-ignore
       console.log(`Claimed VITA at action hash: ${txHash}`);
       this.setState({
         isClaimingVita: false
