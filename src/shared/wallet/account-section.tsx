@@ -24,7 +24,7 @@ import { xconf, XConfKeys } from "../common/xconf";
 import AddCustomTokensFormModal from "./add-custom-tokens-form-modal";
 import { ChainNetworkSwitch } from "./chain-network-switch";
 import { getAntenna } from "./get-antenna";
-import { setTokens } from "./wallet-actions";
+import { setAccount, setTokens } from "./wallet-actions";
 import { IRPCProvider, IWalletState } from "./wallet-reducer";
 
 export interface Props extends DispatchProp {
