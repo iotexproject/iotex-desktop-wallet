@@ -15,7 +15,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import { ERC20Token, IERC20TokenInfoDict } from "../../../erc20/erc20Token";
+import { ITokenInfoDict, Token } from "../../../erc20/token";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { rulesMap } from "../../common/rules";
@@ -33,7 +33,7 @@ type Props = {
   account?: Account;
   chainId?: number;
   updateWalletInfo?: Function;
-  erc20Tokens?: IERC20TokenInfoDict;
+  tokens?: ITokenInfoDict;
 } & RouteComponentProps;
 
 type State = {
@@ -57,7 +57,7 @@ class TransferForm extends React.PureComponent<Props, State> {
 
   public sendTransfer = async (status: boolean) => {
     const antenna = getAntenna();
-    const { form, account, erc20Tokens = {} } = this.props;
+    const { form, account, tokens = {} } = this.props;
     if (!status || !account) {
       return this.setState({
         showConfirmTransfer: false
@@ -81,11 +81,11 @@ class TransferForm extends React.PureComponent<Props, State> {
         symbol
       } = value;
 
-      const erc20 = symbol.match(/iotx/) ? null : ERC20Token.getToken(symbol);
+      const customToken = symbol.match(/iotx/) ? null : Token.getToken(symbol);
 
       this.setState({ sending: true, showConfirmTransfer: false });
       let txHash = "";
-      if (!erc20) {
+      if (!customToken) {
         window.console.log(
           `antenna.iotx.sendTransfer(${JSON.stringify({
             from: address,
@@ -112,24 +112,24 @@ class TransferForm extends React.PureComponent<Props, State> {
           });
         }
       } else {
-        const erc20Info = erc20Tokens[symbol];
-        const erc20Amount = new BigNumber(amount).multipliedBy(
-          10 ** erc20Info.decimals.toNumber()
+        const tokenInfo = tokens[symbol];
+        const tokenAmount = new BigNumber(amount).multipliedBy(
+          10 ** tokenInfo.decimals.toNumber()
         );
         const gasPriceRau = toRau(gasPrice, "Qev");
         window.console.log(
-          `erc20.transfer(
+          `customToken.transfer(
                 ${recipient},
-                ${erc20Amount},
-                <wallet>,
+                ${tokenAmount},
+                <account>,
                 ${gasPriceRau},
                 ${gasLimit}
               )`
         );
         try {
-          txHash = await erc20.transfer(
+          txHash = await customToken.transfer(
             recipient,
-            erc20Amount,
+            tokenAmount,
             account,
             gasPriceRau,
             gasLimit
@@ -166,15 +166,15 @@ class TransferForm extends React.PureComponent<Props, State> {
     const { form } = this.props;
     const { getFieldDecorator } = form;
     const { Option } = Select;
-    const { erc20Tokens = {} } = this.props;
+    const { tokens = {} } = this.props;
     const tokenTypes = [
       {
         label: "IOTX",
         key: "iotx"
       }
     ];
-    Object.keys(erc20Tokens).forEach(addr => {
-      const info = erc20Tokens[addr];
+    Object.keys(tokens).forEach(addr => {
+      const info = tokens[addr];
       if (info) {
         tokenTypes.push({
           label: info.symbol,
@@ -307,7 +307,7 @@ class TransferForm extends React.PureComponent<Props, State> {
   };
 
   public confirmTransfer = () => {
-    const { account, form, erc20Tokens = {} } = this.props;
+    const { account, form, tokens = {} } = this.props;
     if (!account) {
       return null;
     }
@@ -322,7 +322,7 @@ class TransferForm extends React.PureComponent<Props, State> {
       symbol,
       dataInHex
     } = form.getFieldsValue();
-    const tokenSymbol = symbol === "iotx" ? "IOTX" : erc20Tokens[symbol].symbol;
+    const tokenSymbol = symbol === "iotx" ? "IOTX" : tokens[symbol].symbol;
     const dataSource: { [index: string]: string } = {
       address: address,
       toAddress: recipient,
@@ -376,9 +376,9 @@ class TransferForm extends React.PureComponent<Props, State> {
 
 const mapStateToProps = (state: {
   wallet: IWalletState;
-}): { account?: Account; erc20Tokens?: IERC20TokenInfoDict } => ({
+}): { account?: Account; tokens?: ITokenInfoDict } => ({
   account: (state.wallet || {}).account,
-  erc20Tokens: (state.wallet || {}).erc20Tokens || {}
+  tokens: (state.wallet || {}).tokens || {}
 });
 
 const TransferFormComp = Form.create<TransferForm>()(TransferForm);

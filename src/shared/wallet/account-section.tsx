@@ -13,11 +13,7 @@ import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
-import {
-  ERC20Token,
-  IERC20TokenInfo,
-  IERC20TokenInfoDict
-} from "../../erc20/erc20Token";
+import { ITokenInfo, ITokenInfoDict, Token } from "../../erc20/token";
 import { assetURL } from "../common/asset-url";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { onElectronClick } from "../common/on-electron-click";
@@ -28,7 +24,7 @@ import { xconf, XConfKeys } from "../common/xconf";
 import AddCustomTokensFormModal from "./add-erc20-tokens-form-modal";
 import { ChainNetworkSwitch } from "./chain-network-switch";
 import { getAntenna } from "./get-antenna";
-import { setERC20Tokens } from "./wallet-actions";
+import { setTokens } from "./wallet-actions";
 import { IRPCProvider, IWalletState } from "./wallet-reducer";
 
 export interface Props extends DispatchProp {
@@ -40,7 +36,7 @@ export interface Props extends DispatchProp {
 
 export interface State {
   accountMeta: AccountMeta | undefined;
-  erc20TokenInfos: IERC20TokenInfoDict;
+  tokenInfos: ITokenInfoDict;
   customTokensFormVisible: boolean;
   accountCheckID: string;
   isLoading: boolean;
@@ -51,7 +47,7 @@ export interface State {
 class AccountSection extends React.Component<Props, State> {
   public state: State = {
     accountMeta: undefined,
-    erc20TokenInfos: {},
+    tokenInfos: {},
     customTokensFormVisible: false,
     accountCheckID: "",
     isLoading: false,
@@ -90,38 +86,36 @@ class AccountSection extends React.Component<Props, State> {
     const { account } = this.props;
     if (account) {
       await this.getAccount(account);
-      await this.getErc20TokensInfo();
+      await this.getTokensInfo();
       this.setState({ isLoading: false, isSyncing: false });
     }
     this.pollAccountInterval = window.setTimeout(this.pollAccount, 10000);
   };
 
-  public getErc20TokensInfo = async () => {
+  public getTokensInfo = async () => {
     const { account, dispatch, defaultNetworkTokens } = this.props;
     const { accountCheckID } = this.state;
     if (!account) {
       return;
     }
 
-    let erc20Addresses = xconf.getConf<Array<string>>(
-      `${XConfKeys.ERC20_TOKENS_ADDRS}_${accountCheckID}`,
+    let tokenAddresses = xconf.getConf<Array<string>>(
+      `${XConfKeys.TOKENS_ADDRS}_${accountCheckID}`,
       []
     );
 
-    erc20Addresses = [...defaultNetworkTokens, ...erc20Addresses];
+    tokenAddresses = [...defaultNetworkTokens, ...tokenAddresses];
     const tokenInfos = await Promise.all(
-      erc20Addresses.map(addr =>
-        ERC20Token.getToken(addr).getInfo(account.address)
-      )
+      tokenAddresses.map(addr => Token.getToken(addr).getInfo(account.address))
     );
-    const newErc20TokenInfos: IERC20TokenInfoDict = {};
+    const newTokenInfos: ITokenInfoDict = {};
     tokenInfos.forEach(info => {
       if (info && info.symbol) {
-        newErc20TokenInfos[info.erc20TokenAddress] = info;
+        newTokenInfos[info.tokenAddress] = info;
       }
     });
-    this.setState({ erc20TokenInfos: newErc20TokenInfos });
-    dispatch(setERC20Tokens(newErc20TokenInfos));
+    this.setState({ tokenInfos: newTokenInfos });
+    dispatch(setTokens(newTokenInfos));
   };
 
   public getAccount = async (account: Account) => {
@@ -178,10 +172,10 @@ class AccountSection extends React.Component<Props, State> {
     });
   };
 
-  public onAddCustomToken = async (erc20Address: string) => {
-    const { erc20TokenInfos } = this.state;
+  public onAddCustomToken = async (tokenAddress: string) => {
+    const { tokenInfos } = this.state;
     const { account, dispatch } = this.props;
-    if (erc20TokenInfos[erc20Address] || !account) {
+    if (tokenInfos[tokenAddress] || !account) {
       this.setState({
         customTokensFormVisible: false
       });
@@ -189,7 +183,7 @@ class AccountSection extends React.Component<Props, State> {
     }
 
     try {
-      const tokenInfo = await ERC20Token.getToken(erc20Address).getInfo(
+      const tokenInfo = await Token.getToken(tokenAddress).getInfo(
         account.address
       );
       if (!tokenInfo || !tokenInfo.symbol) {
@@ -202,7 +196,7 @@ class AccountSection extends React.Component<Props, State> {
         });
         return;
       }
-      erc20TokenInfos[erc20Address] = tokenInfo;
+      tokenInfos[tokenAddress] = tokenInfo;
     } catch (error) {
       notification.error({
         message: t("account.erc20.addCustom"),
@@ -212,31 +206,31 @@ class AccountSection extends React.Component<Props, State> {
     }
 
     xconf.setConf(
-      `${XConfKeys.ERC20_TOKENS_ADDRS}_${this.state.accountCheckID}`,
-      Object.keys(erc20TokenInfos)
+      `${XConfKeys.TOKENS_ADDRS}_${this.state.accountCheckID}`,
+      Object.keys(tokenInfos)
     );
     this.setState({
       customTokensFormVisible: false,
-      erc20TokenInfos: { ...erc20TokenInfos }
+      tokenInfos: { ...tokenInfos }
     });
-    dispatch(setERC20Tokens({ ...erc20TokenInfos }));
+    dispatch(setTokens({ ...tokenInfos }));
   };
 
-  public onDeleteErc20Token = (erc20Address: string) => {
+  public onDeleteErc20Token = (tokenAddress: string) => {
     const { dispatch, account } = this.props;
-    const { erc20TokenInfos } = this.state;
+    const { tokenInfos } = this.state;
 
-    if (!erc20TokenInfos[erc20Address]) {
+    if (!tokenInfos[tokenAddress]) {
       return;
     }
     // tslint:disable-next-line:no-dynamic-delete
-    delete erc20TokenInfos[erc20Address];
-    this.setState({ erc20TokenInfos: { ...erc20TokenInfos } });
-    dispatch(setERC20Tokens({ ...erc20TokenInfos }));
+    delete tokenInfos[tokenAddress];
+    this.setState({ tokenInfos: { ...tokenInfos } });
+    dispatch(setTokens({ ...tokenInfos }));
     if (account) {
       xconf.setConf(
-        `${XConfKeys.ERC20_TOKENS_ADDRS}_${this.state.accountCheckID}`,
-        Object.keys(erc20TokenInfos)
+        `${XConfKeys.TOKENS_ADDRS}_${this.state.accountCheckID}`,
+        Object.keys(tokenInfos)
       );
     }
   };
@@ -255,16 +249,17 @@ class AccountSection extends React.Component<Props, State> {
     );
   }
 
-  public claimVita = (token: IERC20TokenInfo) => async () => {
+  public claimVita = (token: ITokenInfo) => async () => {
     const { account } = this.props;
-    if (!account) {
+    if (!account || !Token.getToken(token.tokenAddress).isVita()) {
       return;
     }
     this.setState({
       isClaimingVita: true
     });
     try {
-      await ERC20Token.getToken(token.erc20TokenAddress).claim(account);
+      const txHash = await Token.getToken(token.tokenAddress).claim(account);
+      console.log(`Claimed VITA at action hash: ${txHash}`);
       this.setState({
         isClaimingVita: false
       });
@@ -285,9 +280,9 @@ class AccountSection extends React.Component<Props, State> {
         key: "symbol",
         render: (
           text: string,
-          token: IERC20TokenInfo
+          token: ITokenInfo
         ): JSX.Element | string | null => {
-          if (!text.match(/vita/i)) {
+          if (!Token.getToken(token.tokenAddress).isVita()) {
             return text;
           }
           return (
@@ -335,9 +330,9 @@ class AccountSection extends React.Component<Props, State> {
       },
       {
         title: "",
-        dataIndex: "erc20TokenAddress",
+        dataIndex: "tokenAddress",
         className: "wallet-delete-token",
-        key: "erc20TokenAddress",
+        key: "tokenAddress",
         render: (text: string): JSX.Element | null => {
           if (!text || defaultNetworkTokens.indexOf(text) >= 0) {
             return null;
@@ -358,16 +353,16 @@ class AccountSection extends React.Component<Props, State> {
   }
 
   public renderBalance(): JSX.Element | null {
-    const { erc20TokenInfos, accountMeta, isLoading } = this.state;
-    const dataSource = Object.keys(erc20TokenInfos)
-      .map(addr => erc20TokenInfos[addr])
+    const { tokenInfos, accountMeta, isLoading } = this.state;
+    const dataSource = Object.keys(tokenInfos)
+      .map(addr => tokenInfos[addr])
       .filter(tokenInfo => tokenInfo && tokenInfo.symbol);
     const columns = this.getColumns();
     if (accountMeta) {
       dataSource.unshift({
         symbol: "IOTX",
         balanceString: fromRau(accountMeta.balance, ""),
-        erc20TokenAddress: "",
+        tokenAddress: "",
         balance: new BigNumber(accountMeta.balance),
         decimals: new BigNumber(0),
         name: "IOTX"

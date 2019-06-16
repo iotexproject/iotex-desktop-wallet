@@ -6,7 +6,7 @@ import React from "react";
 import { Component } from "react";
 import { connect } from "react-redux";
 import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
-import { IERC20TokenInfoDict } from "../../erc20/erc20Token";
+import { ITokenInfoDict } from "../../erc20/token";
 import routes from "../common/routes";
 import { ChooseFunction } from "./contract/choose-function";
 import { Deploy } from "./contract/deploy";
@@ -21,7 +21,7 @@ const ENABLE_SIGN = false;
 type Props = RouteComponentProps & {
   address: string;
   wallet: Account | null;
-  erc20TokensInfo: IERC20TokenInfoDict;
+  tokensInfo: ITokenInfoDict;
   queryType?: QueryType;
   queryNonce?: number;
 };

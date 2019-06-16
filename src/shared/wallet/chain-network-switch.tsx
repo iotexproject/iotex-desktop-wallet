@@ -5,7 +5,7 @@ import React, { useState } from "react";
 
 // @ts-ignore
 import { connect, DispatchProp } from "react-redux";
-import { ERC20Token } from "../../erc20/erc20Token";
+import { Token } from "../../erc20/token";
 import { setApolloClientEndpoint } from "../common/apollo-client";
 import AddCustomRpcFormModal from "./add-custom-rpc-form-modal";
 import { getAntenna } from "./get-antenna";
@@ -29,7 +29,7 @@ const getDefaultNetworkTokens = async (
 ): Promise<Array<string>> => {
   // Check for default erc20 tokens supported.
   const supportStatus = await Promise.all(
-    defaultTokens.map(token => ERC20Token.getToken(token).checkValid())
+    defaultTokens.map(token => Token.getToken(token).checkValid())
   );
   return defaultTokens.filter((_, i) => supportStatus[i]);
 };
