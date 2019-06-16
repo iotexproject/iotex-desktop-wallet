@@ -70,8 +70,8 @@ export const ChainNetworkSwitchComponent = (
     <>
       <Select
         value={`${currentNetwork.name}:${currentNetwork.url}`}
-        style={{ width: "100%", marginTop: 10 }}
         className="chain-network-switch"
+        style={{ width: "100%" }}
         onSelect={async (value: string) => {
           if (value === "custom:") {
             showForm(true);

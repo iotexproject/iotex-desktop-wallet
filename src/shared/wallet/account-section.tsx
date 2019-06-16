@@ -1,5 +1,5 @@
 // @ts-ignore
-import { Button, Card, Col, notification, Row, Table } from "antd";
+import { Button, Card, Col, notification, Row, Table, Tooltip } from "antd";
 import Icon from "antd/lib/icon";
 import BigNumber from "bignumber.js";
 // @ts-ignore
@@ -45,6 +45,7 @@ export interface State {
   accountCheckID: string;
   isLoading: boolean;
   isClaimingVita: boolean;
+  isSyncing: boolean;
 }
 
 class AccountSection extends React.Component<Props, State> {
@@ -54,7 +55,8 @@ class AccountSection extends React.Component<Props, State> {
     customTokensFormVisible: false,
     accountCheckID: "",
     isLoading: false,
-    isClaimingVita: false
+    isClaimingVita: false,
+    isSyncing: false
   };
 
   private pollAccountInterval: number | undefined;
@@ -78,15 +80,18 @@ class AccountSection extends React.Component<Props, State> {
     }
   }
 
+  public onSyncAccount = () => {
+    this.setState({ isSyncing: true, isLoading: true });
+    this.pollAccount();
+  };
+
   public pollAccount = async () => {
     window.clearTimeout(this.pollAccountInterval);
     const { account } = this.props;
     if (account) {
       await this.getAccount(account);
       await this.getErc20TokensInfo();
-      if (this.state.isLoading) {
-        this.setState({ isLoading: false });
-      }
+      this.setState({ isLoading: false, isSyncing: false });
     }
     this.pollAccountInterval = window.setTimeout(this.pollAccount, 10000);
   };
@@ -410,8 +415,34 @@ class AccountSection extends React.Component<Props, State> {
               <Icon type="plus" /> {t("account.erc20.addCustom")}
             </Col>
           </Row>
-          <Row type="flex" justify="center" align="middle">
-            <ChainNetworkSwitch />
+          <Row
+            type="flex"
+            justify="space-between"
+            align="middle"
+            style={{ paddingTop: 10 }}
+          >
+            <Col xs={20}>
+              <ChainNetworkSwitch />
+            </Col>
+            <Col xs={4}>
+              <Tooltip
+                placement="top"
+                trigger="hover"
+                title={t("account.refresh")}
+              >
+                <Button
+                  shape="circle"
+                  icon="redo"
+                  style={{
+                    float: "right",
+                    lineHeight: "32px",
+                    transform: "rotate(-45deg)"
+                  }}
+                  onClick={this.onSyncAccount}
+                  loading={this.state.isSyncing}
+                />
+              </Tooltip>
+            </Col>
           </Row>
         </div>
         {this.renderBalance()}

@@ -90,15 +90,13 @@ class ActionDetailsInner extends PureComponent<Props> {
               amount: object.amount,
               contract: object.contract,
               to: info.data._to,
-              tokens: `${tokenTransfered} ${tokenInfo.symbol} (${
-                tokenInfo.name
-              })`,
+              tokens: `${tokenTransfered} ${tokenInfo.symbol} (${tokenInfo.name})`,
               data: object.data
             };
           }
         }
       } catch (e) {
-        window.console.error(`failed to parse ERC20 token: ${e}`);
+        window.console.error(`failed to parse XRC20 token: ${e}`);
       }
     }
 

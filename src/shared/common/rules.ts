@@ -89,7 +89,7 @@ export const rules: Rules = {
       if (String(value).trim().length === 41) {
         callback();
       } else {
-        callback(t("input.error.erc20_address.length"));
+        callback(t("input.error.xrc20_address.length"));
       }
     }
   },
