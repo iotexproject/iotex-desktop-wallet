@@ -65,8 +65,6 @@ class WalletTabsInner extends Component<Props> {
       activeKey = `/wallet/vote`;
     } else if (location.pathname.match(/smart-contract/)) {
       activeKey = `/wallet/smart-contract`;
-    } else if (location.pathname.match(/erc20/i)) {
-      activeKey = `/wallet/erc20`;
     } else if (location.pathname.match(/sign/)) {
       activeKey = `/wallet/sign`;
     }

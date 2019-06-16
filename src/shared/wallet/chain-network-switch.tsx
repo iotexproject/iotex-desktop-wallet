@@ -27,7 +27,7 @@ const networkName = (name: string): string => {
 const getDefaultNetworkTokens = async (
   defaultTokens: Array<string>
 ): Promise<Array<string>> => {
-  // Check for default erc20 tokens supported.
+  // Check for default tokens supported.
   const supportStatus = await Promise.all(
     defaultTokens.map(token => Token.getToken(token).checkValid())
   );
