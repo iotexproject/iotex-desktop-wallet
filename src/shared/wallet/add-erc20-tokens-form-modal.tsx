@@ -47,7 +47,7 @@ class AddCustomTokensFormModal extends React.PureComponent<
         }}
       >
         <Form.Item
-          label={t("wallet.input.fromErc20")}
+          label={t("wallet.input.fromXrc20")}
           wrapperCol={{
             xs: 24
           }}
