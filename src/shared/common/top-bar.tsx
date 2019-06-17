@@ -199,7 +199,7 @@ class TopBarComponent extends Component<Props, State> {
       <NoBgA href={votingPageUrl} key={2}>
         {t("topbar.voting")}
       </NoBgA>,
-      <NoBgLink to="wallet" key={3}>
+      <NoBgLink to="/wallet" key={3}>
         {t("topbar.wallet")}
       </NoBgLink>
     ];
