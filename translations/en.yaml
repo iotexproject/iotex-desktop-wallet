@@ -96,9 +96,10 @@ render.key.responseTransfer: responseTransfer
 render.key.responseTransferBlockProof: responseTransferBlockProof
 render.key.coinID: coin ID
 render.key.denomination: denomination
-render.key.owner: owner
+render.key.owner: Owner
+render.key.ownerETH: Owner (Eth)
 render.key.candidates: candidates
-render.key.nonce: nonce
+render.key.nonce: Nonce
 render.key.to: To
 render.key.tokens: Tokens Transferred
 action.data: Data
@@ -359,6 +360,7 @@ input.error.url.invalid: Invalid URL
 input.error.rpc.invalid: Can't connect to Network Provider!
 account.joinDiscord: Join Discord
 account.claim: Claim
+account.claimAs: Claim As
 account.switchAccount: Switch Account
 account.refresh: Refresh balances
 confirmation.amount: Amount
@@ -369,3 +371,14 @@ confirmation.limit: Gas limit
 confirmation.price: Gas price
 confirmation.data: Data
 confirmation.method: Method
+confirmation.owner: Owner
+account.claimAs.authorizedMessage: Authentication private message
+account.claimAs.authorizedTemplate: >-
+  {
+    "address": "0x497...",
+    "msg": "1I authorize 0x0123...",
+    "sig": "0xfa076d068...",
+    "version": "2"
+  }
+account.error.invalidAuthorizedMessage: Invalid authentication private message!
+render.key.method: Method

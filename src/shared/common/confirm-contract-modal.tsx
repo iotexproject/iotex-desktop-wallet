@@ -11,6 +11,7 @@ export interface Props {
   showModal: boolean;
   confirmContractOk: Function;
   dataSource: { [key: string]: any };
+  confirmLoading?: boolean;
 }
 
 export interface State {}
@@ -26,7 +27,13 @@ export default class ConfirmContractModal extends React.Component<
   // tslint:disable:no-any
   public getActionColumns(): Array<Column<any>> {
     // this columns was just for example.
-    const { toAddress, toContract, dataInHex, method } = this.props.dataSource;
+    const {
+      toAddress,
+      toContract,
+      dataInHex,
+      method,
+      owner
+    } = this.props.dataSource;
 
     return [
       {
@@ -68,6 +75,14 @@ export default class ConfirmContractModal extends React.Component<
             }
           ]
         : []),
+      ...(owner
+        ? [
+            {
+              title: t("confirmation.owner"),
+              dataIndex: "owner"
+            }
+          ]
+        : []),
       {
         title: t("confirmation.limit"),
         dataIndex: "limit"
@@ -88,7 +103,7 @@ export default class ConfirmContractModal extends React.Component<
   }
 
   public render(): JSX.Element {
-    const { dataSource, showModal } = this.props;
+    const { dataSource, showModal, confirmLoading } = this.props;
     return (
       <Modal
         title={<b>{t("wallet.confirm.contract.title")}</b>}
@@ -99,6 +114,7 @@ export default class ConfirmContractModal extends React.Component<
         cancelText={t("wallet.confirm.contract.cancel")}
         onOk={() => this.confirmContractOk(true)}
         onCancel={() => this.confirmContractOk(false)}
+        confirmLoading={confirmLoading}
       >
         <ModalBody>
           <Board>

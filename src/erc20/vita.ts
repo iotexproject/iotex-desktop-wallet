@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import { Account } from "iotex-antenna/lib/account/account";
 import {
   getArgTypes,
@@ -10,6 +11,21 @@ import { ERC20, IERC20 } from "./erc20";
 
 export interface IVita extends IERC20 {
   claim(account: Account, gasPrice: string, gasLimit: string): Promise<string>;
+  claimAs(
+    owner: string,
+    signature: Buffer,
+    nonce: BigNumber,
+    account: Account,
+    gasPrice: string,
+    gasLimit: string
+  ): Promise<string>;
+}
+
+export interface IAuthorizedMessage {
+  address: string;
+  msg: string;
+  sig: string;
+  version: string;
 }
 
 export class Vita extends ERC20 implements IVita {
@@ -19,6 +35,26 @@ export class Vita extends ERC20 implements IVita {
     gasLimit: string
   ): Promise<string> {
     return this.executeMethod("claim", account, gasPrice, gasLimit, "0");
+  }
+
+  public async claimAs(
+    owner: string,
+    signature: Buffer,
+    nonce: BigNumber,
+    account: Account,
+    gasPrice: string,
+    gasLimit: string
+  ): Promise<string> {
+    return this.executeMethod(
+      "claimAs",
+      account,
+      gasPrice,
+      gasLimit,
+      "0",
+      owner,
+      signature,
+      nonce.toString()
+    );
   }
 
   public static create(address: string, provider: IRpcMethod): Vita {

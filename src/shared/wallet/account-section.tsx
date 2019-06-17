@@ -1,5 +1,15 @@
 // @ts-ignore
-import { Button, Card, Col, notification, Row, Table, Tooltip } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Dropdown,
+  Menu,
+  notification,
+  Row,
+  Table,
+  Tooltip
+} from "antd";
 import Icon from "antd/lib/icon";
 import BigNumber from "bignumber.js";
 // @ts-ignore
@@ -15,6 +25,7 @@ import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
 import { ITokenInfo, ITokenInfoDict, Token } from "../../erc20/token";
+import { IAuthorizedMessage } from "../../erc20/vita";
 import { assetURL } from "../common/asset-url";
 import ConfirmContractModal from "../common/confirm-contract-modal";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
@@ -24,6 +35,7 @@ import { colors } from "../common/styles/style-color";
 import { TooltipButton } from "../common/tooltip-button";
 import { xconf, XConfKeys } from "../common/xconf";
 import AddCustomTokensFormModal from "./add-custom-tokens-form-modal";
+import AuthorizedMessageFormModal from "./authorized-message-form-modal";
 import { ChainNetworkSwitch } from "./chain-network-switch";
 import { getAntenna } from "./get-antenna";
 import { setAccount, setTokens } from "./wallet-actions";
@@ -46,6 +58,8 @@ export interface State {
   isSyncing: boolean;
   claimConfirmationVisible: boolean;
   claimTokenAddress: string;
+  authorizedMessageFormVisible: boolean;
+  authMessage: IAuthorizedMessage | null;
 }
 
 class AccountSection extends React.Component<Props, State> {
@@ -58,7 +72,9 @@ class AccountSection extends React.Component<Props, State> {
     isClaimingVita: false,
     isSyncing: false,
     claimConfirmationVisible: false,
-    claimTokenAddress: ""
+    claimTokenAddress: "",
+    authorizedMessageFormVisible: false,
+    authMessage: null
   };
 
   private pollAccountInterval: number | undefined;
@@ -255,21 +271,62 @@ class AccountSection extends React.Component<Props, State> {
     );
   }
 
+  public claimVitaAs = async (
+    tokenAddress: string,
+    authMessage: IAuthorizedMessage
+  ) => {
+    const { history, account } = this.props;
+    if (!account) {
+      return;
+    }
+    try {
+      const txHash = await Token.getToken(tokenAddress).claimAs(
+        authMessage,
+        account
+      );
+      // @ts-ignore
+      window.console.log(
+        `Claimed VITA to ${authMessage.address} at action hash: ${txHash}`
+      );
+      history.push(`/wallet/smart-contract/interact/${txHash}`);
+    } catch (e) {
+      window.console.log(e);
+      notification.error({
+        message: `Failed to claim: ${e}`
+      });
+    }
+  };
+
+  public renderAuthMessageFormModal(token: ITokenInfo): JSX.Element {
+    return (
+      <AuthorizedMessageFormModal
+        visible={this.state.authorizedMessageFormVisible}
+        onOK={(authMessage: IAuthorizedMessage) => {
+          this.setState({
+            authorizedMessageFormVisible: false,
+            claimConfirmationVisible: true,
+            claimTokenAddress: token.tokenAddress,
+            authMessage
+          });
+        }}
+        onCancel={() => {
+          this.setState({
+            authorizedMessageFormVisible: false
+          });
+        }}
+      />
+    );
+  }
+
   public claimVita = async (tokenAddress: string) => {
     const { account, history } = this.props;
     if (!account || !Token.getToken(tokenAddress).isVita()) {
       return;
     }
-    this.setState({
-      isClaimingVita: true
-    });
     try {
       const txHash = await Token.getToken(tokenAddress).claim(account);
       // @ts-ignore
       window.console.log(`Claimed VITA at action hash: ${txHash}`);
-      this.setState({
-        isClaimingVita: false
-      });
       history.push(`/wallet/smart-contract/interact/${txHash}`);
     } catch (e) {
       notification.error({
@@ -277,6 +334,69 @@ class AccountSection extends React.Component<Props, State> {
       });
     }
   };
+
+  private renderClaimButton(token: ITokenInfo): JSX.Element {
+    const claimMenu = (
+      <Menu>
+        <Menu.Item key="claimAs">
+          <Button
+            onClick={() => {
+              this.setState({
+                authorizedMessageFormVisible: true
+              });
+            }}
+          >
+            {t("account.claimAs")}
+          </Button>
+        </Menu.Item>
+      </Menu>
+    );
+    return (
+      <Dropdown.Button
+        type="primary"
+        overlay={claimMenu}
+        onClick={() => {
+          this.setState({
+            claimConfirmationVisible: true,
+            claimTokenAddress: token.tokenAddress,
+            authMessage: null
+          });
+        }}
+      >
+        {t("account.claim")}
+      </Dropdown.Button>
+    );
+  }
+
+  private renderVITAPanel(token: ITokenInfo): JSX.Element {
+    return (
+      <div style={{ paddingBottom: 42 }}>
+        <Row>{token.symbol}</Row>
+        <Row
+          type="flex"
+          justify="end"
+          align="middle"
+          style={{
+            position: "absolute",
+            padding: 10,
+            width: "100%",
+            margin: "0 -20px"
+          }}
+        >
+          <Button
+            type="primary"
+            href="https://discord.gg/4z3BTcd"
+            style={{ marginRight: 10 }}
+            target="_blank"
+          >
+            {t("account.joinDiscord")}
+          </Button>
+          {this.renderClaimButton(token)}
+          {this.renderAuthMessageFormModal(token)}
+        </Row>
+      </div>
+    );
+  }
 
   private getColumns(): Array<Object> {
     const { defaultNetworkTokens } = this.props;
@@ -293,46 +413,7 @@ class AccountSection extends React.Component<Props, State> {
           if (!Token.getToken(token.tokenAddress).isVita()) {
             return text;
           }
-          return (
-            <div style={{ paddingBottom: 42 }}>
-              <Row>{text}</Row>
-              <Row
-                type="flex"
-                justify="end"
-                align="middle"
-                style={{
-                  position: "absolute",
-                  padding: 10,
-                  width: "100%",
-                  margin: "0 -20px"
-                }}
-              >
-                <Button
-                  type="primary"
-                  href="https://discord.gg/4z3BTcd"
-                  style={{ marginRight: 10 }}
-                  target="_blank"
-                >
-                  {t("account.joinDiscord")}
-                </Button>
-                {
-                  // @ts-ignore
-                  <Button
-                    type="primary"
-                    loading={this.state.isClaimingVita}
-                    onClick={() => {
-                      this.setState({
-                        claimConfirmationVisible: true,
-                        claimTokenAddress: token.tokenAddress
-                      });
-                    }}
-                  >
-                    {t("account.claim")}
-                  </Button>
-                }
-              </Row>
-            </div>
-          );
+          return this.renderVITAPanel(token);
         }
       },
       {
@@ -496,7 +577,11 @@ class AccountSection extends React.Component<Props, State> {
 
   private readonly renderClaimConfirmation = (): JSX.Element | null => {
     const { account } = this.props;
-    const { claimConfirmationVisible, claimTokenAddress } = this.state;
+    const {
+      claimConfirmationVisible,
+      claimTokenAddress,
+      authMessage
+    } = this.state;
     if (!account) {
       return null;
     }
@@ -507,21 +592,36 @@ class AccountSection extends React.Component<Props, State> {
       method: "claim",
       amount: "0 IOTX",
       limit: "100000",
-      price: toRau("1", "Qev")
+      price: toRau("1", "Qev"),
+      ...(authMessage
+        ? {
+            method: "claimAs",
+            owner: authMessage.address
+          }
+        : {})
     };
 
     return (
       <ConfirmContractModal
         dataSource={dataSource}
-        confirmContractOk={(ok: boolean) => {
+        confirmContractOk={async (ok: boolean) => {
+          this.setState({
+            isClaimingVita: true
+          });
           if (ok) {
-            this.claimVita(claimTokenAddress);
+            if (authMessage) {
+              await this.claimVitaAs(claimTokenAddress, authMessage);
+            } else {
+              await this.claimVita(claimTokenAddress);
+            }
           }
           this.setState({
-            claimConfirmationVisible: false
+            claimConfirmationVisible: false,
+            isClaimingVita: false
           });
         }}
         showModal={claimConfirmationVisible}
+        confirmLoading={this.state.isClaimingVita}
       />
     );
   };

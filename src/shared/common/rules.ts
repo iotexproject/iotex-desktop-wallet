@@ -3,6 +3,7 @@ import { t } from "onefx/lib/iso-i18n";
 
 import { ValidationRule } from "antd/lib/form";
 import BigNumber from "bignumber.js";
+import { IAuthorizedMessage } from "../../erc20/vita";
 
 interface Rules {
   [key: string]: ValidationRule;
@@ -75,6 +76,22 @@ export const rules: Rules = {
       }
     }
   },
+  authMessage: {
+    transform: (value: string): IAuthorizedMessage | null => {
+      try {
+        return JSON.parse(value);
+      } catch (e) {
+        return null;
+      }
+    },
+    validator: (_, value: IAuthorizedMessage, callback) => {
+      if (value && value.address && value.msg && value.sig && value.version) {
+        callback();
+      } else {
+        callback(t("account.error.invalidAuthorizedMessage"));
+      }
+    }
+  },
   addressLength: {
     validator: (_, value, callback) => {
       if (String(value).trim().length === 41) {
@@ -130,6 +147,7 @@ export const rulesMap = {
   password: [rules.required, rules.strongPassword],
   name: [rules.required],
   url: [rules.required, rules.url],
+  authMessage: [rules.required, rules.authMessage],
 
   // ABIDataTypes
   uint256: [rules.number],
