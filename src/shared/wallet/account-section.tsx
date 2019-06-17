@@ -59,6 +59,7 @@ export interface State {
   claimConfirmationVisible: boolean;
   claimTokenAddress: string;
   authorizedMessageFormVisible: boolean;
+  authMessage: IAuthorizedMessage | null;
 }
 
 class AccountSection extends React.Component<Props, State> {
@@ -72,7 +73,8 @@ class AccountSection extends React.Component<Props, State> {
     isSyncing: false,
     claimConfirmationVisible: false,
     claimTokenAddress: "",
-    authorizedMessageFormVisible: false
+    authorizedMessageFormVisible: false,
+    authMessage: null
   };
 
   private pollAccountInterval: number | undefined;
@@ -269,7 +271,8 @@ class AccountSection extends React.Component<Props, State> {
     );
   }
 
-  public onClaimAsHandler = (token: ITokenInfo) => async (
+  public claimVitaAs = async (
+    tokenAddress: string,
     authMessage: IAuthorizedMessage
   ) => {
     const { history, account } = this.props;
@@ -277,7 +280,7 @@ class AccountSection extends React.Component<Props, State> {
       return;
     }
     try {
-      const txHash = await Token.getToken(token.tokenAddress).claimAs(
+      const txHash = await Token.getToken(tokenAddress).claimAs(
         authMessage,
         account
       );
@@ -285,9 +288,6 @@ class AccountSection extends React.Component<Props, State> {
       window.console.log(
         `Claimed VITA to ${authMessage.address} at action hash: ${txHash}`
       );
-      this.setState({
-        isClaimingVita: false
-      });
       history.push(`/wallet/smart-contract/interact/${txHash}`);
     } catch (e) {
       window.console.log(e);
@@ -295,16 +295,20 @@ class AccountSection extends React.Component<Props, State> {
         message: `Failed to claim: ${e}`
       });
     }
-    this.setState({
-      authorizedMessageFormVisible: false
-    });
   };
 
   public renderAuthMessageFormModal(token: ITokenInfo): JSX.Element {
     return (
       <AuthorizedMessageFormModal
         visible={this.state.authorizedMessageFormVisible}
-        onOK={this.onClaimAsHandler(token)}
+        onOK={(authMessage: IAuthorizedMessage) => {
+          this.setState({
+            authorizedMessageFormVisible: false,
+            claimConfirmationVisible: true,
+            claimTokenAddress: token.tokenAddress,
+            authMessage
+          });
+        }}
         onCancel={() => {
           this.setState({
             authorizedMessageFormVisible: false
@@ -319,16 +323,10 @@ class AccountSection extends React.Component<Props, State> {
     if (!account || !Token.getToken(tokenAddress).isVita()) {
       return;
     }
-    this.setState({
-      isClaimingVita: true
-    });
     try {
       const txHash = await Token.getToken(tokenAddress).claim(account);
       // @ts-ignore
       window.console.log(`Claimed VITA at action hash: ${txHash}`);
-      this.setState({
-        isClaimingVita: false
-      });
       history.push(`/wallet/smart-contract/interact/${txHash}`);
     } catch (e) {
       notification.error({
@@ -360,7 +358,8 @@ class AccountSection extends React.Component<Props, State> {
         onClick={() => {
           this.setState({
             claimConfirmationVisible: true,
-            claimTokenAddress: token.tokenAddress
+            claimTokenAddress: token.tokenAddress,
+            authMessage: null
           });
         }}
       >
@@ -578,7 +577,11 @@ class AccountSection extends React.Component<Props, State> {
 
   private readonly renderClaimConfirmation = (): JSX.Element | null => {
     const { account } = this.props;
-    const { claimConfirmationVisible, claimTokenAddress } = this.state;
+    const {
+      claimConfirmationVisible,
+      claimTokenAddress,
+      authMessage
+    } = this.state;
     if (!account) {
       return null;
     }
@@ -589,21 +592,36 @@ class AccountSection extends React.Component<Props, State> {
       method: "claim",
       amount: "0 IOTX",
       limit: "100000",
-      price: toRau("1", "Qev")
+      price: toRau("1", "Qev"),
+      ...(authMessage
+        ? {
+            method: "claimAs",
+            owner: authMessage.address
+          }
+        : {})
     };
 
     return (
       <ConfirmContractModal
         dataSource={dataSource}
-        confirmContractOk={(ok: boolean) => {
+        confirmContractOk={async (ok: boolean) => {
+          this.setState({
+            isClaimingVita: true
+          });
           if (ok) {
-            this.claimVita(claimTokenAddress);
+            if (authMessage) {
+              await this.claimVitaAs(claimTokenAddress, authMessage);
+            } else {
+              await this.claimVita(claimTokenAddress);
+            }
           }
           this.setState({
-            claimConfirmationVisible: false
+            claimConfirmationVisible: false,
+            isClaimingVita: false
           });
         }}
         showModal={claimConfirmationVisible}
+        confirmLoading={this.state.isClaimingVita}
       />
     );
   };
