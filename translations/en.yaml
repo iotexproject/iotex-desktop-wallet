@@ -96,9 +96,10 @@ render.key.responseTransfer: responseTransfer
 render.key.responseTransferBlockProof: responseTransferBlockProof
 render.key.coinID: coin ID
 render.key.denomination: denomination
-render.key.owner: owner
+render.key.owner: Owner
+render.key.ownerETH: Owner (Eth)
 render.key.candidates: candidates
-render.key.nonce: nonce
+render.key.nonce: Nonce
 render.key.to: To
 render.key.tokens: Tokens Transferred
 action.data: Data
@@ -380,3 +381,4 @@ account.claimAs.authorizedTemplate: >-
     "version": "2"
   }
 account.error.invalidAuthorizedMessage: Invalid authentication private message!
+render.key.method: Method

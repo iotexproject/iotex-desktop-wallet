@@ -23,6 +23,7 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding, NonePadding } from "../common/styles/style-padding";
 import { GET_ACTIONS_BY_HASH } from "../queries";
+import { toETHAddress } from "../wallet/address";
 import { ActionReceipt } from "./action-receipt";
 
 type PathParamsType = {
@@ -91,6 +92,24 @@ class ActionDetailsInner extends PureComponent<Props> {
               contract: object.contract,
               to: info.data._to,
               tokens: `${tokenTransfered} ${tokenInfo.symbol} (${tokenInfo.name})`,
+              data: object.data
+            };
+          }
+          if (tokenInfo && info.method === "claim") {
+            object = {
+              amount: object.amount,
+              contract: object.contract,
+              method: "claim",
+              data: object.data
+            };
+          }
+          if (tokenInfo && info.method === "claimAs") {
+            object = {
+              amount: object.amount,
+              contract: object.contract,
+              method: "claimAs",
+              owner: `${info.data.owner}`,
+              ownerETH: `${toETHAddress(info.data.owner)}`,
               data: object.data
             };
           }

@@ -483,6 +483,7 @@ export function getColumns(
       title,
       key: "key",
       dataIndex: "key",
+      className: "block-detail-key",
       render: renderKey
     },
     {
