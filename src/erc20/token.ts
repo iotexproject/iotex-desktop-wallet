@@ -4,6 +4,7 @@ import { toRau } from "iotex-antenna/lib/account/utils";
 import isBrowser from "is-browser";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
+import { toIoTeXAddress } from "../shared/wallet/address";
 import { getAntenna } from "../shared/wallet/get-antenna";
 import { DecodeData, ERC20 } from "./erc20";
 import { IAuthorizedMessage, Vita } from "./vita";
@@ -117,8 +118,11 @@ export class Token {
       const { address, msg, sig } = authMessage;
       const nounceStr = msg.split(" ").shift();
       const nounce = new BigNumber(nounceStr || "0", 16);
+      const ioAddress = address.match(/^io/i)
+        ? address
+        : toIoTeXAddress(address);
       return this.api.claimAs(
-        address,
+        ioAddress,
         Buffer.from(sig, "hex"),
         nounce,
         account,
