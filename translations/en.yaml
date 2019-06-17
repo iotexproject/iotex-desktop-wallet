@@ -314,6 +314,7 @@ wallet.vote.content: Help IoTeX Build A Stronger Network
 wallet.vote.button: Vote on member.iotex.io
 input.error.raw_address.length: IOTX address has to be of length 41
 input.error.xrc20_address.length: XRC20 Token address has to be of length 41
+input.error.bytes.invalid: Invalid byte code
 wallet.interact.invalidABI: Invalid JSON ABI
 wallet.interact.abiTemplate: >-
   [{ "type":"contructor", "inputs": [{ "name":"param1", "type":"uint256",
