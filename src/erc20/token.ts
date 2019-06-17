@@ -6,7 +6,7 @@ import isBrowser from "is-browser";
 import JsonGlobal from "safe-json-globals/get";
 import { getAntenna } from "../shared/wallet/get-antenna";
 import { DecodeData, ERC20 } from "./erc20";
-import { Vita } from "./vita";
+import { IAuthorizedMessage, Vita } from "./vita";
 const state = isBrowser && JsonGlobal("state");
 const vitaTokens = isBrowser && state.base.vitaTokens;
 
@@ -105,6 +105,26 @@ export class Token {
   public async claim(account: Account): Promise<string> {
     if (this.api instanceof Vita) {
       return this.api.claim(account, toRau("1", "Qev"), "100000");
+    }
+    throw new Error(`Token ${this.api.address} is not Vita!`);
+  }
+
+  public async claimAs(
+    authMessage: IAuthorizedMessage,
+    account: Account
+  ): Promise<string> {
+    if (this.api instanceof Vita) {
+      const { address, msg, sig } = authMessage;
+      const nounceStr = msg.split(" ").shift();
+      const nounce = new BigNumber(nounceStr || "0", 16);
+      return this.api.claimAs(
+        address,
+        Buffer.from(sig, "hex"),
+        nounce,
+        account,
+        toRau("1", "Qev"),
+        "100000"
+      );
     }
     throw new Error(`Token ${this.api.address} is not Vita!`);
   }
