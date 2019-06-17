@@ -6,7 +6,7 @@ import React from "react";
 import { Component } from "react";
 import { connect } from "react-redux";
 import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
-import { IERC20TokenInfoDict } from "../../erc20/erc20Token";
+import { ITokenInfoDict } from "../../erc20/token";
 import routes from "../common/routes";
 import { ChooseFunction } from "./contract/choose-function";
 import { Deploy } from "./contract/deploy";
@@ -21,7 +21,7 @@ const ENABLE_SIGN = false;
 type Props = RouteComponentProps & {
   address: string;
   wallet: Account | null;
-  erc20TokensInfo: IERC20TokenInfoDict;
+  tokensInfo: ITokenInfoDict;
   queryType?: QueryType;
   queryNonce?: number;
 };
@@ -65,8 +65,6 @@ class WalletTabsInner extends Component<Props> {
       activeKey = `/wallet/vote`;
     } else if (location.pathname.match(/smart-contract/)) {
       activeKey = `/wallet/smart-contract`;
-    } else if (location.pathname.match(/erc20/i)) {
-      activeKey = `/wallet/erc20`;
     } else if (location.pathname.match(/sign/)) {
       activeKey = `/wallet/sign`;
     }
@@ -81,10 +79,6 @@ class WalletTabsInner extends Component<Props> {
             <Transfer />
           </Tabs.TabPane>
 
-          <Tabs.TabPane key={`/wallet/vote`} tab={t("wallet.tab.vote")}>
-            <Vote />
-          </Tabs.TabPane>
-
           <Tabs.TabPane
             key={`/wallet/smart-contract`}
             tab={t("wallet.tab.contract")}
@@ -95,6 +89,18 @@ class WalletTabsInner extends Component<Props> {
                 component={() => <Deploy address={address} />}
               />
               <Route
+                path={`/wallet/smart-contract/interact/:txHash`}
+                component={(props: RouteComponentProps<{ txHash: string }>) => {
+                  return (
+                    <Interact
+                      fromAddress={address}
+                      txHash={props.match.params.txHash}
+                    />
+                  );
+                }}
+              />
+              <Route
+                exact
                 path={`/wallet/smart-contract/interact`}
                 component={() => <Interact fromAddress={address} />}
               />
@@ -104,6 +110,10 @@ class WalletTabsInner extends Component<Props> {
                 component={ChooseFunction}
               />
             </Switch>
+          </Tabs.TabPane>
+
+          <Tabs.TabPane key={`/wallet/vote`} tab={t("wallet.tab.vote")}>
+            <Vote />
           </Tabs.TabPane>
 
           {ENABLE_SIGN && (

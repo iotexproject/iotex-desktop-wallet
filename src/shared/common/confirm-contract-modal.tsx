@@ -26,9 +26,11 @@ export default class ConfirmContractModal extends React.Component<
   // tslint:disable:no-any
   public getActionColumns(): Array<Column<any>> {
     // this columns was just for example.
+    const { toAddress, toContract, dataInHex, method } = this.props.dataSource;
+
     return [
       {
-        title: "Amount",
+        title: t("confirmation.amount"),
         dataIndex: "amount",
         render(text: string, _: any): JSX.Element {
           return (
@@ -39,29 +41,49 @@ export default class ConfirmContractModal extends React.Component<
         }
       },
       {
-        title: "From address",
+        title: t("confirmation.fromAddress"),
         dataIndex: "address"
       },
-      ...(this.props.dataSource.toAddress
+      ...(toAddress
         ? [
             {
-              title: "To address",
+              title: t("confirmation.toAddress"),
               dataIndex: "toAddress"
             }
           ]
         : []),
+      ...(toContract
+        ? [
+            {
+              title: t("confirmation.toContract"),
+              dataIndex: "toContract"
+            }
+          ]
+        : []),
+      ...(method
+        ? [
+            {
+              title: t("confirmation.method"),
+              dataIndex: "method"
+            }
+          ]
+        : []),
       {
-        title: "Gas limit",
+        title: t("confirmation.limit"),
         dataIndex: "limit"
       },
       {
-        title: "Gas price",
+        title: t("confirmation.price"),
         dataIndex: "price"
       },
-      {
-        title: "Data",
-        dataIndex: "data"
-      }
+      ...(dataInHex
+        ? [
+            {
+              title: t("confirmation.data"),
+              dataIndex: "dataInHex"
+            }
+          ]
+        : [])
     ];
   }
 

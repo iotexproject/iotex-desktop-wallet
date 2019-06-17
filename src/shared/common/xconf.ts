@@ -34,5 +34,6 @@ window.xconf = xconf;
 export enum XConfKeys {
   KEYSTORES = "keystores",
   LAST_USED_KEYSTORE_NAME = "last_used_keystore_name",
-  ERC20_TOKENS_ADDRS = "erc20_tokens_address"
+  TOKENS_ADDRS = "tokens_address",
+  LAST_INTERACT_CONTRACT = "last_interact_contract"
 }

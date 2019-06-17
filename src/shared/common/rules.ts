@@ -84,12 +84,12 @@ export const rules: Rules = {
       }
     }
   },
-  erc20AddressLength: {
+  tokenAddressLength: {
     validator: (_, value, callback) => {
       if (String(value).trim().length === 41) {
         callback();
       } else {
-        callback(t("input.error.erc20_address.length"));
+        callback(t("input.error.xrc20_address.length"));
       }
     }
   },
@@ -119,11 +119,12 @@ export const rules: Rules = {
 
 export const rulesMap = {
   address: [rules.required, rules.addressLength],
-  erc20Address: [rules.required, rules.erc20AddressLength],
-  amount: [rules.required, rules.amount],
+  tokenAddress: [rules.required, rules.tokenAddressLength],
+  transactionAmount: [rules.required, rules.amount],
+  interactAmount: [rules.amount],
   gasLimit: [rules.required, rules.number],
   gasPrice: [rules.required, rules.number],
-  abi: [rules.required, rules.abi],
+  abi: [rules.abi],
   dataIndex: [],
   nonce: [rules.required],
   password: [rules.required, rules.strongPassword],

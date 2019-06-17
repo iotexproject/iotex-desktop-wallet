@@ -5,7 +5,8 @@ import React, { useState } from "react";
 
 // @ts-ignore
 import { connect, DispatchProp } from "react-redux";
-import { ERC20Token } from "../../erc20/erc20Token";
+import { Token } from "../../erc20/token";
+import { setApolloClientEndpoint } from "../common/apollo-client";
 import AddCustomRpcFormModal from "./add-custom-rpc-form-modal";
 import { getAntenna } from "./get-antenna";
 import { addCustomRPC, setNetwork } from "./wallet-actions";
@@ -26,11 +27,16 @@ const networkName = (name: string): string => {
 const getDefaultNetworkTokens = async (
   defaultTokens: Array<string>
 ): Promise<Array<string>> => {
-  // Check for default erc20 tokens supported.
+  // Check for default tokens supported.
   const supportStatus = await Promise.all(
-    defaultTokens.map(token => ERC20Token.getToken(token).checkValid())
+    defaultTokens.map(token => Token.getToken(token).checkValid())
   );
   return defaultTokens.filter((_, i) => supportStatus[i]);
+};
+
+export const setProviderNetwork = (url: string) => {
+  getAntenna().iotx.setProvider(`${url}iotex-core-proxy`);
+  setApolloClientEndpoint(`${url}api-gateway/`);
 };
 
 export const ChainNetworkSwitchComponent = (
@@ -41,15 +47,11 @@ export const ChainNetworkSwitchComponent = (
   const { network, customRPCs, dispatch, defaultERC20Tokens } = props;
 
   const availableNetworks: { [index: string]: IRPCProvider } = {};
-  const builtInNetworks = chains.map(chain => ({
-    ...chain,
-    url: `${chain.url}iotex-core-proxy`
-  }));
-  const defaultNetwork = builtInNetworks.find(chain => chain.name === current);
-  const currentNetwork = network || defaultNetwork || builtInNetworks[0];
+  const defaultNetwork = chains.find(chain => chain.name === current);
+  const currentNetwork = network || defaultNetwork || chains[0];
 
   [
-    ...builtInNetworks,
+    ...chains,
     ...customRPCs,
     {
       name: "custom",
@@ -61,20 +63,20 @@ export const ChainNetworkSwitchComponent = (
   });
   if (!network && defaultNetwork) {
     dispatch(setNetwork(defaultNetwork));
+    setProviderNetwork(`${defaultNetwork.url}`);
   }
   const [isShowForm, showForm] = useState(false);
-  getAntenna().iotx.setProvider(`${currentNetwork.url}`);
   return (
     <>
       <Select
         value={`${currentNetwork.name}:${currentNetwork.url}`}
-        style={{ width: "100%", marginTop: 10 }}
         className="chain-network-switch"
-        onSelect={async value => {
+        style={{ width: "100%" }}
+        onSelect={async (value: string) => {
           if (value === "custom:") {
             showForm(true);
           } else {
-            getAntenna().iotx.setProvider(`${availableNetworks[value].url}`);
+            setProviderNetwork(`${availableNetworks[value].url}`);
             const supportTokens = await getDefaultNetworkTokens(
               defaultERC20Tokens
             );
@@ -92,7 +94,7 @@ export const ChainNetworkSwitchComponent = (
         onCancel={() => showForm(false)}
         onOK={async (network: IRPCProvider) => {
           dispatch(addCustomRPC(network));
-          getAntenna().iotx.setProvider(`${network.url}`);
+          setProviderNetwork(`${network.url}`);
           const supportTokens = await getDefaultNetworkTokens(
             defaultERC20Tokens
           );

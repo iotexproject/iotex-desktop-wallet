@@ -315,6 +315,14 @@ input {
 
 .wallet-token-balance {
   text-align: right;
+  white-space: nowrap !important;
+  vertical-align: top;
+}
+
+.wallet-token-symbol {
+  text-align: left;
+  white-space: nowrap !important;
+  vertical-align: top;
 }
 
 .wallet-delete-token {
@@ -325,7 +333,7 @@ input {
   border-radius: 16px;
 }
 
-.chain-network-switch .ant-select-selection-selected-value {
-  float: unset;
-  text-align: center;
+.chain-network-switch .ant-select-selection__rendered {
+  display: flex;
+  justify-content: center;
 }

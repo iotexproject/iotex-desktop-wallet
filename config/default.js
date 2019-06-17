@@ -102,8 +102,9 @@ module.exports = {
       }
     ]
   },
+  vitaTokens: ["io1y9ndaezjrdlkw93hquqru7txh9jcsmtmrvt4yw"],
   defaultERC20Tokens: [
-    "io1hy9w96v7gz7mqquyyacfhtqn6r0yasnsqrjk9h", // vita contrat address for testnet
+    "io1y9ndaezjrdlkw93hquqru7txh9jcsmtmrvt4yw", // vita contrat address for testnet
     "io1dzx73lvpmarj4hy2af6h86yh4qxhgsxmhqv6yp", // vote system contract address
     "io13zt8sznez2pf0q0hqdz2hyl938wak2fsjgdeml" // genesisPoolAddress, rewardPoolAddress, tradingPoolAddress
   ],

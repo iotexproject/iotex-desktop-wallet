@@ -189,7 +189,7 @@ export function GasLimitFormInputItem({
           className="form-input"
           placeholder="0"
           name="gasLimit"
-          addonAfter="Rau"
+          style={inputStyle}
         />
       )}
     </Form.Item>
@@ -199,11 +199,13 @@ export function GasLimitFormInputItem({
 export function AmountFormInputItem({
   form,
   initialValue,
-  symbol = "IOTX"
+  symbol = "IOTX",
+  required = false
 }: {
   form: WrappedFormUtils;
   initialValue?: number;
   symbol?: string;
+  required?: boolean;
 }): JSX.Element {
   const { getFieldDecorator } = form;
   return (
@@ -213,15 +215,8 @@ export function AmountFormInputItem({
     >
       {getFieldDecorator("amount", {
         initialValue: initialValue,
-        rules: rulesMap.amount
-      })(
-        <Input
-          className="form-input"
-          placeholder="1"
-          addonAfter={symbol}
-          name="amount"
-        />
-      )}
+        rules: required ? rulesMap.transactionAmount : rulesMap.interactAmount
+      })(<Input className="form-input" addonAfter={symbol} name="amount" />)}
     </Form.Item>
   );
 }

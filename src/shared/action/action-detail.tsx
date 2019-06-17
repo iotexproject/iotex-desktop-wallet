@@ -12,7 +12,7 @@ import React, { PureComponent } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
-import { ERC20Token } from "../../erc20/erc20Token";
+import { Token } from "../../erc20/token";
 import { getColumns } from "../block/block-detail";
 import { Flex } from "../common/flex";
 import { actionsTypes, getActionType } from "../common/get-action-type";
@@ -78,27 +78,25 @@ class ActionDetailsInner extends PureComponent<Props> {
     object = object || {};
     if (object.contract && object.data) {
       try {
-        const info = ERC20Token.getToken(object.contract).decode(object.data);
+        const info = Token.getToken(object.contract).decode(object.data);
         if (info) {
-          const tokenInfo = await ERC20Token.getToken(object.contract).getInfo(
+          const tokenInfo = await Token.getToken(object.contract).getInfo(
             object.contract
           );
-          if (tokenInfo) {
+          if (tokenInfo && info.method === "transfer") {
             const tokenTransfered =
-              info.data.tokens / 10 ** tokenInfo.decimals.toNumber();
+              info.data._value / 10 ** tokenInfo.decimals.toNumber();
             object = {
               amount: object.amount,
               contract: object.contract,
-              to: info.data.to,
-              tokens: `${tokenTransfered} ${tokenInfo.symbol} (${
-                tokenInfo.name
-              })`,
+              to: info.data._to,
+              tokens: `${tokenTransfered} ${tokenInfo.symbol} (${tokenInfo.name})`,
               data: object.data
             };
           }
         }
       } catch (e) {
-        window.console.error(`failed to parse ERC20 token: ${e}`);
+        window.console.error(`failed to parse XRC20 token: ${e}`);
       }
     }
 
