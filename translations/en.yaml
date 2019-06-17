@@ -370,6 +370,7 @@ confirmation.limit: Gas limit
 confirmation.price: Gas price
 confirmation.data: Data
 confirmation.method: Method
+confirmation.owner: Owner
 account.claimAs.authorizedMessage: Authentication private message
 account.claimAs.authorizedTemplate: >-
   {
