@@ -14,6 +14,8 @@ const vitaTokens = isBrowser && state.base.vitaTokens;
 
 BigNumber.config({ DECIMAL_PLACES: 6 });
 const regex = /^([0-9]+)I authorize 0x[0-9a-fA-F]{40} to claim in (0x[0-9A-Fa-f]{40})$/;
+export const CLAIM_GAS_LIMIT = "1000000";
+export const CLAIM_GAS_PRICE = toRau("1", "Qev");
 
 export interface ITokenInfo {
   tokenAddress: string;
@@ -107,7 +109,7 @@ export class Token {
 
   public async claim(account: Account): Promise<string> {
     if (this.api instanceof Vita) {
-      return this.api.claim(account, toRau("1", "Qev"), "1000000");
+      return this.api.claim(account, CLAIM_GAS_PRICE, CLAIM_GAS_LIMIT);
     }
     throw new Error(`Token ${this.api.address} is not Vita!`);
   }
@@ -124,8 +126,8 @@ export class Token {
         Buffer.from(sig, "hex"),
         nonce,
         account,
-        toRau("1", "Qev"),
-        "1000000"
+        CLAIM_GAS_PRICE,
+        CLAIM_GAS_LIMIT
       );
     }
     throw new Error(`Token ${this.api.address} is not Vita!`);

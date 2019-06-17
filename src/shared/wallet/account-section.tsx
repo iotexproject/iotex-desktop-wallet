@@ -15,7 +15,7 @@ import BigNumber from "bignumber.js";
 // @ts-ignore
 import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
-import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -24,7 +24,13 @@ import React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
-import { ITokenInfo, ITokenInfoDict, Token } from "../../erc20/token";
+import {
+  CLAIM_GAS_LIMIT,
+  CLAIM_GAS_PRICE,
+  ITokenInfo,
+  ITokenInfoDict,
+  Token
+} from "../../erc20/token";
 import { IAuthorizedMessage } from "../../erc20/vita";
 import { assetURL } from "../common/asset-url";
 import ConfirmContractModal from "../common/confirm-contract-modal";
@@ -589,9 +595,8 @@ class AccountSection extends React.Component<Props, State> {
       address: account.address,
       toContract: claimTokenAddress,
       method: "claim",
-      amount: "0 IOTX",
-      limit: "100000",
-      price: toRau("1", "Qev"),
+      limit: CLAIM_GAS_LIMIT,
+      price: CLAIM_GAS_PRICE,
       ...(authMessage
         ? {
             method: "claimAs",

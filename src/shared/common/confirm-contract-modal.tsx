@@ -28,6 +28,7 @@ export default class ConfirmContractModal extends React.Component<
   public getActionColumns(): Array<Column<any>> {
     // this columns was just for example.
     const {
+      amount,
       toAddress,
       toContract,
       dataInHex,
@@ -36,17 +37,21 @@ export default class ConfirmContractModal extends React.Component<
     } = this.props.dataSource;
 
     return [
-      {
-        title: t("confirmation.amount"),
-        dataIndex: "amount",
-        render(text: string, _: any): JSX.Element {
-          return (
-            <span>
-              <h1 style={{ display: "inline" }}>{text}</h1>{" "}
-            </span>
-          );
-        }
-      },
+      ...(amount
+        ? [
+            {
+              title: t("confirmation.amount"),
+              dataIndex: "amount",
+              render(text: string, _: any): JSX.Element {
+                return (
+                  <span>
+                    <h1 style={{ display: "inline" }}>{text}</h1>{" "}
+                  </span>
+                );
+              }
+            }
+          ]
+        : []),
       {
         title: t("confirmation.fromAddress"),
         dataIndex: "address"
