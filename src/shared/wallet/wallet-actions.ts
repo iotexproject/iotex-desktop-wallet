@@ -1,5 +1,5 @@
 import { Account } from "iotex-antenna/lib/account/account";
-import { IERC20TokenInfoDict } from "../../erc20/erc20Token";
+import { ITokenInfoDict } from "../../erc20/token";
 import { IRPCProvider, WalletAction } from "./wallet-reducer";
 
 export const setNetwork = (
@@ -29,11 +29,9 @@ export const setAccount = (account?: Account): WalletAction => ({
   }
 });
 
-export const setERC20Tokens = (
-  erc20Tokens: IERC20TokenInfoDict
-): WalletAction => ({
-  type: "UPDATE_ERC20_TOKENS",
+export const setTokens = (tokens: ITokenInfoDict): WalletAction => ({
+  type: "UPDATE_TOKENS",
   payload: {
-    erc20Tokens
+    tokens
   }
 });

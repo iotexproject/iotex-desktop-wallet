@@ -241,7 +241,6 @@ wallet.write.contract.p3: Amount to send. In most cases you should leave it as 0
 wallet.account.raw: Account Address
 wallet.account.private: Private Key
 wallet.account.addressPlaceHolder: IoTeX Address...
-wallet.erc20.title: "Send VITA"
 new-wallet.copy: Copy
 new-wallet.created: Wallet is created! Save your
 new-wallet.privateKey: Private Key
@@ -262,8 +261,8 @@ account.protect: Protect your keys & always check that you are on correct URL.
 account.responsible: You are responsible for your security.
 account.wallet: Wallet
 account.change: Change Wallet
-account.erc20.addCustom: Custom Tokens
-account.erc20.notfound: Token not found!
+account.token.addCustom: Custom Tokens
+account.token.notfound: Token not found!
 account.testnet.token: IOTX
 account.address: Account Address
 account.transaction-history: Go to transaction history
@@ -357,5 +356,15 @@ account.addCustomRPC: Add custom RPC
 account.rpc.nameHolder: My RPC
 input.error.url.invalid: Invalid URL
 input.error.rpc.invalid: Can't connect to Network Provider!
+account.joinDiscord: Join Discord
+account.claim: Claim
 account.switchAccount: Switch Account
 account.refresh: Refresh balances
+confirmation.amount: Amount
+confirmation.fromAddress: From address
+confirmation.toAddress: To addresss
+confirmation.toContract: To contract
+confirmation.limit: Gas limit
+confirmation.price: Gas price
+confirmation.data: Data
+confirmation.method: Method

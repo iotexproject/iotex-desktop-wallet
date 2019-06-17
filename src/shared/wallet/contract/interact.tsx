@@ -34,17 +34,21 @@ import { ContractLayout } from "./contract-layout";
 
 const { Option } = Select;
 
-type Props = {
+export interface IInteractProps {
+  txHash?: string;
   fromAddress: string;
-};
+}
 
-export class Interact extends Component<Props> {
+export class Interact extends Component<IInteractProps> {
   public render(): JSX.Element {
     return (
       <ContractLayout title={t("wallet.interact.title")} icon={"sync"}>
         {/*
         @ts-ignore */}
-        <InteractForm fromAddress={this.props.fromAddress} />
+        <InteractForm
+          fromAddress={this.props.fromAddress}
+          txHash={this.props.txHash}
+        />
       </ContractLayout>
     );
   }
@@ -77,6 +81,7 @@ interface InteractProps extends FormComponentProps {
   contractAddress?: string;
   method?: string;
   queryParams: QueryParams;
+  txHash?: string;
 }
 
 type State = {
@@ -129,8 +134,12 @@ class InteractFormInner extends Component<InteractProps, State> {
       abiFunctions: null,
       selectedFunction: props.queryParams.method || "",
       outputValues: [],
-      broadcast: null,
-      txHash: "",
+      broadcast: props.txHash
+        ? {
+            success: true
+          }
+        : null,
+      txHash: props.txHash || "",
       showConfirmInteract: false,
       confirmInteractFunction: () => {}
     };
@@ -152,6 +161,18 @@ class InteractFormInner extends Component<InteractProps, State> {
       }
     });
   };
+
+  public componentDidUpdate(): void {
+    const { txHash } = this.props;
+    if (txHash && txHash !== this.state.txHash) {
+      this.setState({
+        txHash,
+        broadcast: {
+          success: true
+        }
+      });
+    }
+  }
 
   public componentDidMount(): void {
     if (this.props.queryParams.method) {

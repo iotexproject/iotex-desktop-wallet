@@ -316,11 +316,13 @@ input {
 .wallet-token-balance {
   text-align: right;
   white-space: nowrap !important;
+  vertical-align: top;
 }
 
 .wallet-token-symbol {
   text-align: left;
   white-space: nowrap !important;
+  vertical-align: top;
 }
 
 .wallet-delete-token {

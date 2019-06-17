@@ -12,7 +12,7 @@ import React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import { IERC20TokenInfoDict } from "../../erc20/erc20Token";
+import { ITokenInfoDict } from "../../erc20/token";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "./account-section";
@@ -24,7 +24,7 @@ import { WalletTabs } from "./wallet-tabs";
 
 export interface State {
   createNew: boolean;
-  erc20TokensInfo: IERC20TokenInfoDict;
+  tokensInfo: ITokenInfoDict;
 }
 
 type PathParamsType = {
@@ -48,7 +48,7 @@ export const FormItemLabel = styled("label", {
 class WalletInner extends PureComponent<Props, State> {
   public state: State = {
     createNew: false,
-    erc20TokensInfo: {}
+    tokensInfo: {}
   };
 
   public componentDidUpdate(): void {
@@ -101,7 +101,7 @@ class WalletInner extends PureComponent<Props, State> {
                 <WalletTabs
                   address={account.address}
                   wallet={account}
-                  erc20TokensInfo={this.state.erc20TokensInfo}
+                  tokensInfo={this.state.tokensInfo}
                 />
               )}
               {!account && this.renderNoWallet()}
