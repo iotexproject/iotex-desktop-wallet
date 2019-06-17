@@ -119,10 +119,10 @@ export class Token {
     if (this.api instanceof Vita) {
       const { address, msg, sig } = authMessage;
       const matches = msg.match(regex);
-      if (!matches || matches.length != 3) {
+      if (!matches || matches.length !== 3) {
         throw new Error('invalid authentication message');
       }
-      if (matches[2].toLowerCase() != this.api.address.toLowerCase()) {
+      if (matches[2].toLowerCase() !== this.api.address.toLowerCase()) {
         throw new Error(`invalid token address ${matches[2].toLowerCase()}`);
       }
       const nonce = new BigNumber(matches[1], 16);
