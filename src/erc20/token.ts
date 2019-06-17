@@ -3,8 +3,9 @@ import { Account } from "iotex-antenna/lib/account/account";
 import { toRau } from "iotex-antenna/lib/account/utils";
 import isBrowser from "is-browser";
 // @ts-ignore
+import { t } from "onefx/lib/iso-i18n";
+// @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
-import { toIoTeXAddress } from "../shared/wallet/address";
 import { getAntenna } from "../shared/wallet/get-antenna";
 import { DecodeData, ERC20 } from "./erc20";
 import { IAuthorizedMessage, Vita } from "./vita";
@@ -12,6 +13,7 @@ const state = isBrowser && JsonGlobal("state");
 const vitaTokens = isBrowser && state.base.vitaTokens;
 
 BigNumber.config({ DECIMAL_PLACES: 6 });
+const regex = /^([0-9]+)I authorize 0x[0-9a-fA-F]{40} to claim in (0x[0-9A-Fa-f]{40})$/;
 
 export interface ITokenInfo {
   tokenAddress: string;
@@ -105,12 +107,10 @@ export class Token {
 
   public async claim(account: Account): Promise<string> {
     if (this.api instanceof Vita) {
-      return this.api.claim(account, toRau("1", "Qev"), "100000");
+      return this.api.claim(account, toRau("1", "Qev"), "1000000");
     }
     throw new Error(`Token ${this.api.address} is not Vita!`);
   }
-
-  const regex = /^([0-9]+)I authorize 0x[0-9a-fA-F]{40} to claim in (0x[0-9A-Fa-f]{40})$/;
 
   public async claimAs(
     authMessage: IAuthorizedMessage,
@@ -118,23 +118,27 @@ export class Token {
   ): Promise<string> {
     if (this.api instanceof Vita) {
       const { address, msg, sig } = authMessage;
-      const matches = msg.match(regex);
-      if (!matches || matches.length !== 3) {
-        throw new Error('invalid authentication message');
-      }
-      if (matches[2].toLowerCase() !== this.api.address.toLowerCase()) {
-        throw new Error(`invalid token address ${matches[2].toLowerCase()}`);
-      }
-      const nonce = new BigNumber(matches[1], 16);
+      const nonce = getNonce(msg, this.api.address.toLowerCase());
       return this.api.claimAs(
         address,
         Buffer.from(sig, "hex"),
         nonce,
         account,
         toRau("1", "Qev"),
-        "100000"
+        "1000000"
       );
     }
     throw new Error(`Token ${this.api.address} is not Vita!`);
   }
+}
+
+export function getNonce(msg: string, address?: string): BigNumber {
+  const matches = msg.match(regex);
+  if (!matches || matches.length !== 3) {
+    throw new Error(t("account.error.invalidAuthorizedMessage"));
+  }
+  if (address && matches[2].toLowerCase() !== address) {
+    throw new Error(`invalid token address ${matches[2].toLowerCase()}`);
+  }
+  return new BigNumber(matches[1], 16);
 }

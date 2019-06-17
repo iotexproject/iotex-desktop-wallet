@@ -3,6 +3,7 @@ import { t } from "onefx/lib/iso-i18n";
 
 import { ValidationRule } from "antd/lib/form";
 import BigNumber from "bignumber.js";
+import { getNonce } from "../../erc20/token";
 import { IAuthorizedMessage } from "../../erc20/vita";
 
 interface Rules {
@@ -86,6 +87,11 @@ export const rules: Rules = {
     },
     validator: (_, value: IAuthorizedMessage, callback) => {
       if (value && value.address && value.msg && value.sig && value.version) {
+        try {
+          getNonce(value.msg);
+        } catch (e) {
+          return callback(e);
+        }
         callback();
       } else {
         callback(t("account.error.invalidAuthorizedMessage"));

@@ -338,16 +338,15 @@ class AccountSection extends React.Component<Props, State> {
   private renderClaimButton(token: ITokenInfo): JSX.Element {
     const claimMenu = (
       <Menu>
-        <Menu.Item key="claimAs">
-          <Button
-            onClick={() => {
-              this.setState({
-                authorizedMessageFormVisible: true
-              });
-            }}
-          >
-            {t("account.claimAs")}
-          </Button>
+        <Menu.Item
+          key="claimAs"
+          onClick={() => {
+            this.setState({
+              authorizedMessageFormVisible: true
+            });
+          }}
+        >
+          {t("account.claimAs")}
         </Menu.Item>
       </Menu>
     );
