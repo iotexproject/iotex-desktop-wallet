@@ -1,4 +1,4 @@
-import { Form, Input, Modal, notification } from "antd";
+import { Form, Modal, notification } from "antd";
 import { WrappedFormUtils } from "antd/lib/form/Form";
 import TextArea from "antd/lib/input/TextArea";
 // @ts-ignore
