@@ -12,7 +12,7 @@ import React, { PureComponent } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
-import { ERC20Token } from "../../erc20/erc20Token";
+import { Token } from "../../erc20/token";
 import { getColumns } from "../block/block-detail";
 import { Flex } from "../common/flex";
 import { actionsTypes, getActionType } from "../common/get-action-type";
@@ -78,9 +78,9 @@ class ActionDetailsInner extends PureComponent<Props> {
     object = object || {};
     if (object.contract && object.data) {
       try {
-        const info = ERC20Token.getToken(object.contract).decode(object.data);
+        const info = Token.getToken(object.contract).decode(object.data);
         if (info) {
-          const tokenInfo = await ERC20Token.getToken(object.contract).getInfo(
+          const tokenInfo = await Token.getToken(object.contract).getInfo(
             object.contract
           );
           if (tokenInfo && info.method === "transfer") {
@@ -90,9 +90,7 @@ class ActionDetailsInner extends PureComponent<Props> {
               amount: object.amount,
               contract: object.contract,
               to: info.data._to,
-              tokens: `${tokenTransfered} ${tokenInfo.symbol} (${
-                tokenInfo.name
-              })`,
+              tokens: `${tokenTransfered} ${tokenInfo.symbol} (${tokenInfo.name})`,
               data: object.data
             };
           }

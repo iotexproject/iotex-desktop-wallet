@@ -73,11 +73,11 @@ export interface IERC20 {
 
 export class ERC20 implements IERC20 {
   public address: string;
-  private contract: Contract;
+  protected contract: Contract;
   public provider: IRpcMethod;
-  private methods: { [key: string]: Method };
+  protected methods: { [key: string]: Method };
 
-  public static create(address: string, provider: IRpcMethod): IERC20 {
+  public static create(address: string, provider: IRpcMethod): ERC20 {
     const erc20 = new ERC20();
     erc20.address = address;
     erc20.provider = provider;
@@ -238,7 +238,7 @@ export class ERC20 implements IERC20 {
     return result.data;
   }
 
-  private executeMethod(
+  protected executeMethod(
     method: string,
     account: Account,
     gasPrice: string,

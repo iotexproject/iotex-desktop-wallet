@@ -12,7 +12,7 @@ import React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import { IERC20TokenInfoDict } from "../../erc20/erc20Token";
+import { ITokenInfoDict } from "../../erc20/token";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "./account-section";
@@ -24,7 +24,7 @@ import { WalletTabs } from "./wallet-tabs";
 
 export interface State {
   createNew: boolean;
-  erc20TokensInfo: IERC20TokenInfoDict;
+  tokensInfo: ITokenInfoDict;
 }
 
 type PathParamsType = {
@@ -48,7 +48,7 @@ export const FormItemLabel = styled("label", {
 class WalletInner extends PureComponent<Props, State> {
   public state: State = {
     createNew: false,
-    erc20TokensInfo: {}
+    tokensInfo: {}
   };
 
   public componentDidUpdate(): void {
@@ -96,17 +96,17 @@ class WalletInner extends PureComponent<Props, State> {
             gutter={30}
             style={{ margin: "40px 0px" }}
           >
-            <Col xs={24} sm={12} md={15} lg={16}>
+            <Col xs={24} sm={12} md={15} lg={16} xl={17}>
               {account && (
                 <WalletTabs
                   address={account.address}
                   wallet={account}
-                  erc20TokensInfo={this.state.erc20TokensInfo}
+                  tokensInfo={this.state.tokensInfo}
                 />
               )}
               {!account && this.renderNoWallet()}
             </Col>
-            <Col xs={24} sm={12} md={9} lg={8} style={{ marginTop: 40 }}>
+            <Col xs={24} sm={12} md={9} lg={8} xl={7} style={{ marginTop: 40 }}>
               <AccountSection createNew={createNew} />
             </Col>
           </Row>

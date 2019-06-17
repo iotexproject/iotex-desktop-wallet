@@ -7,7 +7,7 @@ import { rulesMap } from "../common/rules";
 import { colors } from "../common/styles/style-color";
 
 export interface IAddCustomTokensFormModalProps {
-  onOK(erc20Address: string): void;
+  onOK(tokenAddress: string): void;
   onCancel(): void;
   visible?: boolean;
   form: WrappedFormUtils;
@@ -24,11 +24,11 @@ class AddCustomTokensFormModal extends React.PureComponent<
       return;
     }
     this.setState({ confirming: true });
-    form.validateFields(["erc20Address"], async (err, { erc20Address }) => {
+    form.validateFields(["tokenAddress"], async (err, { tokenAddress }) => {
       if (err) {
         return;
       }
-      await onOK(erc20Address);
+      await onOK(tokenAddress);
       this.setState({ confirming: false });
     });
   };
@@ -37,7 +37,7 @@ class AddCustomTokensFormModal extends React.PureComponent<
     const { getFieldDecorator } = form;
     return (
       <Modal
-        title={t("account.erc20.addCustom")}
+        title={t("account.token.addCustom")}
         visible={visible}
         onOk={this.handleOk}
         onCancel={onCancel}
@@ -52,13 +52,13 @@ class AddCustomTokensFormModal extends React.PureComponent<
             xs: 24
           }}
         >
-          {getFieldDecorator("erc20Address", {
-            rules: rulesMap.erc20Address
+          {getFieldDecorator("tokenAddress", {
+            rules: rulesMap.tokenAddress
           })(
             <Input
               placeholder="io..."
               style={{ width: "100%", background: colors.black10 }}
-              name="erc20Address"
+              name="tokenAddress"
             />
           )}
         </Form.Item>
