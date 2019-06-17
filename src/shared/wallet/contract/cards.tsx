@@ -189,7 +189,7 @@ export function GasLimitFormInputItem({
           className="form-input"
           placeholder="0"
           name="gasLimit"
-          addonAfter="Rau"
+          style={inputStyle}
         />
       )}
     </Form.Item>

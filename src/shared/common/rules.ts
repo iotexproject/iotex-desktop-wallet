@@ -124,7 +124,7 @@ export const rulesMap = {
   interactAmount: [rules.amount],
   gasLimit: [rules.required, rules.number],
   gasPrice: [rules.required, rules.number],
-  abi: [rules.required, rules.abi],
+  abi: [rules.abi],
   dataIndex: [],
   nonce: [rules.required],
   password: [rules.required, rules.strongPassword],
