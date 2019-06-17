@@ -279,7 +279,7 @@ class TransferForm extends React.PureComponent<Props, State> {
     );
   };
 
-  public sendNewIOTX: JSX.Element = (
+  public renderSendNew: JSX.Element = (
     <Button
       onClick={() => {
         this.setState({
@@ -287,7 +287,7 @@ class TransferForm extends React.PureComponent<Props, State> {
         });
       }}
     >
-      {`${t("wallet.transfer.sendNew")} ${t("account.testnet.token")}`}
+      {`${t("wallet.transfer.sendNew")}`}
     </Button>
   );
 
@@ -349,7 +349,7 @@ class TransferForm extends React.PureComponent<Props, State> {
 
     if (broadcast) {
       if (broadcast.success) {
-        return <BroadcastSuccess txHash={txHash} action={this.sendNewIOTX} />;
+        return <BroadcastSuccess txHash={txHash} action={this.renderSendNew} />;
       }
       return (
         <BroadcastFailure
@@ -357,7 +357,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             token: t("account.testnet.token")
           })}
           errorMessage={""}
-          action={this.sendNewIOTX}
+          action={this.renderSendNew}
         />
       );
     }
