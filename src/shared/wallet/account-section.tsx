@@ -5,16 +5,18 @@ import BigNumber from "bignumber.js";
 // @ts-ignore
 import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
-import { fromRau } from "iotex-antenna/lib/account/utils";
+import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { connect, DispatchProp } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
 import { ITokenInfo, ITokenInfoDict, Token } from "../../erc20/token";
 import { assetURL } from "../common/asset-url";
+import ConfirmContractModal from "../common/confirm-contract-modal";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { onElectronClick } from "../common/on-electron-click";
 import { SpinPreloader } from "../common/spin-preloader";
@@ -27,7 +29,7 @@ import { getAntenna } from "./get-antenna";
 import { setAccount, setTokens } from "./wallet-actions";
 import { IRPCProvider, IWalletState } from "./wallet-reducer";
 
-export interface Props extends DispatchProp {
+export interface Props extends DispatchProp, RouteComponentProps {
   account?: Account;
   createNew?: boolean;
   network?: IRPCProvider;
@@ -42,6 +44,8 @@ export interface State {
   isLoading: boolean;
   isClaimingVita: boolean;
   isSyncing: boolean;
+  claimConfirmationVisible: boolean;
+  claimTokenAddress: string;
 }
 
 class AccountSection extends React.Component<Props, State> {
@@ -52,7 +56,9 @@ class AccountSection extends React.Component<Props, State> {
     accountCheckID: "",
     isLoading: false,
     isClaimingVita: false,
-    isSyncing: false
+    isSyncing: false,
+    claimConfirmationVisible: false,
+    claimTokenAddress: ""
   };
 
   private pollAccountInterval: number | undefined;
@@ -249,21 +255,22 @@ class AccountSection extends React.Component<Props, State> {
     );
   }
 
-  public claimVita = (token: ITokenInfo) => async () => {
-    const { account } = this.props;
-    if (!account || !Token.getToken(token.tokenAddress).isVita()) {
+  public claimVita = async (tokenAddress: string) => {
+    const { account, history } = this.props;
+    if (!account || !Token.getToken(tokenAddress).isVita()) {
       return;
     }
     this.setState({
       isClaimingVita: true
     });
     try {
-      const txHash = await Token.getToken(token.tokenAddress).claim(account);
+      const txHash = await Token.getToken(tokenAddress).claim(account);
       // @ts-ignore
       window.console.log(`Claimed VITA at action hash: ${txHash}`);
       this.setState({
         isClaimingVita: false
       });
+      history.push(`/wallet/smart-contract/interact/${txHash}`);
     } catch (e) {
       notification.error({
         message: `Failed to claim: ${e}`
@@ -313,7 +320,12 @@ class AccountSection extends React.Component<Props, State> {
                   <Button
                     type="primary"
                     loading={this.state.isClaimingVita}
-                    onClick={this.claimVita(token)}
+                    onClick={() => {
+                      this.setState({
+                        claimConfirmationVisible: true,
+                        claimTokenAddress: token.tokenAddress
+                      });
+                    }}
                   >
                     {t("account.claim")}
                   </Button>
@@ -386,7 +398,6 @@ class AccountSection extends React.Component<Props, State> {
     if (!account) {
       return null;
     }
-
     return (
       <Card
         bodyStyle={{ padding: 0, wordBreak: "break-word" }}
@@ -478,7 +489,40 @@ class AccountSection extends React.Component<Props, State> {
           </Col>
         </Row>
         {this.renderCustomTokenForm()}
+        {this.renderClaimConfirmation()}
       </Card>
+    );
+  };
+
+  private readonly renderClaimConfirmation = (): JSX.Element | null => {
+    const { account } = this.props;
+    const { claimConfirmationVisible, claimTokenAddress } = this.state;
+    if (!account) {
+      return null;
+    }
+
+    const dataSource = {
+      address: account.address,
+      toContract: claimTokenAddress,
+      method: "claim",
+      amount: "0 IOTX",
+      limit: "100000",
+      price: toRau("1", "Qev")
+    };
+
+    return (
+      <ConfirmContractModal
+        dataSource={dataSource}
+        confirmContractOk={(ok: boolean) => {
+          if (ok) {
+            this.claimVita(claimTokenAddress);
+          }
+          this.setState({
+            claimConfirmationVisible: false
+          });
+        }}
+        showModal={claimConfirmationVisible}
+      />
     );
   };
 
@@ -508,4 +552,4 @@ const mapStateToProps = (state: {
   defaultNetworkTokens: (state.wallet || {}).defaultNetworkTokens || []
 });
 
-export default connect(mapStateToProps)(AccountSection);
+export default connect(mapStateToProps)(withRouter(AccountSection));

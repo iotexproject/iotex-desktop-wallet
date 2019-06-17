@@ -360,3 +360,11 @@ account.joinDiscord: Join Discord
 account.claim: Claim
 account.switchAccount: Switch Account
 account.refresh: Refresh balances
+confirmation.amount: Amount
+confirmation.fromAddress: From address
+confirmation.toAddress: To addresss
+confirmation.toContract: To contract
+confirmation.limit: Gas limit
+confirmation.price: Gas price
+confirmation.data: Data
+confirmation.method: Method

@@ -89,6 +89,18 @@ class WalletTabsInner extends Component<Props> {
                 component={() => <Deploy address={address} />}
               />
               <Route
+                path={`/wallet/smart-contract/interact/:txHash`}
+                component={(props: RouteComponentProps<{ txHash: string }>) => {
+                  return (
+                    <Interact
+                      fromAddress={address}
+                      txHash={props.match.params.txHash}
+                    />
+                  );
+                }}
+              />
+              <Route
+                exact
                 path={`/wallet/smart-contract/interact`}
                 component={() => <Interact fromAddress={address} />}
               />
