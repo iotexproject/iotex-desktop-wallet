@@ -34,6 +34,18 @@ export const rules: Rules = {
       }
     }
   },
+  interger: {
+    transform: (value: string) => {
+      return new BigNumber(value);
+    },
+    validator: (_, value, callback) => {
+      if (value instanceof BigNumber && value.isInteger()) {
+        callback();
+      } else {
+        callback(t("wallet.error.number"));
+      }
+    }
+  },
   amount: {
     type: "number",
     transform: (value: string) => {
@@ -149,7 +161,7 @@ export const rulesMap = {
   gasPrice: [rules.required, rules.number],
   abi: [rules.abi],
   dataIndex: [],
-  nonce: [rules.required],
+  nonce: [rules.required, rules.interger],
   password: [rules.required, rules.strongPassword],
   name: [rules.required],
   url: [rules.required, rules.url],
