@@ -13,7 +13,7 @@ export interface IVita extends IERC20 {
   claim(account: Account, gasPrice: string, gasLimit: string): Promise<string>;
   claimAs(
     owner: string,
-    signature: Buffer,
+    signature: string,
     nonce: BigNumber,
     account: Account,
     gasPrice: string,
@@ -39,7 +39,7 @@ export class Vita extends ERC20 implements IVita {
 
   public async claimAs(
     owner: string,
-    signature: Buffer,
+    signature: string,
     nonce: BigNumber,
     account: Account,
     gasPrice: string,

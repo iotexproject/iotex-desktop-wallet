@@ -6,6 +6,7 @@ import isBrowser from "is-browser";
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
+import { toIoTeXAddress } from "../shared/wallet/address";
 import { getAntenna } from "../shared/wallet/get-antenna";
 import { DecodeData, ERC20 } from "./erc20";
 import { IAuthorizedMessage, Vita } from "./vita";
@@ -122,8 +123,8 @@ export class Token {
       const { address, msg, sig } = authMessage;
       const nonce = getNonce(msg, this.api.address.toLowerCase());
       return this.api.claimAs(
-        address,
-        Buffer.from(sig, "hex"),
+        toIoTeXAddress(address),
+        sig,
         nonce,
         account,
         CLAIM_GAS_PRICE,
@@ -139,8 +140,8 @@ export function getNonce(msg: string, address?: string): BigNumber {
   if (!matches || matches.length !== 3) {
     throw new Error(t("account.error.invalidAuthorizedMessage"));
   }
-  if (address && matches[2].toLowerCase() !== address) {
-    throw new Error(`invalid token address ${matches[2].toLowerCase()}`);
+  if (address && toIoTeXAddress(matches[2]) !== address) {
+    throw new Error(`invalid token address ${matches[2]}`);
   }
   return new BigNumber(matches[1], 16);
 }

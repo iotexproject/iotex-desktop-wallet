@@ -48,6 +48,8 @@ import { getAntenna } from "./get-antenna";
 import { setAccount, setTokens } from "./wallet-actions";
 import { IRPCProvider, IWalletState } from "./wallet-reducer";
 
+const DISCORD_URL = "https://discord.gg/4z3BTcd";
+
 export interface Props extends DispatchProp, RouteComponentProps {
   account?: Account;
   createNew?: boolean;
@@ -420,9 +422,10 @@ class AccountSection extends React.Component<Props, State> {
         >
           <Button
             type="primary"
-            href="https://discord.gg/4z3BTcd"
+            href={DISCORD_URL}
             style={{ marginRight: 10 }}
             target="_blank"
+            onClick={onElectronClick(DISCORD_URL)}
           >
             {t("account.joinDiscord")}
           </Button>
