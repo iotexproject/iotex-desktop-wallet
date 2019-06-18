@@ -373,6 +373,10 @@ confirmation.data: Data
 confirmation.method: Method
 confirmation.owner: Owner
 account.claimAs.authorizedMessage: Authentication private message
+account.claimAs.generateAuthMessage: Generate an authenticate message
+account.claimAs.authMessage: Authenticate message
+account.claimAs.generate: Generate
+account.claimAs.close: Close
 account.claimAs.authorizedTemplate: >-
   {
     "address": "0x497...",
