@@ -43,6 +43,7 @@ import { xconf, XConfKeys } from "../common/xconf";
 import AddCustomTokensFormModal from "./add-custom-tokens-form-modal";
 import AuthorizedMessageFormModal from "./authorized-message-form-modal";
 import { ChainNetworkSwitch } from "./chain-network-switch";
+import GenerateAuthorizedMessageFormModal from "./generate-authorized-message-form-modal";
 import { getAntenna } from "./get-antenna";
 import { setAccount, setTokens } from "./wallet-actions";
 import { IRPCProvider, IWalletState } from "./wallet-reducer";
@@ -65,6 +66,7 @@ export interface State {
   claimConfirmationVisible: boolean;
   claimTokenAddress: string;
   authorizedMessageFormVisible: boolean;
+  generateAuthMessageFormVisible: boolean;
   authMessage: IAuthorizedMessage | null;
 }
 
@@ -80,6 +82,7 @@ class AccountSection extends React.Component<Props, State> {
     claimConfirmationVisible: false,
     claimTokenAddress: "",
     authorizedMessageFormVisible: false,
+    generateAuthMessageFormVisible: false,
     authMessage: null
   };
 
@@ -324,6 +327,23 @@ class AccountSection extends React.Component<Props, State> {
     );
   }
 
+  public renderGenerateAuthorizedMessageFormModal(
+    token: ITokenInfo
+  ): JSX.Element {
+    return (
+      <GenerateAuthorizedMessageFormModal
+        visible={this.state.generateAuthMessageFormVisible}
+        token={token}
+        account={this.props.account}
+        onClose={() => {
+          this.setState({
+            generateAuthMessageFormVisible: false
+          });
+        }}
+      />
+    );
+  }
+
   public claimVita = async (tokenAddress: string) => {
     const { account, history } = this.props;
     if (!account || !Token.getToken(tokenAddress).isVita()) {
@@ -353,6 +373,16 @@ class AccountSection extends React.Component<Props, State> {
           }}
         >
           {t("account.claimAs")}
+        </Menu.Item>
+        <Menu.Item
+          key="generateAuthMessage"
+          onClick={() => {
+            this.setState({
+              generateAuthMessageFormVisible: true
+            });
+          }}
+        >
+          {t("account.claimAs.generateAuthMessage")}
         </Menu.Item>
       </Menu>
     );
@@ -398,6 +428,7 @@ class AccountSection extends React.Component<Props, State> {
           </Button>
           {this.renderClaimButton(token)}
           {this.renderAuthMessageFormModal(token)}
+          {this.renderGenerateAuthorizedMessageFormModal(token)}
         </Row>
       </div>
     );
