@@ -114,13 +114,13 @@ class TransferForm extends React.PureComponent<Props, State> {
       } else {
         const tokenInfo = tokens[symbol];
         const tokenAmount = new BigNumber(amount).multipliedBy(
-          10 ** tokenInfo.decimals.toNumber()
+          new BigNumber(`1e${tokenInfo.decimals.toNumber()}`)
         );
         const gasPriceRau = toRau(gasPrice, "Qev");
         window.console.log(
           `customToken.transfer(
                 ${recipient},
-                ${tokenAmount},
+                ${tokenAmount.toFixed(0)},
                 <account>,
                 ${gasPriceRau},
                 ${gasLimit}

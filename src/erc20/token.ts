@@ -85,7 +85,7 @@ export class Token {
       api.decimals(walletAddress)
     ]);
     const balanceString = balance
-      .dividedBy(10 ** decimals.toNumber())
+      .dividedBy(new BigNumber(`1e${decimals.toNumber()}`))
       .toString(10);
 
     return {

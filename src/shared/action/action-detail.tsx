@@ -1,6 +1,7 @@
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 import Table from "antd/lib/table";
+import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import { IActionInfo } from "iotex-antenna/lib/rpc-method/types";
@@ -85,8 +86,9 @@ class ActionDetailsInner extends PureComponent<Props> {
             object.contract
           );
           if (tokenInfo && info.method === "transfer") {
-            const tokenTransfered =
-              info.data._value / 10 ** tokenInfo.decimals.toNumber();
+            const tokenTransfered = new BigNumber(info.data._value).dividedBy(
+              new BigNumber(`1e${tokenInfo.decimals.toNumber()}`)
+            );
             object = {
               amount: object.amount,
               contract: object.contract,
