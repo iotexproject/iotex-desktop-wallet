@@ -16,7 +16,6 @@ function hexToBytes(hexStr: string): Array<number> {
   }
 
   const hex = matches[2].length % 2 ? `0${matches[2]}` : matches[2];
-
   const bytes = [];
   for (let c = 0; c < hex.length; c += 2) {
     bytes.push(parseInt(hex.substr(c, 2), 16));
