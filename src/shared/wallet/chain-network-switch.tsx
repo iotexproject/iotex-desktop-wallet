@@ -62,8 +62,10 @@ export const ChainNetworkSwitchComponent = (
     availableNetworks[key] = chain;
   });
   if (!network && defaultNetwork) {
-    dispatch(setNetwork(defaultNetwork));
     setProviderNetwork(`${defaultNetwork.url}`);
+    getDefaultNetworkTokens(defaultERC20Tokens).then(supportTokens => {
+      dispatch(setNetwork(defaultNetwork, supportTokens));
+    });
   }
   const [isShowForm, showForm] = useState(false);
   return (
