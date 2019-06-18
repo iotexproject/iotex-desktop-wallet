@@ -453,6 +453,7 @@ class AccountSection extends React.Component<Props, State> {
 
   public renderBalance(): JSX.Element | null {
     const { tokenInfos, accountMeta, isLoading } = this.state;
+    const { network } = this.props;
     const dataSource = Object.keys(tokenInfos)
       .map(addr => tokenInfos[addr])
       .filter(tokenInfo => tokenInfo && tokenInfo.symbol);
@@ -467,8 +468,9 @@ class AccountSection extends React.Component<Props, State> {
         name: "IOTX"
       });
     }
+    const spinning = isLoading || !network;
     return (
-      <SpinPreloader spinning={isLoading}>
+      <SpinPreloader spinning={spinning}>
         <Table
           dataSource={dataSource}
           columns={columns}
