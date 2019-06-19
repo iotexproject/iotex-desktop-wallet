@@ -102,6 +102,7 @@ module.exports = {
       }
     ]
   },
+  bidContractAddress: "io16alj8sw7pt0d5wv22gdyphuyz9vas5dk8czk88",
   vitaTokens: [
     "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw" // VITA Production
   ],

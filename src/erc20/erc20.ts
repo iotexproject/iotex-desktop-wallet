@@ -77,11 +77,15 @@ export class ERC20 implements IERC20 {
   public provider: IRpcMethod;
   protected methods: { [key: string]: Method };
 
-  public static create(address: string, provider: IRpcMethod): ERC20 {
+  public static create(
+    address: string,
+    provider: IRpcMethod,
+    abi: Array<{}> = ABI
+  ): ERC20 {
     const erc20 = new ERC20();
     erc20.address = address;
     erc20.provider = provider;
-    erc20.contract = new Contract(ABI, address, {
+    erc20.contract = new Contract(abi, address, {
       provider: provider
     });
 
@@ -109,7 +113,6 @@ export class ERC20 implements IERC20 {
       };
     }
     erc20.methods = methods;
-
     return erc20;
   }
 
@@ -238,7 +241,7 @@ export class ERC20 implements IERC20 {
     return result.data;
   }
 
-  protected executeMethod(
+  public async executeMethod(
     method: string,
     account: Account,
     gasPrice: string,
@@ -247,7 +250,7 @@ export class ERC20 implements IERC20 {
     // @ts-ignore
     // tslint:disable-next-line: typedef
     ...args
-  ): string {
+  ): Promise<string> {
     return this.contract.methods[method](...args, {
       account: account,
       amount: amount,

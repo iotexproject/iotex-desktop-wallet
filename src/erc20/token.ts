@@ -8,6 +8,7 @@ import { t } from "onefx/lib/iso-i18n";
 import JsonGlobal from "safe-json-globals/get";
 import { toIoTeXAddress } from "../shared/wallet/address";
 import { getAntenna } from "../shared/wallet/get-antenna";
+import { BidABI } from "./abi";
 import { DecodeData, ERC20 } from "./erc20";
 import { IAuthorizedMessage, Vita } from "./vita";
 const state = isBrowser && JsonGlobal("state");
@@ -38,6 +39,7 @@ export interface ITokenInfoDict {
 export class Token {
   protected readonly api: ERC20 | Vita;
   protected static readonly tokenRefs: { [index: string]: Token } = {};
+  protected isBidToken: boolean;
 
   constructor(api: ERC20 | Vita) {
     this.api = api;
@@ -54,6 +56,20 @@ export class Token {
     const isVita = (vitaTokens || []).indexOf(tokenAddress) >= 0;
     const api = (isVita ? Vita : ERC20).create(tokenAddress, getAntenna().iotx);
     const token = new Token(api);
+    Token.tokenRefs[tokenAddress] = token;
+    return token;
+  }
+
+  public static getBidToken(tokenAddress: string): Token {
+    if (
+      Token.tokenRefs[tokenAddress] &&
+      Token.tokenRefs[tokenAddress].isBidToken
+    ) {
+      return Token.tokenRefs[tokenAddress];
+    }
+    const api = ERC20.create(tokenAddress, getAntenna().iotx, BidABI);
+    const token = new Token(api);
+    token.isBidToken = true;
     Token.tokenRefs[tokenAddress] = token;
     return token;
   }
@@ -132,6 +148,29 @@ export class Token {
       );
     }
     throw new Error(`Token ${this.api.address} is not Vita!`);
+  }
+
+  public async bid(account: Account): Promise<string> {
+    if (!this.isBidToken) {
+      throw new Error(`Invalid bid token!`);
+    }
+    const addressRes = await getAntenna().iotx.getAccount({
+      address: account.address
+    });
+    if (!addressRes || !addressRes.accountMeta) {
+      throw new Error(t("unlock-wallet.no-wallet"));
+    }
+    const iotxBalance = new BigNumber(addressRes.accountMeta.balance);
+    if (!iotxBalance.isGreaterThan(0)) {
+      throw new Error(t("account.error.notEnoughBalance"));
+    }
+    return this.api.executeMethod(
+      "bid",
+      account,
+      CLAIM_GAS_LIMIT,
+      CLAIM_GAS_LIMIT,
+      "0"
+    );
   }
 }
 

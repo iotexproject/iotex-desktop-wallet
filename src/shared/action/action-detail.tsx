@@ -97,11 +97,11 @@ class ActionDetailsInner extends PureComponent<Props> {
               data: object.data
             };
           }
-          if (tokenInfo && info.method === "claim") {
+          if (tokenInfo && info.method.match(/^(claim|bid)$/)) {
             object = {
               amount: object.amount,
               contract: object.contract,
-              method: "claim",
+              method: info.method,
               data: object.data
             };
           }
