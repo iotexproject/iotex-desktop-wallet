@@ -625,7 +625,7 @@ class AccountSection extends React.Component<Props, State> {
               <strong>{t("account.address")}</strong>
             </div>
             <div>
-              <small>{account.address}</small>¿
+              <small>{account.address}</small>
             </div>
           </Col>
           <Col>
