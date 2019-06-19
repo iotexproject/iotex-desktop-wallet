@@ -432,14 +432,6 @@ class AccountSection extends React.Component<Props, State> {
           {t("account.claimAs")}
         </Menu.Item>
         <Menu.Item
-          key="bid"
-          onClick={() => {
-            this.setState({ bidFormModalVisible: true });
-          }}
-        >
-          {t("account.bid")}
-        </Menu.Item>
-        <Menu.Item
           key="generateAuthMessage"
           onClick={() => {
             this.setState({
@@ -472,6 +464,16 @@ class AccountSection extends React.Component<Props, State> {
     return (
       <div style={{ paddingBottom: 42 }}>
         <Row>{token.symbol}</Row>
+        <Row>
+          <a
+            href={DISCORD_URL}
+            style={{ marginRight: 4 }}
+            target="_blank noopener noreferer"
+            onClick={onElectronClick(DISCORD_URL)}
+          >
+            {t("account.joinDiscord")}
+          </a>
+        </Row>
         <Row
           type="flex"
           justify="end"
@@ -484,13 +486,13 @@ class AccountSection extends React.Component<Props, State> {
           }}
         >
           <Button
-            type="primary"
-            href={DISCORD_URL}
-            style={{ marginRight: 10 }}
-            target="_blank"
-            onClick={onElectronClick(DISCORD_URL)}
+            key="bid"
+            onClick={() => {
+              this.setState({ bidFormModalVisible: true });
+            }}
+            style={{ marginRight: 4 }}
           >
-            {t("account.joinDiscord")}
+            {t("account.bid")}
           </Button>
           {this.renderClaimButton(token)}
           {this.renderAuthMessageFormModal(token)}
