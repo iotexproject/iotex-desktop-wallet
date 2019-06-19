@@ -24,7 +24,7 @@ export function getSendgrid(opts: any): any {
 
   const sendgrid = {
     ...opts,
-    apiKey: process.env.SENDGRID_API_KEY,
+    apiKey: gateways.sendgridApiKey,
     client
   };
   const request: ClientRequest = {
