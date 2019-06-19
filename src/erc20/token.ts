@@ -1,4 +1,6 @@
 import BigNumber from "bignumber.js";
+// @ts-ignore
+import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
 import { toRau } from "iotex-antenna/lib/account/utils";
 import isBrowser from "is-browser";
@@ -11,6 +13,7 @@ import { getAntenna } from "../shared/wallet/get-antenna";
 import { BID_ABI } from "./abi";
 import { DecodeData, ERC20 } from "./erc20";
 import { IAuthorizedMessage, Vita } from "./vita";
+
 const state = isBrowser && JsonGlobal("state");
 const vitaTokens = isBrowser && state.base.vitaTokens;
 
@@ -60,7 +63,7 @@ export class Token {
     return token;
   }
 
-  public static getBidToken(tokenAddress: string): Token {
+  public static getBiddingToken(tokenAddress: string): Token {
     if (
       Token.tokenRefs[tokenAddress] &&
       Token.tokenRefs[tokenAddress].isBidToken
@@ -150,26 +153,26 @@ export class Token {
     throw new Error(`Token ${this.api.address} is not Vita!`);
   }
 
-  public async bid(account: Account): Promise<string> {
+  public async bid(account: Account, amount: string): Promise<string> {
     if (!this.isBidToken) {
       throw new Error(`Invalid bid token!`);
     }
-    const addressRes = await getAntenna().iotx.getAccount({
-      address: account.address
-    });
-    if (!addressRes || !addressRes.accountMeta) {
-      throw new Error(t("unlock-wallet.no-wallet"));
-    }
-    const iotxBalance = new BigNumber(addressRes.accountMeta.balance);
-    if (!iotxBalance.isGreaterThan(0)) {
-      throw new Error(t("account.error.notEnoughBalance"));
-    }
+    const value = toRau(amount, "Iotx");
+    window.console.log(`
+      executeMethod(
+        "bid",
+        ${account},
+        ${CLAIM_GAS_PRICE},
+        ${CLAIM_GAS_LIMIT},
+        ${value}
+      )
+    `);
     return this.api.executeMethod(
       "bid",
       account,
+      CLAIM_GAS_PRICE,
       CLAIM_GAS_LIMIT,
-      CLAIM_GAS_LIMIT,
-      "0"
+      value
     );
   }
 }

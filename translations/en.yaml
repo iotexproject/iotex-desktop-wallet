@@ -388,3 +388,4 @@ account.claimAs.authorizedTemplate: >-
 account.error.invalidAuthorizedMessage: Invalid authentication private message!
 render.key.method: Method
 account.error.notEnoughBalance: You don't have enough IoTx balance to perform the action!
+account.placeBid: Place bid for VITA

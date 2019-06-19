@@ -12,7 +12,10 @@ import Helmet from "onefx/lib/react-helmet";
 import React, { PureComponent } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
-import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
+import {
+  ActionInfo,
+  GetActionsResponse
+} from "../../api-gateway/resolvers/antenna-types";
 import { Token } from "../../erc20/token";
 import { getColumns } from "../block/block-detail";
 import { Flex } from "../common/flex";
@@ -80,41 +83,47 @@ class ActionDetailsInner extends PureComponent<Props> {
     object = object || {};
     if (object.contract && object.data) {
       try {
-        const info = Token.getToken(object.contract).decode(object.data);
-        if (info) {
+        let info = null;
+        try {
+          info = Token.getToken(object.contract).decode(object.data);
+        } catch (error) {
+          info = Token.getBiddingToken(object.contract).decode(object.data);
+        }
+        if (!info) {
+          throw new Error(`Could not able to decode action data!`);
+        }
+        if (info.method === "transfer") {
           const tokenInfo = await Token.getToken(object.contract).getInfo(
             object.contract
           );
-          if (tokenInfo && info.method === "transfer") {
-            const tokenTransfered = new BigNumber(info.data._value).dividedBy(
-              new BigNumber(`1e${tokenInfo.decimals.toNumber()}`)
-            );
-            object = {
-              amount: object.amount,
-              contract: object.contract,
-              to: info.data._to,
-              tokens: `${tokenTransfered} ${tokenInfo.symbol} (${tokenInfo.name})`,
-              data: object.data
-            };
-          }
-          if (tokenInfo && info.method.match(/^(claim|bid)$/)) {
-            object = {
-              amount: object.amount,
-              contract: object.contract,
-              method: info.method,
-              data: object.data
-            };
-          }
-          if (tokenInfo && info.method === "claimAs") {
-            object = {
-              amount: object.amount,
-              contract: object.contract,
-              method: "claimAs",
-              owner: `${info.data.owner}`,
-              ownerETH: `${toETHAddress(info.data.owner)}`,
-              data: object.data
-            };
-          }
+          const tokenTransfered = new BigNumber(info.data._value).dividedBy(
+            new BigNumber(`1e${tokenInfo.decimals.toNumber()}`)
+          );
+          object = {
+            amount: object.amount,
+            contract: object.contract,
+            to: info.data._to,
+            tokens: `${tokenTransfered} ${tokenInfo.symbol} (${tokenInfo.name})`,
+            data: object.data
+          };
+        }
+        if (info.method.match(/^(claim|bid)$/)) {
+          object = {
+            amount: object.amount,
+            contract: object.contract,
+            method: info.method,
+            data: object.data
+          };
+        }
+        if (info.method === "claimAs") {
+          object = {
+            amount: object.amount,
+            contract: object.contract,
+            method: "claimAs",
+            owner: `${info.data.owner}`,
+            ownerETH: `${toETHAddress(info.data.owner)}`,
+            data: object.data
+          };
         }
       } catch (e) {
         window.console.error(`failed to parse XRC20 token: ${e}`);
@@ -126,7 +135,7 @@ class ActionDetailsInner extends PureComponent<Props> {
       blkHash,
       sender: action ? publicKeyToAddress(String(action.senderPubKey)) : "",
       gasPrice: `${get(action, "core.gasPrice")} Rau` || "",
-      actionType: getActionType(actionInfo),
+      actionType: getActionType(actionInfo as ActionInfo),
       nonce: get(action, "core.nonce") || 0,
       ...object
     };

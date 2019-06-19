@@ -42,6 +42,7 @@ import { TooltipButton } from "../common/tooltip-button";
 import { xconf, XConfKeys } from "../common/xconf";
 import AddCustomTokensFormModal from "./add-custom-tokens-form-modal";
 import AuthorizedMessageFormModal from "./authorized-message-form-modal";
+import BidFormModal from "./bid-form-modal";
 import { ChainNetworkSwitch } from "./chain-network-switch";
 import GenerateAuthorizedMessageFormModal from "./generate-authorized-message-form-modal";
 import { getAntenna } from "./get-antenna";
@@ -73,6 +74,8 @@ export interface State {
   authMessage: IAuthorizedMessage | null;
   bidConfirmationVisible: boolean;
   isBidding: boolean;
+  bidFormModalVisible: boolean;
+  bidAmount: string;
 }
 
 class AccountSection extends React.Component<Props, State> {
@@ -90,7 +93,9 @@ class AccountSection extends React.Component<Props, State> {
     generateAuthMessageFormVisible: false,
     authMessage: null,
     bidConfirmationVisible: false,
-    isBidding: false
+    isBidding: false,
+    bidFormModalVisible: false,
+    bidAmount: "0"
   };
 
   private pollAccountInterval: number | undefined;
@@ -334,6 +339,31 @@ class AccountSection extends React.Component<Props, State> {
     );
   }
 
+  public renderBidFormModal(): JSX.Element | null {
+    const { account } = this.props;
+    if (!account) {
+      return null;
+    }
+    return (
+      <BidFormModal
+        account={account}
+        visible={this.state.bidFormModalVisible}
+        onOK={async (amount: string) => {
+          this.setState({
+            bidFormModalVisible: false,
+            bidConfirmationVisible: true,
+            bidAmount: amount
+          });
+        }}
+        onCancel={() => {
+          this.setState({
+            bidFormModalVisible: false
+          });
+        }}
+      />
+    );
+  }
+
   public renderGenerateAuthorizedMessageFormModal(
     token: ITokenInfo
   ): JSX.Element {
@@ -368,15 +398,18 @@ class AccountSection extends React.Component<Props, State> {
     }
   };
 
-  public placeBid = async () => {
+  public placeBid = async (amount: string) => {
     const { account, history, bidContractAddress } = this.props;
     if (!account) {
       return;
     }
     try {
-      const txHash = await Token.getBidToken(bidContractAddress).bid(account);
+      const txHash = await Token.getBiddingToken(bidContractAddress).bid(
+        account,
+        amount
+      );
       // @ts-ignore
-      window.console.log(`Place bid at action hash: ${txHash}`);
+      window.console.log(`Place bid ${amount} IOTX at action hash: ${txHash}`);
       history.push(`/wallet/smart-contract/interact/${txHash}`);
     } catch (e) {
       notification.error({
@@ -401,7 +434,7 @@ class AccountSection extends React.Component<Props, State> {
         <Menu.Item
           key="bid"
           onClick={() => {
-            this.setState({ bidConfirmationVisible: true });
+            this.setState({ bidFormModalVisible: true });
           }}
         >
           {t("account.bid")}
@@ -462,6 +495,7 @@ class AccountSection extends React.Component<Props, State> {
           {this.renderClaimButton(token)}
           {this.renderAuthMessageFormModal(token)}
           {this.renderGenerateAuthorizedMessageFormModal(token)}
+          {this.renderBidFormModal()}
           {this.renderBidConfirmation()}
         </Row>
       </div>
@@ -699,12 +733,13 @@ class AccountSection extends React.Component<Props, State> {
 
   private readonly renderBidConfirmation = (): JSX.Element | null => {
     const { account } = this.props;
-    const { bidConfirmationVisible: bidConfirmation } = this.state;
+    const { bidConfirmationVisible: bidConfirmation, bidAmount } = this.state;
     if (!account) {
       return null;
     }
 
     const dataSource = {
+      amount: `${bidAmount} IOTX`,
       address: account.address,
       method: "bid",
       limit: CLAIM_GAS_LIMIT,
@@ -719,7 +754,7 @@ class AccountSection extends React.Component<Props, State> {
             isBidding: true
           });
           if (ok) {
-            await this.placeBid();
+            await this.placeBid(bidAmount);
           }
           this.setState({
             bidConfirmationVisible: false,
