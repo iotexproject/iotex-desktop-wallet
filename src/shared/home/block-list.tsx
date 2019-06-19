@@ -140,6 +140,10 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
                       return address;
                     }
 
+                    if (!!error) {
+                      return <span>{address}</span>;
+                    }
+
                     const name =
                       (data.bpCandidate && data.bpCandidate.registeredName) ||
                       address;
