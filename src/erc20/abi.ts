@@ -778,3 +778,483 @@ export const ABI = [
     type: "function"
   }
 ];
+
+export const BID_ABI = [
+  {
+    constant: true,
+    inputs: [],
+    name: "round",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "addrs",
+        type: "address[]"
+      }
+    ],
+    name: "removeAddressesFromWhitelist",
+    outputs: [
+      {
+        name: "success",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "addr",
+        type: "address"
+      }
+    ],
+    name: "removeAddressFromWhitelist",
+    outputs: [
+      {
+        name: "success",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "paused",
+    outputs: [
+      {
+        name: "",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "nextBidToSettle",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "addr",
+        type: "address"
+      }
+    ],
+    name: "addAddressToWhitelist",
+    outputs: [
+      {
+        name: "success",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        name: "",
+        type: "address"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "",
+        type: "address"
+      }
+    ],
+    name: "whitelist",
+    outputs: [
+      {
+        name: "",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "addrs",
+        type: "address[]"
+      }
+    ],
+    name: "addAddressesToWhitelist",
+    outputs: [
+      {
+        name: "success",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "newOwner",
+        type: "address"
+      }
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        name: "_vitaTokenAddress",
+        type: "address"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "constructor"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        name: "round",
+        type: "uint256"
+      },
+      {
+        indexed: false,
+        name: "claimedAmount",
+        type: "uint256"
+      },
+      {
+        indexed: false,
+        name: "burnedAmount",
+        type: "uint256"
+      }
+    ],
+    name: "NewRound",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        name: "round",
+        type: "uint256"
+      },
+      {
+        indexed: true,
+        name: "sender",
+        type: "address"
+      },
+      {
+        indexed: false,
+        name: "collateral",
+        type: "uint256"
+      }
+    ],
+    name: "VitaBidden",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        name: "round",
+        type: "uint256"
+      },
+      {
+        indexed: true,
+        name: "sender",
+        type: "address"
+      },
+      {
+        indexed: false,
+        name: "collateral",
+        type: "uint256"
+      },
+      {
+        indexed: false,
+        name: "vita",
+        type: "uint256"
+      }
+    ],
+    name: "VitaBought",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        name: "finished",
+        type: "bool"
+      }
+    ],
+    name: "VitaBidsSettled",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        name: "receiver",
+        type: "address"
+      },
+      {
+        indexed: false,
+        name: "collateral",
+        type: "uint256"
+      }
+    ],
+    name: "CollateralWithdrawn",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [],
+    name: "Pause",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [],
+    name: "Unpause",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        name: "addr",
+        type: "address"
+      }
+    ],
+    name: "WhitelistedAddressAdded",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        name: "addr",
+        type: "address"
+      }
+    ],
+    name: "WhitelistedAddressRemoved",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        name: "previousOwner",
+        type: "address"
+      },
+      {
+        indexed: true,
+        name: "newOwner",
+        type: "address"
+      }
+    ],
+    name: "OwnershipTransferred",
+    type: "event"
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_round",
+        type: "uint256"
+      }
+    ],
+    name: "getTotalBidsValue",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_round",
+        type: "uint256"
+      }
+    ],
+    name: "getAvailableVitaValue",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_round",
+        type: "uint256"
+      }
+    ],
+    name: "getNumBids",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_round",
+        type: "uint256"
+      },
+      {
+        name: "_address",
+        type: "address"
+      }
+    ],
+    name: "getBid",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [],
+    name: "bid",
+    outputs: [],
+    payable: true,
+    stateMutability: "payable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_count",
+        type: "uint256"
+      }
+    ],
+    name: "settle",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [],
+    name: "reset",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_receiver",
+        type: "address"
+      },
+      {
+        name: "_amount",
+        type: "uint256"
+      }
+    ],
+    name: "transferCollateral",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [],
+    name: "pause",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [],
+    name: "unpause",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  }
+];

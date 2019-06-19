@@ -42,6 +42,7 @@ import { TooltipButton } from "../common/tooltip-button";
 import { xconf, XConfKeys } from "../common/xconf";
 import AddCustomTokensFormModal from "./add-custom-tokens-form-modal";
 import AuthorizedMessageFormModal from "./authorized-message-form-modal";
+import BidFormModal from "./bid-form-modal";
 import { ChainNetworkSwitch } from "./chain-network-switch";
 import GenerateAuthorizedMessageFormModal from "./generate-authorized-message-form-modal";
 import { getAntenna } from "./get-antenna";
@@ -55,6 +56,7 @@ export interface Props extends DispatchProp, RouteComponentProps {
   createNew?: boolean;
   network?: IRPCProvider;
   defaultNetworkTokens: Array<string>;
+  bidContractAddress: string;
 }
 
 export interface State {
@@ -70,6 +72,10 @@ export interface State {
   authorizedMessageFormVisible: boolean;
   generateAuthMessageFormVisible: boolean;
   authMessage: IAuthorizedMessage | null;
+  bidConfirmationVisible: boolean;
+  isBidding: boolean;
+  bidFormModalVisible: boolean;
+  bidAmount: string;
 }
 
 class AccountSection extends React.Component<Props, State> {
@@ -85,7 +91,11 @@ class AccountSection extends React.Component<Props, State> {
     claimTokenAddress: "",
     authorizedMessageFormVisible: false,
     generateAuthMessageFormVisible: false,
-    authMessage: null
+    authMessage: null,
+    bidConfirmationVisible: false,
+    isBidding: false,
+    bidFormModalVisible: false,
+    bidAmount: "0"
   };
 
   private pollAccountInterval: number | undefined;
@@ -329,6 +339,31 @@ class AccountSection extends React.Component<Props, State> {
     );
   }
 
+  public renderBidFormModal(): JSX.Element | null {
+    const { account } = this.props;
+    if (!account) {
+      return null;
+    }
+    return (
+      <BidFormModal
+        account={account}
+        visible={this.state.bidFormModalVisible}
+        onOK={async (amount: string) => {
+          this.setState({
+            bidFormModalVisible: false,
+            bidConfirmationVisible: true,
+            bidAmount: amount
+          });
+        }}
+        onCancel={() => {
+          this.setState({
+            bidFormModalVisible: false
+          });
+        }}
+      />
+    );
+  }
+
   public renderGenerateAuthorizedMessageFormModal(
     token: ITokenInfo
   ): JSX.Element {
@@ -363,6 +398,26 @@ class AccountSection extends React.Component<Props, State> {
     }
   };
 
+  public placeBid = async (amount: string) => {
+    const { account, history, bidContractAddress } = this.props;
+    if (!account) {
+      return;
+    }
+    try {
+      const txHash = await Token.getBiddingToken(bidContractAddress).bid(
+        account,
+        amount
+      );
+      // @ts-ignore
+      window.console.log(`Place bid ${amount} IOTX at action hash: ${txHash}`);
+      history.push(`/wallet/smart-contract/interact/${txHash}`);
+    } catch (e) {
+      notification.error({
+        message: `Failed to bid: ${e}`
+      });
+    }
+  };
+
   private renderClaimButton(token: ITokenInfo): JSX.Element {
     const claimMenu = (
       <Menu>
@@ -375,6 +430,14 @@ class AccountSection extends React.Component<Props, State> {
           }}
         >
           {t("account.claimAs")}
+        </Menu.Item>
+        <Menu.Item
+          key="bid"
+          onClick={() => {
+            this.setState({ bidFormModalVisible: true });
+          }}
+        >
+          {t("account.bid")}
         </Menu.Item>
         <Menu.Item
           key="generateAuthMessage"
@@ -432,6 +495,8 @@ class AccountSection extends React.Component<Props, State> {
           {this.renderClaimButton(token)}
           {this.renderAuthMessageFormModal(token)}
           {this.renderGenerateAuthorizedMessageFormModal(token)}
+          {this.renderBidFormModal()}
+          {this.renderBidConfirmation()}
         </Row>
       </div>
     );
@@ -666,6 +731,42 @@ class AccountSection extends React.Component<Props, State> {
     );
   };
 
+  private readonly renderBidConfirmation = (): JSX.Element | null => {
+    const { account } = this.props;
+    const { bidConfirmationVisible: bidConfirmation, bidAmount } = this.state;
+    if (!account) {
+      return null;
+    }
+
+    const dataSource = {
+      amount: `${bidAmount} IOTX`,
+      address: account.address,
+      method: "bid",
+      limit: CLAIM_GAS_LIMIT,
+      price: CLAIM_GAS_PRICE
+    };
+
+    return (
+      <ConfirmContractModal
+        dataSource={dataSource}
+        confirmContractOk={async (ok: boolean) => {
+          this.setState({
+            isBidding: true
+          });
+          if (ok) {
+            await this.placeBid(bidAmount);
+          }
+          this.setState({
+            bidConfirmationVisible: false,
+            isBidding: false
+          });
+        }}
+        showModal={bidConfirmation}
+        confirmLoading={this.state.isBidding}
+      />
+    );
+  };
+
   public render(): JSX.Element | null {
     const { account, createNew } = this.props;
     const { accountMeta } = this.state;
@@ -682,14 +783,17 @@ class AccountSection extends React.Component<Props, State> {
 
 const mapStateToProps = (state: {
   wallet: IWalletState;
+  base: { [index: string]: string };
 }): {
   account?: Account;
   network?: IRPCProvider;
   defaultNetworkTokens: Array<string>;
+  bidContractAddress: string;
 } => ({
   account: (state.wallet || {}).account,
   network: (state.wallet || {}).network,
-  defaultNetworkTokens: (state.wallet || {}).defaultNetworkTokens || []
+  defaultNetworkTokens: (state.wallet || {}).defaultNetworkTokens || [],
+  bidContractAddress: (state.base || {}).bidContractAddress
 });
 
 export default connect(mapStateToProps)(withRouter(AccountSection));

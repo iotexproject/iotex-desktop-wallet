@@ -360,6 +360,7 @@ input.error.url.invalid: Invalid URL
 input.error.rpc.invalid: Can't connect to Network Provider!
 account.joinDiscord: Join Discord
 account.claim: Claim
+account.bid: Bid
 account.claimAs: Claim As
 account.switchAccount: Switch Account
 account.refresh: Refresh balances
@@ -386,3 +387,5 @@ account.claimAs.authorizedTemplate: >-
   }
 account.error.invalidAuthorizedMessage: Invalid authentication private message!
 render.key.method: Method
+account.error.notEnoughBalance: You don't have enough IoTx balance to perform the action!
+account.placeBid: Place bid for VITA

@@ -1,4 +1,6 @@
 import BigNumber from "bignumber.js";
+// @ts-ignore
+import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
 import { toRau } from "iotex-antenna/lib/account/utils";
 import isBrowser from "is-browser";
@@ -8,8 +10,10 @@ import { t } from "onefx/lib/iso-i18n";
 import JsonGlobal from "safe-json-globals/get";
 import { toIoTeXAddress } from "../shared/wallet/address";
 import { getAntenna } from "../shared/wallet/get-antenna";
+import { BID_ABI } from "./abi";
 import { DecodeData, ERC20 } from "./erc20";
 import { IAuthorizedMessage, Vita } from "./vita";
+
 const state = isBrowser && JsonGlobal("state");
 const vitaTokens = isBrowser && state.base.vitaTokens;
 
@@ -38,6 +42,7 @@ export interface ITokenInfoDict {
 export class Token {
   protected readonly api: ERC20 | Vita;
   protected static readonly tokenRefs: { [index: string]: Token } = {};
+  protected isBidToken: boolean;
 
   constructor(api: ERC20 | Vita) {
     this.api = api;
@@ -54,6 +59,20 @@ export class Token {
     const isVita = (vitaTokens || []).indexOf(tokenAddress) >= 0;
     const api = (isVita ? Vita : ERC20).create(tokenAddress, getAntenna().iotx);
     const token = new Token(api);
+    Token.tokenRefs[tokenAddress] = token;
+    return token;
+  }
+
+  public static getBiddingToken(tokenAddress: string): Token {
+    if (
+      Token.tokenRefs[tokenAddress] &&
+      Token.tokenRefs[tokenAddress].isBidToken
+    ) {
+      return Token.tokenRefs[tokenAddress];
+    }
+    const api = ERC20.create(tokenAddress, getAntenna().iotx, BID_ABI);
+    const token = new Token(api);
+    token.isBidToken = true;
     Token.tokenRefs[tokenAddress] = token;
     return token;
   }
@@ -132,6 +151,29 @@ export class Token {
       );
     }
     throw new Error(`Token ${this.api.address} is not Vita!`);
+  }
+
+  public async bid(account: Account, amount: string): Promise<string> {
+    if (!this.isBidToken) {
+      throw new Error(`Invalid bid token!`);
+    }
+    const value = toRau(amount, "Iotx");
+    window.console.log(`
+      executeMethod(
+        "bid",
+        ${account},
+        ${CLAIM_GAS_PRICE},
+        ${CLAIM_GAS_LIMIT},
+        ${value}
+      )
+    `);
+    return this.api.executeMethod(
+      "bid",
+      account,
+      CLAIM_GAS_PRICE,
+      CLAIM_GAS_LIMIT,
+      value
+    );
   }
 }
 
