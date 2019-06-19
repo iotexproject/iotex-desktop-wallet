@@ -1,6 +1,7 @@
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 import Table from "antd/lib/table";
+import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import { IActionInfo } from "iotex-antenna/lib/rpc-method/types";
@@ -12,7 +13,7 @@ import React, { PureComponent } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
-import { ERC20Token } from "../../erc20/erc20Token";
+import { Token } from "../../erc20/token";
 import { getColumns } from "../block/block-detail";
 import { Flex } from "../common/flex";
 import { actionsTypes, getActionType } from "../common/get-action-type";
@@ -23,6 +24,7 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding, NonePadding } from "../common/styles/style-padding";
 import { GET_ACTIONS_BY_HASH } from "../queries";
+import { toETHAddress } from "../wallet/address";
 import { ActionReceipt } from "./action-receipt";
 
 type PathParamsType = {
@@ -78,27 +80,44 @@ class ActionDetailsInner extends PureComponent<Props> {
     object = object || {};
     if (object.contract && object.data) {
       try {
-        const info = ERC20Token.getToken(object.contract).decode(object.data);
+        const info = Token.getToken(object.contract).decode(object.data);
         if (info) {
-          const tokenInfo = await ERC20Token.getToken(object.contract).getInfo(
+          const tokenInfo = await Token.getToken(object.contract).getInfo(
             object.contract
           );
           if (tokenInfo && info.method === "transfer") {
-            const tokenTransfered =
-              info.data._value / 10 ** tokenInfo.decimals.toNumber();
+            const tokenTransfered = new BigNumber(info.data._value).dividedBy(
+              new BigNumber(`1e${tokenInfo.decimals.toNumber()}`)
+            );
             object = {
               amount: object.amount,
               contract: object.contract,
               to: info.data._to,
-              tokens: `${tokenTransfered} ${tokenInfo.symbol} (${
-                tokenInfo.name
-              })`,
+              tokens: `${tokenTransfered} ${tokenInfo.symbol} (${tokenInfo.name})`,
+              data: object.data
+            };
+          }
+          if (tokenInfo && info.method === "claim") {
+            object = {
+              amount: object.amount,
+              contract: object.contract,
+              method: "claim",
+              data: object.data
+            };
+          }
+          if (tokenInfo && info.method === "claimAs") {
+            object = {
+              amount: object.amount,
+              contract: object.contract,
+              method: "claimAs",
+              owner: `${info.data.owner}`,
+              ownerETH: `${toETHAddress(info.data.owner)}`,
               data: object.data
             };
           }
         }
       } catch (e) {
-        window.console.error(`failed to parse ERC20 token: ${e}`);
+        window.console.error(`failed to parse XRC20 token: ${e}`);
       }
     }
 

@@ -14,29 +14,6 @@ export const ABI = [
     type: "function"
   },
   {
-    constant: false,
-    inputs: [
-      {
-        name: "_spender",
-        type: "address"
-      },
-      {
-        name: "_value",
-        type: "uint256"
-      }
-    ],
-    name: "approve",
-    outputs: [
-      {
-        name: "",
-        type: "bool"
-      }
-    ],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
     constant: true,
     inputs: [],
     name: "cycleIncrementalSupply",
@@ -65,30 +42,17 @@ export const ABI = [
     type: "function"
   },
   {
-    constant: false,
-    inputs: [
-      {
-        name: "_from",
-        type: "address"
-      },
-      {
-        name: "_to",
-        type: "address"
-      },
-      {
-        name: "_value",
-        type: "uint256"
-      }
-    ],
-    name: "transferFrom",
+    constant: true,
+    inputs: [],
+    name: "donationPoolAddress",
     outputs: [
       {
         name: "",
-        type: "bool"
+        type: "address"
       }
     ],
     payable: false,
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function"
   },
   {
@@ -126,20 +90,6 @@ export const ABI = [
   },
   {
     constant: false,
-    inputs: [
-      {
-        name: "_newVPS",
-        type: "address"
-      }
-    ],
-    name: "setVPS",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
-    constant: false,
     inputs: [],
     name: "unpause",
     outputs: [],
@@ -155,43 +105,6 @@ export const ABI = [
       {
         name: "",
         type: "address"
-      }
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function"
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "amount",
-        type: "uint256"
-      }
-    ],
-    name: "burn",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
-    constant: false,
-    inputs: [],
-    name: "claim",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "poolSize",
-    outputs: [
-      {
-        name: "",
-        type: "uint256"
       }
     ],
     payable: false,
@@ -227,26 +140,17 @@ export const ABI = [
     type: "function"
   },
   {
-    constant: false,
-    inputs: [
+    constant: true,
+    inputs: [],
+    name: "lastDonationPoolClaimViewID",
+    outputs: [
       {
-        name: "_spender",
-        type: "address"
-      },
-      {
-        name: "_subtractedValue",
+        name: "",
         type: "uint256"
       }
     ],
-    name: "decreaseApproval",
-    outputs: [
-      {
-        name: "success",
-        type: "bool"
-      }
-    ],
     payable: false,
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function"
   },
   {
@@ -307,8 +211,13 @@ export const ABI = [
   },
   {
     constant: true,
-    inputs: [],
-    name: "lastTradingPoolClaimViewID",
+    inputs: [
+      {
+        name: "",
+        type: "address"
+      }
+    ],
+    name: "authNonces",
     outputs: [
       {
         name: "",
@@ -317,20 +226,6 @@ export const ABI = [
     ],
     payable: false,
     stateMutability: "view",
-    type: "function"
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_newTradingPool",
-        type: "address"
-      }
-    ],
-    name: "setTradingPoolAddress",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
     type: "function"
   },
   {
@@ -348,66 +243,6 @@ export const ABI = [
     type: "function"
   },
   {
-    constant: false,
-    inputs: [
-      {
-        name: "_to",
-        type: "address"
-      },
-      {
-        name: "_value",
-        type: "uint256"
-      }
-    ],
-    name: "transfer",
-    outputs: [
-      {
-        name: "",
-        type: "bool"
-      }
-    ],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "claimable",
-    outputs: [
-      {
-        name: "",
-        type: "bool"
-      }
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function"
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_newRewardPool",
-        type: "address"
-      }
-    ],
-    name: "setRewardPoolAddress",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
-    constant: false,
-    inputs: [],
-    name: "updateCycle",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
     constant: true,
     inputs: [],
     name: "lastRewardPoolClaimViewID",
@@ -419,29 +254,6 @@ export const ABI = [
     ],
     payable: false,
     stateMutability: "view",
-    type: "function"
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_spender",
-        type: "address"
-      },
-      {
-        name: "_addedValue",
-        type: "uint256"
-      }
-    ],
-    name: "increaseApproval",
-    outputs: [
-      {
-        name: "success",
-        type: "bool"
-      }
-    ],
-    payable: false,
-    stateMutability: "nonpayable",
     type: "function"
   },
   {
@@ -468,6 +280,20 @@ export const ABI = [
     type: "function"
   },
   {
+    constant: true,
+    inputs: [],
+    name: "cycleLength",
+    outputs: [
+      {
+        name: "",
+        type: "uint8"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
     constant: false,
     inputs: [
       {
@@ -479,20 +305,6 @@ export const ABI = [
     outputs: [],
     payable: false,
     stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "tradingPoolAddress",
-    outputs: [
-      {
-        name: "",
-        type: "address"
-      }
-    ],
-    payable: false,
-    stateMutability: "view",
     type: "function"
   },
   {
@@ -510,7 +322,7 @@ export const ABI = [
         type: "address"
       },
       {
-        name: "_tradingPoolAddress",
+        name: "_donationPoolAddress",
         type: "address"
       }
     ],
@@ -528,6 +340,11 @@ export const ABI = [
       },
       {
         indexed: false,
+        name: "owner",
+        type: "address"
+      },
+      {
+        indexed: false,
         name: "amount",
         type: "uint256"
       },
@@ -538,6 +355,35 @@ export const ABI = [
       }
     ],
     name: "Claim",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        name: "height",
+        type: "uint256"
+      },
+      {
+        indexed: false,
+        name: "incremetnalSupply",
+        type: "uint256"
+      }
+    ],
+    name: "Decay",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        name: "viewID",
+        type: "uint256"
+      }
+    ],
+    name: "UpdateView",
     type: "event"
   },
   {
@@ -612,5 +458,323 @@ export const ABI = [
     ],
     name: "Transfer",
     type: "event"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_to",
+        type: "address"
+      },
+      {
+        name: "_value",
+        type: "uint256"
+      }
+    ],
+    name: "transfer",
+    outputs: [
+      {
+        name: "",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_from",
+        type: "address"
+      },
+      {
+        name: "_to",
+        type: "address"
+      },
+      {
+        name: "_value",
+        type: "uint256"
+      }
+    ],
+    name: "transferFrom",
+    outputs: [
+      {
+        name: "",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_spender",
+        type: "address"
+      },
+      {
+        name: "_value",
+        type: "uint256"
+      }
+    ],
+    name: "approve",
+    outputs: [
+      {
+        name: "",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_spender",
+        type: "address"
+      },
+      {
+        name: "_addedValue",
+        type: "uint256"
+      }
+    ],
+    name: "increaseApproval",
+    outputs: [
+      {
+        name: "success",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_spender",
+        type: "address"
+      },
+      {
+        name: "_subtractedValue",
+        type: "uint256"
+      }
+    ],
+    name: "decreaseApproval",
+    outputs: [
+      {
+        name: "success",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_newRewardPool",
+        type: "address"
+      }
+    ],
+    name: "setRewardPoolAddress",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_newDonationPool",
+        type: "address"
+      }
+    ],
+    name: "setDonationPoolAddress",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_newVPS",
+        type: "address"
+      }
+    ],
+    name: "setVPS",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "cycle",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "stakingPoolSize",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "rewardPoolSize",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "donationPoolSize",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "incrementalSupply",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "decayedIncrementalSupply",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [],
+    name: "updateCycle",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "owner",
+        type: "address"
+      }
+    ],
+    name: "claimableAmount",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [],
+    name: "claim",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "owner",
+        type: "address"
+      },
+      {
+        name: "signature",
+        type: "bytes"
+      },
+      {
+        name: "nonce",
+        type: "uint256"
+      }
+    ],
+    name: "claimAs",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "amount",
+        type: "uint256"
+      }
+    ],
+    name: "burn",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
   }
 ];

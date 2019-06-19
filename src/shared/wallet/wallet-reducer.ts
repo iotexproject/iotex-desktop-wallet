@@ -1,5 +1,5 @@
 import { Account } from "iotex-antenna/lib/account/account";
-import { IERC20TokenInfoDict } from "../../erc20/erc20Token";
+import { ITokenInfoDict } from "../../erc20/token";
 
 export type QueryType = "CONTRACT_INTERACT";
 
@@ -10,6 +10,8 @@ export type QueryParams = {
   abi?: string;
   type?: QueryType;
   queryNonce?: number;
+  contractAddress?: string;
+  method?: string;
 };
 
 type QueryParamAction = {
@@ -36,16 +38,12 @@ export interface IRPCProvider {
 }
 
 export type WalletAction = {
-  type:
-    | "SET_ACCOUNT"
-    | "SET_NETWORK"
-    | "ADD_CUSTOM_RPC"
-    | "UPDATE_ERC20_TOKENS";
+  type: "SET_ACCOUNT" | "SET_NETWORK" | "ADD_CUSTOM_RPC" | "UPDATE_TOKENS";
   payload: {
     account?: Account;
     network?: IRPCProvider;
     customRPC?: IRPCProvider;
-    erc20Tokens?: IERC20TokenInfoDict;
+    tokens?: ITokenInfoDict;
     defaultNetworkTokens?: Array<string>;
   };
 };
@@ -54,7 +52,7 @@ export interface IWalletState {
   account?: Account;
   network?: IRPCProvider;
   customRPCs: Array<IRPCProvider>;
-  erc20Tokens: IERC20TokenInfoDict;
+  tokens: ITokenInfoDict;
   defaultNetworkTokens: Array<string>;
 }
 
@@ -62,16 +60,13 @@ export const walletReducer = (
   state: IWalletState = {
     customRPCs: [],
     defaultNetworkTokens: [],
-    erc20Tokens: {}
+    tokens: {}
   },
   action: WalletAction
 ) => {
   switch (action.type) {
     case "SET_ACCOUNT":
       const { account } = action.payload;
-      if (!account) {
-        return state;
-      }
       return { ...state, account };
     case "ADD_CUSTOM_RPC":
       const { customRPC } = action.payload;
@@ -93,10 +88,10 @@ export const walletReducer = (
         network: action.payload.network,
         defaultNetworkTokens: action.payload.defaultNetworkTokens
       };
-    case "UPDATE_ERC20_TOKENS":
+    case "UPDATE_TOKENS":
       return {
         ...state,
-        erc20Tokens: action.payload.erc20Tokens
+        tokens: action.payload.tokens
       };
     default:
       return state;

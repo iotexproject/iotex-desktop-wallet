@@ -34,17 +34,21 @@ import { ContractLayout } from "./contract-layout";
 
 const { Option } = Select;
 
-type Props = {
+export interface IInteractProps {
+  txHash?: string;
   fromAddress: string;
-};
+}
 
-export class Interact extends Component<Props> {
+export class Interact extends Component<IInteractProps> {
   public render(): JSX.Element {
     return (
       <ContractLayout title={t("wallet.interact.title")} icon={"sync"}>
         {/*
         @ts-ignore */}
-        <InteractForm fromAddress={this.props.fromAddress} />
+        <InteractForm
+          fromAddress={this.props.fromAddress}
+          txHash={this.props.txHash}
+        />
       </ContractLayout>
     );
   }
@@ -76,6 +80,8 @@ interface InteractProps extends FormComponentProps {
   abi?: string;
   contractAddress?: string;
   method?: string;
+  queryParams: QueryParams;
+  txHash?: string;
 }
 
 type State = {
@@ -126,10 +132,14 @@ class InteractFormInner extends Component<InteractProps, State> {
     super(props);
     this.state = {
       abiFunctions: null,
-      selectedFunction: props.method || "",
+      selectedFunction: props.queryParams.method || "",
       outputValues: [],
-      broadcast: null,
-      txHash: "",
+      broadcast: props.txHash
+        ? {
+            success: true
+          }
+        : null,
+      txHash: props.txHash || "",
       showConfirmInteract: false,
       confirmInteractFunction: () => {}
     };
@@ -152,8 +162,20 @@ class InteractFormInner extends Component<InteractProps, State> {
     });
   };
 
+  public componentDidUpdate(): void {
+    const { txHash } = this.props;
+    if (txHash && txHash !== this.state.txHash) {
+      this.setState({
+        txHash,
+        broadcast: {
+          success: true
+        }
+      });
+    }
+  }
+
   public componentDidMount(): void {
-    if (this.props.method) {
+    if (this.props.queryParams.method) {
       this.handleAccess();
     }
   }
@@ -480,17 +502,15 @@ class InteractFormInner extends Component<InteractProps, State> {
       return this.renderBroadcast();
     }
 
-    const { form } = this.props;
-    const { gasPrice, gasLimit, abi, contractAddress } = xconf.getConf(
-      XConfKeys.LAST_INTERACT_CONTRACT,
-      {
-        gasPrice: this.props.gasPrice,
-        gasLimit: this.props.gasLimit,
-        abi: "",
-        contractAddress: ""
-      }
-    );
-
+    const { form, queryParams } = this.props;
+    const lastParams = xconf.getConf(XConfKeys.LAST_INTERACT_CONTRACT, {
+      gasPrice: this.props.gasPrice,
+      gasLimit: this.props.gasLimit,
+      abi: "",
+      contractAddress: ""
+    });
+    const { gasPrice, gasLimit, abi, contractAddress } =
+      queryParams && Object.keys(queryParams).length ? queryParams : lastParams;
     return (
       <Form layout={"vertical"}>
         <ContractAddressFormInputItem
@@ -528,6 +548,6 @@ export const InteractForm = Form.create({
   }
 })(
   connect((state: { queryParams: QueryParams }) => {
-    return state.queryParams;
+    return { queryParams: state.queryParams };
   })(InteractFormInner)
 );
