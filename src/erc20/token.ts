@@ -8,7 +8,7 @@ import { t } from "onefx/lib/iso-i18n";
 import JsonGlobal from "safe-json-globals/get";
 import { toIoTeXAddress } from "../shared/wallet/address";
 import { getAntenna } from "../shared/wallet/get-antenna";
-import { BidABI } from "./abi";
+import { BID_ABI } from "./abi";
 import { DecodeData, ERC20 } from "./erc20";
 import { IAuthorizedMessage, Vita } from "./vita";
 const state = isBrowser && JsonGlobal("state");
@@ -67,7 +67,7 @@ export class Token {
     ) {
       return Token.tokenRefs[tokenAddress];
     }
-    const api = ERC20.create(tokenAddress, getAntenna().iotx, BidABI);
+    const api = ERC20.create(tokenAddress, getAntenna().iotx, BID_ABI);
     const token = new Token(api);
     token.isBidToken = true;
     Token.tokenRefs[tokenAddress] = token;

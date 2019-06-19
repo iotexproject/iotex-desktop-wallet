@@ -779,7 +779,7 @@ export const ABI = [
   }
 ];
 
-export const BidABI = [
+export const BID_ABI = [
   {
     constant: true,
     inputs: [],
