@@ -35,3 +35,17 @@ export const setTokens = (tokens: ITokenInfoDict): WalletAction => ({
     tokens
   }
 });
+
+/**
+ * Default after 2 hours;
+ */
+export const setLockTime = (after = 2 * 60 * 60 * 1000): WalletAction => {
+  const lockAt = after === 0 ? 0 : Date.now() + after;
+
+  return {
+    type: "SET_LOCK_TIME",
+    payload: {
+      lockAt
+    }
+  };
+};

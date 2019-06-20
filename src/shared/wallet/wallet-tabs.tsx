@@ -12,6 +12,7 @@ import { ChooseFunction } from "./contract/choose-function";
 import { Deploy } from "./contract/deploy";
 import { Interact } from "./contract/interact";
 import { Vote } from "./contract/vote";
+import { LockWalletAlert } from "./lock-alert";
 import { Sign } from "./sign";
 import Transfer from "./transfer/transfer";
 import { QueryParams, QueryType } from "./wallet-reducer";
@@ -122,6 +123,7 @@ class WalletTabsInner extends Component<Props> {
             </Tabs.TabPane>
           )}
         </Tabs>
+        <LockWalletAlert />
       </div>
     );
   }

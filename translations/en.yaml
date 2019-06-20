@@ -327,6 +327,12 @@ abi.return: Return
 wallet.abi.read: Read contract
 wallet.abi.write: Write contract
 wallet.bytecode.copy: Copy ByteCode
+wallet.lock.title: Wallet will be lock
+wallet.lock.cutdown_1: Your wallet will be locked in 15 minutes.
+wallet.lock.cutdown_2: Your wallet will be locked in 10 minutes. Do you want to continue using your wallet?
+wallet.lock.btn.know: I know
+wallet.lock.btn.yes: yes,don't lock
+wallet.lock.btn.no: no,lock it
 new-wallet.download: Download Keystore File (UTC / JSON)
 new-wallet.save_keystore: '<div><p class="wallet-title" style="display: inline-block;">Save your</p><p class="private-key">keystore file</p></div>'
 wallet.input.password: Password
