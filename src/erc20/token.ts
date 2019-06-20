@@ -158,15 +158,6 @@ export class Token {
       throw new Error(`Invalid bid token!`);
     }
     const value = toRau(amount, "Iotx");
-    window.console.log(`
-      executeMethod(
-        "bid",
-        ${account},
-        ${CLAIM_GAS_PRICE},
-        ${CLAIM_GAS_LIMIT},
-        ${value}
-      )
-    `);
     return this.api.executeMethod(
       "bid",
       account,

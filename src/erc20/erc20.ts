@@ -247,9 +247,8 @@ export class ERC20 implements IERC20 {
     gasPrice: string,
     gasLimit: string,
     amount: string,
-    // @ts-ignore
-    // tslint:disable-next-line: typedef
-    ...args
+    // tslint:disable-next-line
+    ...args: Array<any>
   ): Promise<string> {
     return this.contract.methods[method](...args, {
       account: account,
