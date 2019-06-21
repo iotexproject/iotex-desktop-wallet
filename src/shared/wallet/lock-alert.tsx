@@ -4,7 +4,7 @@ import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { connect, DispatchProp } from "react-redux";
 
-import { setLockTime } from "./wallet-actions";
+import { forbidSetLockAt, setLockTime } from "./wallet-actions";
 import { IWalletState } from "./wallet-reducer";
 
 interface LockWalletProps extends DispatchProp {
@@ -20,19 +20,16 @@ class LockWalletComponent extends React.Component<LockWalletProps, State> {
     showModal: false
   };
 
-  // tslint:disable-next-line: no-any
-  public timer: any;
-  // tslint:disable-next-line: no-any
-  public timer10: any;
-  // tslint:disable-next-line: no-any
-  public timer15: any;
+  public timer: NodeJS.Timeout;
+  public timer10: NodeJS.Timeout;
+  public timer15: NodeJS.Timeout;
 
   constructor(props: LockWalletProps) {
     super(props);
   }
 
   private readonly setTimers = () => {
-    if (!this.props.lockAt) {
+    if (typeof this.props.lockAt !== "number") {
       return;
     }
 
@@ -44,8 +41,8 @@ class LockWalletComponent extends React.Component<LockWalletProps, State> {
     const { lockAt } = this.props;
     const now = Date.now();
     const remain = lockAt - now;
-    const remain15 = lockAt - now - 15 * 1000;
-    const remain10 = lockAt - now - 10 * 1000;
+    const remain15 = lockAt - now - 15 * 60 * 1000;
+    const remain10 = lockAt - now - 10 * 60 * 1000;
 
     // May be timed out if jump back from another page.
     if ([remain, remain10, remain15].some(num => num < 0)) {
@@ -67,6 +64,9 @@ class LockWalletComponent extends React.Component<LockWalletProps, State> {
       this.setState({
         showModal: true
       });
+
+      // forbid refresh timer by mouse or keyboard events;
+      this.props.dispatch(forbidSetLockAt(true));
     }, remain10);
 
     this.timer = setTimeout(this.lock, remain);

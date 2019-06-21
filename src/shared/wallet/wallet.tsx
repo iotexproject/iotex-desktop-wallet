@@ -7,18 +7,20 @@ import { Account } from "iotex-antenna/lib/account/account";
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
-import { PureComponent } from "react";
 import React from "react";
+import { PureComponent } from "react";
 import { connect, DispatchProp } from "react-redux";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import { ITokenInfoDict } from "../../erc20/token";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
+import { throttle, ThrottledFn } from "../utils/utils";
 import AccountSection from "./account-section";
 import { DeployPreloadHeader } from "./contract/deploy";
 import NewWallet from "./new-wallet";
 import UnlockWallet from "./unlock-wallet";
+import { setLockTime } from "./wallet-actions";
 import { IWalletState, QueryType } from "./wallet-reducer";
 import { WalletTabs } from "./wallet-tabs";
 
@@ -34,6 +36,7 @@ type PathParamsType = {
 type Props = RouteComponentProps<PathParamsType> &
   DispatchProp & {
     account?: Account;
+    isLockAtLocked?: boolean;
   };
 
 export const inputStyle = {
@@ -83,13 +86,31 @@ class WalletInner extends PureComponent<Props, State> {
     window.dispatch = dispatch;
   }
 
+  /**
+   * Limit the frequency of update timers;
+   */
+  private readonly keepAlive: ThrottledFn<void> = throttle<void>(() => {
+    // before wallet unlocked. Router path is: /wallet
+    if (!this.props.account) {
+      return;
+    }
+
+    if (!this.props.isLockAtLocked) {
+      this.props.dispatch(setLockTime());
+    }
+  }, 60 * 1000);
+
   public render(): JSX.Element {
     const { createNew } = this.state;
     const { account } = this.props;
     return (
       <>
         <DeployPreloadHeader />
-        <ContentPadding>
+        <ContentPadding
+          onClick={() => this.keepAlive()}
+          onKeyUp={() => this.keepAlive()}
+          onKeyDown={() => this.keepAlive()}
+        >
           <Row
             type="flex"
             justify="space-between"
@@ -118,8 +139,9 @@ class WalletInner extends PureComponent<Props, State> {
 
 const mapStateToProps = (state: {
   wallet: IWalletState;
-}): { queryType?: QueryType; account?: Account } => ({
-  account: (state.wallet || {}).account
+}): { queryType?: QueryType; account?: Account; isLockAtLocked: boolean } => ({
+  account: (state.wallet || {}).account,
+  isLockAtLocked: !!(state.wallet || {}).isLockAtLocked
 });
 
 export const Wallet = withRouter(connect(mapStateToProps)(WalletInner));
