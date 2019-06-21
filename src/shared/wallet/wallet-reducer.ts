@@ -12,6 +12,7 @@ export type QueryParams = {
   queryNonce?: number;
   contractAddress?: string;
   method?: string;
+  args?: string; // JSON of Array<any>
 };
 
 type QueryParamAction = {

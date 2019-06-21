@@ -371,13 +371,23 @@ class InteractFormInner extends Component<InteractProps, State> {
   }
 
   public renderContractMethods = () => {
-    const { abiFunctions, outputValues } = this.state;
     const { getFieldDecorator } = this.props.form;
+    const { args = "[]" } = this.props.queryParams;
+    // tslint:disable-next-line:no-any
+    let argsObj: Array<any> = [];
+    try {
+      argsObj = JSON.parse(args);
+    } catch (e) {
+      // don't care the invalid param
+    }
 
-    const { selectedFunction } = this.props.form.getFieldsValue();
+    const { abiFunctions, outputValues } = this.state;
     if (!abiFunctions) {
       return null;
     }
+
+    let { selectedFunction } = this.props.form.getFieldsValue();
+    selectedFunction = selectedFunction || this.props.queryParams.method;
 
     const currentFunction = abiFunctions[selectedFunction];
 
@@ -422,7 +432,8 @@ class InteractFormInner extends Component<InteractProps, State> {
                 help={<span>{input.type}</span>}
               >
                 {getFieldDecorator(`args.${i}`, {
-                  rules: rulesMap[input.type]
+                  rules: rulesMap[input.type],
+                  initialValue: argsObj[i]
                 })(<Input style={inputStyle} />)}
               </Form.Item>
             ))}
@@ -507,9 +518,10 @@ class InteractFormInner extends Component<InteractProps, State> {
       gasPrice: this.props.gasPrice,
       gasLimit: this.props.gasLimit,
       abi: "",
-      contractAddress: ""
+      contractAddress: "",
+      amount: 0
     });
-    const { gasPrice, gasLimit, abi, contractAddress } =
+    const { gasPrice, gasLimit, abi, contractAddress, amount } =
       queryParams && Object.keys(queryParams).length ? queryParams : lastParams;
     return (
       <Form layout={"vertical"}>
@@ -517,7 +529,11 @@ class InteractFormInner extends Component<InteractProps, State> {
           form={form}
           initialValue={contractAddress || ""}
         />
-        <AmountFormInputItem form={form} initialValue={0} required={false} />
+        <AmountFormInputItem
+          form={form}
+          initialValue={amount}
+          required={false}
+        />
         <GasPriceFormInputItem form={form} initialValue={gasPrice} />
         <GasLimitFormInputItem form={form} initialValue={gasLimit || 1000000} />
         <AbiFormInputItem form={form} initialValue={abi} />
