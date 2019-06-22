@@ -21,3 +21,31 @@ jobs:
       - store_artifacts:
           path: coverage
           prefix: coverage
+          
+      - run: 
+          name: set src/electron/package.json version to BASH_ENV
+          command: |
+            echo "export curr_ver=$(grep 'version' src/electron/package.json |tr -cd '[0-9]')" > $BASH_ENV
+            source $BASH_ENV
+      - restore_cache:
+          keys: 
+            - version-{{ checksum "src/electron/package.json" }}
+            - version-
+      - run: 
+          name: "if version change run builder"
+          command: |
+            if [ -f "src/electron/package.json.old" ]; then
+                old_ver=$(grep 'version' src/electron/package.json.old |tr -cd '[0-9]')
+                if [ $old_ver = $curr_ver ]; then
+                    echo "no thing todo"
+                else
+                    echo "electron-builder"
+                fi
+            else
+                echo "no file electron-builder"
+            fi
+            cp src/electron/package.json{,.old}
+      - save_cache:
+          paths:
+            - src/electron/package.json.old
+          key: version-{{ checksum "src/electron/package.json" }}
