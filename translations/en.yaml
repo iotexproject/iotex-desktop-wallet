@@ -1,10 +1,10 @@
 meta.title: 'Blockchain Explorer - IoTeX'
 meta.description: 'Exploring IoTeX blockchain Address, Actions, and Smart Contracts.'
 topbar.brand: Brand
-topbar.blockchain: BLOCKCHAIN
-topbar.blocks: BLOCKS
-topbar.actions: ACTIONS
-topbar.home: HOME
+topbar.blockchain: Blockchain
+topbar.blocks: Blocks
+topbar.actions: Actions
+topbar.home: Home
 not_found.bar: 'Not Found'
 not_found.title: Oops!
 not_found.info: 'We cannot find the page for you...'
@@ -274,7 +274,7 @@ wallet.abi.write: 'Write contract'
 new-wallet.warn.do-not-lose: 'Do not lose private key!'
 new-wallet.warn.do-not-share: 'Do not share private key!'
 new-wallet.warn.backup: 'Make a backup!'
-topbar.wallet: WALLET
+topbar.wallet: Wallet
 render.key.actionFee: 'Action Fee'
 block.show_more: 'Show More'
 block.show_less: 'Show Less'
