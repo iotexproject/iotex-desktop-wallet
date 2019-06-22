@@ -3,6 +3,7 @@ import Icon from "antd/lib/icon";
 import Table from "antd/lib/table";
 import BigNumber from "bignumber.js";
 import { get } from "dottie";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import { IActionInfo } from "iotex-antenna/lib/rpc-method/types";
 // @ts-ignore
@@ -103,7 +104,9 @@ class ActionDetailsInner extends PureComponent<Props> {
             amount: object.amount,
             contract: object.contract,
             to: info.data._to,
-            tokens: `${tokenTransfered} ${tokenInfo.symbol} (${tokenInfo.name})`,
+            tokens: `${tokenTransfered} ${tokenInfo.symbol} (${
+              tokenInfo.name
+            })`,
             data: object.data
           };
         }
@@ -134,7 +137,7 @@ class ActionDetailsInner extends PureComponent<Props> {
       actHash,
       blkHash,
       sender: action ? publicKeyToAddress(String(action.senderPubKey)) : "",
-      gasPrice: `${get(action, "core.gasPrice")} Rau` || "",
+      gasPrice: `${fromRau(get(action, "core.gasPrice"), "IOTX")} IOTX` || "",
       actionType: getActionType(actionInfo as ActionInfo),
       nonce: get(action, "core.nonce") || 0,
       ...object
