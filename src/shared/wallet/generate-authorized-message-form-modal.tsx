@@ -21,9 +21,14 @@ export interface IGenerateAuthorizedMessageFormProps {
 class GenerateAuthorizedMessageForm extends React.PureComponent<
   IGenerateAuthorizedMessageFormProps
 > {
-  public state: { confirming: boolean; authMessage: string } = {
+  public state: {
+    confirming: boolean;
+    authMessage: string;
+    isGenerateActive: boolean;
+  } = {
     confirming: false,
-    authMessage: ""
+    authMessage: "",
+    isGenerateActive: true
   };
   public handleOk = async () => {
     const { form } = this.props;
@@ -36,6 +41,7 @@ class GenerateAuthorizedMessageForm extends React.PureComponent<
         this.setState({
           authMessage: this.generateMessage(nonce)
         });
+        this.handleGenerate(false);
       } catch (error) {
         notification.error({
           message: t("Error!"),
@@ -44,6 +50,10 @@ class GenerateAuthorizedMessageForm extends React.PureComponent<
         });
       }
     });
+  };
+
+  public handleGenerate = (isActive: boolean) => {
+    this.setState({ isGenerateActive: isActive });
   };
 
   private generateMessage(nonce: string): string {
@@ -60,6 +70,7 @@ class GenerateAuthorizedMessageForm extends React.PureComponent<
   public render(): JSX.Element {
     const { form, onClose, visible = false } = this.props;
     const { getFieldDecorator } = form;
+
     return (
       <Modal
         title={t("account.claimAs.generateAuthMessage")}
@@ -68,6 +79,7 @@ class GenerateAuthorizedMessageForm extends React.PureComponent<
         onCancel={onClose}
         okText={t("account.claimAs.generate")}
         cancelText={t("account.claimAs.close")}
+        okButtonProps={{ disabled: !this.state.isGenerateActive }}
         confirmLoading={this.state.confirming}
         bodyStyle={{
           paddingTop: "0px !important"
@@ -86,6 +98,7 @@ class GenerateAuthorizedMessageForm extends React.PureComponent<
               placeholder={"1"}
               style={{ width: "100%", background: colors.black10 }}
               name="nonce"
+              onChange={() => this.handleGenerate(true)}
             />
           )}
         </Form.Item>
