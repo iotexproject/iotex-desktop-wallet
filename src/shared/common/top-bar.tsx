@@ -293,7 +293,11 @@ class TopBarComponent extends Component<Props, State> {
             ) : null}
             <LanguageSwitcherWrapper>
               <LanguageSwitcher
-                supportedLanguages={[Languages.EN, Languages.ZH_CN]}
+                supportedLanguages={[
+                  Languages.EN,
+                  Languages.ZH_CN,
+                  Languages.IT
+                ]}
               />
             </LanguageSwitcherWrapper>
           </Flex>
