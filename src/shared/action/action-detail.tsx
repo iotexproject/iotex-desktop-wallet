@@ -103,7 +103,9 @@ class ActionDetailsInner extends PureComponent<Props> {
             amount: object.amount,
             contract: object.contract,
             to: info.data._to,
-            tokens: `${tokenTransfered} ${tokenInfo.symbol} (${tokenInfo.name})`,
+            tokens: `${tokenTransfered} ${tokenInfo.symbol} (${
+              tokenInfo.name
+            })`,
             data: object.data
           };
         }
@@ -146,6 +148,14 @@ class ActionDetailsInner extends PureComponent<Props> {
       action,
       dataSource
     };
+  }
+
+  public componentDidMount(): void {
+    BigNumber.set({ ROUNDING_MODE: BigNumber.ROUND_DOWN });
+  }
+
+  public componentWillUnmount(): void {
+    BigNumber.set({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP }); // restore to default value;
   }
 
   public render(): JSX.Element {
