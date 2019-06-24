@@ -19,7 +19,6 @@ import JsonGlobal from "safe-json-globals/get";
 // @ts-ignore
 import LanguageSwitcher, { Languages } from "iotex-react-language-dropdown";
 import { connect } from "react-redux";
-import { SearchBox } from "../home/search-box";
 import { assetURL } from "./asset-url";
 import { Logo } from "./icon";
 import { Cross } from "./icons/cross.svg";
@@ -283,15 +282,9 @@ class TopBarComponent extends Component<Props, State> {
               paddingLeft: 1,
               whiteSpace: "nowrap",
               justifyContent: "flex-end",
-              paddingTop: "4px",
-              alignItems: "center"
+              paddingTop: "4px"
             }}
           >
-            <SearchBox
-              enterButton
-              className="topbar-search"
-              placeholder={t("topbar.search")}
-            />
             <Menu>{this.renderChainMenu()}</Menu>
             {enableSignIn ? (
               <SignIn onClick={() => this.showSignInModal()}>

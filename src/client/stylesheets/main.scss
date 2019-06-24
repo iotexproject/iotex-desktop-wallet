@@ -340,34 +340,3 @@ input {
 .block-detail-key {
   white-space: nowrap;
 }
-
-.topbar-search {
-  $bcg: rgba(61, 61, 80, 0.6);
-  $hover-color: rgba(147, 147, 147, 0.5);
-  $border-color: #262632;
-  .ant-input {
-    background: $bcg;
-    border: none;
-    color: rgb(170, 175, 193);
-    &:focus,
-    &:hover {
-      box-shadow: 0 0 0 1px $hover-color;
-    }
-  }
-  .ant-btn-primary {
-    background: $bcg;
-    border: none;
-    border-left: 1px solid $border-color;
-    &:hover {
-      border-color: $border-color;
-      background-color: rgba(91, 91, 97.6);
-    }
-    &::after {
-      border: 0 solid $bcg;
-    }
-  }
-
-  .ant-input-group-addon {
-    background: $bcg;
-  }
-}
