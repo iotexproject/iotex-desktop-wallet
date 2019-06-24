@@ -11,6 +11,7 @@ import {
   queryParamsReducer,
   walletReducer
 } from "../../shared/wallet/wallet-reducer";
+import "../../shared/common/setup-big-number";
 
 clientReactRender({
   VDom: (

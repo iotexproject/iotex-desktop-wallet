@@ -24,6 +24,7 @@ import {
   queryParamsReducer,
   walletReducer
 } from "../../shared/wallet/wallet-reducer";
+import "../../shared/common/setup-big-number";
 
 export const STYLETRON_GLOBAL = "styletron-global";
 

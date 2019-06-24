@@ -30,8 +30,6 @@ import { GET_ACTIONS_BY_HASH } from "../queries";
 import { toETHAddress } from "../wallet/address";
 import { ActionReceipt } from "./action-receipt";
 
-BigNumber.config({ DECIMAL_PLACES: 30 });
-
 type PathParamsType = {
   hash: string;
 };
