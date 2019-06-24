@@ -40,23 +40,6 @@ function createWindow() {
       preload: path.resolve(__dirname, "renderer.js")
     }
   });
-  // start a service
-  let service;
-  const caStr = getConf("cert/key");
-  if (caStr !== undefined) {
-    try {
-      const ca = JSON.parse(caStr);
-      service = new Service(
-        createServer(
-          64012,
-          Buffer.from(ca.serviceKey, "utf8"),
-          Buffer.from(ca.certificate, "utf8")
-        )
-      );
-    } catch (err) {
-      log.error("failed to create wss service", err);
-    }
-  }
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.resolve(__dirname, "index.html"));
