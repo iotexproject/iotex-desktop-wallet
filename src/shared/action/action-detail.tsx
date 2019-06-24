@@ -30,6 +30,8 @@ import { GET_ACTIONS_BY_HASH } from "../queries";
 import { toETHAddress } from "../wallet/address";
 import { ActionReceipt } from "./action-receipt";
 
+BigNumber.config({ DECIMAL_PLACES: 30 });
+
 type PathParamsType = {
   hash: string;
 };
@@ -103,7 +105,9 @@ class ActionDetailsInner extends PureComponent<Props> {
             amount: object.amount,
             contract: object.contract,
             to: info.data._to,
-            tokens: `${tokenTransfered} ${tokenInfo.symbol} (${tokenInfo.name})`,
+            tokens: `${tokenTransfered.toString(10)} ${tokenInfo.symbol} (${
+              tokenInfo.name
+            })`,
             data: object.data
           };
         }
