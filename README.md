@@ -18,8 +18,6 @@ Or deploy your own instance on Heroku.
 
 Built with OneFx (React, GraphQL, KOA, TypeScript, AVA, Webpack, etc.)
 
-<a href="https://onefx.js.org"><img src="https://puncsky.com/built-with-onefx.svg" style="height: 20px;"></a>
-
 * [Documentation](https://onefx.js.org/doc.html)
 * [Contributing](https://onefx.js.org/contributing.html)
 
