@@ -2,7 +2,6 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 const { shell } = require("electron");
-const { readFileSync, writeFileSync } = require("fs");
 const { getConf, setConf } = require("./config");
 const window = require("global/window");
 const { ipcRenderer } = require("electron");

@@ -3,8 +3,8 @@ const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const { session } = require("electron");
 const { initSolc } = require("./solc");
-const { getConf } = require("./config");
 const { createServer } = require("./server");
+const Service = require("./service");
 
 const allowRequestOrigins = [
   "https://iotexscan.io",
@@ -19,8 +19,17 @@ const allowedGlobals = new Set();
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let service;
 
 function createWindow() {
+  // start a service
+  createServer(64102, function(err, server) {
+    if (err) {
+      log.error("failed to create wss service", err);
+    } else {
+      service = new Service(server);
+    }
+  });
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1280,
@@ -31,23 +40,6 @@ function createWindow() {
       preload: path.resolve(__dirname, "renderer.js")
     }
   });
-  // start a service
-  let service;
-  const caStr = getConf("cert/key");
-  if (caStr !== undefined) {
-    try {
-      const ca = JSON.parse(caStr);
-      service = new Service(
-        createServer(
-          64012,
-          Buffer.from(ca.serviceKey, "utf8"),
-          Buffer.from(ca.certificate, "utf8")
-        )
-      );
-    } catch (err) {
-      log.error("failed to create wss service", err);
-    }
-  }
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.resolve(__dirname, "index.html"));

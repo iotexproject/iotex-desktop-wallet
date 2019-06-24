@@ -1,13 +1,12 @@
-function onConnection(ws: WebSocket.Server) {
+function onConnection(ws) {
   ws.on("message", function message(data) {
     console.log("recieved: %s", data);
     // TODO: base on data, handle request
   });
 }
 
-export class Service {
-  wss: WebSocket.Server;
-  constructor(wss: WebSocket.Server) {
+module.exports = class Service {
+  constructor(wss) {
     this.wss = wss;
     wss.on("connection", onConnection);
   }
@@ -15,4 +14,4 @@ export class Service {
   stop() {
     this.wss.close();
   }
-}
+};

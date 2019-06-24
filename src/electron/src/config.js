@@ -1,32 +1,17 @@
 const { app, remote } = require("electron");
+const { readFileSync, writeFileSync } = require("fs");
 const { resolve } = require("path");
-const pem = require("pem");
 const log = require("electron-log");
 
 const userDataPath = (app || remote.app).getPath("userData");
 const userConfName = resolve(userDataPath, "iotex-wallet-conf.json");
 loadConfData = function() {
-  let confData;
   try {
-    confData = JSON.parse(readFileSync(userConfName, { encoding: "utf8" }));
+    return JSON.parse(readFileSync(userConfName, { encoding: "utf8" }));
   } catch (e) {
     log.info("Load empty xconf!");
   }
-  if (typeof confData["cert/key"] === "undefined") {
-    pem.createCertificate({ days: 1, selfSigned: true }, (err, keys) => {
-      if (err) {
-        log.error("failed to create certificate", err);
-      } else {
-        confData["cert/key"] = JSON.stringify(keys);
-        try {
-          writeFileSync(userConfName, JSON.stringify(confData));
-        } catch (e) {
-          log.error("failed to update userData", e);
-        }
-      }
-    });
-  }
-  return confData;
+  return {};
 };
 
 const confData = loadConfData();
