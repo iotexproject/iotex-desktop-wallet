@@ -19,12 +19,12 @@ import JSONGlobals from "safe-json-globals/get";
 import { Client as StyletronClient } from "styletron-engine-atomic";
 import { apolloClient } from "../../shared/common/apollo-client";
 import { RootMemory } from "../../shared/common/root-memory";
+import "../../shared/common/setup-big-number";
 import { Wallet } from "../../shared/wallet/wallet";
 import {
   queryParamsReducer,
   walletReducer
 } from "../../shared/wallet/wallet-reducer";
-import "../../shared/common/setup-big-number";
 
 export const STYLETRON_GLOBAL = "styletron-global";
 
