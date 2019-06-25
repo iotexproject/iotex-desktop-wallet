@@ -468,15 +468,7 @@ class InteractFormInner extends Component<InteractProps, State> {
       <Row type="flex" style={{ margin: "20px 0px" }}>
         {
           // @ts-ignore
-          <Button
-            type="primary"
-            onClick={() => {
-              this.setState({
-                showConfirmInteract: true,
-                confirmInteractFunction: this.handleReadWithInput
-              });
-            }}
-          >
+          <Button type="primary" onClick={this.handleReadWithInput}>
             {t("wallet.abi.read")}
           </Button>
         }

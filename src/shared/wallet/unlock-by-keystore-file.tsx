@@ -89,7 +89,7 @@ class UnlockByKeystoreFileInnerComponent extends PureComponent<
         <Form layout="vertical">
           <p>{t("unlock_by_keystore_file.never_upload")}</p>
           <Keystore form={form} />
-          <PasswordFormInputItem form={form} />
+          <PasswordFormInputItem form={form} checkWeakPassword={false} />
 
           <Button
             htmlType="submit"

@@ -7,6 +7,7 @@ import { ApolloProvider } from "react-apollo";
 import { combineReducers } from "redux";
 import { AppContainer } from "../../shared/app-container";
 import { apolloClient } from "../../shared/common/apollo-client";
+import "../../shared/common/setup-big-number";
 import {
   queryParamsReducer,
   walletReducer
