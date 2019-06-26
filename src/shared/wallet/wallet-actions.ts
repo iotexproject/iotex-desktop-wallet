@@ -39,7 +39,9 @@ export const setTokens = (tokens: ITokenInfoDict): WalletAction => ({
 /**
  * Default after 2 hours;
  */
-export const setLockTime = (after = 2 * 60 * 60 * 1000): WalletAction => {
+export const countdownToLockInMS = (
+  after = 2 * 60 * 60 * 1000
+): WalletAction => {
   const lockAt = after === 0 ? 0 : Date.now() + after;
 
   return {
@@ -50,9 +52,9 @@ export const setLockTime = (after = 2 * 60 * 60 * 1000): WalletAction => {
   };
 };
 
-export const forbidSetLockAt = (isLockAtLocked: boolean): WalletAction => ({
-  type: "FORBID_RESET_LOCK_AT",
+export const delayLock = (isDelayLocked: boolean): WalletAction => ({
+  type: "DELAY_LOCK",
   payload: {
-    isLockAtLocked
+    isDelayLocked
   }
 });

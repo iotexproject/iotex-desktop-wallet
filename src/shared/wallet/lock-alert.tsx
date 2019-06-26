@@ -4,7 +4,7 @@ import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { connect, DispatchProp } from "react-redux";
 
-import { forbidSetLockAt, setLockTime } from "./wallet-actions";
+import { countdownToLockInMS, delayLock } from "./wallet-actions";
 import { IWalletState } from "./wallet-reducer";
 
 interface LockWalletProps extends DispatchProp {
@@ -22,11 +22,6 @@ class LockWalletComponent extends React.Component<LockWalletProps, State> {
 
   public timer: NodeJS.Timeout;
   public timer10: NodeJS.Timeout;
-  public timer15: NodeJS.Timeout;
-
-  constructor(props: LockWalletProps) {
-    super(props);
-  }
 
   private readonly setTimers = () => {
     if (typeof this.props.lockAt !== "number") {
@@ -41,24 +36,15 @@ class LockWalletComponent extends React.Component<LockWalletProps, State> {
     const { lockAt } = this.props;
     const now = Date.now();
     const remain = lockAt - now;
-    const remain15 = lockAt - now - 15 * 60 * 1000;
     const remain10 = lockAt - now - 10 * 60 * 1000;
 
     // May be timed out if jump back from another page.
-    if ([remain, remain10, remain15].some(num => num < 0)) {
+    if ([remain, remain10].some(num => num < 0)) {
       this.lock();
       return;
     }
 
     this.clearTimers();
-
-    this.timer15 = setTimeout(() => {
-      Modal.warning({
-        title: t("wallet.lock.title"),
-        content: t("wallet.lock.cutdown_1"),
-        okText: t("wallet.lock.btn.know")
-      });
-    }, remain15);
 
     this.timer10 = setTimeout(() => {
       this.setState({
@@ -66,7 +52,7 @@ class LockWalletComponent extends React.Component<LockWalletProps, State> {
       });
 
       // forbid refresh timer by mouse or keyboard events;
-      this.props.dispatch(forbidSetLockAt(true));
+      this.props.dispatch(delayLock(true));
     }, remain10);
 
     this.timer = setTimeout(this.lock, remain);
@@ -93,7 +79,6 @@ class LockWalletComponent extends React.Component<LockWalletProps, State> {
 
   private readonly clearTimers = () => {
     clearTimeout(this.timer);
-    clearTimeout(this.timer15);
     clearTimeout(this.timer10);
   };
 
@@ -107,7 +92,8 @@ class LockWalletComponent extends React.Component<LockWalletProps, State> {
             showModal: false
           });
 
-          this.props.dispatch(setLockTime(0)); // never lock;
+          this.props.dispatch(countdownToLockInMS());
+          this.props.dispatch(delayLock(false));
         }}
         onCancel={() => {
           this.setState({
@@ -117,7 +103,7 @@ class LockWalletComponent extends React.Component<LockWalletProps, State> {
         cancelText={t("wallet.lock.btn.no")}
         okText={t("wallet.lock.btn.yes")}
       >
-        <p>{t("wallet.lock.cutdown_2")}</p>
+        <p>{t("wallet.lock.cutdown")}</p>
       </Modal>
     );
   }

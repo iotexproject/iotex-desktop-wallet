@@ -271,8 +271,7 @@ wallet.interact.contract: "Interact with smart contract"
 abi.input: Input
 abi.return: Return
 wallet.lock.title: Wallet will be lock
-wallet.lock.cutdown_1: Your wallet will be locked in 15 minutes.
-wallet.lock.cutdown_2: Your wallet will be locked in 10 minutes. Do you want to continue using your wallet?
+wallet.lock.cutdown: Your wallet will be locked in 10 minutes. Do you want to continue using your wallet?
 wallet.lock.btn.know: I know
 wallet.lock.btn.yes: yes,don't lock
 wallet.lock.btn.no: no,lock it

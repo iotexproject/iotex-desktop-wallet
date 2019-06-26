@@ -45,7 +45,7 @@ export type WalletAction = {
     | "ADD_CUSTOM_RPC"
     | "UPDATE_TOKENS"
     | "SET_LOCK_TIME"
-    | "FORBID_RESET_LOCK_AT";
+    | "DELAY_LOCK";
   payload: {
     account?: Account;
     network?: IRPCProvider;
@@ -53,7 +53,7 @@ export type WalletAction = {
     tokens?: ITokenInfoDict;
     defaultNetworkTokens?: Array<string>;
     lockAt?: number;
-    isLockAtLocked?: boolean;
+    isDelayLocked?: boolean;
   };
 };
 
@@ -64,7 +64,7 @@ export interface IWalletState {
   tokens: ITokenInfoDict;
   defaultNetworkTokens: Array<string>;
   lockAt?: number; // milliseconds to lock wallet. 0: never lock. 1: never to reset it;
-  isLockAtLocked?: boolean;
+  isDelayLocked?: boolean;
 }
 
 export const walletReducer = (
@@ -73,7 +73,7 @@ export const walletReducer = (
     defaultNetworkTokens: [],
     tokens: {},
     lockAt: 0,
-    isLockAtLocked: false
+    isDelayLocked: false
   },
   action: WalletAction
 ) => {
@@ -111,10 +111,10 @@ export const walletReducer = (
         ...state,
         lockAt: action.payload.lockAt
       };
-    case "FORBID_RESET_LOCK_AT":
+    case "DELAY_LOCK":
       return {
         ...state,
-        isLockAtLocked: action.payload.isLockAtLocked
+        isDelayLocked: action.payload.isDelayLocked
       };
     default:
       return state;
