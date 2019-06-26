@@ -5,16 +5,16 @@ import React, { CSSProperties, useState } from "react";
 import { Query, QueryResult } from "react-apollo";
 
 import { Link } from "react-router-dom";
+import { webBpApolloClient } from "../common/apollo-client";
 import { assetURL } from "../common/asset-url";
 import { translateFn } from "../common/from-now";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import {
   GET_BLOCK_METAS,
-  GET_LATEST_HEIGHT,
-  GET_BP_CANDIDATE
+  GET_BP_CANDIDATE,
+  GET_LATEST_HEIGHT
 } from "../queries";
-import { webBpApolloClient } from "../common/apollo-client";
 
 const BLOCK_COUNT = 10;
 
