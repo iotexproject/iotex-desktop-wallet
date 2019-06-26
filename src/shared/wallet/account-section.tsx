@@ -428,7 +428,7 @@ class AccountSection extends React.Component<Props, State> {
     }
   };
 
-  private onClaimClickHandle = (token: ITokenInfo) => async () => {
+  private readonly onClaimClickHandle = (token: ITokenInfo) => async () => {
     const { account } = this.props;
     if (!account) {
       return;
