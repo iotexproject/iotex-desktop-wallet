@@ -24,13 +24,8 @@ import React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
-import {
-  CLAIM_GAS_LIMIT,
-  CLAIM_GAS_PRICE,
-  ITokenInfo,
-  ITokenInfoDict,
-  Token
-} from "../../erc20/token";
+import { IGasEstimation } from "../../erc20";
+import { ITokenInfo, ITokenInfoDict, Token } from "../../erc20/token";
 import { IAuthorizedMessage } from "../../erc20/vita";
 import { assetURL } from "../common/asset-url";
 import ConfirmContractModal from "../common/confirm-contract-modal";
@@ -76,6 +71,7 @@ export interface State {
   isBidding: boolean;
   bidFormModalVisible: boolean;
   bidAmount: string;
+  gasEstimation: IGasEstimation | null;
 }
 
 class AccountSection extends React.Component<Props, State> {
@@ -95,7 +91,8 @@ class AccountSection extends React.Component<Props, State> {
     bidConfirmationVisible: false,
     isBidding: false,
     bidFormModalVisible: false,
-    bidAmount: "0"
+    bidAmount: "0",
+    gasEstimation: null
   };
 
   private pollAccountInterval: number | undefined;
@@ -318,16 +315,24 @@ class AccountSection extends React.Component<Props, State> {
     }
   };
 
-  public renderAuthMessageFormModal(token: ITokenInfo): JSX.Element {
+  public renderAuthMessageFormModal(token: ITokenInfo): JSX.Element | null {
+    const { account } = this.props;
+    if (!account) {
+      return null;
+    }
     return (
       <AuthorizedMessageFormModal
         visible={this.state.authorizedMessageFormVisible}
-        onOK={(authMessage: IAuthorizedMessage) => {
+        onOK={async (authMessage: IAuthorizedMessage) => {
+          const gasEstimation = await Token.getToken(
+            token.tokenAddress
+          ).estimateClaimAsGas(authMessage, account);
           this.setState({
             authorizedMessageFormVisible: false,
             claimConfirmationVisible: true,
             claimTokenAddress: token.tokenAddress,
-            authMessage
+            authMessage,
+            gasEstimation
           });
         }}
         onCancel={() => {
@@ -340,19 +345,24 @@ class AccountSection extends React.Component<Props, State> {
   }
 
   public renderBidFormModal(): JSX.Element | null {
-    const { account } = this.props;
+    const { account, bidContractAddress } = this.props;
     if (!account) {
       return null;
     }
     return (
       <BidFormModal
+        bidContractAddress={bidContractAddress}
         account={account}
         visible={this.state.bidFormModalVisible}
         onOK={async (amount: string) => {
+          const gasEstimation = await Token.getBiddingToken(
+            bidContractAddress
+          ).estimateBidGas(account, amount);
           this.setState({
             bidFormModalVisible: false,
             bidConfirmationVisible: true,
-            bidAmount: amount
+            bidAmount: amount,
+            gasEstimation
           });
         }}
         onCancel={() => {
@@ -393,7 +403,7 @@ class AccountSection extends React.Component<Props, State> {
       history.push(`/wallet/smart-contract/interact/${txHash}`);
     } catch (e) {
       notification.error({
-        message: `Failed to claim: ${e}`
+        message: `Failed to claim: ${e.message}`
       });
     }
   };
@@ -416,6 +426,22 @@ class AccountSection extends React.Component<Props, State> {
         message: `Failed to bid: ${e}`
       });
     }
+  };
+
+  private onClaimClickHandle = (token: ITokenInfo) => async () => {
+    const { account } = this.props;
+    if (!account) {
+      return;
+    }
+    const gasEstimation = await Token.getToken(
+      token.tokenAddress
+    ).estimateClaimGas(account);
+    this.setState({
+      claimConfirmationVisible: true,
+      claimTokenAddress: token.tokenAddress,
+      authMessage: null,
+      gasEstimation
+    });
   };
 
   private renderClaimButton(token: ITokenInfo): JSX.Element {
@@ -447,13 +473,7 @@ class AccountSection extends React.Component<Props, State> {
       <Dropdown.Button
         type="primary"
         overlay={claimMenu}
-        onClick={() => {
-          this.setState({
-            claimConfirmationVisible: true,
-            claimTokenAddress: token.tokenAddress,
-            authMessage: null
-          });
-        }}
+        onClick={this.onClaimClickHandle(token)}
       >
         {t("account.claim")}
       </Dropdown.Button>
@@ -688,18 +708,18 @@ class AccountSection extends React.Component<Props, State> {
     const {
       claimConfirmationVisible,
       claimTokenAddress,
-      authMessage
+      authMessage,
+      gasEstimation
     } = this.state;
-    if (!account) {
+    if (!account || !gasEstimation) {
       return null;
     }
-
     const dataSource = {
       address: account.address,
       toContract: claimTokenAddress,
       method: "claim",
-      limit: CLAIM_GAS_LIMIT,
-      price: CLAIM_GAS_PRICE,
+      limit: gasEstimation.gasLimit,
+      price: gasEstimation.gasPrice,
       ...(authMessage
         ? {
             method: "claimAs",
@@ -735,17 +755,20 @@ class AccountSection extends React.Component<Props, State> {
 
   private readonly renderBidConfirmation = (): JSX.Element | null => {
     const { account } = this.props;
-    const { bidConfirmationVisible: bidConfirmation, bidAmount } = this.state;
-    if (!account) {
+    const {
+      bidConfirmationVisible: bidConfirmation,
+      bidAmount,
+      gasEstimation
+    } = this.state;
+    if (!account || !gasEstimation) {
       return null;
     }
-
     const dataSource = {
       amount: `${bidAmount} IOTX`,
       address: account.address,
       method: "bid",
-      limit: CLAIM_GAS_LIMIT,
-      price: CLAIM_GAS_PRICE
+      limit: gasEstimation.gasLimit,
+      price: gasEstimation.gasPrice
     };
 
     return (

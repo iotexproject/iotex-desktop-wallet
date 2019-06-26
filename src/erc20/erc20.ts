@@ -1,6 +1,11 @@
+import { notification } from "antd";
 import BigNumber from "bignumber.js";
 import ethereumjs from "ethereumjs-abi";
+// @ts-ignore
+import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
+import { SealedEnvelop } from "iotex-antenna/lib/action/envelop";
+import { ExecutionMethod } from "iotex-antenna/lib/action/method";
 import {
   getArgTypes,
   getHeaderHash
@@ -8,12 +13,20 @@ import {
 import { Contract } from "iotex-antenna/lib/contract/contract";
 import { fromBytes } from "iotex-antenna/lib/crypto/address";
 import { IRpcMethod } from "iotex-antenna/lib/rpc-method/types";
+// @ts-ignore
+import { t } from "onefx/lib/iso-i18n";
+import { getAntenna } from "../shared/wallet/get-antenna";
 import { ABI } from "./abi";
 
 export interface Method {
   name: string;
   inputsNames: [string];
   inputsTypes: [string];
+}
+
+export interface IGasEstimation {
+  gasPrice: string;
+  gasLimit: string;
 }
 
 export interface DecodeData {
@@ -73,7 +86,7 @@ export interface IERC20 {
 
 export class ERC20 implements IERC20 {
   public address: string;
-  protected contract: Contract;
+  public contract: Contract;
   public provider: IRpcMethod;
   protected methods: { [key: string]: Method };
 
@@ -250,12 +263,99 @@ export class ERC20 implements IERC20 {
     // tslint:disable-next-line
     ...args: Array<any>
   ): Promise<string> {
+    try {
+      const canExec = await this.canExecuteMethod(
+        method,
+        account,
+        gasPrice,
+        gasLimit,
+        amount,
+        ...args
+      );
+      if (!canExec) {
+        return "";
+      }
+    } catch (error) {
+      notification.error({
+        message: `${error.message}`
+      });
+      return "";
+    }
     return this.contract.methods[method](...args, {
       account: account,
       amount: amount,
       gasLimit: gasLimit,
       gasPrice: gasPrice
     });
+  }
+
+  public async canExecuteMethod(
+    method: string,
+    account: Account,
+    gasPrice: string,
+    gasLimit: string,
+    amount: string,
+    // tslint:disable-next-line
+    ...args: Array<any>
+  ): Promise<boolean> {
+    const estimateGas = await this.estimateExecutionGas(
+      method,
+      account,
+      amount, // Amount here is in RAU unit
+      ...args
+    );
+    const gasNeeded = new BigNumber(estimateGas.gasLimit).multipliedBy(
+      new BigNumber(estimateGas.gasPrice)
+    );
+    const gasInput = new BigNumber(gasLimit).multipliedBy(
+      new BigNumber(gasPrice)
+    );
+    if (gasInput.isLessThan(gasNeeded)) {
+      throw new Error(t("erc20.execution.error.lowGasInput"));
+    }
+    const { accountMeta } = await getAntenna().iotx.getAccount({
+      address: account.address
+    });
+    if (!accountMeta) {
+      throw new Error(t("erc20.execution.error.notEnoughBalance"));
+    }
+
+    const requireAmount = new BigNumber(amount).plus(gasNeeded);
+    const availableBalance = new BigNumber(accountMeta.balance);
+    if (availableBalance.isLessThan(requireAmount)) {
+      throw new Error(t("erc20.execution.error.notEnoughBalance"));
+    }
+    return true;
+  }
+
+  public async estimateExecutionGas(
+    method: string,
+    account: Account,
+    amount: string,
+    // tslint:disable-next-line
+    ...args: Array<any>
+  ): Promise<IGasEstimation> {
+    const execution = this.contract.pureEncodeMethod(amount, method, ...args);
+    const executionMethod = new ExecutionMethod(
+      getAntenna().iotx,
+      account,
+      execution
+    );
+    const { gasPrice } = await getAntenna().iotx.suggestGasPrice({});
+    const envelop = await executionMethod.baseEnvelop("100000", `${gasPrice}`);
+    envelop.execution = execution;
+    const selp = SealedEnvelop.sign(
+      account.privateKey,
+      account.publicKey,
+      envelop
+    );
+    const { gas } = await getAntenna().iotx.estimateGasForAction({
+      action: selp.action()
+    });
+    return {
+      gasPrice: `${gasPrice}`,
+      gasLimit: gas
+    };
   }
 
   public decode(data: string): DecodeData {

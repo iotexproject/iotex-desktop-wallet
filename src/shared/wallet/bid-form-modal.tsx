@@ -2,12 +2,12 @@ import { Form, Input, Modal, notification } from "antd";
 import { WrappedFormUtils } from "antd/lib/form/Form";
 import BigNumber from "bignumber.js";
 import { Account } from "iotex-antenna/lib/account/account";
-import { fromRau } from "iotex-antenna/lib/account/utils";
+import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
+import { Token } from "../../erc20/token";
 import { colors } from "../common/styles/style-color";
-import { getAntenna } from "./get-antenna";
 
 export interface IBidFormProps {
   onCancel(): void;
@@ -15,13 +15,32 @@ export interface IBidFormProps {
   visible?: boolean;
   form: WrappedFormUtils;
   account: Account;
+  bidContractAddress: string;
 }
 
 class BidForm extends React.PureComponent<IBidFormProps> {
-  public state: { confirming: boolean; authMessage: string } = {
+  public state: {
+    confirming: boolean;
+    authMessage: string;
+    maxBidAmount: string;
+    initialValue: string;
+  } = {
     confirming: false,
-    authMessage: ""
+    authMessage: "",
+    maxBidAmount: "",
+    initialValue: "1"
   };
+
+  public async componentDidUpdate(): Promise<void> {
+    const { bidContractAddress, account } = this.props;
+    const maxBidAmount = await Token.getBiddingToken(
+      bidContractAddress
+    ).estimateMaxBidAmount(account);
+    if (maxBidAmount !== this.state.maxBidAmount) {
+      this.setState({ maxBidAmount });
+    }
+  }
+
   public handleOk = async () => {
     const { form, onOK } = this.props;
     this.setState({ confirming: true });
@@ -43,8 +62,9 @@ class BidForm extends React.PureComponent<IBidFormProps> {
     });
   };
   public render(): JSX.Element {
-    const { form, onCancel, visible = false, account } = this.props;
+    const { form, onCancel, visible = false } = this.props;
     const { getFieldDecorator } = form;
+    const { initialValue } = this.state;
     return (
       <Modal
         title={t("account.placeBid")}
@@ -64,30 +84,17 @@ class BidForm extends React.PureComponent<IBidFormProps> {
           }}
         >
           {getFieldDecorator("amount", {
-            initialValue: 1,
+            initialValue,
             rules: [
               {
                 required: true,
                 transform: (value: string) => {
-                  return new BigNumber(value);
+                  return new BigNumber(toRau(value, "IoTx"));
                 },
                 validator: async (_, value: BigNumber, callback) => {
-                  const addressRes = await getAntenna().iotx.getAccount({
-                    address: account.address
-                  });
-                  if (!addressRes || !addressRes.accountMeta) {
-                    return callback(t("unlock-wallet.no-wallet"));
-                  }
                   if (
-                    !(value instanceof BigNumber) ||
-                    !value.isGreaterThan(0)
+                    value.isGreaterThan(new BigNumber(this.state.maxBidAmount))
                   ) {
-                    return callback(t("wallet.error.number"));
-                  }
-                  const iotxBalance = new BigNumber(
-                    fromRau(addressRes.accountMeta.balance, "")
-                  );
-                  if (iotxBalance.isLessThan(value.toNumber())) {
                     return callback(t("account.error.notEnoughBalance"));
                   }
                   callback();
@@ -95,12 +102,29 @@ class BidForm extends React.PureComponent<IBidFormProps> {
               }
             ]
           })(
-            <Input
-              placeholder={"1"}
-              style={{ width: "100%", background: colors.black10 }}
-              name="amount"
-              addonAfter="IOTX"
-            />
+            <div>
+              <Input
+                placeholder={initialValue}
+                style={{ width: "100%", background: colors.black10 }}
+                name="amount"
+                addonAfter="IOTX"
+              />
+              {this.state.maxBidAmount && (
+                <small>
+                  {t("account.availableForBid")}{" "}
+                  <strong
+                    style={{ cursor: "pointer" }}
+                    role="main"
+                    onClick={() => {
+                      this.setState({
+                        initialValue: fromRau(this.state.maxBidAmount, "IoTx")
+                      });
+                    }}
+                  >{`${fromRau(this.state.maxBidAmount, "IoTx") ||
+                    "0"} IOTX`}</strong>
+                </small>
+              )}
+            </div>
           )}
         </Form.Item>
       </Modal>

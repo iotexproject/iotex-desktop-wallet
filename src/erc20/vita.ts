@@ -7,7 +7,7 @@ import {
 import { Contract } from "iotex-antenna/lib/contract/contract";
 import { IRpcMethod } from "iotex-antenna/lib/rpc-method/types";
 import { ABI } from "./abi";
-import { ERC20, IERC20 } from "./erc20";
+import { ERC20, IERC20, IGasEstimation } from "./erc20";
 
 function hexToBytes(hexStr: string): Array<number> {
   const matches = hexStr.match(/^(0x)?([0-9a-fA-F]*)$/);
@@ -45,22 +45,43 @@ export interface IAuthorizedMessage {
 }
 
 export class Vita extends ERC20 implements IVita {
-  public async claim(
-    account: Account,
-    gasPrice: string,
-    gasLimit: string
-  ): Promise<string> {
+  public async claim(account: Account): Promise<string> {
+    const { gasLimit, gasPrice } = await this.estimateClaimGas(account);
     return this.executeMethod("claim", account, gasPrice, gasLimit, "0");
+  }
+
+  public async estimateClaimGas(account: Account): Promise<IGasEstimation> {
+    return this.estimateExecutionGas("claim", account, "0");
+  }
+
+  public async estimateClaimAsGas(
+    owner: string,
+    signature: string,
+    nonce: BigNumber,
+    account: Account
+  ): Promise<IGasEstimation> {
+    return this.estimateExecutionGas(
+      "claimAs",
+      account,
+      "0",
+      owner,
+      hexToBytes(signature),
+      nonce.toString()
+    );
   }
 
   public async claimAs(
     owner: string,
     signature: string,
     nonce: BigNumber,
-    account: Account,
-    gasPrice: string,
-    gasLimit: string
+    account: Account
   ): Promise<string> {
+    const { gasLimit, gasPrice } = await this.estimateClaimAsGas(
+      owner,
+      signature,
+      nonce,
+      account
+    );
     return this.executeMethod(
       "claimAs",
       account,
