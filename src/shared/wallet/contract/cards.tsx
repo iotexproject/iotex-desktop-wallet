@@ -14,7 +14,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Flex } from "../../common/flex";
 import { formItemLayout } from "../../common/form-item-layout";
-import { rulesMap } from "../../common/rules";
+import { rules, rulesMap } from "../../common/rules";
 import { colors } from "../../common/styles/style-color";
 import { inputStyle } from "../wallet";
 
@@ -223,10 +223,12 @@ export function AmountFormInputItem({
 
 export function PasswordFormInputItem({
   form,
-  initialValue
+  initialValue,
+  checkWeakPassword = true
 }: {
   form: WrappedFormUtils;
   initialValue?: number;
+  checkWeakPassword?: boolean;
 }): JSX.Element {
   const { getFieldDecorator } = form;
   return (
@@ -235,7 +237,7 @@ export function PasswordFormInputItem({
     >
       {getFieldDecorator("password", {
         initialValue: initialValue,
-        rules: rulesMap.password
+        rules: checkWeakPassword ? rulesMap.password : [rules.required]
       })(
         <Input.Password
           className="form-input"
