@@ -315,7 +315,7 @@ footer.subscribe: Subscribe
 home.blocklist.ofActions: 'of actions'
 signin_modal.wallet: 'IoTeX Wallet'
 signin_modal.sign_in: 'Sign In with IoTeX Wallet'
-signin_modal.download: 'Haven't installed yet? Download'
+signin_modal.download: 'Haven''t installed yet? Download'
 topbar.sign_in: 'Sign In'
 candidates.delegate_list: 'Delegate List'
 candidates.rank: Rank
@@ -346,7 +346,7 @@ wallet.input.url: Url
 account.addCustomRPC: 'Add custom RPC'
 account.rpc.nameHolder: 'My RPC'
 input.error.url.invalid: 'Invalid URL'
-input.error.rpc.invalid: 'Can't connect to Network Provider!'
+input.error.rpc.invalid: 'Can''t connect to Network Provider!'
 wallet.input.fromXrc20: 'XRC20 Token address'
 wallet.tab.xrc20: XRC20
 wallet.transfer.send-xrc20: 'Send XRC20 tokens'
@@ -378,5 +378,5 @@ account.claimAs.authMessage: 'Authenticate message'
 account.claimAs.generate: Generate
 account.claimAs.close: Close
 account.bid: Bid
-account.error.notEnoughBalance: 'You don't have enough IoTx balance to perform the action!'
+account.error.notEnoughBalance: 'You don''t have enough IoTx balance to perform the action!'
 account.placeBid: 'Place bid for VITA'
