@@ -35,6 +35,7 @@ export interface DecodeData {
   data: { [key: string]: any };
 }
 
+// TODO: remove MIN_GAS_LIMIT after estimateGas api works properly.
 const MIN_GAS_LIMIT = 200000;
 
 export interface IERC20 {
