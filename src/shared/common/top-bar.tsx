@@ -74,8 +74,11 @@ class TopBarComponent extends Component<Props, State> {
   ];
 
   private readonly toolMenus: Array<MenuItem> = [
-    { directTo: "/api-gateway/", itemText: "topbar.graphql_playground" },
-    { directTo: "/doc/api-gateway/", itemText: "topbar.graphql_doc" }
+    { directTo: "/api-gateway/", itemText: "topbar.explorer_playground" },
+    {
+      directTo: "https://analytics.iotexscan.io/",
+      itemText: "topbar.analytics_playground"
+    }
   ];
 
   constructor(props: Props) {
@@ -417,8 +420,8 @@ function LogoContent(): JSX.Element {
   );
 }
 
-function DownIcon(): JSX.Element {
-  return <Icon type="caret-down" style={{ color: colors.topbarGray }} />;
+function DownIcon(): string {
+  return "▾";
 }
 
 const overlayStyle = {

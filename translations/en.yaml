@@ -378,3 +378,5 @@ account.placeBid: "Place bid for VITA"
 account.availableForBid: "Your balance available for bidding: "
 erc20.execution.error.lowGasInput: Gas input too low!
 erc20.execution.error.notEnoughBalance: Your IoTx balance is not enough to execute the transaction!
+topbar.explorer_playground: Explorer Playground
+topbar.analytics_playground: Analytics Playground
