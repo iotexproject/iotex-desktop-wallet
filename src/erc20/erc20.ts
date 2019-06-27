@@ -35,6 +35,8 @@ export interface DecodeData {
   data: { [key: string]: any };
 }
 
+const MIN_GAS_LIMIT = 200000;
+
 export interface IERC20 {
   address: string;
 
@@ -352,9 +354,14 @@ export class ERC20 implements IERC20 {
     const { gas } = await getAntenna().iotx.estimateGasForAction({
       action: selp.action()
     });
+
+    const gasLimit = new BigNumber(gas).isLessThan(MIN_GAS_LIMIT)
+      ? `${MIN_GAS_LIMIT}`
+      : gas;
+
     return {
       gasPrice: `${gasPrice}`,
-      gasLimit: gas
+      gasLimit
     };
   }
 
