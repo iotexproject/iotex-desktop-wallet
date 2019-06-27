@@ -1,7 +1,5 @@
 // @ts-ignore
-import Button from "antd/lib/button";
 import AntdDropdown from "antd/lib/dropdown";
-import Icon from "antd/lib/icon";
 import AntdMenu from "antd/lib/menu";
 import isBrowser from "is-browser";
 // @ts-ignore
