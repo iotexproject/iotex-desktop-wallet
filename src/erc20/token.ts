@@ -17,7 +17,6 @@ import { IAuthorizedMessage, Vita } from "./vita";
 const state = isBrowser && JsonGlobal("state");
 const vitaTokens = isBrowser && state.base.vitaTokens;
 
-BigNumber.config({ DECIMAL_PLACES: 6 });
 const regex = /^([0-9]+)I authorize 0x[0-9a-fA-F]{40} to claim in (0x[0-9A-Fa-f]{40})$/;
 
 export interface ITokenInfo {
