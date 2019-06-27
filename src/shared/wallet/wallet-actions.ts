@@ -52,9 +52,9 @@ export const countdownToLockInMS = (
   };
 };
 
-export const delayLock = (isDelayLocked: boolean): WalletAction => ({
+export const delayLock = (isLockDelayed: boolean): WalletAction => ({
   type: "DELAY_LOCK",
   payload: {
-    isDelayLocked
+    isLockDelayed
   }
 });

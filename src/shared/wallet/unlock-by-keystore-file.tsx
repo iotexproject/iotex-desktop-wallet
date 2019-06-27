@@ -18,7 +18,7 @@ import { xconf, XConfKeys } from "../common/xconf";
 import { PasswordFormInputItem } from "./contract/cards";
 import { getAntenna } from "./get-antenna";
 import { FormItemLabel } from "./wallet";
-import { countdownToLockInMS, setAccount } from "./wallet-actions";
+import { setAccount } from "./wallet-actions";
 
 export interface State {
   priKey: string;
@@ -56,7 +56,6 @@ class UnlockByKeystoreFileInnerComponent extends PureComponent<
             privateKey
           );
           this.props.dispatch(setAccount(account));
-          this.props.dispatch(countdownToLockInMS());
         } catch (e) {
           const msg = String(e);
           if (msg.indexOf("SyntaxError") !== -1) {

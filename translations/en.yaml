@@ -270,11 +270,11 @@ wallet.interact.abiTemplate: '[{ "type":"contructor", "inputs": [{ "name":"param
 wallet.interact.contract: 'Interact with smart contract'
 abi.input: Input
 abi.return: Return
-wallet.lock.title: Wallet will be lock
-wallet.lock.cutdown: Your wallet will be locked in 10 minutes. Do you want to continue using your wallet?
+wallet.lock.title: Locking Wallet
+wallet.lock.cutdown: Your wallet will be locked in 10 minutes. Do you want to continue using it?
 wallet.lock.btn.know: I know
-wallet.lock.btn.yes: yes,don't lock
-wallet.lock.btn.no: no,lock it
+wallet.lock.btn.yes: Yes, dismiss the lock
+wallet.lock.btn.no: Lock it
 wallet.abi.read: 'Read contract'
 wallet.abi.write: 'Write contract'
 new-wallet.warn.do-not-lose: 'Do not lose private key!'

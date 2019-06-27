@@ -3,7 +3,6 @@ import Row from "antd/lib/grid/row";
 // @ts-ignore
 import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
-import throttle from "lodash.throttle";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -20,7 +19,6 @@ import AccountSection from "./account-section";
 import { DeployPreloadHeader } from "./contract/deploy";
 import NewWallet from "./new-wallet";
 import UnlockWallet from "./unlock-wallet";
-import { countdownToLockInMS } from "./wallet-actions";
 import { IWalletState, QueryType } from "./wallet-reducer";
 import { WalletTabs } from "./wallet-tabs";
 
@@ -36,7 +34,6 @@ type PathParamsType = {
 type Props = RouteComponentProps<PathParamsType> &
   DispatchProp & {
     account?: Account;
-    isDelayLocked?: boolean;
   };
 
 export const inputStyle = {
@@ -86,31 +83,13 @@ class WalletInner extends PureComponent<Props, State> {
     window.dispatch = dispatch;
   }
 
-  /**
-   * Limit the frequency of update timers;
-   */
-  private readonly keepActive: () => void = throttle(() => {
-    // before wallet unlocked. Router path is: /wallet
-    if (!this.props.account) {
-      return;
-    }
-
-    if (!this.props.isDelayLocked) {
-      this.props.dispatch(countdownToLockInMS());
-    }
-  }, 60 * 1000);
-
   public render(): JSX.Element {
     const { createNew } = this.state;
     const { account } = this.props;
     return (
       <>
         <DeployPreloadHeader />
-        <ContentPadding
-          onClick={() => this.keepActive()}
-          onKeyUp={() => this.keepActive()}
-          onKeyDown={() => this.keepActive()}
-        >
+        <ContentPadding>
           <Row
             type="flex"
             justify="space-between"
@@ -139,9 +118,8 @@ class WalletInner extends PureComponent<Props, State> {
 
 const mapStateToProps = (state: {
   wallet: IWalletState;
-}): { queryType?: QueryType; account?: Account; isDelayLocked: boolean } => ({
-  account: (state.wallet || {}).account,
-  isDelayLocked: !!(state.wallet || {}).isDelayLocked
+}): { queryType?: QueryType; account?: Account } => ({
+  account: (state.wallet || {}).account
 });
 
 export const Wallet = withRouter(connect(mapStateToProps)(WalletInner));

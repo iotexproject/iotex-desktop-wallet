@@ -4,7 +4,7 @@ import { Account } from "iotex-antenna/lib/account/account";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Component } from "react";
-import { connect } from "react-redux";
+import { connect, DispatchProp } from "react-redux";
 import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
 import { ITokenInfoDict } from "../../erc20/token";
 import routes from "../common/routes";
@@ -15,6 +15,7 @@ import { Vote } from "./contract/vote";
 import { LockWalletAlert } from "./lock-alert";
 import { Sign } from "./sign";
 import Transfer from "./transfer/transfer";
+import { countdownToLockInMS } from "./wallet-actions";
 import { QueryParams, QueryType } from "./wallet-reducer";
 
 const ENABLE_SIGN = false;
@@ -25,7 +26,7 @@ type Props = RouteComponentProps & {
   tokensInfo: ITokenInfoDict;
   queryType?: QueryType;
   queryNonce?: number;
-};
+} & DispatchProp;
 
 class WalletTabsInner extends Component<Props> {
   constructor(props: Props) {
@@ -56,6 +57,7 @@ class WalletTabsInner extends Component<Props> {
       activeKey = `/wallet/smart-contract/interact`;
     }
     history.push(activeKey);
+    this.props.dispatch(countdownToLockInMS());
   }
 
   public render(): JSX.Element {
@@ -71,7 +73,7 @@ class WalletTabsInner extends Component<Props> {
     }
 
     return (
-      <div>
+      <LockWalletAlert>
         <Tabs activeKey={activeKey} onTabClick={this.onTabChange}>
           <Tabs.TabPane
             key={`/wallet/transfer`}
@@ -123,8 +125,7 @@ class WalletTabsInner extends Component<Props> {
             </Tabs.TabPane>
           )}
         </Tabs>
-        <LockWalletAlert />
-      </div>
+      </LockWalletAlert>
     );
   }
 }

@@ -1,14 +1,19 @@
 import { Modal } from "antd";
+import throttle from "lodash.throttle";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { connect, DispatchProp } from "react-redux";
 
+import { Account } from "iotex-antenna/lib/account/account";
 import { countdownToLockInMS, delayLock } from "./wallet-actions";
 import { IWalletState } from "./wallet-reducer";
 
 interface LockWalletProps extends DispatchProp {
   lockAt: number | undefined;
+  isLockDelayed: boolean | undefined;
+  children?: React.ReactNode;
+  account?: Account;
 }
 
 interface State {
@@ -82,33 +87,57 @@ class LockWalletComponent extends React.Component<LockWalletProps, State> {
     clearTimeout(this.timer10);
   };
 
+  /**
+   * Limit the frequency of update timers;
+   */
+  private readonly keepActive: () => void = throttle(() => {
+    // before wallet unlocked. Router path is: /wallet
+    if (!this.props.account) {
+      return;
+    }
+
+    if (!this.props.isLockDelayed) {
+      this.props.dispatch(countdownToLockInMS());
+    }
+  }, 60 * 1000);
+
   public render(): JSX.Element {
     return (
-      <Modal
-        title={t("wallet.lock.title")}
-        visible={this.state.showModal}
-        onOk={() => {
-          this.setState({
-            showModal: false
-          });
-
-          this.props.dispatch(countdownToLockInMS());
-          this.props.dispatch(delayLock(false));
-        }}
-        onCancel={() => {
-          this.setState({
-            showModal: false
-          });
-        }}
-        cancelText={t("wallet.lock.btn.no")}
-        okText={t("wallet.lock.btn.yes")}
+      <div
+        onClick={() => this.keepActive()}
+        onKeyUp={() => this.keepActive()}
+        onKeyDown={() => this.keepActive()}
+        role="main"
       >
-        <p>{t("wallet.lock.cutdown")}</p>
-      </Modal>
+        {this.props.children}
+        <Modal
+          title={t("wallet.lock.title")}
+          visible={this.state.showModal}
+          onOk={() => {
+            this.setState({
+              showModal: false
+            });
+
+            this.props.dispatch(countdownToLockInMS());
+            this.props.dispatch(delayLock(false));
+          }}
+          onCancel={() => {
+            this.setState({
+              showModal: false
+            });
+          }}
+          cancelText={t("wallet.lock.btn.no")}
+          okText={t("wallet.lock.btn.yes")}
+        >
+          <p>{t("wallet.lock.cutdown")}</p>
+        </Modal>
+      </div>
     );
   }
 }
 
 export const LockWalletAlert = connect((state: { wallet: IWalletState }) => ({
-  lockAt: state.wallet.lockAt
+  lockAt: state.wallet.lockAt,
+  isLockDelayed: state.wallet.isLockDelayed,
+  account: (state.wallet || {}).account
 }))(LockWalletComponent);
