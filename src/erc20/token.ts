@@ -11,7 +11,7 @@ import JsonGlobal from "safe-json-globals/get";
 import { toIoTeXAddress } from "../shared/wallet/address";
 import { getAntenna } from "../shared/wallet/get-antenna";
 import { BID_ABI } from "./abi";
-import { DecodeData, ERC20 } from "./erc20";
+import { DecodeData, ERC20, IGasEstimation } from "./erc20";
 import { IAuthorizedMessage, Vita } from "./vita";
 
 const state = isBrowser && JsonGlobal("state");
@@ -19,9 +19,6 @@ const vitaTokens = isBrowser && state.base.vitaTokens;
 
 BigNumber.config({ DECIMAL_PLACES: 6 });
 const regex = /^([0-9]+)I authorize 0x[0-9a-fA-F]{40} to claim in (0x[0-9A-Fa-f]{40})$/;
-// Claim needs ~65000; Claimas needs ~200000
-export const CLAIM_GAS_LIMIT = "200000";
-export const CLAIM_GAS_PRICE = toRau("1", "Qev");
 
 export interface ITokenInfo {
   tokenAddress: string;
@@ -62,6 +59,10 @@ export class Token {
     const token = new Token(api);
     Token.tokenRefs[tokenAddress] = token;
     return token;
+  }
+
+  public getApi(): ERC20 | Vita {
+    return this.api;
   }
 
   public static getBiddingToken(tokenAddress: string): Token {
@@ -130,7 +131,14 @@ export class Token {
 
   public async claim(account: Account): Promise<string> {
     if (this.api instanceof Vita) {
-      return this.api.claim(account, CLAIM_GAS_PRICE, CLAIM_GAS_LIMIT);
+      return this.api.claim(account);
+    }
+    throw new Error(`Token ${this.api.address} is not Vita!`);
+  }
+
+  public async estimateClaimGas(account: Account): Promise<IGasEstimation> {
+    if (this.api instanceof Vita) {
+      return this.api.estimateClaimGas(account);
     }
     throw new Error(`Token ${this.api.address} is not Vita!`);
   }
@@ -142,13 +150,23 @@ export class Token {
     if (this.api instanceof Vita) {
       const { address, msg, sig } = authMessage;
       const nonce = getNonce(msg, this.api.address.toLowerCase());
-      return this.api.claimAs(
+      return this.api.claimAs(toIoTeXAddress(address), sig, nonce, account);
+    }
+    throw new Error(`Token ${this.api.address} is not Vita!`);
+  }
+
+  public async estimateClaimAsGas(
+    authMessage: IAuthorizedMessage,
+    account: Account
+  ): Promise<IGasEstimation> {
+    if (this.api instanceof Vita) {
+      const { address, msg, sig } = authMessage;
+      const nonce = getNonce(msg, this.api.address.toLowerCase());
+      return this.api.estimateClaimAsGas(
         toIoTeXAddress(address),
         sig,
         nonce,
-        account,
-        CLAIM_GAS_PRICE,
-        CLAIM_GAS_LIMIT
+        account
       );
     }
     throw new Error(`Token ${this.api.address} is not Vita!`);
@@ -158,14 +176,39 @@ export class Token {
     if (!this.isBidToken) {
       throw new Error(`Invalid bid token!`);
     }
+    const { gasLimit, gasPrice } = await this.estimateBidGas(account, amount);
     const value = toRau(amount, "Iotx");
-    return this.api.executeMethod(
+    return this.api.executeMethod("bid", account, gasLimit, gasPrice, value);
+  }
+
+  public async estimateBidGas(
+    account: Account,
+    amount: string
+  ): Promise<IGasEstimation> {
+    if (!this.isBidToken) {
+      throw new Error(`Invalid bid token!`);
+    }
+    return this.api.estimateExecutionGas("bid", account, amount);
+  }
+
+  public async estimateMaxBidAmount(account: Account): Promise<string> {
+    const { accountMeta } = await getAntenna().iotx.getAccount({
+      address: account.address
+    });
+    if (!accountMeta) {
+      return "0";
+    }
+    const { gasLimit, gasPrice } = await this.api.estimateExecutionGas(
       "bid",
       account,
-      CLAIM_GAS_PRICE,
-      CLAIM_GAS_LIMIT,
-      value
+      accountMeta.balance
     );
+    const gasNeeded = new BigNumber(gasLimit).multipliedBy(
+      new BigNumber(gasPrice)
+    );
+    return new BigNumber(accountMeta.balance)
+      .plus(gasNeeded.negated())
+      .toString();
   }
 }
 
