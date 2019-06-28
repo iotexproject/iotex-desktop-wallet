@@ -175,9 +175,18 @@ export class Token {
     if (!this.isBidToken) {
       throw new Error(`Invalid bid token!`);
     }
-    const { gasLimit, gasPrice } = await this.estimateBidGas(account, amount);
-    const value = toRau(amount, "Iotx");
-    return this.api.executeMethod("bid", account, gasLimit, gasPrice, value);
+    const amountRau = toRau(amount, "Iotx");
+    const { gasLimit, gasPrice } = await this.estimateBidGas(
+      account,
+      amountRau
+    );
+    return this.api.executeMethod(
+      "bid",
+      account,
+      gasPrice,
+      gasLimit,
+      amountRau
+    );
   }
 
   public async estimateBidGas(
