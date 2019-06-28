@@ -284,6 +284,15 @@ export class ERC20 implements IERC20 {
       });
       return "";
     }
+    // Needed for debug purpose.
+    window.console.log(`executeMethod`, {
+      method,
+      account: { ...account, privateKey: "****" },
+      gasPrice,
+      gasLimit,
+      amount,
+      args
+    });
     return this.contract.methods[method](...args, {
       account: account,
       amount: amount,
