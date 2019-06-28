@@ -31,14 +31,19 @@ class BidForm extends React.PureComponent<IBidFormProps> {
     initialValue: "1"
   };
 
-  public async componentDidUpdate(): Promise<void> {
+  public async pollMaxBidAmount(): Promise<string> {
     const { bidContractAddress, account } = this.props;
     const maxBidAmount = await Token.getBiddingToken(
       bidContractAddress
     ).estimateMaxBidAmount(account);
-    if (maxBidAmount !== this.state.maxBidAmount) {
+    if (this.state.maxBidAmount !== maxBidAmount) {
       this.setState({ maxBidAmount });
     }
+    return maxBidAmount;
+  }
+
+  public componentDidMount(): void {
+    this.pollMaxBidAmount();
   }
 
   public handleOk = async () => {
@@ -92,9 +97,8 @@ class BidForm extends React.PureComponent<IBidFormProps> {
                   return new BigNumber(toRau(value, "IoTx"));
                 },
                 validator: async (_, value: BigNumber, callback) => {
-                  if (
-                    value.isGreaterThan(new BigNumber(this.state.maxBidAmount))
-                  ) {
+                  const maxBidAmount = await this.pollMaxBidAmount();
+                  if (value.isGreaterThan(new BigNumber(maxBidAmount))) {
                     return callback(t("account.error.notEnoughBalance"));
                   }
                   callback();

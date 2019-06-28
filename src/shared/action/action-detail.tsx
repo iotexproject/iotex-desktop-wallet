@@ -42,7 +42,7 @@ type Props = RouteComponentProps<PathParamsType> & {
 export function buildKeyValueArray(object: {}): Array<{}> {
   return Object.keys(object).map(key => {
     // @ts-ignore
-    if (typeof object[key] === "object") {
+    if (typeof object[key] === "object" && !object[key].seconds) {
       return {
         key,
         // @ts-ignore
@@ -70,7 +70,7 @@ class ActionDetailsInner extends PureComponent<Props> {
   }): Promise<{ action: IActionInfo; dataSource: Array<{}> }> {
     const actionInfo = get(data || {}, "getActions.actionInfo.0") || {};
     // @ts-ignore
-    const { actHash, blkHash, action } = actionInfo;
+    const { actHash, blkHash, action, timestamp } = actionInfo;
     let object: { [index: string]: string } = {};
     for (let i = 0; i < actionsTypes.length; i++) {
       object = get(action, `core.${actionsTypes[i]}`);
@@ -135,6 +135,7 @@ class ActionDetailsInner extends PureComponent<Props> {
     const actionUnion = {
       actHash,
       blkHash,
+      timestamp,
       sender: action ? publicKeyToAddress(String(action.senderPubKey)) : "",
       gasPrice: `${get(action, "core.gasPrice")} Rau` || "",
       gasLimit: `${get(action, "core.gasLimit")} Rau` || "",

@@ -340,3 +340,8 @@ input {
 .block-detail-key {
   white-space: nowrap;
 }
+
+.ant-modal-confirm .ant-modal-content .ant-modal-body {
+  padding-top: 32px !important;
+  padding-bottom: 32px !important;
+}

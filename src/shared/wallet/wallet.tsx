@@ -7,8 +7,8 @@ import { Account } from "iotex-antenna/lib/account/account";
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
-import { PureComponent } from "react";
 import React from "react";
+import { PureComponent } from "react";
 import { connect, DispatchProp } from "react-redux";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";

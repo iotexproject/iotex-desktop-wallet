@@ -18,8 +18,8 @@ Or deploy your own instance on Heroku.
 
 Built with OneFx (React, GraphQL, KOA, TypeScript, AVA, Webpack, etc.)
 
-* [Documentation](https://onefx.js.org/doc.html?utm_source=github-iotex-explorer)
-* [Contributing](https://onefx.js.org/contributing.html?utm_source=github-iotex-explorer)
+- [Documentation](https://onefx.js.org/doc.html?utm_source=github-iotex-explorer)
+- [Contributing](https://onefx.js.org/contributing.html?utm_source=github-iotex-explorer)
 
 ## Contribute to Localization?
 
