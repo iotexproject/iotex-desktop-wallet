@@ -385,3 +385,5 @@ erc20.execution.error.lowGasInput: Gas input too low!
 erc20.execution.error.notEnoughBalance: Your IoTx balance is not enough to execute the transaction!
 topbar.explorer_playground: Explorer Playground
 topbar.analytics_playground: Analytics Playground
+wallet.tab.keystore: Export Keystore
+wallet.tab.keystore.title: Save your keystore file
