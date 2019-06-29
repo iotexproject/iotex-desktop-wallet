@@ -47,6 +47,7 @@
     "electron-log": "^3.0.5",
     "electron-updater": "^4.0.6",
     "fs": "0.0.1-security",
+    "ipc": "0.0.1",
     "query-string": "^6.5.0",
     "solc": "^0.5.8"
   }

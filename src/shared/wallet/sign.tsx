@@ -28,7 +28,10 @@ export function SignInner({ form }: Props): JSX.Element {
             }
             const antenna = getAntenna();
             // add enumerable
-            const signed = antenna.iotx.accounts.sign(values.message, "");
+            const signed = antenna.iotx.accounts.sign(
+              values.message,
+              "1111111111111111111111111111111111111111111111111111111111111111"
+            );
             setSignedMsg(signed.toString());
           });
         }}

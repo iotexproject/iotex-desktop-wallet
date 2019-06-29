@@ -44,11 +44,24 @@ window.document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+window.signed = function(id, response) {
+  ipcRenderer.send(`signed-${id}`, response);
+};
+
 ipcRenderer.on("query", function(event, query) {
   const actionEvent = {
     type: "QUERY_PARAMS",
     payload: { ...query, queryNonce: Math.random() }
   };
   console.log("dispatching ", JSON.stringify(actionEvent));
+  window.dispatch(actionEvent);
+});
+
+ipcRenderer.on("sign", function(event, payload) {
+  const actionEvent = {
+    type: "SIGN_PARAMS",
+    payload: JSON.parse(payload)
+  };
+  console.log("dispatching", JSON.stringify(actionEvent));
   window.dispatch(actionEvent);
 });

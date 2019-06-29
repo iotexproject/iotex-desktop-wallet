@@ -1,10 +1,10 @@
 import { Icon } from "antd";
 import Tabs from "antd/lib/tabs";
+// @ts-ignore
+import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
-// @ts-ignore
-import Helmet from "onefx/lib/react-helmet";
 import React from "react";
 import { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
@@ -22,6 +22,10 @@ import { Sign } from "./sign";
 import Transfer from "./transfer/transfer";
 import { countdownToLockInMS } from "./wallet-actions";
 import { QueryParams, QueryType } from "./wallet-reducer";
+import { getAntenna } from "./get-antenna";
+import { Sign } from "./sign";
+import Transfer from "./transfer/transfer";
+import { QueryParams, QueryType, SignParams } from "./wallet-reducer";
 
 const ENABLE_SIGN = false;
 
@@ -31,6 +35,8 @@ type Props = RouteComponentProps & {
   tokensInfo: ITokenInfoDict;
   queryType?: QueryType;
   queryNonce?: number;
+  contentToSign?: string;
+  contentId?: number;
 } & DispatchProp;
 
 class WalletTabsInner extends Component<Props> {
@@ -51,6 +57,16 @@ class WalletTabsInner extends Component<Props> {
         activeKey = `/wallet/smart-contract/interact`;
       }
       history.push(activeKey);
+    }
+    if (
+      this.props.contentId !== nextProps.contentId &&
+      nextProps.contentToSign
+    ) {
+      const signed = getAntenna().iotx.accounts.sign(
+        nextProps.contentToSign,
+        "1111111111111111111111111111111111111111111111111111111111111111"
+      );
+      window.signed(nextProps.contentId, signed.toString("hex"));
     }
   }
 
@@ -155,10 +171,18 @@ class WalletTabsInner extends Component<Props> {
 
 function mapStateToProps(state: {
   queryParams: QueryParams;
-}): { queryType?: QueryType; queryNonce?: number } {
+  signParams: SignParams;
+}): {
+  queryType?: QueryType;
+  queryNonce?: number;
+  contentId?: number;
+  contentToSign?: string;
+} {
   return {
     queryType: state.queryParams && state.queryParams.type,
-    queryNonce: state.queryParams && state.queryParams.queryNonce
+    queryNonce: state.queryParams && state.queryParams.queryNonce,
+    contentId: state.signParams && state.signParams.id,
+    contentToSign: state.signParams && state.signParams.content
   };
 }
 

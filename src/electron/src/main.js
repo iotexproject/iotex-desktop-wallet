@@ -22,14 +22,6 @@ let mainWindow;
 let service;
 
 function createWindow() {
-  // start a service
-  createServer(64102, function(err, server) {
-    if (err) {
-      log.error("failed to create wss service", err);
-    } else {
-      service = new Service(server);
-    }
-  });
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1280,
@@ -38,6 +30,14 @@ function createWindow() {
     webPreferences: {
       contextIsolation: true,
       preload: path.resolve(__dirname, "renderer.js")
+    }
+  });
+  // start a service
+  createServer(64102, function(err, server) {
+    if (err) {
+      log.error("failed to create wss service", err);
+    } else {
+      service = new Service(server, mainWindow.webContents);
     }
   });
 

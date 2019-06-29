@@ -24,7 +24,6 @@ function createServer(port, callback) {
   }
   if (typeof cert === "undefined" || typeof key === "undefined") {
     pem.createCertificate({ days: 1, selfSigned: true }, async (err, keys) => {
-      console.log({ err, keys });
       if (err) {
         log.error("failed to create certificate", err);
         callback(err, null);
