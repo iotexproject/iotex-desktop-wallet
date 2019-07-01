@@ -14,7 +14,7 @@ import { colors } from "./styles/style-color";
 import { contentPadding } from "./styles/style-padding";
 import { TOP_BAR_HEIGHT } from "./top-bar";
 
-export const FOOTER_HEIGHT = 260;
+export const FOOTER_HEIGHT = "auto";
 
 export const FOOTER_ABOVE = {
   minHeight: `calc(100vh - ${FOOTER_HEIGHT + TOP_BAR_HEIGHT}px)`
@@ -142,9 +142,7 @@ export function Footer(): JSX.Element {
               return (
                 <VersionWrapper>
                   <span style={{ marginRight: 15 }}>
-                    {`  iotex-explorer ${
-                      data.fetchVersionInfo.explorerVersion
-                    }`}
+                    {`  iotex-explorer ${data.fetchVersionInfo.explorerVersion}`}
                   </span>
                   <span>
                     {`  iotex-core ${data.fetchVersionInfo.iotexCoreVersion}`}
