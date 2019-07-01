@@ -1,17 +1,22 @@
+import { Icon } from "antd";
 import Tabs from "antd/lib/tabs";
 import { Account } from "iotex-antenna/lib/account/account";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
+// @ts-ignore
+import Helmet from "onefx/lib/react-helmet";
 import React from "react";
 import { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
 import { ITokenInfoDict } from "../../erc20/token";
+import { PageTitle } from "../common/page-title";
 import routes from "../common/routes";
 import { ChooseFunction } from "./contract/choose-function";
 import { Deploy } from "./contract/deploy";
 import { Interact } from "./contract/interact";
 import { Vote } from "./contract/vote";
+import { DownloadKeystoreForm } from "./download-keystore-form";
 import { LockWalletAlert } from "./lock-alert";
 import { Sign } from "./sign";
 import Transfer from "./transfer/transfer";
@@ -70,6 +75,8 @@ class WalletTabsInner extends Component<Props> {
       activeKey = `/wallet/smart-contract`;
     } else if (location.pathname.match(/sign/)) {
       activeKey = `/wallet/sign`;
+    } else if (location.pathname.match(/keystore/)) {
+      activeKey = `/wallet/keystore`;
     }
 
     return (
@@ -118,6 +125,22 @@ class WalletTabsInner extends Component<Props> {
           <Tabs.TabPane key={`/wallet/vote`} tab={t("wallet.tab.vote")}>
             <Vote />
           </Tabs.TabPane>
+          {this.props.wallet && (
+            <Tabs.TabPane
+              key={`/wallet/keystore`}
+              tab={t("wallet.tab.keystore")}
+            >
+              <PageTitle>
+                <Icon type="download" /> {t("wallet.tab.keystore.title")}
+              </PageTitle>
+              <p>{t("unlock_by_keystore_file.never_upload")}</p>
+              <DownloadKeystoreForm
+                address={this.props.wallet.address}
+                privateKey={this.props.wallet.privateKey}
+                simplify={true}
+              />
+            </Tabs.TabPane>
+          )}
 
           {ENABLE_SIGN && (
             <Tabs.TabPane key={`/wallet/sign`} tab={t("wallet.tab.sign")}>
