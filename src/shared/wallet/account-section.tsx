@@ -582,7 +582,9 @@ class AccountSection extends React.Component<Props, State> {
     if (accountMeta) {
       dataSource.unshift({
         symbol: "IOTX",
-        balanceString: fromRau(accountMeta.balance, ""),
+        balanceString: new BigNumber(fromRau(accountMeta.balance, "")).toString(
+          10
+        ),
         tokenAddress: "",
         balance: new BigNumber(accountMeta.balance),
         decimals: new BigNumber(0),
