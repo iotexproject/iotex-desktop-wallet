@@ -328,7 +328,7 @@ class TransferForm extends React.PureComponent<Props, State> {
       toAddress: recipient,
       amount: `${new BigNumber(amount).toString()} ${tokenSymbol}`,
       limit: gasLimit,
-      price: `${toRau(gasPrice, "Qev")} ${gasPrice} Qev`
+      price: `${toRau(gasPrice, "Qev")} (${gasPrice} Qev)`
     };
 
     if (tokenSymbol.match(/iotx/i)) {
