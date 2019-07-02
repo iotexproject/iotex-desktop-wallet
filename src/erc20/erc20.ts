@@ -18,6 +18,8 @@ import { t } from "onefx/lib/iso-i18n";
 import { getAntenna } from "../shared/wallet/get-antenna";
 import { ABI } from "./abi";
 
+const GAS_LIMIT_MULTIPLIED_BY = 3;
+
 export interface Method {
   name: string;
   inputsNames: [string];
@@ -363,7 +365,9 @@ export class ERC20 implements IERC20 {
     });
     return {
       gasPrice: `${gasPrice}`,
-      gasLimit: gas
+      gasLimit: new BigNumber(gas)
+        .multipliedBy(GAS_LIMIT_MULTIPLIED_BY)
+        .toFixed(0)
     };
   }
 
