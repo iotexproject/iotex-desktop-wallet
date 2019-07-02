@@ -18,10 +18,10 @@ import {
 } from "../../api-gateway/resolvers/antenna-types";
 import { Token } from "../../erc20/token";
 import { getColumns } from "../block/block-detail";
+import { ActionNotFound } from "../common/action-not-found";
 import { Flex } from "../common/flex";
 import { actionsTypes, getActionType } from "../common/get-action-type";
 import { Navigation } from "../common/navigation";
-import { ActionNotFound } from "../common/action-not-found";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
