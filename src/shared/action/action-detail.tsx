@@ -21,7 +21,7 @@ import { getColumns } from "../block/block-detail";
 import { Flex } from "../common/flex";
 import { actionsTypes, getActionType } from "../common/get-action-type";
 import { Navigation } from "../common/navigation";
-import { NotFound } from "../common/not-found";
+import { ActionNotFound } from "../common/action-not-found";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
@@ -154,7 +154,7 @@ class ActionDetailsInner extends PureComponent<Props> {
 
   public render(): JSX.Element {
     if (this.state.error) {
-      return <NotFound />;
+      return <ActionNotFound />;
     }
     const {
       match: {
