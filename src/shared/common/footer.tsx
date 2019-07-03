@@ -142,7 +142,9 @@ export function Footer(): JSX.Element {
               return (
                 <VersionWrapper>
                   <span style={{ marginRight: 15 }}>
-                    {`  iotex-explorer ${data.fetchVersionInfo.explorerVersion}`}
+                    {`  iotex-explorer ${
+                      data.fetchVersionInfo.explorerVersion
+                    }`}
                   </span>
                   <span>
                     {`  iotex-core ${data.fetchVersionInfo.iotexCoreVersion}`}
@@ -153,7 +155,7 @@ export function Footer(): JSX.Element {
           </Query>
         </CopyRight>
         <a
-          href="https://iotex.io/policy"
+          href="https://v1.iotex.io/policy"
           style={{ textDecoration: "underline", color: colors.topbarGray }}
         >
           <div>{t("footer.policy")}</div>
