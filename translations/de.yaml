@@ -40,6 +40,7 @@ action.amount: Betrag
 action.action: Aktion
 action.sender: Absender
 action.recipient: Empfänger
+action.notFound: Leider können wir diese Transaktion nicht finden. Hash
 title.action: Aktion
 render.key.height: Blockhöhe
 render.key.hash: Hash
