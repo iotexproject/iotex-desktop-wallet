@@ -21,11 +21,12 @@ type QueryParamAction = {
 };
 
 export type SignParams = {
-  id?: number;
-  content?: string;
+  reqId?: number;
+  content?: string; // message
+  envelop?: string;
 };
 
-type SignParamAction = {
+export type SignParamAction = {
   type: "SIGN_PARAMS";
   payload: SignParams;
 };

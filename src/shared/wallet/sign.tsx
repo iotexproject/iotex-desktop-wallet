@@ -1,17 +1,32 @@
 import Button from "antd/lib/button";
 import Form from "antd/lib/form";
 import { WrappedFormUtils } from "antd/lib/form/Form";
+import TextArea from "antd/lib/input/TextArea";
 import { get } from "dottie";
+// @ts-ignore
+import window from "global/window";
+// @ts-ignore
+import { t } from "onefx/lib/iso-i18n";
 import React, { useState } from "react";
 import { MessageFormInputItem } from "./contract/cards";
 import { getAntenna } from "./get-antenna";
 
 type Props = {
   form: WrappedFormUtils;
+
+  messageToSign?: string;
+  reqId?: number;
+
+  fromAddress: string;
 };
 
-export function SignInner({ form }: Props): JSX.Element {
-  const msgRaw = get(window, "query.message") || "";
+export function SignInner({
+  form,
+  messageToSign,
+  fromAddress,
+  reqId
+}: Props): JSX.Element {
+  const msgRaw = messageToSign || get(window, "query.message") || "";
   const [signedMsg, setSignedMsg] = useState("");
 
   return (
@@ -27,17 +42,23 @@ export function SignInner({ form }: Props): JSX.Element {
               return;
             }
             const antenna = getAntenna();
+            const acct = antenna.iotx.accounts.getAccount(fromAddress);
             // add enumerable
             const signed = antenna.iotx.accounts.sign(
               values.message,
-              "1111111111111111111111111111111111111111111111111111111111111111"
+              (acct && acct.privateKey) || ""
             );
-            setSignedMsg(signed.toString());
+            if (reqId !== undefined) {
+              window.signed(reqId, signed.toString("hex"));
+            }
+            setSignedMsg(signed.toString("hex"));
           });
         }}
-      />
+      >
+        {t("wallet.button.sign")}
+      </Button>
 
-      {signedMsg && signedMsg}
+      {signedMsg && <TextArea autosize={true} defaultValue={signedMsg} />}
     </Form>
   );
 }
