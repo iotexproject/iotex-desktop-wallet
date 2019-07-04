@@ -117,7 +117,7 @@ export function MessageFormInputItem({
     >
       {getFieldDecorator("message", {
         initialValue: initialValue || ""
-      })(<TextArea rows={4} style={inputStyle} />)}
+      })(<TextArea autosize={true} style={inputStyle} />)}
     </Form.Item>
   );
 }

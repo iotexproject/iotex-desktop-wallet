@@ -20,11 +20,32 @@ type QueryParamAction = {
   payload: QueryParams;
 };
 
+export type SignParams = {
+  reqId?: number;
+  content?: string; // message
+  envelop?: string;
+};
+
+export type SignParamAction = {
+  type: "SIGN_PARAMS";
+  payload: SignParams;
+};
+
 export const queryParamsReducer = (
   state: {} = {},
   action: QueryParamAction
 ) => {
   if (action.type === "QUERY_PARAMS") {
+    return {
+      ...state,
+      ...action.payload
+    };
+  }
+  return state || {};
+};
+
+export const signParamsReducer = (state: {} = {}, action: SignParamAction) => {
+  if (action.type === "SIGN_PARAMS") {
     return {
       ...state,
       ...action.payload

@@ -23,6 +23,7 @@ import "../../shared/common/setup-big-number";
 import { Wallet } from "../../shared/wallet/wallet";
 import {
   queryParamsReducer,
+  signParamsReducer,
   walletReducer
 } from "../../shared/wallet/wallet-reducer";
 
@@ -61,6 +62,7 @@ memoryReactRender({
     apolloState: noopReducer,
     webBpApolloState: noopReducer,
     queryParams: queryParamsReducer,
+    signParams: signParamsReducer,
     wallet: walletReducer
   })
 });

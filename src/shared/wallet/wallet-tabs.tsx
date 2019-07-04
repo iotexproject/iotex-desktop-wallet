@@ -3,8 +3,6 @@ import Tabs from "antd/lib/tabs";
 import { Account } from "iotex-antenna/lib/account/account";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
-// @ts-ignore
-import Helmet from "onefx/lib/react-helmet";
 import React from "react";
 import { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
@@ -19,9 +17,10 @@ import { Vote } from "./contract/vote";
 import { DownloadKeystoreForm } from "./download-keystore-form";
 import { LockWalletAlert } from "./lock-alert";
 import { Sign } from "./sign";
+import { SignAndSendEnvelopModal } from "./sign-and-send-envelop-modal";
 import Transfer from "./transfer/transfer";
 import { countdownToLockInMS } from "./wallet-actions";
-import { QueryParams, QueryType } from "./wallet-reducer";
+import { QueryParams, QueryType, SignParams } from "./wallet-reducer";
 
 const ENABLE_SIGN = false;
 
@@ -31,6 +30,8 @@ type Props = RouteComponentProps & {
   tokensInfo: ITokenInfoDict;
   queryType?: QueryType;
   queryNonce?: number;
+  contentToSign?: string;
+  reqId?: number;
 } & DispatchProp;
 
 class WalletTabsInner extends Component<Props> {
@@ -43,14 +44,22 @@ class WalletTabsInner extends Component<Props> {
   };
 
   public componentWillReceiveProps(nextProps: Readonly<Props>): void {
-    if (this.props.queryNonce !== nextProps.queryNonce) {
-      const { queryType, history } = nextProps;
+    const { queryType, history } = nextProps;
 
+    if (this.props.queryNonce !== nextProps.queryNonce) {
       let activeKey = routes.transfer;
       if (queryType === "CONTRACT_INTERACT") {
         activeKey = `/wallet/smart-contract/interact`;
       }
       history.push(activeKey);
+    }
+    if (this.props.reqId !== nextProps.reqId && nextProps.contentToSign) {
+      // const signed = getAntenna().iotx.accounts.sign(
+      //   nextProps.contentToSign,
+      //   "1111111111111111111111111111111111111111111111111111111111111111"
+      // );
+      // window.signed(nextProps.reqId, signed.toString("hex"));
+      history.push(routes.sign);
     }
   }
 
@@ -144,10 +153,16 @@ class WalletTabsInner extends Component<Props> {
 
           {ENABLE_SIGN && (
             <Tabs.TabPane key={`/wallet/sign`} tab={t("wallet.tab.sign")}>
-              <Sign />
+              <Sign
+                messageToSign={this.props.contentToSign}
+                fromAddress={address}
+                reqId={this.props.reqId}
+              />
             </Tabs.TabPane>
           )}
         </Tabs>
+
+        <SignAndSendEnvelopModal fromAddress={address} />
       </LockWalletAlert>
     );
   }
@@ -155,10 +170,18 @@ class WalletTabsInner extends Component<Props> {
 
 function mapStateToProps(state: {
   queryParams: QueryParams;
-}): { queryType?: QueryType; queryNonce?: number } {
+  signParams: SignParams;
+}): {
+  queryType?: QueryType;
+  queryNonce?: number;
+  reqId?: number;
+  contentToSign?: string;
+} {
   return {
     queryType: state.queryParams && state.queryParams.type,
-    queryNonce: state.queryParams && state.queryParams.queryNonce
+    queryNonce: state.queryParams && state.queryParams.queryNonce,
+    reqId: state.signParams && state.signParams.reqId,
+    contentToSign: state.signParams && state.signParams.content
   };
 }
 
