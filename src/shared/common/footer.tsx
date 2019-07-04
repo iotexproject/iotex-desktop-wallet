@@ -57,6 +57,7 @@ type SubscriptionProps = WithApolloClient<object>;
 const SubscriptionComponent = ({ client }: SubscriptionProps): JSX.Element => {
   const [email, setEmail] = useState("");
   const [isEmailValid, setEmailValid] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const emailChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
       value,
@@ -67,7 +68,8 @@ const SubscriptionComponent = ({ client }: SubscriptionProps): JSX.Element => {
     setEmailValid(!!value && !!valid);
   };
 
-  const onSubscribe = () =>
+  const onSubscribe = () => {
+    setLoading(true);
     client
       .mutate<{ addSubscription: SendGridInfo }>({
         mutation: ADD_SUBSCRIPTION,
@@ -76,6 +78,7 @@ const SubscriptionComponent = ({ client }: SubscriptionProps): JSX.Element => {
         }
       })
       .then(({ data }) => {
+        setLoading(false);
         const isSubscribeSuccess = (data as { addSubscription: SendGridInfo })
           .addSubscription.isSubscribeSuccess;
         const message = isSubscribeSuccess
@@ -89,7 +92,7 @@ const SubscriptionComponent = ({ client }: SubscriptionProps): JSX.Element => {
           notification.error(notice);
         }
       });
-
+  };
   return (
     <InputWrapper>
       <Input
@@ -97,7 +100,7 @@ const SubscriptionComponent = ({ client }: SubscriptionProps): JSX.Element => {
         placeholder={`${t("footer.enter_email")}`}
         onChange={emailChange}
       />
-      {isEmailValid ? (
+      {isEmailValid && !isLoading ? (
         <Button onClick={onSubscribe} className="ant-btn-primary">
           {t("footer.subscribe")}
         </Button>

@@ -43,7 +43,7 @@ module.exports = {
       process.env.SENDGRID_API_KEY ||
       "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",
     sendgrid: {
-      url: "/v3/contractdb/recipients",
+      url: "/v3/contactdb/recipients",
       method: "POST"
     }
   },

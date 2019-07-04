@@ -33,11 +33,11 @@ export function getSendgrid(opts: any): any {
     body: []
   };
 
-  sendgrid.addSubscription = (
+  sendgrid.addSubscription = async (
     email: string
   ): Promise<[ClientResponse, any]> => {
     request.body = [{ email }];
-    return client.request(request);
+    return await client.request(request);
   };
 
   return sendgrid;
