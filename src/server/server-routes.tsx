@@ -26,6 +26,8 @@ export function setServerRoutes(server: Server): void {
     "SPA",
     "(/|/address/.*|/block|/block/.*|/action|/action/.*|/wallet.*|/not-found)",
     async (ctx: koa.Context) => {
+      ctx.setState("base.bidContractAddress", server.config.bidContractAddress);
+      ctx.setState("base.vitaTokens", server.config.vitaTokens);
       ctx.setState("base.multiChain", server.config.multiChain);
       ctx.setState("base.defaultERC20Tokens", server.config.defaultERC20Tokens);
       ctx.setState("base.webBpApiGatewayUrl", server.config.webBpApiGatewayUrl);

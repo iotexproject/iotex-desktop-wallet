@@ -1,7 +1,5 @@
 // @ts-ignore
-import Button from "antd/lib/button";
 import AntdDropdown from "antd/lib/dropdown";
-import Icon from "antd/lib/icon";
 import AntdMenu from "antd/lib/menu";
 import isBrowser from "is-browser";
 // @ts-ignore
@@ -74,9 +72,11 @@ class TopBarComponent extends Component<Props, State> {
   ];
 
   private readonly toolMenus: Array<MenuItem> = [
-    { directTo: "/api-gateway/", itemText: "topbar.graphql_playground" },
-    { directTo: "/doc/api-gateway/", itemText: "topbar.graphql_doc" },
-    { directTo: "/wallet", itemText: "topbar.wallet" }
+    { directTo: "/api-gateway/", itemText: "topbar.explorer_playground" },
+    {
+      directTo: "https://analytics.iotexscan.io/",
+      itemText: "topbar.analytics_playground"
+    }
   ];
 
   constructor(props: Props) {
@@ -146,13 +146,11 @@ class TopBarComponent extends Component<Props, State> {
       <AntdMenu style={overlayStyle}>
         {this.toolMenus.map(({ directTo, itemText }) => (
           <AntdMenu.Item key={itemText}>
-            {directTo.match(/\/wallet/i) ? (
-              <StyledLink to={directTo}>{t(itemText)}</StyledLink>
-            ) : (
+            {
               <A href={directTo} target="_blank">
                 {t(itemText)}
               </A>
-            )}
+            }
           </AntdMenu.Item>
         ))}
       </AntdMenu>
@@ -201,7 +199,10 @@ class TopBarComponent extends Component<Props, State> {
       </AntdDropdown>,
       <NoBgA href={votingPageUrl} key={2}>
         {t("topbar.voting")}
-      </NoBgA>
+      </NoBgA>,
+      <NoBgLink to="/wallet" key={3}>
+        {t("topbar.wallet")}
+      </NoBgLink>
     ];
 
     return this.state.displayMobileMenu && multiChain
@@ -293,7 +294,11 @@ class TopBarComponent extends Component<Props, State> {
             ) : null}
             <LanguageSwitcherWrapper>
               <LanguageSwitcher
-                supportedLanguages={[Languages.EN, Languages.ZH_CN]}
+                supportedLanguages={[
+                  Languages.EN,
+                  Languages.ZH_CN,
+                  Languages.IT
+                ]}
               />
             </LanguageSwitcherWrapper>
           </Flex>
@@ -413,8 +418,8 @@ function LogoContent(): JSX.Element {
   );
 }
 
-function DownIcon(): JSX.Element {
-  return <Icon type="caret-down" style={{ color: colors.topbarGray }} />;
+function DownIcon(): string {
+  return "▾";
 }
 
 const overlayStyle = {
@@ -427,6 +432,9 @@ const menuItem = {
   textDecoration: "none",
   ":hover": {
     color: `${colors.primary} !important`
+  },
+  ":focus": {
+    textDecoration: "none !important"
   },
   transition,
   [media.toLap]: {
@@ -469,6 +477,7 @@ const A = styled("a", {
 });
 
 const NoBgA = styled("a", menuItem);
+const NoBgLink = styled(Link, menuItem);
 
 // @ts-ignore
 const StyledLink = styled(Link, {

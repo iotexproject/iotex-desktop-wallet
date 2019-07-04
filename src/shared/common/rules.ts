@@ -3,6 +3,8 @@ import { t } from "onefx/lib/iso-i18n";
 
 import { ValidationRule } from "antd/lib/form";
 import BigNumber from "bignumber.js";
+import { getNonce } from "../../erc20/token";
+import { IAuthorizedMessage } from "../../erc20/vita";
 
 interface Rules {
   [key: string]: ValidationRule;
@@ -26,6 +28,18 @@ export const rules: Rules = {
     },
     validator: (_, value, callback) => {
       if (typeof value === "number") {
+        callback();
+      } else {
+        callback(t("wallet.error.number"));
+      }
+    }
+  },
+  interger: {
+    transform: (value: string) => {
+      return new BigNumber(value);
+    },
+    validator: (_, value, callback) => {
+      if (value instanceof BigNumber && value.isInteger()) {
         callback();
       } else {
         callback(t("wallet.error.number"));
@@ -75,6 +89,27 @@ export const rules: Rules = {
       }
     }
   },
+  authMessage: {
+    transform: (value: string): IAuthorizedMessage | null => {
+      try {
+        return JSON.parse(value);
+      } catch (e) {
+        return null;
+      }
+    },
+    validator: (_, value: IAuthorizedMessage, callback) => {
+      if (value && value.address && value.msg && value.sig && value.version) {
+        try {
+          getNonce(value.msg);
+        } catch (e) {
+          return callback(e);
+        }
+        callback();
+      } else {
+        callback(t("account.error.invalidAuthorizedMessage"));
+      }
+    }
+  },
   addressLength: {
     validator: (_, value, callback) => {
       if (String(value).trim().length === 41) {
@@ -84,12 +119,12 @@ export const rules: Rules = {
       }
     }
   },
-  erc20AddressLength: {
+  tokenAddressLength: {
     validator: (_, value, callback) => {
       if (String(value).trim().length === 41) {
         callback();
       } else {
-        callback(t("input.error.erc20_address.length"));
+        callback(t("input.error.xrc20_address.length"));
       }
     }
   },
@@ -119,17 +154,18 @@ export const rules: Rules = {
 
 export const rulesMap = {
   address: [rules.required, rules.addressLength],
-  erc20Address: [rules.required, rules.erc20AddressLength],
+  tokenAddress: [rules.required, rules.tokenAddressLength],
   transactionAmount: [rules.required, rules.amount],
   interactAmount: [rules.amount],
   gasLimit: [rules.required, rules.number],
   gasPrice: [rules.required, rules.number],
-  abi: [rules.required, rules.abi],
+  abi: [rules.abi],
   dataIndex: [],
-  nonce: [rules.required],
+  nonce: [rules.required, rules.interger],
   password: [rules.required, rules.strongPassword],
   name: [rules.required],
   url: [rules.required, rules.url],
+  authMessage: [rules.required, rules.authMessage],
 
   // ABIDataTypes
   uint256: [rules.number],

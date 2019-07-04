@@ -1,5 +1,5 @@
 import { Account } from "iotex-antenna/lib/account/account";
-import { IERC20TokenInfoDict } from "../../erc20/erc20Token";
+import { ITokenInfoDict } from "../../erc20/token";
 
 export type QueryType = "CONTRACT_INTERACT";
 
@@ -12,6 +12,7 @@ export type QueryParams = {
   queryNonce?: number;
   contractAddress?: string;
   method?: string;
+  args?: string; // JSON of Array<any>
 };
 
 type QueryParamAction = {
@@ -19,11 +20,32 @@ type QueryParamAction = {
   payload: QueryParams;
 };
 
+export type SignParams = {
+  reqId?: number;
+  content?: string; // message
+  envelop?: string;
+};
+
+export type SignParamAction = {
+  type: "SIGN_PARAMS";
+  payload: SignParams;
+};
+
 export const queryParamsReducer = (
   state: {} = {},
   action: QueryParamAction
 ) => {
   if (action.type === "QUERY_PARAMS") {
+    return {
+      ...state,
+      ...action.payload
+    };
+  }
+  return state || {};
+};
+
+export const signParamsReducer = (state: {} = {}, action: SignParamAction) => {
+  if (action.type === "SIGN_PARAMS") {
     return {
       ...state,
       ...action.payload
@@ -42,13 +64,17 @@ export type WalletAction = {
     | "SET_ACCOUNT"
     | "SET_NETWORK"
     | "ADD_CUSTOM_RPC"
-    | "UPDATE_ERC20_TOKENS";
+    | "UPDATE_TOKENS"
+    | "SET_LOCK_TIME"
+    | "DELAY_LOCK";
   payload: {
     account?: Account;
     network?: IRPCProvider;
     customRPC?: IRPCProvider;
-    erc20Tokens?: IERC20TokenInfoDict;
+    tokens?: ITokenInfoDict;
     defaultNetworkTokens?: Array<string>;
+    lockAt?: number;
+    isLockDelayed?: boolean;
   };
 };
 
@@ -56,24 +82,25 @@ export interface IWalletState {
   account?: Account;
   network?: IRPCProvider;
   customRPCs: Array<IRPCProvider>;
-  erc20Tokens: IERC20TokenInfoDict;
+  tokens: ITokenInfoDict;
   defaultNetworkTokens: Array<string>;
+  lockAt?: number; // milliseconds to lock wallet. 0: never lock. 1: never to reset it;
+  isLockDelayed?: boolean;
 }
 
 export const walletReducer = (
   state: IWalletState = {
     customRPCs: [],
     defaultNetworkTokens: [],
-    erc20Tokens: {}
+    tokens: {},
+    lockAt: 0,
+    isLockDelayed: false
   },
   action: WalletAction
 ) => {
   switch (action.type) {
     case "SET_ACCOUNT":
       const { account } = action.payload;
-      if (!account) {
-        return state;
-      }
       return { ...state, account };
     case "ADD_CUSTOM_RPC":
       const { customRPC } = action.payload;
@@ -95,10 +122,20 @@ export const walletReducer = (
         network: action.payload.network,
         defaultNetworkTokens: action.payload.defaultNetworkTokens
       };
-    case "UPDATE_ERC20_TOKENS":
+    case "UPDATE_TOKENS":
       return {
         ...state,
-        erc20Tokens: action.payload.erc20Tokens
+        tokens: action.payload.tokens
+      };
+    case "SET_LOCK_TIME":
+      return {
+        ...state,
+        lockAt: action.payload.lockAt
+      };
+    case "DELAY_LOCK":
+      return {
+        ...state,
+        isLockDelayed: action.payload.isLockDelayed
       };
     default:
       return state;

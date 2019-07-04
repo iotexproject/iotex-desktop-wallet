@@ -3,6 +3,8 @@ const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const { session } = require("electron");
 const { initSolc } = require("./solc");
+const { createServer } = require("./server");
+const Service = require("./service");
 
 const allowRequestOrigins = [
   "https://iotexscan.io",
@@ -17,6 +19,7 @@ const allowedGlobals = new Set();
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let service;
 
 function createWindow() {
   // Create the browser window.
@@ -27,6 +30,14 @@ function createWindow() {
     webPreferences: {
       contextIsolation: true,
       preload: path.resolve(__dirname, "renderer.js")
+    }
+  });
+  // start a service
+  createServer(64102, function(err, server) {
+    if (err) {
+      log.error("failed to create wss service", err);
+    } else {
+      service = new Service(server, mainWindow.webContents);
     }
   });
 
@@ -41,6 +52,9 @@ function createWindow() {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
+    if (service) {
+      service.stop();
+    }
     mainWindow = null;
   });
 

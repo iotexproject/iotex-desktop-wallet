@@ -1,6 +1,7 @@
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 import Table from "antd/lib/table";
+import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import { IActionInfo } from "iotex-antenna/lib/rpc-method/types";
@@ -11,18 +12,22 @@ import Helmet from "onefx/lib/react-helmet";
 import React, { PureComponent } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
-import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
-import { ERC20Token } from "../../erc20/erc20Token";
+import {
+  ActionInfo,
+  GetActionsResponse
+} from "../../api-gateway/resolvers/antenna-types";
+import { Token } from "../../erc20/token";
 import { getColumns } from "../block/block-detail";
+import { ActionNotFound } from "../common/action-not-found";
 import { Flex } from "../common/flex";
 import { actionsTypes, getActionType } from "../common/get-action-type";
 import { Navigation } from "../common/navigation";
-import { NotFound } from "../common/not-found";
 import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding, NonePadding } from "../common/styles/style-padding";
 import { GET_ACTIONS_BY_HASH } from "../queries";
+import { toETHAddress } from "../wallet/address";
 import { ActionReceipt } from "./action-receipt";
 
 type PathParamsType = {
@@ -37,7 +42,7 @@ type Props = RouteComponentProps<PathParamsType> & {
 export function buildKeyValueArray(object: {}): Array<{}> {
   return Object.keys(object).map(key => {
     // @ts-ignore
-    if (typeof object[key] === "object") {
+    if (typeof object[key] === "object" && !object[key].seconds) {
       return {
         key,
         // @ts-ignore
@@ -65,7 +70,7 @@ class ActionDetailsInner extends PureComponent<Props> {
   }): Promise<{ action: IActionInfo; dataSource: Array<{}> }> {
     const actionInfo = get(data || {}, "getActions.actionInfo.0") || {};
     // @ts-ignore
-    const { actHash, blkHash, action } = actionInfo;
+    const { actHash, blkHash, action, timestamp } = actionInfo;
     let object: { [index: string]: string } = {};
     for (let i = 0; i < actionsTypes.length; i++) {
       object = get(action, `core.${actionsTypes[i]}`);
@@ -78,36 +83,63 @@ class ActionDetailsInner extends PureComponent<Props> {
     object = object || {};
     if (object.contract && object.data) {
       try {
-        const info = ERC20Token.getToken(object.contract).decode(object.data);
-        if (info) {
-          const tokenInfo = await ERC20Token.getToken(object.contract).getInfo(
+        let info = null;
+        try {
+          info = Token.getToken(object.contract).decode(object.data);
+        } catch (error) {
+          info = Token.getBiddingToken(object.contract).decode(object.data);
+        }
+        if (!info) {
+          throw new Error(`Could not able to decode action data!`);
+        }
+        if (info.method === "transfer") {
+          const tokenInfo = await Token.getToken(object.contract).getInfo(
             object.contract
           );
-          if (tokenInfo && info.method === "transfer") {
-            const tokenTransfered =
-              info.data._value / 10 ** tokenInfo.decimals.toNumber();
-            object = {
-              amount: object.amount,
-              contract: object.contract,
-              to: info.data._to,
-              tokens: `${tokenTransfered} ${tokenInfo.symbol} (${
-                tokenInfo.name
-              })`,
-              data: object.data
-            };
-          }
+          const tokenTransfered = new BigNumber(info.data._value).dividedBy(
+            new BigNumber(`1e${tokenInfo.decimals.toNumber()}`)
+          );
+          object = {
+            amount: object.amount,
+            contract: object.contract,
+            to: info.data._to,
+            tokens: `${tokenTransfered.toString(10)} ${tokenInfo.symbol} (${
+              tokenInfo.name
+            })`,
+            data: object.data
+          };
+        }
+        if (info.method.match(/^(claim|bid)$/)) {
+          object = {
+            amount: object.amount,
+            contract: object.contract,
+            method: info.method,
+            data: object.data
+          };
+        }
+        if (info.method === "claimAs") {
+          object = {
+            amount: object.amount,
+            contract: object.contract,
+            method: "claimAs",
+            owner: `${info.data.owner}`,
+            ownerETH: `${toETHAddress(info.data.owner)}`,
+            data: object.data
+          };
         }
       } catch (e) {
-        window.console.error(`failed to parse ERC20 token: ${e}`);
+        window.console.error(`failed to parse XRC20 token: ${e}`);
       }
     }
 
     const actionUnion = {
       actHash,
       blkHash,
+      timestamp,
       sender: action ? publicKeyToAddress(String(action.senderPubKey)) : "",
       gasPrice: `${get(action, "core.gasPrice")} Rau` || "",
-      actionType: getActionType(actionInfo),
+      gasLimit: `${get(action, "core.gasLimit")}` || "",
+      actionType: getActionType(actionInfo as ActionInfo),
       nonce: get(action, "core.nonce") || 0,
       ...object
     };
@@ -122,7 +154,7 @@ class ActionDetailsInner extends PureComponent<Props> {
 
   public render(): JSX.Element {
     if (this.state.error) {
-      return <NotFound />;
+      return <ActionNotFound />;
     }
     const {
       match: {

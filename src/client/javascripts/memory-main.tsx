@@ -19,9 +19,11 @@ import JSONGlobals from "safe-json-globals/get";
 import { Client as StyletronClient } from "styletron-engine-atomic";
 import { apolloClient } from "../../shared/common/apollo-client";
 import { RootMemory } from "../../shared/common/root-memory";
+import "../../shared/common/setup-big-number";
 import { Wallet } from "../../shared/wallet/wallet";
 import {
   queryParamsReducer,
+  signParamsReducer,
   walletReducer
 } from "../../shared/wallet/wallet-reducer";
 
@@ -60,6 +62,7 @@ memoryReactRender({
     apolloState: noopReducer,
     webBpApolloState: noopReducer,
     queryParams: queryParamsReducer,
+    signParams: signParamsReducer,
     wallet: walletReducer
   })
 });

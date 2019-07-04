@@ -7,8 +7,10 @@ import { ApolloProvider } from "react-apollo";
 import { combineReducers } from "redux";
 import { AppContainer } from "../../shared/app-container";
 import { apolloClient } from "../../shared/common/apollo-client";
+import "../../shared/common/setup-big-number";
 import {
   queryParamsReducer,
+  signParamsReducer,
   walletReducer
 } from "../../shared/wallet/wallet-reducer";
 
@@ -23,6 +25,7 @@ clientReactRender({
     apolloState: noopReducer,
     webBpApolloState: noopReducer,
     queryParams: queryParamsReducer,
+    signParams: signParamsReducer,
     wallet: walletReducer
   }),
   clientScript: "/main.js"

@@ -1,6 +1,11 @@
+import { notification } from "antd";
 import BigNumber from "bignumber.js";
 import ethereumjs from "ethereumjs-abi";
+// @ts-ignore
+import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
+import { SealedEnvelop } from "iotex-antenna/lib/action/envelop";
+import { ExecutionMethod } from "iotex-antenna/lib/action/method";
 import {
   getArgTypes,
   getHeaderHash
@@ -8,12 +13,22 @@ import {
 import { Contract } from "iotex-antenna/lib/contract/contract";
 import { fromBytes } from "iotex-antenna/lib/crypto/address";
 import { IRpcMethod } from "iotex-antenna/lib/rpc-method/types";
+// @ts-ignore
+import { t } from "onefx/lib/iso-i18n";
+import { getAntenna } from "../shared/wallet/get-antenna";
 import { ABI } from "./abi";
+
+const GAS_LIMIT_MULTIPLIED_BY = 3;
 
 export interface Method {
   name: string;
   inputsNames: [string];
   inputsTypes: [string];
+}
+
+export interface IGasEstimation {
+  gasPrice: string;
+  gasLimit: string;
 }
 
 export interface DecodeData {
@@ -73,15 +88,19 @@ export interface IERC20 {
 
 export class ERC20 implements IERC20 {
   public address: string;
-  private contract: Contract;
+  public contract: Contract;
   public provider: IRpcMethod;
-  private methods: { [key: string]: Method };
+  protected methods: { [key: string]: Method };
 
-  public static create(address: string, provider: IRpcMethod): IERC20 {
+  public static create(
+    address: string,
+    provider: IRpcMethod,
+    abi: Array<{}> = ABI
+  ): ERC20 {
     const erc20 = new ERC20();
     erc20.address = address;
     erc20.provider = provider;
-    erc20.contract = new Contract(ABI, address, {
+    erc20.contract = new Contract(abi, address, {
       provider: provider
     });
 
@@ -109,7 +128,6 @@ export class ERC20 implements IERC20 {
       };
     }
     erc20.methods = methods;
-
     return erc20;
   }
 
@@ -163,7 +181,7 @@ export class ERC20 implements IERC20 {
       gasLimit,
       "0",
       to,
-      value.toString()
+      value.toFixed(0)
     );
   }
 
@@ -238,22 +256,119 @@ export class ERC20 implements IERC20 {
     return result.data;
   }
 
-  private executeMethod(
+  public async executeMethod(
     method: string,
     account: Account,
     gasPrice: string,
     gasLimit: string,
     amount: string,
-    // @ts-ignore
-    // tslint:disable-next-line: typedef
-    ...args
-  ): string {
+    // tslint:disable-next-line
+    ...args: Array<any>
+  ): Promise<string> {
+    try {
+      const canExec = await this.canExecuteMethod(
+        method,
+        account,
+        gasPrice,
+        gasLimit,
+        amount,
+        ...args
+      );
+      if (!canExec) {
+        return "";
+      }
+    } catch (error) {
+      notification.error({
+        message: `${error.message}`
+      });
+      return "";
+    }
+    // Needed for debug purpose.
+    window.console.log(`executeMethod`, {
+      method,
+      account: { ...account, privateKey: "****" },
+      gasPrice,
+      gasLimit,
+      amount,
+      args
+    });
     return this.contract.methods[method](...args, {
       account: account,
       amount: amount,
       gasLimit: gasLimit,
       gasPrice: gasPrice
     });
+  }
+
+  public async canExecuteMethod(
+    method: string,
+    account: Account,
+    gasPrice: string,
+    gasLimit: string,
+    amount: string,
+    // tslint:disable-next-line
+    ...args: Array<any>
+  ): Promise<boolean> {
+    const estimateGas = await this.estimateExecutionGas(
+      method,
+      account,
+      amount, // Amount here is in RAU unit
+      ...args
+    );
+    const gasNeeded = new BigNumber(estimateGas.gasLimit).multipliedBy(
+      new BigNumber(estimateGas.gasPrice)
+    );
+    const gasInput = new BigNumber(gasLimit).multipliedBy(
+      new BigNumber(gasPrice)
+    );
+    if (gasInput.isLessThan(gasNeeded)) {
+      throw new Error(t("erc20.execution.error.lowGasInput"));
+    }
+    const { accountMeta } = await getAntenna().iotx.getAccount({
+      address: account.address
+    });
+    if (!accountMeta) {
+      throw new Error(t("erc20.execution.error.notEnoughBalance"));
+    }
+
+    const requireAmount = new BigNumber(amount).plus(gasNeeded);
+    const availableBalance = new BigNumber(accountMeta.balance);
+    if (availableBalance.isLessThan(requireAmount)) {
+      throw new Error(t("erc20.execution.error.notEnoughBalance"));
+    }
+    return true;
+  }
+
+  public async estimateExecutionGas(
+    method: string,
+    account: Account,
+    amount: string,
+    // tslint:disable-next-line
+    ...args: Array<any>
+  ): Promise<IGasEstimation> {
+    const execution = this.contract.pureEncodeMethod(amount, method, ...args);
+    const executionMethod = new ExecutionMethod(
+      getAntenna().iotx,
+      account,
+      execution
+    );
+    const { gasPrice } = await getAntenna().iotx.suggestGasPrice({});
+    const envelop = await executionMethod.baseEnvelop("100000", `${gasPrice}`);
+    envelop.execution = execution;
+    const selp = SealedEnvelop.sign(
+      account.privateKey,
+      account.publicKey,
+      envelop
+    );
+    const { gas } = await getAntenna().iotx.estimateGasForAction({
+      action: selp.action()
+    });
+    return {
+      gasPrice: `${gasPrice}`,
+      gasLimit: new BigNumber(gas)
+        .multipliedBy(GAS_LIMIT_MULTIPLIED_BY)
+        .toFixed(0)
+    };
   }
 
   public decode(data: string): DecodeData {

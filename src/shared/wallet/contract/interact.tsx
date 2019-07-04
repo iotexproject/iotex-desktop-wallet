@@ -34,17 +34,21 @@ import { ContractLayout } from "./contract-layout";
 
 const { Option } = Select;
 
-type Props = {
+export interface IInteractProps {
+  txHash?: string;
   fromAddress: string;
-};
+}
 
-export class Interact extends Component<Props> {
+export class Interact extends Component<IInteractProps> {
   public render(): JSX.Element {
     return (
       <ContractLayout title={t("wallet.interact.title")} icon={"sync"}>
         {/*
         @ts-ignore */}
-        <InteractForm fromAddress={this.props.fromAddress} />
+        <InteractForm
+          fromAddress={this.props.fromAddress}
+          txHash={this.props.txHash}
+        />
       </ContractLayout>
     );
   }
@@ -77,6 +81,7 @@ interface InteractProps extends FormComponentProps {
   contractAddress?: string;
   method?: string;
   queryParams: QueryParams;
+  txHash?: string;
 }
 
 type State = {
@@ -129,8 +134,12 @@ class InteractFormInner extends Component<InteractProps, State> {
       abiFunctions: null,
       selectedFunction: props.queryParams.method || "",
       outputValues: [],
-      broadcast: null,
-      txHash: "",
+      broadcast: props.txHash
+        ? {
+            success: true
+          }
+        : null,
+      txHash: props.txHash || "",
       showConfirmInteract: false,
       confirmInteractFunction: () => {}
     };
@@ -152,6 +161,18 @@ class InteractFormInner extends Component<InteractProps, State> {
       }
     });
   };
+
+  public componentDidUpdate(): void {
+    const { txHash } = this.props;
+    if (txHash && txHash !== this.state.txHash) {
+      this.setState({
+        txHash,
+        broadcast: {
+          success: true
+        }
+      });
+    }
+  }
 
   public componentDidMount(): void {
     if (this.props.queryParams.method) {
@@ -350,13 +371,23 @@ class InteractFormInner extends Component<InteractProps, State> {
   }
 
   public renderContractMethods = () => {
-    const { abiFunctions, outputValues } = this.state;
     const { getFieldDecorator } = this.props.form;
+    const { args = "[]" } = this.props.queryParams;
+    // tslint:disable-next-line:no-any
+    let argsObj: Array<any> = [];
+    try {
+      argsObj = JSON.parse(args);
+    } catch (e) {
+      // don't care the invalid param
+    }
 
-    const { selectedFunction } = this.props.form.getFieldsValue();
+    const { abiFunctions, outputValues } = this.state;
     if (!abiFunctions) {
       return null;
     }
+
+    let { selectedFunction } = this.props.form.getFieldsValue();
+    selectedFunction = selectedFunction || this.props.queryParams.method;
 
     const currentFunction = abiFunctions[selectedFunction];
 
@@ -401,7 +432,8 @@ class InteractFormInner extends Component<InteractProps, State> {
                 help={<span>{input.type}</span>}
               >
                 {getFieldDecorator(`args.${i}`, {
-                  rules: rulesMap[input.type]
+                  rules: rulesMap[input.type],
+                  initialValue: argsObj[i]
                 })(<Input style={inputStyle} />)}
               </Form.Item>
             ))}
@@ -436,15 +468,7 @@ class InteractFormInner extends Component<InteractProps, State> {
       <Row type="flex" style={{ margin: "20px 0px" }}>
         {
           // @ts-ignore
-          <Button
-            type="primary"
-            onClick={() => {
-              this.setState({
-                showConfirmInteract: true,
-                confirmInteractFunction: this.handleReadWithInput
-              });
-            }}
-          >
+          <Button type="primary" onClick={this.handleReadWithInput}>
             {t("wallet.abi.read")}
           </Button>
         }
@@ -486,9 +510,10 @@ class InteractFormInner extends Component<InteractProps, State> {
       gasPrice: this.props.gasPrice,
       gasLimit: this.props.gasLimit,
       abi: "",
-      contractAddress: ""
+      contractAddress: "",
+      amount: 0
     });
-    const { gasPrice, gasLimit, abi, contractAddress } =
+    const { gasPrice, gasLimit, abi, contractAddress, amount } =
       queryParams && Object.keys(queryParams).length ? queryParams : lastParams;
     return (
       <Form layout={"vertical"}>
@@ -496,7 +521,11 @@ class InteractFormInner extends Component<InteractProps, State> {
           form={form}
           initialValue={contractAddress || ""}
         />
-        <AmountFormInputItem form={form} initialValue={0} required={false} />
+        <AmountFormInputItem
+          form={form}
+          initialValue={amount}
+          required={false}
+        />
         <GasPriceFormInputItem form={form} initialValue={gasPrice} />
         <GasLimitFormInputItem form={form} initialValue={gasLimit || 1000000} />
         <AbiFormInputItem form={form} initialValue={abi} />

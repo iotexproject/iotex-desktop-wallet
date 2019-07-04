@@ -1,5 +1,5 @@
 import { Account } from "iotex-antenna/lib/account/account";
-import { IERC20TokenInfoDict } from "../../erc20/erc20Token";
+import { ITokenInfoDict } from "../../erc20/token";
 import { IRPCProvider, WalletAction } from "./wallet-reducer";
 
 export const setNetwork = (
@@ -22,18 +22,39 @@ export const addCustomRPC = (network: IRPCProvider): WalletAction => ({
   }
 });
 
-export const setAccount = (account: Account): WalletAction => ({
+export const setAccount = (account?: Account): WalletAction => ({
   type: "SET_ACCOUNT",
   payload: {
     account
   }
 });
 
-export const setERC20Tokens = (
-  erc20Tokens: IERC20TokenInfoDict
-): WalletAction => ({
-  type: "UPDATE_ERC20_TOKENS",
+export const setTokens = (tokens: ITokenInfoDict): WalletAction => ({
+  type: "UPDATE_TOKENS",
   payload: {
-    erc20Tokens
+    tokens
+  }
+});
+
+/**
+ * Default after 2 hours;
+ */
+export const countdownToLockInMS = (
+  after = 2 * 60 * 60 * 1000
+): WalletAction => {
+  const lockAt = after === 0 ? 0 : Date.now() + after;
+
+  return {
+    type: "SET_LOCK_TIME",
+    payload: {
+      lockAt
+    }
+  };
+};
+
+export const delayLock = (isLockDelayed: boolean): WalletAction => ({
+  type: "DELAY_LOCK",
+  payload: {
+    isLockDelayed
   }
 });

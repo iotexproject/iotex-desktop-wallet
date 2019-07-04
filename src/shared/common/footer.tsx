@@ -14,7 +14,7 @@ import { colors } from "./styles/style-color";
 import { contentPadding } from "./styles/style-padding";
 import { TOP_BAR_HEIGHT } from "./top-bar";
 
-export const FOOTER_HEIGHT = 260;
+export const FOOTER_HEIGHT = "auto";
 
 export const FOOTER_ABOVE = {
   minHeight: `calc(100vh - ${FOOTER_HEIGHT + TOP_BAR_HEIGHT}px)`
@@ -158,7 +158,7 @@ export function Footer(): JSX.Element {
           </Query>
         </CopyRight>
         <a
-          href="https://iotex.io/policy"
+          href="https://v1.iotex.io/policy"
           style={{ textDecoration: "underline", color: colors.topbarGray }}
         >
           <div>{t("footer.policy")}</div>
