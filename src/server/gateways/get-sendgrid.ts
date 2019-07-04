@@ -37,7 +37,7 @@ export function getSendgrid(opts: any): any {
     email: string
   ): Promise<[ClientResponse, any]> => {
     request.body = [{ email }];
-    return await client.request(request);
+    return client.request(request);
   };
 
   return sendgrid;
