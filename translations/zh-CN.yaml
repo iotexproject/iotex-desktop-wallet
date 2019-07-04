@@ -375,3 +375,4 @@ account.claimAs.close: 关闭
 account.bid: 出价
 account.error.notEnoughBalance: '您没有足够的 IOTX余额来执行该操作!'
 account.placeBid: '对 VITA 出价'
+wallet.transfer.broadcast.fail: 增加gasLimit并再试一次！
