@@ -1,5 +1,6 @@
 import { Form, Input, Modal, notification } from "antd";
 import { WrappedFormUtils } from "antd/lib/form/Form";
+import BigNumber from "bignumber.js";
 import { Account } from "iotex-antenna/lib/account/account";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -62,7 +63,8 @@ class GenerateAuthorizedMessageForm extends React.PureComponent<
     if (!nonce || !account || !token) {
       return "";
     }
-    return `${nonce}I authorize ${toETHAddress(
+    const nonceStr = new BigNumber(nonce).toString(16);
+    return `${nonceStr}I authorize ${toETHAddress(
       account.address
     )} to claim in ${toETHAddress(token.tokenAddress)}`;
   }
