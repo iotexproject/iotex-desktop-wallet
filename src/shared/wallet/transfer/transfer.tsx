@@ -83,6 +83,8 @@ class TransferForm extends React.PureComponent<Props, State> {
 
       const customToken = symbol.match(/iotx/) ? null : Token.getToken(symbol);
 
+      const price = gasPrice ? toRau(gasPrice, "Qev") : undefined;
+
       this.setState({ sending: true, showConfirmTransfer: false });
       let txHash = "";
       if (!customToken) {
@@ -93,7 +95,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             value: toRau(amount, "Iotx"),
             payload: dataInHex,
             gasLimit: gasLimit || undefined,
-            gasPrice: gasPrice || undefined
+            gasPrice: price
           })})`
         );
         try {
@@ -103,7 +105,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             value: toRau(amount, "Iotx"),
             payload: dataInHex,
             gasLimit: gasLimit || undefined,
-            gasPrice: gasPrice || undefined
+            gasPrice: price
           });
         } catch (error) {
           notification.error({
