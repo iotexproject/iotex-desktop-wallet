@@ -89,7 +89,7 @@ function signGetChunks(path: Array<number>, message: Buffer): Array<Buffer> {
 }
 
 export class IoTeXApp {
-  private transport: Transport;
+  private readonly transport: Transport;
 
   constructor(transport: Transport) {
     if (!transport) {
