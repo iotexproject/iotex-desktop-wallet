@@ -63,7 +63,7 @@ class GenerateAuthorizedMessageForm extends React.PureComponent<
     if (!nonce || !account || !token) {
       return "";
     }
-    const nonceStr = new BigNumber(nonce).toString(16);
+    const nonceStr = new BigNumber(nonce, 10).toString(10);
     return `${nonceStr}I authorize ${toETHAddress(
       account.address
     )} to claim in ${toETHAddress(token.tokenAddress)}`;
