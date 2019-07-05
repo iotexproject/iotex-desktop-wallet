@@ -1,14 +1,14 @@
 import koa from "koa";
 // @ts-ignore
 import { noopReducer } from "onefx/lib/iso-react-render/root/root-reducer";
-// @ts-ignore
-import { Server } from "onefx/lib/server";
 import * as React from "react";
 import { setApiGateway } from "../api-gateway/api-gateway";
 import { AppContainer } from "../shared/app-container";
 import { apolloSSR } from "../shared/common/apollo-ssr";
+// @ts-ignore
+import { MyServer } from "./start-server";
 
-export function setServerRoutes(server: Server): void {
+export function setServerRoutes(server: MyServer): void {
   // Health checks
   server.get("health", "/health", (ctx: koa.Context) => {
     ctx.body = "OK";

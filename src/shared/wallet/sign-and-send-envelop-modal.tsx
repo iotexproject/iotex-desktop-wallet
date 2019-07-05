@@ -74,6 +74,7 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
     const nonce = String(
       (meta.accountMeta && meta.accountMeta.pendingNonce) || ""
     );
+    // @ts-ignore
     const envelop = Envelop.deserialize(
       Buffer.from(this.props.envelop || "", "hex")
     );

@@ -24,4 +24,4 @@ export const topBottomContentPadding = {
 };
 
 export const ContentPadding = styled("div", contentPadding);
-export const NonePadding = styled("div");
+export const NonePadding = styled("div", {});

@@ -1,10 +1,10 @@
 // tslint:disable:no-http-string
 // @ts-ignore
-import { Server } from "onefx";
 // @ts-ignore
 import { logger } from "onefx/lib/integrated-gateways/logger";
+import { MyServer } from "../start-server";
 
-export function setIoTexCoreProxy(server: Server): void {
+export function setIoTexCoreProxy(server: MyServer): void {
   const proxy = require("koa-server-http-proxy");
   let target = server.config.gateways.iotexAntenna;
   if (target) {

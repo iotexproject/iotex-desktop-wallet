@@ -120,7 +120,7 @@ class LanguageSwitcher extends Component<{}, State> {
       <Wrapper>
         <div>
           <LanguageSwitchButton
-            onclick={() =>
+            onClick={() =>
               this.setState({
                 displayTranslationMenu: !this.state.displayTranslationMenu
               })

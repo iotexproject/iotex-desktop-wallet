@@ -5,7 +5,7 @@ import isBrowser from "is-browser";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
-import { styled } from "onefx/lib/styletron-react";
+import { styled, StyleObject } from "onefx/lib/styletron-react";
 import { Component } from "react";
 import React from "react";
 import { withApollo, WithApolloClient } from "react-apollo";
@@ -209,7 +209,7 @@ class TopBarComponent extends Component<Props, State> {
       ? [
           ...result,
           <AntdDropdown
-            key={3}
+            key={4}
             trigger={["click", "hover"]}
             overlay={this.renderMutichainMenu()}
           >
@@ -364,7 +364,7 @@ function HamburgerBtn({
 }: {
   displayMobileMenu: boolean;
   children: Array<JSX.Element> | JSX.Element;
-  onClick: Function;
+  onClick(): void;
 }): JSX.Element {
   const Styled = styled("div", {
     ":hover": {
@@ -426,7 +426,7 @@ const overlayStyle = {
   backgroundColor: colors.nav01
 };
 
-const menuItem = {
+const menuItem: StyleObject = {
   color: `${colors.topbarGray} !important`,
   marginLeft: "14px",
   textDecoration: "none",
@@ -477,9 +477,9 @@ const A = styled("a", {
 });
 
 const NoBgA = styled("a", menuItem);
+
 const NoBgLink = styled(Link, menuItem);
 
-// @ts-ignore
 const StyledLink = styled(Link, {
   ...menuItem,
   padding: "5px 45px 5px 12px !important",
