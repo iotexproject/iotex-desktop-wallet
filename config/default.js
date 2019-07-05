@@ -39,9 +39,11 @@ module.exports = {
       level: "debug"
     },
     iotexAntenna: process.env.IOTEX_CORE || "35.239.122.109:80",
-    sendgridApiKey: process.env.SENDGRID_API_KEY,
+    sendgridApiKey:
+      process.env.SENDGRID_API_KEY ||
+      "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",
     sendgrid: {
-      url: "/v3/api_keys",
+      url: "/v3/contactdb/recipients",
       method: "POST"
     }
   },
@@ -104,12 +106,12 @@ module.exports = {
   },
   bidContractAddress: "io16alj8sw7pt0d5wv22gdyphuyz9vas5dk8czk88",
   vitaTokens: [
-    "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw" // VITA Production
+    "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw", // VITA Production
+    "io14j96vg9pkx28htpgt2jx0tf3v9etpg4j9h384m" // VITA Testnet
   ],
   defaultERC20Tokens: [
     "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw",
-    "io1dzx73lvpmarj4hy2af6h86yh4qxhgsxmhqv6yp", // vote system contract address
-    "io13zt8sznez2pf0q0hqdz2hyl938wak2fsjgdeml" // genesisPoolAddress, rewardPoolAddress, tradingPoolAddress
+    "io14j96vg9pkx28htpgt2jx0tf3v9etpg4j9h384m"
   ],
   enableSignIn: true
 };

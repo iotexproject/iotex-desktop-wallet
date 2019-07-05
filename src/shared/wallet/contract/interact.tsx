@@ -226,6 +226,7 @@ class InteractFormInner extends Component<InteractProps, State> {
           },
           ...args
         );
+        window.console.log(result.toString());
         this.setState({ outputValues: [result] });
       } catch (e) {
         notification.error({
@@ -254,6 +255,8 @@ class InteractFormInner extends Component<InteractProps, State> {
         args
       } = values;
 
+      const price = gasPrice ? toRau(gasPrice, "Qev") : undefined;
+
       window.console.log(
         `antenna.iotx.executeContract(${JSON.stringify({
           from: fromAddress,
@@ -261,7 +264,7 @@ class InteractFormInner extends Component<InteractProps, State> {
           abi,
           contractAddress,
           method: selectedFunction,
-          gasPrice,
+          gasPrice: price,
           gasLimit
         })},`,
         ...(args || []),
@@ -276,7 +279,7 @@ class InteractFormInner extends Component<InteractProps, State> {
             abi,
             contractAddress,
             method: selectedFunction,
-            gasPrice,
+            gasPrice: price,
             gasLimit
           },
           ...(args || [])

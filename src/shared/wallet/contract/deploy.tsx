@@ -237,12 +237,14 @@ class DeployFormInner extends Component<DeployProps, State> {
 
       const args = constructorArgs.map(arg => value[`ctor${arg.name}`]);
 
+      const price = gasPrice ? toRau(gasPrice, "Qev") : undefined;
+
       window.console.log(
         `antenna.iotx.deployContract(${JSON.stringify({
           from: String(address),
           amount,
           data: Buffer.from(trimmed0xHex, "hex"),
-          gasPrice: gasPrice || undefined,
+          gasPrice: price,
           gasLimit: gasLimit || undefined
         })}${args.length ? ["", ...args].join(",") : ""})`
       );
@@ -253,7 +255,7 @@ class DeployFormInner extends Component<DeployProps, State> {
           from: String(address),
           amount,
           data: Buffer.from(trimmed0xHex, "hex"),
-          gasPrice: gasPrice || undefined,
+          gasPrice: price,
           gasLimit: gasLimit || undefined
         },
         ...args
