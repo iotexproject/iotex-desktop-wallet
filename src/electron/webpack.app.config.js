@@ -3,6 +3,7 @@ const merge = require("webpack-merge");
 const nodeExternals = require("webpack-node-externals");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const webpack = require("webpack");
 
 const translateEnvToMode = env => {
   if (env === "production") {
@@ -11,7 +12,10 @@ const translateEnvToMode = env => {
   return "development";
 };
 
+const globalState = require("./globalState");
+
 const base = env => {
+  env = env || process.env.NODE_ENV || "production";
   return {
     target: "electron-renderer",
     mode: translateEnvToMode(env),
@@ -40,6 +44,12 @@ const base = env => {
       ]
     },
     plugins: [
+      new webpack.DefinePlugin({
+        "process.env": {
+          GLOBAL_STATE: JSON.stringify(globalState),
+          NODE_ENV: JSON.stringify(env)
+        }
+      }),
       new FriendlyErrorsWebpackPlugin({ clearConsole: env === "development" }),
       new CopyPlugin([
         { from: "./src/index.html" },
