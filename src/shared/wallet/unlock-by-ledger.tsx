@@ -2,9 +2,15 @@ import Button from "antd/lib/button";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, DispatchProp } from "react-redux";
+import { setAccount } from "./wallet-actions";
 
-const UnlockByLedgerComponent = () => {
+interface IUnlockByLedgerComponentProps extends DispatchProp {}
+
+const UnlockByLedgerComponent = (
+  props: IUnlockByLedgerComponentProps
+): JSX.Element => {
+  const { dispatch } = props;
   return (
     <>
       <div style={{ margin: "24px" }} />
@@ -12,6 +18,8 @@ const UnlockByLedgerComponent = () => {
       <Button
         onClick={() => {
           // TODO: Impletement connect ledger device here
+          const account = undefined; // Correct account here
+          dispatch(setAccount(account));
         }}
       >
         {t("unlock-wallet.by_ledger")}
