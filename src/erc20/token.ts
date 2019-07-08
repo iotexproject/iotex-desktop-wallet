@@ -228,5 +228,5 @@ export function getNonce(msg: string, address?: string): BigNumber {
   if (address && toIoTeXAddress(matches[2]) !== address) {
     throw new Error(`invalid token address ${matches[2]}`);
   }
-  return new BigNumber(matches[1], 16);
+  return new BigNumber(matches[1], 10);
 }
