@@ -8,6 +8,6 @@ export function setGateways(server: MyServer): void {
   server.gateways = server.gateways || {};
   const gateways = server.config.gateways;
   server.gateways.antenna = new RpcMethod(gateways.iotexAntenna);
-  server.gateways.coinmarketcap = fetchCoinPrice;
+  server.gateways.coinmarketcap = { fetchCoinPrice };
   server.gateways.sendgrid = getSendgrid(gateways.sendgrid);
 }

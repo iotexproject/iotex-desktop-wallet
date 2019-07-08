@@ -16,7 +16,7 @@ export type MyServer = Server & {
   model: {};
   gateways: {
     antenna: RpcMethod;
-    coinmarketcap(): Promise<AxiosResponse>;
+    coinmarketcap: { fetchCoinPrice(): Promise<AxiosResponse> };
     sendgrid: {};
   };
   config: MyConfig;
