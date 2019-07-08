@@ -13,6 +13,7 @@ type Props = {
   envelop?: string;
   fromAddress: string;
   reqId?: number;
+  deserialize?: Function;
 } & DispatchProp<SignParamAction>;
 
 class SignAndSendEnvelopModalInner extends Component<Props> {
@@ -74,7 +75,7 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
     const nonce = String(
       (meta.accountMeta && meta.accountMeta.pendingNonce) || ""
     );
-    // @ts-ignore
+
     const envelop = Envelop.deserialize(
       Buffer.from(this.props.envelop || "", "hex")
     );

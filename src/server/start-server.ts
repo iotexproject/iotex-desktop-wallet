@@ -36,15 +36,45 @@ export type MyConfig = Config & {
   apiGatewayUrl: string;
 };
 
+const defaultConfig: Config = {
+  project: "",
+  server: {
+    host: "",
+    port: "",
+    staticDir: "",
+    delayInitMiddleware: false,
+    cookie: {
+      secrets: []
+    },
+    noSecurityHeadersRoutes: {},
+    noCsrfRoutes: {}
+  },
+  gateways: {
+    logger: {
+      enabled: false,
+      baseDir: "",
+      topicName: "",
+      level: "debug"
+    }
+  },
+  csp: {},
+  analytics: {},
+  session: {}
+};
+const serverConfig: Config = {
+  ...defaultConfig,
+  ...config
+};
+
 export async function startServer(): Promise<MyServer> {
-  // @ts-ignore
-  const server = new Server(config);
+  const server = new Server(serverConfig as MyConfig) as MyServer;
   setGateways(server);
   setMiddleware(server);
   setModel(server);
   setServerRoutes(server);
 
-  const port = process.env.PORT || config.get("server.port");
+  const defaultPort = process.env.PORT || "4004";
+  const port = Number(defaultPort) || config.get("server.port");
 
   server.listen(port);
   return server;
