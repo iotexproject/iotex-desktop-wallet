@@ -129,14 +129,17 @@ class AccountSection extends React.Component<Props, State> {
     if (account) {
       await this.getAccount(account);
       await this.getTokensInfo();
-      if (this.state.tokenInfos) {
-        const tokenAddress = Object.keys(this.state.tokenInfos)[0];
-        const claimableAmount = await this.claimableAmount(
-          tokenAddress,
-          account.address
-        );
-        const claimable = claimableAmount.toNumber() > 0;
-        this.setState({ claimable });
+      const tokens = Object.keys(this.state.tokenInfos);
+      if (tokens.length > 0) {
+        const tokenAddress = Token.getVitaToken(tokens);
+        if (tokenAddress) {
+          const claimableAmount = await this.claimableAmount(
+            tokenAddress,
+            account.address
+          );
+          const claimable = claimableAmount.toNumber() > 0;
+          this.setState({ claimable });
+        }
       }
       this.setState({ isLoading: false, isSyncing: false });
     }

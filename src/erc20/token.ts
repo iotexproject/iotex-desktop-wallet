@@ -60,6 +60,14 @@ export class Token {
     return token;
   }
 
+  public static getVitaToken(
+    tokenAddresses: Array<string>
+  ): string | undefined {
+    return tokenAddresses.find(tokenAddress =>
+      vitaTokens.includes(tokenAddress)
+    );
+  }
+
   public getApi(): ERC20 | Vita {
     return this.api;
   }
