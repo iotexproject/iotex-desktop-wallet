@@ -216,11 +216,7 @@ class HomeComponent extends Component<Props, State> {
             </Row>
             <Row type="flex" justify="center" align="middle">
               <Col xs={20} md={12}>
-                <SearchBox
-                  enterButton
-                  size="large"
-                  placeholder={t("topbar.search")}
-                />
+                <SearchBox size="large" placeholder={t("topbar.search")} />
               </Col>
             </Row>
           </div>
