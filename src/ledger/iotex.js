@@ -39,18 +39,10 @@ function errorCodeToString(statusCode) {
 }
 
 function processErrorResponse(response) {
-  console.log(response);
   return {
     return_code: response.statusCode,
     error_message: errorCodeToString(response.statusCode)
   };
-}
-
-function serializeHRP(hrp) {
-  const buf = Buffer.alloc(1 + hrp.length);
-  buf.writeUInt8(hrp.length, 0);
-  buf.write(hrp, 1);
-  return buf;
 }
 
 function serializePath(path) {

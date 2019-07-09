@@ -43,6 +43,7 @@
     "webpack-node-externals": "1.7.2"
   },
   "dependencies": {
+    "@ledgerhq/hw-transport-node-hid": "^4.64.0",
     "electron-is-dev": "^1.1.0",
     "electron-log": "^3.0.5",
     "electron-updater": "^4.0.6",
