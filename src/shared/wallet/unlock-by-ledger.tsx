@@ -1,3 +1,4 @@
+import { notification } from "antd";
 import Button from "antd/lib/button";
 // @ts-ignore
 import window from "global/window";
@@ -42,7 +43,9 @@ const UnlockByLedgerComponent = (
               dispatch(setAccount(account));
             })
             .catch((e: Error) => {
-              // TODO popup warn window: Please plugin ledger device and open IoTeX app.
+              notification.error({
+                message: t("unlock-by-ledger.pluginDevice")
+              });
               console.warn(e);
             });
         }}
