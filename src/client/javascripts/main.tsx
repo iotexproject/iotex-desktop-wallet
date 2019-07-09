@@ -1,3 +1,5 @@
+import "@babel/polyfill";
+// tslint:disable-next-line: ordered-imports
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
 // @ts-ignore
 import window from "global/window";
