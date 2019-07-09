@@ -37,7 +37,7 @@ class ErrorPageComponent extends PureComponent<Props> {
         <Flex {...FOOTER_ABOVE}>
           <Flex column={true} margin={"8px"} alignItems={"flex-start"}>
             <h1 style={{ fontWeight: "bold" }}>{title}</h1>
-            {info && <Info>{info}</Info>}
+            {!!info && <Info>{info}</Info>}
             <Button
               href="#"
               type="primary"

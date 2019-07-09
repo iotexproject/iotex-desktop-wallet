@@ -53,6 +53,8 @@ export class Button extends Component<Props> {
         width
       };
     }
+
+    // @ts-ignore
     const Button = styled(href ? "a" : "button", style);
 
     return (

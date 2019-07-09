@@ -1,6 +1,6 @@
 // @ts-ignore
-import { Server } from "onefx/lib/server";
+import { MyServer } from "../server/start-server";
 
-export function setModel(server: Server): void {
+export function setModel(server: MyServer): void {
   server.model = server.model || {};
 }

@@ -2,7 +2,7 @@
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 
-type Element = JSX.Element | string | boolean | void;
+type Element = JSX.Element | string | boolean;
 
 type PropTypes = {
   children?: Array<Element> | Element;

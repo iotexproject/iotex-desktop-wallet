@@ -324,16 +324,20 @@ class AccountSection extends React.Component<Props, State> {
       <AuthorizedMessageFormModal
         visible={this.state.authorizedMessageFormVisible}
         onOK={async (authMessage: IAuthorizedMessage) => {
-          const gasEstimation = await Token.getToken(
-            token.tokenAddress
-          ).estimateClaimAsGas(authMessage, account);
-          this.setState({
-            authorizedMessageFormVisible: false,
-            claimConfirmationVisible: true,
-            claimTokenAddress: token.tokenAddress,
-            authMessage,
-            gasEstimation
-          });
+          try {
+            const gasEstimation = await Token.getToken(
+              token.tokenAddress
+            ).estimateClaimAsGas(authMessage, account);
+            this.setState({
+              authorizedMessageFormVisible: false,
+              claimConfirmationVisible: true,
+              claimTokenAddress: token.tokenAddress,
+              authMessage,
+              gasEstimation
+            });
+          } catch (error) {
+            notification.error({ message: error.message });
+          }
         }}
         onCancel={() => {
           this.setState({
@@ -355,15 +359,19 @@ class AccountSection extends React.Component<Props, State> {
         account={account}
         visible={this.state.bidFormModalVisible}
         onOK={async (amount: string) => {
-          const gasEstimation = await Token.getBiddingToken(
-            bidContractAddress
-          ).estimateBidGas(account, amount);
-          this.setState({
-            bidFormModalVisible: false,
-            bidConfirmationVisible: true,
-            bidAmount: amount,
-            gasEstimation
-          });
+          try {
+            const gasEstimation = await Token.getBiddingToken(
+              bidContractAddress
+            ).estimateBidGas(account, amount);
+            this.setState({
+              bidFormModalVisible: false,
+              bidConfirmationVisible: true,
+              bidAmount: amount,
+              gasEstimation
+            });
+          } catch (error) {
+            notification.error({ message: error.message });
+          }
         }}
         onCancel={() => {
           this.setState({
@@ -433,15 +441,19 @@ class AccountSection extends React.Component<Props, State> {
     if (!account) {
       return;
     }
-    const gasEstimation = await Token.getToken(
-      token.tokenAddress
-    ).estimateClaimGas(account);
-    this.setState({
-      claimConfirmationVisible: true,
-      claimTokenAddress: token.tokenAddress,
-      authMessage: null,
-      gasEstimation
-    });
+    try {
+      const gasEstimation = await Token.getToken(
+        token.tokenAddress
+      ).estimateClaimGas(account);
+      this.setState({
+        claimConfirmationVisible: true,
+        claimTokenAddress: token.tokenAddress,
+        authMessage: null,
+        gasEstimation
+      });
+    } catch (error) {
+      notification.error({ message: error.message });
+    }
   };
 
   private renderClaimButton(token: ITokenInfo): JSX.Element {

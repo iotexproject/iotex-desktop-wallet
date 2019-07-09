@@ -7,6 +7,11 @@ const window = require("global/window");
 const { ipcRenderer } = require("electron");
 const isDev = require("electron-is-dev");
 
+let globalState = process.env.GLOBAL_STATE || {};
+if (isDev) {
+  globalState = require("../globalState");
+}
+
 window.xopen = function(url, frameName, features) {
   shell.openExternal(url);
 };
@@ -31,6 +36,9 @@ window.solidityCompile = function(source, callback) {
 };
 
 window.document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("json-globals").innerText = JSON.stringify(
+    globalState
+  );
   require("../../../dist/memory-main.js");
   if (isDev) {
     ["../../../dist/stylesheets/main.css", "../../../dist/antd.css"].forEach(
