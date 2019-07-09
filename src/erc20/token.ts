@@ -91,6 +91,13 @@ export class Token {
     }
   }
 
+  public async claimableAmount(walletAddress: string): Promise<BigNumber> {
+    if (this.api instanceof Vita) {
+      return this.api.claimableAmount(walletAddress, walletAddress);
+    }
+    throw new Error(`Token ${this.api.address} is not Vita!`);
+  }
+
   public async getInfo(walletAddress: string): Promise<ITokenInfo> {
     const api = this.api;
     const [balance, name, symbol, decimals] = await Promise.all<
