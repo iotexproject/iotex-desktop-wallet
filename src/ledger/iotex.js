@@ -1,6 +1,3 @@
-// tslint:disable:no-any
-import Transport from "@ledgerhq/hw-transport";
-
 const CLA = 0x55;
 const CHUNK_SIZE = 250;
 
@@ -36,42 +33,47 @@ const ERROR_DESCRIPTION = {
   0x6f01: "Sign/verify error"
 };
 
-function errorCodeToString(statusCode: number): string {
-  if (statusCode in ERROR_DESCRIPTION) {
-    // @ts-ignore
-    return ERROR_DESCRIPTION[statusCode];
-  }
+function errorCodeToString(statusCode) {
+  if (statusCode in ERROR_DESCRIPTION) return ERROR_DESCRIPTION[statusCode];
   return `Unknown Status Code: ${statusCode}`;
 }
 
-function processErrorResponse(response: any): {} {
+function processErrorResponse(response) {
+  console.log(response);
   return {
-    code: response.statusCode,
-    message: errorCodeToString(response.statusCode)
+    return_code: response.statusCode,
+    error_message: errorCodeToString(response.statusCode)
   };
 }
 
-function serializePath(path: Array<number>): Buffer {
+function serializeHRP(hrp) {
+  const buf = Buffer.alloc(1 + hrp.length);
+  buf.writeUInt8(hrp.length, 0);
+  buf.write(hrp, 1);
+  return buf;
+}
+
+function serializePath(path) {
   if (path == null || path.length < 3) {
     throw new Error("Invalid path.");
   }
   if (path.length > 10) {
     throw new Error("Invalid path. Length should be <= 10");
   }
-  const buf = Buffer.alloc(path.length * 4 + 1);
+  const buf = Buffer.alloc(1 + 4 * path.length);
   buf.writeUInt8(path.length, 0);
   for (let i = 0; i < path.length; i += 1) {
     let v = path[i];
     if (i < 3) {
-      // tslint:disable-next-line: no-bitwise
+      // eslint-disable-next-line no-bitwise
       v |= 0x80000000; // Harden
     }
-    buf.writeInt32LE(v, i * 4 + 1);
+    buf.writeInt32LE(v, 1 + i * 4);
   }
   return buf;
 }
 
-function signGetChunks(path: Array<number>, message: Buffer): Array<Buffer> {
+function signGetChunks(path, message) {
   const chunks = [];
   chunks.push(serializePath(path));
 
@@ -88,86 +90,86 @@ function signGetChunks(path: Array<number>, message: Buffer): Array<Buffer> {
   return chunks;
 }
 
-export class IoTeXApp {
-  private readonly transport: Transport;
-
-  constructor(transport: Transport) {
-    if (!transport) {
+module.exports.IoTeXApp = class IoTeXApp {
+  constructor(transport, scrambleKey = "CSM") {
+    if (typeof transport === "undefined") {
       throw new Error("Transport has not been defined");
     }
 
     this.transport = transport;
+    transport.decorateAppAPIMethods(
+      this,
+      ["getVersion", "publicKey", "sign", "appInfo", "deviceInfo"],
+      scrambleKey
+    );
   }
 
-  public async getVersion(): Promise<{}> {
-    return this.transport
-      .send(CLA, INS.GET_VERSION, 0, 0, Buffer.from([]), [])
-      .then((response: any) => {
-        const errorCodeData = response.slice(-2);
-        const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
-        return {
-          code: returnCode,
-          message: errorCodeToString(returnCode),
-          mode: response[0] !== 0,
-          major: response[1],
-          minor: response[2],
-          patch: response[3],
-          deviceLocked: response[4] === 1
-        };
-      }, processErrorResponse);
+  async getVersion() {
+    return this.transport.send(CLA, INS.GET_VERSION, 0, 0).then(response => {
+      const errorCodeData = response.slice(-2);
+      const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
+      return {
+        code: returnCode,
+        message: errorCodeToString(returnCode),
+        mode: response[0] !== 0,
+        major: response[1],
+        minor: response[2],
+        patch: response[3],
+        deviceLocked: response[4] === 1
+      };
+    }, processErrorResponse);
   }
 
-  public async appInfo(): Promise<{}> {
-    return this.transport
-      .send(0xb0, 0x01, 0, 0, Buffer.from([]), [])
-      .then((response: any) => {
-        const errorCodeData = response.slice(-2);
-        const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
+  async appInfo() {
+    return this.transport.send(0xb0, 0x01, 0, 0).then(response => {
+      const errorCodeData = response.slice(-2);
+      const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
 
-        let appName = "err";
-        let appVersion = "err";
-        let flagLen = 0;
-        let flagsValue = 0;
+      const result = {};
 
-        if (response[0] !== 1) {
-          // Ledger responds with format ID 1. There is no spec for any format != 1
-          return { code: 0x9001, message: "response format ID not recognized" };
-        } else {
-          const appNameLen = response[1];
-          appName = response.slice(2, appNameLen + 2).toString("ascii");
-          let idx = appNameLen + 2;
-          const appVersionLen = response[idx];
-          idx += 1;
-          appVersion = response
-            .slice(idx, idx + appVersionLen)
-            .toString("ascii");
-          idx += appVersionLen;
-          const appFlagsLen = response[idx];
-          idx += 1;
-          flagLen = appFlagsLen;
-          flagsValue = response[idx];
-        }
+      let appName = "err";
+      let appVersion = "err";
+      let flagLen = 0;
+      let flagsValue = 0;
 
-        return {
-          code: returnCode,
-          message: errorCodeToString(returnCode),
-          appName,
-          appVersion,
-          flagLen,
-          flagsValue,
-          // tslint:disable-next-line: no-bitwise
-          flag_recovery: (flagsValue & 1) !== 0,
-          // tslint:disable-next-line: no-bitwise
-          flag_signed_mcu_code: (flagsValue & 2) !== 0,
-          // tslint:disable-next-line: no-bitwise
-          flag_onboarded: (flagsValue & 4) !== 0,
-          // tslint:disable-next-line: no-bitwise
-          flag_pin_validated: (flagsValue & 128) !== 0
-        };
-      }, processErrorResponse);
+      if (response[0] !== 1) {
+        // Ledger responds with format ID 1. There is no spec for any format != 1
+        result.error_message = "response format ID not recognized";
+        result.return_code = 0x9001;
+      } else {
+        const appNameLen = response[1];
+        appName = response.slice(2, 2 + appNameLen).toString("ascii");
+        let idx = 2 + appNameLen;
+        const appVersionLen = response[idx];
+        idx += 1;
+        appVersion = response.slice(idx, idx + appVersionLen).toString("ascii");
+        idx += appVersionLen;
+        const appFlagsLen = response[idx];
+        idx += 1;
+        flagLen = appFlagsLen;
+        flagsValue = response[idx];
+      }
+
+      return {
+        code: returnCode,
+        message: errorCodeToString(returnCode),
+        appName,
+        appVersion,
+        flagLen,
+        flagsValue,
+        // eslint-disable-next-line no-bitwise
+        flag_recovery: (flagsValue & 1) !== 0,
+        // eslint-disable-next-line no-bitwise
+        flag_signed_mcu_code: (flagsValue & 2) !== 0,
+        // eslint-disable-next-line no-bitwise
+        flag_onboarded: (flagsValue & 4) !== 0,
+        // eslint-disable-next-line no-bitwise
+        flag_pin_validated: (flagsValue & 128) !== 0
+      };
+    }, processErrorResponse);
   }
 
-  public async deviceInfo(): Promise<any> {
+  async deviceInfo() {
     return this.transport
       .send(0xe0, 0x01, 0, 0, Buffer.from([]), [0x9000, 0x6e00])
       .then(response => {
@@ -176,8 +178,8 @@ export class IoTeXApp {
 
         if (returnCode === 0x6e00) {
           return {
-            code: returnCode,
-            message: "This command is only available in the Dashboard"
+            return_code: returnCode,
+            error_message: "This command is only available in the Dashboard"
           };
         }
 
@@ -216,10 +218,10 @@ export class IoTeXApp {
       }, processErrorResponse);
   }
 
-  public async publicKey(path: Array<number>): Promise<any> {
+  async publicKey(path) {
     const serializedPath = serializePath(path);
     return this.transport
-      .send(CLA, INS.PUBLIC_KEY_SECP256K1, 0, 0, serializedPath, [])
+      .send(CLA, INS.PUBLIC_KEY_SECP256K1, 0, 0, serializedPath)
       .then(response => {
         const errorCodeData = response.slice(-2);
         const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
@@ -232,11 +234,7 @@ export class IoTeXApp {
       }, processErrorResponse);
   }
 
-  public async signSendChunk(
-    chunkIdx: number,
-    chunkNum: number,
-    chunk: Buffer
-  ): Promise<any> {
+  async signSendChunk(chunkIdx, chunkNum, chunk) {
     return this.transport
       .send(CLA, INS.SIGN_SECP256K1, chunkIdx, chunkNum, chunk, [
         0x9000,
@@ -266,7 +264,7 @@ export class IoTeXApp {
       }, processErrorResponse);
   }
 
-  public async sign(path: Array<number>, message: Buffer): Promise<any> {
+  async sign(path, message) {
     const chunks = signGetChunks(path, message);
     return this.signSendChunk(1, chunks.length, chunks[0]).then(
       async response => {
@@ -277,7 +275,8 @@ export class IoTeXApp {
         };
 
         for (let i = 1; i < chunks.length; i += 1) {
-          result = await this.signSendChunk(i + 1, chunks.length, chunks[i]);
+          // eslint-disable-next-line no-await-in-loop
+          result = await this.signSendChunk(1 + i, chunks.length, chunks[i]);
           if (result.code !== 0x9000) {
             break;
           }
@@ -292,4 +291,4 @@ export class IoTeXApp {
       processErrorResponse
     );
   }
-}
+};
