@@ -391,4 +391,5 @@ topbar.analytics_playground: Analytics Playground
 wallet.tab.keystore: Export Keystore
 wallet.tab.keystore.title: Save your keystore file
 wallet.transfer.broadcast.fail: Increase gasLimit and try again!
-unlock-by-ledger.pluginDevice: Please plugin ledger device and open IoTeX app!
+unlock-by-ledger.pluginDevice: "Please plugin ledger device and try again!"
+unlock-by-ledger.warnTitle: "Oops, couldn’t connect to device"

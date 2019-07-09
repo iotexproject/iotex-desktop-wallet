@@ -1,4 +1,4 @@
-import { notification } from "antd";
+import { Modal } from "antd";
 import Button from "antd/lib/button";
 // @ts-ignore
 import window from "global/window";
@@ -43,8 +43,9 @@ const UnlockByLedgerComponent = (
               dispatch(setAccount(account));
             })
             .catch((e: Error) => {
-              notification.error({
-                message: t("unlock-by-ledger.pluginDevice")
+              Modal.warning({
+                title: t("unlock-by-ledger.warnTitle"),
+                content: t("unlock-by-ledger.pluginDevice")
               });
               console.warn(e);
             });
