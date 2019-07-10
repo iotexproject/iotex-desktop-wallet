@@ -1,5 +1,5 @@
 import { Input } from "antd";
-import { InputProps } from "antd/lib/input";
+import { SearchProps } from "antd/lib/input";
 import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
@@ -10,30 +10,27 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 import { GetBlockMetasRequest } from "../../api-gateway/resolvers/antenna-types";
 import { GET_BLOCK_METAS } from "../queries";
 
-type SearchBoxProps = InputProps &
+type SearchBoxProps = SearchProps &
   RouteComponentProps &
   WithApolloClient<{}> & {};
 
 const SearchBoxComponent = (props: SearchBoxProps): JSX.Element => {
   const { history, client, ...searchprops } = props;
   return (
-    <Input
+    <Input.Search
       {...searchprops}
-      onPressEnter={async (e: React.KeyboardEvent<HTMLInputElement>) => {
-        const query = (e.target as HTMLInputElement).value;
+      onSearch={async (query: string) => {
         if (!query) {
           return;
         }
         const value = query.trim();
 
-        if (value.startsWith("io") && value.length === 41) {
+        if (value.startsWith("io")) {
           return history.push(`/address/${value}`);
         }
-
         if (value.length === 130) {
           return history.push(`/address/${publicKeyToAddress(value)}`);
         }
-
         if (`${parseInt(value, 10)}` === `${value}`) {
           try {
             const { data } = await client.query({
@@ -53,31 +50,27 @@ const SearchBoxComponent = (props: SearchBoxProps): JSX.Element => {
               }
             }
           } catch (e) {
-            // Block not found
+            return history.push("/notfound");
           }
         }
-
-        if (value.length === 64) {
-          try {
-            const validBlock = await client.query({
-              query: GET_BLOCK_METAS,
-              variables: {
-                byHash: {
-                  blkHash: value
-                },
-                ignoreErrorNotification: true
-              } as GetBlockMetasRequest
-            });
-            if (validBlock) {
-              return history.push(`/block/${value}`);
-            }
-          } catch (error) {
-            // Block not found
+        try {
+          const validBlock = await client.query({
+            query: GET_BLOCK_METAS,
+            variables: {
+              byHash: {
+                blkHash: value
+              },
+              ignoreErrorNotification: true
+            } as GetBlockMetasRequest
+          });
+          if (validBlock) {
+            return history.push(`/block/${value}`);
           }
-          // Default route to action page (Ref. #497)
-          return history.push(`/action/${value}`);
+        } catch (error) {
+          // Block not found
         }
-        return;
+        // Default route to action page (Ref. #497)
+        return history.push(`/action/${value}`);
       }}
     />
   );
