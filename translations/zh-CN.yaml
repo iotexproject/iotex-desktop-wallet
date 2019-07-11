@@ -313,7 +313,8 @@ candidates.delegate_list: 节点列表
 candidates.rank: 排名
 candidates.election.NOT_EQUIPPED: 未提供
 candidates.election.ONLINE: 在线
-candidates.election.OFFLINE: 离线footer.resource: 资源
+candidates.election.OFFLINE: 离线
+footer.resource: 资源
 footer.lauch: 发布
 footer.roadmap: 规划
 footer.research_paper: 学术论文
