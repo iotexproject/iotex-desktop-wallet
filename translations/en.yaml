@@ -389,3 +389,4 @@ topbar.analytics_playground: Analytics Playground
 wallet.tab.keystore: Export Keystore
 wallet.tab.keystore.title: Save your keystore file
 wallet.transfer.broadcast.fail: Increase gasLimit and try again!
+account.actionHistory: Action History
