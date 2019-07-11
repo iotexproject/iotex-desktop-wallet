@@ -241,7 +241,7 @@ export class ERC20 implements IERC20 {
     );
   }
 
-  private async readMethod(
+  public async readMethod(
     method: string,
     callerAddress: string,
     // @ts-ignore

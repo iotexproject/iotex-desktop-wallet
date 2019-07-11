@@ -60,6 +60,14 @@ export class Token {
     return token;
   }
 
+  public static getVitaToken(
+    tokenAddresses: Array<string>
+  ): string | undefined {
+    return tokenAddresses.find(tokenAddress =>
+      vitaTokens.includes(tokenAddress)
+    );
+  }
+
   public getApi(): ERC20 | Vita {
     return this.api;
   }
@@ -89,6 +97,13 @@ export class Token {
     } catch (error) {
       return false;
     }
+  }
+
+  public async claimableAmount(walletAddress: string): Promise<BigNumber> {
+    if (this.api instanceof Vita) {
+      return this.api.claimableAmount(walletAddress, walletAddress);
+    }
+    throw new Error(`Token ${this.api.address} is not Vita!`);
   }
 
   public async getInfo(walletAddress: string): Promise<ITokenInfo> {

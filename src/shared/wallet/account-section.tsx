@@ -72,6 +72,7 @@ export interface State {
   bidFormModalVisible: boolean;
   bidAmount: string;
   gasEstimation: IGasEstimation | null;
+  claimable: boolean;
 }
 
 class AccountSection extends React.Component<Props, State> {
@@ -92,7 +93,8 @@ class AccountSection extends React.Component<Props, State> {
     isBidding: false,
     bidFormModalVisible: false,
     bidAmount: "0",
-    gasEstimation: null
+    gasEstimation: null,
+    claimable: false
   };
 
   private pollAccountInterval: number | undefined;
@@ -127,6 +129,18 @@ class AccountSection extends React.Component<Props, State> {
     if (account) {
       await this.getAccount(account);
       await this.getTokensInfo();
+      const tokens = Object.keys(this.state.tokenInfos);
+      if (tokens.length > 0) {
+        const tokenAddress = Token.getVitaToken(tokens);
+        if (tokenAddress) {
+          const claimableAmount = await this.claimableAmount(
+            tokenAddress,
+            account.address
+          );
+          const claimable = claimableAmount.isGreaterThan(0);
+          this.setState({ claimable });
+        }
+      }
       this.setState({ isLoading: false, isSyncing: false });
     }
     this.pollAccountInterval = window.setTimeout(this.pollAccount, 10000);
@@ -315,6 +329,12 @@ class AccountSection extends React.Component<Props, State> {
     }
   };
 
+  public claimableAmount = async (
+    tokenAddress: string,
+    address: string
+  ): Promise<BigNumber> =>
+    Token.getToken(tokenAddress).claimableAmount(address);
+
   public renderAuthMessageFormModal(token: ITokenInfo): JSX.Element | null {
     const { account } = this.props;
     if (!account) {
@@ -481,13 +501,29 @@ class AccountSection extends React.Component<Props, State> {
         </Menu.Item>
       </Menu>
     );
+
     return (
       <Dropdown.Button
         type="primary"
         overlay={claimMenu}
-        onClick={this.onClaimClickHandle(token)}
+        className="claimButton"
+        trigger={["click", "hover"]}
       >
-        {t("account.claim")}
+        {
+          // @ts-ignore
+          <Button
+            type="primary"
+            style={{
+              borderTopLeftRadius: 4,
+              borderBottomLeftRadius: 4,
+              boxShadow: "none"
+            }}
+            onClick={this.onClaimClickHandle(token)}
+            disabled={!this.state.claimable}
+          >
+            {t("account.claim")}
+          </Button>
+        }
       </Dropdown.Button>
     );
   }
