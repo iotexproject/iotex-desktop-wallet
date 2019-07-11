@@ -4,8 +4,6 @@ import Icon from "antd/lib/icon";
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
-// @ts-ignore
-import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { Flex } from "../common/flex";
 import { Navigation } from "../common/navigation";
@@ -18,6 +16,7 @@ import { ErrorPage } from "./error-page";
 export function ActionNotFound(): JSX.Element {
   return (
     <>
+      <Helmet title={`${t("action.notFound")} - IoTeX`} />
       <ContentPadding>
         <Navigation />
         <Flex
@@ -32,9 +31,9 @@ export function ActionNotFound(): JSX.Element {
           <Divider orientation="left">{t("title.overview")}</Divider>
           <ErrorPage
             bg={assetURL("/action-not-found.png")}
-            bar={""}
+            bar={t("not_found.bar")}
             info={t("action.notFound")}
-            title={""}
+            title={t("not_found.title")}
           ></ErrorPage>
         </Flex>
       </ContentPadding>
