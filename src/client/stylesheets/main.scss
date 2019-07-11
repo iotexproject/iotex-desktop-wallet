@@ -345,3 +345,8 @@ input {
   padding-top: 32px !important;
   padding-bottom: 32px !important;
 }
+
+.claimButton > .ant-btn:first-child {
+  padding: 0 !important;
+  border: 0 !important;
+}

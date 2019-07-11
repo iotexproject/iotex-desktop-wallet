@@ -137,7 +137,7 @@ class AccountSection extends React.Component<Props, State> {
             tokenAddress,
             account.address
           );
-          const claimable = claimableAmount.toNumber() > 0;
+          const claimable = claimableAmount.isGreaterThan(0);
           this.setState({ claimable });
         }
       }
@@ -506,10 +506,24 @@ class AccountSection extends React.Component<Props, State> {
       <Dropdown.Button
         type="primary"
         overlay={claimMenu}
-        onClick={this.onClaimClickHandle(token)}
-        disabled={!this.state.claimable}
+        className="claimButton"
+        trigger={["click", "hover"]}
       >
-        {t("account.claim")}
+        {
+          // @ts-ignore
+          <Button
+            type="primary"
+            style={{
+              borderTopLeftRadius: 4,
+              borderBottomLeftRadius: 4,
+              boxShadow: "none"
+            }}
+            onClick={this.onClaimClickHandle(token)}
+            disabled={!this.state.claimable}
+          >
+            {t("account.claim")}
+          </Button>
+        }
       </Dropdown.Button>
     );
   }
