@@ -9,7 +9,8 @@ import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
 import { Switch } from "react-router";
 import { Route } from "react-router-dom";
-import Footer, { FOOTER_HEIGHT } from "iotex-react-footer/lib/src";
+// @ts-ignore
+import Footer, { FOOTER_HEIGHT } from "iotex-react-footer";
 import { ActionDetail } from "./action/action-detail";
 import { Actions } from "./actions/actions";
 import { AddressDetails } from "./address-details/address-details";
