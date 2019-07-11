@@ -16,7 +16,7 @@ import { ErrorPage } from "./error-page";
 export function ActionNotFound(): JSX.Element {
   return (
     <>
-      <Helmet title={`IoTeX ${t("action.notFound")}`} />
+      <Helmet title={`${t("action.notFound")} - IoTeX`} />
       <ContentPadding>
         <Navigation />
         <Flex
