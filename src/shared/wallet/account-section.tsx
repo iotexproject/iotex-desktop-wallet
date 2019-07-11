@@ -17,6 +17,7 @@ import BigNumber from "bignumber.js";
 import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
 import { fromRau } from "iotex-antenna/lib/account/utils";
+import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -658,6 +659,48 @@ class AccountSection extends React.Component<Props, State> {
     );
   }
 
+  public renderActionBar(): JSX.Element | null {
+    const { account } = this.props;
+    if (!account) {
+      return null;
+    }
+    return (
+      <Row
+        type="flex"
+        justify="space-between"
+        align="middle"
+        style={{ padding: "10px 20px" }}
+      >
+        <Col>
+          <div>
+            <strong>{t("account.address")}</strong>
+          </div>
+          <div>
+            <small>{account.address}</small>{" "}
+            <CopyButtonClipboardComponent text={account.address} size="small" />
+          </div>
+        </Col>
+        <Col>
+          {isElectron() ? (
+            <Link
+              to=""
+              target="_blank noopener noreferer"
+              onClick={onElectronClick(
+                `https://iotexscan.io/address/${account.address}`
+              )}
+            >
+              {t("account.actionHistory")}
+            </Link>
+          ) : (
+            <Link to={`/address/${account.address}`}>
+              {t("account.actionHistory")}
+            </Link>
+          )}
+        </Col>
+      </Row>
+    );
+  }
+
   public renderWallet = (): JSX.Element | null => {
     const { account, dispatch } = this.props;
     if (!account) {
@@ -726,30 +769,7 @@ class AccountSection extends React.Component<Props, State> {
           </Row>
         </div>
         {this.renderBalance()}
-        <Row
-          type="flex"
-          justify="space-between"
-          align="middle"
-          style={{ padding: "10px 20px" }}
-        >
-          <Col>
-            <div>
-              <strong>{t("account.address")}</strong>
-            </div>
-            <div>
-              <small>{account.address}</small>{" "}
-              <CopyButtonClipboardComponent
-                text={account.address}
-                size="small"
-              />
-            </div>
-          </Col>
-          <Col>
-            <Link to={`/address/${account.address}`}>
-              {t("account.actionHistory")}
-            </Link>
-          </Col>
-        </Row>
+        {this.renderActionBar()}
         {this.renderCustomTokenForm()}
         {this.renderClaimConfirmation()}
       </Card>
