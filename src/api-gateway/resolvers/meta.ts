@@ -1,7 +1,15 @@
 // tslint:disable:no-any
 import BigNumber from "bignumber.js";
 import { get } from "dottie";
-import { Ctx, Query, Resolver, ResolverInterface } from "type-graphql";
+import {
+  Args,
+  ArgsType,
+  Ctx,
+  Mutation,
+  Query,
+  Resolver,
+  ResolverInterface
+} from "type-graphql";
 import { Field, ObjectType } from "type-graphql";
 //@ts-ignore
 import pkg from "../../../package.json";
@@ -23,6 +31,18 @@ export class VersionInfo {
 
   @Field(_ => String, { nullable: true })
   public iotexCoreVersion?: string;
+}
+
+@ObjectType()
+export class SendGridInfo {
+  @Field(_ => Boolean)
+  public isSubscribeSuccess?: boolean;
+}
+
+@ArgsType()
+export class SendGridInfoRequest {
+  @Field(_ => String)
+  public email?: string;
 }
 
 @Resolver(_ => String)
@@ -65,5 +85,18 @@ export class MetaResolver implements ResolverInterface<() => String> {
     }
 
     return this.version;
+  }
+
+  @Mutation(_ => SendGridInfo)
+  public async addSubscription(
+    @Args() { email }: SendGridInfoRequest,
+    @Ctx() { gateways }: ICtx
+  ): Promise<SendGridInfo> {
+    const [response] = await gateways.sendgrid.addSubscription(email as string);
+    return {
+      isSubscribeSuccess:
+        response.body.error_count === 0 &&
+        (response.body.new_count === 1 || response.body.new_count === 0)
+    };
   }
 }

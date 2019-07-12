@@ -14,7 +14,6 @@ import { UnlockByPrivateKey } from "./unlock-by-private-key";
 export interface Props {
   chainId: number;
   setCreateNew: Function;
-  setWallet: Function;
 }
 
 export interface State {
@@ -34,7 +33,7 @@ class UnlockWallet extends React.Component<Props, State> {
   };
 
   public render(): JSX.Element {
-    const { chainId, setWallet } = this.props;
+    const { chainId } = this.props;
     const { showModal } = this.state;
 
     return (
@@ -66,10 +65,10 @@ class UnlockWallet extends React.Component<Props, State> {
 
         <Tabs onChange={() => undefined} type="card">
           <Tabs.TabPane tab={t("unlock-wallet.by_keystore")} key="1">
-            <UnlockByKeystoreFile setWallet={setWallet} />
+            <UnlockByKeystoreFile />
           </Tabs.TabPane>
           <Tabs.TabPane tab={t("unlock-wallet.by_private_key")} key="2">
-            <UnlockByPrivateKey setWallet={setWallet} />
+            <UnlockByPrivateKey />
           </Tabs.TabPane>
         </Tabs>
 

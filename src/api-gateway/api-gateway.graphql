@@ -25,7 +25,6 @@ type ActionCore {
   gasLimit: BigNumber!
   gasPrice: String!
   transfer: Transfer
-  vote: Vote
   execution: Execution
   startSubChain: StartSubChain
   stopSubChain: StopSubChain
@@ -54,7 +53,6 @@ input ActionCoreInput {
   gasLimit: BigNumber!
   gasPrice: String!
   transfer: TransferInput
-  vote: VoteInput
   execution: ExecutionInput
   startSubChain: StartSubChainInput
   stopSubChain: StopSubChainInput
@@ -327,6 +325,10 @@ input MerkleRootInput {
   value: Buffer!
 }
 
+type Mutation {
+  addSubscription(email: String!): SendGridInfo!
+}
+
 type PlumChallengeExit {
   subChainAddress: String!
   coinID: Int!
@@ -504,7 +506,10 @@ type Query {
   ): GetActionsResponse!
 
   # read contract
-  readContract(action: ActionInput!): ReadContractResponse!
+  readContract(
+    execution: ExecutionInput!
+    callerAddress: String!
+  ): ReadContractResponse!
 
   # sendAction
   sendAction(action: ActionInput!): SendActionResponse!
@@ -556,6 +561,10 @@ enum RewardType {
 
 type SendActionResponse {
   actionHash: Boolean
+}
+
+type SendGridInfo {
+  isSubscribeSuccess: Boolean!
 }
 
 # Server meta data
@@ -656,14 +665,4 @@ input TransferInput {
 type VersionInfo {
   explorerVersion: String!
   iotexCoreVersion: String
-}
-
-type Vote {
-  timestamp: Timestamp!
-  voteeAddress: String!
-}
-
-input VoteInput {
-  timestamp: TimestampInput!
-  voteeAddress: String!
 }

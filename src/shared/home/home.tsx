@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, Icon, Row } from "antd";
 import Layout from "antd/lib/layout";
 import BlockProducers from "iotex-react-block-producers";
 // @ts-ignore
@@ -7,6 +7,8 @@ import React, { Component } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import { webBpApolloClient } from "../common/apollo-client";
 import { assetURL } from "../common/asset-url";
+import { IoTeXExplorer } from "../common/icons/iotex.svg";
+import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import { BlockList } from "./block-list";
 import { SearchBox } from "./search-box";
@@ -42,11 +44,27 @@ class HomeComponent extends Component<Props, State> {
               height: "40vh",
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
-              backgroundPosition: "center"
+              backgroundPosition: "center",
+              minHeight: 400
             }}
           >
+            <Row
+              type="flex"
+              justify="center"
+              align="middle"
+              style={{
+                fontSize: 34,
+                color: colors.white,
+                paddingTop: 50,
+                paddingBottom: 20
+              }}
+            >
+              I{" "}
+              <Icon component={IoTeXExplorer} style={{ padding: "0px 6px" }} />{" "}
+              TeX.Explorer
+            </Row>
             <Row type="flex" justify="center" align="middle">
-              <Col xs={20} md={12} style={{ padding: "8vh 0" }}>
+              <Col xs={20} md={12}>
                 <SearchBox
                   enterButton
                   size="large"
@@ -67,16 +85,19 @@ class HomeComponent extends Component<Props, State> {
           >
             <StatsArea />
           </Layout.Content>
-          <Layout.Content tagName={"main"}>
+          <Layout.Content tagName={"main"} style={{ marginBottom: "15px" }}>
             <Row>
-              <Col xs={24} sm={24} md={20} lg={21}>
-                <div style={{ backgroundColor: "#fff" }}>
-                  <BlockProducers apolloClient={webBpApolloClient} />
+              <Col xs={24} sm={24} md={19} lg={20} xl={20} xxl={21}>
+                <div style={{ backgroundColor: "#fff", borderRadius: 5 }}>
+                  <BlockProducers
+                    apolloClient={webBpApolloClient}
+                    height="750px"
+                  />
                 </div>
               </Col>
-              <Col xs={0} sm={0} md={4} lg={3}>
+              <Col xs={0} sm={0} md={5} lg={4} xl={4} xxl={3}>
                 {/** Don't show block list on small devices */}
-                <BlockList />
+                <BlockList height="836px" />
               </Col>
             </Row>
           </Layout.Content>

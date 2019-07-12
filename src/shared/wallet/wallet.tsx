@@ -1,6 +1,7 @@
 import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
-import Tabs from "antd/lib/tabs";
+// @ts-ignore
+import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -8,31 +9,32 @@ import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { PureComponent } from "react";
-import { Route, Switch, withRouter } from "react-router";
+import { connect, DispatchProp } from "react-redux";
+import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import routes from "../common/routes";
+import { ITokenInfoDict } from "../../erc20/token";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "./account-section";
-import { ChooseFunction } from "./contract/choose-function";
-import { Deploy } from "./contract/deploy";
 import { DeployPreloadHeader } from "./contract/deploy";
-import { Interact } from "./contract/interact";
-import { Vote } from "./contract/vote";
 import NewWallet from "./new-wallet";
-import Transfer from "./transfer/transfer";
 import UnlockWallet from "./unlock-wallet";
+import { IWalletState, QueryType } from "./wallet-reducer";
+import { WalletTabs } from "./wallet-tabs";
 
 export interface State {
-  wallet: Account | null;
   createNew: boolean;
+  tokensInfo: ITokenInfoDict;
 }
 
 type PathParamsType = {
   address: string;
 };
 
-type Props = RouteComponentProps<PathParamsType> & {};
+type Props = RouteComponentProps<PathParamsType> &
+  DispatchProp & {
+    account?: Account;
+  };
 
 export const inputStyle = {
   width: "100%",
@@ -43,104 +45,69 @@ export const FormItemLabel = styled("label", {
   fontWeight: "bold"
 });
 
-class WalletComponent extends PureComponent<Props, State> {
+class WalletInner extends PureComponent<Props, State> {
   public state: State = {
-    wallet: null,
-    createNew: false
+    createNew: false,
+    tokensInfo: {}
   };
 
-  public setWallet = (wallet: Account) => {
-    const { history } = this.props;
-    this.setState({ wallet, createNew: false });
-    history.push(routes.transfer);
-  };
+  public componentDidUpdate(): void {
+    const { account } = this.props;
+    const { createNew } = this.state;
+    if (account && createNew) {
+      this.setState({ createNew: false });
+    }
+    if (!account) {
+      return;
+    }
+  }
 
   public onTabChange = (key: string) => {
     this.props.history.push(key);
   };
 
-  public renderTabs = ({ address }: { address: string }) => {
-    const { location } = this.props;
-    let defaultActiveKey = `/wallet/transfer`;
-    if (location.pathname.match(/vote/)) {
-      defaultActiveKey = `/wallet/vote`;
-    } else if (location.pathname.match(/smart-contract/)) {
-      defaultActiveKey = `/wallet/smart-contract`;
-    }
-    return (
-      <div>
-        <Tabs activeKey={defaultActiveKey} onTabClick={this.onTabChange}>
-          <Tabs.TabPane
-            key={`/wallet/transfer`}
-            tab={t("wallet.tab.transfer", {
-              token: t("account.testnet.token")
-            })}
-          >
-            <Transfer address={address} />
-          </Tabs.TabPane>
-          <Tabs.TabPane key={`/wallet/vote`} tab={t("wallet.tab.vote")}>
-            <Vote />
-          </Tabs.TabPane>
-
-          <Tabs.TabPane
-            key={`/wallet/smart-contract`}
-            tab={t("wallet.tab.contract")}
-          >
-            <Switch>
-              <Route
-                path={`/wallet/smart-contract/deploy`}
-                component={() => <Deploy address={address} />}
-              />
-              <Route
-                path={`/wallet/smart-contract/interact`}
-                component={() => <Interact address={address} />}
-              />
-              <Route
-                exact
-                path={`/wallet/smart-contract`}
-                component={ChooseFunction}
-              />
-            </Switch>
-          </Tabs.TabPane>
-        </Tabs>
-      </div>
-    );
-  };
-
   public renderNoWallet = () => {
     const { createNew } = this.state;
     return createNew ? (
-      <NewWallet setWallet={this.setWallet} />
+      <NewWallet />
     ) : (
       <UnlockWallet
-        setWallet={this.setWallet}
         setCreateNew={() => this.setState({ createNew: true })}
         chainId={1}
       />
     );
   };
 
+  public componentDidMount(): void {
+    const { dispatch } = this.props;
+    window.dispatch = dispatch;
+  }
+
   public render(): JSX.Element {
-    const { createNew, wallet } = this.state;
+    const { createNew } = this.state;
+    const { account } = this.props;
     return (
       <>
         <DeployPreloadHeader />
         <ContentPadding>
-          <div style={{ margin: "48px" }} />
-          <Row>
-            <Col md={16}>
-              {wallet &&
-                this.renderTabs({
-                  address: wallet.address
-                })}
-              {!wallet && this.renderNoWallet()}
+          <Row
+            type="flex"
+            justify="space-between"
+            gutter={30}
+            style={{ margin: "40px 0px" }}
+          >
+            <Col xs={24} sm={12} md={15} lg={16} xl={17}>
+              {account && (
+                <WalletTabs
+                  address={account.address}
+                  wallet={account}
+                  tokensInfo={this.state.tokensInfo}
+                />
+              )}
+              {!account && this.renderNoWallet()}
             </Col>
-            <Col md={6} push={2}>
-              <AccountSection
-                createNew={createNew}
-                setWallet={this.setWallet}
-                wallet={wallet}
-              />
+            <Col xs={24} sm={12} md={9} lg={8} xl={7} style={{ marginTop: 40 }}>
+              <AccountSection createNew={createNew} />
             </Col>
           </Row>
         </ContentPadding>
@@ -149,4 +116,10 @@ class WalletComponent extends PureComponent<Props, State> {
   }
 }
 
-export default withRouter(WalletComponent);
+const mapStateToProps = (state: {
+  wallet: IWalletState;
+}): { queryType?: QueryType; account?: Account } => ({
+  account: (state.wallet || {}).account
+});
+
+export const Wallet = withRouter(connect(mapStateToProps)(WalletInner));

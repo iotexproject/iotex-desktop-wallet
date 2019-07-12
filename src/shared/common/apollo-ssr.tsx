@@ -18,6 +18,7 @@ import { ApolloProvider } from "react-apollo";
 import { getDataFromTree } from "react-apollo";
 // @ts-ignore
 import * as engine from "styletron-engine-atomic";
+import { IWalletState } from "../wallet/wallet-reducer";
 import { webBpApolloClient } from "./apollo-client";
 
 type Opts = {
@@ -52,6 +53,12 @@ export async function apolloSSR(
 
   const context = {};
 
+  const walletState: IWalletState = {
+    customRPCs: [],
+    tokens: {},
+    defaultNetworkTokens: []
+  };
+
   try {
     await getDataFromTree(
       <RootServer
@@ -66,6 +73,7 @@ export async function apolloSSR(
     const apolloState = apolloClient.extract();
     ctx.setState("apolloState", apolloState);
     ctx.setState("webBpApolloState", webBpApolloClient.extract());
+    ctx.setState("wallet", walletState);
   } catch (e) {
     logger.error(`failed to hydrate apollo SSR: ${e} ${e.stack}`);
   }

@@ -3,12 +3,11 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-.main-container {
-  margin-bottom: 20px;
-}
+
 .section-top {
   background: #fff;
   margin-bottom: 20px;
+  border-radius: 5px;
 }
 .page-title {
   font-size: 22px;
@@ -110,16 +109,18 @@
 
 .blur-image {
   filter: blur(9px);
+  width: 100%;
 }
 
 .wallet {
   position: relative;
   border-radius: 4px;
   border: solid 1px #f0f0f0;
-  max-width: 288px;
-  height: 492px;
+  min-height: 450px;
   word-break: break-word;
+  overflow: hidden;
   margin-top: 40px;
+  margin-left: 20px;
 }
 
 .wallet-title {
@@ -256,11 +257,17 @@
 }
 
 .ant-card {
+  -webkit-box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.3) !important;
+  -moz-box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.3) !important;
+  box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.3) !important;
   &:hover {
-    -webkit-box-shadow: 0 2px 8px 0 rgba(21, 26, 33, 0.43) !important;
-    -moz-box-shadow: 0 2px 8px 0 rgba(21, 26, 33, 0.43) !important;
-    box-shadow: 0 2px 8px 0 rgba(21, 26, 33, 0.43) !important;
+    transform: scale(1.02);
   }
+}
+.block-card-wrap:nth-child(1) .ant-card {
+  -webkit-box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.5) !important;
+  -moz-box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.5) !important;
+  box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.5) !important;
 }
 
 .keystore-tag {
@@ -290,4 +297,62 @@ input {
 /* disable default menu hover */
 .ant-dropdown-menu-item:hover {
   background-color: transparent !important;
+}
+
+.ant-spin-blur {
+  overflow: unset !important;
+}
+
+.no-scrollbar {
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.no-scrollbar::-webkit-scrollbar,
+.no-scrollbar::scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.ant-modal-body {
+  padding-top: 0 !important;
+}
+
+.wallet-token-balance {
+  text-align: right;
+  white-space: nowrap !important;
+  vertical-align: top;
+}
+
+.wallet-token-symbol {
+  text-align: left;
+  white-space: nowrap !important;
+  vertical-align: top;
+}
+
+.wallet-delete-token {
+  width: 20px;
+}
+
+.chain-network-switch .ant-select-selection {
+  border-radius: 16px;
+}
+
+.chain-network-switch .ant-select-selection__rendered {
+  display: flex;
+  justify-content: center;
+}
+.block-detail-key {
+  white-space: nowrap;
+}
+
+.ant-modal-confirm .ant-modal-content .ant-modal-body {
+  padding-top: 32px !important;
+  padding-bottom: 32px !important;
+}
+
+.claimButton > .ant-btn:first-child {
+  padding: 0 !important;
+  border: 0 !important;
 }

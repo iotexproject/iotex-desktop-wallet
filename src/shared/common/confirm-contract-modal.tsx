@@ -1,6 +1,5 @@
 /* tslint:disable:no-any */
 import Modal from "antd/lib/modal/Modal";
-import { fromRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
@@ -12,6 +11,7 @@ export interface Props {
   showModal: boolean;
   confirmContractOk: Function;
   dataSource: { [key: string]: any };
+  confirmLoading?: boolean;
 }
 
 export interface State {}
@@ -27,48 +27,88 @@ export default class ConfirmContractModal extends React.Component<
   // tslint:disable:no-any
   public getActionColumns(): Array<Column<any>> {
     // this columns was just for example.
+    const {
+      amount,
+      toAddress,
+      toContract,
+      dataInHex,
+      method,
+      owner
+    } = this.props.dataSource;
+
     return [
-      {
-        title: "Amount",
-        dataIndex: "amount",
-        render(text: string, _: any): JSX.Element {
-          return (
-            <span>
-              <h1 style={{ display: "inline" }}>{fromRau(text, "IOTX")}</h1>{" "}
-              IOTX
-            </span>
-          );
-        }
-      },
-      {
-        title: "From address",
-        dataIndex: "address"
-      },
-      ...(this.props.dataSource.toAddress
+      ...(amount
         ? [
             {
-              title: "To address",
-              dataIndex: "toAddress"
+              title: t("confirmation.amount"),
+              dataIndex: "amount",
+              render(text: string, _: any): JSX.Element {
+                return (
+                  <span>
+                    <h1 style={{ display: "inline" }}>{text}</h1>{" "}
+                  </span>
+                );
+              }
             }
           ]
         : []),
       {
-        title: "Gas limit",
+        title: t("confirmation.fromAddress"),
+        dataIndex: "address"
+      },
+      ...(toAddress
+        ? [
+            {
+              title: t("confirmation.toAddress"),
+              dataIndex: "toAddress"
+            }
+          ]
+        : []),
+      ...(toContract
+        ? [
+            {
+              title: t("confirmation.toContract"),
+              dataIndex: "toContract"
+            }
+          ]
+        : []),
+      ...(method
+        ? [
+            {
+              title: t("confirmation.method"),
+              dataIndex: "method"
+            }
+          ]
+        : []),
+      ...(owner
+        ? [
+            {
+              title: t("confirmation.owner"),
+              dataIndex: "owner"
+            }
+          ]
+        : []),
+      {
+        title: t("confirmation.limit"),
         dataIndex: "limit"
       },
       {
-        title: "Gas price",
+        title: t("confirmation.price"),
         dataIndex: "price"
       },
-      {
-        title: "Data",
-        dataIndex: "data"
-      }
+      ...(dataInHex
+        ? [
+            {
+              title: t("confirmation.data"),
+              dataIndex: "dataInHex"
+            }
+          ]
+        : [])
     ];
   }
 
   public render(): JSX.Element {
-    const { dataSource, showModal } = this.props;
+    const { dataSource, showModal, confirmLoading } = this.props;
     return (
       <Modal
         title={<b>{t("wallet.confirm.contract.title")}</b>}
@@ -79,6 +119,7 @@ export default class ConfirmContractModal extends React.Component<
         cancelText={t("wallet.confirm.contract.cancel")}
         onOk={() => this.confirmContractOk(true)}
         onCancel={() => this.confirmContractOk(false)}
+        confirmLoading={confirmLoading}
       >
         <ModalBody>
           <Board>

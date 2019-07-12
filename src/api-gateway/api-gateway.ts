@@ -1,13 +1,13 @@
 import { ApolloServer } from "apollo-server-koa";
-// @ts-ignore
-import { Server } from "onefx";
 import * as path from "path";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
+// @ts-ignore
+import { MyServer } from "../server/start-server";
 import { AntennaResolver } from "./resolvers/antenna";
 import { MetaResolver } from "./resolvers/meta";
 
-export async function setApiGateway(server: Server): Promise<void> {
+export async function setApiGateway(server: MyServer): Promise<void> {
   const resolvers = [MetaResolver, AntennaResolver];
   server.resolvers = resolvers;
 

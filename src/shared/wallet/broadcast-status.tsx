@@ -1,10 +1,12 @@
 import Icon from "antd/lib/icon";
+import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
+import { FlexLink } from "../common/flex-link";
 import { onElectronClick } from "../common/on-electron-click";
 import { colors } from "../common/styles/style-color";
 import { ACTION_EXISTS_BY_HASH } from "../queries";
@@ -48,38 +50,48 @@ function ActionPoll({ txHash }: { txHash: string }): JSX.Element {
     <Query
       query={ACTION_EXISTS_BY_HASH}
       variables={{ byHash: { actionHash: txHash, checkingPending: true } }}
-      pollInterval={POLL_INTERVAL}
+      fetchPolicy="network-only"
+      ssr={false}
+      notifyOnNetworkStatusChange={true}
     >
       {({
         loading,
         error,
-        stopPolling
+        refetch
       }: QueryResult<{ getActions: GetActionsResponse }>) => {
+        if (!loading && error) {
+          setTimeout(() => {
+            refetch();
+          }, POLL_INTERVAL);
+        }
         if (loading || error) {
           return (
             <span>
               {" "}
-              <Icon type="loading" spin /> <strong>{txHash}</strong>
+              <Icon type="loading" spin /> <strong>{txHash}</strong>{" "}
             </span>
           );
         }
-        stopPolling();
 
         return (
           <span>
             {" "}
             <Icon type="check-circle" style={{ color: colors.success }} />{" "}
             <strong>
-              <a
-                rel="noreferrer noopener"
-                href={`/action/${txHash}`}
-                target="_blank"
-                onClick={onElectronClick(
-                  `https://iotexscan.io/action/${txHash}`
-                )}
-              >
-                {txHash}
-              </a>
+              {isElectron() ? (
+                <a
+                  rel="noreferrer noopener"
+                  href={`/action/${txHash}`}
+                  target="_blank"
+                  onClick={onElectronClick(
+                    `https://iotexscan.io/action/${txHash}`
+                  )}
+                >
+                  {txHash}
+                </a>
+              ) : (
+                <FlexLink path={`/action/${txHash}`} text={txHash} />
+              )}
             </strong>
           </span>
         );

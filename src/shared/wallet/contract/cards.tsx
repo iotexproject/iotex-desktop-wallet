@@ -14,7 +14,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Flex } from "../../common/flex";
 import { formItemLayout } from "../../common/form-item-layout";
-import { rulesMap } from "../../common/rules";
+import { rules, rulesMap } from "../../common/rules";
 import { colors } from "../../common/styles/style-color";
 import { inputStyle } from "../wallet";
 
@@ -60,20 +60,27 @@ export const CardFunction = ({
       </Link>
       <h3 style={{ fontSize: "1.2em", fontWeight: "bold" }}>{title}</h3>
       <p style={{ color: colors.black60 }}>{description}</p>
-      <Link to={moreUrl} style={{ color: colors.secondary }}>
-        <Flex alignItems={"end"}>
-          <span>{t("wallet.contract.learn")}</span>
-          <Icon type={"right"} style={{ fontSize: "12px", padding: "6px" }} />
-        </Flex>
-      </Link>
+      {moreUrl && (
+        <Link to={moreUrl} style={{ color: colors.secondary }}>
+          <Flex alignItems={"end"}>
+            <span>{t("wallet.contract.learn")}</span>
+            <Icon type={"right"} style={{ fontSize: "12px", padding: "6px" }} />
+          </Flex>
+        </Link>
+      )}
     </Flex>
   </Card>
 );
 
-export function AbiFormInputItem(
-  form: WrappedFormUtils,
-  initialValue?: string
-): JSX.Element {
+export function AbiFormInputItem({
+  form,
+  initialValue,
+  onChange
+}: {
+  form: WrappedFormUtils;
+  initialValue?: string;
+  onChange?: React.ChangeEventHandler;
+}): JSX.Element {
   const { getFieldDecorator } = form;
   return (
     <Form.Item
@@ -88,8 +95,29 @@ export function AbiFormInputItem(
           rows={4}
           style={inputStyle}
           placeholder={t("wallet.interact.abiTemplate")}
+          onChange={onChange}
         />
       )}
+    </Form.Item>
+  );
+}
+
+export function MessageFormInputItem({
+  form,
+  initialValue
+}: {
+  form: WrappedFormUtils;
+  initialValue?: string;
+}): JSX.Element {
+  const { getFieldDecorator } = form;
+  return (
+    <Form.Item
+      {...formItemLayout}
+      label={<FormItemLabel>{t("wallet.input.message")}</FormItemLabel>}
+    >
+      {getFieldDecorator("message", {
+        initialValue: initialValue || ""
+      })(<TextArea autosize={true} style={inputStyle} />)}
     </Form.Item>
   );
 }
@@ -154,14 +182,14 @@ export function GasLimitFormInputItem({
       label={<FormItemLabel>{t("wallet.input.gasLimit")}</FormItemLabel>}
     >
       {getFieldDecorator("gasLimit", {
-        initialValue: initialValue || "10000",
+        initialValue: initialValue || "100000",
         rules: rulesMap.gasLimit
       })(
         <Input
           className="form-input"
           placeholder="0"
           name="gasLimit"
-          addonAfter="Rau"
+          style={inputStyle}
         />
       )}
     </Form.Item>
@@ -170,10 +198,14 @@ export function GasLimitFormInputItem({
 
 export function AmountFormInputItem({
   form,
-  initialValue
+  initialValue,
+  symbol = "IOTX",
+  required = false
 }: {
   form: WrappedFormUtils;
   initialValue?: number;
+  symbol?: string;
+  required?: boolean;
 }): JSX.Element {
   const { getFieldDecorator } = form;
   return (
@@ -183,25 +215,20 @@ export function AmountFormInputItem({
     >
       {getFieldDecorator("amount", {
         initialValue: initialValue,
-        rules: rulesMap.amount
-      })(
-        <Input
-          className="form-input"
-          placeholder="1"
-          addonAfter="IOTX"
-          name="amount"
-        />
-      )}
+        rules: required ? rulesMap.transactionAmount : rulesMap.interactAmount
+      })(<Input className="form-input" addonAfter={symbol} name="amount" />)}
     </Form.Item>
   );
 }
 
 export function PasswordFormInputItem({
   form,
-  initialValue
+  initialValue,
+  checkWeakPassword = true
 }: {
   form: WrappedFormUtils;
   initialValue?: number;
+  checkWeakPassword?: boolean;
 }): JSX.Element {
   const { getFieldDecorator } = form;
   return (
@@ -210,7 +237,7 @@ export function PasswordFormInputItem({
     >
       {getFieldDecorator("password", {
         initialValue: initialValue,
-        rules: rulesMap.password
+        rules: checkWeakPassword ? rulesMap.password : [rules.required]
       })(
         <Input.Password
           className="form-input"

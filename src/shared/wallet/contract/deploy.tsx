@@ -29,7 +29,6 @@ import { getAntenna } from "../get-antenna";
 import { inputStyle } from "../wallet";
 import {
   AbiFormInputItem,
-  AmountFormInputItem,
   FormItemLabel,
   GasLimitFormInputItem,
   GasPriceFormInputItem
@@ -90,6 +89,7 @@ interface State {
   } | null;
   compiledOutput: any;
   txHash: string;
+  constructorArgs: Array<{ name: string; type: string }>;
 }
 
 class DeployFormInner extends Component<DeployProps, State> {
@@ -104,7 +104,8 @@ class DeployFormInner extends Component<DeployProps, State> {
     showConfirmation: false,
     broadcast: null,
     compiledOutput: null,
-    txHash: ""
+    txHash: "",
+    constructorArgs: []
   };
 
   public solcRefs: { [index: string]: any } = {};
@@ -196,12 +197,12 @@ class DeployFormInner extends Component<DeployProps, State> {
     const { form, address } = this.props;
     const { showConfirmation } = this.state;
 
-    const { byteCode, amount, gasLimit, gasPrice } = form.getFieldsValue();
+    const { byteCode, gasLimit, gasPrice } = form.getFieldsValue();
 
     const dataSource = {
       address: address,
       data: byteCode,
-      amount: toRau(amount, "Iotx"),
+      amount: "0",
       price: toRau(gasPrice, "Qev"),
       limit: gasLimit
     };
@@ -230,27 +231,35 @@ class DeployFormInner extends Component<DeployProps, State> {
         return;
       }
 
+      const { constructorArgs } = this.state;
       const { byteCode, amount, gasLimit, gasPrice, abi } = value;
       const trimmed0xHex = String(byteCode).replace(/^0x/, "");
+
+      const args = constructorArgs.map(arg => value[`ctor${arg.name}`]);
+
+      const price = gasPrice ? toRau(gasPrice, "Qev") : undefined;
 
       window.console.log(
         `antenna.iotx.deployContract(${JSON.stringify({
           from: String(address),
-          amount: toRau(amount, "Iotx"),
+          amount,
           data: Buffer.from(trimmed0xHex, "hex"),
-          gasPrice: gasPrice || undefined,
+          gasPrice: price,
           gasLimit: gasLimit || undefined
-        })})`
+        })}${args.length ? ["", ...args].join(",") : ""})`
       );
 
-      const txHash = await antenna.iotx.deployContract({
-        abi: JSON.parse(abi),
-        from: String(address),
-        amount: toRau(amount, "Iotx"),
-        data: Buffer.from(trimmed0xHex, "hex"),
-        gasPrice: gasPrice || undefined,
-        gasLimit: gasLimit || undefined
-      });
+      const txHash = await antenna.iotx.deployContract(
+        {
+          abi: abi,
+          from: String(address),
+          amount,
+          data: Buffer.from(trimmed0xHex, "hex"),
+          gasPrice: price,
+          gasLimit: gasLimit || undefined
+        },
+        ...args
+      );
 
       this.setState({
         sending: false,
@@ -368,6 +377,56 @@ class DeployFormInner extends Component<DeployProps, State> {
     );
   }
 
+  public onABIChange = () => {
+    const { form } = this.props;
+    setTimeout(() => {
+      form.validateFields(["abi"], (error, { abi }) => {
+        this.setState({ constructorArgs: [] });
+        if (error) {
+          return;
+        }
+        const jsonABI = JSON.parse(abi);
+        const ctor = jsonABI.find(
+          (a: { type: string }) => a.type === "constructor"
+        );
+        if (!ctor) {
+          return;
+        }
+        const { inputs } = ctor;
+        this.setState({ constructorArgs: [...inputs] });
+      });
+    }, 1);
+  };
+
+  public renderConstructorArgsForm(): JSX.Element | null {
+    const { constructorArgs } = this.state;
+    if (!constructorArgs.length) {
+      return null;
+    }
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+    return (
+      <>
+        <h3 style={{ marginBottom: 30 }}>
+          {t("wallet.contract.executeParameter")}
+        </h3>
+        {constructorArgs.map(arg => {
+          const { name, type } = arg;
+          return (
+            <Form.Item
+              {...formItemLayout}
+              label={<FormItemLabel>{name}</FormItemLabel>}
+            >
+              {getFieldDecorator(`ctor${name}`, {
+                rules: [{ required: true, message: t("wallet.error.required") }]
+              })(<Input className="form-input" addonAfter={type} />)}
+            </Form.Item>
+          );
+        })}
+      </>
+    );
+  }
+
   public render(): JSX.Element | null {
     const { broadcast } = this.state;
     if (broadcast) {
@@ -399,7 +458,11 @@ class DeployFormInner extends Component<DeployProps, State> {
           )}
         </Form.Item>
         {this.renderGenerateAbiButton()}
-        {AbiFormInputItem(form)}
+        <AbiFormInputItem
+          form={form}
+          initialValue=""
+          onChange={this.onABIChange}
+        />
         <Form.Item
           {...formItemLayout}
           label={<FormItemLabel>{t("wallet.input.byteCode")}</FormItemLabel>}
@@ -407,6 +470,7 @@ class DeployFormInner extends Component<DeployProps, State> {
           {getFieldDecorator("byteCode", {
             initialValue: "",
             rules: [
+              { required: true, message: t("wallet.error.required") },
               {
                 validator: (_, value, callback) => {
                   const isValidErrorMessageKey = isValidBytes(value);
@@ -427,9 +491,9 @@ class DeployFormInner extends Component<DeployProps, State> {
             />
           )}
         </Form.Item>
-        <AmountFormInputItem form={form} initialValue={0} />
         <GasPriceFormInputItem form={form} />
         <GasLimitFormInputItem form={form} />
+        {this.renderConstructorArgsForm()}
         {/*
           // @ts-ignore */}
         <Button

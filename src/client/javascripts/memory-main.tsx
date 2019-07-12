@@ -12,14 +12,20 @@ import React from "react";
 import { ApolloProvider } from "react-apollo";
 // @ts-ignore
 import { render } from "react-dom";
-import { Reducer } from "redux";
+import { combineReducers, Reducer } from "redux";
 // @ts-ignore
 import JSONGlobals from "safe-json-globals/get";
 // @ts-ignore
 import { Client as StyletronClient } from "styletron-engine-atomic";
 import { apolloClient } from "../../shared/common/apollo-client";
 import { RootMemory } from "../../shared/common/root-memory";
-import Wallet from "../../shared/wallet/wallet";
+import "../../shared/common/setup-big-number";
+import { Wallet } from "../../shared/wallet/wallet";
+import {
+  queryParamsReducer,
+  signParamsReducer,
+  walletReducer
+} from "../../shared/wallet/wallet-reducer";
 
 export const STYLETRON_GLOBAL = "styletron-global";
 
@@ -51,5 +57,12 @@ memoryReactRender({
       <Wallet />
     </ApolloProvider>
   ),
-  reducer: noopReducer
+  reducer: combineReducers<{}>({
+    base: noopReducer,
+    apolloState: noopReducer,
+    webBpApolloState: noopReducer,
+    queryParams: queryParamsReducer,
+    signParams: signParamsReducer,
+    wallet: walletReducer
+  })
 });

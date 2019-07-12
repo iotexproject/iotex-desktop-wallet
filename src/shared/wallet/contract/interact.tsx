@@ -1,22 +1,28 @@
 // tslint:disable:no-empty
+import { Row } from "antd";
 import Button from "antd/lib/button";
 import { FormComponentProps } from "antd/lib/form";
-import Form from "antd/lib/form/Form";
+import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Input from "antd/lib/input";
 import notification from "antd/lib/notification";
 import Select from "antd/lib/select";
 import { toRau } from "iotex-antenna/lib/account/utils";
+import { Contract } from "iotex-antenna/lib/contract/contract";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { copyCB } from "text-to-clipboard";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { rulesMap } from "../../common/rules";
+import { xconf, XConfKeys } from "../../common/xconf";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
 import { inputStyle } from "../wallet";
+import { QueryParams } from "../wallet-reducer";
 import {
   AbiFormInputItem,
   AmountFormInputItem,
@@ -26,14 +32,23 @@ import {
 } from "./cards";
 import { ContractLayout } from "./contract-layout";
 
-const { TextArea } = Input;
 const { Option } = Select;
 
-export class Interact extends Component<{ address: string }> {
+export interface IInteractProps {
+  txHash?: string;
+  fromAddress: string;
+}
+
+export class Interact extends Component<IInteractProps> {
   public render(): JSX.Element {
     return (
       <ContractLayout title={t("wallet.interact.title")} icon={"sync"}>
-        <InteractForm address={this.props.address} />
+        {/*
+        @ts-ignore */}
+        <InteractForm
+          fromAddress={this.props.fromAddress}
+          txHash={this.props.txHash}
+        />
       </ContractLayout>
     );
   }
@@ -58,7 +73,15 @@ export interface AbiMap {
 }
 
 interface InteractProps extends FormComponentProps {
-  address: string;
+  fromAddress: string;
+  amount?: number;
+  gasPrice?: string;
+  gasLimit?: number;
+  abi?: string;
+  contractAddress?: string;
+  method?: string;
+  queryParams: QueryParams;
+  txHash?: string;
 }
 
 type State = {
@@ -74,16 +97,53 @@ type State = {
   confirmInteractFunction: Function;
 };
 
+const ContractAddressFormInputItem = ({
+  form,
+  initialValue
+}: {
+  form: WrappedFormUtils;
+  initialValue: string;
+}): JSX.Element => {
+  const { getFieldDecorator } = form;
+
+  return (
+    <Form.Item
+      {...formItemLayout}
+      label={<FormItemLabel>{t("wallet.input.contractAddress")}</FormItemLabel>}
+    >
+      {getFieldDecorator("contractAddress", {
+        rules: rulesMap.address,
+        initialValue
+      })(
+        <Input
+          className="form-input"
+          placeholder={t("wallet.placeholder.contractAddress")}
+          name="contractAddress"
+        />
+      )}
+    </Form.Item>
+  );
+};
+
 class InteractFormInner extends Component<InteractProps, State> {
-  public state: State = {
-    abiFunctions: null,
-    selectedFunction: "",
-    outputValues: [],
-    broadcast: null,
-    txHash: "",
-    showConfirmInteract: false,
-    confirmInteractFunction: () => {}
-  };
+  public state: State;
+
+  constructor(props: InteractProps) {
+    super(props);
+    this.state = {
+      abiFunctions: null,
+      selectedFunction: props.queryParams.method || "",
+      outputValues: [],
+      broadcast: props.txHash
+        ? {
+            success: true
+          }
+        : null,
+      txHash: props.txHash || "",
+      showConfirmInteract: false,
+      confirmInteractFunction: () => {}
+    };
+  }
 
   public handleAccess = () => {
     this.props.form.validateFields((err, values) => {
@@ -102,8 +162,26 @@ class InteractFormInner extends Component<InteractProps, State> {
     });
   };
 
+  public componentDidUpdate(): void {
+    const { txHash } = this.props;
+    if (txHash && txHash !== this.state.txHash) {
+      this.setState({
+        txHash,
+        broadcast: {
+          success: true
+        }
+      });
+    }
+  }
+
+  public componentDidMount(): void {
+    if (this.props.queryParams.method) {
+      this.handleAccess();
+    }
+  }
+
   public handleReadWithInput = () => {
-    const { address } = this.props;
+    const { fromAddress } = this.props;
     const antenna = getAntenna();
 
     this.props.form.validateFields(async (err, values) => {
@@ -122,7 +200,7 @@ class InteractFormInner extends Component<InteractProps, State> {
 
       window.console.log(
         `antenna.iotx.readContractByMethod(${JSON.stringify({
-          from: address,
+          from: fromAddress,
           amount,
           abi,
           contractAddress,
@@ -138,7 +216,7 @@ class InteractFormInner extends Component<InteractProps, State> {
         // TODO(tian): what if multiple values returned?
         const result = await antenna.iotx.readContractByMethod(
           {
-            from: address,
+            from: fromAddress,
             amount: toRau(amount, "Iotx"),
             abi,
             contractAddress,
@@ -148,6 +226,7 @@ class InteractFormInner extends Component<InteractProps, State> {
           },
           ...args
         );
+        window.console.log(result.toString());
         this.setState({ outputValues: [result] });
       } catch (e) {
         notification.error({
@@ -158,7 +237,7 @@ class InteractFormInner extends Component<InteractProps, State> {
   };
 
   private readonly handleWrite = () => {
-    const { address } = this.props;
+    const { fromAddress } = this.props;
     const antenna = getAntenna();
 
     this.props.form.validateFields(async (err, values) => {
@@ -176,32 +255,34 @@ class InteractFormInner extends Component<InteractProps, State> {
         args
       } = values;
 
+      const price = gasPrice ? toRau(gasPrice, "Qev") : undefined;
+
       window.console.log(
         `antenna.iotx.executeContract(${JSON.stringify({
-          from: address,
+          from: fromAddress,
           amount,
           abi,
           contractAddress,
           method: selectedFunction,
-          gasPrice,
+          gasPrice: price,
           gasLimit
         })},`,
-        ...args,
+        ...(args || []),
         ")"
       );
 
       try {
         const txHash = await antenna.iotx.executeContract(
           {
-            from: address,
+            from: fromAddress,
             amount: toRau(amount, "Iotx"),
             abi,
             contractAddress,
             method: selectedFunction,
-            gasPrice,
+            gasPrice: price,
             gasLimit
           },
-          ...args
+          ...(args || [])
         );
         this.setState({
           broadcast: {
@@ -211,19 +292,19 @@ class InteractFormInner extends Component<InteractProps, State> {
         });
       } catch (e) {
         notification.error({
-          message: e.message
+          message: `failed to executeContract: ${e}`
         });
       }
     });
   };
 
-  private readonly confirmInteract = () => {
-    const { address, form } = this.props;
+  private readonly renderInteractConfirmation = () => {
+    const { fromAddress, form } = this.props;
     const { showConfirmInteract, confirmInteractFunction } = this.state;
 
     const { recipient, amount, gasLimit, gasPrice } = form.getFieldsValue();
     const dataSource = {
-      address: address,
+      address: fromAddress,
       toAddress: recipient,
       amount: toRau(amount, "Iotx"),
       limit: gasLimit,
@@ -244,6 +325,21 @@ class InteractFormInner extends Component<InteractProps, State> {
         showModal={showConfirmInteract}
       />
     );
+  };
+
+  private readonly copyByteCode = () => {
+    this.props.form.validateFields(async (err, values) => {
+      if (err) {
+        return;
+      }
+
+      const { contractAddress, abi, selectedFunction, args = [] } = values;
+      const contract = new Contract(JSON.parse(abi), contractAddress);
+      const bytecode = contract
+        .pureEncodeMethod("0", selectedFunction, ...args)
+        .data.toString("hex");
+      copyCB(bytecode);
+    });
   };
 
   private readonly newInteraction: JSX.Element = (
@@ -277,14 +373,24 @@ class InteractFormInner extends Component<InteractProps, State> {
     );
   }
 
-  public displayMethods = () => {
-    const { abiFunctions, outputValues } = this.state;
+  public renderContractMethods = () => {
     const { getFieldDecorator } = this.props.form;
+    const { args = "[]" } = this.props.queryParams;
+    // tslint:disable-next-line:no-any
+    let argsObj: Array<any> = [];
+    try {
+      argsObj = JSON.parse(args);
+    } catch (e) {
+      // don't care the invalid param
+    }
 
-    const { selectedFunction } = this.props.form.getFieldsValue();
+    const { abiFunctions, outputValues } = this.state;
     if (!abiFunctions) {
       return null;
     }
+
+    let { selectedFunction } = this.props.form.getFieldsValue();
+    selectedFunction = selectedFunction || this.props.queryParams.method;
 
     const currentFunction = abiFunctions[selectedFunction];
 
@@ -293,8 +399,19 @@ class InteractFormInner extends Component<InteractProps, State> {
         <Form.Item
           label={<FormItemLabel>{t("wallet.interact.contract")}</FormItemLabel>}
         >
-          {getFieldDecorator("selectedFunction")(
-            <Select className="form-input">
+          {getFieldDecorator("selectedFunction", {
+            initialValue: this.state.selectedFunction
+          })(
+            <Select
+              className="form-input"
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input: string, option: JSX.Element) =>
+                option.props.children
+                  .toLowerCase()
+                  .indexOf(input.toLowerCase()) >= 0
+              }
+            >
               {Object.keys(abiFunctions).map(name => (
                 <Option value={name} key={name}>
                   {name}
@@ -318,12 +435,15 @@ class InteractFormInner extends Component<InteractProps, State> {
                 help={<span>{input.type}</span>}
               >
                 {getFieldDecorator(`args.${i}`, {
-                  rules: rulesMap[input.type]
+                  rules: rulesMap[input.type],
+                  initialValue: argsObj[i]
                 })(<Input style={inputStyle} />)}
               </Form.Item>
             ))}
           </div>
         )}
+
+        {this.contractActions()}
 
         {currentFunction && currentFunction.outputs.length > 0 && (
           <div>
@@ -342,39 +462,43 @@ class InteractFormInner extends Component<InteractProps, State> {
             ))}
           </div>
         )}
-        <span>
-          {
-            //@ts-ignore
-            <Button
-              type="primary"
-              onClick={() => {
-                this.setState({
-                  showConfirmInteract: true,
-                  confirmInteractFunction: this.handleReadWithInput
-                });
-              }}
-            >
-              {t("wallet.abi.read")}
-            </Button>
-          }
-          {
-            //@ts-ignore
-            <Button
-              type="primary"
-              style={{ marginLeft: "10px" }}
-              onClick={() => {
-                this.setState({
-                  showConfirmInteract: true,
-                  confirmInteractFunction: this.handleWrite
-                });
-              }}
-            >
-              {t("wallet.abi.write")}
-            </Button>
-          }
-        </span>
-        <div style={{ marginTop: "20px" }} />
       </div>
+    );
+  };
+
+  public contractActions = (): JSX.Element => {
+    return (
+      <Row type="flex" style={{ margin: "20px 0px" }}>
+        {
+          // @ts-ignore
+          <Button type="primary" onClick={this.handleReadWithInput}>
+            {t("wallet.abi.read")}
+          </Button>
+        }
+        {
+          // @ts-ignore
+          <Button
+            type="primary"
+            style={{ marginLeft: "10px" }}
+            onClick={() => {
+              this.setState({
+                showConfirmInteract: true,
+                confirmInteractFunction: this.handleWrite
+              });
+            }}
+          >
+            {t("wallet.abi.write")}
+          </Button>
+        }
+        <Button
+          // @ts-ignore
+          type="link"
+          style={{ marginLeft: "10px" }}
+          onClick={this.copyByteCode}
+        >
+          {t("wallet.bytecode.copy")}
+        </Button>
+      </Row>
     );
   };
 
@@ -384,31 +508,30 @@ class InteractFormInner extends Component<InteractProps, State> {
       return this.renderBroadcast();
     }
 
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
+    const { form, queryParams } = this.props;
+    const lastParams = xconf.getConf(XConfKeys.LAST_INTERACT_CONTRACT, {
+      gasPrice: this.props.gasPrice,
+      gasLimit: this.props.gasLimit,
+      abi: "",
+      contractAddress: "",
+      amount: 0
+    });
+    const { gasPrice, gasLimit, abi, contractAddress, amount } =
+      queryParams && Object.keys(queryParams).length ? queryParams : lastParams;
     return (
       <Form layout={"vertical"}>
-        <Form.Item
-          {...formItemLayout}
-          label={
-            <FormItemLabel>{t("wallet.input.contractAddress")}</FormItemLabel>
-          }
-        >
-          {getFieldDecorator("contractAddress", {
-            rules: rulesMap.address
-          })(
-            <TextArea
-              rows={4}
-              style={inputStyle}
-              placeholder={t("wallet.placeholder.contractAddress")}
-            />
-          )}
-        </Form.Item>
-        <AmountFormInputItem form={form} initialValue={0} />
-        <GasPriceFormInputItem form={form} />
-        <GasLimitFormInputItem form={form} initialValue={1000000} />
-        {AbiFormInputItem(form)}
+        <ContractAddressFormInputItem
+          form={form}
+          initialValue={contractAddress || ""}
+        />
+        <AmountFormInputItem
+          form={form}
+          initialValue={amount}
+          required={false}
+        />
+        <GasPriceFormInputItem form={form} initialValue={gasPrice} />
+        <GasLimitFormInputItem form={form} initialValue={gasLimit || 1000000} />
+        <AbiFormInputItem form={form} initialValue={abi} />
         <Form.Item
           {...formItemLayout}
           label={
@@ -418,13 +541,24 @@ class InteractFormInner extends Component<InteractProps, State> {
             </Button>
           }
         />
-        {this.displayMethods()}
-        {this.confirmInteract()}
+        {this.renderContractMethods()}
+        {this.renderInteractConfirmation()}
       </Form>
     );
   }
 }
 
-export const InteractForm = Form.create({ name: "interact-contract" })(
-  InteractFormInner
+export const InteractForm = Form.create({
+  name: "interact-contract",
+  onFieldsChange: (_, __, allFields) => {
+    const formData: { [index: string]: string } = {};
+    Object.keys(allFields).forEach(field => {
+      formData[field] = allFields[field].value;
+    });
+    xconf.setConf(XConfKeys.LAST_INTERACT_CONTRACT, formData);
+  }
+})(
+  connect((state: { queryParams: QueryParams }) => {
+    return { queryParams: state.queryParams };
+  })(InteractFormInner)
 );

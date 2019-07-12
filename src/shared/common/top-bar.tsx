@@ -1,13 +1,11 @@
 // @ts-ignore
-import Button from "antd/lib/button";
 import AntdDropdown from "antd/lib/dropdown";
-import Icon from "antd/lib/icon";
 import AntdMenu from "antd/lib/menu";
 import isBrowser from "is-browser";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
-import { styled } from "onefx/lib/styletron-react";
+import { styled, StyleObject } from "onefx/lib/styletron-react";
 import { Component } from "react";
 import React from "react";
 import { withApollo, WithApolloClient } from "react-apollo";
@@ -29,7 +27,7 @@ import { colors } from "./styles/style-color";
 import { LAP_WIDTH, media } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
 
-export const TOP_BAR_HEIGHT = 100;
+export const TOP_BAR_HEIGHT = 80;
 
 const globalState = isBrowser && JsonGlobal("state");
 const multiChain: {
@@ -42,9 +40,11 @@ const multiChain: {
   ];
 } = isBrowser && globalState.base.multiChain;
 
+type BlockChainMenu = "dashboard" | "actions" | "blocks";
+
 type State = {
   displayMobileMenu: boolean;
-  blockChainMenu: "dashboard" | "actions" | "blocks";
+  blockChainMenu: BlockChainMenu;
   isSignInModalShow: boolean;
 };
 
@@ -55,7 +55,30 @@ type PathParamsType = {
 type Props = RouteComponentProps<PathParamsType> &
   WithApolloClient<{}> & { enableSignIn: boolean };
 
+interface MenuItem {
+  directTo: string;
+  itemText: string;
+}
+
+interface LocationMenuItem extends MenuItem {
+  menuText: BlockChainMenu;
+}
+
 class TopBarComponent extends Component<Props, State> {
+  private readonly blockChainMenus: Array<LocationMenuItem> = [
+    { directTo: "/", menuText: "dashboard", itemText: "topbar.dashboard" },
+    { directTo: "/action", menuText: "actions", itemText: "topbar.actions" },
+    { directTo: "/block", menuText: "blocks", itemText: "topbar.blocks" }
+  ];
+
+  private readonly toolMenus: Array<MenuItem> = [
+    { directTo: "/api-gateway/", itemText: "topbar.explorer_playground" },
+    {
+      directTo: "https://analytics.iotexscan.io/",
+      itemText: "topbar.analytics_playground"
+    }
+  ];
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -104,30 +127,16 @@ class TopBarComponent extends Component<Props, State> {
   public renderBlockchainMenu = () => {
     return (
       <AntdMenu style={overlayStyle}>
-        <AntdMenu.Item key={0}>
-          <StyledLink
-            to="/"
-            onClick={() => this.setState({ blockChainMenu: "dashboard" })}
-          >
-            {t("topbar.dashboard")}
-          </StyledLink>
-        </AntdMenu.Item>
-        <AntdMenu.Item key={1}>
-          <StyledLink
-            to="/action"
-            onClick={() => this.setState({ blockChainMenu: "actions" })}
-          >
-            {t("topbar.actions")}
-          </StyledLink>
-        </AntdMenu.Item>
-        <AntdMenu.Item key={2}>
-          <StyledLink
-            to="/block"
-            onClick={() => this.setState({ blockChainMenu: "blocks" })}
-          >
-            {t("topbar.blocks")}
-          </StyledLink>
-        </AntdMenu.Item>
+        {this.blockChainMenus.map(({ itemText, menuText, directTo }) => (
+          <AntdMenu.Item key={itemText}>
+            <StyledLink
+              to={directTo}
+              onClick={() => this.setState({ blockChainMenu: menuText })}
+            >
+              {t(itemText)}
+            </StyledLink>
+          </AntdMenu.Item>
+        ))}
       </AntdMenu>
     );
   };
@@ -135,21 +144,15 @@ class TopBarComponent extends Component<Props, State> {
   public renderToolMenu = (): JSX.Element => {
     return (
       <AntdMenu style={overlayStyle}>
-        <AntdMenu.Item key={0}>
-          <A href="/api-gateway/" target="_blank">
-            {t("topbar.graphql_playground")}
-          </A>
-        </AntdMenu.Item>
-        <AntdMenu.Item key={1}>
-          <A href="/doc/api-gateway/" target="_blank">
-            {t("topbar.graphql_doc")}
-          </A>
-        </AntdMenu.Item>
-        <AntdMenu.Item key={2}>
-          <A href="/wallet" target="_blank">
-            {t("topbar.wallet")}
-          </A>
-        </AntdMenu.Item>
+        {this.toolMenus.map(({ directTo, itemText }) => (
+          <AntdMenu.Item key={itemText}>
+            {
+              <A href={directTo} target="_blank">
+                {t(itemText)}
+              </A>
+            }
+          </AntdMenu.Item>
+        ))}
       </AntdMenu>
     );
   };
@@ -173,7 +176,7 @@ class TopBarComponent extends Component<Props, State> {
 
   public renderMenu = () => {
     const votingPageUrl = "https://member.iotex.io";
-    return [
+    const result = [
       <AntdDropdown
         key={0}
         trigger={["click", "hover"]}
@@ -197,10 +200,16 @@ class TopBarComponent extends Component<Props, State> {
       <NoBgA href={votingPageUrl} key={2}>
         {t("topbar.voting")}
       </NoBgA>,
-      <>
-        {this.state.displayMobileMenu && multiChain && (
+      <NoBgLink to="/wallet" key={3}>
+        {t("topbar.wallet")}
+      </NoBgLink>
+    ];
+
+    return this.state.displayMobileMenu && multiChain
+      ? [
+          ...result,
           <AntdDropdown
-            key={3}
+            key={4}
             trigger={["click", "hover"]}
             overlay={this.renderMutichainMenu()}
           >
@@ -212,9 +221,8 @@ class TopBarComponent extends Component<Props, State> {
               {multiChain.current} {DownIcon()}
             </StyledLink>
           </AntdDropdown>
-        )}
-      </>
-    ];
+        ]
+      : result;
   };
 
   public renderMobileMenu = () => {
@@ -263,7 +271,6 @@ class TopBarComponent extends Component<Props, State> {
           closeModal={this.closeSignInModal}
         />
         <Bar>
-          <BackHome />
           <Flex>
             <LogoContent />
           </Flex>
@@ -287,7 +294,11 @@ class TopBarComponent extends Component<Props, State> {
             ) : null}
             <LanguageSwitcherWrapper>
               <LanguageSwitcher
-                supportLanguages={[Languages.EN, Languages.ZH_CN]}
+                supportedLanguages={[
+                  Languages.EN,
+                  Languages.ZH_CN,
+                  Languages.IT
+                ]}
               />
             </LanguageSwitcherWrapper>
           </Flex>
@@ -309,7 +320,8 @@ class TopBarComponent extends Component<Props, State> {
 }
 
 export const TopBar = withRouter(
-  withApollo(
+  withApollo<{}>(
+    // @ts-ignore
     connect<{ enableSignIn: boolean }>(state => {
       // @ts-ignore
       const { enableSignIn } = state.base;
@@ -352,7 +364,7 @@ function HamburgerBtn({
 }: {
   displayMobileMenu: boolean;
   children: Array<JSX.Element> | JSX.Element;
-  onClick: Function;
+  onClick(): void;
 }): JSX.Element {
   const Styled = styled("div", {
     ":hover": {
@@ -406,42 +418,23 @@ function LogoContent(): JSX.Element {
   );
 }
 
-function BackHome(): JSX.Element {
-  const homePageUrl = "https://iotex.io/";
-  return (
-    <div
-      style={{
-        padding: "0 10px",
-        borderLeft: `1px solid ${colors.backHome}`,
-        borderRight: `1px solid ${colors.backHome}`,
-        marginRight: "10px"
-      }}
-    >
-      <a
-        href={homePageUrl}
-        style={{ color: colors.backHome, lineHeight: 1, fontSize: "14px" }}
-      >
-        <div>Go back</div>
-        <div style={{ fontSize: "16px", letterSpacing: "2.5px" }}>home</div>
-      </a>
-    </div>
-  );
-}
-
-function DownIcon(): JSX.Element {
-  return <Icon type="caret-down" style={{ color: colors.topbarGray }} />;
+function DownIcon(): string {
+  return "▾";
 }
 
 const overlayStyle = {
   backgroundColor: colors.nav01
 };
 
-const menuItem = {
+const menuItem: StyleObject = {
   color: `${colors.topbarGray} !important`,
   marginLeft: "14px",
   textDecoration: "none",
   ":hover": {
     color: `${colors.primary} !important`
+  },
+  ":focus": {
+    textDecoration: "none !important"
   },
   transition,
   [media.toLap]: {
@@ -485,7 +478,8 @@ const A = styled("a", {
 
 const NoBgA = styled("a", menuItem);
 
-// @ts-ignore
+const NoBgLink = styled(Link, menuItem);
+
 const StyledLink = styled(Link, {
   ...menuItem,
   padding: "5px 45px 5px 12px !important",

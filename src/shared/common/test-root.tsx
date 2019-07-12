@@ -20,7 +20,7 @@ export function TestRoot({ children }: { children: JSX.Element }): JSX.Element {
   const styletron = new StyletronClient({ hydrate: stylesheets, prefix: "_" });
 
   return (
-    <RootServer store={store} styletron={styletron} context={{}}>
+    <RootServer store={store} styletron={styletron} context={{}} location={""}>
       <div>
         <HtmlHead locale={"en"} />
         <Helmet>

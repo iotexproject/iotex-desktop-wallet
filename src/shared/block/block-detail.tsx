@@ -22,6 +22,7 @@ import {
 } from "../../api-gateway/resolvers/antenna-types";
 import { ActionDetail } from "../action/action-detail";
 import { ActionTable } from "../address-details/action-table";
+import { CommonMargin } from "../common/common-margin";
 import { Flex } from "../common/flex";
 import { FlexLink } from "../common/flex-link";
 import { translateFn } from "../common/from-now";
@@ -156,6 +157,7 @@ class BlockDetailsInner extends PureComponent<Props, State> {
           scroll={{ x: true }}
         />
         {this.renderFoldButton()}
+        <CommonMargin />
       </Flex>
     );
   }
@@ -340,6 +342,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
       return queryRegisteredName(text, record);
     case "sender":
     case "contract":
+    case "to":
     case "recipient":
     case "owner":
     case "subChainAddress":
@@ -417,13 +420,14 @@ export function renderValue(text: string, record: any): JSX.Element | string {
         </span>
       );
     default:
-      return <span>{text}</span>;
+      return <span style={{ wordBreak: "break-word" }}>{text}</span>;
   }
 }
 
 function renderActHash(text: string): JSX.Element | string {
   let href = (window.location && window.location.href) || "";
-  href = `mailto:?subject=I wanted you to see this site&amp;body=Check out this site ${href}`;
+  const emailBody = encodeURIComponent(`Check out this site\n\n ${href}`);
+  href = `mailto:?subject=Checkout this block hash on IoTeX blockchain&body=${emailBody}`;
   const content = (
     <div style={{ display: "flex", justifyContent: "space-around" }}>
       <div>
@@ -479,6 +483,7 @@ export function getColumns(
       title,
       key: "key",
       dataIndex: "key",
+      className: "block-detail-key",
       render: renderKey
     },
     {

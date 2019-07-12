@@ -1,6 +1,16 @@
 const { config } = require("dotenv");
 config();
 
+const getApiGatewayUrl = () => {
+  const initial = process.env.API_GATEWAY_URL;
+
+  if (!!initial) {
+    return initial.endsWith("/") ? initial : initial + "/";
+  } else {
+    return "";
+  }
+};
+
 module.exports = {
   project: "iotex-explorer",
   server: {
@@ -28,7 +38,14 @@ module.exports = {
       enabled: true,
       level: "debug"
     },
-    iotexAntenna: process.env.IOTEX_CORE || "35.239.122.109:80"
+    iotexAntenna: process.env.IOTEX_CORE || "35.239.122.109:80",
+    sendgridApiKey:
+      process.env.SENDGRID_API_KEY ||
+      "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",
+    sendgrid: {
+      url: "/v3/contactdb/recipients",
+      method: "POST"
+    }
   },
   analytics: {
     googleTid: "UA-111756489-2"
@@ -49,6 +66,8 @@ module.exports = {
       "https://api.coinmarketcap.com/v1/ticker/iotex/",
       "https://member.iotex.io/api-gateway/",
       "https://api.github.com/",
+      "https://iotexscan.io/",
+      "https://testnet.iotexscan.io/",
       process.env.API_GATEWAY_URL
     ],
     "child-src": ["self"],
@@ -70,14 +89,13 @@ module.exports = {
       "https://ethereum.github.io/solc-bin/bin/"
     ]
   },
-  apiGatewayUrl:
-    process.env.API_GATEWAY_URL || "http://localhost:4004/api-gateway/",
+  apiGatewayUrl: getApiGatewayUrl() || "http://localhost:4004/api-gateway/",
   webBpApiGatewayUrl: "https://member.iotex.io/api-gateway/",
   multiChain: {
-    current: process.env.CURRENT_CHAIN_NAME || "mainnnet",
+    current: process.env.CURRENT_CHAIN_NAME || "mainnet",
     chains: [
       {
-        name: "mainnnet",
+        name: "mainnet",
         url: "https://iotexscan.io/"
       },
       {
@@ -86,5 +104,14 @@ module.exports = {
       }
     ]
   },
+  bidContractAddress: "io16alj8sw7pt0d5wv22gdyphuyz9vas5dk8czk88",
+  vitaTokens: [
+    "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw", // VITA Production
+    "io14j96vg9pkx28htpgt2jx0tf3v9etpg4j9h384m" // VITA Testnet
+  ],
+  defaultERC20Tokens: [
+    "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw",
+    "io14j96vg9pkx28htpgt2jx0tf3v9etpg4j9h384m"
+  ],
   enableSignIn: true
 };

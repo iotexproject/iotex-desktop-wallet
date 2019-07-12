@@ -302,16 +302,7 @@ export class Transfer implements ITransfer {
   public recipient: string;
 
   @Field(_ => BufferScalar)
-  public payload: Buffer | {};
-}
-
-@InputType("VoteInput")
-@ObjectType()
-export class Vote {
-  @Field(_ => Timestamp)
-  public timestamp: Timestamp;
-  @Field(_ => String)
-  public voteeAddress: string;
+  public payload: Buffer | string;
 }
 
 @InputType("ExecutionInput")
@@ -324,7 +315,7 @@ export class Execution implements IExecution {
   public contract: string;
 
   @Field(_ => BufferScalar)
-  public data: Buffer | {};
+  public data: Buffer | string;
 }
 
 export enum RewardType {
@@ -342,7 +333,7 @@ export class DepositToRewardingFund implements IDepositToRewardingFund {
   @Field(_ => String)
   public amount: string;
   @Field(_ => BufferScalar)
-  public data: Buffer | {};
+  public data: Buffer;
 }
 
 @InputType("ClaimFromRewardingFundInput")
@@ -395,7 +386,7 @@ export class MerkleRoot implements IMerkleRoot {
   @Field(_ => String)
   public name: string;
   @Field(_ => BufferScalar)
-  public value: Buffer | {};
+  public value: Buffer;
 }
 
 @InputType("PutBlockInput")
@@ -474,15 +465,15 @@ export class PlumStartExit {
   @Field(_ => String)
   public subChainAddress: string;
   @Field(_ => BufferScalar)
-  public previousTransfer: Buffer | {};
+  public previousTransfer: Buffer;
   @Field(_ => BufferScalar)
-  public previousTransferBlockProof: Buffer | {};
+  public previousTransferBlockProof: Buffer;
   @Field(_ => Int)
   public previousTransferBlockHeight: number;
   @Field(_ => BufferScalar)
-  public exitTransfer: Buffer | {};
+  public exitTransfer: Buffer | string;
   @Field(_ => BufferScalar)
-  public exitTransferBlockProof: Buffer | {};
+  public exitTransferBlockProof: Buffer | string;
   @Field(_ => Int)
   public exitTransferBlockHeight: number;
 }
@@ -495,9 +486,9 @@ export class PlumChallengeExit {
   @Field(_ => Int)
   public coinID: number;
   @Field(_ => BufferScalar)
-  public challengeTransfer: Buffer | {};
+  public challengeTransfer: Buffer | string;
   @Field(_ => BufferScalar)
-  public challengeTransferBlockProof: Buffer | {};
+  public challengeTransferBlockProof: Buffer | string;
   @Field(_ => Int)
   public challengeTransferBlockHeight: number;
 }
@@ -510,11 +501,11 @@ export class PlumResponseChallengeExit {
   @Field(_ => Int)
   public coinID: number;
   @Field(_ => BufferScalar)
-  public challengeTransfer: Buffer | {};
+  public challengeTransfer: Buffer;
   @Field(_ => BufferScalar)
-  public responseTransfer: Buffer | {};
+  public responseTransfer: Buffer;
   @Field(_ => BufferScalar)
-  public responseTransferBlockProof: Buffer | {};
+  public responseTransferBlockProof: Buffer;
   @Field(_ => Int)
   public previousTransferBlockHeight: number;
 }
@@ -541,7 +532,7 @@ export class PlumTransfer {
   @Field(_ => Int)
   public coinID: number;
   @Field(_ => BufferScalar)
-  public denomination: Buffer | {};
+  public denomination: Buffer;
   @Field(_ => String)
   public owner: string;
   @Field(_ => String)
@@ -606,9 +597,6 @@ export class ActionCore implements IActionCore {
   @Field(_ => Transfer, { nullable: true })
   public transfer?: Transfer | undefined;
 
-  @Field(_ => Vote, { nullable: true })
-  public vote?: Vote | undefined;
-
   @Field(_ => Execution, { nullable: true })
   public execution?: Execution | undefined;
 
@@ -665,10 +653,10 @@ export class Action implements IAction {
   public core: ActionCore | undefined;
 
   @Field(_ => BufferScalar)
-  public senderPubKey?: Buffer | {} | undefined;
+  public senderPubKey: Uint8Array | string;
 
   @Field(_ => BufferScalar)
-  public signature?: Buffer | {} | undefined;
+  public signature: Uint8Array | string;
 }
 
 @ObjectType()
@@ -691,8 +679,11 @@ export class GetActionsResponse implements IGetActionsResponse {
 
 @ArgsType()
 export class ReadContractRequest {
-  @Field(_ => Action)
-  public action: Action;
+  @Field(_ => Execution)
+  public execution: Execution;
+
+  @Field(_ => String)
+  public callerAddress: string;
 }
 
 @ObjectType()
