@@ -68,6 +68,7 @@ module.exports = {
       "https://api.github.com/",
       "https://iotexscan.io/",
       "https://testnet.iotexscan.io/",
+      "https://analytics.iotexscan.io/",
       process.env.API_GATEWAY_URL
     ],
     "child-src": ["self"],
@@ -91,6 +92,7 @@ module.exports = {
   },
   apiGatewayUrl: getApiGatewayUrl() || "http://localhost:4004/api-gateway/",
   webBpApiGatewayUrl: "https://member.iotex.io/api-gateway/",
+  analyticsApiGatewayUrl: "https://analytics.iotexscan.io/query",
   multiChain: {
     current: process.env.CURRENT_CHAIN_NAME || "mainnet",
     chains: [
