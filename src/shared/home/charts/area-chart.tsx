@@ -48,7 +48,7 @@ export const CompAreaChart = (props: IAreaChartProps) => {
         )}
         {!tinyMode && <XAxis dataKey="name" />}
         {!tinyMode && <YAxis />}
-        <Tooltip content={<CompMapChartTooltip />} />
+        {!tinyMode && <Tooltip content={<CompMapChartTooltip />} />}
 
         <defs>
           <linearGradient id={fillID} x1="0" y1="0" x2="0" y2="1">
