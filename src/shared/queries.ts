@@ -392,3 +392,89 @@ export const ADD_SUBSCRIPTION = gql`
     }
   }
 `;
+
+export const GET_BP_STATS = gql`
+  query stats {
+    stats {
+      height
+      totalCandidates
+      totalCandidatesHistory {
+        ts
+        count
+      }
+      totalVotedStakes
+      totalVotedStakesHistory {
+        ts
+        count
+      }
+      totalVotes
+      totalVotesHistory {
+        ts
+        count
+      }
+      nextEpoch
+      currentEpochNumber
+    }
+    bpCandidates {
+      productivity
+      productivityBase
+      category
+    }
+  }
+`;
+
+export const GET_ANALYTICS_TPS = gql`
+  query chain {
+    chain {
+      mostRecentTPS(blockWindow: 8640)
+    }
+  }
+`;
+
+export const GET_ANALYTICS_ACTION_HISTORY = gql`
+  query(
+    $day1: Int!
+    $day2: Int!
+    $day3: Int!
+    $day4: Int!
+    $day5: Int!
+    $day6: Int!
+    $day7: Int!
+  ) {
+    day1: chain {
+      numberOfActions(pagination: { startEpoch: $day1, epochCount: 24 }) {
+        count
+      }
+    }
+    day2: chain {
+      numberOfActions(pagination: { startEpoch: $day2, epochCount: 24 }) {
+        count
+      }
+    }
+    day3: chain {
+      numberOfActions(pagination: { startEpoch: $day3, epochCount: 24 }) {
+        count
+      }
+    }
+    day4: chain {
+      numberOfActions(pagination: { startEpoch: $day4, epochCount: 24 }) {
+        count
+      }
+    }
+    day5: chain {
+      numberOfActions(pagination: { startEpoch: $day5, epochCount: 24 }) {
+        count
+      }
+    }
+    day6: chain {
+      numberOfActions(pagination: { startEpoch: $day6, epochCount: 24 }) {
+        count
+      }
+    }
+    day7: chain {
+      numberOfActions(pagination: { startEpoch: $day7, epochCount: 24 }) {
+        count
+      }
+    }
+  }
+`;
