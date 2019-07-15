@@ -34,6 +34,7 @@ export type MyConfig = Config & {
   webBpApiGatewayUrl: string;
   enableSignIn: boolean;
   apiGatewayUrl: string;
+  analyticsApiGatewayUrl: string;
 };
 
 const defaultConfig: Config = {
