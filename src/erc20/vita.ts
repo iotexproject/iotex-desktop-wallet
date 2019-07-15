@@ -35,6 +35,7 @@ export interface IVita extends IERC20 {
     gasPrice: string,
     gasLimit: string
   ): Promise<string>;
+  claimableAmount(owner: string, callerAddress: string): Promise<BigNumber>;
 }
 
 export interface IAuthorizedMessage {
@@ -92,6 +93,18 @@ export class Vita extends ERC20 implements IVita {
       hexToBytes(signature),
       nonce.toString()
     );
+  }
+
+  public async claimableAmount(
+    owner: string,
+    callerAddress: string
+  ): Promise<BigNumber> {
+    const result = await this.readMethod(
+      "claimableAmount",
+      callerAddress,
+      owner
+    );
+    return new BigNumber(result, 16);
   }
 
   public static create(address: string, provider: IRpcMethod): Vita {
