@@ -9,13 +9,15 @@ import { withApollo, WithApolloClient } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { GetBlockMetasRequest } from "../../api-gateway/resolvers/antenna-types";
 import { GET_BLOCK_METAS } from "../queries";
+// @ts-ignore
+import window from "global/window";
 
 type SearchBoxProps = SearchProps &
   RouteComponentProps &
   WithApolloClient<{}> & {};
 
 class SearchBoxComponent extends Component<SearchBoxProps> {
-  componentDidMount() {
+  public componentDidMount(): void {
     const urlParams = new URLSearchParams(window.location.search);
     const search = urlParams.get("search");
     if (search) {
