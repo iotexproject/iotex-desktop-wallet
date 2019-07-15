@@ -9,7 +9,7 @@ import { GET_ANALYTICS_TPS } from "../../queries";
 import { CompCirclePercentChart } from "../charts/circle-chart";
 import { StatsCard } from "./stats-card";
 
-const PEAK_TPS = 0; // TODO: update chain side team
+const PEAK_TPS = 500; // Fixed number for now. Might be updated later.
 
 export const TPSCard = (): JSX.Element => {
   return (
