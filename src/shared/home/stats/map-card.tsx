@@ -1,9 +1,13 @@
 import { Card, Col, Row } from "antd";
+import gql from "graphql-tag";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
-import React from "react";
+import React, { CSSProperties, useState } from "react";
+import { Query, QueryResult } from "react-apollo";
+import { analyticsClient, webBpApolloClient } from "../../common/apollo-client";
 import { assetURL } from "../../common/asset-url";
 import { colors } from "../../common/styles/style-color";
+import { GET_BP_STATS } from "../../queries";
 import { CompAreaChart } from "../charts/area-chart";
 
 const fontFamily = "'Heebo',sans-serif,Microsoft YaHei !important";
@@ -40,52 +44,67 @@ const Styles = {
   }
 };
 
-const MockMapData = [
-  {
-    name: "1 Day",
-    value: 500
-  },
-  {
-    name: "2 Day",
-    value: 1300
-  },
-  {
-    name: "3 Day",
-    value: 700
-  },
-  {
-    name: "4 Day",
-    value: 900
-  },
-  {
-    name: "5 Day",
-    value: 600
-  },
-  {
-    name: "6 Day",
-    value: 1200
-  },
-  {
-    name: "7 Day",
-    value: 800
-  }
-];
-
 export const MapButton = (
   props: React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
-  >
+  > & {
+    active?: boolean;
+  }
 ): JSX.Element => {
+  const activeStyle: CSSProperties = props.active
+    ? {
+        backgroundColor: colors.black90
+      }
+    : {};
+
   return (
     <div
       {...props}
-      style={{ ...Styles.mapButton, whiteSpace: "nowrap", ...props.style }}
+      style={{
+        ...Styles.mapButton,
+        whiteSpace: "nowrap",
+        ...props.style,
+        ...activeStyle
+      }}
     />
   );
 };
 
+const getActionsData = async (
+  currentEpochNumber: number
+): Promise<Array<{ name: string; value: number }>> => {
+  const query = gql`{
+    ${[1, 2, 3, 4, 5, 6, 7].map(day => {
+      return `day${day}:chain{
+        numberOfActions(pagination: { startEpoch: ${currentEpochNumber -
+          day * 24}, epochCount: 24 }) {
+          count
+        }
+      }
+      `;
+    })}
+  }`;
+  const result: {
+    data: {
+      [index: string]: {
+        numberOfActions: {
+          count: number;
+        };
+      };
+    };
+  } = await analyticsClient.query({ query });
+  return Object.keys(result.data).map((name, i) => ({
+    name: `${i + 1} Day`,
+    value: result.data[name].numberOfActions.count
+  }));
+};
+
+const EMPTY_MAP_DATA: Array<{ name: string; value: number }> = [];
+
 export const MapCard = (): JSX.Element => {
+  const [mapData, setMapData] = useState(EMPTY_MAP_DATA);
+  const [currentEpochNumber, setCurrentEpochNumber] = useState(0);
   return (
     <Card style={Styles.mapBox} bodyStyle={Styles.mapBoxBody}>
       <div style={{ padding: 10 }}>
@@ -102,13 +121,31 @@ export const MapCard = (): JSX.Element => {
             <MapButton>{t("home.stats.numberOfAddresses")}</MapButton>
           </Col>
           <Col span={12}>
-            <MapButton>{t("home.stats.numberOfTransactions")}</MapButton>
+            <MapButton active={true}>
+              {t("home.stats.numberOfTransactions")}
+            </MapButton>
           </Col>
         </Row>
       </div>
-
       <div style={Styles.mapContainer}>
-        <CompAreaChart data={MockMapData} />
+        <Query query={GET_BP_STATS} client={webBpApolloClient}>
+          {({ loading, data, error }: QueryResult) => {
+            if (loading || !!error) {
+              return null;
+            }
+            if (
+              data &&
+              data.stats &&
+              data.stats.currentEpochNumber &&
+              data.stats.currentEpochNumber !== currentEpochNumber
+            ) {
+              setCurrentEpochNumber(data.stats.currentEpochNumber);
+              getActionsData(data.stats.currentEpochNumber).then(setMapData);
+            }
+            return null;
+          }}
+        </Query>
+        {mapData.length && <CompAreaChart data={mapData} />}
       </div>
     </Card>
   );
