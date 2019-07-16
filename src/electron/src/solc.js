@@ -51,10 +51,7 @@ const loadSolc = async version => {
   if (!releases[version]) {
     throw new Error("wallet.cannot_find_solidity_version");
   }
-  const releaseVersion = `${releases[version]}`.replace(
-    /soljson\-|\.js$/gi,
-    ""
-  );
+  const releaseVersion = `${releases[version]}`.replace(/soljson-|\.js$/gi, "");
   return await new Promise((resolve, reject) => {
     solc.loadRemoteVersion(releaseVersion, (error, remoteSolc) => {
       if (error) {

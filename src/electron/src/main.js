@@ -6,6 +6,12 @@ const { initSolc } = require("./solc");
 const { createServer } = require("./server");
 const Service = require("./service");
 const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
+const process = require("global/process");
+const console = require("global/console");
+
+process.on("uncaughtException", function(error) {
+  console.error(`failed on unknown error: ${error.stack}`);
+});
 
 const allowRequestOrigins = [
   "https://iotexscan.io",
@@ -213,20 +219,17 @@ app.on("remote-get-global", (event, webContents, globalName) => {
   }
 });
 
-app.on("remote-get-current-window", (event, webContents) => {
+app.on("remote-get-current-window", event => {
   event.preventDefault();
 });
 
-app.on("remote-get-current-web-contents", (event, webContents) => {
+app.on("remote-get-current-web-contents", event => {
   event.preventDefault();
 });
 
-app.on(
-  "remote-get-guest-web-contents",
-  (event, webContents, guestWebContents) => {
-    event.preventDefault();
-  }
-);
+app.on("remote-get-guest-web-contents", event => {
+  event.preventDefault();
+});
 
 // check for updates
 app.on("ready", function() {
