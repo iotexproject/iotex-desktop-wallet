@@ -12,9 +12,9 @@ import JsonGlobal from "safe-json-globals/get";
 import onErrorLink from "./apollo-error-handling";
 
 const state = isBrowser && JsonGlobal("state");
-const apolloState = isBrowser && state.apolloState;
-const apiGatewayUrl = isBrowser && state.base.apiGatewayUrl;
-const csrfToken = isBrowser && state.base.csrfToken;
+const apolloState = isBrowser && state && state.apolloState;
+const apiGatewayUrl = isBrowser && state && state.base.apiGatewayUrl;
+const csrfToken = isBrowser && state && state.base.csrfToken;
 
 const apolloClientConfig = {
   uri: apiGatewayUrl

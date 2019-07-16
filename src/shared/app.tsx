@@ -1,6 +1,8 @@
 // @ts-ignore
 
 // @ts-ignore
+import Footer, { FOOTER_HEIGHT } from "iotex-react-footer";
+// @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { mobileViewPortContent } from "onefx/lib/iso-react-render/root/mobile-view-port-content";
@@ -14,7 +16,6 @@ import { Actions } from "./actions/actions";
 import { AddressDetails } from "./address-details/address-details";
 import { BlockDetail } from "./block/block-detail";
 import { Blocks } from "./block/blocks";
-import { Footer, FOOTER_ABOVE } from "./common/footer";
 // @ts-ignore
 import initGoogleAnalytics from "./common/google-analytics";
 import { HtmlHead } from "./common/html-head";
@@ -22,7 +23,7 @@ import { NotFound } from "./common/not-found";
 import { ScrollToTop } from "./common/scroll-top";
 import { colors } from "./common/styles/style-color";
 import { fonts } from "./common/styles/style-font";
-import { TopBar } from "./common/top-bar";
+import { TOP_BAR_HEIGHT, TopBar } from "./common/top-bar";
 import { Home } from "./home/home";
 import { Wallet } from "./wallet/wallet";
 
@@ -43,7 +44,11 @@ export class App extends Component<Props> {
       <RootStyle>
         <HtmlHead locale={locale} />
         <TopBar />
-        <div style={FOOTER_ABOVE}>
+        <div
+          style={{
+            minHeight: `calc(100vh - ${FOOTER_HEIGHT + TOP_BAR_HEIGHT}px)`
+          }}
+        >
           <ScrollToTop>
             <Switch>
               <Route exact path="/" component={Home} />

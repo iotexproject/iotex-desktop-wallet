@@ -257,17 +257,10 @@
 }
 
 .ant-card {
-  -webkit-box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.3) !important;
-  -moz-box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.3) !important;
-  box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.3) !important;
+  border: 1px solid rgba(128, 128, 128, 0.3) !important;
   &:hover {
     transform: scale(1.02);
   }
-}
-.block-card-wrap:nth-child(1) .ant-card {
-  -webkit-box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.5) !important;
-  -moz-box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.5) !important;
-  box-shadow: 0 5px 10px 0 rgba(128, 128, 128, 0.5) !important;
 }
 
 .keystore-tag {
@@ -344,4 +337,9 @@ input {
 .ant-modal-confirm .ant-modal-content .ant-modal-body {
   padding-top: 32px !important;
   padding-bottom: 32px !important;
+}
+
+.claimButton > .ant-btn:first-child {
+  padding: 0 !important;
+  border: 0 !important;
 }

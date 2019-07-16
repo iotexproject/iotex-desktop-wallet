@@ -312,9 +312,28 @@ topbar.goback_home: "Go back home"
 topbar.voting: Voting
 topbar.dashboard: Dashboard
 topbar.tools: Tools
-footer.policy: "Team of Use & Privacy Policy."
-footer.enter_email: "Enter email for Iotex updates!"
+footer.resource: Resources
+footer.lauch: Launch
+footer.roadmap: Roadmap
+footer.research_paper: 'Research Papers'
+footer.announcements: Announcements
+footer.delegates_program: 'Delegates Program'
+footer.charity_program: 'Charity Program'
+footer.develop: Develop
+footer.github: Github
+footer.documentations: Documentations
+footer.libraries_tools: 'Libraries and tools'
+footer.explorer: Explorer
+footer.wallet: Wallet
+footer.about_us: 'About Us'
+footer.team: Team
+footer.forum: Forum
+footer.support: Support
+footer.enter_email: 'Enter email for Iotex updates'
 footer.subscribe: Subscribe
+footer.policy: 'Terms of Use & Privacy Policy'
+footer.launch: Launch
+footer.subscribe_success: Success To Subscribe
 home.blocklist.ofActions: "of actions"
 signin_modal.wallet: "IoTeX Wallet"
 signin_modal.sign_in: "Sign In with IoTeX Wallet"

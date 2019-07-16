@@ -5,7 +5,7 @@ const log = require("electron-log");
 
 const userDataPath = (app || remote.app).getPath("userData");
 const userConfName = resolve(userDataPath, "iotex-wallet-conf.json");
-loadConfData = function() {
+const loadConfData = function() {
   try {
     return JSON.parse(readFileSync(userConfName, { encoding: "utf8" }));
   } catch (e) {

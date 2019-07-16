@@ -1,11 +1,11 @@
 // Important note: this file can be used for dev and compiling by webpack only.
+const process = require("global/process");
 process.env.NODE_CONFIG_DIR = __dirname + "/../../config";
 const {
   bidContractAddress,
   vitaTokens,
   multiChain,
-  defaultERC20Tokens,
-  webBpApiGatewayUrl
+  defaultERC20Tokens
 } = require("config");
 
 const translations = require("yaml-js").load(
@@ -19,7 +19,6 @@ module.exports = {
       vitaTokens,
       multiChain,
       defaultERC20Tokens,
-      webBpApiGatewayUrl,
       analytics: {
         googleTid: "UA-111756489-2"
       },
