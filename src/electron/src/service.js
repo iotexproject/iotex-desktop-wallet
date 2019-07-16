@@ -1,4 +1,5 @@
 const { ipcMain } = require("electron");
+const console = require("global/console");
 
 let webContents;
 function onConnection(ws) {
