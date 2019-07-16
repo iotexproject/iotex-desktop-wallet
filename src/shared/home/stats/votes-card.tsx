@@ -47,9 +47,6 @@ export const VotesCard = (): JSX.Element => {
               </div>
             }
             suffix={null}
-            valueStyle={{
-              fontSize: "28px"
-            }}
           />
         );
       }}

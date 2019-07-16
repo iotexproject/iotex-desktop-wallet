@@ -53,7 +53,7 @@ export const StatsCard = (props: IStatsCardProps): JSX.Element => {
             alignItems: "center",
             justifyContent: "flex-start",
             padding: 10,
-            fontSize: 42,
+            fontSize: "5vmin",
             ...props.valueStyle
           }}
           prefix={props.prefix}
