@@ -1,6 +1,7 @@
 // @ts-ignore
 import window from "global/window";
 import Antenna from "iotex-antenna";
+import { Account } from "iotex-antenna/lib/account/account";
 import { Envelop, SealedEnvelop } from "iotex-antenna/lib/action/envelop";
 import { SignerPlugin } from "iotex-antenna/lib/action/method";
 import isElectron from "is-electron";
@@ -20,10 +21,10 @@ class LedgerSigner implements SignerPlugin {
     return new SealedEnvelop(envelop, this.publicKey, signed.signature);
   }
 
-  // @ts-ignore
   public async getAccount(address: string): Promise<Account> {
-    // @ts-ignore
-    return { address: address };
+    const acct = new Account();
+    acct.address = address;
+    return acct;
   }
 }
 

@@ -47,7 +47,7 @@ const UnlockByLedgerComponent = (
                 title: t("unlock-by-ledger.warnTitle"),
                 content: t("unlock-by-ledger.pluginDevice")
               });
-              console.warn(e);
+              console.warn(`fail to connect ledger: ${e}`);
             });
         }}
       >
