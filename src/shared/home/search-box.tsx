@@ -1,6 +1,8 @@
 import { Input } from "antd";
 import { SearchProps } from "antd/lib/input";
 import { get } from "dottie";
+// @ts-ignore
+import window from "global/window";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -9,8 +11,6 @@ import { withApollo, WithApolloClient } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { GetBlockMetasRequest } from "../../api-gateway/resolvers/antenna-types";
 import { GET_BLOCK_METAS } from "../queries";
-// @ts-ignore
-import window from "global/window";
 
 type SearchBoxProps = SearchProps &
   RouteComponentProps &
