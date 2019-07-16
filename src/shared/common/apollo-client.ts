@@ -18,6 +18,7 @@ const apiGatewayUrl = isBrowser && state.base.apiGatewayUrl;
 const analyticsApiGatewayUrl = isBrowser && state.base.analyticsApiGatewayUrl;
 const csrfToken = isBrowser && state.base.csrfToken;
 
+
 const apolloClientConfig = {
   uri: apiGatewayUrl
 };

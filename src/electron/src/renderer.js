@@ -6,13 +6,15 @@ const { getConf, setConf } = require("./config");
 const window = require("global/window");
 const { ipcRenderer } = require("electron");
 const isDev = require("electron-is-dev");
+const document = require("global/document");
+const console = require("global/console");
 
 let globalState = process.env.GLOBAL_STATE || {};
 if (isDev) {
   globalState = require("../globalState");
 }
 
-window.xopen = function(url, frameName, features) {
+window.xopen = function(url) {
   shell.openExternal(url);
 };
 
