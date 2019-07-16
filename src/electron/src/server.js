@@ -12,24 +12,26 @@ function createServerWithCertAndKey(port, cert, key, callback) {
 
 function createServer(port, callback) {
   const caStr = getConf("cert/key");
+  let key;
+  let cert;
   if (typeof caStr !== "undefined") {
     try {
       const ca = JSON.parse(caStr);
-      const key = ca.serviceKey;
-      const cert = ca.certificate;
+      key = ca.serviceKey;
+      cert = ca.certificate;
       createServerWithCertAndKey(port, cert, key, callback);
     } catch (err) {
       console.error("failed to decode certificate");
     }
   }
-  if (typeof cert === "undefined" || typeof key === "undefined") {
+  if (!cert || !key) {
     pem.createCertificate({ days: 1, selfSigned: true }, async (err, keys) => {
       if (err) {
         console.error("failed to create certificate", err);
         callback(err, null);
       } else {
-        const cert = keys.certificate;
-        const key = keys.serviceKey;
+        cert = keys.certificate;
+        key = keys.serviceKey;
         setConf("cert", cert);
         setConf("key", key);
         createServerWithCertAndKey(port, cert, key, callback);
