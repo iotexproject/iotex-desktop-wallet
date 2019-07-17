@@ -4,8 +4,6 @@ import { get } from "dottie";
 // @ts-ignore
 import window from "global/window";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
-// @ts-ignore
-import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
 import { withApollo, WithApolloClient } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router-dom";
