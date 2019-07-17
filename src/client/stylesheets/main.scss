@@ -281,6 +281,12 @@ input {
   font-family: "Heebo", sans-serif, Microsoft YaHei !important;
 }
 
+.ant-statistic-content {
+  font-family: "Heebo", sans-serif, Microsoft YaHei !important;
+  font-size: 42px;
+  font-weight: 100 !important;
+}
+
 /* disable default menu hover */
 .ant-dropdown-menu-item:hover {
   background-color: transparent !important;
@@ -342,4 +348,7 @@ input {
 .claimButton > .ant-btn:first-child {
   padding: 0 !important;
   border: 0 !important;
+}
+text.recharts-text.recharts-cartesian-axis-tick-value {
+  font-size: 12px;
 }
