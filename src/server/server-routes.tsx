@@ -24,7 +24,8 @@ export function setServerRoutes(server: MyServer): void {
 
   server.get(
     "SPA",
-    "(/|/address/.*|/block|/block/.*|/action|/action/.*|/wallet.*|/not-found|/.*)",
+    // @ts-ignore
+    /^(?!\/?api-gateway\/).+$/,
     async (ctx: koa.Context) => {
       ctx.setState("base.bidContractAddress", server.config.bidContractAddress);
       ctx.setState("base.vitaTokens", server.config.vitaTokens);
