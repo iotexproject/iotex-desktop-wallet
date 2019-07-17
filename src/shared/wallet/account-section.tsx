@@ -17,6 +17,7 @@ import BigNumber from "bignumber.js";
 import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
 import { fromRau } from "iotex-antenna/lib/account/utils";
+import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -24,6 +25,7 @@ import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
+import { Link } from "react-router-dom";
 import { AccountMeta } from "../../api-gateway/resolvers/antenna-types";
 import { IGasEstimation } from "../../erc20";
 import { ITokenInfo, ITokenInfoDict, Token } from "../../erc20/token";
@@ -34,7 +36,6 @@ import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { onElectronClick } from "../common/on-electron-click";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
-import { TooltipButton } from "../common/tooltip-button";
 import { xconf, XConfKeys } from "../common/xconf";
 import AddCustomTokensFormModal from "./add-custom-tokens-form-modal";
 import AuthorizedMessageFormModal from "./authorized-message-form-modal";
@@ -658,6 +659,48 @@ class AccountSection extends React.Component<Props, State> {
     );
   }
 
+  public renderActionBar(): JSX.Element | null {
+    const { account } = this.props;
+    if (!account) {
+      return null;
+    }
+    return (
+      <Row
+        type="flex"
+        justify="space-between"
+        align="middle"
+        style={{ padding: "10px 20px" }}
+      >
+        <Col>
+          <div>
+            <strong>{t("account.address")}</strong>
+          </div>
+          <div>
+            <small>{account.address}</small>{" "}
+            <CopyButtonClipboardComponent text={account.address} size="small" />
+          </div>
+        </Col>
+        <Col>
+          {isElectron() ? (
+            <Link
+              to=""
+              target="_blank noopener noreferer"
+              onClick={onElectronClick(
+                `https://iotexscan.io/address/${account.address}`
+              )}
+            >
+              {t("account.actionHistory")}
+            </Link>
+          ) : (
+            <Link to={`/address/${account.address}`}>
+              {t("account.actionHistory")}
+            </Link>
+          )}
+        </Col>
+      </Row>
+    );
+  }
+
   public renderWallet = (): JSX.Element | null => {
     const { account, dispatch } = this.props;
     if (!account) {
@@ -726,33 +769,7 @@ class AccountSection extends React.Component<Props, State> {
           </Row>
         </div>
         {this.renderBalance()}
-        <Row
-          type="flex"
-          justify="space-between"
-          align="middle"
-          style={{ padding: "10px 20px" }}
-        >
-          <Col>
-            <div>
-              <strong>{t("account.address")}</strong>
-            </div>
-            <div>
-              <small>{account.address}</small>
-            </div>
-          </Col>
-          <Col>
-            <CopyButtonClipboardComponent text={account.address} size="small" />{" "}
-            <TooltipButton
-              onClick={onElectronClick(
-                `https://iotexscan.io/address/${account.address}`
-              )}
-              href={`/address/${account.address}`}
-              title={t("account.transaction-history")}
-              icon="link"
-              size="small"
-            />
-          </Col>
-        </Row>
+        {this.renderActionBar()}
         {this.renderCustomTokenForm()}
         {this.renderClaimConfirmation()}
       </Card>
