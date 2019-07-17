@@ -56,13 +56,13 @@ export const StatsCard = (props: IStatsCardProps): JSX.Element => {
             fontSize: "5vmin",
             ...props.valueStyle
           }}
-          prefix={props.prefix}
+          prefix={<div style={{ marginRight: 20 }}>{props.prefix}</div>}
           style={{
             color: colors.white
           }}
           valueRender={() => {
             return (
-              <span style={{ paddingLeft: 20 }}>
+              <span>
                 {props.value} {props.suffix ? " / " : ""}{" "}
                 <small>{props.suffix}</small>
               </span>

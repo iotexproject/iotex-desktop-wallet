@@ -95,7 +95,7 @@ const getActionsData = async (
     };
   } = await analyticsClient.query({ query });
   return Object.keys(result.data).map((name, i) => ({
-    name: `${i + 1} Day`,
+    name: `Day ${i + 1}`,
     value: result.data[name].numberOfActions.count
   }));
 };

@@ -37,6 +37,9 @@ export const VotesCard = (): JSX.Element => {
               )})`
             }}
             value={Number(Math.round(totalVotes)).toLocaleString()}
+            valueStyle={{
+              fontSize: "4vmin"
+            }}
             prefix={
               <div style={{ width: 46, height: 46 }}>
                 <CompAreaChart
