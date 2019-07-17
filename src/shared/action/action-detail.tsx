@@ -42,17 +42,17 @@ type Props = RouteComponentProps<PathParamsType> & {
 export function buildKeyValueArray(object: {}): Array<{}> {
   return Object.keys(object).map(key => {
     // @ts-ignore
-    if (typeof object[key] === "object" && !object[key].seconds) {
-      return {
-        key,
-        // @ts-ignore
-        value: <pre>{JSON.stringify(object[key], null, 2)}</pre>
-      };
+    let value = object[key];
+    if (typeof value === "object" && !value.seconds) {
+      value = (
+        <pre style={{ whiteSpace: "pre-wrap" }}>
+          {JSON.stringify(value, null, 2)}
+        </pre>
+      );
     }
     return {
       key,
-      // @ts-ignore
-      value: object[key]
+      value: value
     };
   });
 }
