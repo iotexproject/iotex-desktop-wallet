@@ -60,6 +60,7 @@ memoryReactRender({
   reducer: combineReducers<{}>({
     base: noopReducer,
     apolloState: noopReducer,
+    apolloAnalyticsState: noopReducer,
     webBpApolloState: noopReducer,
     queryParams: queryParamsReducer,
     signParams: signParamsReducer,

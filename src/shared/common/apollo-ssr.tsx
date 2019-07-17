@@ -19,7 +19,7 @@ import { getDataFromTree } from "react-apollo";
 // @ts-ignore
 import * as engine from "styletron-engine-atomic";
 import { IWalletState } from "../wallet/wallet-reducer";
-import { webBpApolloClient } from "./apollo-client";
+import { analyticsClient, webBpApolloClient } from "./apollo-client";
 
 type Opts = {
   VDom: JSX.Element;
@@ -72,6 +72,7 @@ export async function apolloSSR(
     );
     const apolloState = apolloClient.extract();
     ctx.setState("apolloState", apolloState);
+    ctx.setState("apolloAnalyticsState", analyticsClient.extract());
     ctx.setState("webBpApolloState", webBpApolloClient.extract());
     ctx.setState("wallet", walletState);
   } catch (e) {
