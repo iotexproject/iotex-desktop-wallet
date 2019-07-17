@@ -46,7 +46,7 @@ export class App extends Component<Props> {
         <TopBar />
         <div
           style={{
-            minHeight: `calc(100vh - ${FOOTER_HEIGHT + TOP_BAR_HEIGHT} px)`
+            minHeight: `calc(100vh - ${FOOTER_HEIGHT + TOP_BAR_HEIGHT}px)`
           }}
         >
           <ScrollToTop>
