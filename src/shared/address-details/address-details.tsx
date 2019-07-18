@@ -31,8 +31,14 @@ type PathParamsType = {
 };
 
 type State = {
-  vitaBalance: number;
-  xrc20Balance: number;
+  vitaInfo: {
+    balance: number;
+    name: string;
+  };
+  xrc20Info: {
+    balance: number;
+    name: string;
+  };
 };
 
 type Props = RouteComponentProps<PathParamsType> & {};
@@ -41,10 +47,26 @@ class AddressDetailsInner extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      vitaBalance: 0,
-      xrc20Balance: 0
+      vitaInfo: {
+        balance: 0,
+        name: ""
+      },
+      xrc20Info: {
+        balance: 0,
+        name: ""
+      }
     };
   }
+
+  public getDefaultNetworkTokens = async (
+    defaultTokens: Array<string>
+  ): Promise<Array<string>> => {
+    // Check for default tokens supported.
+    const supportStatus = await Promise.all(
+      defaultTokens.map(token => Token.getToken(token).checkValid())
+    );
+    return defaultTokens.filter((_, i) => supportStatus[i]);
+  };
 
   public async componentDidMount(): Promise<void> {
     const {
@@ -52,16 +74,48 @@ class AddressDetailsInner extends PureComponent<Props, State> {
         params: { address }
       }
     } = this.props;
-    const defaultERC20Tokens =
+    let defaultERC20Tokens =
       isBrowser && JsonGlobal("state").base.defaultERC20Tokens;
-    const vitaTokens = isBrowser && JsonGlobal("state").base.vitaTokens;
-    const xrc20Info = await Token.getToken(defaultERC20Tokens[0]).getInfo(
-      address
-    );
-    const vitaInfo = await Token.getToken(vitaTokens[0]).getInfo(address);
-    this.setState({ vitaBalance: vitaInfo.balance.toNumber() });
-    this.setState({ xrc20Balance: xrc20Info.balance.toNumber() });
+
+    let vitaTokens = isBrowser && JsonGlobal("state").base.vitaTokens;
+
+    defaultERC20Tokens = await this.getDefaultNetworkTokens(defaultERC20Tokens);
+    vitaTokens = await this.getDefaultNetworkTokens(vitaTokens);
+    const xrc20Info = { ...this.state.xrc20Info };
+    const vitaInfo = { ...this.state.vitaInfo };
+
+    if (defaultERC20Tokens.length > 0) {
+      const newXrc20Info = await Token.getToken(defaultERC20Tokens[0]).getInfo(
+        address
+      );
+      xrc20Info.name = newXrc20Info.name;
+      xrc20Info.balance = newXrc20Info.balance.toNumber();
+    }
+
+    if (vitaTokens.length > 0) {
+      const newVitaInfo = await Token.getToken(vitaTokens[0]).getInfo(address);
+      vitaInfo.name = newVitaInfo.name;
+      vitaInfo.balance = newVitaInfo.balance.toNumber();
+    }
+    this.setState({ xrc20Info, vitaInfo });
   }
+
+  public renderOtherTokenBalance = (): JSX.Element => (
+    <>
+      {this.state.vitaInfo.name && (
+        <div className={"info"}>{`${(+utils.fromRau(
+          String(this.state.vitaInfo.balance),
+          String(this.state.vitaInfo.name)
+        )).toFixed(4)} ${this.state.vitaInfo.name}`}</div>
+      )}
+      {this.state.xrc20Info.name && (
+        <div className={"info"}>{`${(+utils.fromRau(
+          String(this.state.xrc20Info.balance),
+          String(this.state.xrc20Info.name)
+        )).toFixed(4)} ${this.state.xrc20Info.name}`}</div>
+      )}
+    </>
+  );
 
   public render(): JSX.Element {
     const {
@@ -79,7 +133,9 @@ class AddressDetailsInner extends PureComponent<Props, State> {
             error,
             data
           }: QueryResult<{ getAccount: GetAccountResponse }>) => {
-            if (error) return null;
+            if (error) {
+              return null;
+            }
             if (data && data.getAccount && data.getAccount.accountMeta) {
               addressInfo = data.getAccount.accountMeta;
             }
@@ -110,14 +166,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
                         String((addressInfo && addressInfo.balance) || 0),
                         "IOTX"
                       )).toFixed(4)} IOTX`}</div>
-                      <div className={"info"}>{`${(+utils.fromRau(
-                        String(this.state.vitaBalance),
-                        "VITA"
-                      )).toFixed(4)} VITA`}</div>
-                      <div className={"info"}>{`${(+utils.fromRau(
-                        String(this.state.xrc20Balance),
-                        "XRC20"
-                      )).toFixed(4)} XRC20`}</div>
+                      {this.renderOtherTokenBalance()}
                     </div>
                     <div className={"item"}>
                       <div className={"icon"}>
