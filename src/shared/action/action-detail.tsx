@@ -45,7 +45,7 @@ export function buildKeyValueArray(object: {}): Array<{}> {
     let value = object[key];
     if (typeof value === "object" && !value.seconds) {
       value = (
-        <pre style={{ whiteSpace: "pre-wrap" }}>
+        <pre style={{ whiteSpace: "pre-wrap", wordBreak: "break-all" }}>
           {JSON.stringify(value, null, 2)}
         </pre>
       );
