@@ -36,6 +36,8 @@ module.exports = class Service {
   }
 
   stop() {
+    this.wss._server.close();
     this.wss.close();
+    console.log("service destroyed");
   }
 };

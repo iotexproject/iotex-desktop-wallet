@@ -55,20 +55,12 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
     });
   };
 
+  public componentDidMount(): void {
+    this.shouldComponentUpdate();
+  }
+
   // @ts-ignore
-  public async shouldComponentUpdate(
-    nextProps: Readonly<
-      { envelop?: string; fromAddress: string; reqId?: number } & DispatchProp<
-        SignParamAction
-      >
-    >,
-    _: Readonly<{}>,
-    // tslint:disable-next-line:no-any
-    __: any
-  ): Promise<boolean> {
-    if (this.props.envelop === nextProps.envelop) {
-      return false;
-    }
+  public async shouldComponentUpdate(): Promise<boolean> {
     const meta = await getAntenna().iotx.getAccount({
       address: this.props.fromAddress
     });
@@ -90,17 +82,17 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
     if (!envelop) {
       return null;
     }
-
+    const envelopText = this.state && this.state.envelop;
     return (
       <Modal
         title={t("wallet.sign.envelop_title")}
-        visible={Boolean(envelop)}
+        visible={Boolean(envelopText)}
         okText={t("wallet.sign.confirm")}
         onOk={this.onOk}
         onCancel={this.onCancel}
       >
         <pre>
-          <code>{this.state && this.state.envelop}</code>
+          <code>{envelopText}</code>
         </pre>
       </Modal>
     );
