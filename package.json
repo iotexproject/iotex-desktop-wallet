@@ -77,7 +77,7 @@
   "homepage": "https://github.com/iotexproject/iotex-explorer#readme",
   "devDependencies": {
     "@2fd/graphdoc": "2.4.0",
-    "@storybook/addon-actions": "5.1.8",
+    "@storybook/addon-actions": "5.1.9",
     "@storybook/addon-links": "5.1.8",
     "@storybook/addons": "5.1.8",
     "@storybook/react": "5.1.8",
