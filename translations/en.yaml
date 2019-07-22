@@ -409,7 +409,7 @@ account.claimAs.close: Close
 account.bid: Bid
 account.error.notEnoughBalance: "You don't have enough IoTx balance to perform the action!"
 account.placeBid: "Place bid for VITA"
-account.availableForBid: "Your balance available for bidding: "
+account.availableForBid: "Your balance available for bidding (total balance - action fee) : "
 erc20.execution.error.lowGasInput: Gas input too low!
 erc20.execution.error.notEnoughBalance: Your IoTx balance is not enough to execute the transaction!
 topbar.explorer_playground: Explorer Playground
