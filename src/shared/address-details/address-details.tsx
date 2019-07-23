@@ -32,6 +32,7 @@ type PathParamsType = {
 
 type State = {
   xrc20Infos: Array<ITokenInfo>;
+  address: string;
 };
 
 type Props = RouteComponentProps<PathParamsType> & {};
@@ -40,7 +41,8 @@ class AddressDetailsInner extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      xrc20Infos: []
+      xrc20Infos: [],
+      address: ""
     };
   }
 
@@ -52,16 +54,20 @@ class AddressDetailsInner extends PureComponent<Props, State> {
       tokens.map(token => Token.getToken(token).getInfo(address))
     );
     this.setState({
-      xrc20Infos: xrc20Infos.filter(tokenInfo => !!tokenInfo.symbol)
+      xrc20Infos: xrc20Infos.filter(tokenInfo => !!tokenInfo.symbol),
+      address
     });
   };
 
-  public async componentDidMount(): Promise<void> {
+  public componentDidUpdate(): void {
     const {
       match: {
         params: { address }
       }
     } = this.props;
+    if (address === this.state.address) {
+      return;
+    }
     const xrc20tokens =
       isBrowser && JsonGlobal("state").base.defaultERC20Tokens;
     this.pollTokenInfos(xrc20tokens, address);
