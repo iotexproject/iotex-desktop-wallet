@@ -71,6 +71,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     <>
       {this.state.xrc20Infos.map(tokenInfo => (
         <div
+          key={`token${tokenInfo.symbol}`}
           className={"info"}
         >{`${tokenInfo.balanceString} ${tokenInfo.symbol}`}</div>
       ))}
