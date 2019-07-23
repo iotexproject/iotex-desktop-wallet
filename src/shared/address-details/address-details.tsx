@@ -17,7 +17,7 @@ import {
   AccountMeta,
   GetAccountResponse
 } from "../../api-gateway/resolvers/antenna-types";
-import { Token } from "../../erc20/token";
+import { ITokenInfo, Token } from "../../erc20/token";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { PageTitle } from "../common/page-title";
 import { ShowQrcodeButton } from "../common/show-qrcode-button";
@@ -31,14 +31,7 @@ type PathParamsType = {
 };
 
 type State = {
-  vitaInfo: {
-    balance: number;
-    name: string;
-  };
-  xrc20Info: {
-    balance: number;
-    name: string;
-  };
+  xrc20Infos: Array<ITokenInfo>;
 };
 
 type Props = RouteComponentProps<PathParamsType> & {};
@@ -47,25 +40,20 @@ class AddressDetailsInner extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      vitaInfo: {
-        balance: 0,
-        name: ""
-      },
-      xrc20Info: {
-        balance: 0,
-        name: ""
-      }
+      xrc20Infos: []
     };
   }
 
-  public getDefaultNetworkTokens = async (
-    defaultTokens: Array<string>
-  ): Promise<Array<string>> => {
-    // Check for default tokens supported.
-    const supportStatus = await Promise.all(
-      defaultTokens.map(token => Token.getToken(token).checkValid())
+  public pollTokenInfos = async (
+    tokens: Array<string>,
+    address: string
+  ): Promise<void> => {
+    const xrc20Infos = await Promise.all(
+      tokens.map(token => Token.getToken(token).getInfo(address))
     );
-    return defaultTokens.filter((_, i) => supportStatus[i]);
+    this.setState({
+      xrc20Infos: xrc20Infos.filter(tokenInfo => !!tokenInfo.symbol)
+    });
   };
 
   public async componentDidMount(): Promise<void> {
@@ -74,46 +62,18 @@ class AddressDetailsInner extends PureComponent<Props, State> {
         params: { address }
       }
     } = this.props;
-    let defaultERC20Tokens =
+    const xrc20tokens =
       isBrowser && JsonGlobal("state").base.defaultERC20Tokens;
-
-    let vitaTokens = isBrowser && JsonGlobal("state").base.vitaTokens;
-
-    defaultERC20Tokens = await this.getDefaultNetworkTokens(defaultERC20Tokens);
-    vitaTokens = await this.getDefaultNetworkTokens(vitaTokens);
-    const xrc20Info = { ...this.state.xrc20Info };
-    const vitaInfo = { ...this.state.vitaInfo };
-
-    if (defaultERC20Tokens.length > 0) {
-      const newXrc20Info = await Token.getToken(defaultERC20Tokens[0]).getInfo(
-        address
-      );
-      xrc20Info.name = newXrc20Info.name;
-      xrc20Info.balance = newXrc20Info.balance.toNumber();
-    }
-
-    if (vitaTokens.length > 0) {
-      const newVitaInfo = await Token.getToken(vitaTokens[0]).getInfo(address);
-      vitaInfo.name = newVitaInfo.name;
-      vitaInfo.balance = newVitaInfo.balance.toNumber();
-    }
-    this.setState({ xrc20Info, vitaInfo });
+    this.pollTokenInfos(xrc20tokens, address);
   }
 
   public renderOtherTokenBalance = (): JSX.Element => (
     <>
-      {this.state.vitaInfo.name && (
-        <div className={"info"}>{`${(+utils.fromRau(
-          String(this.state.vitaInfo.balance),
-          String(this.state.vitaInfo.name)
-        )).toFixed(4)} ${this.state.vitaInfo.name}`}</div>
-      )}
-      {this.state.xrc20Info.name && (
-        <div className={"info"}>{`${(+utils.fromRau(
-          String(this.state.xrc20Info.balance),
-          String(this.state.xrc20Info.name)
-        )).toFixed(4)} ${this.state.xrc20Info.name}`}</div>
-      )}
+      {this.state.xrc20Infos.map(tokenInfo => (
+        <div
+          className={"info"}
+        >{`${tokenInfo.balanceString} ${tokenInfo.symbol}`}</div>
+      ))}
     </>
   );
 
