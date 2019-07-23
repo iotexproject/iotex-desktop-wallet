@@ -3,7 +3,6 @@ import gql from "graphql-tag";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { CSSProperties, useState } from "react";
-import { Query, QueryResult } from "react-apollo";
 import { analyticsClient, webBpApolloClient } from "../../common/apollo-client";
 import { assetURL } from "../../common/asset-url";
 import { colors } from "../../common/styles/style-color";
@@ -71,9 +70,19 @@ export const MapButton = (
   );
 };
 
-const getActionsData = async (
-  currentEpochNumber: number
-): Promise<Array<{ name: string; value: number }>> => {
+export const getActionsData = async (): Promise<{
+  mapdata: Array<{ name: string; value: number }>;
+  currentEpochNumber: number;
+  numberOfActions: number;
+}> => {
+  const {
+    data: {
+      stats: { currentEpochNumber }
+    }
+  } = await webBpApolloClient.query({
+    query: GET_BP_STATS
+  });
+
   const query = gql`{
     ${[1, 2, 3, 4, 5, 6, 7].map(day => {
       return `day${day}:chain{
@@ -84,7 +93,13 @@ const getActionsData = async (
       }
       `;
     })}
-  }`;
+    chain {
+      numberOfActions{
+        count
+      }
+    }
+  }
+  `;
   const result: {
     data: {
       [index: string]: {
@@ -94,32 +109,49 @@ const getActionsData = async (
       };
     };
   } = await analyticsClient.query({ query });
-  return Object.keys(result.data).map((name, i) => ({
+  const { chain, ...chains } = result.data;
+  const numberOfActions = chain.numberOfActions.count;
+  const mapdata = Object.keys(chains).map((name, i) => ({
     name: `Day ${i + 1}`,
     value: result.data[name].numberOfActions.count
   }));
+  return {
+    mapdata,
+    currentEpochNumber,
+    numberOfActions
+  };
 };
 
 const EMPTY_MAP_DATA: Array<{ name: string; value: number }> = [];
 
 export const MapCard = (): JSX.Element => {
   const [mapData, setMapData] = useState(EMPTY_MAP_DATA);
-  const [currentEpochNumber, setCurrentEpochNumber] = useState(0);
+  const [epochNumber, setEpochNumber] = useState(0);
+  getActionsData()
+    .then(({ mapdata, currentEpochNumber }) => {
+      if (currentEpochNumber !== epochNumber) {
+        setMapData(mapdata);
+        setEpochNumber(currentEpochNumber);
+      }
+    })
+    .catch(error => {
+      window.console.error(error);
+    });
   return (
     <Card style={Styles.mapBox} bodyStyle={Styles.mapBoxBody}>
       <div style={{ padding: 10 }}>
-        <Row type="flex" justify="space-around">
+        {/* <Row type="flex" justify="space-around">
           <Col span={12}>
             <MapButton>{t("home.stats.map")}</MapButton>
           </Col>
           <Col span={12}>
             <MapButton>{t("home.stats.energyConsumption")}</MapButton>
           </Col>
-        </Row>
-        <Row type="flex" justify="space-around">
-          <Col span={12}>
+        </Row> */}
+        <Row type="flex" justify="start">
+          {/* <Col span={12}>
             <MapButton>{t("home.stats.numberOfAddresses")}</MapButton>
-          </Col>
+          </Col> */}
           <Col span={12}>
             <MapButton active={true}>
               {t("home.stats.numberOfTransactions")}
@@ -128,23 +160,6 @@ export const MapCard = (): JSX.Element => {
         </Row>
       </div>
       <div style={Styles.mapContainer}>
-        <Query query={GET_BP_STATS} client={webBpApolloClient}>
-          {({ loading, data, error }: QueryResult) => {
-            if (loading || !!error) {
-              return null;
-            }
-            if (
-              data &&
-              data.stats &&
-              data.stats.currentEpochNumber &&
-              data.stats.currentEpochNumber !== currentEpochNumber
-            ) {
-              setCurrentEpochNumber(data.stats.currentEpochNumber);
-              getActionsData(data.stats.currentEpochNumber).then(setMapData);
-            }
-            return null;
-          }}
-        </Query>
         {mapData.length && <CompAreaChart data={mapData} />}
       </div>
     </Card>
