@@ -506,13 +506,20 @@ type Query {
   ): GetActionsResponse!
 
   # read contract
-  readContract(execution: ExecutionInput!, callerAddress: String!): ReadContractResponse!
+  readContract(
+    execution: ExecutionInput!
+    callerAddress: String!
+  ): ReadContractResponse!
 
   # sendAction
   sendAction(action: ActionInput!): SendActionResponse!
 
   # read state
-  readState(protocolID: Buffer!, methodName: Buffer!, arguments: [Buffer!]!): ReadStateResponse!
+  readState(
+    protocolID: Buffer!
+    methodName: Buffer!
+    arguments: [Buffer!]!
+  ): ReadStateResponse!
 
   # estimate gas for action
   estimateGasForAction(action: ActionInput!): EstimateGasForActionResponse!

@@ -24,13 +24,18 @@ export function setServerRoutes(server: MyServer): void {
 
   server.get(
     "SPA",
-    "(/|/address/.*|/block|/block/.*|/action|/action/.*|/wallet.*|/not-found|/.*)",
+    // @ts-ignore
+    /^(?!\/?api-gateway\/).+$/,
     async (ctx: koa.Context) => {
       ctx.setState("base.bidContractAddress", server.config.bidContractAddress);
       ctx.setState("base.vitaTokens", server.config.vitaTokens);
       ctx.setState("base.multiChain", server.config.multiChain);
       ctx.setState("base.defaultERC20Tokens", server.config.defaultERC20Tokens);
       ctx.setState("base.webBpApiGatewayUrl", server.config.webBpApiGatewayUrl);
+      ctx.setState(
+        "base.analyticsApiGatewayUrl",
+        server.config.analyticsApiGatewayUrl
+      );
       ctx.setState("base.enableSignIn", server.config.enableSignIn);
       ctx.body = await apolloSSR(ctx, server.config.apiGatewayUrl, {
         VDom: <AppContainer />,

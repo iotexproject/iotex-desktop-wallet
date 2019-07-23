@@ -392,3 +392,41 @@ export const ADD_SUBSCRIPTION = gql`
     }
   }
 `;
+
+export const GET_BP_STATS = gql`
+  query stats {
+    stats {
+      height
+      totalCandidates
+      totalCandidatesHistory {
+        ts
+        count
+      }
+      totalVotedStakes
+      totalVotedStakesHistory {
+        ts
+        count
+      }
+      totalVotes
+      totalVotesHistory {
+        ts
+        count
+      }
+      nextEpoch
+      currentEpochNumber
+    }
+    bpCandidates {
+      productivity
+      productivityBase
+      category
+    }
+  }
+`;
+
+export const GET_ANALYTICS_TPS = gql`
+  query chain {
+    chain {
+      mostRecentTPS(blockWindow: 8640)
+    }
+  }
+`;

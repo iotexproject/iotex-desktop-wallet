@@ -11,7 +11,7 @@ const console = require("global/console");
 
 let globalState = process.env.GLOBAL_STATE || {};
 if (isDev) {
-  globalState = require("../globalState");
+  globalState = require("../global-state");
 }
 
 window.xopen = function(url) {

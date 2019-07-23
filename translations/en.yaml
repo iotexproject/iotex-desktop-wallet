@@ -140,6 +140,15 @@ home.blockHeight: "BLOCK HEIGHT"
 home.currentTPS: "CURRENT TPS"
 home.IOTXPrice: "IOTX PRICE"
 home.marketCap: MARKETCAP
+home.stats.tps: Curent TPS / Peak
+home.stats.candidates:  Consensus Delegates / Candidates
+home.stats.productivity: Average Productivity
+home.stats.votes: Votes
+home.stats.map: Map
+home.stats.energyConsumption: Daily Energy Consumption
+home.stats.numberOfAddresses: "# of Addresses"
+home.stats.numberOfTransactions: "# of Transactions"
+home.stats.day: Day
 time.fn.years: years
 time.fn.year: year
 time.fn.months: months
@@ -402,7 +411,7 @@ account.claimAs.close: Close
 account.bid: Bid
 account.error.notEnoughBalance: "You don't have enough IoTx balance to perform the action!"
 account.placeBid: "Place bid for VITA"
-account.availableForBid: "Your balance available for bidding: "
+account.availableForBid: "Your balance available for bidding (total balance - action fee) : "
 erc20.execution.error.lowGasInput: Gas input too low!
 erc20.execution.error.notEnoughBalance: Your IoTx balance is not enough to execute the transaction!
 topbar.explorer_playground: Explorer Playground
@@ -412,3 +421,4 @@ wallet.tab.keystore.title: Save your keystore file
 wallet.transfer.broadcast.fail: Increase gasLimit and try again!
 unlock-by-ledger.pluginDevice: "Please plugin ledger device and try again!"
 unlock-by-ledger.warnTitle: "Oops, couldn’t connect to device"
+account.actionHistory: Action History

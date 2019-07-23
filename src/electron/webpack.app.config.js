@@ -13,7 +13,7 @@ const translateEnvToMode = env => {
   return "development";
 };
 
-const globalState = require("./globalState");
+const globalState = require("./global-state");
 
 const base = env => {
   env = env || process.env.NODE_ENV || "production";

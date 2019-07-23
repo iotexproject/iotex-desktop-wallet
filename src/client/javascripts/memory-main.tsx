@@ -1,16 +1,9 @@
-// @ts-ignore
 import { initAssetURL } from "onefx/lib/asset-url";
-// @ts-ignore
 import { initClientI18n } from "onefx/lib/iso-i18n";
-// @ts-ignore
 import { configureStore } from "onefx/lib/iso-react-render/root/configure-store";
-// @ts-ignore
-import { RootBrowser } from "onefx/lib/iso-react-render/root/root-browser";
-// @ts-ignore
 import { noopReducer } from "onefx/lib/iso-react-render/root/root-reducer";
 import React from "react";
 import { ApolloProvider } from "react-apollo";
-// @ts-ignore
 import { render } from "react-dom";
 import { combineReducers, Reducer } from "redux";
 // @ts-ignore
@@ -60,6 +53,7 @@ memoryReactRender({
   reducer: combineReducers<{}>({
     base: noopReducer,
     apolloState: noopReducer,
+    apolloAnalyticsState: noopReducer,
     webBpApolloState: noopReducer,
     queryParams: queryParamsReducer,
     signParams: signParamsReducer,
