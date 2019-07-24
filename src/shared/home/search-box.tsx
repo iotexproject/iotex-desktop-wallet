@@ -21,6 +21,12 @@ class SearchBoxComponent extends Component<SearchBoxProps> {
     if (search) {
       this.handleSearch(search);
     }
+    const input: HTMLInputElement | null = document.querySelector(
+      ".search-box input"
+    );
+    if (input) {
+      input.focus({ preventScroll: false });
+    }
   }
 
   public handleSearch = async (query: string): Promise<void> => {
@@ -79,6 +85,7 @@ class SearchBoxComponent extends Component<SearchBoxProps> {
     const { ...searchprops } = this.props;
     return (
       <Input.Search
+        className={"search-box"}
         {...searchprops}
         onSearch={(query: string) => {
           this.handleSearch(query);
