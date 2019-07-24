@@ -22,7 +22,7 @@ export const ActionsCard = (): JSX.Element => {
       }
     })
     .catch(error => {
-      window.console.error(error);
+      window.console.error(`failed to getActionsData: ${error}`);
     });
   return (
     <StatsCard

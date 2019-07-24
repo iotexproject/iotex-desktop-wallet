@@ -135,7 +135,7 @@ export const MapCard = (): JSX.Element => {
       }
     })
     .catch(error => {
-      window.console.error(error);
+      window.console.error(`failed to getActionsData: ${error}`);
     });
   return (
     <Card style={Styles.mapBox} bodyStyle={Styles.mapBoxBody}>
