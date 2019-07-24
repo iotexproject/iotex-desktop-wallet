@@ -24,7 +24,7 @@ export const CandidatesCard = (): JSX.Element => {
           a => a.category === "CONSENSUS_DELEGATE"
         ).length;
         const candidatesCount = bpCandidates.filter(
-          a => a.category === "DELEGATE_CANDIDATE"
+          a => a.category !== "CONSENSUS_DELEGATE"
         ).length;
         const showLoading = loading || !!error;
         const {
@@ -45,7 +45,7 @@ export const CandidatesCard = (): JSX.Element => {
                 "/icon_overview_Delegates.png"
               )})`
             }}
-            value={candidatesCount}
+            value={consensusDelegateCount}
             loading={showLoading}
             prefix={
               <div style={{ width: 46, height: 46 }}>
@@ -56,7 +56,7 @@ export const CandidatesCard = (): JSX.Element => {
                 />
               </div>
             }
-            suffix={`${consensusDelegateCount}`}
+            suffix={`${candidatesCount}`}
           />
         );
       }}
