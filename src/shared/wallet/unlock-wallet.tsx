@@ -9,6 +9,7 @@ import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { CommonMargin } from "../common/common-margin";
 import { UnlockByKeystoreFile } from "./unlock-by-keystore-file";
+import UnlockByLedger from "./unlock-by-ledger";
 import { UnlockByPrivateKey } from "./unlock-by-private-key";
 
 export interface Props {
@@ -69,6 +70,9 @@ class UnlockWallet extends React.Component<Props, State> {
           </Tabs.TabPane>
           <Tabs.TabPane tab={t("unlock-wallet.by_private_key")} key="2">
             <UnlockByPrivateKey />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab={t("unlock-wallet.by_ledger")} key="3">
+            <UnlockByLedger />
           </Tabs.TabPane>
         </Tabs>
 
