@@ -2,10 +2,10 @@ import { Col, Row } from "antd";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
+import { ActionsCard } from "./stats/actions-card";
 import { CandidatesCard } from "./stats/candidates-card";
 import { MapCard } from "./stats/map-card";
 import { ProductivityCard } from "./stats/productivity-card";
-import { TPSCard } from "./stats/tps-card";
 import { VotesCard } from "./stats/votes-card";
 
 export const StatsArea = (): JSX.Element => {
@@ -15,7 +15,7 @@ export const StatsArea = (): JSX.Element => {
         <Col xs={24} sm={24} md={24} lg={16}>
           <Row type="flex" justify="space-between" gutter={10}>
             <Col span={12}>
-              <TPSCard />
+              <ActionsCard />
             </Col>
             <Col span={12}>
               <CandidatesCard />

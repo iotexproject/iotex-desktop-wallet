@@ -141,6 +141,7 @@ home.currentTPS: "CURRENT TPS"
 home.IOTXPrice: "IOTX PRICE"
 home.marketCap: MARKETCAP
 home.stats.tps: Curent TPS / Peak
+home.stats.actions: Transactions
 home.stats.candidates:  Consensus Delegates / Candidates
 home.stats.productivity: Average Productivity
 home.stats.votes: Votes
