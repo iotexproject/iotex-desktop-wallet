@@ -1,7 +1,6 @@
-import Col from "antd/lib/col";
+// @ts-ignore
+import { Card, Col, Row } from "antd";
 import Divider from "antd/lib/divider";
-import Icon from "antd/lib/icon";
-import Row from "antd/lib/row";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
 import isBrowser from "is-browser";
@@ -20,7 +19,6 @@ import {
 } from "../../api-gateway/resolvers/antenna-types";
 import { ITokenInfo, Token } from "../../erc20/token";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
-import { PageTitle } from "../common/page-title";
 import { ShowQrcodeButton } from "../common/show-qrcode-button";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -86,38 +84,6 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     </>
   );
 
-  public renderAddressInfo = (addressInfo: AccountMeta): JSX.Element => (
-    <>
-      <div className={"item"}>
-        <div className={"icon"}>
-          <Icon type="wallet" />
-        </div>
-        <div className={"name"}>{t("address.balance")}</div>
-        <div className={"info"}>{`${(+utils.fromRau(
-          String((addressInfo && addressInfo.balance) || 0),
-          "IOTX"
-        )).toFixed(4)} IOTX`}</div>
-        {this.renderOtherTokenBalance()}
-      </div>
-      <div className={"item"}>
-        <div className={"icon"}>
-          <Icon type="border" />
-        </div>
-        <div className={"name"}>{t("address.nonce")}</div>
-        <div className={"info"}>{(addressInfo && addressInfo.nonce) || 0}</div>
-      </div>
-      <div className={"item"}>
-        <div className={"icon"}>
-          <Icon type="project" />
-        </div>
-        <div className={"name"}>{t("address.pendingNonce")}</div>
-        <div className={"info"}>
-          {(addressInfo && addressInfo.pendingNonce) || 0}
-        </div>
-      </div>
-    </>
-  );
-
   public render(): JSX.Element {
     const {
       match: {
@@ -153,40 +119,73 @@ class AddressDetailsInner extends PureComponent<Props, State> {
             const numActions = +((addressInfo && addressInfo.numActions) || 0);
             return (
               <SpinPreloader spinning={loading}>
-                <div className="address-top">
-                  <PageTitle>
-                    <Icon type="wallet" /> {t("address.address")}:
-                    <span>
-                      {" "}
-                      {(addressInfo && addressInfo.address) || address}{" "}
-                    </span>
-                    <CopyButtonClipboardComponent text={copyAddress} />
-                    <span style={{ marginLeft: "5px" }}>
-                      <ShowQrcodeButton text={copyAddress} />
-                    </span>
-                  </PageTitle>
-                  <Divider orientation="left">{t("title.overview")}</Divider>
-                  <div className="overview-list">
-                    {this.renderAddressInfo(addressInfo)}
-                  </div>
+                <div className="addressList">
+                  <Card>
+                    <div>
+                      <span style={{ color: "#333", fontSize: 24 }}>
+                        {`${t("address.address")}:`}{" "}
+                        {(addressInfo && addressInfo.address) || address}{" "}
+                      </span>
+                      <CopyButtonClipboardComponent text={copyAddress} />
+                      <span style={{ marginLeft: "5px" }}>
+                        <ShowQrcodeButton text={copyAddress} />
+                      </span>
+                    </div>
+
+                    <Divider></Divider>
+                    <div className="overview-list">
+                      <Row style={{ padding: "10px 0" }}>
+                        <Col xs={3}>
+                          <div className={"name"}>{`${t(
+                            "block.timestamp"
+                          )}:`}</div>
+                        </Col>
+                        <Col xs={21}>
+                          <div className={"info"}>{""}</div>
+                        </Col>
+                      </Row>
+                      <Row style={{ padding: "15px 0" }}>
+                        <Col xs={3}>
+                          <div className={"name"}>{`${t(
+                            "address.balance"
+                          )}:`}</div>
+                        </Col>
+                        <Col xs={21}>
+                          <div className={"info"}>{`${(+utils.fromRau(
+                            String((addressInfo && addressInfo.balance) || 0),
+                            "IOTX"
+                          )).toFixed(4)} IOTX`}</div>
+                          {this.renderOtherTokenBalance()}
+                        </Col>
+                      </Row>
+                      <Row style={{ padding: "15px 0" }}>
+                        <Col xs={3}>
+                          <div className={"name"}>{`${t(
+                            "address.name"
+                          )}:`}</div>
+                        </Col>
+                        <Col xs={21}>
+                          <div className={"info"}>{""}</div>
+                        </Col>
+                      </Row>
+                    </div>
+                  </Card>
+                  <br />
+                  <ActionTable
+                    totalActions={numActions}
+                    getVariable={({ current, pageSize }) => {
+                      const start =
+                        numActions - pageSize - (current - 1) * pageSize;
+                      return {
+                        byAddr: {
+                          address,
+                          start: start < 0 ? 0 : start,
+                          count: pageSize
+                        }
+                      };
+                    }}
+                  />
                 </div>
-                <Divider style={{ marginTop: 60 }} orientation="left">
-                  {t("title.actionList")}
-                </Divider>
-                <ActionTable
-                  totalActions={numActions}
-                  getVariable={({ current, pageSize }) => {
-                    const start =
-                      numActions - pageSize - (current - 1) * pageSize;
-                    return {
-                      byAddr: {
-                        address,
-                        start: start < 0 ? 0 : start,
-                        count: pageSize
-                      }
-                    };
-                  }}
-                />
               </SpinPreloader>
             );
           }}

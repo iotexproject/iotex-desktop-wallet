@@ -112,6 +112,7 @@ coming_soon.title: 'Coming Soon...'
 coming_soon.bar: 'coming soon'
 action.actions: Actions
 address.address: Address
+address.name: "Name Tag"
 title.overview: Overview
 title.actionList: 'List of Actions'
 copy.copied: Copied

@@ -49,8 +49,15 @@
     margin-right: 20px;
   }
 }
-.address-top {
+.addressList {
   padding-top: 20px;
+  .ant-card {
+    &:hover {
+      transform: none;
+    }
+    border-radius: 5px;
+    margin-bottom: 30px;
+  }
   .title {
     font-size: 20px;
     margin-bottom: 20px;
@@ -99,10 +106,11 @@
       }
     }
     .name {
-      color: #999;
+      color: #333;
+      text-transform: capitalize;
     }
     .info {
-      font-size: 20px;
+      color: #666666;
     }
   }
 }
