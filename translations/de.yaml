@@ -109,6 +109,7 @@ render.key.denomination: Nennwert
 render.key.owner: Besitzer
 render.key.candidates: Kandidaten
 topbar.search: 'Nach Adresse / Öffentlicher Schlüssel / Hash / Höhe suchen'
+topbar.searchAddress: Suche nach Adresse, Block, Hash ...
 coming_soon.title: 'In Kürze verfügbar...'
 coming_soon.bar: 'In Kürze verfügbar'
 action.actions: Aktionen

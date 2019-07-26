@@ -109,6 +109,7 @@ render.key.denomination: denomination
 render.key.owner: owner
 render.key.candidates: candidates
 topbar.search: "Search by Address / Public Key / Hash / Height"
+topbar.searchAddress: "Search an address, block, hash..."
 coming_soon.title: "Coming Soon..."
 coming_soon.bar: "coming soon"
 action.actions: Actions
