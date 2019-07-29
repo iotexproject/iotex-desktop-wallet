@@ -14,18 +14,18 @@ export const CandidatesCard = (): JSX.Element => {
     <Query query={GET_BP_STATS} client={webBpApolloClient}>
       {({ data, loading, error }: QueryResult) => {
         const {
-          bpCandidates = []
+          bpCandidates = [],
+          productivityBase = 0
         }: {
           bpCandidates: Array<{
             category: "CONSENSUS_DELEGATE" | "DELEGATE_CANDIDATE" | "DELEGATE";
+            productivityBase: number;
           }>;
         } = data || {};
         const consensusDelegateCount = bpCandidates.filter(
-          a => a.category === "CONSENSUS_DELEGATE"
+          a => a.category === "CONSENSUS_DELEGATE" && a.productivityBase > 0
         ).length;
-        const candidatesCount = bpCandidates.filter(
-          a => a.category !== "CONSENSUS_DELEGATE"
-        ).length;
+        const candidatesCount = bpCandidates.length;
         const showLoading = loading || !!error;
         const {
           totalCandidatesHistory = []
