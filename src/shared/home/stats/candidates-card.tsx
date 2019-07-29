@@ -14,8 +14,7 @@ export const CandidatesCard = (): JSX.Element => {
     <Query query={GET_BP_STATS} client={webBpApolloClient}>
       {({ data, loading, error }: QueryResult) => {
         const {
-          bpCandidates = [],
-          productivityBase = 0
+          bpCandidates = []
         }: {
           bpCandidates: Array<{
             category: "CONSENSUS_DELEGATE" | "DELEGATE_CANDIDATE" | "DELEGATE";
