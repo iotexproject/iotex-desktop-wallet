@@ -1,378 +1,427 @@
-meta.title: 'Blockchain Explorer - IoTeX'
-meta.description: 'Informationen zu Adressen, Aktionen und Smart Contracts der IoTeX-Blockchain.'
-topbar.brand: Marke
-topbar.blockchain: BLOCKCHAIN
-topbar.blocks: BLÖCKE
-topbar.actions: AKTIONEN
-topbar.home: HOME
-not_found.bar: 'Nicht gefunden'
-not_found.title: Oops!
-not_found.info: 'Wir können die Seite nicht finden.....'
-candidate.delegate_name: 'Name des Delegierten'
-candidate.status: Status
-candidate.live_votes: 'Aktuelle Stimmen'
-candidate.percent: Prozent
-candidates.election.ELECTED: Gewählt
-candidates.election.NOT_ELECTED: 'Nicht gewählt'
-candidates.election.UNQUALIFIED: 'Nicht gewählt'
-candidates.election.explain: 'Die Delegierten müssen selbst mindestens <b>1.200.000 IOTX</b> staken und insgesamt <b>2.000.000.000 IOTX</b> erhalten, um gewählt zu werden.'
-block.block: Block
-block.blocks: Blöcke
-block.height: Blockhöhe
-block.hash: Hash
-block.timestamp: Alter
-block.num_actions: Aktionen
-block.producer_address: Produzent
-block.transfer_amount: Überweisungsbetrag
-block.tx_root: Tx-Root
-block.receipt_root: Receipt-Root
-block.delta_state_digest: 'Zusammenfassung des Delta-Zustandes'
-action.type: Typ
-action.type.transfer: Transfer
-action.type.grant_reward: Belohnung
-action.type.execution: Ausführung
-action.data: Daten
-topbar.graphql_playground: GraphQL-Playground
-topbar.graphql_doc: GraphQL-Dokumentation
-action.hash: Hash
-action.block_hash: Block
-action.amount: Betrag
-action.action: Aktion
-action.sender: Absender
-action.recipient: Empfänger
-action.notFound: Leider können wir diese Transaktion nicht finden. Hash
-title.action: Aktion
-render.key.height: Blockhöhe
-render.key.hash: Hash
-render.key.timestamp: Alter
-render.key.numActions: Aktionen
-render.key.producerAddress: Produzent
-render.key.transferAmount: 'Betrag überweisen'
-render.key.txRoot: Tx-Root
-render.key.receiptRoot: Receipt-Root
-render.key.deltaStateDigest: 'Zusammenfassung des Delta-Zustandes'
-render.key.actHash: Hash
-render.key.blkHash: Block
-render.key.actionType: Typ
-render.key.actionData: Daten
-render.key.sender: Absender
-render.key.amount: Betrag
-render.key.contract: Kontrakt
-render.key.data: Daten
-render.key.recipient: Empfänger
-render.key.payload: Nutzlast
-render.key.type: Belohnungstyp
-render.value.grantReward: 'Belohnung gewähren'
-render.value.execution: Ausführung
-render.value.transfer: Transfer
-action.type.grantReward: 'Belohnung gewähren'
-action.type.depositToRewardingFund: 'Einzahlung in den Rewards Fond'
-action.type.claimFromRewardingFund: 'Rewards in Anspruch nehmen'
-action.type.startSubChain: 'SubChain starten'
-action.type.stopSubChain: 'SubChain stoppen'
-action.type.putBlock: 'Block setzen'
-action.type.createDeposit: 'Einzahlung anlegen'
-action.type.settleDeposit: 'Einzahlung anlegen'
-action.type.createPlumChain: 'PlumChain generieren'
-action.type.terminatePlumChain: 'PlumChain terminieren'
-action.type.plumPutBlock: 'Block setzen'
-action.type.plumCreateDeposit: 'Einzahlung anlegen'
-action.type.plumStartExit: 'plum StartExit'
-action.type.plumChallengeExit: 'plum ChallengeExit'
-action.type.plumResponseChallengeExit: 'plum Response Challenge Exit'
-action.type.plumFinalizeExit: Beenden
-action.type.plumSettleDeposit: 'Einzahlung anlegen'
-action.type.plumTransfer: Transfer
-action.type.putPollResult: 'Umfrageergebnis setzen'
-render.key.chainID: 'Chain ID'
-render.key.securityDeposit: Kaution
-render.key.operationDeposit: Einzahlung
-render.key.startHeight: 'Start bei dieser Blockhöhe'
-render.key.parentHeightOffset: parentHeightOffset
-render.key.stopHeight: 'Stop bei dieser Blockhöhe'
-render.key.subChainAddress: SubChain-Adresse
-render.key.roots: Wurzeln
-render.key.index: Index
-render.key.previousTransfer: 'vorherige Übertragung'
-render.key.previousTransferBlockProof: 'vorheriger Transferblock Nachweis'
-render.key.previousTransferBlockHeight: 'vorherige Transferblockhöhe'
-render.key.exitTransfer: 'Transfer beenden'
-render.key.exitTransferBlockProof: exitTransferBlockProof
-render.key.exitTransferBlockHeight: exitTransferBlockHeight
-render.key.challengeTransfer: challengeTransfer
-render.key.challengeTransferBlockProof: challengeTransferBlockProof
-render.key.challengeTransferBlockHeight: challengeTransferBlockHeight
-render.key.responseTransfer: responseTransfer
-render.key.responseTransferBlockProof: responseTransferBlockProof
-render.key.coinID: Coin-ID
-render.key.denomination: Nennwert
-render.key.owner: Besitzer
-render.key.candidates: Kandidaten
-topbar.search: 'Nach Adresse / Öffentlicher Schlüssel / Hash / Höhe suchen'
-coming_soon.title: 'In Kürze verfügbar...'
-coming_soon.bar: 'In Kürze verfügbar'
-action.actions: Aktionen
-address.address: Adresse
-title.overview: Überblick
-title.actionList: 'Liste möglicher Aktionen'
-copy.copied: Kopiert
-copy.toClipboard: 'Adresse in die Zwischenablage kopieren'
-input.error.private_key.invalid: 'Bitte gib deinen privaten Schlüssel ein'
-input.error.private_key.length: 'Der private Schlüssel muss 72 Zeichen haben.'
-wallet.unlock.new.title: Achtung!
-wallet.unlock.new.p1: 'Wir speichern deinen privaten Schlüssel niemals auf unserem Server. Die Erstellung deines privaten Schlüssels erfolgt ausschließlich in deinem Browser.'
-wallet.unlock.new.p2: 'Sichere deinen privaten Schlüssel, um später auf deine Wallet zugreifen zu können. Wenn du ihn verlierst, kann er später nicht wiederhergestellt werden.'
-unlock-wallet.title: 'Öffne deine Wallet'
-unlock-wallet.warn.message: 'Bitte prüfe noch einmal die URL & SSL-Zertifizierung. Als URL sollte dort https://www.iotexscan.io stehen.'
-wallet.account.enterPrivateKey: 'Privater Schlüssel'
-wallet.account.placehold.privateKey: 'Trage hier deinen privaten Schlüssel ein.'
-account.empty.unlock: 'Öffne deine Brieftasche für die Details.'
-unlock-wallet.no-wallet: 'Du hast noch keine IoTeX-Wallet?'
-unlock-wallet.create: 'Neue Wallet erstellen'
-unlock-wallet.main-chain: 'Um eine Wallet zu erstellen, gehe bitte zur Mainchain.'
-render.key.gasPrice: Gaspreis
-render.key.overview: Überblick
-render.value.rewardType.BlockReward: Blockbelohnung
-render.value.rewardType.EpochReward: Epochenbelohnung
-home.producer: BLOCKPRODUZENT
-home.blockHeight: BLOCKHÖHE
-home.currentTPS: 'AKTUELLE TPS'
-home.IOTXPrice: IOTX-PREIS
-home.marketCap: MARKTKAPITALISIERUNG
-time.fn.years: Jahre
-time.fn.year: Jahr
-time.fn.months: Monate
-time.fn.month: Monat
-time.fn.days: Tage
-time.fn.day: Tag
-time.fn.hours: Stunden
-time.fn.hour: Stunde
-time.fn.minutes: Minuten
-time.fn.minute: Minute
-time.fn.ago: vor
-time.fn.justnow: Läuft
-address.balance: Guthaben
-address.nonce: Nonce
-address.pendingNonce: 'Ausstehender Nonce'
-wallet.unlock.new.yes: 'Ich verstehe, weiter gehts.'
-wallet.account.unlock: Freischalten
-title.receipt: Quittung
-render.key.returnValue: Rückgabewert
-render.key.status: Status
-render.key.blkHeight: Blockhöhe
-render.key.gasConsumed: 'Verbrauchtes Gas'
-render.key.contractAddress: Kontraktadresse
-render.key.logs: Logs
-wallet.title.wallet: Wallet
-wallet.contract.title: Kontrakt
-wallet.contract.learn: 'Mehr erfahren'
-wallet.contract.chooseFunction: 'Bitte wählen Sie eine Aktion aus!'
-wallet.contract.interactWith: 'Interaktion mit Smart Contract'
-wallet.contract.deployContract: 'Kontrakt bereitstellen'
-wallet.contract.interactWith.desc: 'Dieser Satz beschreibt etwas.'
-wallet.contract.deployContract.desc: 'Dieser Satz beschreibt etwas.'
-button.backHome: Home
-wallet.account.raw: Kontoadresse
-wallet.account.private: 'Privater Schlüssel'
-wallet.account.addressPlaceHolder: IoTeX-Adresse
-new-wallet.copy: Kopieren
-new-wallet.created: 'Wallet wurde erstellt. Speichere deine/n '
-new-wallet.privateKey: 'Privater Schlüssel'
-new-wallet.warn.cant-recover: 'Wenn du ihn verlerst, kann er nicht wiederhergestellt werden.'
-new-wallet.warn.stolen: 'Ihre Vermögenswerte werden gestohlen, wenn diese Datei auf einer bösartigen oder Phishing-Website verwendet wird.'
-new-wallet.warn.secure: 'Sichere ihn so, wie du die Millionen € sichern würdest, die sie mal eines Tages wert sein könnten. '
-new-wallet.button.unlock: 'Ich habe verstanden. Öffne die Brieftasche!'
-account.why: 'Warum solltest du deinen privaten Schlüssel sichern?'
-account.save: 'Sichere deinen privaten Schlüssel, um später auf deine Wallet zugreifen zu können.'
-account.pay-attention: Achtung!
-account.not-hold: 'IoTeX.io sicher nicht deine Schlüssel für dich. Wir können weder auf Konten zugreifen, noch die Schlüssel wiederherstellen oder Transaktionen rückgängig machen.'
-account.protect: 'Sichere deine Schlüssel und prüfe immer, dass die URL korrekt ist.'
-account.responsible: 'Du bist selbst für deine Sicherheit verantwortlich.'
-account.wallet: Wallet
-account.change: 'Wallet wechseln'
-account.testnet.token: IOTX
-account.address: Kontoadresse
-account.transaction-history: 'Zur Transaktionshistorie gehen'
-wallet.write.contract.title: Warnung
-wallet.write.contract.ok: 'Transaktion ausführen'
-wallet.write.contract.p1: 'Du bist dabei'
-wallet.write.contract.p1.b: 'Eine Funktion im Kontrakt ausführen.'
-wallet.write.contract.p2: 'Es wird in folgendem Netzwerk bereitgestellt.'
-wallet.write.contract.p3: 'Zu sendender Betrag. In den meisten Fällen solltest du ihn bei 0 belassen.'
-wallet.contract.back: 'Zurück zu den Aktionen'
-wallet.interact.access: Zugriff
-wallet.interact.title: 'Interaktion mit Smart Contract'
-wallet.input.to: Empfängeradresse
-wallet.input.nonce: Nonce
-wallet.input.gasPrice: Gaspreis
-wallet.input.gasLimit: Gaslimit
-wallet.input.abi: ABI/JSON-Interface
-wallet.input.byteCode: Bytecode
-wallet.input.solidity: 'Solidity (optional)'
-wallet.input.contractAddress: Kontraktadresse
-wallet.deploy.generateAbiAndByteCode: 'ABI und Bytecode generieren'
-wallet.deploy.title: 'Kontrakt bereitstellen'
-wallet.deploy.broadcast.fail: 'Bitte versuche später noch einmal, den Smart Contract zu senden.'
-wallet.deploy.send-new: 'Neuen Kontrakt senden'
-wallet.deploy.detail-title: 'Du startest jetzt ...'
-wallet.deploy.deploy: 'Vertrag bereitstellen'
-wallet.deploy.signTransaction: 'Transaktion signieren'
-wallet.placeholder.solidity: 'Pragma solidity ^0.4.23; ...'
-wallet.placeholder.abi: ...
-wallet.placeholder.byteCode: '0x1234 ...'
-wallet.placeholder.contractAddress: io...
-wallet.tab.transfer: '${token} senden'
-wallet.tab.vote: 'Für einen Delegierten abstimmen'
-wallet.tab.contract: 'Smart Contracts'
-wallet.input.amount: Betrag
-wallet.choice.input.data: 'Daten (optional)'
-wallet.input.dib: Daten-Hex
-wallet.input.generate: 'Transaktion ausführen'
-wall.input.gasLimit-help: 'Das Gas-Limit in der Demo-Wallet ist immer 0.'
-wallet.transfer.title: 'IOTX senden'
-wallet.error.required: 'Dies ist ein Pflichtfeld.'
-wallet.error.number: 'In dieses Feld gehört eine Zahl.'
-wallet.confirm.contract.title: 'Du schickst jetzt'
-wallet.confirm.contract.p1: 'Nach dem Absenden beträgt dein Guthaben'
-wallet.confirm.contract.p2: 'Bist du sicher, dass du das tun willst?'
-wallet.confirm.contract.yes: 'Ja, Transaktion ausführen!'
-wallet.confirm.contract.cancel: 'Nein, abbrechen!'
-wallet.contract.interaction.success: 'Senden der Transaktion erfolgreich'
-wallet.contract.interaction.success.p1: 'Deine TX wurde an das Netzwerk übertragen. Das bedeutet nicht, dass es auf der Blockchain geminet wurde. Die Bestätigung dauert in der Regel einige Sekunden.'
-wallet.contract.interaction.success.p2: 'Du kannst den Status jetzt prüfen, indem du auf die folgende Schaltfläche klickst oder deinen TX-Hash speicherst und den Status später prüfst.'
-wallet.contract.interaction.success.p3: 'Dein TX-Hash'
-wallet.contract.button.check: 'TX-Status prüfen'
-wallet.contract.button.new: 'Neue IOTX & Token senden'
-wallet.transactions.send: 'Transaktion senden'
-broadcast.success: 'Transaktion erfolgreich durchgeführt'
-broadcast.warn.one: 'Ihr TX wurde an das Netzwerk übertragen. Das bedeutet allerdings nicht, dass es schon auf der Blockkette geminet wurde. Es dauert meist einige Sekunden, bis dies bestätigt wird.'
-broadcast.warn.two: 'Sie können den Status jetzt überprüfen, indem Sie auf die folgende Schaltfläche klicken oder Ihren TX-Hash speichern und den Status später überprüfen.'
-broadcast.warn.three: 'Dein TX-Hash:'
-broadcast.button.check: 'TX-Status prüfen'
-broadcast.fail: 'Transaktion fehlgeschlagen'
-broadcast.fail.network: 'Die Transaktion konnte nicht an das Netzwerk gesendet werden'
-broadcast.error.message: 'Fehlermeldung:'
-broadcast.suggested.action: 'Empfohlene Aktionen:'
-wallet.transfer.sendNew: 'Neu senden'
-render.key.nonce: Platzhalter
-wallet.vote.title: 'Abstimmung für einen Delegierten'
-wallet.vote.content: 'Hilf IoTeX, ein stärkeres und noch sichereres Netzwerk aufzubauen'
-wallet.vote.button: 'Stimme auf member.iotex.io für Delegierte ab'
-wallet.missing_solidity_pragma: 'Falsches Solidity'
-wallet.cannot_find_solidity_version: 'Solidity-Version kann nicht gefunden werden'
-input.error.raw_address.length: 'Die IOTX-Adresse muss 41 Zeichen haben'
-candidate.productivity: Produktivität
-candidates.election.consensus_delegates: IoTeX-Konsensdelegierte
-candidates.election.delegates: IoTeX-Delegierte
-candidates.election.delegates_candidates: IoTeX-Delegiertenkandidaten
-wallet.interact.invalidABI: 'Ungültige JSON-ABI'
-wallet.interact.abiTemplate: '[{ "type":"contructor", "inputs": [{ "name":"param1", "type":"uint256", "indexed":true }], "name":"Event" }, { "type":"function", "inputs": [{"name":"a", "type":"uint256"}], "name":"foo", "outputs": [{"name":"a", "type":"uint256"}] }]'
-wallet.interact.contract: 'Interaktion mit Smart Contract'
-abi.input: Eingabe
-abi.return: Zurück
-wallet.abi.read: 'Kontrakt lesen'
-wallet.abi.write: 'Kontrakt schreiben'
-new-wallet.warn.do-not-lose: 'Verliere deinen privaten Schlüssel nicht! '
-new-wallet.warn.do-not-share: 'Gib niemandem deinen privaten Schlüssel!'
-new-wallet.warn.backup: 'Mach ein Backup!'
-topbar.wallet: WALLET
-render.key.actionFee: Gebühr
-block.show_more: 'Mehr anzeigen'
-block.show_less: 'Weniger anzeigen'
-new-wallet.download: 'Keystore-Datei herunterladen (UTC / JSON)'
-wallet.cannot_load_solidity_version: 'Solidity-Version kann nicht geladen werden'
-new-wallet.save_keystore: 'Keystore-Datei sichern'
-wallet.input.password: Passwort
-input.error.password.too_weak: 'Passwort zu schwach'
-unlock_by_keystore_file.never_upload: 'Wir speichern deinen privaten Schlüssel niemals auf unserem Server. Die Keystore-Datei wird lokal abgelegt und genutzt.'
-wallet.input.keystore: Keystore-Datei
-unlock-wallet.by_keystore: 'Mit Keystore-Datei'
-unlock-wallet.by_private_key: 'Mit privatem Schlüssel'
-unlock_by_keystore_file.select_file: 'Datei auswählen'
-input.error.keystore.required: 'Keystore-Datei wird benötigt.'
-input.error.keystore.invalid: 'Keystore-Datei ist ungültig.'
-input.error.keystore.failed_to_derive: 'Schlüsselableitung fehlgeschlagen. Möglicherweise ein falsches Passwort?'
-block.success: 'Es hat funktioniert'
-block.failure: Fehler
-action.copy_link: 'Link kopieren'
-action.email: E-Mail
-action.share_this_action: 'Diese Aktion teilen'
-action.click_send_email: 'Klicken Sie hier, um die E-Mail zu senden'
-unlock_by_keystore_file.browse_file: 'Dateien durchsuchen'
-copy.scan: 'Scannen Sie den QR-Code'
-topbar.goback_home: Home
-topbar.voting: Abstimmen
-topbar.dashboard: Dashboard
-topbar.tools: Tools
-footer.policy: 'Nutzungsbedingungen & Datenschutzerklärung'
-footer.enter_email: 'Für Updates zu IoTeX trage bitte hier deine E-Mail-Adresse ein!'
-footer.subscribe: Abonnieren
-home.blocklist.ofActions: 'der Aktionen'
-signin_modal.wallet: IoTeX-Wallet
-signin_modal.sign_in: 'Anmeldung mit IoTeX-Wallet'
-signin_modal.download: 'Noch nicht installiert? Dann hier herunterladen.'
-topbar.sign_in: Anmelden
-candidates.delegate_list: 'Liste der Delegierten'
-candidates.rank: Rang
-candidates.election.NOT_EQUIPPED: 'Nicht ausgewählt'
-candidates.election.ONLINE: Online
-candidates.election.OFFLINE: Offline
-footer.subscribe.success: 'Anmeldung erfolgreich'
-footer.subscribe.failed: 'Anmeldung fehlgeschlagen. Bitte versuche es später noch einmal.'
-wallet.contract.executeParameter: 'Ausführungsparameter des Kontrakts'
-wallet.input.fromErc20: ERC20-Tokenadresse
-wallet.input.getInfo: 'Weitere Informationen'
-wallet.erc20.title: 'VITA senden'
-wallet.tab.erc20: ERC20
-wallet.input.balance: 'Guthaben:'
-wallet.transfer.send-erc20: 'ERC20-Token senden'
-input.error.erc20_address.length: 'Die ERC20-Tokenadresse muss 41 Zeichen haben'
-wallet.bytecode.copy: 'ByteCode kopieren'
-render.key.to: An
-render.key.tokens: 'Token übertragen'
-account.erc20.addCustom: 'Benutzerdefinierte Token'
-wallet.input.type: Typ
-account.erc20.notfound: 'Token nicht gefunden!'
-multiChain.chains.mainnet: IoTeX-Mainnet
-multiChain.chains.testnet: IoTeX-Testnet
-multiChain.chains.custom: 'Benutzerdefinierter RPC'
-wallet.input.name: Name
-wallet.input.url: Url
-account.addCustomRPC: 'Benutzerdefinierten RPC hinzufügen'
-account.rpc.nameHolder: 'Mein RPC'
-input.error.url.invalid: 'Ungültige URL'
-input.error.rpc.invalid: 'Verbindung zum Netzwerkanbieter nicht möglich'
-wallet.input.fromXrc20: 'XRC20 Token address'
-wallet.tab.xrc20: XRC20
-wallet.transfer.send-xrc20: 'Send XRC20 tokens'
-input.error.xrc20_address.length: 'XRC20 Token address has to be of length 41'
-account.refresh: 'Refresh balances'
-account.switchAccount: 'Switch Account'
-account.token.addCustom: 'Custom Tokens'
-account.token.notfound: 'Token not found!'
-account.joinDiscord: 'Join Discord'
-account.claim: Claim
-confirmation.amount: Amount
-confirmation.fromAddress: 'From address'
-confirmation.toAddress: 'To addresss'
-confirmation.toContract: 'To contract'
-confirmation.limit: 'Gas limit'
-confirmation.price: 'Gas price'
-confirmation.data: Data
-confirmation.method: Method
-input.error.bytes.invalid: 'Invalid byte code'
-render.key.ownerETH: 'Owner (Eth)'
-account.claimAs: 'Claim As'
-confirmation.owner: Owner
-account.claimAs.authorizedMessage: 'Authentication private message'
-account.claimAs.authorizedTemplate: "{\n  \"address\": \"0x497...\",\n  \"msg\": \"1I authorize 0x0123...\",\n  \"sig\": \"0xfa076d068...\",\n  \"version\": \"2\"\n}"
-account.error.invalidAuthorizedMessage: 'Invalid authentication private message!'
-render.key.method: Method
-account.claimAs.generateAuthMessage: 'Generate an authenticate message'
-account.claimAs.authMessage: 'Authenticate message'
-account.claimAs.generate: Generate
-account.claimAs.close: Close
-account.bid: Bid
-account.error.notEnoughBalance: 'You don''t have enough IoTx balance to perform the action!'
-account.placeBid: 'Place bid for VITA'
-wallet.transfer.broadcast.fail: Erhöhen Sie gasLimit und versuchen Sie es erneut!
+{
+  "meta.title": "Blockchain Explorer - IoTeX",
+  "meta.description": "Informationen zu Adressen, Aktionen und Smart Contracts der IoTeX-Blockchain.",
+  "topbar.brand": "Marke",
+  "topbar.blockchain": "Blockchain",
+  "topbar.blocks": "Blöcke",
+  "topbar.actions": "Aktionen",
+  "topbar.home": "Home",
+  "not_found.bar": "Nicht gefunden",
+  "not_found.title": "Oops!",
+  "not_found.info": "Wir können die Seite nicht finden...",
+  "candidate.delegate_name": "Name des Delegierten",
+  "candidate.status": "Status",
+  "candidate.live_votes": "Aktuelle Stimmen",
+  "candidate.percent": "Prozent",
+  "candidates.election.ELECTED": "Gewählt",
+  "candidates.election.NOT_ELECTED": "Nicht gewählt",
+  "candidates.election.UNQUALIFIED": "Nicht gewählt",
+  "candidates.election.explain": "Die Delegierten müssen selbst mindestens <b>1.200.000 IOTX<\/b> staken und insgesamt <b>2.000.000.000 IOTX<\/b> als Stimme erhalten, um gewählt zu werden.",
+  "block.block": "Block",
+  "block.blocks": "Blöcke",
+  "block.height": "Blockhöhe",
+  "block.hash": "Hash",
+  "block.timestamp": "Alter",
+  "block.num_actions": "Aktionen",
+  "block.producer_address": "Produzent",
+  "block.transfer_amount": "Überweisungsbetrag",
+  "block.tx_root": "Tx-Root",
+  "block.receipt_root": "Receipt-Root",
+  "block.delta_state_digest": "Zusammenfassung des Delta-Zustandes",
+  "action.type": "Typ",
+  "action.type.transfer": "Transfer",
+  "action.type.grant_reward": "Belohnung",
+  "action.type.execution": "Ausführung",
+  "action.data": "Daten",
+  "topbar.graphql_playground": "GraphQL-Playground",
+  "topbar.graphql_doc": "GraphQL-Dokumentation",
+  "action.hash": "Hash",
+  "action.block_hash": "Block",
+  "action.amount": "Betrag",
+  "action.action": "Aktion",
+  "action.sender": "Absender",
+  "action.recipient": "Empfänger",
+  "title.action": "Aktion",
+  "render.key.height": "Blockhöhe",
+  "render.key.hash": "Hash",
+  "render.key.timestamp": "Alter",
+  "render.key.numActions": "Aktionen",
+  "render.key.producerAddress": "Produzent",
+  "render.key.transferAmount": "Betrag überweisen",
+  "render.key.txRoot": "Tx-Root",
+  "render.key.receiptRoot": "Receipt-Root",
+  "render.key.deltaStateDigest": "Zusammenfassung des Delta-Zustandes",
+  "render.key.actHash": "Hash",
+  "render.key.blkHash": "Block",
+  "render.key.actionType": "Typ",
+  "render.key.actionData": "Daten",
+  "render.key.sender": "Absender",
+  "render.key.amount": "Betrag",
+  "render.key.contract": "Kontrakt",
+  "render.key.data": "Daten",
+  "render.key.recipient": "Empfänger",
+  "render.key.payload": "Nutzlast",
+  "render.key.type": "Belohnungstyp",
+  "render.value.grantReward": "Belohnung gewähren",
+  "render.value.execution": "Ausführung",
+  "render.value.transfer": "Transfer",
+  "action.type.grantReward": "Belohnung gewähren",
+  "action.type.depositToRewardingFund": "Einzahlung in den Rewards Fond",
+  "action.type.claimFromRewardingFund": "Rewards in Anspruch nehmen",
+  "action.type.startSubChain": "SubChain starten",
+  "action.type.stopSubChain": "SubChain stoppen",
+  "action.type.putBlock": "put Block",
+  "action.type.createDeposit": "Einzahlung anlegen",
+  "action.type.settleDeposit": "Einzahlung anlegen",
+  "action.type.createPlumChain": "create PlumChain",
+  "action.type.terminatePlumChain": "terminate PlumChain",
+  "action.type.plumPutBlock": "plum PutBlock",
+  "action.type.plumCreateDeposit": "plum CreateDeposit",
+  "action.type.plumStartExit": "plum StartExit",
+  "action.type.plumChallengeExit": "plum ChallengeExit",
+  "action.type.plumResponseChallengeExit": "plum Response Challenge Exit",
+  "action.type.plumFinalizeExit": "plum Finalize Exit",
+  "action.type.plumSettleDeposit": "plum Settle Deposit",
+  "action.type.plumTransfer": "plum Transfer",
+  "action.type.putPollResult": "put Poll Result",
+  "render.key.chainID": "Chain ID",
+  "render.key.securityDeposit": "Kaution",
+  "render.key.operationDeposit": "Einzahlung",
+  "render.key.startHeight": "Bei dieser Blockhöhe starten",
+  "render.key.parentHeightOffset": "parentHeightOffset",
+  "render.key.stopHeight": "Bei dieser Blockhöhe stoppen",
+  "render.key.subChainAddress": "SubChain-Adresse",
+  "render.key.roots": "Roots",
+  "render.key.index": "Index",
+  "render.key.previousTransfer": "Vorherige Übertragung",
+  "render.key.previousTransferBlockProof": "Nachweis des vorheriger Transferblocks",
+  "render.key.previousTransferBlockHeight": "Vorherige Transferblockhöhe",
+  "render.key.exitTransfer": "Transfer beenden",
+  "render.key.exitTransferBlockProof": "exitTransferBlockProof",
+  "render.key.exitTransferBlockHeight": "exitTransferBlockHeight",
+  "render.key.challengeTransfer": "challengeTransfer",
+  "render.key.challengeTransferBlockProof": "challengeTransferBlockProof",
+  "render.key.challengeTransferBlockHeight": "challengeTransferBlockHeight",
+  "render.key.responseTransfer": "responseTransfer",
+  "render.key.responseTransferBlockProof": "responseTransferBlockProof",
+  "render.key.coinID": "Coin-ID",
+  "render.key.denomination": "Nennwert",
+  "render.key.owner": "Besitzer",
+  "render.key.candidates": "Kandidaten",
+  "topbar.search": "Nach Adresse \/ Öffentlichem Schlüssel \/ Hash \/ Höhe suchen",
+  "coming_soon.title": "In Kürze verfügbar...",
+  "coming_soon.bar": "In Kürze verfügbar",
+  "action.actions": "Aktionen",
+  "address.address": "Adresse",
+  "title.overview": "Überblick",
+  "title.actionList": "Liste möglicher Aktionen",
+  "copy.copied": "Kopiert",
+  "copy.toClipboard": "Adresse in die Zwischenablage kopieren",
+  "input.error.private_key.invalid": "Bitte gib deinen privaten Schlüssel ein",
+  "input.error.private_key.length": "Der private Schlüssel muss 72 Zeichen haben.",
+  "wallet.unlock.new.title": "Achtung!",
+  "wallet.unlock.new.p1": "Wir speichern deinen privaten Schlüssel niemals auf unserem Server. Die Erstellung deines privaten Schlüssels erfolgt ausschließlich in deinem Browser.",
+  "wallet.unlock.new.p2": "Sichere deinen privaten Schlüssel, um später auf deine Wallet zugreifen zu können. Wenn du ihn verlierst, kann er später nicht wiederhergestellt werden.",
+  "unlock-wallet.title": "Öffne deine Wallet",
+  "unlock-wallet.warn.message": "Bitte prüfe noch einmal die URL & SSL-Zertifizierung. Als URL sollte dort https:\/\/www.iotexscan.io stehen.",
+  "wallet.account.enterPrivateKey": "Privater Schlüssel",
+  "wallet.account.placehold.privateKey": "Trage hier deinen privaten Schlüssel ein.",
+  "account.empty.unlock": "Öffne deine Wallet für die Details.",
+  "unlock-wallet.no-wallet": "Du hast noch keine IoTeX-Wallet?",
+  "unlock-wallet.create": "Neue Wallet erstellen",
+  "unlock-wallet.main-chain": "Um eine Wallet zu erstellen, gehe bitte zur Mainchain.",
+  "render.key.gasPrice": "Gaspreis",
+  "render.key.overview": "Überblick",
+  "render.value.rewardType.BlockReward": "Blockbelohnung",
+  "render.value.rewardType.EpochReward": "Epochenbelohnung",
+  "home.producer": "BLOCKPRODUZENT",
+  "home.blockHeight": "BLOCKHÖHE",
+  "home.currentTPS": "AKTUELLE TPS",
+  "home.IOTXPrice": "IOTX-PREIS",
+  "home.marketCap": "MARKTKAPITALISIERUNG",
+  "time.fn.years": "Jahre",
+  "time.fn.year": "Jahr",
+  "time.fn.months": "Monate",
+  "time.fn.month": "Monat",
+  "time.fn.days": "Tage",
+  "time.fn.day": "Tag",
+  "time.fn.hours": "Stunden",
+  "time.fn.hour": "Stunde",
+  "time.fn.minutes": "Minuten",
+  "time.fn.minute": "Minute",
+  "time.fn.ago": "vor",
+  "time.fn.justnow": "Läuft",
+  "address.balance": "Guthaben",
+  "address.nonce": "Nonce",
+  "address.pendingNonce": "Ausstehender Nonce",
+  "wallet.unlock.new.yes": "Ich verstehe, weiter gehts.",
+  "wallet.account.unlock": "Freischalten",
+  "title.receipt": "Quittung",
+  "render.key.returnValue": "Rückgabewert",
+  "render.key.status": "Status",
+  "render.key.blkHeight": "Blockhöhe",
+  "render.key.gasConsumed": "Verbrauchtes Gas",
+  "render.key.contractAddress": "Kontraktadresse",
+  "render.key.logs": "Logs",
+  "wallet.title.wallet": "Wallet",
+  "wallet.contract.title": "Kontrakt",
+  "wallet.contract.learn": "Mehr erfahren",
+  "wallet.contract.chooseFunction": "Bitte wähle eine Aktion aus!",
+  "wallet.contract.interactWith": "Interaktion mit Smart Contract",
+  "wallet.contract.deployContract": "Kontrakt bereitstellen",
+  "wallet.contract.interactWith.desc": "Dieser Satz beschreibt etwas. Dieser Satz beschreibt etwas.",
+  "wallet.contract.deployContract.desc": "Dieser Satz beschreibt etwas. Dieser Satz beschreibt etwas.",
+  "button.backHome": "Home",
+  "wallet.account.raw": "Kontoadresse",
+  "wallet.account.private": "Privater Schlüssel",
+  "wallet.account.addressPlaceHolder": "IoTeX-Adresse",
+  "new-wallet.copy": "Kopieren",
+  "new-wallet.created": "Wallet wurde erstellt. Speichere deinen",
+  "new-wallet.privateKey": "Privater Schlüssel",
+  "new-wallet.warn.cant-recover": "Wenn du ihn verlierst, kann er nicht wiederhergestellt werden.",
+  "new-wallet.warn.stolen": "Deine Vermögenswerte werden gestohlen, wenn diese Datei auf einer bösartigen oder Phishing-Website verwendet wird.",
+  "new-wallet.warn.secure": "Sichere sie so, wie du die Millionen € sichern würdest, die sie mal eines Tages wert sein könnten. ",
+  "new-wallet.button.unlock": "Ich habe verstanden. Öffne die Wallet!",
+  "account.why": "Warum solltest du deinen privaten Schlüssel sichern?",
+  "account.save": "Sichere deinen privaten Schlüssel, um später auf deine Wallet zugreifen zu können.",
+  "account.pay-attention": "Achtung!",
+  "account.not-hold": "IoTeX.io sichert nicht deine Schlüssel für dich. Wir können weder auf Konten zugreifen, noch die Schlüssel wiederherstellen oder Transaktionen rückgängig machen.",
+  "account.protect": "Sichere deine Schlüssel und prüfe immer, dass die URL korrekt ist.",
+  "account.responsible": "Du bist selbst für deine Sicherheit verantwortlich.",
+  "account.wallet": "Wallet",
+  "account.change": "Wallet wechseln",
+  "account.testnet.token": "IOTX",
+  "account.address": "Kontoadresse",
+  "account.transaction-history": "Zur Transaktionshistorie gehen",
+  "wallet.write.contract.title": "Warnung",
+  "wallet.write.contract.ok": "Transaktion ausführen",
+  "wallet.write.contract.p1": "Du bist dabei",
+  "wallet.write.contract.p1.b": "Eine Funktion im Kontrakt ausführen.",
+  "wallet.write.contract.p2": "Es wird in folgendem Netzwerk bereitgestellt.",
+  "wallet.write.contract.p3": "Zu sendender Betrag. In den meisten Fällen solltest du ihn bei 0 belassen.",
+  "wallet.contract.back": "Zurück zu den Aktionen",
+  "wallet.interact.access": "Zugriff",
+  "wallet.interact.title": "Interaktion mit Smart Contract",
+  "wallet.input.to": "Empfängeradresse",
+  "wallet.input.nonce": "Nonce",
+  "wallet.input.gasPrice": "Gaspreis",
+  "wallet.input.gasLimit": "Gaslimit",
+  "wallet.input.abi": "ABI \/ JSON-Interface",
+  "wallet.input.byteCode": "Bytecode",
+  "wallet.input.solidity": "Solidity (optional)",
+  "wallet.input.contractAddress": "Kontraktadresse",
+  "wallet.deploy.generateAbiAndByteCode": "ABI und Bytecode generieren",
+  "wallet.deploy.title": "Kontrakt bereitstellen",
+  "wallet.deploy.broadcast.fail": "Bitte versuche später noch einmal, den Smart Contract zu senden.",
+  "wallet.deploy.send-new": "Neuen Kontrakt senden",
+  "wallet.deploy.detail-title": "Du startest jetzt...",
+  "wallet.deploy.deploy": "Vertrag bereitstellen",
+  "wallet.deploy.signTransaction": "Transaktion signieren",
+  "wallet.placeholder.solidity": "Pragma solidity ^0.4.23; ...",
+  "wallet.placeholder.abi": "...",
+  "wallet.placeholder.byteCode": "0x1234...",
+  "wallet.placeholder.contractAddress": "io...",
+  "wallet.tab.transfer": "${token} senden",
+  "wallet.tab.vote": "Für einen Delegierten abstimmen",
+  "wallet.tab.contract": "Smart Contracts",
+  "wallet.input.amount": "Betrag",
+  "wallet.choice.input.data": "Daten (optional)",
+  "wallet.input.dib": "Daten-Hex",
+  "wallet.input.generate": "Transaktion ausführen",
+  "wall.input.gasLimit-help": "Das Gas-Limit in der Demo-Wallet ist immer 0.",
+  "wallet.transfer.title": "IOTX senden",
+  "wallet.error.required": "Dies ist ein Pflichtfeld.",
+  "wallet.error.number": "In dieses Feld gehört eine Zahl.",
+  "wallet.confirm.contract.title": "Du schickst jetzt",
+  "wallet.confirm.contract.p1": "Nach dem Absenden beträgt dein Guthaben",
+  "wallet.confirm.contract.p2": "Bist du sicher, dass du das tun willst?",
+  "wallet.confirm.contract.yes": "Ja, Transaktion ausführen!",
+  "wallet.confirm.contract.cancel": "Nein, abbrechen!",
+  "wallet.contract.interaction.success": "Senden der Transaktion erfolgreich",
+  "wallet.contract.interaction.success.p1": "Deine Anfrage wurde an das Netzwerk gesendet. Das bedeutet aber nicht, dass es auf der Blockchain geminet wurde. Die Bestätigung dauert in der Regel einige Sekunden.",
+  "wallet.contract.interaction.success.p2": "Du kannst den Status jetzt prüfen, indem du auf die folgende Schaltfläche klickst oder deinen TX-Hash speicherst und den Status später prüfst.",
+  "wallet.contract.interaction.success.p3": "Dein Hash",
+  "wallet.contract.button.check": "Status prüfen",
+  "wallet.contract.button.new": "Neue IOTX & Token senden",
+  "wallet.transactions.send": "Transaktion senden",
+  "broadcast.success": "Transaktion erfolgreich durchgeführt",
+  "broadcast.warn.one": "Deine TX wurde an das Netzwerk gesendet. Das bedeutet aber nicht, dass es schon auf der Blockkette geminet wurde. Es dauert meist einige Sekunden, bis dies bestätigt wird.",
+  "broadcast.warn.two": "Du kannst den Status jetzt überprüfen, indem du auf die folgende Schaltfläche klickst, oder deinen TX-Hash speichern und den Status später überprüfen.",
+  "broadcast.warn.three": "Dein TX-Hash:",
+  "broadcast.button.check": "TX-Status prüfen",
+  "broadcast.fail": "Transaktion fehlgeschlagen",
+  "broadcast.fail.network": "Die Transaktion konnte nicht an das Netzwerk gesendet werden",
+  "broadcast.error.message": "Fehlermeldung:",
+  "broadcast.suggested.action": "Empfohlene Aktionen:",
+  "wallet.transfer.sendNew": "Neu senden",
+  "render.key.nonce": "Platzhalter",
+  "wallet.vote.title": "Abstimmung für einen Delegierten",
+  "wallet.vote.content": "Hilf IoTeX, ein stärkeres und noch sichereres Netzwerk aufzubauen",
+  "wallet.vote.button": "Stimme auf member.iotex.io für Delegierte ab",
+  "wallet.missing_solidity_pragma": "Falsches Solidity",
+  "wallet.cannot_find_solidity_version": "Solidity-Version kann nicht gefunden werden",
+  "input.error.raw_address.length": "Die IOTX-Adresse muss 41 Zeichen haben",
+  "candidate.productivity": "Produktivität",
+  "candidates.election.consensus_delegates": "IoTeX-Konsensdelegierte",
+  "candidates.election.delegates": "IoTeX-Delegierte",
+  "candidates.election.delegates_candidates": "IoTeX-Delegiertenkandidaten",
+  "wallet.interact.invalidABI": "Ungültige JSON-ABI",
+  "wallet.interact.abiTemplate": "[{ \"type\":\"contructor\", \"inputs\": [{ \"name\":\"param1\", \"type\":\"uint256\", \"indexed\":true }], \"name\":\"Event\" }, { \"type\":\"function\", \"inputs\": [{\"name\":\"a\", \"type\":\"uint256\"}], \"name\":\"foo\", \"outputs\": [{\"name\":\"a\", \"type\":\"uint256\"}] }]",
+  "wallet.interact.contract": "Interaktion mit Smart Contract",
+  "abi.input": "Eingabe",
+  "abi.return": "Zurück",
+  "wallet.abi.read": "Kontrakt lesen",
+  "wallet.abi.write": "Kontrakt schreiben",
+  "new-wallet.warn.do-not-lose": "Verliere deinen privaten Schlüssel nicht! ",
+  "new-wallet.warn.do-not-share": "Gib niemandem deinen privaten Schlüssel!",
+  "new-wallet.warn.backup": "Erstelle dir ein Backup!",
+  "topbar.wallet": "Wallet",
+  "render.key.actionFee": "Gebühr",
+  "block.show_more": "Mehr anzeigen",
+  "block.show_less": "Weniger anzeigen",
+  "new-wallet.download": "Keystore-Datei herunterladen (UTC \/ JSON)",
+  "wallet.cannot_load_solidity_version": "Solidity-Version kann nicht geladen werden",
+  "new-wallet.save_keystore": "Keystore-Datei sichern",
+  "wallet.input.password": "Passwort",
+  "input.error.password.too_weak": "Passwort zu schwach",
+  "unlock_by_keystore_file.never_upload": "Wir speichern deinen privaten Schlüssel niemals auf unserem Server. Die Keystore-Datei wird lokal abgelegt.",
+  "wallet.input.keystore": "Keystore-Datei",
+  "unlock-wallet.by_keystore": "Mit Keystore-Datei",
+  "unlock-wallet.by_private_key": "Mit privatem Schlüssel",
+  "unlock_by_keystore_file.select_file": "Datei auswählen",
+  "input.error.keystore.required": "Keystore-Datei wird benötigt.",
+  "input.error.keystore.invalid": "Keystore-Datei ist ungültig.",
+  "input.error.keystore.failed_to_derive": "Schlüsselableitung fehlgeschlagen. Möglicherweise ein falsches Passwort?",
+  "block.success": "Es hat funktioniert",
+  "block.failure": "Fehler",
+  "action.copy_link": "Link kopieren",
+  "action.email": "E-Mail",
+  "action.share_this_action": "Diese Aktion teilen",
+  "action.click_send_email": "Hier klicken, um die E-Mail zu senden",
+  "unlock_by_keystore_file.browse_file": "Dateien durchsuchen",
+  "copy.scan": "Scannen Sie den QR-Code",
+  "topbar.goback_home": "Home",
+  "topbar.voting": "Abstimmen",
+  "topbar.dashboard": "Dashboard",
+  "topbar.tools": "Tools",
+  "footer.policy": "Nutzungsbedingungen & Datenschutzerklärung",
+  "footer.enter_email": "Für Updates zu IoTeX tragen Sie bitte hier Ihre E-Mail-Adresse ein!",
+  "footer.subscribe": "Abonnieren",
+  "home.blocklist.ofActions": "der Aktionen",
+  "signin_modal.wallet": "IoTeX-Wallet",
+  "signin_modal.sign_in": "Anmeldung mit IoTeX-Wallet",
+  "signin_modal.download": "Noch nicht installiert? Dann hier herunterladen.",
+  "topbar.sign_in": "Anmelden",
+  "candidates.delegate_list": "Liste der Delegierten",
+  "candidates.rank": "Rang",
+  "candidates.election.NOT_EQUIPPED": "Nicht ausgewählt",
+  "candidates.election.ONLINE": "Online",
+  "candidates.election.OFFLINE": "Offline",
+  "footer.subscribe.success": "Anmeldung erfolgreich",
+  "footer.subscribe.failed": "Anmeldung fehlgeschlagen. Bitte versuche es später noch einmal.",
+  "wallet.contract.executeParameter": "Ausführungsparameter des Kontrakts",
+  "wallet.input.fromErc20": "ERC20-Tokenadresse",
+  "wallet.input.getInfo": "Weitere Informationen",
+  "wallet.erc20.title": "VITA senden",
+  "wallet.tab.erc20": "ERC20",
+  "wallet.input.balance": "Guthaben:",
+  "wallet.transfer.send-erc20": "ERC20-Token senden",
+  "input.error.erc20_address.length": "Die ERC20-Tokenadresse muss 41 Zeichen haben",
+  "wallet.bytecode.copy": "ByteCode kopieren",
+  "render.key.to": "An",
+  "render.key.tokens": "Token übertragen",
+  "account.erc20.addCustom": "Benutzerdefinierte Token",
+  "wallet.input.type": "Typ",
+  "account.erc20.notfound": "Token nicht gefunden!",
+  "multiChain.chains.mainnet": "IoTeX-Mainnet",
+  "multiChain.chains.testnet": "IoTeX-Testnet",
+  "multiChain.chains.custom": "Benutzerdefinierter RPC",
+  "wallet.input.name": "Name",
+  "wallet.input.url": "Url",
+  "account.addCustomRPC": "Benutzerdefinierten RPC hinzufügen",
+  "account.rpc.nameHolder": "Mein RPC",
+  "input.error.url.invalid": "Ungültige URL",
+  "input.error.rpc.invalid": "Verbindung zum Netzwerkanbieter nicht möglich",
+  "wallet.input.fromXrc20": "ERC20-Adresse",
+  "wallet.tab.xrc20": "XRC20",
+  "wallet.transfer.send-xrc20": "XRC20-Token senden",
+  "input.error.xrc20_address.length": "Eine XRC20-Adresse muss 41 Zeichen haben",
+  "account.refresh": "Guthaben aktualisieren",
+  "account.switchAccount": "Konto wechseln",
+  "account.token.addCustom": "Benutzerdefinierte Token",
+  "account.token.notfound": "Token nicht gefunden!",
+  "account.joinDiscord": "Zum Discord-Kanal",
+  "account.claim": "Claimen",
+  "confirmation.amount": "Betrag",
+  "confirmation.fromAddress": "Von Adresse",
+  "confirmation.toAddress": "An Adresse",
+  "confirmation.toContract": "An Kontrakt",
+  "confirmation.limit": "Gas-Limit",
+  "confirmation.price": "Gas-Preis",
+  "confirmation.data": "Daten",
+  "confirmation.method": "Methode",
+  "input.error.bytes.invalid": "Ungültiger Byte-Code",
+  "render.key.ownerETH": "Eigentümer (ETH)",
+  "account.claimAs": "Claimen als",
+  "confirmation.owner": "Eigentümer",
+  "account.claimAs.authorizedMessage": "Private Authentifizierungsnachricht",
+  "account.claimAs.authorizedTemplate": "{\n\"address\": \"0x497...\",\n\"msg\": \"1I autorisieren 0x0123...\",\n\"sig\": \"0xfa076d068...\",\n\"version\": \"2\"\n}",
+  "account.error.invalidAuthorizedMessage": "Ungültige private Authentifizierungsnachricht!",
+  "render.key.method": "Methode",
+  "account.claimAs.generateAuthMessage": "Authentifizierungsnachricht erstellen",
+  "account.claimAs.authMessage": "Nachricht authentifizieren",
+  "account.claimAs.generate": "Generieren",
+  "account.claimAs.close": "Schließen",
+  "account.bid": "Gebot",
+  "account.error.notEnoughBalance": "Dein IOTX-Guthaben reicht nicht aus, um die Aktion auszuführen!",
+  "account.placeBid": "Dein Gebot für VITA",
+  "render.key.gasLimit": "Gas-Limit",
+  "account.availableForBid": "Dein Guthaben für Gebote beträgt:",
+  "erc20.execution.error.lowGasInput": "Gas-Input zu gering!",
+  "erc20.execution.error.notEnoughBalance": "Dein IOTX-Guthaben reicht nicht aus, um die Transaktion auszuführen!",
+  "topbar.explorer_playground": "Explorer Playground",
+  "topbar.analytics_playground": "Analytics Playground",
+  "wallet.lock.title": "Wallet verschließen",
+  "wallet.lock.cutdown": "Deine Wallet wird in zehn Minuten verschlossen. Willst du sie weiter verwenden?",
+  "wallet.lock.btn.know": "Ist mir bewusst",
+  "wallet.lock.btn.yes": "Ja, Sperre aufheben",
+  "wallet.lock.btn.no": "Sperren",
+  "wallet.transfer.broadcast.fail": "Bitte erhöhe das Gas-Limit und versuche es noch einmal",
+  "wallet.tab.keystore": "Keystore exportieren",
+  "wallet.tab.keystore.title": "Bitte speichere dein Keystore-File",
+  "action.notFound": "Leider können wir den Hash dieser Transaktion nicht finden. ",
+  "footer.resource": "Ressourcen",
+  "footer.lauch": "Launch",
+  "footer.roadmap": "Roadmap",
+  "footer.research_paper": "Forschung",
+  "footer.announcements": "Ankündigungen",
+  "footer.delegates_program": "Delegiertenprogramm",
+  "footer.charity_program": "Soziales Engagement",
+  "footer.develop": "Entwicklung",
+  "footer.github": "Github",
+  "footer.documentations": "Dokumentationen",
+  "footer.libraries_tools": "Libraries und Tools",
+  "footer.explorer": "Explorer",
+  "footer.wallet": "Wallet",
+  "footer.about_us": "Über uns",
+  "footer.team": "Team",
+  "footer.forum": "Forum",
+  "footer.support": "Hilfe",
+  "footer.launch": "Start",
+  "footer.subscribe_success": "Erfolgreich angemeldet",
+  "account.actionHistory": "Aktionsverlauf",
+  "home.stats.tps": "Aktuelle TPS \/ Peak",
+  "home.stats.candidates": "IoTeX-Konsensdelegierte",
+  "home.stats.productivity": "Durchschnittliche Produktivität",
+  "home.stats.votes": "Stimmen",
+  "home.stats.map": "Anzeigen",
+  "home.stats.energyConsumption": "Täglicher Energieverbrauch",
+  "home.stats.numberOfAddresses": "Anzahl der Adressen",
+  "home.stats.numberOfTransactions": "Anzahl der Transaktionen",
+  "home.stats.day": "Tag",
+  "home.stats.actions": "Transactions",
+  "unlock-wallet.by_ledger": "Connect Ledger",
+  "unlock_by_ledger.message": "Click the following button to proceed with Ledger.",
+  "unlock-by-ledger.pluginDevice": "Please plugin ledger device and try again!",
+  "unlock-by-ledger.warnTitle": "Oops, couldn’t connect to device"
+}
