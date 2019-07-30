@@ -40,7 +40,6 @@ action.amount: 总量
 action.action: 行动
 action.sender: 发送方
 action.recipient: 接收方
-action.notFound: 抱歉，我们无法找到此交易哈希
 title.action: 操作
 render.key.height: 高度
 render.key.hash: 哈希
@@ -304,6 +303,9 @@ topbar.goback_home: 回到主页
 topbar.voting: 投票
 topbar.dashboard: 显示板
 topbar.tools: 工具
+footer.policy: 使用条款和隐私政策
+footer.enter_email: 输入电子邮件获取Iotex更新
+footer.subscribe: 订阅
 home.blocklist.ofActions: 操作
 signin_modal.wallet: IoTeX钱包
 signin_modal.sign_in: 登录IoTeX钱包
@@ -314,27 +316,8 @@ candidates.rank: 排名
 candidates.election.NOT_EQUIPPED: 未提供
 candidates.election.ONLINE: 在线
 candidates.election.OFFLINE: 离线
-footer.resource: 资源
-footer.lauch: 发布
-footer.roadmap: 规划
-footer.research_paper: 学术论文
-footer.announcements: 公告
-footer.delegates_program: 节点项目
-footer.charity_program: 慈善项目
-footer.develop: 发展
-footer.github: Github
-footer.documentations: 文献
-footer.libraries_tools: 工具库
-footer.explorer: 探索
-footer.wallet: 钱包
-footer.about_us: 关于我们
-footer.team: 团队
-footer.forum: 论坛
-footer.support: 技术支持
-footer.enter_email: 输入电子邮件获取Iotex更新
-footer.subscribe: 订阅
-footer.policy: 使用条款和隐私政策
-footer.launch: 发布
+footer.subscribe.success: 订阅成功！
+footer.subscribe.failed: 订阅失败，请稍后再试！
 wallet.contract.executeParameter: 合约执行参数
 wallet.input.fromErc20: ERC20通证地址
 wallet.input.getInfo: 获取信息
@@ -391,4 +374,52 @@ account.claimAs.close: 关闭
 account.bid: 出价
 account.error.notEnoughBalance: '您没有足够的 IOTX余额来执行该操作!'
 account.placeBid: '对 VITA 出价'
-wallet.transfer.broadcast.fail: 增加gasLimit并再试一次！
+render.key.gasLimit: 'Gas 限制'
+account.availableForBid: 您可用于出价的余额：
+erc20.execution.error.lowGasInput: Gas输入过低!
+erc20.execution.error.notEnoughBalance: '您没有足够的 IOTX余额来执行该操作!'
+topbar.explorer_playground: 'Explorer 场地'
+topbar.analytics_playground: 分析场地
+wallet.lock.title: 锁上钱包
+wallet.lock.cutdown: 您的钱包将在10分钟内被锁上。是否要继续使用它？
+wallet.lock.btn.know: 我知道
+wallet.lock.btn.yes: 是的，忽视上锁
+wallet.lock.btn.no: 锁上它
+wallet.transfer.broadcast.fail: 增加gas限制并再试一次！
+wallet.tab.keystore: 导出密钥库
+wallet.tab.keystore.title: 保存密钥库文件
+action.notFound: 抱歉，我们无法找到此交易的哈希地址
+footer.resource: 资源
+footer.lauch: 发布
+footer.roadmap: 路线图
+footer.research_paper: 研究论文
+footer.announcements: 公告
+footer.delegates_program: 节点项目
+footer.charity_program: 慈善项目
+footer.develop: 开发
+footer.github: Github
+footer.documentations: 文献
+footer.libraries_tools: 工具库
+footer.explorer: Exploer
+footer.wallet: 钱包
+footer.about_us: 关于我们
+footer.team: 团队
+footer.forum: 论坛
+footer.support: 技术支持
+footer.launch: 发布
+footer.subscribe_success: 成功订阅
+account.actionHistory: 操作历史记录
+home.stats.tps: '当前 TPS/Peak'
+home.stats.candidates: 共识代表/候选人
+home.stats.productivity: 平均生产力
+home.stats.votes: 投票
+home.stats.map: 地图
+home.stats.energyConsumption: 每日能源消耗
+home.stats.numberOfAddresses: 地址数量
+home.stats.numberOfTransactions: 交易数量
+home.stats.day: 日
+home.stats.actions: 交易
+unlock-wallet.by_ledger: 连接Ledger
+unlock_by_ledger.message: 单击以下按钮来继续使用Ledger。
+unlock-by-ledger.pluginDevice: 请插入Ledger设备，然后重试。
+unlock-by-ledger.warnTitle: 无法连接到设备
