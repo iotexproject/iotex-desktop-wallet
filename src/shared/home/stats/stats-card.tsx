@@ -27,13 +27,13 @@ class StatsCard extends React.Component<IStatsCardProps, State> {
     };
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     if (this.props.value) {
       this.animateNumber(this.props.value);
     }
   }
 
-  public componentDidUpdate(prevProps: IStatsCardProps) {
+  public componentDidUpdate(prevProps: IStatsCardProps): void {
     if (prevProps.value !== this.props.value && this.props.value) {
       this.animateNumber(this.props.value);
     }
@@ -41,13 +41,13 @@ class StatsCard extends React.Component<IStatsCardProps, State> {
 
   public getNumber = (value: string) => {
     const convertedNumber = value.replace(/,/g, "");
-    return parseInt(convertedNumber);
+    return parseInt(convertedNumber, 10);
   };
 
   public animateNumber = (value: string | number) => {
     let cardValue = 0;
     let maxValue = 0;
-    let splittedVal: string[] = [];
+    let splittedVal: Array<string> = [];
     if (typeof value === "string") {
       splittedVal = value.split("%");
       maxValue = this.getNumber(splittedVal[0]);
@@ -69,7 +69,7 @@ class StatsCard extends React.Component<IStatsCardProps, State> {
     }, 1);
   };
 
-  public render() {
+  public render(): JSX.Element {
     const { loading = false } = this.props;
     return (
       <Spin spinning={loading} indicator={<Icon type="loading" spin />}>
