@@ -41,6 +41,10 @@
   "exclude": ["node_modules/**"],
   "compileOnSave": false,
   "awesomeTypescriptLoaderOptions": {
-    "transpileOnly": true
+    "transpileOnly": true,
+    "babelOptions": {
+      "babelrc": true
+    },
+    "babelCore": "@babel/core"
   }
 }
