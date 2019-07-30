@@ -7,7 +7,7 @@ import { assetURL } from "../../common/asset-url";
 import { colors } from "../../common/styles/style-color";
 import { GET_ANALYTICS_TPS } from "../../queries";
 import { CompCirclePercentChart } from "../charts/circle-chart";
-import { StatsCard } from "./stats-card";
+import StatsCard from "./stats-card";
 
 const PEAK_TPS = 500; // Fixed number for now. Might be updated later.
 
