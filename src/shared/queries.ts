@@ -430,3 +430,15 @@ export const GET_ANALYTICS_TPS = gql`
     }
   }
 `;
+
+export const GET_ANALYTICS_CHAIN = gql`
+  query chain {
+    chain {
+      mostRecentEpoch
+      mostRecentBlockHeight
+      numberOfActions {
+        count
+      }
+    }
+  }
+`;
