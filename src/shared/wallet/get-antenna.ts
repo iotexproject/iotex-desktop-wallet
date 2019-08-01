@@ -4,6 +4,9 @@ import Antenna from "iotex-antenna";
 import { WsSignerPlugin } from "iotex-antenna/lib/plugin/ws";
 import isElectron from "is-electron";
 
+// TODO: enable USE_WS_SIGNER to active the WsSignerPlugin
+const USE_WS_SIGNER = false;
+
 export function getAntenna(): Antenna {
   const injectedWindow: Window & { antenna?: Antenna } = window;
   if (injectedWindow.antenna) {
@@ -15,7 +18,11 @@ export function getAntenna(): Antenna {
     );
   } else {
     injectedWindow.antenna = new Antenna("/iotex-core-proxy", {
-      signer: new WsSignerPlugin("ws://localhost:64102/")
+      ...(USE_WS_SIGNER
+        ? {
+            signer: new WsSignerPlugin("ws://localhost:64102/")
+          }
+        : {})
     });
   }
 
