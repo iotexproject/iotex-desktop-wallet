@@ -1,7 +1,6 @@
 // @ts-ignore
-import BigNumber from "bignumber.js";
 import window from "global/window";
-import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 import { Envelop, SealedEnvelop } from "iotex-antenna/lib/action/envelop";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
