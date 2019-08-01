@@ -5,7 +5,6 @@ const { session } = require("electron");
 const { initSolc } = require("./solc");
 const { createServer } = require("./server");
 const Service = require("./service");
-const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
 const process = require("global/process");
 const console = require("global/console");
 
@@ -39,10 +38,6 @@ function createWindow() {
       preload: path.resolve(__dirname, "renderer.js")
     }
   });
-
-  // init ledger
-  mainWindow.transport = TransportNodeHid;
-
   // start a service
   createServer(64102, function(err, server) {
     if (err) {
