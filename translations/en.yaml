@@ -107,9 +107,10 @@ render.key.coinID: 'coin ID'
 render.key.denomination: denomination
 render.key.owner: owner
 render.key.candidates: candidates
+topbar.searchAddress: "Search an address, block, hash..."
+coming_soon.title: "Coming Soon..."
+coming_soon.bar: "coming soon"
 topbar.search: 'Search by Address / Public Key / Hash / Height'
-coming_soon.title: 'Coming Soon...'
-coming_soon.bar: 'coming soon'
 action.actions: Actions
 address.address: Address
 title.overview: Overview

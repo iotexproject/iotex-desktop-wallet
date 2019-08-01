@@ -108,6 +108,7 @@ render.key.denomination: 面额
 render.key.owner: 持有者
 render.key.candidates: 候选人
 topbar.search: 按地址/公钥/哈希/高度进行搜索
+topbar.searchAddress: 搜索地址，块，哈希......
 coming_soon.title: 即将到来
 coming_soon.bar: 即将到来
 action.actions: 操作

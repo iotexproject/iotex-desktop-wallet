@@ -108,6 +108,7 @@ render.key.denomination: denominazione
 render.key.owner: proprietario
 render.key.candidates: candidati
 topbar.search: 'Ricerca per indirizzo / chiave pubblica / hash / nr. di blocco'
+topbar.searchAddress: Cerca un indirizzo, blocco, hash ...
 coming_soon.title: Prossimamente...
 coming_soon.bar: Prossimamente
 action.actions: Azioni
