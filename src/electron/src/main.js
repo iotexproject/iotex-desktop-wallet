@@ -15,7 +15,8 @@ process.on("uncaughtException", function(error) {
 const allowRequestOrigins = [
   "https://iotexscan.io",
   "https://ethereum.github.io",
-  "https://testnet.iotexscan.io"
+  "https://testnet.iotexscan.io",
+  "https://certs.get-scatter.com"
 ];
 
 const allowedElectronModules = new Set(["app", "shell"]);

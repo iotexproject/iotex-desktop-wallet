@@ -1,44 +1,35 @@
-const http = require("http");
-const pem = require("pem");
+const https = require("https");
 const WebSocket = require("ws");
 const console = require("global/console");
-const { getConf, setConf } = require("./config");
+const fetch = require("isomorphic-unfetch");
 
 function createServerWithCertAndKey(port, cert, key, callback) {
-  const server = http.createServer();
-  server.listen(port);
-  callback(null, new WebSocket.Server({ server }));
+  const server = https.createServer({ cert, key });
+  server.listen(port, "local.get-scatter.com");
+  const namespace = new WebSocket.Server({
+    server
+  });
+  callback(null, namespace);
 }
 
 function createServer(port, callback) {
-  const caStr = getConf("cert/key");
-  let key;
-  let cert;
-  if (typeof caStr !== "undefined") {
-    try {
-      const ca = JSON.parse(caStr);
-      key = ca.serviceKey;
-      cert = ca.certificate;
-      createServerWithCertAndKey(port, cert, key, callback);
-    } catch (err) {
-      console.error("failed to decode certificate");
-    }
-  }
-  if (!cert || !key) {
-    pem.createCertificate({ days: 1, selfSigned: true }, async (err, keys) => {
-      if (err) {
-        console.error("failed to create certificate", err);
-        callback(err, null);
-      } else {
-        cert = keys.certificate;
-        key = keys.serviceKey;
-        setConf("cert", cert);
-        setConf("key", key);
-        createServerWithCertAndKey(port, cert, key, callback);
-      }
-    });
-  }
+  getCerts().then(resp => {
+    createServerWithCertAndKey(port, resp.cert, resp.key, callback);
+  });
 }
+
+const getCerts = async () => {
+  return fetch(
+    "https://certs.get-scatter.com?rand=" + Math.round(Math.random() * 100 + 1)
+  )
+    .then(res => res.json())
+    .catch(err =>
+      console.error(
+        "Could not fetch certs. Probably due to a proxy, vpn, or firewall." +
+          err
+      )
+    );
+};
 
 module.exports = {
   createServer
