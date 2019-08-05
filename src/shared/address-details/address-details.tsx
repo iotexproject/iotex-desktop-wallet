@@ -84,6 +84,39 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     </>
   );
 
+  public renderAddressInfo = (addressInfo: AccountMeta): JSX.Element => (
+    <div className="overview-list">
+      <Row style={{ padding: "10px 0" }}>
+        <Col xs={3}>
+          <div className={"name"}>{`${t("block.timestamp")}:`}</div>
+        </Col>
+        <Col xs={21}>
+          <div className={"info"}>{""}</div>
+        </Col>
+      </Row>
+      <Row style={{ padding: "15px 0" }}>
+        <Col xs={3}>
+          <div className={"name"}>{`${t("address.balance")}:`}</div>
+        </Col>
+        <Col xs={21}>
+          <div className={"info"}>{`${(+utils.fromRau(
+            String((addressInfo && addressInfo.balance) || 0),
+            "IOTX"
+          )).toFixed(4)} IOTX`}</div>
+          {this.renderOtherTokenBalance()}
+        </Col>
+      </Row>
+      <Row style={{ padding: "15px 0" }}>
+        <Col xs={3}>
+          <div className={"name"}>{`${t("address.name")}:`}</div>
+        </Col>
+        <Col xs={21}>
+          <div className={"info"}>{""}</div>
+        </Col>
+      </Row>
+    </div>
+  );
+
   public render(): JSX.Element {
     const {
       match: {
@@ -133,42 +166,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
                     </div>
 
                     <Divider></Divider>
-                    <div className="overview-list">
-                      <Row style={{ padding: "10px 0" }}>
-                        <Col xs={3}>
-                          <div className={"name"}>{`${t(
-                            "block.timestamp"
-                          )}:`}</div>
-                        </Col>
-                        <Col xs={21}>
-                          <div className={"info"}>{""}</div>
-                        </Col>
-                      </Row>
-                      <Row style={{ padding: "15px 0" }}>
-                        <Col xs={3}>
-                          <div className={"name"}>{`${t(
-                            "address.balance"
-                          )}:`}</div>
-                        </Col>
-                        <Col xs={21}>
-                          <div className={"info"}>{`${(+utils.fromRau(
-                            String((addressInfo && addressInfo.balance) || 0),
-                            "IOTX"
-                          )).toFixed(4)} IOTX`}</div>
-                          {this.renderOtherTokenBalance()}
-                        </Col>
-                      </Row>
-                      <Row style={{ padding: "15px 0" }}>
-                        <Col xs={3}>
-                          <div className={"name"}>{`${t(
-                            "address.name"
-                          )}:`}</div>
-                        </Col>
-                        <Col xs={21}>
-                          <div className={"info"}>{""}</div>
-                        </Col>
-                      </Row>
-                    </div>
+                    {this.renderAddressInfo(addressInfo)}
                   </Card>
                   <br />
                   <ActionTable
