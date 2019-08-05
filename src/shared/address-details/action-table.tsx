@@ -1,5 +1,5 @@
 // tslint:disable:max-func-body-length
-import { ColumnProps } from "antd/es/table";
+import { ColumnProps } from "antd/lib/table";
 import Icon from "antd/lib/icon";
 import Table from "antd/lib/table";
 import { get } from "dottie";
