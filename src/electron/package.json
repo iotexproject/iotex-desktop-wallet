@@ -1,6 +1,6 @@
 {
   "name": "iotex-wallet",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "IoTeX Wallet App",
   "main": "dist/app/main.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "build": "npm run build:js && npm run build:electron",
     "build:js": "NODE_OPTIONS=\"--max-old-space-size=20148\" NODE_ENV=production webpack --config ./webpack.app.config.js",
     "build:electron": "electron-builder -mwl",
-    "publish": "build --mac --win --linux -p always",
+    "publish": "electron-builder --mac --win --linux -p always",
     "lint": "eslint . --fix"
   },
   "repository": {
