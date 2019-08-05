@@ -129,11 +129,8 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     return (
       <ContentPadding>
         <Helmet title={`IoTeX ${t("address.address")} ${address}`} />
-        <Row style={{ marginTop: 60 }}>
-          <Col xs={12} style={{ marginTop: -8 }}>
-            <Navigation />
-          </Col>
-          <Col xs={12}>
+        <Row style={{ marginTop: 60 }} justify="end" type="flex">
+          <Col xs={24} md={12}>
             <SearchBox
               enterButton
               size="large"
