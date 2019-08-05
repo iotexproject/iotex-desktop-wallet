@@ -1,4 +1,5 @@
 // @ts-ignore
+import { Col, Row } from "antd";
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 // @ts-ignore
@@ -19,10 +20,12 @@ import {
 } from "../../api-gateway/resolvers/antenna-types";
 import { ITokenInfo, Token } from "../../erc20/token";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
+import { Navigation } from "../common/navigation";
 import { PageTitle } from "../common/page-title";
 import { ShowQrcodeButton } from "../common/show-qrcode-button";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
+import { SearchBox } from "../home/search-box";
 import { GET_ACCOUNT } from "../queries";
 import { ActionTable } from "./action-table";
 
@@ -84,6 +87,38 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     </>
   );
 
+  public renderAddressInfo = (addressInfo: AccountMeta): JSX.Element => (
+    <>
+      <div className={"item"}>
+        <div className={"icon"}>
+          <Icon type="wallet" />
+        </div>
+        <div className={"name"}>{t("address.balance")}</div>
+        <div className={"info"}>{`${(+utils.fromRau(
+          String((addressInfo && addressInfo.balance) || 0),
+          "IOTX"
+        )).toFixed(4)} IOTX`}</div>
+        {this.renderOtherTokenBalance()}
+      </div>
+      <div className={"item"}>
+        <div className={"icon"}>
+          <Icon type="border" />
+        </div>
+        <div className={"name"}>{t("address.nonce")}</div>
+        <div className={"info"}>{(addressInfo && addressInfo.nonce) || 0}</div>
+      </div>
+      <div className={"item"}>
+        <div className={"icon"}>
+          <Icon type="project" />
+        </div>
+        <div className={"name"}>{t("address.pendingNonce")}</div>
+        <div className={"info"}>
+          {(addressInfo && addressInfo.pendingNonce) || 0}
+        </div>
+      </div>
+    </>
+  );
+
   public render(): JSX.Element {
     const {
       match: {
@@ -94,6 +129,18 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     return (
       <ContentPadding>
         <Helmet title={`IoTeX ${t("address.address")} ${address}`} />
+        <Row style={{ marginTop: 60 }}>
+          <Col xs={12} style={{ marginTop: -8 }}>
+            <Navigation />
+          </Col>
+          <Col xs={12}>
+            <SearchBox
+              enterButton
+              size="large"
+              placeholder={t("topbar.searchAddress")}
+            />
+          </Col>
+        </Row>
         <Query query={GET_ACCOUNT} variables={{ address }}>
           {({
             loading,
@@ -124,35 +171,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
                   </PageTitle>
                   <Divider orientation="left">{t("title.overview")}</Divider>
                   <div className="overview-list">
-                    <div className={"item"}>
-                      <div className={"icon"}>
-                        <Icon type="wallet" />
-                      </div>
-                      <div className={"name"}>{t("address.balance")}</div>
-                      <div className={"info"}>{`${(+utils.fromRau(
-                        String((addressInfo && addressInfo.balance) || 0),
-                        "IOTX"
-                      )).toFixed(4)} IOTX`}</div>
-                      {this.renderOtherTokenBalance()}
-                    </div>
-                    <div className={"item"}>
-                      <div className={"icon"}>
-                        <Icon type="border" />
-                      </div>
-                      <div className={"name"}>{t("address.nonce")}</div>
-                      <div className={"info"}>
-                        {(addressInfo && addressInfo.nonce) || 0}
-                      </div>
-                    </div>
-                    <div className={"item"}>
-                      <div className={"icon"}>
-                        <Icon type="project" />
-                      </div>
-                      <div className={"name"}>{t("address.pendingNonce")}</div>
-                      <div className={"info"}>
-                        {(addressInfo && addressInfo.pendingNonce) || 0}
-                      </div>
-                    </div>
+                    {this.renderAddressInfo(addressInfo)}
                   </div>
                 </div>
                 <Divider style={{ marginTop: 60 }} orientation="left">

@@ -4,6 +4,7 @@ import Antenna from "iotex-antenna";
 import { Account } from "iotex-antenna/lib/account/account";
 import { Envelop, SealedEnvelop } from "iotex-antenna/lib/action/envelop";
 import { SignerPlugin } from "iotex-antenna/lib/action/method";
+import { WsSignerPlugin } from "iotex-antenna/lib/plugin/ws";
 import isElectron from "is-electron";
 // @ts-ignore
 import { IoTeXApp } from "../../ledger/iotex";
@@ -28,19 +29,42 @@ class LedgerSigner implements SignerPlugin {
   }
 }
 
+export const SignerPlugins: {
+  ws?: WsSignerPlugin;
+  ledger?: LedgerSigner;
+  default?: undefined;
+} = {};
+
 export function getAntenna(): Antenna {
   const injectedWindow: Window & { antenna?: Antenna } = window;
   if (injectedWindow.antenna) {
     return injectedWindow.antenna;
   }
-  const url = isElectron()
-    ? "https://iotexscan.io/iotex-core-proxy"
-    : "/iotex-core-proxy";
-  // @ts-ignore
-  injectedWindow.signerPlugin = new LedgerSigner();
-  injectedWindow.antenna = new Antenna(url, {
-    // @ts-ignore
-    signer: injectedWindow.signerPlugin
-  });
+  if (isElectron()) {
+    injectedWindow.antenna = new Antenna(
+      "https://iotexscan.io/iotex-core-proxy"
+    );
+  } else {
+    injectedWindow.antenna = new Antenna("/iotex-core-proxy", {});
+  }
   return injectedWindow.antenna;
+}
+
+export function setSignerType(
+  type: "ws" | "ledger" | "default" = "default"
+): void {
+  switch (type) {
+    case "ws":
+      if (!SignerPlugins.ws) {
+        SignerPlugins.ws = new WsSignerPlugin("ws://localhost:64102/");
+      }
+      break;
+    case "ledger":
+      if (!SignerPlugins.ledger) {
+        SignerPlugins.ledger = new LedgerSigner();
+      }
+      break;
+    default:
+  }
+  getAntenna().iotx.signer = SignerPlugins[type] || undefined;
 }

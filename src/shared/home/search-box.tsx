@@ -15,11 +15,24 @@ type SearchBoxProps = SearchProps &
   WithApolloClient<{}> & {};
 
 class SearchBoxComponent extends Component<SearchBoxProps> {
+  private readonly inputRef: React.RefObject<
+    HTMLDivElement
+  > = React.createRef();
+
   public componentDidMount(): void {
     const urlParams = new URLSearchParams(window.location.search);
     const search = urlParams.get("search");
     if (search) {
       this.handleSearch(search);
+    }
+    if (!this.inputRef.current) {
+      return;
+    }
+    const input: HTMLInputElement | null = this.inputRef.current.querySelector(
+      "input"
+    );
+    if (input) {
+      input.focus({ preventScroll: false });
     }
   }
 
@@ -78,12 +91,15 @@ class SearchBoxComponent extends Component<SearchBoxProps> {
   public render(): JSX.Element {
     const { ...searchprops } = this.props;
     return (
-      <Input.Search
-        {...searchprops}
-        onSearch={(query: string) => {
-          this.handleSearch(query);
-        }}
-      />
+      <div ref={this.inputRef}>
+        <Input.Search
+          className={"search-box"}
+          {...searchprops}
+          onSearch={(query: string) => {
+            this.handleSearch(query);
+          }}
+        />
+      </div>
     );
   }
 }

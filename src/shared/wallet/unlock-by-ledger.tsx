@@ -9,7 +9,7 @@ import React from "react";
 import { connect, DispatchProp } from "react-redux";
 // @ts-ignore
 import { IoTeXApp } from "../../ledger/iotex";
-import { getAntenna } from "./get-antenna";
+import { setSignerType, SignerPlugins } from "./get-antenna";
 import { setAccount } from "./wallet-actions";
 
 interface IUnlockByLedgerComponentProps extends DispatchProp {}
@@ -36,9 +36,11 @@ const UnlockByLedgerComponent = (
                 result.publicKey.toString("hex")
               );
               const account = { address: address };
-              getAntenna();
-              window.signerPlugin.address = address;
-              window.signerPlugin.publicKey = result.publicKey;
+              setSignerType("ledger");
+              if (SignerPlugins.ledger) {
+                SignerPlugins.ledger.address = address;
+                SignerPlugins.ledger.publicKey = result.publicKey;
+              }
               // @ts-ignore
               dispatch(setAccount(account));
             })

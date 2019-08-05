@@ -12,6 +12,8 @@ export interface Props {
   confirmContractOk: Function;
   dataSource: { [key: string]: any };
   confirmLoading?: boolean;
+  title?: string;
+  okText?: string;
 }
 
 export interface State {}
@@ -108,14 +110,20 @@ export default class ConfirmContractModal extends React.Component<
   }
 
   public render(): JSX.Element {
-    const { dataSource, showModal, confirmLoading } = this.props;
+    const {
+      dataSource,
+      showModal,
+      confirmLoading,
+      title = t("wallet.confirm.contract.title"),
+      okText = t("wallet.confirm.contract.yes")
+    } = this.props;
     return (
       <Modal
-        title={<b>{t("wallet.confirm.contract.title")}</b>}
+        title={<b>{title}</b>}
         visible={showModal}
         width={616}
         bodyStyle={{ paddingBottom: 28, paddingTop: 0 }}
-        okText={t("wallet.confirm.contract.yes")}
+        okText={okText}
         cancelText={t("wallet.confirm.contract.cancel")}
         onOk={() => this.confirmContractOk(true)}
         onCancel={() => this.confirmContractOk(false)}

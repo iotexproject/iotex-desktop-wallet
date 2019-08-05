@@ -1,11 +1,12 @@
-import { Modal } from "antd";
 // @ts-ignore
 import window from "global/window";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 import { Envelop, SealedEnvelop } from "iotex-antenna/lib/action/envelop";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
+import ConfirmContractModal from "../common/confirm-contract-modal";
 import { getAntenna } from "./get-antenna";
 import { SignParamAction, SignParams } from "./wallet-reducer";
 
@@ -19,7 +20,8 @@ type Props = {
 class SignAndSendEnvelopModalInner extends Component<Props> {
   public props: Props;
 
-  public state: { envelop: String };
+  // tslint:disable-next-line:no-any
+  public state: { envelop: { [key: string]: any } };
   private envelop: Envelop;
 
   public async signAndSend(): Promise<void> {
@@ -73,7 +75,7 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
     );
     envelop.nonce = nonce;
     this.envelop = envelop;
-    this.setState({ envelop: JSON.stringify(envelop, null, 2) });
+    this.setState({ envelop });
     return true;
   }
 
@@ -82,19 +84,37 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
     if (!envelop) {
       return null;
     }
-    const envelopText = this.state && this.state.envelop;
+    const { gasPrice = "", gasLimit = "", transfer = null, execution = null } =
+      this.state.envelop || {};
+
+    const dataSource: { [index: string]: string } = {
+      address: this.props.fromAddress,
+      limit: gasLimit,
+      price: `${gasPrice} (${fromRau(gasPrice, "Qev")} Qev)`
+    };
+
+    if (transfer) {
+      dataSource.toAddress = transfer.recipient;
+      dataSource.amount = `${fromRau(transfer.amount, "IOTX")} IOTX`;
+      dataSource.dataInHex = `${Buffer.from(transfer.payload).toString("hex")}`;
+    }
+
+    if (execution) {
+      dataSource.toContract = execution.contract;
+      dataSource.amount = `${fromRau(execution.amount, "IOTX")} IOTX`;
+      dataSource.dataInHex = `${Buffer.from(execution.data).toString("hex")}`;
+    }
+
     return (
-      <Modal
+      <ConfirmContractModal
+        dataSource={dataSource}
         title={t("wallet.sign.envelop_title")}
-        visible={Boolean(envelopText)}
+        showModal={!!this.state.envelop}
         okText={t("wallet.sign.confirm")}
-        onOk={this.onOk}
-        onCancel={this.onCancel}
-      >
-        <pre>
-          <code>{envelopText}</code>
-        </pre>
-      </Modal>
+        confirmContractOk={(ok: boolean) =>
+          ok ? this.onOk() : this.onCancel()
+        }
+      />
     );
   }
 }

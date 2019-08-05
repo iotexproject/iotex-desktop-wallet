@@ -10,7 +10,7 @@ import InputNumber from "antd/lib/input-number";
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
-import React from "react";
+import React, { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { Flex } from "../../common/flex";
 import { formItemLayout } from "../../common/form-item-layout";
@@ -30,7 +30,7 @@ type CardFunctionProps = {
 
 const ICON_SIZE = 168;
 
-const cardStyle = {
+const cardStyle: CSSProperties = {
   maxWidth: 310,
   borderRadius: "4px",
   boxShadow: "0 2px 8px 0 rgba(0, 0, 0, 0.16)",
@@ -48,28 +48,33 @@ export const CardFunction = ({
   imageSrc,
   moreUrl
 }: CardFunctionProps): JSX.Element => (
-  <Card style={cardStyle}>
-    <Flex column={true}>
-      <Link to={redirectUrl}>
-        <Avatar
-          src={imageSrc}
-          size={ICON_SIZE}
-          shape={"square"}
-          style={{ margin: "20px" }}
-        />
-      </Link>
-      <h3 style={{ fontSize: "1.2em", fontWeight: "bold" }}>{title}</h3>
-      <p style={{ color: colors.black60 }}>{description}</p>
-      {moreUrl && (
-        <Link to={moreUrl} style={{ color: colors.secondary }}>
-          <Flex alignItems={"end"}>
-            <span>{t("wallet.contract.learn")}</span>
-            <Icon type={"right"} style={{ fontSize: "12px", padding: "6px" }} />
-          </Flex>
+  <div style={{ cursor: "pointer" }}>
+    <Card style={cardStyle}>
+      <Flex column={true}>
+        <Link to={redirectUrl}>
+          <Avatar
+            src={imageSrc}
+            size={ICON_SIZE}
+            shape={"square"}
+            style={{ margin: "20px" }}
+          />
         </Link>
-      )}
-    </Flex>
-  </Card>
+        <h3 style={{ fontSize: "1.2em", fontWeight: "bold" }}>{title}</h3>
+        <p style={{ color: colors.black60 }}>{description}</p>
+        {moreUrl && (
+          <Link to={moreUrl} style={{ color: colors.secondary }}>
+            <Flex alignItems={"end"}>
+              <span>{t("wallet.contract.learn")}</span>
+              <Icon
+                type={"right"}
+                style={{ fontSize: "12px", padding: "6px" }}
+              />
+            </Flex>
+          </Link>
+        )}
+      </Flex>
+    </Card>
+  </div>
 );
 
 export function AbiFormInputItem({

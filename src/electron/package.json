@@ -57,6 +57,7 @@
     "fs": "0.0.1-security",
     "global": "4.4.0",
     "ipc": "0.0.1",
+    "isomorphic-unfetch": "^3.0.0",
     "pem": "1.14.2",
     "query-string": "^6.5.0",
     "solc": "^0.5.8",
