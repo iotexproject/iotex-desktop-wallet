@@ -20,7 +20,6 @@ import {
 } from "../../api-gateway/resolvers/antenna-types";
 import { ITokenInfo, Token } from "../../erc20/token";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
-import { Navigation } from "../common/navigation";
 import { PageTitle } from "../common/page-title";
 import { ShowQrcodeButton } from "../common/show-qrcode-button";
 import { SpinPreloader } from "../common/spin-preloader";
