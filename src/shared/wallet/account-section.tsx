@@ -510,7 +510,6 @@ class AccountSection extends React.Component<Props, State> {
     return (
       <Badge count={this.state.claimableAmount}>
         <Dropdown.Button
-          type="primary"
           overlay={claimMenu}
           className="claimButton"
           trigger={["click", "hover"]}
