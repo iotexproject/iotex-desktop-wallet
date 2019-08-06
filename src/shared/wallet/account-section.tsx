@@ -1,16 +1,16 @@
 // @ts-ignore
-import {
-  Badge,
-  Button,
-  Card,
-  Col,
-  Dropdown,
-  Menu,
-  notification,
-  Row,
-  Table,
-  Tooltip
-} from "antd";
+
+import Badge from "antd/lib/badge";
+import Button from "antd/lib/button";
+import Card from "antd/lib/card";
+import Col from "antd/lib/col";
+import Dropdown from "antd/lib/dropdown";
+import Menu from "antd/lib/menu";
+import notification from "antd/lib/notification";
+import Row from "antd/lib/row";
+import Table from "antd/lib/table";
+import Tooltip from "antd/lib/tooltip";
+
 import Icon from "antd/lib/icon";
 import BigNumber from "bignumber.js";
 // @ts-ignore

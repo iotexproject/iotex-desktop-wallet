@@ -1,4 +1,4 @@
-import { Icon } from "antd";
+import Icon from "antd/lib/icon";
 import Tabs from "antd/lib/tabs";
 import { Account } from "iotex-antenna/lib/account/account";
 // @ts-ignore

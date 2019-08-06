@@ -1,4 +1,4 @@
-import { Input } from "antd";
+import Input from "antd/lib/input";
 import { SearchProps } from "antd/lib/input";
 import { get } from "dottie";
 // @ts-ignore

@@ -1,10 +1,10 @@
 // tslint:disable:no-empty
-import { Row } from "antd";
 import Button from "antd/lib/button";
 import { FormComponentProps } from "antd/lib/form";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Input from "antd/lib/input";
 import notification from "antd/lib/notification";
+import Row from "antd/lib/row";
 import Select from "antd/lib/select";
 import { toRau } from "iotex-antenna/lib/account/utils";
 import { Contract } from "iotex-antenna/lib/contract/contract";

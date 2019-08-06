@@ -413,6 +413,7 @@ account.actionHistory: 'Action History'
 home.stats.tps: 'Curent TPS / Peak'
 home.stats.candidates: 'Consensus Delegates / Candidates'
 home.stats.productivity: 'Average Productivity'
+home.stats.progressEpoch: 'Progress of Epoch'
 home.stats.votes: Votes
 home.stats.map: Map
 home.stats.energyConsumption: 'Daily Energy Consumption'
