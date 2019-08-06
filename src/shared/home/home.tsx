@@ -19,7 +19,6 @@ import { StatsArea } from "./stats-area";
 type State = {
   marketCap: number;
   price: number;
-  name: string;
   search: string;
 };
 
@@ -36,7 +35,6 @@ class HomeComponent extends Component<Props, State> {
     this.state = {
       marketCap: 0,
       price: 0,
-      name: "IOSG",
       search: urlParams.get("search") || ""
     };
   }

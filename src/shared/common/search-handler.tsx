@@ -17,12 +17,14 @@ export const handleSearch = async (
   const { history, client } = props;
   const value = query.trim();
 
-  if (value.startsWith("io")) {
+  if (value.match(/^io[a-z0-9]{39}$/)) {
     return history.push(`/address/${value}`);
   }
-  if (value.length === 130) {
+
+  if (value.match(/^[a-z0-9]{130}$/)) {
     return history.push(`/address/${publicKeyToAddress(value)}`);
   }
+
   if (`${parseInt(value, 10)}` === `${value}`) {
     try {
       const { data } = await client.query({
