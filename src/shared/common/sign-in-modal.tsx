@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import Modal from "antd/lib/modal";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import { Button } from "./button";
