@@ -1,4 +1,8 @@
-import { Card, Icon, Spin, Statistic } from "antd";
+import Card from "antd/lib/card";
+import Icon from "antd/lib/icon";
+import Spin from "antd/lib/spin";
+import Statistic from "antd/lib/statistic";
+
 import React, { CSSProperties } from "react";
 import { assetURL } from "../../common/asset-url";
 import { colors } from "../../common/styles/style-color";

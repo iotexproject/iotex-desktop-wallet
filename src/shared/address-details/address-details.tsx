@@ -1,7 +1,7 @@
-// @ts-ignore
-import { Col, Row } from "antd";
+import Col from "antd/lib/col";
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
+import Row from "antd/lib/row";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
 import isBrowser from "is-browser";

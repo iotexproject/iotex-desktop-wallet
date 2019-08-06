@@ -1,6 +1,8 @@
-import { Form, Modal, notification } from "antd";
+import Form from "antd/lib/form";
 import { WrappedFormUtils } from "antd/lib/form/Form";
 import TextArea from "antd/lib/input/TextArea";
+import Modal from "antd/lib/modal";
+import notification from "antd/lib/notification";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";

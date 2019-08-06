@@ -1,5 +1,8 @@
-import { Col, Icon, Row } from "antd";
+import Col from "antd/lib/col";
+import Icon from "antd/lib/icon";
 import Layout from "antd/lib/layout";
+import Row from "antd/lib/row";
+
 import BlockProducers from "iotex-react-block-producers";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
