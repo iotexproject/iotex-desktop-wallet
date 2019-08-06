@@ -1,6 +1,10 @@
-import { Button, Icon, Popover, Tooltip } from "antd";
-import { ColumnProps } from "antd/es/table";
+import Button from "antd/lib/button";
+import Icon from "antd/lib/icon";
+import Popover from "antd/lib/popover";
+import Tooltip from "antd/lib/tooltip";
+
 import Divider from "antd/lib/divider";
+import { ColumnProps } from "antd/lib/table";
 import Table from "antd/lib/table";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";

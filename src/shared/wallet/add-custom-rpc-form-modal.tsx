@@ -1,4 +1,8 @@
-import { Form, Input, Modal, notification } from "antd";
+import Form from "antd/lib/form";
+import Input from "antd/lib/input";
+import Modal from "antd/lib/modal";
+import notification from "antd/lib/notification";
+
 import { WrappedFormUtils } from "antd/lib/form/Form";
 import Antenna from "iotex-antenna";
 // @ts-ignore

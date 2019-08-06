@@ -1,4 +1,4 @@
-import { Input } from "antd";
+import Input from "antd/lib/input";
 import { SearchProps } from "antd/lib/input";
 import React, { Component } from "react";
 import { withApollo, WithApolloClient } from "react-apollo";

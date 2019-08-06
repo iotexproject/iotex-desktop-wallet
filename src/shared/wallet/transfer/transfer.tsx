@@ -1,4 +1,7 @@
-import { Icon, notification, Select } from "antd";
+import Icon from "antd/lib/icon";
+import notification from "antd/lib/notification";
+import Select from "antd/lib/select";
+
 import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Col from "antd/lib/grid/col";

@@ -1,4 +1,9 @@
-import { Card, Col, Icon, Row, Spin } from "antd";
+import Card from "antd/lib/card";
+import Col from "antd/lib/col";
+import Icon from "antd/lib/icon";
+import Row from "antd/lib/row";
+import Spin from "antd/lib/spin";
+
 import gql from "graphql-tag";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";

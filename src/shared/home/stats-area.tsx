@@ -1,4 +1,5 @@
-import { Col, Row } from "antd";
+import Col from "antd/lib/col";
+import Row from "antd/lib/row";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
