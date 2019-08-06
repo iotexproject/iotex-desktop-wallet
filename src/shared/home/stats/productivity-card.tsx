@@ -32,7 +32,7 @@ export const ProductivityCard = (): JSX.Element => {
         const showLoading = loading || !!error;
         return (
           <StatsCard
-            title={t("home.stats.productivity")}
+            title={t("home.stats.progressEpoch")}
             loading={showLoading}
             titleStyle={{
               backgroundImage: `url(${assetURL(
