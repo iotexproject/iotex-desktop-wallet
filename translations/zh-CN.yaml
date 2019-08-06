@@ -413,6 +413,7 @@ account.actionHistory: 操作历史记录
 home.stats.tps: '当前 TPS/Peak'
 home.stats.candidates: 共识代表/候选人
 home.stats.productivity: 平均生产力
+home.stats.progressEpoch: 时代的进步
 home.stats.votes: 投票
 home.stats.map: 地图
 home.stats.energyConsumption: 每日能源消耗

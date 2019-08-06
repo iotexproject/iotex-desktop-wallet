@@ -1,4 +1,4 @@
-import { notification } from "antd";
+import notification from "antd/lib/notification";
 import BigNumber from "bignumber.js";
 import ethereumjs from "ethereumjs-abi";
 // @ts-ignore
