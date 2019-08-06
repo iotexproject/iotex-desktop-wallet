@@ -413,6 +413,7 @@ account.actionHistory: Aktionsverlauf
 home.stats.tps: 'Aktuelle TPS / Peak'
 home.stats.candidates: IoTeX-Konsensdelegierte
 home.stats.productivity: 'Durchschnittliche Produktivität'
+home.stats.progressEpoch: Fortschritt der Epoche
 home.stats.votes: Stimmen
 home.stats.map: Anzeigen
 home.stats.energyConsumption: 'Täglicher Energieverbrauch'
