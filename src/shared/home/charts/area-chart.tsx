@@ -41,7 +41,7 @@ export const CompAreaChart = (props: IAreaChartProps) => {
       <AreaChart data={data}>
         {!tinyMode && (
           <CartesianGrid
-            strokeWidth="1px"
+            strokeWidth={1}
             strokeDasharray="1 5"
             stroke={colors.black80}
           />
@@ -61,7 +61,7 @@ export const CompAreaChart = (props: IAreaChartProps) => {
           dataKey="value"
           type="monotone"
           stroke={fillColor}
-          strokeWidth="3px"
+          strokeWidth={3}
           fill={`url(#${fillID})`}
         />
       </AreaChart>

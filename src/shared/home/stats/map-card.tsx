@@ -1,13 +1,18 @@
-import { Card, Col, Row } from "antd";
+import Card from "antd/lib/card";
+import Col from "antd/lib/col";
+import Icon from "antd/lib/icon";
+import Row from "antd/lib/row";
+import Spin from "antd/lib/spin";
+
 import gql from "graphql-tag";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
-import React, { CSSProperties, useState } from "react";
+import React, { CSSProperties } from "react";
 import { Query, QueryResult } from "react-apollo";
-import { analyticsClient, webBpApolloClient } from "../../common/apollo-client";
+import { analyticsClient } from "../../common/apollo-client";
 import { assetURL } from "../../common/asset-url";
 import { colors } from "../../common/styles/style-color";
-import { GET_BP_STATS } from "../../queries";
+import { GET_ANALYTICS_CHAIN } from "../../queries";
 import { CompAreaChart } from "../charts/area-chart";
 
 const fontFamily = "'Heebo',sans-serif,Microsoft YaHei !important";
@@ -71,82 +76,69 @@ export const MapButton = (
   );
 };
 
-const getActionsData = async (
-  currentEpochNumber: number
-): Promise<Array<{ name: string; value: number }>> => {
-  const query = gql`{
-    ${[1, 2, 3, 4, 5, 6, 7].map(day => {
-      return `day${day}:chain{
-        numberOfActions(pagination: { startEpoch: ${currentEpochNumber -
-          day * 24}, epochCount: 24 }) {
-          count
-        }
-      }
-      `;
-    })}
-  }`;
-  const result: {
-    data: {
-      [index: string]: {
-        numberOfActions: {
-          count: number;
-        };
-      };
-    };
-  } = await analyticsClient.query({ query });
-  return Object.keys(result.data).map((name, i) => ({
-    name: `Day ${i + 1}`,
-    value: result.data[name].numberOfActions.count
-  }));
-};
-
-const EMPTY_MAP_DATA: Array<{ name: string; value: number }> = [];
-
 export const MapCard = (): JSX.Element => {
-  const [mapData, setMapData] = useState(EMPTY_MAP_DATA);
-  const [currentEpochNumber, setCurrentEpochNumber] = useState(0);
   return (
-    <Card style={Styles.mapBox} bodyStyle={Styles.mapBoxBody}>
-      <div style={{ padding: 10 }}>
-        <Row type="flex" justify="space-around">
-          <Col span={12}>
-            <MapButton>{t("home.stats.map")}</MapButton>
-          </Col>
-          <Col span={12}>
-            <MapButton>{t("home.stats.energyConsumption")}</MapButton>
-          </Col>
-        </Row>
-        <Row type="flex" justify="space-around">
-          <Col span={12}>
-            <MapButton>{t("home.stats.numberOfAddresses")}</MapButton>
-          </Col>
-          <Col span={12}>
-            <MapButton active={true}>
-              {t("home.stats.numberOfTransactions")}
-            </MapButton>
-          </Col>
-        </Row>
-      </div>
-      <div style={Styles.mapContainer}>
-        <Query query={GET_BP_STATS} client={webBpApolloClient}>
-          {({ loading, data, error }: QueryResult) => {
-            if (loading || !!error) {
-              return null;
-            }
-            if (
-              data &&
-              data.stats &&
-              data.stats.currentEpochNumber &&
-              data.stats.currentEpochNumber !== currentEpochNumber
-            ) {
-              setCurrentEpochNumber(data.stats.currentEpochNumber);
-              getActionsData(data.stats.currentEpochNumber).then(setMapData);
-            }
-            return null;
-          }}
-        </Query>
-        {mapData.length && <CompAreaChart data={mapData} />}
-      </div>
-    </Card>
+    <Query query={GET_ANALYTICS_CHAIN} client={analyticsClient}>
+      {({ error, loading, data }: QueryResult) => {
+        const showLoading = loading || !!error;
+        const { mostRecentEpoch = 0 } = (data && data.chain) || {};
+        return (
+          <Spin spinning={showLoading} indicator={<Icon type="loading" spin />}>
+            <Card style={Styles.mapBox} bodyStyle={Styles.mapBoxBody}>
+              <div style={{ padding: 10 }}>
+                {/* <Row type="flex" justify="space-around">
+                  <Col span={12}>
+                    <MapButton>{t("home.stats.map")}</MapButton>
+                  </Col>
+                  <Col span={12}>
+                    <MapButton>{t("home.stats.energyConsumption")}</MapButton>
+                  </Col>
+                </Row> */}
+                <Row type="flex" justify="start">
+                  {/* <Col span={12}>
+                    <MapButton>{t("home.stats.numberOfAddresses")}</MapButton>
+                  </Col> */}
+                  <Col span={12}>
+                    <MapButton active={true}>
+                      {t("home.stats.numberOfTransactions")}
+                    </MapButton>
+                  </Col>
+                </Row>
+              </div>
+              <div style={Styles.mapContainer}>
+                {mostRecentEpoch && (
+                  <Query
+                    client={analyticsClient}
+                    query={gql`{
+                    ${[1, 2, 3, 4, 5, 6, 7].map(day => {
+                      return `day${day}:chain{
+                        numberOfActions(pagination: { startEpoch: ${mostRecentEpoch -
+                          day * 24}, epochCount: 24 }) {
+                          count
+                        }
+                      }
+                      `;
+                    })}
+                  }
+                  `}
+                  >
+                    {({ data, error, loading }: QueryResult) => {
+                      if (error || loading || !data) {
+                        return null;
+                      }
+                      const mapdata = Object.keys(data).map((name, i) => ({
+                        name: `Day ${i + 1}`,
+                        value: data[name].numberOfActions.count
+                      }));
+                      return <CompAreaChart data={mapdata} />;
+                    }}
+                  </Query>
+                )}
+              </div>
+            </Card>
+          </Spin>
+        );
+      }}
+    </Query>
   );
 };
