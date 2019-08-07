@@ -413,7 +413,6 @@ account.actionHistory: 'Cronologia delle azioni'
 home.stats.tps: 'TPS Attuali / Picco'
 home.stats.candidates: 'Delegati al Consenso / Candidati'
 home.stats.productivity: 'Produttività media'
-home.stats.progressEpoch: Progresso dell'epoca
 home.stats.votes: Voti
 home.stats.map: Cartina
 home.stats.energyConsumption: 'Consumo energetico giornaliero'

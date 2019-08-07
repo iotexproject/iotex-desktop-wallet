@@ -118,7 +118,11 @@ title.actionList: 'List of Actions'
 copy.copied: Copied
 copy.toClipboard: 'Copy address to clipboard'
 input.error.private_key.invalid: 'Please input your private key'
-input.error.private_key.length: 'Private key has to be of length 72'
+input.error.private_key.length: 'Private key has to be of length 64'
+input.error.mnemonic.invalid: 'Please input your mnemonic phrase'
+input.error.mnemonic.length: 'Mnemonic Phrase must have 12 words'
+input.error.mnemonic.label: Mnemonic Phrase
+input.error.mnemonic.placeholder: Paste your mnemonic phrase here
 wallet.unlock.new.title: 'Please pay attention'
 wallet.unlock.new.p1: 'We do not store your private key on the server. The private key generation is handled on your browser only.'
 wallet.unlock.new.p2: 'Back up your private key because you will use it to access your wallet. If you lose your private key, it cannot be recovered.'
