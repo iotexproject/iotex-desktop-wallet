@@ -15,15 +15,22 @@ function onConnection(ws) {
     if (json.reqId === undefined) {
       return;
     }
-    webContents.send("sign", received);
-    console.log(`signed-${json.reqId}`);
+
+    if (json.type === "GET_ACCOUNTS") {
+      webContents.send("GET_ACCOUNTS", received);
+    } else {
+      webContents.send("sign", received);
+    }
+
+    console.log(`[sign-${json.reqId}]: send to wallet`);
     // forward message to wallet
     // wait for wallet response
-    ipcMain.on(`signed-${json.reqId}`, function(event, signed) {
-      console.log("responsed from wallet", { signed });
-      ws.send(signed);
+    ipcMain.on(`signed-${json.reqId}`, function(event, respMessage) {
+      console.log(`[sign-${json.reqId}]: response from wallet`, {
+        respMessage
+      });
+      ws.send(respMessage);
     });
-    // TODO: base on data, handle request
   });
 }
 
