@@ -165,7 +165,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
                       </span>
                     </div>
 
-                    <Divider></Divider>
+                    <Divider style={{ width: "102%", margin: "24px -10px" }} />
                     {this.renderAddressInfo(addressInfo)}
                   </Card>
                   <br />
