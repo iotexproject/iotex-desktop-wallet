@@ -363,12 +363,3 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
 .addressTop {
   margin-top: 60px;
 }
-
-@media (max-width: 767px) {
-  .addressTop {
-    margin-top: 0;
-    .ant-col-xs-12 {
-      width: 100%;
-    }
-  }
-}
