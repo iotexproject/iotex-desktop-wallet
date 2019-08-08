@@ -292,6 +292,7 @@ unlock_by_keystore_file.never_upload: 'We never upload or store your private key
 wallet.input.keystore: 'Keystore File'
 unlock-wallet.by_keystore: 'By Keystore'
 unlock-wallet.by_private_key: 'By Private Key'
+unlock-wallet.by_mnemonic: "By Mnemonic Phrase"
 unlock_by_keystore_file.select_file: 'Select File'
 input.error.keystore.required: 'Keystore file is required.'
 input.error.keystore.invalid: 'Keystore file is invalid.'

@@ -71,7 +71,7 @@ class UnlockWallet extends React.Component<Props, State> {
           <Tabs.TabPane tab={t("unlock-wallet.by_private_key")} key="2">
             <UnlockByPrivateKey />
           </Tabs.TabPane>
-          <Tabs.TabPane tab={"By Mnemonic Phrase"} key="3">
+          <Tabs.TabPane tab={t("unlock-wallet.by_mnemonic")} key="3">
             <UnlockByMnemonic />
           </Tabs.TabPane>
         </Tabs>

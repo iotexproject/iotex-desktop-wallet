@@ -29,10 +29,10 @@ class UnlockByMnemonicInner extends PureComponent<
   public handleInputChange = (e: React.FormEvent) => {
     const name: string = get(e, "target.name");
     const value = get(e, "target.value");
-    // @ts-ignore
-    this.setState({
+    this.setState(prevState => ({
+      ...prevState,
       [name]: value
-    });
+    }));
   };
 
   public unlockWallet = async () => {
