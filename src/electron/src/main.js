@@ -7,11 +7,11 @@ const { createServer } = require("./server");
 const Service = require("./service");
 const process = require("global/process");
 const console = require("global/console");
-const {
-  default: installExtension,
-  REACT_DEVELOPER_TOOLS,
-  REDUX_DEVTOOLS
-} = require("electron-devtools-installer");
+// const {
+//   default: installExtension,
+//   REACT_DEVELOPER_TOOLS,
+//   REDUX_DEVTOOLS
+// } = require("electron-devtools-installer");
 
 process.on("uncaughtException", function(error) {
   console.error(`failed on unknown error: ${error.stack}`);
@@ -56,15 +56,15 @@ function createWindow() {
   mainWindow.loadFile(path.resolve(__dirname, "index.html"));
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
-  const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
-  Promise.all(extensions.map(name => installExtension(name, true)))
-    .then(extensions =>
-      extensions.forEach(name => {
-        console.log(`Added Extension:  ${name}`);
-      })
-    )
-    .catch(err => console.log("An error occurred: ", err));
+  // mainWindow.webContents.openDevTools();
+  // const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
+  // Promise.all(extensions.map(name => installExtension(name, true)))
+  //   .then(extensions =>
+  //     extensions.forEach(name => {
+  //       console.log(`Added Extension:  ${name}`);
+  //     })
+  //   )
+  //   .catch(err => console.log("An error occurred: ", err));
 
   // Emitted when the window is closed.
   mainWindow.on("closed", function() {
