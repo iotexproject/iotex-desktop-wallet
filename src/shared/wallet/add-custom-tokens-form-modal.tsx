@@ -1,5 +1,8 @@
-import { Form, Input, Modal } from "antd";
+import Form from "antd/lib/form";
 import { WrappedFormUtils } from "antd/lib/form/Form";
+import Input from "antd/lib/input";
+import Modal from "antd/lib/modal";
+
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";

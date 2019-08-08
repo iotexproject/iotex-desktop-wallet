@@ -1,4 +1,4 @@
-import { Select } from "antd";
+import Select from "antd/lib/select";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { useState } from "react";

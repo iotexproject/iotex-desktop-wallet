@@ -1,6 +1,6 @@
 // tslint:disable:max-func-body-length
-import { ColumnProps } from "antd/es/table";
 import Icon from "antd/lib/icon";
+import { ColumnProps } from "antd/lib/table";
 import Table from "antd/lib/table";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";

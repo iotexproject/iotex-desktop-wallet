@@ -39,7 +39,7 @@ export const CompCirclePercentChart = (props: ICompCircleChartProps) => {
             outerRadius={outerRadius}
             fill={`url(#${fillID})`}
             startAngle={startAngle}
-            stroke={""}
+            stroke={0}
           />
           <Pie
             data={[{ value: 100 }]}
@@ -47,10 +47,10 @@ export const CompCirclePercentChart = (props: ICompCircleChartProps) => {
             innerRadius={innerRadius * 1.08}
             outerRadius={outerRadius * 0.92}
             fill={`url(#${fillBgID})`}
-            stroke={""}
+            stroke={0}
             startAngle={startAngle}
             endAngle={endAngle + 360}
-            animationDuration={0}
+            animationDuration={1}
           />
         </PieChart>
       </ResponsiveContainer>

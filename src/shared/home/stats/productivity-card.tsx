@@ -7,7 +7,7 @@ import { assetURL } from "../../common/asset-url";
 import { colors } from "../../common/styles/style-color";
 import { GET_BP_STATS } from "../../queries";
 import { CompCirclePercentChart } from "../charts/circle-chart";
-import { StatsCard } from "./stats-card";
+import StatsCard from "./stats-card";
 
 export const ProductivityCard = (): JSX.Element => {
   return (
@@ -32,7 +32,7 @@ export const ProductivityCard = (): JSX.Element => {
         const showLoading = loading || !!error;
         return (
           <StatsCard
-            title={t("home.stats.productivity")}
+            title={t("home.stats.progressEpoch")}
             loading={showLoading}
             titleStyle={{
               backgroundImage: `url(${assetURL(

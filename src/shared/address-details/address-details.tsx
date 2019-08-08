@@ -1,8 +1,10 @@
-// @ts-ignore
+import Col from "antd/lib/col";
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
+import Row from "antd/lib/row";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
+import isBrowser from "is-browser";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -10,15 +12,20 @@ import Helmet from "onefx/lib/react-helmet";
 import React, { PureComponent } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
+// @ts-ignore
+import JsonGlobal from "safe-json-globals/get";
 import {
   AccountMeta,
   GetAccountResponse
 } from "../../api-gateway/resolvers/antenna-types";
+import { ITokenInfo, Token } from "../../erc20/token";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
+import { Navigation } from "../common/navigation";
 import { PageTitle } from "../common/page-title";
 import { ShowQrcodeButton } from "../common/show-qrcode-button";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
+import { SearchBox } from "../home/search-box";
 import { GET_ACCOUNT } from "../queries";
 import { ActionTable } from "./action-table";
 
@@ -26,9 +33,92 @@ type PathParamsType = {
   address: string;
 };
 
+type State = {
+  xrc20Infos: Array<ITokenInfo>;
+  address: string;
+};
+
 type Props = RouteComponentProps<PathParamsType> & {};
 
-class AddressDetailsInner extends PureComponent<Props> {
+class AddressDetailsInner extends PureComponent<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      xrc20Infos: [],
+      address: ""
+    };
+  }
+
+  public pollTokenInfos = async (
+    tokens: Array<string>,
+    address: string
+  ): Promise<void> => {
+    const xrc20Infos = await Promise.all(
+      tokens.map(token => Token.getToken(token).getInfo(address))
+    );
+    this.setState({
+      xrc20Infos: xrc20Infos.filter(tokenInfo => !!tokenInfo.symbol),
+      address
+    });
+  };
+
+  public componentDidUpdate(): void {
+    const {
+      match: {
+        params: { address }
+      }
+    } = this.props;
+    if (address === this.state.address) {
+      return;
+    }
+    const xrc20tokens =
+      isBrowser && JsonGlobal("state").base.defaultERC20Tokens;
+    this.pollTokenInfos(xrc20tokens, address);
+  }
+
+  public renderOtherTokenBalance = (): JSX.Element => (
+    <>
+      {this.state.xrc20Infos.map(tokenInfo => (
+        <div
+          key={`token${tokenInfo.symbol}`}
+          className={"info"}
+        >{`${tokenInfo.balanceString} ${tokenInfo.symbol}`}</div>
+      ))}
+    </>
+  );
+
+  public renderAddressInfo = (addressInfo: AccountMeta): JSX.Element => (
+    <>
+      <div className={"item"}>
+        <div className={"icon"}>
+          <Icon type="wallet" />
+        </div>
+        <div className={"name"}>{t("address.balance")}</div>
+        <div className={"info"}>{`${(+utils.fromRau(
+          String((addressInfo && addressInfo.balance) || 0),
+          "IOTX"
+        )).toFixed(4)} IOTX`}</div>
+        {this.renderOtherTokenBalance()}
+      </div>
+      <div className={"item"}>
+        <div className={"icon"}>
+          <Icon type="border" />
+        </div>
+        <div className={"name"}>{t("address.nonce")}</div>
+        <div className={"info"}>{(addressInfo && addressInfo.nonce) || 0}</div>
+      </div>
+      <div className={"item"}>
+        <div className={"icon"}>
+          <Icon type="project" />
+        </div>
+        <div className={"name"}>{t("address.pendingNonce")}</div>
+        <div className={"info"}>
+          {(addressInfo && addressInfo.pendingNonce) || 0}
+        </div>
+      </div>
+    </>
+  );
+
   public render(): JSX.Element {
     const {
       match: {
@@ -39,6 +129,18 @@ class AddressDetailsInner extends PureComponent<Props> {
     return (
       <ContentPadding>
         <Helmet title={`IoTeX ${t("address.address")} ${address}`} />
+        <Row style={{ marginTop: 60 }}>
+          <Col xs={12} style={{ marginTop: -8 }}>
+            <Navigation />
+          </Col>
+          <Col xs={12}>
+            <SearchBox
+              enterButton
+              size="large"
+              placeholder={t("topbar.searchAddress")}
+            />
+          </Col>
+        </Row>
         <Query query={GET_ACCOUNT} variables={{ address }}>
           {({
             loading,
@@ -69,34 +171,7 @@ class AddressDetailsInner extends PureComponent<Props> {
                   </PageTitle>
                   <Divider orientation="left">{t("title.overview")}</Divider>
                   <div className="overview-list">
-                    <div className={"item"}>
-                      <div className={"icon"}>
-                        <Icon type="wallet" />
-                      </div>
-                      <div className={"name"}>{t("address.balance")}</div>
-                      <div className={"info"}>{`${(+utils.fromRau(
-                        String((addressInfo && addressInfo.balance) || 0),
-                        "IOTX"
-                      )).toFixed(4)} IOTX`}</div>
-                    </div>
-                    <div className={"item"}>
-                      <div className={"icon"}>
-                        <Icon type="border" />
-                      </div>
-                      <div className={"name"}>{t("address.nonce")}</div>
-                      <div className={"info"}>
-                        {(addressInfo && addressInfo.nonce) || 0}
-                      </div>
-                    </div>
-                    <div className={"item"}>
-                      <div className={"icon"}>
-                        <Icon type="project" />
-                      </div>
-                      <div className={"name"}>{t("address.pendingNonce")}</div>
-                      <div className={"info"}>
-                        {(addressInfo && addressInfo.pendingNonce) || 0}
-                      </div>
-                    </div>
+                    {this.renderAddressInfo(addressInfo)}
                   </div>
                 </div>
                 <Divider style={{ marginTop: 60 }} orientation="left">
