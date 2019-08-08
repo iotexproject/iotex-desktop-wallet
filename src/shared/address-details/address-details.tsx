@@ -20,7 +20,6 @@ import {
 } from "../../api-gateway/resolvers/antenna-types";
 import { ITokenInfo, Token } from "../../erc20/token";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
-import { Navigation } from "../common/navigation";
 import { PageTitle } from "../common/page-title";
 import { ShowQrcodeButton } from "../common/show-qrcode-button";
 import { SpinPreloader } from "../common/spin-preloader";
@@ -129,11 +128,8 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     return (
       <ContentPadding>
         <Helmet title={`IoTeX ${t("address.address")} ${address}`} />
-        <Row style={{ marginTop: 60 }}>
-          <Col xs={12} style={{ marginTop: -8 }}>
-            <Navigation />
-          </Col>
-          <Col xs={12}>
+        <Row style={{ marginTop: 60 }} justify="end" type="flex">
+          <Col xs={24} md={12}>
             <SearchBox
               enterButton
               size="large"
