@@ -28,3 +28,5 @@ export function getAntenna(): Antenna {
 
   return injectedWindow.antenna;
 }
+
+window.getAntenna = getAntenna;
