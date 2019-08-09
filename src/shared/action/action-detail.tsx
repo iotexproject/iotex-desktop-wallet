@@ -153,9 +153,6 @@ class ActionDetailsInner extends PureComponent<Props> {
   }
 
   public render(): JSX.Element {
-    if (this.state.error) {
-      return <ActionNotFound />;
-    }
     const {
       match: {
         params: { hash }
@@ -163,7 +160,7 @@ class ActionDetailsInner extends PureComponent<Props> {
       showContentPadding = true,
       showNavigation = true
     } = this.props;
-
+    const POLL_INTERVAL = 6000;
     const Root = showContentPadding ? ContentPadding : NonePadding;
     const { loading, dataSource, action } = this.state;
 
@@ -183,46 +180,55 @@ class ActionDetailsInner extends PureComponent<Props> {
             {({
               loading,
               error,
-              data
+              data,
+              startPolling,
+              stopPolling
             }: QueryResult<{ getActions: GetActionsResponse }>) => {
               this.setState({ loading });
               if (error) {
                 this.setState({ error: true });
+                startPolling(POLL_INTERVAL);
               } else if (!loading && data) {
+                stopPolling();
                 this.parseActionData(data);
+                this.setState({ error: false });
               }
               return null;
             }}
           </Query>
         )}
-        <Root>
-          {showNavigation && <Navigation />}
-          <SpinPreloader spinning={loading}>
-            <Flex
-              width={"100%"}
-              column={true}
-              alignItems={"baselines"}
-              backgroundColor={colors.white}
-            >
-              <PageTitle>
-                <Icon type="project" /> {t("action.action")}
-              </PageTitle>
-              <Divider orientation="left">{t("title.overview")}</Divider>
-              <Table
-                className="single-table"
-                pagination={false}
-                dataSource={dataSource}
-                columns={getColumns()}
-                rowKey={"key"}
-                style={{ width: "100%" }}
-                scroll={{ x: true }}
-              />
-            </Flex>
-            <Flex marginTop={"30px"}>
-              <ActionReceipt actionHash={hash} action={action} />
-            </Flex>
-          </SpinPreloader>
-        </Root>
+        {this.state.error ? (
+          <ActionNotFound info={hash} />
+        ) : (
+          <Root>
+            {showNavigation && <Navigation />}
+            <SpinPreloader spinning={loading}>
+              <Flex
+                width={"100%"}
+                column={true}
+                alignItems={"baselines"}
+                backgroundColor={colors.white}
+              >
+                <PageTitle>
+                  <Icon type="project" /> {t("action.action")}
+                </PageTitle>
+                <Divider orientation="left">{t("title.overview")}</Divider>
+                <Table
+                  className="single-table"
+                  pagination={false}
+                  dataSource={dataSource}
+                  columns={getColumns()}
+                  rowKey={"key"}
+                  style={{ width: "100%" }}
+                  scroll={{ x: true }}
+                />
+              </Flex>
+              <Flex marginTop={"30px"}>
+                <ActionReceipt actionHash={hash} action={action} />
+              </Flex>
+            </SpinPreloader>
+          </Root>
+        )}
       </>
     );
   }
