@@ -50,6 +50,10 @@ class BidForm extends React.PureComponent<IBidFormProps> {
     this.pollMaxBidAmount();
   }
 
+  public componentDidUpdate(): void {
+    this.pollMaxBidAmount();
+  }
+
   public handleOk = async () => {
     const { form, onOK } = this.props;
     this.setState({ confirming: true });
