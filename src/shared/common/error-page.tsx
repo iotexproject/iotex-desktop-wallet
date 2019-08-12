@@ -22,18 +22,19 @@ type Props = RouteComponentProps<PathParamsType> & {
   bar: string;
   title: string;
   info?: string;
+  subTitle?: string;
   bg: string;
 };
 class ErrorPageComponent extends PureComponent<Props> {
   public render(): JSX.Element {
-    const { bar, title, info, bg } = this.props;
+    const { bar, title, info, bg, subTitle } = this.props;
     return (
       <ContentPadding
         style={{
           background: `url(${bg}) no-repeat center`
         }}
       >
-        <Helmet title={`${bar} - ${t("topbar.brand")}`} />
+        <Helmet title={`${bar} - ${subTitle || "Brand"}`} />
         <Flex {...FOOTER_ABOVE}>
           <Flex column={true} margin={"8px"} alignItems={"flex-start"}>
             <h1 style={{ fontWeight: "bold" }}>{title}</h1>
