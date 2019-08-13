@@ -40,7 +40,6 @@ action.amount: Amount
 action.action: Action
 action.sender: Sender
 action.recipient: Recipient
-action.pending: IoTeX Pending Action
 title.action: Action
 render.key.height: Height
 render.key.hash: Hash
@@ -108,10 +107,9 @@ render.key.coinID: 'coin ID'
 render.key.denomination: denomination
 render.key.owner: owner
 render.key.candidates: candidates
-topbar.searchAddress: "Search an address, block, hash..."
-coming_soon.title: "Coming Soon..."
-coming_soon.bar: "coming soon"
 topbar.search: 'Search by Address / Public Key / Hash / Height'
+coming_soon.title: 'Coming Soon...'
+coming_soon.bar: 'coming soon'
 action.actions: Actions
 address.address: Address
 title.overview: Overview
@@ -414,7 +412,6 @@ account.actionHistory: 'Action History'
 home.stats.tps: 'Curent TPS / Peak'
 home.stats.candidates: 'Consensus Delegates / Candidates'
 home.stats.productivity: 'Average Productivity'
-home.stats.progressEpoch: 'Progress of Epoch'
 home.stats.votes: Votes
 home.stats.map: Map
 home.stats.energyConsumption: 'Daily Energy Consumption'
@@ -429,3 +426,6 @@ unlock-by-ledger.warnTitle: 'Oops, couldn’t connect to device'
 wallet.sign.envelop_title: 'Transaction signing'
 wallet.sign.envelop_msg: 'Are you sure you want to sign this transaction?'
 wallet.sign.confirm: 'Yes, sign transaction'
+topbar.searchAddress: 'Search an address, block, hash...'
+home.stats.progressEpoch: 'Progress of Epoch'
+action.pending: 'IoTeX Pending Action'
