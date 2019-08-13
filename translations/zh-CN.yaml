@@ -108,7 +108,6 @@ render.key.denomination: 面额
 render.key.owner: 持有者
 render.key.candidates: 候选人
 topbar.search: 按地址/公钥/哈希/高度进行搜索
-topbar.searchAddress: 搜索地址，块，哈希......
 coming_soon.title: 即将到来
 coming_soon.bar: 即将到来
 action.actions: 操作
@@ -413,7 +412,6 @@ account.actionHistory: 操作历史记录
 home.stats.tps: '当前 TPS/Peak'
 home.stats.candidates: 共识代表/候选人
 home.stats.productivity: 平均生产力
-home.stats.progressEpoch: 时代的进步
 home.stats.votes: 投票
 home.stats.map: 地图
 home.stats.energyConsumption: 每日能源消耗
@@ -425,3 +423,9 @@ unlock-wallet.by_ledger: 连接Ledger
 unlock_by_ledger.message: 单击以下按钮来继续使用Ledger。
 unlock-by-ledger.pluginDevice: 请插入Ledger设备，然后重试。
 unlock-by-ledger.warnTitle: 无法连接到设备
+wallet.sign.envelop_title: 'Transaction signing'
+wallet.sign.envelop_msg: 'Are you sure you want to sign this transaction?'
+wallet.sign.confirm: 'Yes, sign transaction'
+topbar.searchAddress: 'Search an address, block, hash...'
+home.stats.progressEpoch: 'Progress of Epoch'
+action.pending: 'IoTeX Pending Action'
