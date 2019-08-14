@@ -40,7 +40,6 @@ action.amount: Amount
 action.action: Action
 action.sender: Sender
 action.recipient: Recipient
-action.pending: IoTeX Pending Action
 title.action: Action
 render.key.height: Height
 render.key.hash: Hash
@@ -108,10 +107,9 @@ render.key.coinID: 'coin ID'
 render.key.denomination: denomination
 render.key.owner: owner
 render.key.candidates: candidates
-topbar.searchAddress: "Search an address, block, hash..."
-coming_soon.title: "Coming Soon..."
-coming_soon.bar: "coming soon"
 topbar.search: 'Search by Address / Public Key / Hash / Height'
+coming_soon.title: 'Coming Soon...'
+coming_soon.bar: 'coming soon'
 action.actions: Actions
 address.address: Address
 title.overview: Overview
@@ -119,7 +117,11 @@ title.actionList: 'List of Actions'
 copy.copied: Copied
 copy.toClipboard: 'Copy address to clipboard'
 input.error.private_key.invalid: 'Please input your private key'
-input.error.private_key.length: 'Private key has to be of length 72'
+input.error.private_key.length: 'Private key has to be of length 64'
+input.error.mnemonic.invalid: 'Please input your mnemonic phrase'
+input.error.mnemonic.length: 'Mnemonic Phrase must have 12 words'
+input.error.mnemonic.label: Mnemonic Phrase
+input.error.mnemonic.placeholder: Paste your mnemonic phrase here
 wallet.unlock.new.title: 'Please pay attention'
 wallet.unlock.new.p1: 'We do not store your private key on the server. The private key generation is handled on your browser only.'
 wallet.unlock.new.p2: 'Back up your private key because you will use it to access your wallet. If you lose your private key, it cannot be recovered.'
@@ -289,6 +291,7 @@ unlock_by_keystore_file.never_upload: 'We never upload or store your private key
 wallet.input.keystore: 'Keystore File'
 unlock-wallet.by_keystore: 'By Keystore'
 unlock-wallet.by_private_key: 'By Private Key'
+unlock-wallet.by_mnemonic: "By Mnemonic Phrase"
 unlock_by_keystore_file.select_file: 'Select File'
 input.error.keystore.required: 'Keystore file is required.'
 input.error.keystore.invalid: 'Keystore file is invalid.'
@@ -414,7 +417,6 @@ account.actionHistory: 'Action History'
 home.stats.tps: 'Curent TPS / Peak'
 home.stats.candidates: 'Consensus Delegates / Candidates'
 home.stats.productivity: 'Average Productivity'
-home.stats.progressEpoch: 'Progress of Epoch'
 home.stats.votes: Votes
 home.stats.map: Map
 home.stats.energyConsumption: 'Daily Energy Consumption'
@@ -429,3 +431,6 @@ unlock-by-ledger.warnTitle: 'Oops, couldn’t connect to device'
 wallet.sign.envelop_title: 'Transaction signing'
 wallet.sign.envelop_msg: 'Are you sure you want to sign this transaction?'
 wallet.sign.confirm: 'Yes, sign transaction'
+topbar.searchAddress: 'Search an address, block, hash...'
+home.stats.progressEpoch: 'Progress of Epoch'
+action.pending: 'IoTeX Pending Action'
