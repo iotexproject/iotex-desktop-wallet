@@ -5,6 +5,7 @@
   "main": "dist/app/main.js",
   "scripts": {
     "start": "electron src/main.js",
+    "start:dev": "export NODE_ENV=development && npm start",
     "build": "npm run build:js && npm run build:electron",
     "build:js": "NODE_OPTIONS=\"--max-old-space-size=20148\" NODE_ENV=production webpack --config ./webpack.app.config.js",
     "build:electron": "electron-builder -mwl",
