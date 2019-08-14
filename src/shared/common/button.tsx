@@ -34,7 +34,10 @@ export class Button extends Component<Props> {
       width,
       id
     } = this.props;
-    let style = btnStyle;
+    let style = {
+      ...btnStyle,
+      cursor: "pointer"
+    };
     if (secondary) {
       style = {
         ...style,

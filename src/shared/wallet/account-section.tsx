@@ -541,7 +541,7 @@ class AccountSection extends React.Component<Props, State> {
         <Row>
           <a
             href={DISCORD_URL}
-            style={{ marginRight: 4 }}
+            style={{ marginRight: 4, cursor: "pointer" }}
             target="_blank noopener noreferer"
             onClick={onElectronClick(DISCORD_URL)}
           >

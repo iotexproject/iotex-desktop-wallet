@@ -83,6 +83,7 @@ function ActionPoll({ txHash }: { txHash: string }): JSX.Element {
                   rel="noreferrer noopener"
                   href={`/action/${txHash}`}
                   target="_blank"
+                  style={{ cursor: "pointer" }}
                   onClick={onElectronClick(
                     `https://iotexscan.io/action/${txHash}`
                   )}
