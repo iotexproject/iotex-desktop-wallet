@@ -44,7 +44,7 @@ function createWindow() {
     if (err) {
       log.error("failed to create wss service", err);
     } else {
-      service = new Service(server, mainWindow.webContents);
+      service = new Service(server, mainWindow);
     }
   });
 
