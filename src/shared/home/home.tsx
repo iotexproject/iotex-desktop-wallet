@@ -7,10 +7,12 @@ import BlockProducers from "iotex-react-block-producers";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
+import { withApollo, WithApolloClient } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router";
 import { webBpApolloClient } from "../common/apollo-client";
 import { assetURL } from "../common/asset-url";
 import { IoTeXExplorer } from "../common/icons/iotex.svg";
+import { handleSearch } from "../common/search-handler";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import { BlockList } from "./block-list";
@@ -20,23 +22,42 @@ import { StatsArea } from "./stats-area";
 type State = {
   marketCap: number;
   price: number;
-  name: string;
+  search: string;
 };
 
 type PathParamsType = {
   hash: string;
 };
 
-type Props = RouteComponentProps<PathParamsType> & {};
+type Props = RouteComponentProps<PathParamsType> & WithApolloClient<{}> & {};
 
 class HomeComponent extends Component<Props, State> {
-  public state: State = {
-    marketCap: 0,
-    price: 0,
-    name: "IOSG"
-  };
+  constructor(props: Props) {
+    super(props);
+    const urlParams = new URLSearchParams(props.history.location.search);
+    this.state = {
+      marketCap: 0,
+      price: 0,
+      search: urlParams.get("search") || ""
+    };
+  }
+
+  public componentDidMount(): void {
+    if (this.state.search) {
+      handleSearch(
+        {
+          history: this.props.history,
+          client: this.props.client
+        },
+        this.state.search
+      );
+    }
+  }
 
   public render(): JSX.Element {
+    if (this.state.search) {
+      return <></>;
+    }
     return (
       <Layout tagName={"main"} className={"main-container"}>
         <Layout.Content tagName={"main"}>
@@ -109,4 +130,4 @@ class HomeComponent extends Component<Props, State> {
     );
   }
 }
-export const Home = withRouter(HomeComponent);
+export const Home = withRouter(withApollo(HomeComponent));
