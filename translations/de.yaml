@@ -107,8 +107,7 @@ render.key.coinID: Coin-ID
 render.key.denomination: Nennwert
 render.key.owner: Besitzer
 render.key.candidates: Kandidaten
-topbar.search: 'Nach Adresse / Öffentlicher Schlüssel / Hash / Höhe suchen'
-topbar.searchAddress: Suche nach Adresse, Block, Hash ...
+topbar.search: 'Nach Adresse / Öffentlichem Schlüssel / Hash / Höhe suchen'
 coming_soon.title: 'In Kürze verfügbar...'
 coming_soon.bar: 'In Kürze verfügbar'
 action.actions: Aktionen
@@ -413,15 +412,20 @@ account.actionHistory: Aktionsverlauf
 home.stats.tps: 'Aktuelle TPS / Peak'
 home.stats.candidates: IoTeX-Konsensdelegierte
 home.stats.productivity: 'Durchschnittliche Produktivität'
-home.stats.progressEpoch: Fortschritt der Epoche
 home.stats.votes: Stimmen
 home.stats.map: Anzeigen
 home.stats.energyConsumption: 'Täglicher Energieverbrauch'
 home.stats.numberOfAddresses: 'Anzahl der Adressen'
 home.stats.numberOfTransactions: 'Anzahl der Transaktionen'
 home.stats.day: Tag
-home.stats.actions: Transactions
-unlock-wallet.by_ledger: 'Connect Ledger'
-unlock_by_ledger.message: 'Click the following button to proceed with Ledger.'
-unlock-by-ledger.pluginDevice: 'Please plugin ledger device and try again!'
-unlock-by-ledger.warnTitle: 'Oops, couldn’t connect to device'
+home.stats.actions: Transaktionen
+unlock-wallet.by_ledger: 'Ledger verbinden'
+unlock_by_ledger.message: 'Klicken Sie auf die folgende Schaltfläche, um mit dem Ledger fortzufahren.'
+unlock-by-ledger.pluginDevice: 'Bitte Ledger verbinden und erneut versuchen!'
+unlock-by-ledger.warnTitle: 'Hoppla, es konnte keine Verbindung zum Gerät hergestellt werden'
+wallet.sign.envelop_title: 'Transaction signing'
+wallet.sign.envelop_msg: 'Are you sure you want to sign this transaction?'
+wallet.sign.confirm: 'Yes, sign transaction'
+topbar.searchAddress: 'Search an address, block, hash...'
+home.stats.progressEpoch: 'Progress of Epoch'
+action.pending: 'IoTeX Pending Action'
