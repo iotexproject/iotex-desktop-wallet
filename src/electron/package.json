@@ -5,6 +5,7 @@
   "main": "dist/app/main.js",
   "scripts": {
     "start": "electron src/main.js",
+    "start:dev": "export NODE_ENV=development && npm start",
     "build": "npm run build:js && npm run build:electron",
     "build:js": "NODE_OPTIONS=\"--max-old-space-size=20148\" NODE_ENV=production webpack --config ./webpack.app.config.js",
     "build:electron": "electron-builder -mwl",
@@ -39,6 +40,7 @@
     "copy-webpack-plugin": "5.0.3",
     "electron": "5.0.3",
     "electron-builder": "21.0.10",
+    "electron-devtools-installer": "^2.2.4",
     "eslint": "5.16.0",
     "eslint-plugin-import": "2.18.1",
     "friendly-errors-webpack-plugin": "1.7.0",

@@ -6,6 +6,7 @@ import React from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { Account } from "iotex-antenna/lib/account/account";
+import isElectron from "is-electron";
 import { countdownToLockInMS, delayLock } from "./wallet-actions";
 import { IWalletState } from "./wallet-reducer";
 
@@ -65,7 +66,12 @@ class LockWalletComponent extends React.Component<LockWalletProps, State> {
 
   private readonly lock = () => {
     this.clearTimers();
-    window.location.href = `${window.location.origin}/wallet`;
+
+    if (isElectron()) {
+      window.close();
+    } else {
+      window.location.href = `${window.location.origin}/wallet`;
+    }
   };
 
   public componentDidMount = () => {
@@ -126,6 +132,8 @@ class LockWalletComponent extends React.Component<LockWalletProps, State> {
             this.setState({
               showModal: false
             });
+
+            this.props.dispatch(countdownToLockInMS(500));
           }}
           cancelText={t("wallet.lock.btn.no")}
           okText={t("wallet.lock.btn.yes")}

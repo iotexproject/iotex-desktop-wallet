@@ -52,7 +52,29 @@ function createWindow() {
   mainWindow.loadFile(path.resolve(__dirname, "index.html"));
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  (function openDevTools() {
+    const env = process.env.NODE_ENV;
+
+    if (env === "development") {
+      const {
+        default: installExtension,
+        REACT_DEVELOPER_TOOLS,
+        REDUX_DEVTOOLS
+      } = require("electron-devtools-installer");
+
+      mainWindow.webContents.openDevTools();
+
+      const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
+
+      Promise.all(extensions.map(name => installExtension(name, true)))
+        .then(extensions =>
+          extensions.forEach(name => {
+            console.log(`Added Extension:  ${name}`);
+          })
+        )
+        .catch(err => console.log("An error occurred: ", err));
+    }
+  })();
 
   // Emitted when the window is closed.
   mainWindow.on("closed", function() {
