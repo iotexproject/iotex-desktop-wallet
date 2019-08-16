@@ -2,6 +2,8 @@ const { ipcMain } = require("electron");
 const console = require("global/console");
 
 let webContents;
+let mainWindow;
+
 function onConnection(ws) {
   console.log("connected");
   ws.on("message", function message(received) {
@@ -20,6 +22,7 @@ function onConnection(ws) {
       webContents.send("GET_ACCOUNTS", received);
     } else {
       webContents.send("sign", received);
+      mainWindow.focus();
     }
 
     console.log(`[sign-${json.reqId}]: send to wallet`);
@@ -35,9 +38,10 @@ function onConnection(ws) {
 }
 
 module.exports = class Service {
-  constructor(_wss, _webContents) {
+  constructor(_wss, _mainWindow) {
     this.wss = _wss;
-    webContents = _webContents;
+    mainWindow = _mainWindow;
+    webContents = _mainWindow.webContents;
     console.log("service created");
     this.wss.on("connection", onConnection);
   }
