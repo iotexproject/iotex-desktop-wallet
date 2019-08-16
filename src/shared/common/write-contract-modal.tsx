@@ -1,4 +1,4 @@
-import Button from "antd/lib/button/button";
+import Button from "antd/lib/button";
 import Modal from "antd/lib/modal/Modal";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -51,14 +51,16 @@ export default class WriteContractModal extends React.Component<Props, State> {
           <Board>{amount}</Board>
         </ModalBody>
         <ModalButtons>
-          <Button
-            href="#"
-            size="large"
-            type="primary"
-            onClick={() => this.generateTransaction(true)}
-          >
-            <b>{t("wallet.write.contract.ok")}</b>
-          </Button>
+          {
+            // @ts-ignore
+            <Button
+              size="large"
+              type="primary"
+              onClick={() => this.generateTransaction(true)}
+            >
+              <b>{t("wallet.write.contract.ok")}</b>
+            </Button>
+          }
         </ModalButtons>
       </Modal>
     );

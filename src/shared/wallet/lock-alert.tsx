@@ -108,6 +108,7 @@ class LockWalletComponent extends React.Component<LockWalletProps, State> {
         onKeyUp={() => this.keepActive()}
         onKeyDown={() => this.keepActive()}
         role="main"
+        style={{ cursor: "pointer" }}
       >
         {this.props.children}
         <Modal

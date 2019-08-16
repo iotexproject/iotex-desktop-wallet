@@ -31,7 +31,8 @@ export class ContractLayout extends Component<Props, State> {
             style={{
               float: "right",
               fontSize: 16,
-              lineHeight: 2.3
+              lineHeight: 2.3,
+              cursor: "pointer"
             }}
           >
             Go back
