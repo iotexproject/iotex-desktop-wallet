@@ -1,11 +1,10 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, Menu, shell } = require("electron");
 const path = require("path");
 const { session } = require("electron");
 const { initSolc } = require("./solc");
 const { createServer } = require("./server");
 const Service = require("./service");
-const process = require("global/process");
 const console = require("global/console");
 
 process.on("uncaughtException", function(error) {
@@ -95,6 +94,126 @@ function createWindow() {
     // show mainWindow here to prevent visual flash.
     mainWindow.show();
   });
+
+  const name = app.getName();
+  const menu = Menu.buildFromTemplate([
+    {
+      label: "Menu",
+      submenu: [
+        {
+          label: "About " + name,
+          role: "about"
+        },
+        {
+          label: "Search or Report Issues",
+          click() {
+            shell.openExternal(
+              "https://github.com/iotexproject/iotex-explorer/issues"
+            );
+          }
+        },
+        {
+          type: "separator"
+        },
+        {
+          label: "Hide " + name,
+          accelerator: "Command+H",
+          role: "hide"
+        },
+        {
+          label: "Hide Others",
+          accelerator: "Command+Shift+H",
+          role: "hideothers"
+        },
+        {
+          label: "Show All",
+          role: "unhide"
+        },
+        {
+          type: "separator"
+        },
+        {
+          label: "Quit",
+          accelerator: "Command+Q",
+          click: function() {
+            app.quit();
+          }
+        }
+      ]
+    },
+    {
+      label: "View",
+      submenu: [
+        {
+          label: "Reload",
+          accelerator: "CmdOrCtrl+R",
+          click: function(item, focusedWindow) {
+            if (focusedWindow) focusedWindow.reload();
+          }
+        },
+        {
+          label: "Toggle Full Screen",
+          accelerator: (function() {
+            if (process.platform === "darwin") return "Ctrl+Command+F";
+            else return "F11";
+          })(),
+          click: function(item, focusedWindow) {
+            if (focusedWindow)
+              focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
+          }
+        },
+        {
+          label: "Toggle Developer Tools",
+          accelerator: (function() {
+            if (process.platform === "darwin") return "Alt+Command+I";
+            else return "Ctrl+Shift+I";
+          })(),
+          click: function(item, focusedWindow) {
+            if (focusedWindow) focusedWindow.toggleDevTools();
+          }
+        },
+        {
+          type: "separator"
+        },
+        {
+          label: "Zoom In",
+          role: "zoomIn"
+        },
+        {
+          label: "Zoom Out",
+          role: "zoomOut"
+        },
+        {
+          label: "Actual Size",
+          role: "resetZoom"
+        }
+      ]
+    },
+    {
+      label: "Window",
+      role: "window",
+      submenu: [
+        {
+          label: "Minimize",
+          accelerator: "CmdOrCtrl+M",
+          role: "minimize"
+        },
+        {
+          label: "Close",
+          accelerator: "CmdOrCtrl+W",
+          role: "close"
+        },
+        {
+          type: "separator"
+        },
+        {
+          label: "Bring All to Front",
+          role: "front"
+        }
+      ]
+    }
+  ]);
+  Menu.setApplicationMenu(menu);
 }
 
 // This method will be called when Electron has finished

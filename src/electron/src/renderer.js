@@ -8,7 +8,6 @@ const { ipcRenderer } = require("electron");
 const isDev = require("electron-is-dev");
 const document = require("global/document");
 const console = require("global/console");
-const process = require("global/process");
 
 let globalState = process.env.GLOBAL_STATE || {};
 if (isDev) {
