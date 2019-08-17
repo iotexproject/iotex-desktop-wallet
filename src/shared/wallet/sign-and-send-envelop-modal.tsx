@@ -21,7 +21,9 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
   public props: Props;
 
   // tslint:disable-next-line:no-any
-  public state: { envelop: { [key: string]: any } };
+  public state: { envelop: { [key: string]: any }; reqId?: number } = {
+    envelop: {}
+  };
   private envelop: Envelop;
 
   public async signAndSend(): Promise<void> {
@@ -57,14 +59,18 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
     });
   };
 
-  public componentDidMount(): void {
-    this.shouldComponentUpdate();
+  public componentDidUpdate(): void {
+    const { reqId } = this.props;
+    if (reqId === this.state.reqId) {
+      return;
+    }
+    this.updateSignRequest();
   }
 
-  // @ts-ignore
-  public async shouldComponentUpdate(): Promise<boolean> {
+  public async updateSignRequest(): Promise<void> {
+    const { fromAddress, reqId } = this.props;
     const meta = await getAntenna().iotx.getAccount({
-      address: this.props.fromAddress
+      address: fromAddress
     });
     const nonce = String(
       (meta.accountMeta && meta.accountMeta.pendingNonce) || ""
@@ -75,8 +81,9 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
     );
     envelop.nonce = nonce;
     this.envelop = envelop;
-    this.setState({ envelop });
-    return true;
+    this.setState({ envelop, reqId });
+    // Log for testing & debugging purpose.
+    console.log({ updateSignRequest: { envelop, reqId } });
   }
 
   public render(): JSX.Element | null {
