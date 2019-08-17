@@ -82,8 +82,6 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
     envelop.nonce = nonce;
     this.envelop = envelop;
     this.setState({ envelop, reqId });
-    // Log for testing & debugging purpose.
-    console.log({ updateSignRequest: { envelop, reqId } });
   }
 
   public render(): JSX.Element | null {
