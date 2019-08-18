@@ -79,6 +79,9 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
     const envelop = Envelop.deserialize(
       Buffer.from(this.props.envelop || "", "hex")
     );
+    if (!envelop || !envelop.gasPrice || !envelop.gasLimit) {
+      return;
+    }
     envelop.nonce = nonce;
     this.envelop = envelop;
     this.setState({ envelop, reqId });
