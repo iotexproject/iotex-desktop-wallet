@@ -62,7 +62,6 @@ class DownloadKeystoreFormInner extends Component<Props & FormComponentProps> {
         <Button
           loading={exporting}
           disabled={exporting}
-          type="primary"
           onClick={this.onClickHanlder}
         >
           {t("new-wallet.download")}

@@ -6,8 +6,6 @@ import Input from "antd/lib/input";
 import { Account } from "iotex-antenna/lib/account/account";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
-// @ts-ignore
-import { styled } from "onefx/lib/styletron-react";
 import * as React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { copyCB } from "text-to-clipboard";
@@ -47,11 +45,7 @@ class NewWallet extends React.Component<Props, State> {
 
     const copyButton = (
       // @ts-ignore
-      <Button
-        type="primary"
-        onClick={this.copyPriKey}
-        style={{ margin: "0 -11px" }}
-      >
+      <Button onClick={this.copyPriKey} style={{ margin: "0 -11px" }}>
         {copied ? <Icon type="check" /> : t("new-wallet.copy")}
       </Button>
     );
