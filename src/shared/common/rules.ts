@@ -41,8 +41,11 @@ export const rules: Rules = {
     },
     validator: (_, value, callback) => {
       if (typeof value === "number") {
-        if (value >= 1) callback();
-        else callback(t("wallet.error.number-ge1"));
+        if (value >= 1) {
+          callback();
+        } else {
+          callback(t("wallet.error.number-ge1"));
+        }
       } else {
         callback(t("wallet.error.number"));
       }
