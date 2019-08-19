@@ -10,8 +10,6 @@ import { toRau } from "iotex-antenna/lib/account/utils";
 import { Contract } from "iotex-antenna/lib/contract/contract";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
-// @ts-ignore
-import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { copyCB } from "text-to-clipboard";

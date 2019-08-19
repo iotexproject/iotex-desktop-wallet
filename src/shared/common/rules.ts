@@ -34,6 +34,20 @@ export const rules: Rules = {
       }
     }
   },
+  numberGe1: {
+    type: "number",
+    transform: (value: string) => {
+      return Number(value);
+    },
+    validator: (_, value, callback) => {
+      if (typeof value === "number") {
+        if (value >= 1) callback();
+        else callback(t("wallet.error.number-ge1"));
+      } else {
+        callback(t("wallet.error.number"));
+      }
+    }
+  },
   interger: {
     transform: (value: string) => {
       return new BigNumber(value);
@@ -158,7 +172,7 @@ export const rulesMap = {
   transactionAmount: [rules.required, rules.amount],
   interactAmount: [rules.amount],
   gasLimit: [rules.required, rules.number],
-  gasPrice: [rules.required, rules.number],
+  gasPrice: [rules.required, rules.numberGe1],
   abi: [rules.abi],
   dataIndex: [],
   nonce: [rules.required, rules.interger],
