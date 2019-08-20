@@ -21,8 +21,13 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
   public props: Props;
 
   // tslint:disable-next-line:no-any
-  public state: { envelop: { [key: string]: any }; reqId?: number } = {
-    envelop: {}
+  public state: {
+    envelop: { [key: string]: any };
+    reqId?: number;
+    showModal: boolean;
+  } = {
+    envelop: {},
+    showModal: false
   };
   private envelop: Envelop;
 
@@ -57,6 +62,7 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
         id: undefined
       }
     });
+    this.setState({ showModal: false });
   };
 
   public componentDidUpdate(): void {
@@ -84,14 +90,10 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
     }
     envelop.nonce = nonce;
     this.envelop = envelop;
-    this.setState({ envelop, reqId });
+    this.setState({ envelop, reqId, showModal: true });
   }
 
   public render(): JSX.Element | null {
-    const { envelop } = this.props;
-    if (!envelop) {
-      return null;
-    }
     const { gasPrice = "", gasLimit = "", transfer = null, execution = null } =
       this.state.envelop || {};
 
@@ -117,7 +119,7 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
       <ConfirmContractModal
         dataSource={dataSource}
         title={t("wallet.sign.envelop_title")}
-        showModal={!!this.state.envelop}
+        showModal={this.state.showModal}
         okText={t("wallet.sign.confirm")}
         confirmContractOk={(ok: boolean) =>
           ok ? this.onOk() : this.onCancel()
