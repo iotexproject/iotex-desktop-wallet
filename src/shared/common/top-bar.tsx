@@ -297,7 +297,8 @@ class TopBarComponent extends Component<Props, State> {
                 supportedLanguages={[
                   Languages.EN,
                   Languages.ZH_CN,
-                  Languages.IT
+                  Languages.IT,
+                  Languages.DE
                 ]}
               />
             </LanguageSwitcherWrapper>
