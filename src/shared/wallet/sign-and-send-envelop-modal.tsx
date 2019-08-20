@@ -20,8 +20,8 @@ type Props = {
 class SignAndSendEnvelopModalInner extends Component<Props> {
   public props: Props;
 
-  // tslint:disable-next-line:no-any
   public state: {
+    // tslint:disable-next-line:no-any
     envelop: { [key: string]: any };
     reqId?: number;
     showModal: boolean;
