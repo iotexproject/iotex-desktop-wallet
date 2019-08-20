@@ -15,15 +15,18 @@ import { RouteComponentProps, withRouter } from "react-router";
 import JsonGlobal from "safe-json-globals/get";
 import {
   AccountMeta,
-  GetAccountResponse
+  GetAccountResponse,
+  GetActionsResponse
 } from "../../api-gateway/resolvers/antenna-types";
 import { ITokenInfo, Token } from "../../erc20/token";
+import { webBpApolloClient } from "../common/apollo-client";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
+import { translateFn } from "../common/from-now";
 import { ShowQrcodeButton } from "../common/show-qrcode-button";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
 import { SearchBox } from "../home/search-box";
-import { GET_ACCOUNT } from "../queries";
+import { GET_ACCOUNT, GET_ACTIONS, GET_BP_CANDIDATE } from "../queries";
 import { ActionTable } from "./action-table";
 
 type PathParamsType = {
@@ -84,38 +87,80 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     </>
   );
 
-  public renderAddressInfo = (addressInfo: AccountMeta): JSX.Element => (
-    <div className="overview-list">
-      <Row style={{ padding: "10px 0" }}>
-        <Col xs={3}>
-          <div className={"name"}>{`${t("block.timestamp")}:`}</div>
-        </Col>
-        <Col xs={21}>
-          <div className={"info"}>{""}</div>
-        </Col>
-      </Row>
-      <Row style={{ padding: "15px 0" }}>
-        <Col xs={3}>
-          <div className={"name"}>{`${t("address.balance")}:`}</div>
-        </Col>
-        <Col xs={21}>
-          <div className={"info"}>{`${(+utils.fromRau(
-            String((addressInfo && addressInfo.balance) || 0),
-            "IOTX"
-          )).toFixed(4)} IOTX`}</div>
-          {this.renderOtherTokenBalance()}
-        </Col>
-      </Row>
-      <Row style={{ padding: "15px 0" }}>
-        <Col xs={3}>
-          <div className={"name"}>{`${t("address.name")}:`}</div>
-        </Col>
-        <Col xs={21}>
-          <div className={"info"}>{""}</div>
-        </Col>
-      </Row>
-    </div>
-  );
+  public renderAddressInfo = (
+    addressInfo: AccountMeta,
+    address: string
+  ): JSX.Element => {
+    return (
+      <div className="overview-list">
+        <Row style={{ padding: "10px 0" }}>
+          <Col xs={3}>
+            <div className={"name"}>{`${t("block.timestamp")}:`}</div>
+          </Col>
+          <Query
+            query={GET_ACTIONS}
+            variables={{ byAddr: { address, start: 1, count: 1 } }}
+            fetchPolicy="network-only"
+            ssr={false}
+          >
+            {({
+              error,
+              data
+            }: QueryResult<{ getActions: GetActionsResponse }>) => {
+              if (error) {
+                return null;
+              }
+              const timestamp =
+                data &&
+                data.getActions &&
+                data.getActions.actionInfo &&
+                data.getActions.actionInfo[0].timestamp;
+
+              return (
+                <Col xs={21}>
+                  <div className={"info"}>
+                    {(timestamp && translateFn(timestamp)) || ""}
+                  </div>
+                </Col>
+              );
+            }}
+          </Query>
+        </Row>
+        <Row style={{ padding: "15px 0" }}>
+          <Col xs={3}>
+            <div className={"name"}>{`${t("address.balance")}:`}</div>
+          </Col>
+          <Col xs={21}>
+            <div className={"info"}>{`${(+utils.fromRau(
+              String((addressInfo && addressInfo.balance) || 0),
+              "IOTX"
+            )).toFixed(4)} IOTX`}</div>
+            {this.renderOtherTokenBalance()}
+          </Col>
+        </Row>
+        <Row style={{ padding: "15px 0" }}>
+          <Col xs={3}>
+            <div className={"name"}>{`${t("address.name")}:`}</div>
+          </Col>
+          <Col xs={21}>
+            <Query
+              query={GET_BP_CANDIDATE}
+              variables={{ ioOperatorAddress: address }}
+              client={webBpApolloClient}
+            >
+              {({ data }: QueryResult) => {
+                const name =
+                  (data.bpCandidate && data.bpCandidate.registeredName) ||
+                  address;
+
+                return <div className={"info"}>{name}</div>;
+              }}
+            </Query>
+          </Col>
+        </Row>
+      </div>
+    );
+  };
 
   public render(): JSX.Element {
     const {
@@ -166,7 +211,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
                     </div>
 
                     <Divider style={{ width: "102%", margin: "24px -10px" }} />
-                    {this.renderAddressInfo(addressInfo)}
+                    {this.renderAddressInfo(addressInfo, address)}
                   </Card>
                   <br />
                   <ActionTable
