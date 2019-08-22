@@ -20,7 +20,7 @@ export function getAntenna(): Antenna {
     injectedWindow.antenna = new Antenna("/iotex-core-proxy", {
       ...(USE_WS_SIGNER
         ? {
-            signer: new WsSignerPlugin("ws://localhost:64102/")
+            signer: new WsSignerPlugin("wss://local.get-scatter.com:64102/")
           }
         : {})
     });
