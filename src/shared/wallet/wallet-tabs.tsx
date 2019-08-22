@@ -77,7 +77,6 @@ class WalletTabsInner extends Component<Props> {
 
   public render(): JSX.Element {
     const { location, address } = this.props;
-
     let activeKey = `/wallet/transfer`;
     if (location.pathname.match(/vote/)) {
       activeKey = `/wallet/vote`;
@@ -160,7 +159,6 @@ class WalletTabsInner extends Component<Props> {
               />
             </Tabs.TabPane>
           )}
-
           {ENABLE_SIGN && (
             <Tabs.TabPane key={`/wallet/sign`} tab={t("wallet.tab.sign")}>
               <Sign
@@ -171,7 +169,6 @@ class WalletTabsInner extends Component<Props> {
             </Tabs.TabPane>
           )}
         </Tabs>
-
         <SignAndSendEnvelopModal fromAddress={address} />
       </LockWalletAlert>
     );
