@@ -224,7 +224,9 @@ class InteractFormInner extends Component<InteractProps, State> {
           },
           ...args
         );
-        window.console.log({ result });
+        window.console.log(
+          `readContractByMethod result=${JSON.stringify(result)}`
+        );
         this.setState({ outputValues: [].concat(result) });
       } catch (e) {
         notification.error({
