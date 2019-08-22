@@ -10,6 +10,7 @@ import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
 import { ITokenInfoDict } from "../../erc20/token";
 import { PageTitle } from "../common/page-title";
 import routes from "../common/routes";
+import { BroadcastSuccess } from "./broadcast-status";
 import { ChooseFunction } from "./contract/choose-function";
 import { Deploy } from "./contract/deploy";
 import { Interact } from "./contract/interact";
@@ -95,9 +96,18 @@ class WalletTabsInner extends Component<Props> {
             key={`/wallet/transfer`}
             tab={t("wallet.transactions.send")}
           >
-            <Transfer />
+            <Switch>
+              <Route
+                path={`/wallet/transfer/:txHash`}
+                component={({
+                  match
+                }: RouteComponentProps<{ txHash: string }>) => (
+                  <BroadcastSuccess txHash={match.params.txHash} />
+                )}
+              />
+              <Route path={`/wallet/transfer`} component={() => <Transfer />} />
+            </Switch>
           </Tabs.TabPane>
-
           <Tabs.TabPane
             key={`/wallet/smart-contract`}
             tab={t("wallet.tab.contract")}

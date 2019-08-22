@@ -6,6 +6,7 @@ import { Envelop, SealedEnvelop } from "iotex-antenna/lib/action/envelop";
 import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
 import ConfirmContractModal from "../common/confirm-contract-modal";
 import { getAntenna } from "./get-antenna";
 import { SignParamAction, SignParams } from "./wallet-reducer";
@@ -15,7 +16,8 @@ type Props = {
   fromAddress: string;
   reqId?: number;
   deserialize?: Function;
-} & DispatchProp<SignParamAction>;
+} & DispatchProp<SignParamAction> &
+  RouteComponentProps;
 
 class SignAndSendEnvelopModalInner extends Component<Props> {
   public props: Props;
@@ -47,6 +49,7 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
       // @ts-ignore
       window.signed(reqId, JSON.stringify({ actionHash, reqId }));
     }
+    this.props.history.push(`/wallet/transfer/${actionHash}`);
   }
 
   private readonly onOk = () => {
@@ -129,12 +132,12 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
   }
 }
 
-export const SignAndSendEnvelopModal = connect(
-  (state: { signParams: SignParams }) => ({
+export const SignAndSendEnvelopModal = withRouter(
+  connect((state: { signParams: SignParams }) => ({
     envelop: state.signParams.envelop,
     reqId: state.signParams.reqId
-  })
-)(
-  // @ts-ignore
-  SignAndSendEnvelopModalInner
+  }))(
+    // @ts-ignore
+    SignAndSendEnvelopModalInner
+  )
 );
