@@ -69,7 +69,7 @@ module.exports = {
       "https://iotexscan.io/",
       "https://testnet.iotexscan.io/",
       "https://analytics.iotexscan.io/",
-      "wss://localhost:64102/",
+      "wss://local.get-scatter.com:64102/",
       process.env.API_GATEWAY_URL
     ],
     "child-src": ["self"],
