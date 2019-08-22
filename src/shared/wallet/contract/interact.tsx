@@ -224,8 +224,8 @@ class InteractFormInner extends Component<InteractProps, State> {
           },
           ...args
         );
-        window.console.log(result.toString());
-        this.setState({ outputValues: [result] });
+        window.console.log({ result });
+        this.setState({ outputValues: [].concat(result) });
       } catch (e) {
         notification.error({
           message: e.message
