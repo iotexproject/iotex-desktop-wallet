@@ -28,6 +28,7 @@ import { SearchBox } from "../home/search-box";
 import { GET_ACTIONS_BY_HASH } from "../queries";
 import { toETHAddress } from "../wallet/address";
 import { ActionReceipt } from "./action-receipt";
+import { findRemovedLocationsForDirective } from "graphql/utilities/findBreakingChanges";
 
 type PathParamsType = {
   hash: string;
@@ -165,7 +166,10 @@ class ActionDetailsInner extends PureComponent<Props> {
         {dataSource &&
           dataSource.map(record => {
             return (
-              <Row style={{ minHeight: 50, textAlign: "left" }}>
+              <Row
+                key={record.key}
+                style={{ minHeight: 50, textAlign: "left" }}
+              >
                 <Col xs={3} md={3}>
                   <span>{t(`render.key.${record.key}`)}:</span>
                 </Col>
