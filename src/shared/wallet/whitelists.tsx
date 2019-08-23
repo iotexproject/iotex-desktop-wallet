@@ -3,7 +3,7 @@ import { Modal, Form, Checkbox, InputNumber } from "antd";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import { connect, DispatchProp } from "react-redux";
-import { SignParams, IWalletState } from "./wallet-reducer";
+import { SignParams, IWalletState, OriginInfo } from "./wallet-reducer";
 import {
   deserializeEnvelop,
   getDataSource,
@@ -24,6 +24,7 @@ type WhitelistConfigProps = DispatchProp &
     reqId?: number;
     form: WrappedFormUtils;
     modalGate: number;
+    origin: OriginInfo;
   };
 
 interface WhitelistConfigState {
@@ -125,14 +126,13 @@ class WhitelistConfig extends React.Component<
       return null;
     }
 
-    const { form, modalGate } = this.props;
+    const { form, modalGate, origin: info } = this.props;
+    const { origin, method } = info;
     // isVisible modalGate: 010
     const isVisible = modalGate === 1 << 1;
     const { toAddress, amount, toContract } = this.state
       .dataSource as DataSource;
     const { getFieldDecorator } = form;
-    const origin = "member.io";
-    const method = "deposit";
 
     return (
       <Modal
@@ -201,7 +201,8 @@ const ConnectedWhitelist = connect(
   (state: { signParams: SignParams; wallet: IWalletState }) => ({
     envelop: state.signParams.envelop,
     reqId: state.signParams.reqId,
-    modalGate: state.wallet.modalGate
+    modalGate: state.wallet.modalGate,
+    origin: state.wallet.origin
   })
   // @ts-ignore
 )(WhitelistConfig);

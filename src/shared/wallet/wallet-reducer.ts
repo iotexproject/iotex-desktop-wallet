@@ -59,6 +59,11 @@ export interface IRPCProvider {
   url: string;
 }
 
+export interface OriginInfo {
+  origin: string;
+  method: string;
+}
+
 export type WalletAction = {
   type:
     | "SET_ACCOUNT"
@@ -68,6 +73,7 @@ export type WalletAction = {
     | "SET_LOCK_TIME"
     | "SET_MODAL_GATE"
     | "OPEN_MODAL_GATE"
+    | "SET_ORIGIN"
     | "DELAY_LOCK";
   payload: {
     account?: Account;
@@ -77,7 +83,13 @@ export type WalletAction = {
     defaultNetworkTokens?: Array<string>;
     lockAt?: number;
     isLockDelayed?: boolean;
-    modalGate?: number; // desktop wallet modal logic gate; 0-0-0 correspond to isWhitelistModalForbidden-isWhitelistModalShow-isSignAndSendModalShow
+    // Use a binary number to indicate whether the corresponding function should be active. 0 means false , 1 means true;
+    // 0      0     0
+    // |      |     |-- whether sign and send modal should be in active;
+    // |      |-- whether whitelist modal should be in active;
+    // |-- whether whitelist functionality is in forbidden state;
+    modalGate?: number;
+    origin?: OriginInfo | null;
   };
 };
 
@@ -90,6 +102,7 @@ export interface IWalletState {
   lockAt?: number; // milliseconds to lock wallet. 0: never lock. 1: never to reset it;
   isLockDelayed?: boolean;
   modalGate?: number;
+  origin?: OriginInfo | null;
 }
 
 export const walletReducer = (
@@ -99,7 +112,8 @@ export const walletReducer = (
     tokens: {},
     lockAt: 0,
     isLockDelayed: false,
-    modalGate: 1 << 2
+    modalGate: 1 << 2,
+    origin: null
   },
   action: WalletAction
 ) => {
@@ -152,7 +166,14 @@ export const walletReducer = (
 
       return {
         ...state,
+        // keep whitelist forbidden state; Start from whitelist modal if whitelist do not in forbidden state, otherwise start from send modal;
         modalGate: (modalGate as number) < 1 << 2 ? 1 : 1 << 1
+      };
+    }
+    case "SET_ORIGIN": {
+      return {
+        ...state,
+        origin: action.payload.origin
       };
     }
 

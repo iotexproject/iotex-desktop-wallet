@@ -87,3 +87,15 @@ ipcRenderer.on("GET_ACCOUNTS", function(event, payload) {
   const response = JSON.stringify({ reqId, accounts: [{ address }] });
   ipcRenderer.send(`signed-${reqId}`, response);
 });
+
+ipcRenderer.on("origin", function(_, payload) {
+  const info = JSON.parse(payload);
+  console.log("origin info: ", info);
+
+  const actionEvent = {
+    type: "SET_ORIGIN",
+    payload: info
+  };
+
+  window.dispatch(actionEvent);
+});

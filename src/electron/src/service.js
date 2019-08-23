@@ -20,6 +20,8 @@ function onConnection(ws) {
 
     if (json.type === "GET_ACCOUNTS") {
       webContents.send("GET_ACCOUNTS", received);
+    } else if (json.type === "SEND_ORIGIN") {
+      webContents.send("origin", received);
     } else {
       webContents.send("sign", received);
       mainWindow.focus();

@@ -154,13 +154,13 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
   }
 
   public render(): JSX.Element | null {
-    const { modalGate } = this.props;
     const { dataSource } = this.state;
 
     if (!dataSource) {
       return null;
     }
 
+    const { modalGate } = this.props;
     const isVisible = parseInt(modalGate.toString(2).slice(-1), 10) === 1;
     console.log("sign-and-send-envelop render ", modalGate);
 
