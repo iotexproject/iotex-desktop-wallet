@@ -77,9 +77,13 @@ ipcRenderer.on("sign", function(event, payload) {
 });
 
 ipcRenderer.on("GET_ACCOUNTS", function(event, payload) {
-  const accts = window.getAntenna().iotx.accounts;
-  const address = accts.wallet.accounts.entries().next().value[0];
+  const accounts = window.getAntenna().iotx.accounts;
+  let filtered = [];
+  if (accounts && accounts[0]) {
+    const { address } = accounts[0];
+    filtered = [{ address }];
+  }
   const reqId = JSON.parse(payload).reqId;
-  const response = JSON.stringify({ reqId, accounts: [{ address }] });
+  const response = JSON.stringify({ reqId, accounts: filtered });
   ipcRenderer.send(`signed-${reqId}`, response);
 });
