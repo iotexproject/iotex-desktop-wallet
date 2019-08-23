@@ -1,5 +1,9 @@
-import { Form, Input, Modal, notification } from "antd";
+import Form from "antd/lib/form";
 import { WrappedFormUtils } from "antd/lib/form/Form";
+import Input from "antd/lib/input";
+import Modal from "antd/lib/modal";
+import notification from "antd/lib/notification";
+
 import BigNumber from "bignumber.js";
 import { Account } from "iotex-antenna/lib/account/account";
 import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
@@ -43,6 +47,10 @@ class BidForm extends React.PureComponent<IBidFormProps> {
   }
 
   public componentDidMount(): void {
+    this.pollMaxBidAmount();
+  }
+
+  public componentDidUpdate(): void {
     this.pollMaxBidAmount();
   }
 

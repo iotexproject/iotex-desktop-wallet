@@ -1,4 +1,4 @@
-import { notification } from "antd";
+import notification from "antd/lib/notification";
 import BigNumber from "bignumber.js";
 import ethereumjs from "ethereumjs-abi";
 // @ts-ignore
@@ -6,6 +6,7 @@ import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
 import { SealedEnvelop } from "iotex-antenna/lib/action/envelop";
 import { ExecutionMethod } from "iotex-antenna/lib/action/method";
+import { ABIDefinition } from "iotex-antenna/lib/contract/abi";
 import {
   getArgTypes,
   getHeaderHash
@@ -95,7 +96,7 @@ export class ERC20 implements IERC20 {
   public static create(
     address: string,
     provider: IRpcMethod,
-    abi: Array<{}> = ABI
+    abi: Array<ABIDefinition> = ABI
   ): ERC20 {
     const erc20 = new ERC20();
     erc20.address = address;

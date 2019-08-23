@@ -2,6 +2,8 @@ const { ipcMain } = require("electron");
 const console = require("global/console");
 
 let webContents;
+let mainWindow;
+
 function onConnection(ws) {
   console.log("connected");
   ws.on("message", function message(received) {
@@ -15,22 +17,31 @@ function onConnection(ws) {
     if (json.reqId === undefined) {
       return;
     }
-    webContents.send("sign", received);
-    console.log(`signed-${json.reqId}`);
+
+    if (json.type === "GET_ACCOUNTS") {
+      webContents.send("GET_ACCOUNTS", received);
+    } else {
+      webContents.send("sign", received);
+      mainWindow.focus();
+    }
+
+    console.log(`[sign-${json.reqId}]: send to wallet`);
     // forward message to wallet
     // wait for wallet response
-    ipcMain.on(`signed-${json.reqId}`, function(event, signed) {
-      console.log("responsed from wallet", { signed });
-      ws.send(signed);
+    ipcMain.on(`signed-${json.reqId}`, function(event, respMessage) {
+      console.log(`[sign-${json.reqId}]: response from wallet`, {
+        respMessage
+      });
+      ws.send(respMessage);
     });
-    // TODO: base on data, handle request
   });
 }
 
 module.exports = class Service {
-  constructor(_wss, _webContents) {
+  constructor(_wss, _mainWindow) {
     this.wss = _wss;
-    webContents = _webContents;
+    mainWindow = _mainWindow;
+    webContents = _mainWindow.webContents;
     console.log("service created");
     this.wss.on("connection", onConnection);
   }

@@ -56,7 +56,9 @@ export function setSignerType(
   switch (type) {
     case "ws":
       if (!SignerPlugins.ws) {
-        SignerPlugins.ws = new WsSignerPlugin("ws://localhost:64102/");
+        SignerPlugins.ws = new WsSignerPlugin(
+          "wss://local.get-scatter.com:64102/"
+        );
       }
       break;
     case "ledger":

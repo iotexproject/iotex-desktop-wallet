@@ -297,7 +297,8 @@ class TopBarComponent extends Component<Props, State> {
                 supportedLanguages={[
                   Languages.EN,
                   Languages.ZH_CN,
-                  Languages.IT
+                  Languages.IT,
+                  Languages.DE
                 ]}
               />
             </LanguageSwitcherWrapper>
@@ -462,7 +463,8 @@ const SignIn = styled("span", {
     width: "100%",
     padding: "16px 0 16px 0",
     marginLeft: "-20px"
-  }
+  },
+  cursor: "pointer"
 });
 
 const DropDownTitle = styled("div", menuItem);
@@ -486,7 +488,8 @@ const StyledLink = styled(Link, {
   ":hover": {
     color: `${colors.primary} !important`,
     backgroundColor: colors.menuHover
-  }
+  },
+  cursor: "pointer"
 });
 
 const Flex = styled("div", (_: React.CSSProperties) => ({

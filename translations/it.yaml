@@ -108,7 +108,6 @@ render.key.denomination: denominazione
 render.key.owner: proprietario
 render.key.candidates: candidati
 topbar.search: 'Ricerca per indirizzo / chiave pubblica / hash / nr. di blocco'
-topbar.searchAddress: Cerca un indirizzo, blocco, hash ...
 coming_soon.title: Prossimamente...
 coming_soon.bar: Prossimamente
 action.actions: Azioni
@@ -419,8 +418,14 @@ home.stats.energyConsumption: 'Consumo energetico giornaliero'
 home.stats.numberOfAddresses: 'N. di indirizzi'
 home.stats.numberOfTransactions: 'N. di transazioni'
 home.stats.day: Giorno
-home.stats.actions: Transactions
-unlock-wallet.by_ledger: 'Connect Ledger'
-unlock_by_ledger.message: 'Click the following button to proceed with Ledger.'
-unlock-by-ledger.pluginDevice: 'Please plugin ledger device and try again!'
-unlock-by-ledger.warnTitle: 'Oops, couldn’t connect to device'
+home.stats.actions: Transazioni
+unlock-wallet.by_ledger: 'Connetti Ledger'
+unlock_by_ledger.message: 'Clicca sul pulsante seguente per procedere con il Ledger'
+unlock-by-ledger.pluginDevice: 'Connetti il Ledger e prova di nuovo!'
+unlock-by-ledger.warnTitle: 'Ops, non è stato possibile connettersi al dispositivo'
+wallet.sign.envelop_title: 'Firma delle transazioni'
+wallet.sign.envelop_msg: 'Sei sicuro di voler firmare questa transazione?'
+wallet.sign.confirm: 'Sì, firma la transazione'
+topbar.searchAddress: 'Cerca indirizzo, blocco, hash...'
+home.stats.progressEpoch: 'Progress of Epoch'
+action.pending: 'IoTeX Pending Action'

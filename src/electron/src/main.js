@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, Menu, shell } = require("electron");
 const path = require("path");
 const { session } = require("electron");
 const { initSolc } = require("./solc");
@@ -49,7 +49,7 @@ function createWindow() {
     if (err) {
       log.error("failed to create wss service", err);
     } else {
-      service = new Service(server, mainWindow.webContents);
+      service = new Service(server, mainWindow);
     }
   });
 
@@ -57,7 +57,29 @@ function createWindow() {
   mainWindow.loadFile(path.resolve(__dirname, "index.html"));
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  (function openDevTools() {
+    const env = process.env.NODE_ENV;
+
+    if (env === "development") {
+      const {
+        default: installExtension,
+        REACT_DEVELOPER_TOOLS,
+        REDUX_DEVTOOLS
+      } = require("electron-devtools-installer");
+
+      mainWindow.webContents.openDevTools();
+
+      const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
+
+      Promise.all(extensions.map(name => installExtension(name, true)))
+        .then(extensions =>
+          extensions.forEach(name => {
+            console.log(`Added Extension:  ${name}`);
+          })
+        )
+        .catch(err => console.log("An error occurred: ", err));
+    }
+  })();
 
   // Emitted when the window is closed.
   mainWindow.on("closed", function() {
@@ -78,6 +100,175 @@ function createWindow() {
     // show mainWindow here to prevent visual flash.
     mainWindow.show();
   });
+
+  const name = app.getName();
+  const menu = Menu.buildFromTemplate([
+    {
+      label: "Menu",
+      submenu: [
+        {
+          label: "About " + name,
+          role: "about"
+        },
+        {
+          label: "Search or Report Issues",
+          click() {
+            shell.openExternal(
+              "https://github.com/iotexproject/iotex-explorer/issues"
+            );
+          }
+        },
+        {
+          type: "separator"
+        },
+        {
+          label: "Hide " + name,
+          accelerator: "Command+H",
+          role: "hide"
+        },
+        {
+          label: "Hide Others",
+          accelerator: "Command+Shift+H",
+          role: "hideothers"
+        },
+        {
+          label: "Show All",
+          role: "unhide"
+        },
+        {
+          type: "separator"
+        },
+        {
+          label: "Quit",
+          accelerator: "Command+Q",
+          click: function() {
+            app.quit();
+          }
+        }
+      ]
+    },
+    {
+      label: "Edit",
+      submenu: [
+        {
+          label: "Undo",
+          accelerator: "CmdOrCtrl+Z",
+          role: "undo"
+        },
+        {
+          label: "Redo",
+          accelerator: "Shift+CmdOrCtrl+Z",
+          role: "redo"
+        },
+        {
+          type: "separator"
+        },
+        {
+          label: "Cut",
+          accelerator: "CmdOrCtrl+X",
+          role: "cut"
+        },
+        {
+          label: "Copy",
+          accelerator: "CmdOrCtrl+C",
+          role: "copy"
+        },
+        {
+          label: "Paste",
+          accelerator: "CmdOrCtrl+V",
+          role: "paste"
+        },
+        {
+          label: "Select All",
+          accelerator: "CmdOrCtrl+A",
+          role: "selectall"
+        }
+      ]
+    },
+    {
+      label: "View",
+      submenu: [
+        {
+          label: "Reload",
+          accelerator: "CmdOrCtrl+R",
+          click: function(item, focusedWindow) {
+            if (focusedWindow) {
+              focusedWindow.reload();
+            }
+          }
+        },
+        {
+          label: "Toggle Full Screen",
+          accelerator: (function() {
+            if (process.platform === "darwin") {
+              return "Ctrl+Command+F";
+            } else {
+              return "F11";
+            }
+          })(),
+          click: function(item, focusedWindow) {
+            if (focusedWindow) {
+              focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
+            }
+          }
+        },
+        {
+          label: "Toggle Developer Tools",
+          accelerator: (function() {
+            if (process.platform === "darwin") {
+              return "Alt+Command+I";
+            } else {
+              return "Ctrl+Shift+I";
+            }
+          })(),
+          click: function(item, focusedWindow) {
+            if (focusedWindow) {
+              focusedWindow.toggleDevTools();
+            }
+          }
+        },
+        {
+          type: "separator"
+        },
+        {
+          label: "Zoom In",
+          role: "zoomIn"
+        },
+        {
+          label: "Zoom Out",
+          role: "zoomOut"
+        },
+        {
+          label: "Actual Size",
+          role: "resetZoom"
+        }
+      ]
+    },
+    {
+      label: "Window",
+      role: "window",
+      submenu: [
+        {
+          label: "Minimize",
+          accelerator: "CmdOrCtrl+M",
+          role: "minimize"
+        },
+        {
+          label: "Close",
+          accelerator: "CmdOrCtrl+W",
+          role: "close"
+        },
+        {
+          type: "separator"
+        },
+        {
+          label: "Bring All to Front",
+          role: "front"
+        }
+      ]
+    }
+  ]);
+  Menu.setApplicationMenu(menu);
 }
 
 // This method will be called when Electron has finished
@@ -89,13 +280,17 @@ app.on("ready", createWindow);
 app.on("window-all-closed", function() {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== "darwin") app.quit();
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
 });
 
 app.on("activate", function() {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) createWindow();
+  if (mainWindow === null) {
+    createWindow();
+  }
 });
 
 // In this file you can include the rest of your app's specific main process

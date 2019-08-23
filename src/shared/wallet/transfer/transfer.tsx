@@ -1,4 +1,7 @@
-import { Icon, notification, Select } from "antd";
+import Icon from "antd/lib/icon";
+import notification from "antd/lib/notification";
+import Select from "antd/lib/select";
+
 import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Col from "antd/lib/grid/col";
@@ -6,7 +9,7 @@ import Row from "antd/lib/grid/row";
 import Input from "antd/lib/input";
 import BigNumber from "bignumber.js";
 import { Account } from "iotex-antenna/lib/account/account";
-import { toRau } from "iotex-antenna/lib/account/utils";
+import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -44,6 +47,7 @@ type State = {
   } | null;
   showConfirmTransfer: boolean;
   showDataHex: boolean;
+  gasCostLimit: string;
 };
 
 class TransferForm extends React.PureComponent<Props, State> {
@@ -52,7 +56,8 @@ class TransferForm extends React.PureComponent<Props, State> {
     txHash: "",
     broadcast: null,
     showConfirmTransfer: false,
-    showDataHex: true
+    showDataHex: true,
+    gasCostLimit: ""
   };
 
   public sendTransfer = async (status: boolean) => {
@@ -234,7 +239,6 @@ class TransferForm extends React.PureComponent<Props, State> {
     const { form } = this.props;
     const { getFieldDecorator } = form;
     const { sending } = this.state;
-
     return (
       <Form layout="vertical">
         <Form.Item
@@ -253,8 +257,14 @@ class TransferForm extends React.PureComponent<Props, State> {
           )}
         </Form.Item>
         {this.renderAmountFormItem()}
-        <GasPriceFormInputItem form={form} />
-        <GasLimitFormInputItem form={form} />
+        <GasPriceFormInputItem
+          form={form}
+          onChange={this.updateGasCostLimit(form)}
+        />
+        <GasLimitFormInputItem
+          form={form}
+          onChange={this.updateGasCostLimit(form)}
+        />
         {this.state.showDataHex && (
           <Form.Item
             label={<FormItemLabel>{t("wallet.input.dib")}</FormItemLabel>}
@@ -267,6 +277,23 @@ class TransferForm extends React.PureComponent<Props, State> {
             )}
           </Form.Item>
         )}
+        <Form.Item
+          label={
+            <FormItemLabel>{t("wallet.input.gasCostLimit")}</FormItemLabel>
+          }
+          {...formItemLayout}
+        >
+          <div
+            style={{
+              padding: "4px 11px",
+              border: "1px solid #d9d9d9",
+              borderRadius: 4,
+              ...inputStyle
+            }}
+          >
+            {`${this.state.gasCostLimit} IOTX`}
+          </div>
+        </Form.Item>
         {
           // @ts-ignore
           <Button
@@ -344,6 +371,15 @@ class TransferForm extends React.PureComponent<Props, State> {
         showModal={showConfirmTransfer}
       />
     );
+  };
+
+  public updateGasCostLimit = (form: WrappedFormUtils) => {
+    const { gasLimit, gasPrice } = form.getFieldsValue();
+    const gasCostLimit = fromRau(
+      `${Number(toRau(gasPrice, "Qev")) * gasLimit}`,
+      "IoTx"
+    );
+    this.setState({ gasCostLimit });
   };
 
   public render(): JSX.Element {

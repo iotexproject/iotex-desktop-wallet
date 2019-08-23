@@ -75,3 +75,11 @@ ipcRenderer.on("sign", function(event, payload) {
   console.log("dispatching", JSON.stringify(actionEvent));
   window.dispatch(actionEvent);
 });
+
+ipcRenderer.on("GET_ACCOUNTS", function(event, payload) {
+  const accts = window.getAntenna().iotx.accounts;
+  const address = accts.wallet.accounts.entries().next().value[0];
+  const reqId = JSON.parse(payload).reqId;
+  const response = JSON.stringify({ reqId, accounts: [{ address }] });
+  ipcRenderer.send(`signed-${reqId}`, response);
+});

@@ -13,6 +13,7 @@ import { Client as StyletronClient } from "styletron-engine-atomic";
 import { apolloClient } from "../../shared/common/apollo-client";
 import { RootMemory } from "../../shared/common/root-memory";
 import "../../shared/common/setup-big-number";
+import { getAntenna } from "../../shared/wallet/get-antenna";
 import { Wallet } from "../../shared/wallet/wallet";
 import {
   queryParamsReducer,
@@ -26,6 +27,8 @@ type Opts = {
   reducer: Reducer;
   VDom: JSX.Element;
 };
+
+getAntenna();
 
 export function memoryReactRender({ reducer = noopReducer, VDom }: Opts): void {
   const store = configureStore(JSONGlobals("state"), reducer);
