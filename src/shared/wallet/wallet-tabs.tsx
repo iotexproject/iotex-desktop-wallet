@@ -20,7 +20,14 @@ import { Sign } from "./sign";
 import { SignAndSendEnvelopModal } from "./sign-and-send-envelop-modal";
 import Transfer from "./transfer/transfer";
 import { countdownToLockInMS } from "./wallet-actions";
-import { QueryParams, QueryType, SignParams } from "./wallet-reducer";
+import {
+  QueryParams,
+  QueryType,
+  SignParams,
+  IWalletState
+} from "./wallet-reducer";
+// @ts-ignore
+import { Whitelist } from "./whitelists";
 
 const ENABLE_SIGN = false;
 
@@ -31,7 +38,9 @@ type Props = RouteComponentProps & {
   queryType?: QueryType;
   queryNonce?: number;
   contentToSign?: string;
+  envelop?: string;
   reqId?: number;
+  isWhitelistForbidden: boolean;
 } & DispatchProp;
 
 class WalletTabsInner extends Component<Props> {
@@ -73,6 +82,8 @@ class WalletTabsInner extends Component<Props> {
     history.push(activeKey);
     this.props.dispatch(countdownToLockInMS());
   }
+
+  public componentDidUpdate(): void {}
 
   public render(): JSX.Element {
     const { location, address } = this.props;
@@ -162,6 +173,8 @@ class WalletTabsInner extends Component<Props> {
           )}
         </Tabs>
 
+        <Whitelist fromAddress={address} />
+
         <SignAndSendEnvelopModal fromAddress={address} />
       </LockWalletAlert>
     );
@@ -171,6 +184,7 @@ class WalletTabsInner extends Component<Props> {
 function mapStateToProps(state: {
   queryParams: QueryParams;
   signParams: SignParams;
+  wallet: IWalletState;
 }): {
   queryType?: QueryType;
   queryNonce?: number;

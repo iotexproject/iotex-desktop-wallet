@@ -14,6 +14,7 @@ export interface Props {
   confirmLoading?: boolean;
   title?: string;
   okText?: string;
+  maskClosable?: boolean;
 }
 
 export interface State {}
@@ -115,7 +116,8 @@ export default class ConfirmContractModal extends React.Component<
       showModal,
       confirmLoading,
       title = t("wallet.confirm.contract.title"),
-      okText = t("wallet.confirm.contract.yes")
+      okText = t("wallet.confirm.contract.yes"),
+      maskClosable = true
     } = this.props;
     return (
       <Modal
@@ -128,6 +130,7 @@ export default class ConfirmContractModal extends React.Component<
         onOk={() => this.confirmContractOk(true)}
         onCancel={() => this.confirmContractOk(false)}
         confirmLoading={confirmLoading}
+        maskClosable={maskClosable}
       >
         <ModalBody>
           <Board>

@@ -66,6 +66,8 @@ export type WalletAction = {
     | "ADD_CUSTOM_RPC"
     | "UPDATE_TOKENS"
     | "SET_LOCK_TIME"
+    | "SET_MODAL_GATE"
+    | "OPEN_MODAL_GATE"
     | "DELAY_LOCK";
   payload: {
     account?: Account;
@@ -75,6 +77,7 @@ export type WalletAction = {
     defaultNetworkTokens?: Array<string>;
     lockAt?: number;
     isLockDelayed?: boolean;
+    modalGate?: number; // desktop wallet modal logic gate; 0-0-0 correspond to isWhitelistModalForbidden-isWhitelistModalShow-isSignAndSendModalShow
   };
 };
 
@@ -86,6 +89,7 @@ export interface IWalletState {
   defaultNetworkTokens: Array<string>;
   lockAt?: number; // milliseconds to lock wallet. 0: never lock. 1: never to reset it;
   isLockDelayed?: boolean;
+  modalGate?: number;
 }
 
 export const walletReducer = (
@@ -94,7 +98,8 @@ export const walletReducer = (
     defaultNetworkTokens: [],
     tokens: {},
     lockAt: 0,
-    isLockDelayed: false
+    isLockDelayed: false,
+    modalGate: 1 << 2
   },
   action: WalletAction
 ) => {
@@ -137,6 +142,20 @@ export const walletReducer = (
         ...state,
         isLockDelayed: action.payload.isLockDelayed
       };
+    case "SET_MODAL_GATE":
+      return {
+        ...state,
+        modalGate: action.payload.modalGate
+      };
+    case "OPEN_MODAL_GATE": {
+      const { modalGate } = state;
+
+      return {
+        ...state,
+        modalGate: (modalGate as number) < 1 << 2 ? 1 : 1 << 1
+      };
+    }
+
     default:
       return state;
   }

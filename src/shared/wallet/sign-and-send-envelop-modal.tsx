@@ -8,20 +8,87 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 import ConfirmContractModal from "../common/confirm-contract-modal";
 import { getAntenna } from "./get-antenna";
-import { SignParamAction, SignParams } from "./wallet-reducer";
+import {
+  SignParamAction,
+  SignParams,
+  WalletAction,
+  IWalletState
+} from "./wallet-reducer";
+import { ITransfer, IExecution } from "iotex-antenna/lib/rpc-method/types";
+import { setModalGate } from "./wallet-actions";
+
+export interface DataSource {
+  address: string;
+  limit: string;
+  price: string;
+  amount: string;
+  dataInHex: string;
+  toAddress?: string;
+  toContract?: string;
+}
 
 type Props = {
   envelop?: string;
   fromAddress: string;
   reqId?: number;
-  deserialize?: Function;
-} & DispatchProp<SignParamAction>;
+  modalGate: number;
+} & DispatchProp<SignParamAction | WalletAction>;
 
-class SignAndSendEnvelopModalInner extends Component<Props> {
+interface State {
+  dataSource: DataSource | null;
+}
+
+export function getDataSource(
+  envelop: Envelop,
+  fromAddress: string
+): DataSource {
+  const { gasPrice = "", gasLimit = "", transfer = null, execution = null } =
+    envelop || {};
+
+  const dataSource: Partial<DataSource> = {
+    address: fromAddress,
+    limit: gasLimit,
+    price: `${gasPrice} (${fromRau(gasPrice, "Qev")} Qev)`
+  };
+
+  if (transfer) {
+    const { recipient, amount, payload } = (transfer as unknown) as ITransfer;
+    dataSource.toAddress = recipient;
+    dataSource.amount = `${fromRau(amount, "IOTX")} IOTX`;
+    dataSource.dataInHex = `${Buffer.from(payload as Buffer).toString("hex")}`;
+  }
+
+  if (execution) {
+    const { contract, amount, data } = (execution as unknown) as IExecution;
+    dataSource.toContract = contract;
+    dataSource.amount = `${fromRau(amount, "IOTX")} IOTX`;
+    dataSource.dataInHex = `${Buffer.from(data as Buffer).toString("hex")}`;
+  }
+
+  return dataSource as DataSource;
+}
+
+export async function deserializeEnvelop(
+  source: string,
+  fromAddress: string
+): Promise<Envelop> {
+  const meta = await getAntenna().iotx.getAccount({ address: fromAddress });
+  const nonce = String(
+    (meta.accountMeta && meta.accountMeta.pendingNonce) || ""
+  );
+  const envelop = Envelop.deserialize(Buffer.from(source || "", "hex"));
+
+  envelop.nonce = nonce;
+  return envelop;
+}
+
+class SignAndSendEnvelopModalInner extends Component<Props, State> {
   public props: Props;
 
-  // tslint:disable-next-line:no-any
-  public state: { envelop: { [key: string]: any } };
+  public state: State = {
+    dataSource: null
+  };
+
   private envelop: Envelop;
 
   public async signAndSend(): Promise<void> {
@@ -55,61 +122,54 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
         id: undefined
       }
     });
+
+    const { modalGate } = this.props;
+
+    // 001 ? 0 : 100
+    this.props.dispatch(setModalGate(modalGate < 1 << 2 ? 0 : 1 << 2));
   };
 
   public componentDidMount(): void {
-    this.shouldComponentUpdate();
+    this.updateEnvelop();
   }
 
-  // @ts-ignore
-  public async shouldComponentUpdate(): Promise<boolean> {
-    const meta = await getAntenna().iotx.getAccount({
-      address: this.props.fromAddress
-    });
-    const nonce = String(
-      (meta.accountMeta && meta.accountMeta.pendingNonce) || ""
-    );
+  public componentDidUpdate(): void {
+    this.updateEnvelop();
+  }
 
-    const envelop = Envelop.deserialize(
-      Buffer.from(this.props.envelop || "", "hex")
+  public async updateEnvelop() {
+    if (!this.props.envelop || !this.props.fromAddress) {
+      return;
+    }
+
+    const envelop = await deserializeEnvelop(
+      this.props.envelop as string,
+      this.props.fromAddress
     );
-    envelop.nonce = nonce;
+    const dataSource = getDataSource(envelop, this.props.fromAddress);
+
     this.envelop = envelop;
-    this.setState({ envelop });
-    return true;
+
+    this.setState({ dataSource });
   }
 
   public render(): JSX.Element | null {
-    const { envelop } = this.props;
-    if (!envelop) {
+    const { modalGate } = this.props;
+    const { dataSource } = this.state;
+
+    if (!dataSource) {
       return null;
     }
-    const { gasPrice = "", gasLimit = "", transfer = null, execution = null } =
-      this.state.envelop || {};
 
-    const dataSource: { [index: string]: string } = {
-      address: this.props.fromAddress,
-      limit: gasLimit,
-      price: `${gasPrice} (${fromRau(gasPrice, "Qev")} Qev)`
-    };
-
-    if (transfer) {
-      dataSource.toAddress = transfer.recipient;
-      dataSource.amount = `${fromRau(transfer.amount, "IOTX")} IOTX`;
-      dataSource.dataInHex = `${Buffer.from(transfer.payload).toString("hex")}`;
-    }
-
-    if (execution) {
-      dataSource.toContract = execution.contract;
-      dataSource.amount = `${fromRau(execution.amount, "IOTX")} IOTX`;
-      dataSource.dataInHex = `${Buffer.from(execution.data).toString("hex")}`;
-    }
+    const isVisible = parseInt(modalGate.toString(2).slice(-1), 10) === 1;
+    console.log("sign-and-send-envelop render ", modalGate);
 
     return (
       <ConfirmContractModal
-        dataSource={dataSource}
+        dataSource={dataSource as { [key: string]: any }}
         title={t("wallet.sign.envelop_title")}
-        showModal={!!this.state.envelop}
+        maskClosable={false}
+        showModal={isVisible}
         okText={t("wallet.sign.confirm")}
         confirmContractOk={(ok: boolean) =>
           ok ? this.onOk() : this.onCancel()
@@ -120,9 +180,10 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
 }
 
 export const SignAndSendEnvelopModal = connect(
-  (state: { signParams: SignParams }) => ({
+  (state: { signParams: SignParams; wallet: IWalletState }) => ({
     envelop: state.signParams.envelop,
-    reqId: state.signParams.reqId
+    reqId: state.signParams.reqId,
+    modalGate: state.wallet.modalGate
   })
 )(
   // @ts-ignore
