@@ -1,5 +1,6 @@
 import { Account } from "iotex-antenna/lib/account/account";
 import { ITokenInfoDict } from "../../erc20/token";
+import { moveGateState } from "./whitelist";
 
 export type QueryType = "CONTRACT_INTERACT";
 
@@ -112,7 +113,7 @@ export const walletReducer = (
     tokens: {},
     lockAt: 0,
     isLockDelayed: false,
-    modalGate: 1 << 2,
+    modalGate: 0,
     origin: null
   },
   action: WalletAction
@@ -162,12 +163,17 @@ export const walletReducer = (
         modalGate: action.payload.modalGate
       };
     case "OPEN_MODAL_GATE": {
-      const { modalGate } = state;
+      const { modalGate = 0 } = state;
+      const forbidden = modalGate.toString(2).slice(0, 1);
+      // keep whitelist forbidden state; Start from whitelist modal if whitelist do not in forbidden state, otherwise start from send modal;
+      const nextState = moveGateState(
+        modalGate,
+        forbidden === "1" ? "01" : "10"
+      );
 
       return {
         ...state,
-        // keep whitelist forbidden state; Start from whitelist modal if whitelist do not in forbidden state, otherwise start from send modal;
-        modalGate: (modalGate as number) < 1 << 2 ? 1 : 1 << 1
+        modalGate: nextState
       };
     }
     case "SET_ORIGIN": {

@@ -445,4 +445,5 @@ wallet.whitelist.amount: This value will be able to change without a popup
 wallet.whitelist.receipt: If the receipt change, you will have to approve the action again
 wallet.whitelist.duration: This setting will expire after the specified time
 wallet.whitelist.forbidden: 'Do not show this modal again'
+wallet.sign_and_send.success: 'Request sent successfully, action code is ${actionHash}'
 

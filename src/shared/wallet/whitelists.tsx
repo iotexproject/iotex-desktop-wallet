@@ -1,21 +1,23 @@
-import React from "react";
-import { Modal, Form, Checkbox, InputNumber } from "antd";
+import { Checkbox, Form, InputNumber, Modal } from "antd";
+import { FormComponentProps } from "antd/es/form";
+import { WrappedFormUtils } from "antd/lib/form/Form";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
+import { styled } from "onefx/lib/styletron-react";
+import React from "react";
 import { connect, DispatchProp } from "react-redux";
-import { SignParams, IWalletState, OriginInfo } from "./wallet-reducer";
+import { CommonMargin } from "../common/common-margin";
+import { colors } from "../common/styles/style-color";
+import { setModalGate } from "./wallet-actions";
+import { IWalletState, OriginInfo, SignParams } from "./wallet-reducer";
 import {
+  createWhitelistConfig,
+  DataSource,
   deserializeEnvelop,
   getDataSource,
-  DataSource
-} from "./sign-and-send-envelop-modal";
-import { Envelop } from "iotex-antenna/lib/action/envelop";
-import { WrappedFormUtils } from "antd/lib/form/Form";
-import { styled } from "onefx/lib/styletron-react";
-import { colors } from "../common/styles/style-color";
-import { CommonMargin } from "../common/common-margin";
-import { setModalGate } from "./wallet-actions";
-import { FormComponentProps } from "antd/es/form";
+  moveGateState,
+  whitelistService
+} from "./whitelist";
 
 type WhitelistConfigProps = DispatchProp &
   FormComponentProps & {
@@ -35,7 +37,7 @@ const P = styled("p", {
   color: colors.black60
 });
 
-class WhitelistConfig extends React.Component<
+class WhitelistSetting extends React.Component<
   WhitelistConfigProps,
   WhitelistConfigState
 > {
@@ -46,92 +48,85 @@ class WhitelistConfig extends React.Component<
   private readonly onOk = () => {
     const { form } = this.props;
 
-    console.log("prepare to set whitelist");
-
-    form.validateFields((error, values) => {
-      const { amount, duration, toAddress } = values;
+    form.validateFields((_, values) => {
+      const {
+        duration,
+        amount: amountChecked,
+        toAddress: toAddressChecked
+      } = values;
       const dataSource = this.state.dataSource as DataSource;
-      const req = {
-        origin: "member.io",
-        method: "deposit",
-        recipient: toAddress
-          ? dataSource.toAddress || dataSource.toContract
-          : "",
-        amount: amount ? dataSource.amount : "",
-        duration
-      };
-      console.log(req);
-      // send to save;
+      const deadline = Date.now() + duration * 60 * 60 * 1000;
+      const data = createWhitelistConfig(
+        dataSource,
+        this.props.origin,
+        deadline
+      );
 
+      if (!toAddressChecked) {
+        data.recipient = "";
+      }
+
+      if (!amountChecked) {
+        data.amount = "";
+      }
+
+      whitelistService.save(data);
       this.onCancel();
     });
   };
 
   private readonly onCancel = () => {
-    this.props.dispatch(setModalGate(parseInt("101", 2)));
+    this.props.dispatch(
+      setModalGate(moveGateState(this.props.modalGate, "01"))
+    );
   };
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     this.updateDataSource();
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(): void {
     this.updateDataSource();
   }
 
-  public async updateDataSource() {
+  public async updateDataSource(): Promise<void> {
     if (!this.props.envelop || !this.props.fromAddress) {
       return;
     }
 
     const envelop = await deserializeEnvelop(
-      this.props.envelop as string,
+      this.props.envelop,
       this.props.fromAddress
     );
-    const isValid = await this.isValidOrigin(envelop);
-    const { modalGate } = this.props;
+    const dataSource = getDataSource(envelop, this.props.fromAddress);
+    const isInWhitelistsAndUnexpired = whitelistService.isInWhitelistsAndUnexpired(
+      Date.now(),
+      createWhitelistConfig(dataSource, this.props.origin)
+    );
 
-    this.setState({
-      dataSource: getDataSource(envelop, this.props.fromAddress)
-    });
-  }
-
-  // valid: in whitelist and not expired;
-  public async isValidOrigin(envelop: Envelop): Promise<boolean> {
-    const random = Math.random() * 1000;
-    //  whether origin is in whitelist and expired;
-    let whitelist;
-    if (random > 500) {
-      whitelist = {
-        origin: "member.io",
-        expired: true
-      };
+    if (isInWhitelistsAndUnexpired) {
+      this.props.dispatch(
+        setModalGate(moveGateState(this.props.modalGate, "01"))
+      );
+      this.setState({ dataSource: null });
     } else {
-      whitelist = {
-        origin: "member.io",
-        expired: false
-      };
+      this.setState({ dataSource });
     }
-    return true;
   }
 
-  private forbidden() {
-    // 001
-    this.props.dispatch(setModalGate(1 << 0));
+  private forbidden(): void {
+    this.props.dispatch(setModalGate(parseInt("101", 2)));
   }
 
-  render(): JSX.Element | null {
-    console.log("in render ", this.props);
+  public render(): JSX.Element | null {
     if (!this.state.dataSource) {
       return null;
     }
 
     const { form, modalGate, origin: info } = this.props;
     const { origin, method } = info;
-    // isVisible modalGate: 010
-    const isVisible = modalGate === 1 << 1;
-    const { toAddress, amount, toContract } = this.state
-      .dataSource as DataSource;
+    const isVisible = modalGate === 2; // isVisible modalGate binary number: 010
+    const { toAddress, amount, toContract } = this.state.dataSource;
     const { getFieldDecorator } = form;
 
     return (
@@ -147,7 +142,7 @@ class WhitelistConfig extends React.Component<
       >
         <div>
           <P>{t("wallet.whitelist.intro")}</P>
-          <a onClick={() => this.forbidden()}>
+          <a onClick={() => this.forbidden()} href="void:0" role="main">
             {t("wallet.whitelist.forbidden")}
           </a>
         </div>
@@ -205,8 +200,7 @@ const ConnectedWhitelist = connect(
     origin: state.wallet.origin
   })
   // @ts-ignore
-)(WhitelistConfig);
+)(WhitelistSetting);
 
-export const Whitelist = Form.create<WhitelistConfigProps>()(
-  ConnectedWhitelist
-);
+// tslint:disable: no-any
+export const Whitelist: any = Form.create()(ConnectedWhitelist);

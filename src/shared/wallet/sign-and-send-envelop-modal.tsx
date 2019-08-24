@@ -1,87 +1,42 @@
+import { message } from "antd";
 // @ts-ignore
 import window from "global/window";
-import { fromRau } from "iotex-antenna/lib/account/utils";
 import { Envelop, SealedEnvelop } from "iotex-antenna/lib/action/envelop";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
+
 import ConfirmContractModal from "../common/confirm-contract-modal";
 import { getAntenna } from "./get-antenna";
+import { setModalGate } from "./wallet-actions";
 import {
+  IWalletState,
+  OriginInfo,
   SignParamAction,
   SignParams,
-  WalletAction,
-  IWalletState
+  WalletAction
 } from "./wallet-reducer";
-import { ITransfer, IExecution } from "iotex-antenna/lib/rpc-method/types";
-import { setModalGate } from "./wallet-actions";
-
-export interface DataSource {
-  address: string;
-  limit: string;
-  price: string;
-  amount: string;
-  dataInHex: string;
-  toAddress?: string;
-  toContract?: string;
-}
+import {
+  createWhitelistConfig,
+  DataSource,
+  deserializeEnvelop,
+  getDataSource,
+  moveGateState,
+  whitelistService
+} from "./whitelist";
 
 type Props = {
   envelop?: string;
   fromAddress: string;
   reqId?: number;
   modalGate: number;
+  origin: OriginInfo;
 } & DispatchProp<SignParamAction | WalletAction>;
 
 interface State {
   dataSource: DataSource | null;
 }
-
-export function getDataSource(
-  envelop: Envelop,
-  fromAddress: string
-): DataSource {
-  const { gasPrice = "", gasLimit = "", transfer = null, execution = null } =
-    envelop || {};
-
-  const dataSource: Partial<DataSource> = {
-    address: fromAddress,
-    limit: gasLimit,
-    price: `${gasPrice} (${fromRau(gasPrice, "Qev")} Qev)`
-  };
-
-  if (transfer) {
-    const { recipient, amount, payload } = (transfer as unknown) as ITransfer;
-    dataSource.toAddress = recipient;
-    dataSource.amount = `${fromRau(amount, "IOTX")} IOTX`;
-    dataSource.dataInHex = `${Buffer.from(payload as Buffer).toString("hex")}`;
-  }
-
-  if (execution) {
-    const { contract, amount, data } = (execution as unknown) as IExecution;
-    dataSource.toContract = contract;
-    dataSource.amount = `${fromRau(amount, "IOTX")} IOTX`;
-    dataSource.dataInHex = `${Buffer.from(data as Buffer).toString("hex")}`;
-  }
-
-  return dataSource as DataSource;
-}
-
-export async function deserializeEnvelop(
-  source: string,
-  fromAddress: string
-): Promise<Envelop> {
-  const meta = await getAntenna().iotx.getAccount({ address: fromAddress });
-  const nonce = String(
-    (meta.accountMeta && meta.accountMeta.pendingNonce) || ""
-  );
-  const envelop = Envelop.deserialize(Buffer.from(source || "", "hex"));
-
-  envelop.nonce = nonce;
-  return envelop;
-}
-
 class SignAndSendEnvelopModalInner extends Component<Props, State> {
   public props: Props;
 
@@ -90,6 +45,7 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
   };
 
   private envelop: Envelop;
+  private readonly sendList: Array<number> = [];
 
   public async signAndSend(): Promise<void> {
     const { fromAddress, reqId } = this.props;
@@ -102,10 +58,11 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
     const { actionHash } = await getAntenna().iotx.sendAction({
       action: sealed.action()
     });
-    // @ts-ignore
-    if (window.signed) {
-      // @ts-ignore
+
+    if (window.signed && !this.sendList.includes(reqId as number)) {
       window.signed(reqId, JSON.stringify({ actionHash, reqId }));
+      this.sendList.push(reqId as number);
+      message.success(t("wallet.sign_and_send.success", { actionHash }));
     }
   }
 
@@ -123,10 +80,9 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
       }
     });
 
-    const { modalGate } = this.props;
+    const nextGate = moveGateState(this.props.modalGate, "00");
 
-    // 001 ? 0 : 100
-    this.props.dispatch(setModalGate(modalGate < 1 << 2 ? 0 : 1 << 2));
+    this.props.dispatch(setModalGate(nextGate));
   };
 
   public componentDidMount(): void {
@@ -137,20 +93,29 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
     this.updateEnvelop();
   }
 
-  public async updateEnvelop() {
+  public async updateEnvelop(): Promise<void> {
     if (!this.props.envelop || !this.props.fromAddress) {
       return;
     }
 
     const envelop = await deserializeEnvelop(
-      this.props.envelop as string,
+      this.props.envelop,
       this.props.fromAddress
     );
     const dataSource = getDataSource(envelop, this.props.fromAddress);
+    const isInWhitelistsAndUnexpired = whitelistService.isInWhitelistsAndUnexpired(
+      Date.now(),
+      createWhitelistConfig(dataSource, this.props.origin)
+    );
 
     this.envelop = envelop;
 
-    this.setState({ dataSource });
+    if (isInWhitelistsAndUnexpired) {
+      this.setState({ dataSource: null });
+      this.onOk();
+    } else {
+      this.setState({ dataSource });
+    }
   }
 
   public render(): JSX.Element | null {
@@ -162,11 +127,10 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
 
     const { modalGate } = this.props;
     const isVisible = parseInt(modalGate.toString(2).slice(-1), 10) === 1;
-    console.log("sign-and-send-envelop render ", modalGate);
 
     return (
       <ConfirmContractModal
-        dataSource={dataSource as { [key: string]: any }}
+        dataSource={dataSource}
         title={t("wallet.sign.envelop_title")}
         maskClosable={false}
         showModal={isVisible}
@@ -183,7 +147,8 @@ export const SignAndSendEnvelopModal = connect(
   (state: { signParams: SignParams; wallet: IWalletState }) => ({
     envelop: state.signParams.envelop,
     reqId: state.signParams.reqId,
-    modalGate: state.wallet.modalGate
+    modalGate: state.wallet.modalGate,
+    origin: state.wallet.origin
   })
 )(
   // @ts-ignore

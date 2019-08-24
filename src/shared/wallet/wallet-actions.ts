@@ -1,6 +1,6 @@
 import { Account } from "iotex-antenna/lib/account/account";
 import { ITokenInfoDict } from "../../erc20/token";
-import { IRPCProvider, WalletAction, OriginInfo } from "./wallet-reducer";
+import { IRPCProvider, WalletAction } from "./wallet-reducer";
 
 export const setNetwork = (
   network: IRPCProvider,

@@ -90,7 +90,6 @@ ipcRenderer.on("GET_ACCOUNTS", function(event, payload) {
 
 ipcRenderer.on("origin", function(_, payload) {
   const info = JSON.parse(payload);
-  console.log("origin info: ", info);
 
   const actionEvent = {
     type: "SET_ORIGIN",

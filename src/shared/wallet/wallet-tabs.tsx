@@ -21,10 +21,10 @@ import { SignAndSendEnvelopModal } from "./sign-and-send-envelop-modal";
 import Transfer from "./transfer/transfer";
 import { countdownToLockInMS } from "./wallet-actions";
 import {
+  IWalletState,
   QueryParams,
   QueryType,
-  SignParams,
-  IWalletState
+  SignParams
 } from "./wallet-reducer";
 // @ts-ignore
 import { Whitelist } from "./whitelists";
@@ -40,7 +40,6 @@ type Props = RouteComponentProps & {
   contentToSign?: string;
   envelop?: string;
   reqId?: number;
-  isWhitelistForbidden: boolean;
 } & DispatchProp;
 
 class WalletTabsInner extends Component<Props> {
@@ -82,8 +81,6 @@ class WalletTabsInner extends Component<Props> {
     history.push(activeKey);
     this.props.dispatch(countdownToLockInMS());
   }
-
-  public componentDidUpdate(): void {}
 
   public render(): JSX.Element {
     const { location, address } = this.props;
