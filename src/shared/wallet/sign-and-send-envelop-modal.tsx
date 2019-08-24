@@ -145,7 +145,8 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
   }
 }
 
-export const SignAndSendEnvelopModal = withRouter(
+// tslint:disable: no-any
+export const SignAndSendEnvelopModal: any = withRouter(
   connect((state: { signParams: SignParams; wallet: IWalletState }) => ({
     envelop: state.signParams.envelop,
     reqId: state.signParams.reqId,
