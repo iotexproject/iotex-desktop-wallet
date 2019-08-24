@@ -6,6 +6,7 @@ import { Envelop, SealedEnvelop } from "iotex-antenna/lib/action/envelop";
 import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
 import ConfirmContractModal from "../common/confirm-contract-modal";
 import { getAntenna } from "./get-antenna";
 import { setModalGate } from "./wallet-actions";
@@ -31,7 +32,8 @@ type Props = {
   reqId?: number;
   modalGate: number;
   origin: OriginInfo;
-} & DispatchProp<SignParamAction | WalletAction>;
+} & DispatchProp<SignParamAction | WalletAction> &
+  RouteComponentProps;
 
 interface State {
   dataSource: DataSource | null;
@@ -143,14 +145,14 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
   }
 }
 
-export const SignAndSendEnvelopModal = connect(
-  (state: { signParams: SignParams; wallet: IWalletState }) => ({
+export const SignAndSendEnvelopModal = withRouter(
+  connect((state: { signParams: SignParams; wallet: IWalletState }) => ({
     envelop: state.signParams.envelop,
     reqId: state.signParams.reqId,
     modalGate: state.wallet.modalGate,
     origin: state.wallet.origin
-  })
-)(
-  // @ts-ignore
-  SignAndSendEnvelopModalInner
+  }))(
+    // @ts-ignore
+    SignAndSendEnvelopModalInner
+  )
 );
