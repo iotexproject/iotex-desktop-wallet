@@ -6,7 +6,6 @@ import { Envelop, SealedEnvelop } from "iotex-antenna/lib/action/envelop";
 import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
-
 import ConfirmContractModal from "../common/confirm-contract-modal";
 import { getAntenna } from "./get-antenna";
 import { setModalGate } from "./wallet-actions";
@@ -64,6 +63,7 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
       this.sendList.push(reqId as number);
       message.success(t("wallet.sign_and_send.success", { actionHash }));
     }
+    this.props.history.push(`/wallet/transfer/${actionHash}`);
   }
 
   private readonly onOk = () => {
