@@ -177,9 +177,7 @@ class WalletTabsInner extends Component<Props> {
             </Tabs.TabPane>
           )}
         </Tabs>
-
         <Whitelist fromAddress={address} />
-
         <SignAndSendEnvelopModal fromAddress={address} />
       </LockWalletAlert>
     );
