@@ -27,7 +27,6 @@ import {
   QueryType,
   SignParams
 } from "./wallet-reducer";
-// @ts-ignore
 import { Whitelist } from "./whitelists";
 
 const ENABLE_SIGN = false;
