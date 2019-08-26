@@ -12,7 +12,6 @@ import { getAntenna } from "./get-antenna";
 import { setModalGate } from "./wallet-actions";
 import {
   IWalletState,
-  OriginInfo,
   SignParamAction,
   SignParams,
   WalletAction
@@ -31,7 +30,8 @@ type Props = {
   fromAddress: string;
   reqId?: number;
   modalGate: number;
-  origin: OriginInfo;
+  origin: string;
+  method: string;
 } & DispatchProp<SignParamAction | WalletAction> &
   RouteComponentProps;
 
@@ -105,9 +105,10 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
       this.props.fromAddress
     );
     const dataSource = getDataSource(envelop, this.props.fromAddress);
+    const { origin, method } = this.props;
     const isInWhitelistsAndUnexpired = whitelistService.isInWhitelistsAndUnexpired(
       Date.now(),
-      createWhitelistConfig(dataSource, this.props.origin)
+      createWhitelistConfig(dataSource, origin, method)
     );
 
     this.envelop = envelop;
@@ -151,7 +152,8 @@ export const SignAndSendEnvelopModal: any = withRouter(
     envelop: state.signParams.envelop,
     reqId: state.signParams.reqId,
     modalGate: state.wallet.modalGate,
-    origin: state.wallet.origin
+    origin: state.signParams.origin,
+    method: state.signParams.method
   }))(
     // @ts-ignore
     SignAndSendEnvelopModalInner

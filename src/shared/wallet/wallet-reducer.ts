@@ -25,6 +25,8 @@ export type SignParams = {
   reqId?: number;
   content?: string; // message
   envelop?: string;
+  method?: string | Array<string>;
+  origin?: string;
 };
 
 export type SignParamAction = {
@@ -60,11 +62,6 @@ export interface IRPCProvider {
   url: string;
 }
 
-export interface OriginInfo {
-  origin: string;
-  method: string;
-}
-
 export type WalletAction = {
   type:
     | "SET_ACCOUNT"
@@ -90,7 +87,6 @@ export type WalletAction = {
     // |      |-- whether whitelist modal should be in active;
     // |-- whether whitelist functionality is in forbidden state;
     modalGate?: number;
-    origin?: OriginInfo | null;
   };
 };
 
@@ -103,7 +99,6 @@ export interface IWalletState {
   lockAt?: number; // milliseconds to lock wallet. 0: never lock. 1: never to reset it;
   isLockDelayed?: boolean;
   modalGate?: number;
-  origin?: OriginInfo | null;
 }
 
 export const walletReducer = (
@@ -113,8 +108,7 @@ export const walletReducer = (
     tokens: {},
     lockAt: 0,
     isLockDelayed: false,
-    modalGate: 0,
-    origin: null
+    modalGate: 0
   },
   action: WalletAction
 ) => {
@@ -176,13 +170,6 @@ export const walletReducer = (
         modalGate: nextState
       };
     }
-    case "SET_ORIGIN": {
-      return {
-        ...state,
-        origin: action.payload.origin
-      };
-    }
-
     default:
       return state;
   }

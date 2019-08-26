@@ -9,7 +9,7 @@ import { connect, DispatchProp } from "react-redux";
 import { CommonMargin } from "../common/common-margin";
 import { colors } from "../common/styles/style-color";
 import { setModalGate } from "./wallet-actions";
-import { IWalletState, OriginInfo, SignParams } from "./wallet-reducer";
+import { IWalletState, SignParams } from "./wallet-reducer";
 import {
   createWhitelistConfig,
   DataSource,
@@ -26,7 +26,8 @@ type WhitelistConfigProps = DispatchProp &
     reqId?: number;
     form: WrappedFormUtils;
     modalGate: number;
-    origin: OriginInfo;
+    origin: string;
+    method: string;
   };
 
 interface WhitelistConfigState {
@@ -56,11 +57,8 @@ class WhitelistSetting extends React.Component<
       } = values;
       const dataSource = this.state.dataSource as DataSource;
       const deadline = Date.now() + duration * 60 * 60 * 1000;
-      const data = createWhitelistConfig(
-        dataSource,
-        this.props.origin,
-        deadline
-      );
+      const { origin, method } = this.props;
+      const data = createWhitelistConfig(dataSource, origin, method, deadline);
 
       if (!toAddressChecked) {
         data.recipient = "";
@@ -99,9 +97,10 @@ class WhitelistSetting extends React.Component<
       this.props.fromAddress
     );
     const dataSource = getDataSource(envelop, this.props.fromAddress);
+    const { origin, method } = this.props;
     const isInWhitelistsAndUnexpired = whitelistService.isInWhitelistsAndUnexpired(
       Date.now(),
-      createWhitelistConfig(dataSource, this.props.origin)
+      createWhitelistConfig(dataSource, origin, method)
     );
 
     if (isInWhitelistsAndUnexpired) {
@@ -123,8 +122,7 @@ class WhitelistSetting extends React.Component<
       return null;
     }
 
-    const { form, modalGate, origin: info } = this.props;
-    const { origin, method } = info;
+    const { form, modalGate, method, origin } = this.props;
     const isVisible = modalGate === 2; // isVisible modalGate binary number: 010
     const { toAddress, amount, toContract } = this.state.dataSource;
     const { getFieldDecorator } = form;
@@ -197,7 +195,8 @@ const ConnectedWhitelist = connect(
     envelop: state.signParams.envelop,
     reqId: state.signParams.reqId,
     modalGate: state.wallet.modalGate,
-    origin: state.wallet.origin
+    origin: state.signParams.origin,
+    method: state.signParams.method
   })
   // @ts-ignore
 )(WhitelistSetting);

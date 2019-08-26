@@ -4,7 +4,6 @@ import { IExecution, ITransfer } from "iotex-antenna/lib/rpc-method/types";
 
 import { xconf, XConfKeys } from "../common/xconf";
 import { getAntenna } from "./get-antenna";
-import { OriginInfo } from "./wallet-reducer";
 
 export interface DataSource {
   address: string;
@@ -70,11 +69,11 @@ export interface WhitelistConfig {
 
 export const createWhitelistConfig = (
   dataSource: DataSource,
-  info: OriginInfo,
+  origin: string,
+  method: string,
   deadline = NaN
 ): WhitelistConfig => {
   const { amount, toAddress, toContract } = dataSource;
-  const { origin, method } = info;
   const recipient = (toAddress || toContract) as string;
 
   return { origin, method, amount, recipient, deadline };
