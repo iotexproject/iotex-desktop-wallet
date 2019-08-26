@@ -26,20 +26,22 @@ export class ChooseFunction extends Component<Props, State> {
           <PageTitle>
             <Icon type="file-text" /> {t("wallet.contract.chooseFunction")}
           </PageTitle>
-          <CardFunction
-            title={t("wallet.contract.interactWith")}
-            description=""
-            redirectUrl={"/wallet/smart-contract/interact"}
-            imageSrc={assetURL("/interact-contract.png")}
-            moreUrl=""
-          />
-          <CardFunction
-            title={t("wallet.contract.deployContract")}
-            description=""
-            redirectUrl={"/wallet/smart-contract/deploy"}
-            imageSrc={assetURL("/deploy-contract.png")}
-            moreUrl=""
-          />
+          <div className="wallet-list">
+            <CardFunction
+              title={t("wallet.contract.interactWith")}
+              description=""
+              redirectUrl={"/wallet/smart-contract/interact"}
+              imageSrc={assetURL("/interact-contract.png")}
+              moreUrl=""
+            />
+            <CardFunction
+              title={t("wallet.contract.deployContract")}
+              description=""
+              redirectUrl={"/wallet/smart-contract/deploy"}
+              imageSrc={assetURL("/deploy-contract.png")}
+              moreUrl=""
+            />
+          </div>
         </Flex>
       </div>
     );
