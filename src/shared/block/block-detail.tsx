@@ -366,10 +366,10 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     case "blkHash":
       return <FlexLink path={`/block/${text}`} text={text} />;
     case "status": {
-      const success = parseInt(text, 10) === 1;
+      const success = text === "Success";
       const iconName = success ? "check-circle" : "close-circle";
       const color = success ? colors.success : colors.error;
-      const statusText = t(`block.${success ? "success" : "failure"}`);
+      const statusText = t(`block.${text}`);
       return (
         <span style={{ color }}>
           <Icon type={iconName} style={{ fontSize: "16px" }} /> {statusText}

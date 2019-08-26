@@ -298,8 +298,17 @@ unlock_by_keystore_file.select_file: 'Select File'
 input.error.keystore.required: 'Keystore file is required.'
 input.error.keystore.invalid: 'Keystore file is invalid.'
 input.error.keystore.failed_to_derive: 'Key derivation failed. Possibly wrong password.'
-block.success: Success
-block.failure: Failure
+block.Success: Success
+block.Failure: Failure
+block.ErrUnknown: Failure [Unknown]
+block.ErrOutOfGas: Failure [Execution out of gas]
+block.ErrCodeStoreOutOfGas: Failure [Deployment out of gas - not enough gas to store code]
+block.ErrDepth: Failure [Max call depth exceeded]
+block.ErrContractAddressCollision: Failure [Contract address collision]
+block.ErrNoCompatibleInterpreter: Failure [No compatible interpreter]
+block.ErrExecutionReverted: Failure [Execution reverted]
+block.ErrMaxCodeSizeExceeded: Failure [Max code size exceeded]
+block.ErrWriteProtection: Failure [Write protection]
 action.copy_link: 'Copy Link'
 action.email: Email
 action.share_this_action: 'Share this Action'
