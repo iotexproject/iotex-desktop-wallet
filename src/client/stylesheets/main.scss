@@ -363,3 +363,13 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
 .addressTop {
   margin-top: 60px;
 }
+
+.wallet-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  > div {
+    margin: 0 10px;
+  }
+}
