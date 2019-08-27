@@ -22,6 +22,7 @@ import { ITokenInfo, Token } from "../../erc20/token";
 import { webBpApolloClient } from "../common/apollo-client";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { translateFn } from "../common/from-now";
+import { Navigation } from "../common/navigation";
 import { ShowQrcodeButton } from "../common/show-qrcode-button";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -172,8 +173,11 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     return (
       <ContentPadding>
         <Helmet title={`IoTeX ${t("address.address")} ${address}`} />
-        <Row style={{ marginTop: 60 }} justify="end" type="flex">
-          <Col xs={24} md={12}>
+        <Row justify="end" type="flex">
+          <Col xs={24} md={12} style={{ marginTop: 20 }}>
+            <Navigation />
+          </Col>
+          <Col xs={24} md={12} style={{ marginTop: 30 }}>
             <SearchBox
               enterButton
               size="large"

@@ -27,6 +27,7 @@ export const Navigation = ({
 }: {
   routes?: Array<BreadcrumbsRoute>;
 }) => {
+  const disabledRoutes = ["/address"];
   const newRoutes = [...routesConfig, ...(routes || [])];
   const breadcrumbs = withBreadcrumbs(newRoutes, {
     excludePaths: ["/"]
@@ -35,9 +36,15 @@ export const Navigation = ({
       <div style={{ padding: "20px 0", fontSize: "1em" }}>
         {breadcrumbs.map(({ match, breadcrumb }, index) => (
           <span key={match.url}>
-            <NavLink to={match.url} className={getStyleClass(index)}>
-              {index !== 0 && ` > `} {breadcrumb}
-            </NavLink>
+            {disabledRoutes.indexOf(match.url) === -1 ? (
+              <NavLink to={match.url} className={getStyleClass(index)}>
+                {index !== 0 && ` > `} {breadcrumb}
+              </NavLink>
+            ) : (
+              <>
+                {index !== 0 && ` > `} {breadcrumb}
+              </>
+            )}
           </span>
         ))}
       </div>
