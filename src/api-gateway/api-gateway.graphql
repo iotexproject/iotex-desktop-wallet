@@ -541,7 +541,7 @@ type ReadStateResponse {
 
 # Properties of an Receipt
 type Receipt {
-  status: Int!
+  status: ReceiptStatus!
   blkHeight: Int!
   actHash: Buffer!
   gasConsumed: Int!
@@ -552,6 +552,20 @@ type Receipt {
 type ReceiptInfo {
   receipt: Receipt
   blkHash: String!
+}
+
+enum ReceiptStatus {
+  Failure
+  Success
+  ErrUnknown
+  ErrOutOfGas
+  ErrCodeStoreOutOfGas
+  ErrDepth
+  ErrContractAddressCollision
+  ErrNoCompatibleInterpreter
+  ErrExecutionReverted
+  ErrMaxCodeSizeExceeded
+  ErrWriteProtection
 }
 
 enum RewardType {
