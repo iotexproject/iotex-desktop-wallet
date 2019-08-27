@@ -27,7 +27,6 @@ import {
   QueryType,
   SignParams
 } from "./wallet-reducer";
-import { Whitelist } from "./whitelists";
 
 const ENABLE_SIGN = false;
 
@@ -176,7 +175,6 @@ class WalletTabsInner extends Component<Props> {
             </Tabs.TabPane>
           )}
         </Tabs>
-        <Whitelist fromAddress={address} />
         <SignAndSendEnvelopModal fromAddress={address} />
       </LockWalletAlert>
     );

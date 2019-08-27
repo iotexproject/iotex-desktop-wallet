@@ -76,9 +76,6 @@ ipcRenderer.on("sign", function(event, payload) {
   // trigger confirm modal popup : sign-and-send-envelop-modal;
   console.log("dispatching", JSON.stringify(actionEvent));
   window.dispatch(actionEvent);
-  window.dispatch({
-    type: "OPEN_MODAL_GATE"
-  });
 });
 
 ipcRenderer.on("GET_ACCOUNTS", function(event, payload) {

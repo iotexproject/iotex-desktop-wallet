@@ -1,9 +1,12 @@
 import ethereumjs from "ethereumjs-abi";
 import {
+  AbiByFunc,
   getArgTypes,
   getHeaderHash
 } from "iotex-antenna/lib/contract/abi-to-byte";
 import { fromBytes } from "iotex-antenna/lib/crypto/address";
+import { ERC20 } from "../../erc20";
+import { getAntenna } from "./get-antenna";
 
 export interface DecodeData {
   method: string;
@@ -11,16 +14,22 @@ export interface DecodeData {
   data: { [key: string]: any };
 }
 
-export function decode(abi: string, data: string): DecodeData {
+export function decode(
+  abi: string,
+  data: string,
+  contractAddress: string = "io1p99pprm79rftj4r6kenfjcp8jkp6zc6mytuah5"
+): DecodeData {
   if (data.length < 8) {
     throw new Error("input data error");
   }
   const method = data.substr(0, 8);
 
   const ABI = JSON.parse(abi);
-  for (const fnName of Object.keys(ABI)) {
-    // @ts-ignore
-    const fnAbi = erc20.contract.getABI()[fnName];
+  const erc20: ERC20 = ERC20.create(contractAddress, getAntenna().iotx, ABI);
+
+  const contractAbi = erc20.contract.getABI() as AbiByFunc;
+  for (const fnName of Object.keys(contractAbi)) {
+    const fnAbi = contractAbi[fnName];
     if (fnAbi.type === "constructor") {
       continue;
     }

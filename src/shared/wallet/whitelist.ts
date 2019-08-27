@@ -3,6 +3,7 @@ import { Envelop } from "iotex-antenna/lib/action/envelop";
 import { IExecution, ITransfer } from "iotex-antenna/lib/rpc-method/types";
 
 import { xconf, XConfKeys } from "../common/xconf";
+import { decode } from "./decode-contract-data";
 import { getAntenna } from "./get-antenna";
 
 export interface DataSource {
@@ -13,11 +14,14 @@ export interface DataSource {
   dataInHex: string;
   toAddress?: string;
   toContract?: string;
+  method: string;
 }
 
 export function getDataSource(
   envelop: Envelop,
-  fromAddress: string
+  fromAddress: string,
+  // tslint:disable-next-line: no-any
+  abi: { [key: number]: any }
 ): DataSource {
   const { gasPrice = "", gasLimit = "", transfer = null, execution = null } =
     envelop || {};
@@ -40,6 +44,11 @@ export function getDataSource(
     dataSource.toContract = contract;
     dataSource.amount = `${fromRau(amount, "IOTX")} IOTX`;
     dataSource.dataInHex = `${Buffer.from(data as Buffer).toString("hex")}`;
+  }
+
+  if (dataSource.dataInHex) {
+    const { method = "" } = decode(JSON.stringify(abi), dataSource.dataInHex);
+    dataSource.method = method;
   }
 
   return dataSource as DataSource;
@@ -70,10 +79,9 @@ export interface WhitelistConfig {
 export const createWhitelistConfig = (
   dataSource: DataSource,
   origin: string,
-  method: string,
   deadline = NaN
 ): WhitelistConfig => {
-  const { amount, toAddress, toContract } = dataSource;
+  const { amount, toAddress, toContract, method } = dataSource;
   const recipient = (toAddress || toContract) as string;
 
   return { origin, method, amount, recipient, deadline };

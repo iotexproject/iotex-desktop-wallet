@@ -58,10 +58,3 @@ export const delayLock = (isLockDelayed: boolean): WalletAction => ({
     isLockDelayed
   }
 });
-
-export const setModalGate = (modalGate: number): WalletAction => ({
-  type: "SET_MODAL_GATE",
-  payload: {
-    modalGate
-  }
-});

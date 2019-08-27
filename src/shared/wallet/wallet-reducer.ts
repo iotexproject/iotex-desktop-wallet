@@ -1,6 +1,5 @@
 import { Account } from "iotex-antenna/lib/account/account";
 import { ITokenInfoDict } from "../../erc20/token";
-import { moveGateState } from "./whitelist";
 
 export type QueryType = "CONTRACT_INTERACT";
 
@@ -69,8 +68,6 @@ export type WalletAction = {
     | "ADD_CUSTOM_RPC"
     | "UPDATE_TOKENS"
     | "SET_LOCK_TIME"
-    | "SET_MODAL_GATE"
-    | "OPEN_MODAL_GATE"
     | "SET_ORIGIN"
     | "DELAY_LOCK";
   payload: {
@@ -81,12 +78,6 @@ export type WalletAction = {
     defaultNetworkTokens?: Array<string>;
     lockAt?: number;
     isLockDelayed?: boolean;
-    // Use a binary number to indicate whether the corresponding function should be active. 0 means false , 1 means true;
-    // 0      0     0
-    // |      |     |-- whether sign and send modal should be in active;
-    // |      |-- whether whitelist modal should be in active;
-    // |-- whether whitelist functionality is in forbidden state;
-    modalGate?: number;
   };
 };
 
@@ -98,7 +89,6 @@ export interface IWalletState {
   defaultNetworkTokens: Array<string>;
   lockAt?: number; // milliseconds to lock wallet. 0: never lock. 1: never to reset it;
   isLockDelayed?: boolean;
-  modalGate?: number;
 }
 
 export const walletReducer = (
@@ -107,8 +97,7 @@ export const walletReducer = (
     defaultNetworkTokens: [],
     tokens: {},
     lockAt: 0,
-    isLockDelayed: false,
-    modalGate: 0
+    isLockDelayed: false
   },
   action: WalletAction
 ) => {
@@ -151,25 +140,6 @@ export const walletReducer = (
         ...state,
         isLockDelayed: action.payload.isLockDelayed
       };
-    case "SET_MODAL_GATE":
-      return {
-        ...state,
-        modalGate: action.payload.modalGate
-      };
-    case "OPEN_MODAL_GATE": {
-      const { modalGate = 0 } = state;
-      const forbidden = modalGate.toString(2).slice(0, 1);
-      // keep whitelist forbidden state; Start from whitelist modal if whitelist do not in forbidden state, otherwise start from send modal;
-      const nextState = moveGateState(
-        modalGate,
-        forbidden === "1" ? "01" : "10"
-      );
-
-      return {
-        ...state,
-        modalGate: nextState
-      };
-    }
     default:
       return state;
   }
