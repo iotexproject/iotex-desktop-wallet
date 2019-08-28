@@ -132,6 +132,7 @@ class TopBarComponent extends Component<Props, State> {
             <StyledLink
               to={directTo}
               onClick={() => this.setState({ blockChainMenu: menuText })}
+              style={{ padding: "5px 45px 5px 12px !important" }}
             >
               {t(itemText)}
             </StyledLink>
@@ -215,7 +216,10 @@ class TopBarComponent extends Component<Props, State> {
           >
             <StyledLink
               className="ant-dropdown-link"
-              style={{ textTransform: "capitalize" }}
+              style={{
+                textTransform: "capitalize",
+                padding: "5px 45px 5px 12px !important"
+              }}
               to="#"
             >
               {multiChain.current} {DownIcon()}
@@ -484,7 +488,6 @@ const NoBgLink = styled(Link, menuItem);
 
 const StyledLink = styled(Link, {
   ...menuItem,
-  padding: "5px 45px 5px 12px !important",
   ":hover": {
     color: `${colors.primary} !important`,
     backgroundColor: colors.menuHover

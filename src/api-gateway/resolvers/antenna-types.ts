@@ -145,18 +145,18 @@ export class Log implements ILog {
 }
 
 export enum ReceiptStatus {
-  Failure = "0",
-  Success = "1",
+  Failure = 0,
+  Success = 1,
   //1xx for EVM ErrorCode
-  ErrUnknown = "100",
-  ErrOutOfGas = "101",
-  ErrCodeStoreOutOfGas = "102",
-  ErrDepth = "103",
-  ErrContractAddressCollision = "104",
-  ErrNoCompatibleInterpreter = "105",
-  ErrExecutionReverted = "106",
-  ErrMaxCodeSizeExceeded = "107",
-  ErrWriteProtection = "108"
+  ErrUnknown = 100,
+  ErrOutOfGas = 101,
+  ErrCodeStoreOutOfGas = 102,
+  ErrDepth = 103,
+  ErrContractAddressCollision = 104,
+  ErrNoCompatibleInterpreter = 105,
+  ErrExecutionReverted = 106,
+  ErrMaxCodeSizeExceeded = 107,
+  ErrWriteProtection = 108
 }
 
 registerEnumType(ReceiptStatus, {
