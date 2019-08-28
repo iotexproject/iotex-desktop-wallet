@@ -61,7 +61,7 @@ class NewWallet extends React.Component<Props, State> {
     this.props.dispatch(setAccount(this.state.account));
   };
 
-  public saveMnemonic(): JSX.Element {
+  public renderSaveMnemonic(): JSX.Element {
     const { copiedMnemonic } = this.state;
     const copyMnemonicButton = (
       // @ts-ignore
@@ -132,7 +132,7 @@ class NewWallet extends React.Component<Props, State> {
               readOnly={true}
             />
           </Form.Item>
-          {this.saveMnemonic()}
+          {this.renderSaveMnemonic()}
         </Form>
         <DownloadKeystoreForm
           privateKey={account.privateKey}
