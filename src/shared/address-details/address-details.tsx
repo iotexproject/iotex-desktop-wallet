@@ -22,6 +22,7 @@ import { ITokenInfo, Token } from "../../erc20/token";
 import { webBpApolloClient } from "../common/apollo-client";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { translateFn } from "../common/from-now";
+import dateformat from "dateformat";
 import { Navigation } from "../common/navigation";
 import { ShowQrcodeButton } from "../common/show-qrcode-button";
 import { SpinPreloader } from "../common/spin-preloader";
@@ -116,11 +117,15 @@ class AddressDetailsInner extends PureComponent<Props, State> {
                 data.getActions &&
                 data.getActions.actionInfo &&
                 data.getActions.actionInfo[0].timestamp;
-
               return (
                 <Col xs={21}>
                   <div className={"info"}>
                     {(timestamp && translateFn(timestamp)) || ""}
+                    {timestamp &&
+                      dateformat(
+                        new Date(timestamp.seconds * 1000).toUTCString(),
+                        "UTC:yyyy-mm-dd HH:MM:ssTT Z"
+                      )}
                   </div>
                 </Col>
               );
