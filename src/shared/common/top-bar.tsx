@@ -465,7 +465,7 @@ const SignIn = styled("span", {
   [media.toLap]: {
     boxSizing: "border-box",
     width: "100%",
-    padding: "16px 0 16px 0",
+    padding: "25px 0 25px 0",
     marginLeft: "-20px"
   },
   cursor: "pointer"
