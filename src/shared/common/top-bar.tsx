@@ -296,7 +296,7 @@ class TopBarComponent extends Component<Props, State> {
                 {t("topbar.sign_in")}
               </SignIn>
             ) : null}
-            <LanguageSwitcherWrapper>
+            <LanguageSwitcherWrapper className="language-wrapper">
               <LanguageSwitcher
                 supportedLanguages={[
                   Languages.EN,
