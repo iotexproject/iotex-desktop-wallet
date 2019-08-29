@@ -1,6 +1,9 @@
 // @ts-ignore
-import { Card, Col, Row } from "antd";
+import Card from "antd/lib/card";
+import Col from "antd/lib/col";
 import Divider from "antd/lib/divider";
+import Row from "antd/lib/row";
+import dateformat from "dateformat";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
 import isBrowser from "is-browser";
@@ -22,7 +25,6 @@ import { ITokenInfo, Token } from "../../erc20/token";
 import { webBpApolloClient } from "../common/apollo-client";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { translateFn } from "../common/from-now";
-import dateformat from "dateformat";
 import { Navigation } from "../common/navigation";
 import { ShowQrcodeButton } from "../common/show-qrcode-button";
 import { SpinPreloader } from "../common/spin-preloader";
