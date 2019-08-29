@@ -466,7 +466,10 @@ const SignIn = styled("span", {
     boxSizing: "border-box",
     width: "100%",
     padding: "25px 0 25px 0",
-    marginLeft: "-20px"
+    marginLeft: "115px"
+  },
+  [media.palm]: {
+    marginLeft: 0
   },
   cursor: "pointer"
 });
