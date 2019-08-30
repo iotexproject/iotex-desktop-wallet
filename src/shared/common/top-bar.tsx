@@ -179,6 +179,7 @@ class TopBarComponent extends Component<Props, State> {
     const votingPageUrl = "https://member.iotex.io";
     const result = [
       <AntdDropdown
+        className="common-pd"
         key={0}
         trigger={["click", "hover"]}
         overlay={this.renderBlockchainMenu()}
@@ -189,6 +190,7 @@ class TopBarComponent extends Component<Props, State> {
         </DropDownTitle>
       </AntdDropdown>,
       <AntdDropdown
+        className="common-pd"
         key={1}
         trigger={["click", "hover"]}
         overlay={this.renderToolMenu()}
@@ -198,10 +200,10 @@ class TopBarComponent extends Component<Props, State> {
           {t("topbar.tools")} {DownIcon()}
         </DropDownTitle>
       </AntdDropdown>,
-      <NoBgA href={votingPageUrl} key={2}>
+      <NoBgA className="common-pd" href={votingPageUrl} key={2}>
         {t("topbar.voting")}
       </NoBgA>,
-      <NoBgLink to="/wallet" key={3}>
+      <NoBgLink className="common-pd" to="/wallet" key={3}>
         {t("topbar.wallet")}
       </NoBgLink>
     ];
@@ -249,6 +251,7 @@ class TopBarComponent extends Component<Props, State> {
       <AntdDropdown
         overlay={this.renderMutichainMenu()}
         trigger={["click", "hover"]}
+        className="common-pd"
       >
         <DropDownTitle>
           {multiChain.current} {DownIcon()}
@@ -292,11 +295,14 @@ class TopBarComponent extends Component<Props, State> {
           >
             <Menu>{this.renderChainMenu()}</Menu>
             {enableSignIn ? (
-              <SignIn onClick={() => this.showSignInModal()}>
+              <SignIn
+                onClick={() => this.showSignInModal()}
+                className="common-pd"
+              >
                 {t("topbar.sign_in")}
               </SignIn>
             ) : null}
-            <LanguageSwitcherWrapper className="language-wrapper">
+            <LanguageSwitcherWrapper className="language-wrapper common-pd">
               <LanguageSwitcher
                 supportedLanguages={[
                   Languages.EN,
@@ -428,7 +434,9 @@ function DownIcon(): string {
 }
 
 const overlayStyle = {
-  backgroundColor: colors.nav01
+  backgroundColor: colors.nav01,
+  marginTop: "-8px",
+  borderRadius: 0
 };
 
 const menuItem: StyleObject = {
