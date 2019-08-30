@@ -63,9 +63,11 @@ export const MapButton = (
       }
     : {};
 
+  const { active, ...mapButtonProps } = props;
+
   return (
     <div
-      {...props}
+      {...mapButtonProps}
       style={{
         ...Styles.mapButton,
         whiteSpace: "nowrap",
