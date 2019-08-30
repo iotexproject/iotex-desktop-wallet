@@ -74,10 +74,9 @@ class NewWallet extends React.Component<Props, State> {
     );
     return (
       <div>
-        <div className="wallet-title" style={{ display: "inline-block" }}>
-          {t("new-wallet.save")}
-        </div>
-        <div className="private-key">{t("new-wallet.mnemonic")}</div>
+        <div
+          dangerouslySetInnerHTML={{ __html: t("new-wallet.save_mnemonic") }}
+        />
         <Form.Item
           label={<FormItemLabel>{t("new-wallet.mnemonic")}</FormItemLabel>}
         >
