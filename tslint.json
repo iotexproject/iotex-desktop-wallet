@@ -17,6 +17,11 @@
           "file": "src/shared/wallet/download-keystore-form.tsx",
           "method": "render",
           "comment": "Usage has been approved by Tian on 2019-04-30 19:10"
+        },
+        {
+          "file": "src/shared/wallet/new-wallet.tsx",
+          "method": "renderSaveMnemonic",
+          "comment": "Usage has been approved by Tian on 2019-08-30 15:56"
         }
       ]
     ],
