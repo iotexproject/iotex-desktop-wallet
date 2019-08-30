@@ -23,10 +23,10 @@ export const ProductivityCard = (): JSX.Element => {
         } = data || {};
         const productivityBase = bpCandidates
           .map(a => a.productivityBase || 0)
-          .reduce((a, b) => a + b);
+          .reduce((a, b) => a + b, 0);
         const productivity = bpCandidates
           .map(a => a.productivity || 0)
-          .reduce((a, b) => a + b);
+          .reduce((a, b) => a + b, 0);
         const percent =
           productivityBase > 0 ? (productivity * 100) / productivityBase : 0;
         const showLoading = loading || !!error;

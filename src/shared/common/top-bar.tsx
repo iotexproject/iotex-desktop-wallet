@@ -473,8 +473,11 @@ const SignIn = styled("span", {
   [media.toLap]: {
     boxSizing: "border-box",
     width: "100%",
-    padding: "16px 0 16px 0",
-    marginLeft: "-20px"
+    padding: "25px 0 25px 0",
+    marginLeft: "115px"
+  },
+  [media.palm]: {
+    marginLeft: 0
   },
   cursor: "pointer"
 });
