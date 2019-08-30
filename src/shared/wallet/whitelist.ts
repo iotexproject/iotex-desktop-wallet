@@ -93,9 +93,9 @@ export const moveGateState = (modalGate: number, next: string): number => {
   return parseInt(forbiddenState + next, 2);
 };
 
-export type ListValue = [string, string, string, number];
+export type ListValue = [string, string, string, number]; // [method, recipient, amount, deadline];
 
-export type Whitelists = Map<string, Array<ListValue>>;
+export type Whitelists = Map<string, Array<ListValue>>; // [origin: [[method, recipient, amount, deadline]]];
 
 class WhitelistService {
   public save(config: WhitelistConfig): boolean {
@@ -189,6 +189,40 @@ class WhitelistService {
     const c = xconf.getConf<Array<[string, ListValue]>>(XConfKeys.WHITELISTS);
 
     return !!c ? new Map(c) : new Map();
+  }
+
+  public isWhitelistEnable(): boolean {
+    const state = xconf.getConf<boolean>(XConfKeys.IS_WHITELIST_ENABLE);
+
+    return state === null || state;
+  }
+
+  public setWhitelistState(state: boolean): void {
+    xconf.setConf(XConfKeys.IS_WHITELIST_ENABLE, state);
+  }
+
+  public getConfigList(): Array<WhitelistConfig> {
+    const list = this.removeExpired(Date.now(), this.getList());
+    let result: Array<WhitelistConfig> = [];
+
+    for (let [origin, ary] of list) {
+      const data: Array<WhitelistConfig> = ary
+        .filter(ary => ary.every(item => !!item))
+        .map(([method, recipient, amount, deadline]) => ({
+          origin,
+          method,
+          recipient,
+          amount,
+          deadline
+        }));
+      result = [...result, ...data];
+    }
+
+    return result;
+  }
+
+  public getConfigKey({ deadline }: WhitelistConfig): string {
+    return deadline.toString(16);
   }
 }
 

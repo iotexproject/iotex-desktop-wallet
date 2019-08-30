@@ -27,6 +27,8 @@ import {
   QueryType,
   SignParams
 } from "./wallet-reducer";
+import isElectron from "is-electron";
+import { Whitelists } from "./whitelists";
 
 const ENABLE_SIGN = false;
 
@@ -92,6 +94,8 @@ class WalletTabsInner extends Component<Props> {
       activeKey = `/wallet/sign`;
     } else if (location.pathname.match(/keystore/)) {
       activeKey = `/wallet/keystore`;
+    } else if (location.pathname.match(/whitelist/)) {
+      activeKey = `/wallet/whitelist`;
     }
 
     return (
@@ -172,6 +176,11 @@ class WalletTabsInner extends Component<Props> {
                 fromAddress={address}
                 reqId={this.props.reqId}
               />
+            </Tabs.TabPane>
+          )}
+          {isElectron() && (
+            <Tabs.TabPane key={"/wallet/whitelist"} tab={t("wallet.whitelist")}>
+              <Whitelists />
             </Tabs.TabPane>
           )}
         </Tabs>

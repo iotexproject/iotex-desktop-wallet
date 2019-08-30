@@ -373,3 +373,13 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
     margin: 0 10px;
   }
 }
+
+.whitelist-table {
+  table {
+    table-layout: fixed;
+  }
+
+  .x-scroll {
+    overflow-x: scroll;
+  }
+}

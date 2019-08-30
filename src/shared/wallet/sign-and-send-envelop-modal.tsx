@@ -24,7 +24,7 @@ import {
   getDataSource,
   whitelistService
 } from "./whitelist";
-import { Whitelist, WhitelistSetting } from "./whitelists";
+import { Whitelist, WhitelistSetting } from "./whitelist-setting";
 
 type Props = {
   envelop?: string;
@@ -38,6 +38,7 @@ interface State {
   dataSource: DataSource | null;
   showWhitelist: boolean;
   saveWhitelist: boolean;
+  isWhitelistEnable: boolean;
 }
 class SignAndSendEnvelopModalInner extends Component<Props, State> {
   public props: Props;
@@ -45,7 +46,8 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
   public state: State = {
     dataSource: null,
     showWhitelist: false,
-    saveWhitelist: false
+    saveWhitelist: false,
+    isWhitelistEnable: false
   };
 
   private envelop: Envelop;
@@ -118,14 +120,15 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
       Date.now(),
       createWhitelistConfig(dataSource, origin)
     );
+    const isWhitelistEnable = whitelistService.isWhitelistEnable();
 
     this.envelop = envelop;
 
-    if (isInWhitelistsAndUnexpired) {
-      this.setState({ dataSource: null });
+    if (isWhitelistEnable && isInWhitelistsAndUnexpired) {
+      this.setState({ dataSource: null, isWhitelistEnable });
       this.onOk();
     } else {
-      this.setState({ dataSource });
+      this.setState({ dataSource, isWhitelistEnable });
     }
   }
 
@@ -146,7 +149,7 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
         maskClosable={false}
         showModal={!!this.props.envelop}
         okText={t("wallet.sign.confirm")}
-        showWhitelistBtn={isElectron()}
+        showWhitelistBtn={isElectron() && this.state.isWhitelistEnable}
         onWhitelistBtnClick={() =>
           this.setState({ showWhitelist: !this.state.showWhitelist })
         }

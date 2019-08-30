@@ -6,7 +6,8 @@ export type XConfKeyTypes =
   | "last_used_keystore_name"
   | "tokens_address"
   | "last_interact_contract"
-  | "whitelists";
+  | "whitelists"
+  | "whitelist";
 
 // tslint:disable: no-any
 const tmpdata: { [index in XConfKeyTypes]?: any } = {};
@@ -42,5 +43,6 @@ export enum XConfKeys {
   LAST_USED_KEYSTORE_NAME = "last_used_keystore_name",
   TOKENS_ADDRS = "tokens_address",
   LAST_INTERACT_CONTRACT = "last_interact_contract",
-  WHITELISTS = "whitelists"
+  WHITELISTS = "whitelists",
+  IS_WHITELIST_ENABLE = "is_whitelist_enable"
 }
