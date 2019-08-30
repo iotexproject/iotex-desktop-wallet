@@ -27,7 +27,7 @@ class SearchBoxComponent extends Component<SearchBoxProps> {
   }
 
   public render(): JSX.Element {
-    const { ...searchprops } = this.props;
+    const { staticContext, ...searchprops } = this.props;
     return (
       <div ref={this.inputRef}>
         <Input.Search
