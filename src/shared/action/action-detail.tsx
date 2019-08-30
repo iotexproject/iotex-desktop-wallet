@@ -28,7 +28,6 @@ import { SearchBox } from "../home/search-box";
 import { GET_ACTIONS_BY_HASH } from "../queries";
 import { toETHAddress } from "../wallet/address";
 import { ActionReceipt } from "./action-receipt";
-import { findRemovedLocationsForDirective } from "graphql/utilities/findBreakingChanges";
 
 type PathParamsType = {
   hash: string;
@@ -254,7 +253,7 @@ class ActionDetailsInner extends PureComponent<Props> {
         {this.state.error ? (
           <ActionNotFound info={hash} />
         ) : (
-          <Root>
+          <Root style={{ marginBottom: 30 }}>
             <Row style={{ display: "flex" }}>
               <Col xs={12} md={12} style={{ marginTop: "10px" }}>
                 {showNavigation && <Navigation />}
