@@ -189,7 +189,7 @@ class ActionDetailsInner extends PureComponent<Props> {
     if (!dataSource) {
       return <></>;
     }
-    return dataSource ? (
+    return (
       <div
         style={{ cursor: "pointer" }}
         role="button"
@@ -205,8 +205,6 @@ class ActionDetailsInner extends PureComponent<Props> {
           </span>
         )}
       </div>
-    ) : (
-      <></>
     );
   }
 
