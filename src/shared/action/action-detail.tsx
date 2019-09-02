@@ -1,5 +1,8 @@
-import { Card, Col, Icon, Row } from "antd";
+import Card from "antd/lib/card";
+import Col from "antd/lib/col";
 import Divider from "antd/lib/divider";
+import Icon from "antd/lib/icon";
+import Row from "antd/lib/row";
 import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
@@ -160,30 +163,32 @@ class ActionDetailsInner extends PureComponent<Props> {
 
   public renderActionData(): JSX.Element {
     const { dataSource } = this.state;
+    if (!dataSource) {
+      return <></>;
+    }
     return (
       <>
-        {dataSource &&
-          dataSource.map(record => {
-            return (
-              <Row
-                key={record.key}
-                style={{ minHeight: 50, textAlign: "left" }}
-              >
-                <Col xs={3} md={3}>
-                  <span>{t(`render.key.${record.key}`)}:</span>
-                </Col>
-                <Col xs={21} md={21}>
-                  {renderValue(record.value, record)}
-                </Col>
-              </Row>
-            );
-          })}
+        {dataSource.map(record => {
+          return (
+            <Row key={record.key} style={{ minHeight: 50, textAlign: "left" }}>
+              <Col xs={3} md={3}>
+                <span>{t(`render.key.${record.key}`)}:</span>
+              </Col>
+              <Col xs={21} md={21}>
+                {renderValue(record.value, record)}
+              </Col>
+            </Row>
+          );
+        })}
       </>
     );
   }
 
   public renderCollpasable(): JSX.Element {
     const { isTableFold, dataSource } = this.state;
+    if (!dataSource) {
+      return <></>;
+    }
     return dataSource ? (
       <div
         style={{ cursor: "pointer" }}
