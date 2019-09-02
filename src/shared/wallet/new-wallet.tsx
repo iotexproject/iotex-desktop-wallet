@@ -1,8 +1,11 @@
+// @flow
 import Alert from "antd/lib/alert";
 import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
+// @ts-ignore
+import Mnemonic from "bitcore-mnemonic";
 import { Account } from "iotex-antenna/lib/account/account";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -20,33 +23,80 @@ export interface Props extends DispatchProp {
 }
 
 export interface State {
-  copied: boolean;
+  copiedPriKey: boolean;
+  copiedMnemonic: boolean;
   account: Account;
+  mnemonicPhrase: string;
 }
 
 class NewWallet extends React.Component<Props, State> {
-  public state: State = {
-    copied: false,
-    account: getAntenna().iotx.accounts.create()
-  };
+  constructor(props: Props) {
+    super(props);
+    const code = new Mnemonic();
+    const xpriv = code.toHDPrivateKey();
+    const account = getAntenna().iotx.accounts.privateKeyToAccount(
+      xpriv.privateKey.toString()
+    );
+    this.state = {
+      copiedMnemonic: false,
+      copiedPriKey: false,
+      mnemonicPhrase: code.toString(),
+      account
+    };
+  }
 
   public copyPriKey = () => {
     const { account } = this.state;
     copyCB(account.privateKey);
-    this.setState({ copied: true });
+    this.setState({ copiedPriKey: true });
+  };
+
+  public copyMnemonic = () => {
+    const { mnemonicPhrase } = this.state;
+    copyCB(mnemonicPhrase);
+    this.setState({ copiedMnemonic: true });
   };
 
   public setAccount = () => {
     this.props.dispatch(setAccount(this.state.account));
   };
 
-  public render(): JSX.Element {
-    const { account, copied } = this.state;
+  public renderSaveMnemonic(): JSX.Element {
+    const { copiedMnemonic } = this.state;
+    const copyMnemonicButton = (
+      // @ts-ignore
+      <Button
+        onClick={this.copyMnemonic}
+        style={{ margin: "-5px -11px", float: "right" }}
+      >
+        {copiedMnemonic ? <Icon type="check" /> : t("new-wallet.copy")}
+      </Button>
+    );
+    return (
+      <div>
+        <div
+          dangerouslySetInnerHTML={{ __html: t("new-wallet.save_mnemonic") }}
+        />
+        <Form.Item
+          label={<FormItemLabel>{t("new-wallet.mnemonic")}</FormItemLabel>}
+        >
+          <div className="ant-input" style={{ backgroundColor: "#f7f7f7" }}>
+            <div style={{ display: "inline-block" }}>
+              {this.state.mnemonicPhrase}
+            </div>
+            {copyMnemonicButton}
+          </div>
+        </Form.Item>
+      </div>
+    );
+  }
 
-    const copyButton = (
+  public render(): JSX.Element {
+    const { account, copiedPriKey } = this.state;
+    const copyPriKeyButton = (
       // @ts-ignore
       <Button onClick={this.copyPriKey} style={{ margin: "0 -11px" }}>
-        {copied ? <Icon type="check" /> : t("new-wallet.copy")}
+        {copiedPriKey ? <Icon type="check" /> : t("new-wallet.copy")}
       </Button>
     );
 
@@ -76,13 +126,13 @@ class NewWallet extends React.Component<Props, State> {
             <Input.Password
               className="form-input"
               placeholder={t("wallet.account.addressPlaceHolder")}
-              addonAfter={copyButton}
+              addonAfter={copyPriKeyButton}
               value={account.privateKey}
               readOnly={true}
             />
           </Form.Item>
+          {this.renderSaveMnemonic()}
         </Form>
-
         <DownloadKeystoreForm
           privateKey={account.privateKey}
           address={account.address}

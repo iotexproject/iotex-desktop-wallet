@@ -121,10 +121,12 @@ class StatsCard extends React.Component<IStatsCardProps, State> {
             }}
             valueRender={() => {
               return (
-                <span>
-                  {this.state.cardValue} {this.props.suffix ? " / " : ""}{" "}
-                  <small>{this.props.suffix}</small>
-                </span>
+                this.state.cardValue && (
+                  <span>
+                    {this.state.cardValue} {this.props.suffix ? " / " : ""}{" "}
+                    <small>{this.props.suffix}</small>
+                  </span>
+                )
               );
             }}
           />

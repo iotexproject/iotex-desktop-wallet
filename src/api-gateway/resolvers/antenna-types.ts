@@ -144,10 +144,29 @@ export class Log implements ILog {
   public index: number;
 }
 
+export enum ReceiptStatus {
+  Failure = 0,
+  Success = 1,
+  //1xx for EVM ErrorCode
+  ErrUnknown = 100,
+  ErrOutOfGas = 101,
+  ErrCodeStoreOutOfGas = 102,
+  ErrDepth = 103,
+  ErrContractAddressCollision = 104,
+  ErrNoCompatibleInterpreter = 105,
+  ErrExecutionReverted = 106,
+  ErrMaxCodeSizeExceeded = 107,
+  ErrWriteProtection = 108
+}
+
+registerEnumType(ReceiptStatus, {
+  name: "ReceiptStatus"
+});
+
 @ObjectType({ description: "Properties of an Receipt" })
 export class Receipt implements IReceipt {
-  @Field(_ => Int)
-  public status: number;
+  @Field(_ => ReceiptStatus)
+  public status: ReceiptStatus;
   @Field(_ => Int)
   public blkHeight: number;
   @Field(_ => BufferScalar)

@@ -132,6 +132,7 @@ class TopBarComponent extends Component<Props, State> {
             <StyledLink
               to={directTo}
               onClick={() => this.setState({ blockChainMenu: menuText })}
+              style={{ padding: "5px 45px 5px 12px !important" }}
             >
               {t(itemText)}
             </StyledLink>
@@ -178,6 +179,7 @@ class TopBarComponent extends Component<Props, State> {
     const votingPageUrl = "https://member.iotex.io";
     const result = [
       <AntdDropdown
+        className="common-pd"
         key={0}
         trigger={["click", "hover"]}
         overlay={this.renderBlockchainMenu()}
@@ -188,6 +190,7 @@ class TopBarComponent extends Component<Props, State> {
         </DropDownTitle>
       </AntdDropdown>,
       <AntdDropdown
+        className="common-pd"
         key={1}
         trigger={["click", "hover"]}
         overlay={this.renderToolMenu()}
@@ -197,10 +200,10 @@ class TopBarComponent extends Component<Props, State> {
           {t("topbar.tools")} {DownIcon()}
         </DropDownTitle>
       </AntdDropdown>,
-      <NoBgA href={votingPageUrl} key={2}>
+      <NoBgA className="common-pd" href={votingPageUrl} key={2}>
         {t("topbar.voting")}
       </NoBgA>,
-      <NoBgLink to="/wallet" key={3}>
+      <NoBgLink className="common-pd" to="/wallet" key={3}>
         {t("topbar.wallet")}
       </NoBgLink>
     ];
@@ -215,7 +218,10 @@ class TopBarComponent extends Component<Props, State> {
           >
             <StyledLink
               className="ant-dropdown-link"
-              style={{ textTransform: "capitalize" }}
+              style={{
+                textTransform: "capitalize",
+                padding: "5px 45px 5px 12px !important"
+              }}
               to="#"
             >
               {multiChain.current} {DownIcon()}
@@ -245,6 +251,7 @@ class TopBarComponent extends Component<Props, State> {
       <AntdDropdown
         overlay={this.renderMutichainMenu()}
         trigger={["click", "hover"]}
+        className="common-pd"
       >
         <DropDownTitle>
           {multiChain.current} {DownIcon()}
@@ -288,11 +295,14 @@ class TopBarComponent extends Component<Props, State> {
           >
             <Menu>{this.renderChainMenu()}</Menu>
             {enableSignIn ? (
-              <SignIn onClick={() => this.showSignInModal()}>
+              <SignIn
+                onClick={() => this.showSignInModal()}
+                className="common-pd"
+              >
                 {t("topbar.sign_in")}
               </SignIn>
             ) : null}
-            <LanguageSwitcherWrapper>
+            <LanguageSwitcherWrapper className="language-wrapper common-pd">
               <LanguageSwitcher
                 supportedLanguages={[
                   Languages.EN,
@@ -424,7 +434,9 @@ function DownIcon(): string {
 }
 
 const overlayStyle = {
-  backgroundColor: colors.nav01
+  backgroundColor: colors.nav01,
+  marginTop: "-8px",
+  borderRadius: 0
 };
 
 const menuItem: StyleObject = {
@@ -461,8 +473,11 @@ const SignIn = styled("span", {
   [media.toLap]: {
     boxSizing: "border-box",
     width: "100%",
-    padding: "16px 0 16px 0",
-    marginLeft: "-20px"
+    padding: "25px 0 25px 0",
+    marginLeft: "115px"
+  },
+  [media.palm]: {
+    marginLeft: 0
   },
   cursor: "pointer"
 });
@@ -484,7 +499,6 @@ const NoBgLink = styled(Link, menuItem);
 
 const StyledLink = styled(Link, {
   ...menuItem,
-  padding: "5px 45px 5px 12px !important",
   ":hover": {
     color: `${colors.primary} !important`,
     backgroundColor: colors.menuHover

@@ -396,3 +396,17 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
     height: 0;
   }
 }
+
+.language-wrapper {
+  @media only screen and (max-width: 768px) {
+    ul {
+      margin-top: -30px !important;
+    }
+  }
+  ul {
+    margin-top: -5px !important;
+  }
+}
+.common-pd {
+  padding: 0 15px;
+}

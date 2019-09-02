@@ -286,7 +286,9 @@ block.show_more: 'Show More'
 block.show_less: 'Show Less'
 new-wallet.download: 'Download Keystore File (UTC / JSON)'
 wallet.cannot_load_solidity_version: 'Cannot load solidity version'
+new-wallet.mnemonic: 'Mnemonic Phrase'
 new-wallet.save_keystore: '<div><p class="wallet-title" style="display: inline-block;">Save your</p><p class="private-key">keystore file</p></div>'
+new-wallet.save_mnemonic: '<div><p class="wallet-title" style="display: inline-block;">Save your</p><p class="private-key">mnemonic phrase</p></div>'
 wallet.input.password: Password
 input.error.password.too_weak: 'Password is too weak.'
 unlock_by_keystore_file.never_upload: 'We never upload or store your private key on the server. The keystore file here is handled locally.'
@@ -298,8 +300,17 @@ unlock_by_keystore_file.select_file: 'Select File'
 input.error.keystore.required: 'Keystore file is required.'
 input.error.keystore.invalid: 'Keystore file is invalid.'
 input.error.keystore.failed_to_derive: 'Key derivation failed. Possibly wrong password.'
-block.success: Success
-block.failure: Failure
+block.Success: Success
+block.Failure: Failure
+block.ErrUnknown: Failure [Unknown]
+block.ErrOutOfGas: Failure [Execution out of gas]
+block.ErrCodeStoreOutOfGas: Failure [Deployment out of gas - not enough gas to store code]
+block.ErrDepth: Failure [Max call depth exceeded]
+block.ErrContractAddressCollision: Failure [Contract address collision]
+block.ErrNoCompatibleInterpreter: Failure [No compatible interpreter]
+block.ErrExecutionReverted: Failure [Execution reverted]
+block.ErrMaxCodeSizeExceeded: Failure [Max code size exceeded]
+block.ErrWriteProtection: Failure [Write protection]
 action.copy_link: 'Copy Link'
 action.email: Email
 action.share_this_action: 'Share this Action'
@@ -400,7 +411,7 @@ footer.resource: Resources
 footer.lauch: Launch
 footer.roadmap: Roadmap
 footer.research_paper: 'Research Papers'
-footer.announcements: Announcements
+footer.announcemenets: Announcements
 footer.delegates_program: 'Delegates Program'
 footer.charity_program: 'Charity Program'
 footer.develop: Develop
