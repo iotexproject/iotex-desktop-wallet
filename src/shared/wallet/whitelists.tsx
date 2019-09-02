@@ -157,6 +157,7 @@ class WhitelistTable extends React.Component<
         align: "center",
         className: "x-scroll",
         editable: false,
+        key: "origin",
         render: (_, { origin, method }: Record): JSX.Element => (
           <span>
             {origin}/{method}
@@ -168,7 +169,8 @@ class WhitelistTable extends React.Component<
         dataIndex: "amount",
         width: "17%",
         align: "center",
-        editable: true
+        editable: true,
+        key: "amount"
       },
       {
         title: t("wallet.whitelist.recipient"),
@@ -176,7 +178,8 @@ class WhitelistTable extends React.Component<
         width: "25%",
         align: "center",
         className: "x-scroll",
-        editable: false
+        editable: false,
+        key: "recipient"
       },
       {
         title: t("wallet.whitelist.remain"),
@@ -184,6 +187,7 @@ class WhitelistTable extends React.Component<
         width: "15%",
         align: "center",
         editable: true,
+        key: "deadline",
         render: (_: string, record: Record): JSX.Element => (
           <span>{getRemainTime(record.deadline)}</span>
         )
@@ -193,6 +197,7 @@ class WhitelistTable extends React.Component<
         dataIndex: "operation",
         align: "center",
         width: "20%",
+        key: "operation",
         render: (_: string, record: Record): JSX.Element => {
           // const { editingKey } = this.state;
           const editable = this.isEditing(record);

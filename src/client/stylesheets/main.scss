@@ -382,4 +382,8 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
   .x-scroll {
     overflow-x: scroll;
   }
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 }

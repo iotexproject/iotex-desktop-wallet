@@ -87,7 +87,7 @@ export const ChainNetworkSwitchComponent = (
         }}
       >
         {Object.keys(availableNetworks).map(key => (
-          <Option value={key}>
+          <Option value={key} key={key}>
             {networkName(availableNetworks[key].name)}
           </Option>
         ))}
