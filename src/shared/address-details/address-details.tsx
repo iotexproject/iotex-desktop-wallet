@@ -66,7 +66,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     });
   };
 
-  public componentDidUpdate(): void {
+  public componentDidMount(): void {
     const {
       match: {
         params: { address }
