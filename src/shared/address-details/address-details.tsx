@@ -4,13 +4,14 @@ import Icon from "antd/lib/icon";
 import Row from "antd/lib/row";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
-import isBrowser from "is-browser";
+import { assetURL } from "onefx/lib/asset-url";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
 import React, { PureComponent } from "react";
 import { Query, QueryResult } from "react-apollo";
+import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
@@ -27,7 +28,6 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { SearchBox } from "../home/search-box";
 import { GET_ACCOUNT } from "../queries";
 import { ActionTable } from "./action-table";
-import { assetURL } from "onefx/lib/asset-url";
 
 type PathParamsType = {
   address: string;
@@ -39,7 +39,10 @@ type State = {
   vitaBalance: string;
 };
 
-type Props = RouteComponentProps<PathParamsType> & {};
+type Props = RouteComponentProps<PathParamsType> & {
+  xrc20tokens: Array<string>;
+  vitaToken: string;
+};
 
 class AddressDetailsInner extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -68,14 +71,13 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     const {
       match: {
         params: { address }
-      }
+      },
+      xrc20tokens,
+      vitaToken
     } = this.props;
     if (address === this.state.address) {
       return;
     }
-    const xrc20tokens =
-      isBrowser && JsonGlobal("state").base.defaultERC20Tokens;
-    const vitaToken = isBrowser && JsonGlobal("state").base.vitaTokens[0];
     const vitaInfo = await Token.getToken(vitaToken).getInfo(address);
     const vitaBalance = vitaInfo.balanceString;
     this.setState({ vitaBalance });
@@ -210,4 +212,16 @@ class AddressDetailsInner extends PureComponent<Props, State> {
   }
 }
 
-export const AddressDetails = withRouter(AddressDetailsInner);
+const mapStateToProps = (state: {
+  base: { [index: string]: Array<string> };
+}): {
+  xrc20tokens: Array<string>;
+  vitaToken: string;
+} => ({
+  xrc20tokens: (state.base || {}).defaultERC20Tokens || [],
+  vitaToken: (state.base || {}).vitaTokens[0] || ""
+});
+
+export const AddressDetails = connect(mapStateToProps)(
+  withRouter(AddressDetailsInner)
+);
