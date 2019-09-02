@@ -3,17 +3,21 @@ import withBreadcrumbs, {
   BreadcrumbsRoute
 } from "react-router-breadcrumbs-hoc";
 import { NavLink } from "react-router-dom";
+import { t } from "onefx/lib/iso-i18n";
 
 const routesConfig = [
-  { path: "/action", breadcrumb: "Action List" },
-  { path: "/address", breadcrumb: "Address List" },
-  { path: "/action/:hash", breadcrumb: "Action Detail" },
-  { path: "/block", breadcrumb: "Block List" },
+  { path: "/action", breadcrumb: t("navigation.action") },
+  { path: "/address", breadcrumb: t("navigation.address") },
+  { path: "/action/:hash", breadcrumb: t("navigation.action_detail") },
+  { path: "/block", breadcrumb: t("navigation.block") },
   {
     path: "/block/:hash/action",
-    breadcrumb: "Action List"
+    breadcrumb: t("navigation.action")
   },
-  { path: "/block/:blockHash/action/:actionHash", breadcrumb: "Action Detail" }
+  {
+    path: "/block/:blockHash/action/:actionHash",
+    breadcrumb: t("navigation.action_detail")
+  }
 
   // { path: "/block/:id", breadcrumb: `Block# ` }
 ];

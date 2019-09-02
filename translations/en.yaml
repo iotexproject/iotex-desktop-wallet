@@ -473,4 +473,7 @@ wallet.whitelist.operation.delete: Delete
 wallet.whitelist.operation.edit: Edit
 wallet.whitelist.title_operation: Operation
 wallet.whitelist.operation.alert: Sure to cancel?
-
+navigation.address: Address List
+navigation.action: Action List
+navigation.action_detail: Action Detail
+navigation.block: Block List
