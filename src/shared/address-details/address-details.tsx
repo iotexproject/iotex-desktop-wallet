@@ -27,6 +27,7 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { SearchBox } from "../home/search-box";
 import { GET_ACCOUNT } from "../queries";
 import { ActionTable } from "./action-table";
+import { assetURL } from "onefx/lib/asset-url";
 
 type PathParamsType = {
   address: string;
@@ -35,6 +36,7 @@ type PathParamsType = {
 type State = {
   xrc20Infos: Array<ITokenInfo>;
   address: string;
+  vitaBalance: string;
 };
 
 type Props = RouteComponentProps<PathParamsType> & {};
@@ -44,7 +46,8 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     super(props);
     this.state = {
       xrc20Infos: [],
-      address: ""
+      address: "",
+      vitaBalance: "0"
     };
   }
 
@@ -61,7 +64,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     });
   };
 
-  public componentDidUpdate(): void {
+  public async componentDidMount(): Promise<void> {
     const {
       match: {
         params: { address }
@@ -72,6 +75,10 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     }
     const xrc20tokens =
       isBrowser && JsonGlobal("state").base.defaultERC20Tokens;
+    const vitaToken = isBrowser && JsonGlobal("state").base.vitaTokens[0];
+    const vitaInfo = await Token.getToken(vitaToken).getInfo(address);
+    const vitaBalance = vitaInfo.balanceString;
+    this.setState({ vitaBalance });
     this.pollTokenInfos(xrc20tokens, address);
   }
 
@@ -90,7 +97,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     <>
       <div className={"item"}>
         <div className={"icon"}>
-          <Icon type="wallet" />
+          <img id="iotx" alt="iotx" src={assetURL("/icon_balance_iotx.png")} />
         </div>
         <div className={"name"}>{t("address.balance")}</div>
         <div className={"info"}>{`${(+utils.fromRau(
@@ -98,6 +105,13 @@ class AddressDetailsInner extends PureComponent<Props, State> {
           "IOTX"
         )).toFixed(4)} IOTX`}</div>
         {this.renderOtherTokenBalance()}
+      </div>
+      <div className={"item"}>
+        <div className={"icon"}>
+          <img id="vita" alt="vita" src={assetURL("/icon_balance_vita.png")} />
+        </div>
+        <div className={"name"}>VITA</div>
+        <div className={"info"}>{`${this.state.vitaBalance} VITA`}</div>
       </div>
       <div className={"item"}>
         <div className={"icon"}>
