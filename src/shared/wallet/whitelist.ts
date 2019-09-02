@@ -97,6 +97,12 @@ export type ListValue = [string, string, string, number]; // [method, recipient,
 
 export type Whitelists = Map<string, Array<ListValue>>; // [origin: [[method, recipient, amount, deadline]]];
 
+type OperateWhitelistFn = (
+  res: Whitelists,
+  origin: string,
+  value: Array<ListValue>
+) => void;
+
 class WhitelistService {
   public save(config: WhitelistConfig): boolean {
     const { origin, ...extra } = config;
@@ -144,6 +150,61 @@ class WhitelistService {
       }
     }
     return result;
+  }
+
+  public remove(target: WhitelistConfig): Whitelists {
+    const targetValue = this.getListValue(target);
+    const operate: OperateWhitelistFn = (result, origin, value) => {
+      result.set(
+        origin,
+        value.filter(ary => !this.isTargetValue(ary, targetValue))
+      );
+    };
+
+    return this.modify(target, operate);
+  }
+
+  public update(
+    config: WhitelistConfig,
+    oldConfig: WhitelistConfig
+  ): Whitelists {
+    const oValue = this.getListValue(oldConfig);
+    const nValue = this.getListValue(config);
+    const operate: OperateWhitelistFn = (result, origin, value) => {
+      const idx = value.findIndex(ary => this.isTargetValue(ary, oValue));
+      if (idx > -1) {
+        value.splice(idx, 1, nValue);
+      }
+      result.set(origin, value);
+    };
+
+    return this.modify(oldConfig, operate);
+  }
+
+  private modify(
+    target: WhitelistConfig,
+    operateFn: OperateWhitelistFn
+  ): Whitelists {
+    const result = new Map<string, Array<ListValue>>();
+    const list = this.getList();
+
+    for (const [origin, curValue] of list.entries()) {
+      if (origin === target.origin) {
+        operateFn(result, origin, curValue);
+      } else {
+        result.set(origin, curValue);
+      }
+    }
+
+    xconf.setConf(XConfKeys.WHITELISTS, [...result]);
+    return result;
+  }
+
+  private isTargetValue(v1: ListValue, v2: ListValue): boolean {
+    return v1.reduce(
+      (acc, cur, idx) => acc && cur === v2[idx],
+      true as boolean
+    );
   }
 
   private getUpdatedList(
@@ -205,7 +266,7 @@ class WhitelistService {
     const list = this.removeExpired(Date.now(), this.getList());
     let result: Array<WhitelistConfig> = [];
 
-    for (let [origin, ary] of list) {
+    for (const [origin, ary] of list) {
       const data: Array<WhitelistConfig> = ary
         .filter(ary => ary.every(item => !!item))
         .map(([method, recipient, amount, deadline]) => ({

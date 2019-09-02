@@ -1,10 +1,12 @@
 import Icon from "antd/lib/icon";
 import Tabs from "antd/lib/tabs";
+import * as H from "history";
 import { Account } from "iotex-antenna/lib/account/account";
+import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
-import React from "react";
 import { Component } from "react";
+import React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
 import { ITokenInfoDict } from "../../erc20/token";
@@ -27,7 +29,6 @@ import {
   QueryType,
   SignParams
 } from "./wallet-reducer";
-import isElectron from "is-electron";
 import { Whitelists } from "./whitelists";
 
 const ENABLE_SIGN = false;
@@ -83,8 +84,8 @@ class WalletTabsInner extends Component<Props> {
     this.props.dispatch(countdownToLockInMS());
   }
 
-  public render(): JSX.Element {
-    const { location, address } = this.props;
+  // tslint:disable: no-any
+  public getActiveKey(location: H.Location<any>): string {
     let activeKey = `/wallet/transfer`;
     if (location.pathname.match(/vote/)) {
       activeKey = `/wallet/vote`;
@@ -97,6 +98,12 @@ class WalletTabsInner extends Component<Props> {
     } else if (location.pathname.match(/whitelist/)) {
       activeKey = `/wallet/whitelist`;
     }
+    return activeKey;
+  }
+
+  public render(): JSX.Element {
+    const { location, address } = this.props;
+    const activeKey = this.getActiveKey(location);
 
     return (
       <LockWalletAlert>

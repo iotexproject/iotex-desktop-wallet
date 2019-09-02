@@ -2,29 +2,23 @@ import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 
 // @ts-ignore
-import { t } from "onefx/lib/iso-i18n";
-import { colors } from "../common/styles/style-color";
-import { CommonMargin } from "../common/common-margin";
 import {
-  Switch,
-  Table,
+  Divider,
+  Form,
   Input,
   InputNumber,
   Popconfirm,
-  Form,
-  Divider
+  Switch,
+  Table
 } from "antd";
-import { whitelistService, WhitelistConfig } from "./whitelist";
-import { ColumnProps } from "antd/lib/table";
 import { FormComponentProps } from "antd/lib/form";
 import { WrappedFormUtils } from "antd/lib/form/Form";
+import { ColumnProps } from "antd/lib/table";
 import dayjs from "dayjs";
-
-type Props = {};
-
-interface State {
-  checked: boolean;
-}
+import { t } from "onefx/lib/iso-i18n";
+import { CommonMargin } from "../common/common-margin";
+import { colors } from "../common/styles/style-color";
+import { WhitelistConfig, whitelistService } from "./whitelist";
 
 const P = styled("p", {
   color: colors.black60
@@ -42,7 +36,7 @@ const getRemainTime = (
   const end = dayjs(deadline);
   const remainHour = end.diff(begin, "hour");
   if (remainHour > 0) {
-    return `${remainHour} h`;
+    return `${remainHour + 1} h`;
   } else {
     return `${end.diff(begin, "minute")} m`;
   }
@@ -64,14 +58,14 @@ interface EditableCellProps {
 }
 
 class EditableCell extends React.Component<EditableCellProps> {
-  getInput = () => {
+  public getInput = () => {
     if (this.props.inputType === "number") {
       return <InputNumber />;
     }
     return <Input />;
   };
 
-  getValue(dataIndex: string, record: Record): number {
+  public getValue(dataIndex: string, record: Record): number {
     switch (dataIndex) {
       case "amount":
         return parseInt(record[dataIndex], 10);
@@ -85,7 +79,7 @@ class EditableCell extends React.Component<EditableCellProps> {
     }
   }
 
-  renderCell = ({ getFieldDecorator }: { getFieldDecorator: any }) => {
+  public renderCell = ({ getFieldDecorator }: { getFieldDecorator: any }) => {
     const {
       editing,
       dataIndex,
@@ -109,6 +103,7 @@ class EditableCell extends React.Component<EditableCellProps> {
               ],
               initialValue: this.getValue(dataIndex, record)
             })(this.getInput())}
+            {inputType === "number" && <span>{restProps.unit}</span>}
           </Form.Item>
         ) : (
           children
@@ -117,7 +112,7 @@ class EditableCell extends React.Component<EditableCellProps> {
     );
   };
 
-  render() {
+  public render(): JSX.Element {
     return (
       <EditableContext.Consumer>{this.renderCell}</EditableContext.Consumer>
     );
@@ -134,6 +129,7 @@ interface CustomColumnProps<T> extends ColumnProps<T> {
 
 type WhitelistTableProps = FormComponentProps & {
   dataSource: Array<Record>;
+  operate(): void;
 };
 
 interface WhitelistTableState {
@@ -144,14 +140,14 @@ class WhitelistTable extends React.Component<
   WhitelistTableProps,
   WhitelistTableState
 > {
-  state: WhitelistTableState = {
+  public state: WhitelistTableState = {
     editingKey: ""
   };
 
-  getColumns(): CustomColumnProps<Record>[] {
+  private getColumns(): Array<CustomColumnProps<Record>> {
     return [
       {
-        title: t("wallet.whitelist.origin"),
+        title: t("wallet.whitelist.title_origin"),
         dataIndex: "origin",
         width: "20%",
         align: "center",
@@ -165,15 +161,15 @@ class WhitelistTable extends React.Component<
         )
       },
       {
-        title: t("wallet.whitelist.amount"),
+        title: t("wallet.whitelist.title_amount"),
         dataIndex: "amount",
-        width: "17%",
+        width: "20%",
         align: "center",
         editable: true,
         key: "amount"
       },
       {
-        title: t("wallet.whitelist.recipient"),
+        title: t("wallet.whitelist.title_recipient"),
         dataIndex: "recipient",
         width: "25%",
         align: "center",
@@ -182,7 +178,7 @@ class WhitelistTable extends React.Component<
         key: "recipient"
       },
       {
-        title: t("wallet.whitelist.remain"),
+        title: t("wallet.whitelist.title_remain"),
         dataIndex: "deadline",
         width: "15%",
         align: "center",
@@ -193,21 +189,22 @@ class WhitelistTable extends React.Component<
         )
       },
       {
-        title: t("wallet.whitelist.operation.operation"),
+        title: t("wallet.whitelist.title_operation"),
         dataIndex: "operation",
         align: "center",
         width: "20%",
         key: "operation",
         render: (_: string, record: Record): JSX.Element => {
-          // const { editingKey } = this.state;
           const editable = this.isEditing(record);
           return editable ? (
             <span style={{ whiteSpace: "nowrap" }}>
               <EditableContext.Consumer>
                 {(form: WrappedFormUtils) => (
                   <a
-                    onClick={() => this.save(form, record.key)}
+                    onClick={() => this.update(form, record.key)}
                     style={{ marginRight: 8 }}
+                    href="void 0"
+                    role="main"
                   >
                     {t("wallet.whitelist.operation.save")}
                   </a>
@@ -222,7 +219,7 @@ class WhitelistTable extends React.Component<
                 </A>
               </Popconfirm>
               <Divider type="vertical" />
-              <A href="void 0" role="main">
+              <A href="void 0" role="main" onClick={() => this.remove(record)}>
                 {t("wallet.whitelist.operation.delete")}
               </A>
             </span>
@@ -236,7 +233,7 @@ class WhitelistTable extends React.Component<
                 {t("wallet.whitelist.operation.edit")}
               </A>
               <Divider type="vertical" />
-              <A href="void 0" role="main">
+              <A href="void 0" role="main" onClick={() => this.remove(record)}>
                 {t("wallet.whitelist.operation.delete")}
               </A>
             </span>
@@ -246,40 +243,62 @@ class WhitelistTable extends React.Component<
     ];
   }
 
-  isEditing = (record: Record): boolean => record.key === this.state.editingKey;
+  private readonly isEditing = (record: Record): boolean =>
+    record.key === this.state.editingKey;
 
-  cancel = () => {
+  private readonly cancel = () => {
     this.setState({ editingKey: "" });
   };
 
-  save(form: WrappedFormUtils, key: string) {
+  private update(form: WrappedFormUtils, key: string): void {
     form.validateFields((error: any, row: Record) => {
       if (error) {
         return;
       }
-      const newData = [...this.props.dataSource];
-      const index = newData.findIndex(item => key === item.key);
+
+      const index = this.props.dataSource.findIndex(item => key === item.key);
+
       if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row
-        });
-      } else {
-        newData.push(row);
+        const {
+          origin,
+          method,
+          recipient,
+          deadline,
+          amount
+        } = this.props.dataSource[index];
+        const updatedAmount = row.amount ? `${row.amount} IOTX` : amount;
+        const updatedDeadline = row.deadline
+          ? Date.now() + row.deadline * 60 * 60 * 1000
+          : deadline;
+
+        if (updatedAmount !== amount || updatedDeadline !== deadline) {
+          whitelistService.update(
+            {
+              origin,
+              method,
+              recipient,
+              amount: updatedAmount,
+              deadline: updatedDeadline
+            },
+            this.props.dataSource[index]
+          );
+          this.props.operate();
+        }
       }
-
-      console.log("%c new data:", "color: blue", newData);
-
       this.setState({ editingKey: "" });
     });
   }
 
-  edit(key: string) {
+  private remove(record: Record): void {
+    whitelistService.remove(record);
+    this.props.operate();
+  }
+
+  private edit(key: string): void {
     this.setState({ editingKey: key });
   }
 
-  render() {
+  public render(): JSX.Element {
     const components = {
       body: {
         cell: EditableCell
@@ -294,10 +313,11 @@ class WhitelistTable extends React.Component<
         ...col,
         onCell: (record: Record) => ({
           record,
-          inputType: col.dataIndex === "duration" ? "number" : "text",
+          inputType: "number",
           dataIndex: col.dataIndex,
           title: col.title,
-          editing: this.isEditing(record)
+          editing: this.isEditing(record),
+          unit: col.dataIndex === "deadline" ? "h" : ""
         })
       };
     });
@@ -322,12 +342,20 @@ class WhitelistTable extends React.Component<
 
 const EditableFormTable = Form.create()(WhitelistTable);
 
+type Props = {};
+
+interface State {
+  checked: boolean;
+  operateCount: number; // just for trigger component update immediately
+}
+
 export class Whitelists extends React.Component<Props, State> {
   public state: State = {
-    checked: true
+    checked: true,
+    operateCount: 0
   };
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     const checked = whitelistService.isWhitelistEnable();
 
     this.setState({ checked });
@@ -356,7 +384,12 @@ export class Whitelists extends React.Component<Props, State> {
           />
         </div>
         <CommonMargin />
-        <EditableFormTable dataSource={dataSource} />
+        <EditableFormTable
+          dataSource={dataSource}
+          operate={() =>
+            this.setState({ operateCount: this.state.operateCount += 1 })
+          }
+        />
       </>
     );
   }

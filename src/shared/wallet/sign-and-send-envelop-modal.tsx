@@ -141,6 +141,9 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
 
     const { method, toAddress, amount, toContract } = dataSource;
     const recipient = (toAddress || toContract) as string;
+    const showWhitelistBtn = isElectron() && this.state.isWhitelistEnable;
+    const showWhitelistForm =
+      this.state.showWhitelist && whitelistService.isWhitelistEnable();
 
     return (
       <ConfirmContractModal
@@ -149,7 +152,7 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
         maskClosable={false}
         showModal={!!this.props.envelop}
         okText={t("wallet.sign.confirm")}
-        showWhitelistBtn={isElectron() && this.state.isWhitelistEnable}
+        showWhitelistBtn={showWhitelistBtn}
         onWhitelistBtnClick={() =>
           this.setState({ showWhitelist: !this.state.showWhitelist })
         }
@@ -157,7 +160,7 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
           ok ? this.onOk() : this.onCancel()
         }
       >
-        {this.state.showWhitelist && (
+        {showWhitelistForm && (
           <Whitelist
             origin={this.props.origin}
             method={method}
