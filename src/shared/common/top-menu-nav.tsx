@@ -253,7 +253,7 @@ const TopWideMenu = (): JSX.Element => {
           <IotexLogo />
         </Col>
         {MAIN_NAV_MENUS.map((item, i) => (
-          <Col>
+          <Col key={`menu-${i}`}>
             <TopMenuItem menu={item} />
           </Col>
         ))}
