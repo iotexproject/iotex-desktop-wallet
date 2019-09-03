@@ -1,4 +1,10 @@
-import { Button, Col, Drawer, Dropdown, Icon, Menu, Row } from "antd";
+import Button from "antd/lib/button";
+import Col from "antd/lib/col";
+import Dropdown from "antd/lib/dropdown";
+import Icon from "antd/lib/icon";
+import Menu from "antd/lib/menu";
+import Row from "antd/lib/row";
+
 import { RowProps } from "antd/lib/row";
 // @ts-ignore
 import window from "global/window";
