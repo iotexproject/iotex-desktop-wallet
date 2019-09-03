@@ -75,8 +75,6 @@
     overflow: hidden;
     margin-bottom: 20px;
     .item {
-      width: 25%;
-      float: left;
       text-align: center;
       i {
         font-size: 32px;
@@ -97,12 +95,16 @@
           color: #36a3f7;
         }
       }
+      @media only screen and (max-width: 768px) {
+        margin-bottom: 20px;
+      }
     }
     .name {
       color: #999;
     }
     .info {
       font-size: 20px;
+      word-break: break-word;
     }
   }
 }

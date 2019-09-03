@@ -96,33 +96,37 @@ class AddressDetailsInner extends PureComponent<Props, State> {
   );
 
   public renderAddressInfo = (addressInfo: AccountMeta): JSX.Element => (
-    <>
-      <div className={"item"}>
+    <Row>
+      <Col xs={12} md={6} className="item">
         <div className={"icon"}>
           <img id="iotx" alt="iotx" src={assetURL("/icon_balance_iotx.png")} />
         </div>
-        <div className={"name"}>{t("address.balance")}</div>
+        <div className={"name"} style={{ marginTop: 5 }}>
+          IOTX
+        </div>
         <div className={"info"}>{`${(+utils.fromRau(
           String((addressInfo && addressInfo.balance) || 0),
           "IOTX"
         )).toFixed(4)} IOTX`}</div>
         {this.renderOtherTokenBalance()}
-      </div>
-      <div className={"item"}>
+      </Col>
+      <Col xs={12} md={6} className="item">
         <div className={"icon"}>
           <img id="vita" alt="vita" src={assetURL("/icon_balance_vita.png")} />
         </div>
-        <div className={"name"}>VITA</div>
+        <div className={"name"} style={{ marginTop: 5 }}>
+          VITA
+        </div>
         <div className={"info"}>{`${this.state.vitaBalance} VITA`}</div>
-      </div>
-      <div className={"item"}>
+      </Col>
+      <Col xs={12} md={6} className="item">
         <div className={"icon"}>
           <Icon type="border" />
         </div>
         <div className={"name"}>{t("address.nonce")}</div>
         <div className={"info"}>{(addressInfo && addressInfo.nonce) || 0}</div>
-      </div>
-      <div className={"item"}>
+      </Col>
+      <Col xs={12} md={6} className="item">
         <div className={"icon"}>
           <Icon type="project" />
         </div>
@@ -130,8 +134,8 @@ class AddressDetailsInner extends PureComponent<Props, State> {
         <div className={"info"}>
           {(addressInfo && addressInfo.pendingNonce) || 0}
         </div>
-      </div>
-    </>
+      </Col>
+    </Row>
   );
 
   public render(): JSX.Element {
