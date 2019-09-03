@@ -386,3 +386,17 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
 .common-pd {
   padding: 0 15px;
 }
+
+.top-menu-drawer {
+  top: 80px !important;
+}
+
+.top-menu-drawer > .ant-drawer-mask {
+  display: none;
+}
+
+.top-menu-drawer > .ant-drawer-content-wrapper,
+.top-menu-drawer > .ant-drawer-content-wrapper > .ant-drawer-content {
+  background-color: transparent;
+  height: 100% !important;
+}

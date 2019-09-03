@@ -31,5 +31,6 @@ export const colors = {
   backHome: "#00958E",
   topbarGray: "#AAAFC1",
   background: "#f0f2f5",
-  menuHover: "#51515a"
+  menuHover: "#51515a",
+  transparent: "rgba(0,0,0,0)"
 };
