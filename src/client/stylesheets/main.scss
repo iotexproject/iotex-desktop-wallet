@@ -389,14 +389,9 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
 
 .top-menu-drawer {
   top: 80px !important;
-}
-
-.top-menu-drawer > .ant-drawer-mask {
-  display: none;
-}
-
-.top-menu-drawer > .ant-drawer-content-wrapper,
-.top-menu-drawer > .ant-drawer-content-wrapper > .ant-drawer-content {
-  background-color: transparent;
-  height: 100% !important;
+  position: fixed;
+  width: 100vw;
+  height: calc(100vh - 80px);
+  left: 0;
+  z-index: 999;
 }
