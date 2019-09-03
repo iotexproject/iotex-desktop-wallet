@@ -23,7 +23,7 @@ import { NotFound } from "./common/not-found";
 import { ScrollToTop } from "./common/scroll-top";
 import { colors } from "./common/styles/style-color";
 import { fonts } from "./common/styles/style-font";
-import { TOP_BAR_HEIGHT, TopBar } from "./common/top-bar";
+import { TOP_BAR_HEIGHT } from "./common/top-bar";
 import { TopMenuNav } from "./common/top-menu-nav";
 import { Home } from "./home/home";
 import { Wallet } from "./wallet/wallet";
