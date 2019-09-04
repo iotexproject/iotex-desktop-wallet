@@ -81,6 +81,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     const vitaInfo = await Token.getToken(vitaToken).getInfo(address);
     const vitaBalance = vitaInfo.balanceString;
     this.setState({ vitaBalance });
+    xrc20tokens.splice(xrc20tokens.indexOf(vitaToken), 1);
     this.pollTokenInfos(xrc20tokens, address);
   }
 
