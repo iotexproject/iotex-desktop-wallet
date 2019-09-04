@@ -25,6 +25,7 @@ import { colors } from "./styles/style-color";
 import { ContentPadding } from "./styles/style-padding";
 
 const globalState = isBrowser && JsonGlobal("state");
+const TOP_BAR_HEIGHT = 80;
 
 const multiChain: {
   current: string;
@@ -212,7 +213,7 @@ const TopMobileMenu = ({
         type="flex"
         align="middle"
         justify="space-between"
-        style={{ height: 80 }}
+        style={{ height: TOP_BAR_HEIGHT }}
         onClick={() => !collapsed && setCollapsed(true)}
       >
         <Col>
@@ -222,7 +223,7 @@ const TopMobileMenu = ({
           type="flex"
           align="middle"
           justify="end"
-          style={{ height: 80, color: colors.white }}
+          style={{ height: TOP_BAR_HEIGHT, color: colors.white }}
           gutter={20}
         >
           {enableSignIn && (
@@ -252,7 +253,7 @@ const TopMobileMenu = ({
         getContainer="#top-mobile-menu-nav"
         bodyStyle={{
           padding: 0,
-          paddingTop: collapsed ? 0 : 80
+          paddingTop: collapsed ? 0 : TOP_BAR_HEIGHT
         }}
         visible={!collapsed}
         placement="top"
@@ -287,7 +288,7 @@ const TopWideMenu = ({
     type: "flex",
     align: "middle",
     justify: "space-between",
-    style: { height: 80, color: colors.white },
+    style: { height: TOP_BAR_HEIGHT, color: colors.white },
     gutter: 60
   };
   return (
