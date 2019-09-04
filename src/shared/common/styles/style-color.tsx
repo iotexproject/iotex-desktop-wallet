@@ -13,6 +13,7 @@ export const colors = {
 
   text01: "#333333",
   white: "#fff",
+  whiteText: "#acb0c3",
 
   error: "#E54937", //	Error
   success: "#07A35A", //	Success

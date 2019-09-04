@@ -24,7 +24,7 @@ import { ScrollToTop } from "./common/scroll-top";
 import { colors } from "./common/styles/style-color";
 import { fonts } from "./common/styles/style-font";
 import { TOP_BAR_HEIGHT } from "./common/top-bar";
-import { TopMenuNav } from "./common/top-menu-nav";
+import { TopMenuBar } from "./common/top-menu-bar";
 import { Home } from "./home/home";
 import { Wallet } from "./wallet/wallet";
 
@@ -44,7 +44,7 @@ export class App extends Component<Props> {
     return (
       <RootStyle>
         <HtmlHead locale={locale} />
-        <TopMenuNav />
+        <TopMenuBar />
         <div
           style={{
             minHeight: `calc(100vh - ${FOOTER_HEIGHT + TOP_BAR_HEIGHT}px)`
