@@ -25,7 +25,7 @@ import { colors } from "./styles/style-color";
 import { ContentPadding } from "./styles/style-padding";
 
 const globalState = isBrowser && JsonGlobal("state");
-const TOP_BAR_HEIGHT = 80;
+export const TOP_BAR_HEIGHT = 80;
 
 const multiChain: {
   current: string;
