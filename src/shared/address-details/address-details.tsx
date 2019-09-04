@@ -104,10 +104,12 @@ class AddressDetailsInner extends PureComponent<Props, State> {
         <div className={"name"} style={{ marginTop: 5 }}>
           IOTX
         </div>
-        <div className={"info"}>{`${(+utils.fromRau(
-          String((addressInfo && addressInfo.balance) || 0),
-          "IOTX"
-        )).toFixed(4)} IOTX`}</div>
+        <div className={"info"}>{`${Number(
+          (+utils.fromRau(
+            String((addressInfo && addressInfo.balance) || 0),
+            "IOTX"
+          )).toFixed(4)
+        ).toLocaleString()} IOTX`}</div>
         {this.renderOtherTokenBalance()}
       </Col>
       <Col xs={12} md={6} className="item">
@@ -117,14 +119,18 @@ class AddressDetailsInner extends PureComponent<Props, State> {
         <div className={"name"} style={{ marginTop: 5 }}>
           VITA
         </div>
-        <div className={"info"}>{`${this.state.vitaBalance} VITA`}</div>
+        <div className={"info"}>
+          {`${Number(this.state.vitaBalance).toLocaleString()} VITA`}
+        </div>
       </Col>
       <Col xs={12} md={6} className="item">
         <div className={"icon"}>
           <Icon type="border" />
         </div>
         <div className={"name"}>{t("address.nonce")}</div>
-        <div className={"info"}>{(addressInfo && addressInfo.nonce) || 0}</div>
+        <div className={"info"}>
+          {(addressInfo && Number(addressInfo.nonce).toLocaleString()) || 0}
+        </div>
       </Col>
       <Col xs={12} md={6} className="item">
         <div className={"icon"}>
@@ -132,7 +138,8 @@ class AddressDetailsInner extends PureComponent<Props, State> {
         </div>
         <div className={"name"}>{t("address.pendingNonce")}</div>
         <div className={"info"}>
-          {(addressInfo && addressInfo.pendingNonce) || 0}
+          {(addressInfo && Number(addressInfo.pendingNonce).toLocaleString()) ||
+            0}
         </div>
       </Col>
     </Row>

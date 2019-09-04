@@ -156,7 +156,7 @@ time.fn.ago: ago
 time.fn.justnow: 'just now'
 address.balance: balance
 address.nonce: nonce
-address.pendingNonce: pendingNonce
+address.pendingNonce: pending Nonce
 wallet.unlock.new.yes: 'I understand, continue'
 wallet.account.unlock: Unlock
 title.receipt: Receipt
