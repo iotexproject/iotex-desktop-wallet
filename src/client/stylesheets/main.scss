@@ -373,6 +373,7 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
     margin: 0 10px;
   }
 }
+
 .language-wrapper {
   @media only screen and (max-width: 768px) {
     ul {
@@ -385,4 +386,11 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
 }
 .common-pd {
   padding: 0 15px;
+}
+
+.action-detail.ant-card {
+  &:hover {
+    transform: none;
+  }
+  border-radius: 5px;
 }
