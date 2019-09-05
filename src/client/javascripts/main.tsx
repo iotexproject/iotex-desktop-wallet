@@ -1,8 +1,3 @@
-import "@babel/polyfill";
-// tslint:disable-next-line: ordered-imports
-import TransportU2F from "@ledgerhq/hw-transport-u2f";
-// @ts-ignore
-import window from "global/window";
 // @ts-ignore
 import { clientReactRender } from "onefx/lib/iso-react-render/client-react-render";
 // @ts-ignore
@@ -20,8 +15,6 @@ import {
   walletReducer
 } from "../../shared/wallet/wallet-reducer";
 
-const injectedWindow: Window & { transport?: {} } = window;
-injectedWindow.transport = TransportU2F;
 type Opts = {
   reducer: Reducer;
   VDom: JSX.Element;
