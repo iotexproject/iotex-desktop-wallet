@@ -2,11 +2,6 @@
 
 // @ts-ignore
 import Footer, { FOOTER_HEIGHT } from "iotex-react-footer";
-// @ts-ignore
-import { t } from "onefx/lib/iso-i18n";
-// @ts-ignore
-import { mobileViewPortContent } from "onefx/lib/iso-react-render/root/mobile-view-port-content";
-// @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
 import { Switch } from "react-router";
