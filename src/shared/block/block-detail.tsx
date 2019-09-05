@@ -45,7 +45,6 @@ import { connect } from "react-redux";
 import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
 import { webBpApolloClient } from "../common/apollo-client";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
-import { ShareIcon } from "../common/icons/share_icon.svg";
 import { GET_LATEST_HEIGHT } from "../queries";
 
 type PathParamsType = {
@@ -421,7 +420,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
       return (
         <span>
           <span style={{ marginRight: "10px" }}>{text}</span>
-          <CopyButtonClipboardComponent text={text} icon="copy" />
+          <CopyButtonClipboardComponent text={text} />
         </span>
       );
     default:
@@ -429,7 +428,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
   }
 }
 
-export function renderActHash(text: string): JSX.Element | string {
+function renderActHash(text: string): JSX.Element | string {
   let href = (window.location && window.location.href) || "";
   const emailBody = encodeURIComponent(`Check out this site\n\n ${href}`);
   href = `mailto:?subject=Checkout this block hash on IoTeX blockchain&body=${emailBody}`;
@@ -437,7 +436,7 @@ export function renderActHash(text: string): JSX.Element | string {
     <div style={{ display: "flex", justifyContent: "space-around" }}>
       <div>
         <div style={{ textAlign: "center" }}>
-          <CopyButtonClipboardComponent text={text} icon="link" />
+          <CopyButtonClipboardComponent text={text} />
           <div>
             <span
               style={{
@@ -470,16 +469,11 @@ export function renderActHash(text: string): JSX.Element | string {
   return (
     <span>
       <FlexLink path={`/action/${text}`} text={text} />
-      <Popover
-        placement="bottomLeft"
-        content={content}
-        title={t("action.share_this_action")}
-        trigger="hover"
-      >
-        <span style={{ marginLeft: "20px", position: "relative", top: "3px" }}>
-          <ShareIcon />
-        </span>
-      </Popover>
+      <span style={{ marginLeft: "10px" }}>
+        <Popover content={content} title={t("action.share_this_action")}>
+          <Icon type="share-alt" style={{ color: colors.primary }} />
+        </Popover>
+      </span>
     </span>
   );
 }

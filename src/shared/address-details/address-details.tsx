@@ -160,10 +160,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
                       {" "}
                       {(addressInfo && addressInfo.address) || address}{" "}
                     </span>
-                    <CopyButtonClipboardComponent
-                      text={copyAddress}
-                      icon="copy"
-                    />
+                    <CopyButtonClipboardComponent text={copyAddress} />
                     <span style={{ marginLeft: "5px" }}>
                       <ShowQrcodeButton text={copyAddress} />
                     </span>

@@ -115,7 +115,6 @@ class GenerateAuthorizedMessageForm extends React.PureComponent<
               <CopyButtonClipboardComponent
                 text={this.state.authMessage}
                 size="small"
-                icon="copy"
               />
             </FormItemLabel>
             <textarea

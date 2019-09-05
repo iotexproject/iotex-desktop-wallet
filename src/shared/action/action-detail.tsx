@@ -1,8 +1,6 @@
-import Card from "antd/lib/card";
-import Col from "antd/lib/col";
 import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
-import Row from "antd/lib/row";
+import Table from "antd/lib/table";
 import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
@@ -19,15 +17,15 @@ import {
   GetActionsResponse
 } from "../../api-gateway/resolvers/antenna-types";
 import { Token } from "../../erc20/token";
-import { renderActHash, renderValue } from "../block/block-detail";
+import { getColumns } from "../block/block-detail";
 import { ActionNotFound } from "../common/action-not-found";
 import { Flex } from "../common/flex";
 import { actionsTypes, getActionType } from "../common/get-action-type";
 import { Navigation } from "../common/navigation";
+import { PageTitle } from "../common/page-title";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding, NonePadding } from "../common/styles/style-padding";
-import { SearchBox } from "../home/search-box";
 import { GET_ACTIONS_BY_HASH } from "../queries";
 import { toETHAddress } from "../wallet/address";
 import { ActionReceipt } from "./action-receipt";
@@ -62,18 +60,10 @@ export function buildKeyValueArray(object: {}): Array<{}> {
 class ActionDetailsInner extends PureComponent<Props> {
   public state: {
     action: Object;
-    dataSource?: Array<{ key: string; value: string }>;
+    dataSource?: Array<{}>;
     loading: boolean;
     error: boolean;
-    actHash: string;
-    isTableFold: boolean;
-  } = {
-    loading: false,
-    error: false,
-    action: {},
-    actHash: "",
-    isTableFold: true
-  };
+  } = { loading: false, error: false, action: {} };
 
   public async parseActionData(data: {
     getActions: GetActionsResponse;
@@ -143,6 +133,7 @@ class ActionDetailsInner extends PureComponent<Props> {
     }
 
     const actionUnion = {
+      actHash,
       blkHash,
       timestamp,
       sender: action ? publicKeyToAddress(String(action.senderPubKey)) : "",
@@ -154,58 +145,11 @@ class ActionDetailsInner extends PureComponent<Props> {
     };
 
     const dataSource = buildKeyValueArray(actionUnion);
-    this.setState({ action, dataSource, actHash });
+    this.setState({ action, dataSource });
     return {
       action,
       dataSource
     };
-  }
-
-  public renderActionData(): JSX.Element {
-    const { dataSource } = this.state;
-    if (!dataSource) {
-      return <></>;
-    }
-    return (
-      <>
-        {dataSource.map(record => {
-          return (
-            <Row key={record.key} style={{ minHeight: 50, textAlign: "left" }}>
-              <Col xs={3} md={3}>
-                <span>{t(`render.key.${record.key}`)}:</span>
-              </Col>
-              <Col xs={21} md={21}>
-                {renderValue(record.value, record)}
-              </Col>
-            </Row>
-          );
-        })}
-      </>
-    );
-  }
-
-  public renderCollpasable(): JSX.Element {
-    const { isTableFold, dataSource } = this.state;
-    if (!dataSource) {
-      return <></>;
-    }
-    return (
-      <div
-        style={{ cursor: "pointer" }}
-        role="button"
-        onClick={() => this.setState({ isTableFold: !isTableFold })}
-      >
-        {isTableFold ? (
-          <span>
-            {t("block.show_more")} <Icon type="down" />
-          </span>
-        ) : (
-          <span>
-            {t("block.show_less")} <Icon type="up" />
-          </span>
-        )}
-      </div>
-    );
   }
 
   public render(): JSX.Element {
@@ -218,7 +162,7 @@ class ActionDetailsInner extends PureComponent<Props> {
     } = this.props;
     const POLL_INTERVAL = 6000;
     const Root = showContentPadding ? ContentPadding : NonePadding;
-    const { loading, dataSource, action, actHash, isTableFold } = this.state;
+    const { loading, dataSource, action } = this.state;
 
     return (
       <>
@@ -256,41 +200,32 @@ class ActionDetailsInner extends PureComponent<Props> {
         {this.state.error ? (
           <ActionNotFound info={hash} />
         ) : (
-          <Root style={{ marginBottom: 30 }}>
-            <Row style={{ display: "flex" }}>
-              <Col xs={12} md={12} style={{ marginTop: "10px" }}>
-                {showNavigation && <Navigation />}
-              </Col>
-              <Col xs={12} md={12} style={{ padding: "20px 0" }}>
-                <SearchBox
-                  enterButton
-                  size="large"
-                  placeholder={t("topbar.search")}
-                />
-              </Col>
-            </Row>
+          <Root>
+            {showNavigation && <Navigation />}
             <SpinPreloader spinning={loading}>
-              <Card className="action-detail">
-                <Flex
-                  width={"100%"}
-                  column={true}
-                  alignItems={"baselines"}
-                  backgroundColor={colors.white}
-                >
-                  <Row style={{ fontSize: 20 }}>
-                    {`${t("action.hash")}: `}
-                    {renderActHash(actHash)}
-                  </Row>
-                  <Divider orientation="left" />
-                  {this.renderActionData()}
-                  {this.renderCollpasable()}
-                </Flex>
-                {!isTableFold && (
-                  <Flex marginTop={"30px"}>
-                    <ActionReceipt actionHash={hash} action={action} />
-                  </Flex>
-                )}
-              </Card>
+              <Flex
+                width={"100%"}
+                column={true}
+                alignItems={"baselines"}
+                backgroundColor={colors.white}
+              >
+                <PageTitle>
+                  <Icon type="project" /> {t("action.action")}
+                </PageTitle>
+                <Divider orientation="left">{t("title.overview")}</Divider>
+                <Table
+                  className="single-table"
+                  pagination={false}
+                  dataSource={dataSource}
+                  columns={getColumns()}
+                  rowKey={"key"}
+                  style={{ width: "100%" }}
+                  scroll={{ x: true }}
+                />
+              </Flex>
+              <Flex marginTop={"30px"}>
+                <ActionReceipt actionHash={hash} action={action} />
+              </Flex>
             </SpinPreloader>
           </Root>
         )}
