@@ -374,6 +374,29 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
   }
 }
 
+.whitelist-table {
+  table {
+    table-layout: fixed;
+    tr td {
+      padding: 16px 5px;
+    }
+  }
+
+  .x-scroll {
+    overflow-x: scroll;
+  }
+
+  .ant-input-number {
+    max-width: 80%;
+    margin-right: 5px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+}
+
 .language-wrapper {
   @media only screen and (max-width: 768px) {
     ul {

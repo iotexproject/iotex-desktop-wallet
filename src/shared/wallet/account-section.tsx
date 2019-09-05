@@ -653,6 +653,7 @@ class AccountSection extends React.Component<Props, State> {
           columns={columns}
           pagination={false}
           showHeader={false}
+          rowKey={record => record.symbol}
         />
       </SpinPreloader>
     );

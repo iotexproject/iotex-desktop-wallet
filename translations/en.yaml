@@ -447,3 +447,29 @@ wallet.sign.confirm: 'Yes, sign transaction'
 topbar.searchAddress: 'Search an address, block, hash...'
 home.stats.progressEpoch: 'Progress of Epoch'
 action.pending: 'IoTeX Pending Action'
+wallet.whitelist.intro: 'Whitelisting actions makes it so you don''t have to keep approving actions for application you trust. When whitelisting actions you will see checkboxes appear next to each action and value.'
+wallet.whitelist.title: Whitelist Configuration
+wallet.whitelist.add: Add To Whitelist
+wallet.whitelist.cancel: Cancel
+wallet.whitelist.action: 'This ${action} action from ${origin} will be whitelisted'
+wallet.whitelist.amount: This value will be able to change without a popup
+wallet.whitelist.recipient: If the receipt change, you will have to approve the action again
+wallet.whitelist.duration: This setting will expire after the specified time
+wallet.whitelist.forbidden: 'Do not show this modal again'
+wallet.sign_and_send.success: 'Request sent successfully, action code is ${actionHash}'
+wallet.whitelist.cancel_addition: 'Cancel Add To Whitelist'
+wallet.whitelist: Whitelist
+wallet.whitelist.state: Whitelist state
+wallet.whitelist.enabled: enabled
+wallet.whitelist.disabled: disabled
+wallet.whitelist.title_origin: Origin/Method
+wallet.whitelist.title_amount: Amount(IOTX)
+wallet.whitelist.title_recipient: Recipient
+wallet.whitelist.title_remain: Remain
+wallet.whitelist.operation.save: Save
+wallet.whitelist.operation.cancel: Cancel
+wallet.whitelist.operation.delete: Delete
+wallet.whitelist.operation.edit: Edit
+wallet.whitelist.title_operation: Operation
+wallet.whitelist.operation.alert: Sure to cancel?
+
