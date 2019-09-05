@@ -13,6 +13,7 @@ export const colors = {
 
   text01: "#333333",
   white: "#fff",
+  whiteText: "#acb0c3",
 
   error: "#E54937", //	Error
   success: "#07A35A", //	Success
@@ -31,5 +32,6 @@ export const colors = {
   backHome: "#00958E",
   topbarGray: "#AAAFC1",
   background: "#f0f2f5",
-  menuHover: "#51515a"
+  menuHover: "#51515a",
+  transparent: "rgba(0,0,0,0)"
 };
