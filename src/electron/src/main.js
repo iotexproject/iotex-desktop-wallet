@@ -5,8 +5,6 @@ const { session } = require("electron");
 const { initSolc } = require("./solc");
 const { createServer } = require("./server");
 const Service = require("./service");
-const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
-const process = require("global/process");
 const console = require("global/console");
 
 process.on("uncaughtException", function(error) {
@@ -40,10 +38,6 @@ function createWindow() {
       preload: path.resolve(__dirname, "renderer.js")
     }
   });
-
-  // init ledger
-  mainWindow.transport = TransportNodeHid;
-
   // start a service
   createServer(64102, function(err, server) {
     if (err) {
@@ -192,39 +186,28 @@ function createWindow() {
           label: "Reload",
           accelerator: "CmdOrCtrl+R",
           click: function(item, focusedWindow) {
-            if (focusedWindow) {
-              focusedWindow.reload();
-            }
+            if (focusedWindow) focusedWindow.reload();
           }
         },
         {
           label: "Toggle Full Screen",
           accelerator: (function() {
-            if (process.platform === "darwin") {
-              return "Ctrl+Command+F";
-            } else {
-              return "F11";
-            }
+            if (process.platform === "darwin") return "Ctrl+Command+F";
+            else return "F11";
           })(),
           click: function(item, focusedWindow) {
-            if (focusedWindow) {
+            if (focusedWindow)
               focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
-            }
           }
         },
         {
           label: "Toggle Developer Tools",
           accelerator: (function() {
-            if (process.platform === "darwin") {
-              return "Alt+Command+I";
-            } else {
-              return "Ctrl+Shift+I";
-            }
+            if (process.platform === "darwin") return "Alt+Command+I";
+            else return "Ctrl+Shift+I";
           })(),
           click: function(item, focusedWindow) {
-            if (focusedWindow) {
-              focusedWindow.toggleDevTools();
-            }
+            if (focusedWindow) focusedWindow.toggleDevTools();
           }
         },
         {
@@ -280,17 +263,13 @@ app.on("ready", createWindow);
 app.on("window-all-closed", function() {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+  if (process.platform !== "darwin") app.quit();
 });
 
 app.on("activate", function() {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow();
-  }
+  if (mainWindow === null) createWindow();
 });
 
 // In this file you can include the rest of your app's specific main process
