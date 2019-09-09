@@ -1,22 +1,22 @@
+import { t } from "onefx/lib/iso-i18n";
 import * as React from "react";
 import withBreadcrumbs, {
   BreadcrumbsRoute
 } from "react-router-breadcrumbs-hoc";
 import { NavLink } from "react-router-dom";
-import { t } from "onefx/lib/iso-i18n";
 
 const routesConfig = [
-  { path: "/action", breadcrumb: t("navigation.action") },
-  { path: "/address", breadcrumb: t("navigation.address") },
-  { path: "/action/:hash", breadcrumb: t("navigation.action_detail") },
-  { path: "/block", breadcrumb: t("navigation.block") },
+  { path: "/action", breadcrumb: "navigation.action" },
+  { path: "/address", breadcrumb: "navigation.address" },
+  { path: "/action/:hash", breadcrumb: "navigation.action_detail" },
+  { path: "/block", breadcrumb: "navigation.block" },
   {
     path: "/block/:hash/action",
-    breadcrumb: t("navigation.action")
+    breadcrumb: "navigation.action"
   },
   {
     path: "/block/:blockHash/action/:actionHash",
-    breadcrumb: t("navigation.action_detail")
+    breadcrumb: "navigation.action_detail"
   }
 
   // { path: "/block/:id", breadcrumb: `Block# ` }
@@ -32,6 +32,9 @@ export const Navigation = ({
   routes?: Array<BreadcrumbsRoute>;
 }) => {
   const disabledRoutes = ["/address"];
+  routesConfig.forEach(a => {
+    a.breadcrumb = t(a.breadcrumb);
+  });
   const newRoutes = [...routesConfig, ...(routes || [])];
   const breadcrumbs = withBreadcrumbs(newRoutes, {
     excludePaths: ["/"]

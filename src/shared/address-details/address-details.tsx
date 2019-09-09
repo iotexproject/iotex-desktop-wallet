@@ -98,7 +98,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     return (
       <div className="overview-list">
         <Row style={{ padding: "10px 0" }}>
-          <Col xs={3}>
+          <Col xs={5} md={3}>
             <div className={"name"}>{`${t("block.timestamp")}:`}</div>
           </Col>
           <Query
@@ -120,7 +120,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
                 data.getActions.actionInfo &&
                 data.getActions.actionInfo[0].timestamp;
               return (
-                <Col xs={21}>
+                <Col xs={19} md={21}>
                   <div className={"info"}>
                     {(timestamp && translateFn(timestamp)) || ""}
                     {timestamp &&
@@ -135,10 +135,10 @@ class AddressDetailsInner extends PureComponent<Props, State> {
           </Query>
         </Row>
         <Row style={{ padding: "15px 0" }}>
-          <Col xs={3}>
+          <Col xs={5} md={3}>
             <div className={"name"}>{`${t("address.balance")}:`}</div>
           </Col>
-          <Col xs={21}>
+          <Col xs={19} md={21}>
             <div className={"info"}>{`${(+utils.fromRau(
               String((addressInfo && addressInfo.balance) || 0),
               "IOTX"
@@ -147,10 +147,10 @@ class AddressDetailsInner extends PureComponent<Props, State> {
           </Col>
         </Row>
         <Row style={{ padding: "15px 0" }}>
-          <Col xs={3}>
+          <Col xs={5} md={3}>
             <div className={"name"}>{`${t("address.name")}:`}</div>
           </Col>
-          <Col xs={21}>
+          <Col xs={19} md={21}>
             <Query
               query={GET_BP_CANDIDATE}
               variables={{ ioOperatorAddress: address }}
@@ -211,7 +211,13 @@ class AddressDetailsInner extends PureComponent<Props, State> {
                 <div className="addressList">
                   <Card>
                     <div>
-                      <span style={{ color: "#333", fontSize: 24 }}>
+                      <span
+                        style={{
+                          color: "#333",
+                          fontSize: 24,
+                          wordBreak: "break-all"
+                        }}
+                      >
                         {`${t("address.address")}:`}{" "}
                         {(addressInfo && addressInfo.address) || address}{" "}
                       </span>
