@@ -7,6 +7,7 @@ import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { Board } from "../common/board";
 import { CommonMargin } from "../common/common-margin";
+import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { colors } from "../common/styles/style-color";
 import { whitelistService } from "./whitelist";
 
@@ -88,7 +89,12 @@ export class WhitelistSetting extends React.Component<Props, State> {
                 initialValue: true
               })(
                 <Checkbox name="origin" disabled>
-                  {origin} > {method}
+                  <span>
+                    <span style={{ marginRight: 10 }}>
+                      {origin} > {method}
+                    </span>
+                    <CopyButtonClipboardComponent text={method} size="small" />
+                  </span>
                 </Checkbox>
               )}
             </Form.Item>

@@ -20,7 +20,8 @@ export function decode(
   contractAddress: string = "io1p99pprm79rftj4r6kenfjcp8jkp6zc6mytuah5"
 ): DecodeData {
   if (data.length < 8) {
-    throw new Error("input data error");
+    window.console.warn("input data error");
+    return { method: data, data: {} };
   }
   const method = data.substr(0, 8);
 
@@ -70,5 +71,6 @@ export function decode(
     }
   }
 
-  throw new Error("can not found method");
+  window.console.warn("can not found method");
+  return { method: data, data: {} };
 }

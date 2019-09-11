@@ -17,6 +17,8 @@ import { ColumnProps } from "antd/lib/table";
 import dayjs from "dayjs";
 import { t } from "onefx/lib/iso-i18n";
 import { CommonMargin } from "../common/common-margin";
+import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
+import { Flex } from "../common/flex";
 import { colors } from "../common/styles/style-color";
 import { WhitelistConfig, whitelistService } from "./whitelist";
 
@@ -144,6 +146,7 @@ class WhitelistTable extends React.Component<
     editingKey: ""
   };
 
+  // tslint:disable:max-func-body-length
   private getColumns(): Array<CustomColumnProps<Record>> {
     return [
       {
@@ -155,9 +158,14 @@ class WhitelistTable extends React.Component<
         editable: false,
         key: "origin",
         render: (_, { origin, method }: Record): JSX.Element => (
-          <span>
-            {origin}/{method}
-          </span>
+          <Flex flexWrap="nowrap">
+            <div style={{ flex: "1 0 auto", marginRight: 5 }}>
+              <CopyButtonClipboardComponent text={method} size="small" />
+            </div>
+            <span>
+              {origin}/{method}
+            </span>
+          </Flex>
         )
       },
       {
