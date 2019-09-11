@@ -2,11 +2,6 @@
 
 // @ts-ignore
 import Footer, { FOOTER_HEIGHT } from "iotex-react-footer";
-// @ts-ignore
-import { t } from "onefx/lib/iso-i18n";
-// @ts-ignore
-import { mobileViewPortContent } from "onefx/lib/iso-react-render/root/mobile-view-port-content";
-// @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
 import { Switch } from "react-router";
@@ -23,7 +18,7 @@ import { NotFound } from "./common/not-found";
 import { ScrollToTop } from "./common/scroll-top";
 import { colors } from "./common/styles/style-color";
 import { fonts } from "./common/styles/style-font";
-import { TOP_BAR_HEIGHT, TopBar } from "./common/top-bar";
+import { TOP_BAR_HEIGHT, TopMenuBar } from "./common/top-menu-bar";
 import { Home } from "./home/home";
 import { Wallet } from "./wallet/wallet";
 
@@ -43,7 +38,7 @@ export class App extends Component<Props> {
     return (
       <RootStyle>
         <HtmlHead locale={locale} />
-        <TopBar />
+        <TopMenuBar />
         <div
           style={{
             minHeight: `calc(100vh - ${FOOTER_HEIGHT + TOP_BAR_HEIGHT}px)`

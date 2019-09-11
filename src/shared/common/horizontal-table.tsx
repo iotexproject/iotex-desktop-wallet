@@ -46,9 +46,9 @@ export class HorizontalTable extends Component<Props> {
 
     return (
       <dl className={"dl-horizontal"}>
-        {columns.map((column: Column<any>) => {
+        {columns.map((column: Column<any>, index: number) => {
           return (
-            <React.Fragment>
+            <React.Fragment key={index}>
               <dt>{column.title}</dt>
               <dd>{this.renderCell(column)}</dd>
             </React.Fragment>

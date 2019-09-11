@@ -375,6 +375,30 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
     margin: 0 10px;
   }
 }
+
+.whitelist-table {
+  table {
+    table-layout: fixed;
+    tr td {
+      padding: 16px 5px;
+    }
+  }
+
+  .x-scroll {
+    overflow-x: scroll;
+  }
+
+  .ant-input-number {
+    max-width: 80%;
+    margin-right: 5px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+}
+
 .language-wrapper {
   @media only screen and (max-width: 768px) {
     ul {
@@ -387,4 +411,33 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
 }
 .common-pd {
   padding: 0 15px;
+}
+
+.top-nav-submenu > .ant-menu.ant-menu-sub.ant-menu-vertical {
+  border: 0;
+  border-radius: 0 !important;
+  background-color: #262632 !important;
+  padding-top: 10px !important;
+  text-transform: capitalize !important;
+}
+
+#top-mobile-menu-nav .ant-drawer-content,
+#top-mobile-menu-nav .ant-menu-sub.ant-menu-inline {
+  background-color: #262632 !important;
+  box-shadow: none;
+}
+
+.language-switcher ul {
+  background-color: #262632 !important;
+  padding: 20px !important;
+  padding-top: 30px !important;
+  min-width: 150px !important;
+  margin-left: -20px !important;
+}
+
+.action-detail.ant-card {
+  &:hover {
+    transform: none;
+  }
+  border-radius: 5px;
 }

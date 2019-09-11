@@ -1,37 +1,59 @@
+import { message } from "antd";
 // @ts-ignore
 import window from "global/window";
-import { fromRau } from "iotex-antenna/lib/account/utils";
 import { Envelop, SealedEnvelop } from "iotex-antenna/lib/action/envelop";
+import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
+import { N2E_ABI } from "../../erc20/abi";
 import ConfirmContractModal from "../common/confirm-contract-modal";
 import { getAntenna } from "./get-antenna";
-import { SignParamAction, SignParams } from "./wallet-reducer";
+import {
+  IWalletState,
+  SignParamAction,
+  SignParams,
+  WalletAction
+} from "./wallet-reducer";
+import {
+  createWhitelistConfig,
+  DataSource,
+  deserializeEnvelop,
+  getDataSource,
+  whitelistService
+} from "./whitelist";
+import { Whitelist, WhitelistSetting } from "./whitelist-setting";
 
 type Props = {
   envelop?: string;
   fromAddress: string;
   reqId?: number;
-  deserialize?: Function;
-} & DispatchProp<SignParamAction> &
+  origin: string;
+} & DispatchProp<SignParamAction | WalletAction> &
   RouteComponentProps;
 
-class SignAndSendEnvelopModalInner extends Component<Props> {
+interface State {
+  dataSource: DataSource | null;
+  showWhitelist: boolean;
+  saveWhitelist: boolean;
+  isWhitelistEnable: boolean;
+}
+class SignAndSendEnvelopModalInner extends Component<Props, State> {
   public props: Props;
 
-  public state: {
-    // tslint:disable-next-line:no-any
-    envelop: { [key: string]: any };
-    reqId?: number;
-    showModal: boolean;
-  } = {
-    envelop: {},
-    showModal: false
+  public state: State = {
+    dataSource: null,
+    showWhitelist: false,
+    saveWhitelist: false,
+    isWhitelistEnable: false
   };
+
   private envelop: Envelop;
+  private readonly sendList: Array<number> = [];
+
+  private whitelist: WhitelistSetting;
 
   public async signAndSend(): Promise<void> {
     const { fromAddress, reqId } = this.props;
@@ -44,10 +66,11 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
     const { actionHash } = await getAntenna().iotx.sendAction({
       action: sealed.action()
     });
-    // @ts-ignore
-    if (window.signed) {
-      // @ts-ignore
+
+    if (window.signed && !this.sendList.includes(reqId as number)) {
       window.signed(reqId, JSON.stringify({ actionHash, reqId }));
+      this.sendList.push(reqId as number);
+      message.success(t("wallet.sign_and_send.success", { actionHash }));
     }
     this.props.history.push(`/wallet/transfer/${actionHash}`);
   }
@@ -65,77 +88,98 @@ class SignAndSendEnvelopModalInner extends Component<Props> {
         id: undefined
       }
     });
-    this.setState({ showModal: false });
+    if (this.state.showWhitelist) {
+      this.whitelist.onOk();
+    }
   };
 
-  public componentDidUpdate(): void {
-    const { reqId } = this.props;
-    if (reqId === this.state.reqId) {
-      return;
-    }
-    this.updateSignRequest();
+  public componentDidMount(): void {
+    this.updateEnvelop();
   }
 
-  public async updateSignRequest(): Promise<void> {
-    const { fromAddress, reqId } = this.props;
-    const meta = await getAntenna().iotx.getAccount({
-      address: fromAddress
-    });
-    const nonce = String(
-      (meta.accountMeta && meta.accountMeta.pendingNonce) || ""
-    );
+  public componentDidUpdate(nextProps: Props): void {
+    this.updateEnvelop(nextProps);
+  }
 
-    const envelop = Envelop.deserialize(
-      Buffer.from(this.props.envelop || "", "hex")
-    );
-    if (!envelop || !envelop.gasPrice || !envelop.gasLimit) {
+  public async updateEnvelop(nextProps?: Props): Promise<void> {
+    if (
+      !this.props.envelop ||
+      !this.props.fromAddress ||
+      (nextProps && this.props.reqId === nextProps.reqId)
+    ) {
       return;
     }
-    envelop.nonce = nonce;
+
+    const envelop = await deserializeEnvelop(
+      this.props.envelop,
+      this.props.fromAddress
+    );
+    const dataSource = getDataSource(envelop, this.props.fromAddress, N2E_ABI);
+    const { origin } = this.props;
+    const isInWhitelistsAndUnexpired = whitelistService.isInWhitelistsAndUnexpired(
+      Date.now(),
+      createWhitelistConfig(dataSource, origin)
+    );
+    const isWhitelistEnable = whitelistService.isWhitelistEnable();
+
     this.envelop = envelop;
-    this.setState({ envelop, reqId, showModal: true });
+
+    if (isWhitelistEnable && isInWhitelistsAndUnexpired) {
+      this.setState({ dataSource: null, isWhitelistEnable });
+      this.onOk();
+    } else {
+      this.setState({ dataSource, isWhitelistEnable });
+    }
   }
 
   public render(): JSX.Element | null {
-    const { gasPrice = "", gasLimit = "", transfer = null, execution = null } =
-      this.state.envelop || {};
+    const { dataSource } = this.state;
 
-    const dataSource: { [index: string]: string } = {
-      address: this.props.fromAddress,
-      limit: gasLimit,
-      price: `${gasPrice} (${fromRau(gasPrice, "Qev")} Qev)`
-    };
-
-    if (transfer) {
-      dataSource.toAddress = transfer.recipient;
-      dataSource.amount = `${fromRau(transfer.amount, "IOTX")} IOTX`;
-      dataSource.dataInHex = `${Buffer.from(transfer.payload).toString("hex")}`;
+    if (!dataSource) {
+      return null;
     }
 
-    if (execution) {
-      dataSource.toContract = execution.contract;
-      dataSource.amount = `${fromRau(execution.amount, "IOTX")} IOTX`;
-      dataSource.dataInHex = `${Buffer.from(execution.data).toString("hex")}`;
-    }
+    const { method, toAddress, amount, toContract } = dataSource;
+    const recipient = (toAddress || toContract) as string;
+    const showWhitelistBtn = isElectron() && this.state.isWhitelistEnable;
+    const showWhitelistForm =
+      this.state.showWhitelist && whitelistService.isWhitelistEnable();
 
     return (
       <ConfirmContractModal
         dataSource={dataSource}
         title={t("wallet.sign.envelop_title")}
-        showModal={this.state.showModal}
+        maskClosable={false}
+        showModal={!!this.props.envelop}
         okText={t("wallet.sign.confirm")}
+        showWhitelistBtn={showWhitelistBtn}
+        onWhitelistBtnClick={() =>
+          this.setState({ showWhitelist: !this.state.showWhitelist })
+        }
         confirmContractOk={(ok: boolean) =>
           ok ? this.onOk() : this.onCancel()
         }
-      />
+      >
+        {showWhitelistForm && (
+          <Whitelist
+            origin={this.props.origin}
+            method={method}
+            amount={amount}
+            recipient={recipient}
+            handleWhitelist={ref => (this.whitelist = ref)}
+          />
+        )}
+      </ConfirmContractModal>
     );
   }
 }
 
-export const SignAndSendEnvelopModal = withRouter(
-  connect((state: { signParams: SignParams }) => ({
+// tslint:disable: no-any
+export const SignAndSendEnvelopModal: any = withRouter(
+  connect((state: { signParams: SignParams; wallet: IWalletState }) => ({
     envelop: state.signParams.envelop,
-    reqId: state.signParams.reqId
+    reqId: state.signParams.reqId,
+    origin: state.signParams.origin
   }))(
     // @ts-ignore
     SignAndSendEnvelopModalInner

@@ -24,6 +24,8 @@ export type SignParams = {
   reqId?: number;
   content?: string; // message
   envelop?: string;
+  method?: string | Array<string>;
+  origin?: string;
 };
 
 export type SignParamAction = {
@@ -66,6 +68,7 @@ export type WalletAction = {
     | "ADD_CUSTOM_RPC"
     | "UPDATE_TOKENS"
     | "SET_LOCK_TIME"
+    | "SET_ORIGIN"
     | "DELAY_LOCK";
   payload: {
     account?: Account;

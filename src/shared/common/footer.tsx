@@ -12,7 +12,7 @@ import { assetURL } from "./asset-url";
 import { Flex } from "./flex";
 import { colors } from "./styles/style-color";
 import { contentPadding } from "./styles/style-padding";
-import { TOP_BAR_HEIGHT } from "./top-bar";
+import { TOP_BAR_HEIGHT } from "./top-menu-bar";
 
 export const FOOTER_HEIGHT = 260;
 

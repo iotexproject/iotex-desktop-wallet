@@ -4,6 +4,7 @@ import Modal from "antd/lib/modal/Modal";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Board } from "./board";
+import { Flex } from "./flex";
 import { Column, HorizontalTable } from "./horizontal-table";
 import { ModalBody } from "./modal-body";
 
@@ -14,6 +15,9 @@ export interface Props {
   confirmLoading?: boolean;
   title?: string;
   okText?: string;
+  maskClosable?: boolean;
+  showWhitelistBtn?: boolean;
+  onWhitelistBtnClick?(): void;
 }
 
 export interface State {}
@@ -115,7 +119,8 @@ export default class ConfirmContractModal extends React.Component<
       showModal,
       confirmLoading,
       title = t("wallet.confirm.contract.title"),
-      okText = t("wallet.confirm.contract.yes")
+      okText = t("wallet.confirm.contract.yes"),
+      maskClosable = true
     } = this.props;
     return (
       <Modal
@@ -128,6 +133,7 @@ export default class ConfirmContractModal extends React.Component<
         onOk={() => this.confirmContractOk(true)}
         onCancel={() => this.confirmContractOk(false)}
         confirmLoading={confirmLoading}
+        maskClosable={maskClosable}
       >
         <ModalBody>
           <Board>
@@ -137,8 +143,24 @@ export default class ConfirmContractModal extends React.Component<
             />
           </Board>
           <div style={{ marginTop: 24, paddingLeft: 6 }}>
-            <p>{t("wallet.confirm.contract.p2")}</p>
+            <Flex justifyContent="space-between" alignItems="center">
+              <span>{t("wallet.confirm.contract.p2")}</span>
+              {!!this.props.showWhitelistBtn && (
+                <a
+                  href="void:0"
+                  role="main"
+                  onClick={this.props.onWhitelistBtnClick}
+                >
+                  {t(
+                    this.props.children
+                      ? "wallet.whitelist.cancel_addition"
+                      : "wallet.whitelist.add"
+                  )}
+                </a>
+              )}
+            </Flex>
           </div>
+          {this.props.children}
         </ModalBody>
       </Modal>
     );
