@@ -112,6 +112,7 @@ coming_soon.title: 'Coming Soon...'
 coming_soon.bar: 'coming soon'
 action.actions: Actions
 address.address: Address
+address.name: "Name Tag"
 title.overview: Overview
 title.actionList: 'List of Actions'
 copy.copied: Copied
@@ -437,6 +438,10 @@ home.stats.numberOfAddresses: '# of Addresses'
 home.stats.numberOfTransactions: '# of Transactions'
 home.stats.day: Day
 home.stats.actions: Transactions
+navigation.address: Address List
+navigation.action: Action List
+navigation.action_detail: Action Detail
+navigation.block: Block List
 unlock-wallet.by_ledger: 'Connect Ledger'
 unlock_by_ledger.message: 'Click the following button to proceed with Ledger.'
 unlock-by-ledger.pluginDevice: 'Please plugin ledger device and try again!'
@@ -472,4 +477,6 @@ wallet.whitelist.operation.delete: Delete
 wallet.whitelist.operation.edit: Edit
 wallet.whitelist.title_operation: Operation
 wallet.whitelist.operation.alert: Sure to cancel?
-
+wallet.unlock_alert.title: Unlock Wallet First
+wallet.unlock_alert.tip: Please unlock your wallet before perform other operations.
+wallet.unlock_alert.confirm: I know

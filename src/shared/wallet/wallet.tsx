@@ -17,6 +17,7 @@ import AccountSection from "./account-section";
 import { DeployPreloadHeader } from "./contract/deploy";
 import NewWallet from "./new-wallet";
 import UnlockWallet from "./unlock-wallet";
+import { UnlockWalletAlert } from "./unlock-wallet-alert";
 import { IWalletState, QueryType } from "./wallet-reducer";
 import { WalletTabs } from "./wallet-tabs";
 
@@ -85,7 +86,7 @@ class WalletInner extends PureComponent<Props, State> {
     const { createNew } = this.state;
     const { account } = this.props;
     return (
-      <>
+      <UnlockWalletAlert>
         <DeployPreloadHeader />
         <ContentPadding>
           <Row
@@ -109,7 +110,7 @@ class WalletInner extends PureComponent<Props, State> {
             </Col>
           </Row>
         </ContentPadding>
-      </>
+      </UnlockWalletAlert>
     );
   }
 }
