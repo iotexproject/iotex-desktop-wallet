@@ -472,4 +472,6 @@ wallet.whitelist.operation.delete: Delete
 wallet.whitelist.operation.edit: Edit
 wallet.whitelist.title_operation: Operation
 wallet.whitelist.operation.alert: Sure to cancel?
-
+wallet.unlock_alert.title: Unlock Wallet First
+wallet.unlock_alert.tip: Please unlock your wallet before perform other operations.
+wallet.unlock_alert.confirm: I know
