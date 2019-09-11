@@ -49,8 +49,15 @@
     margin-right: 20px;
   }
 }
-.address-top {
+.addressList {
   padding-top: 20px;
+  .ant-card {
+    &:hover {
+      transform: none;
+    }
+    border-radius: 5px;
+    margin-bottom: 30px;
+  }
   .title {
     font-size: 20px;
     margin-bottom: 20px;
@@ -74,6 +81,7 @@
   .overview-list {
     overflow: hidden;
     margin-bottom: 20px;
+    margin-left: 5px;
     .item {
       width: 33.3%;
       float: left;
@@ -99,10 +107,12 @@
       }
     }
     .name {
-      color: #999;
+      color: #333;
+      text-transform: capitalize;
+      font-weight: bold;
     }
     .info {
-      font-size: 20px;
+      color: #666666;
     }
   }
 }

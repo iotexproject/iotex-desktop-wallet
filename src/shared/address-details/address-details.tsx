@@ -1,7 +1,9 @@
+// @ts-ignore
+import Card from "antd/lib/card";
 import Col from "antd/lib/col";
 import Divider from "antd/lib/divider";
-import Icon from "antd/lib/icon";
 import Row from "antd/lib/row";
+import dateformat from "dateformat";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
 import isBrowser from "is-browser";
@@ -16,16 +18,19 @@ import { RouteComponentProps, withRouter } from "react-router";
 import JsonGlobal from "safe-json-globals/get";
 import {
   AccountMeta,
-  GetAccountResponse
+  GetAccountResponse,
+  GetActionsResponse
 } from "../../api-gateway/resolvers/antenna-types";
 import { ITokenInfo, Token } from "../../erc20/token";
+import { webBpApolloClient } from "../common/apollo-client";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
-import { PageTitle } from "../common/page-title";
+import { translateFn } from "../common/from-now";
+import { Navigation } from "../common/navigation";
 import { ShowQrcodeButton } from "../common/show-qrcode-button";
 import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
 import { SearchBox } from "../home/search-box";
-import { GET_ACCOUNT } from "../queries";
+import { GET_ACCOUNT, GET_ACTIONS, GET_BP_CANDIDATE } from "../queries";
 import { ActionTable } from "./action-table";
 
 type PathParamsType = {
@@ -61,7 +66,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     });
   };
 
-  public componentDidUpdate(): void {
+  public componentDidMount(): void {
     const {
       match: {
         params: { address }
@@ -86,37 +91,84 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     </>
   );
 
-  public renderAddressInfo = (addressInfo: AccountMeta): JSX.Element => (
-    <>
-      <div className={"item"}>
-        <div className={"icon"}>
-          <Icon type="wallet" />
-        </div>
-        <div className={"name"}>{t("address.balance")}</div>
-        <div className={"info"}>{`${(+utils.fromRau(
-          String((addressInfo && addressInfo.balance) || 0),
-          "IOTX"
-        )).toFixed(4)} IOTX`}</div>
-        {this.renderOtherTokenBalance()}
+  public renderAddressInfo = (
+    addressInfo: AccountMeta,
+    address: string
+  ): JSX.Element => {
+    return (
+      <div className="overview-list">
+        <Row style={{ padding: "10px 0" }}>
+          <Col xs={5} md={3}>
+            <div className={"name"}>{`${t("block.timestamp")}:`}</div>
+          </Col>
+          <Query
+            query={GET_ACTIONS}
+            variables={{ byAddr: { address, start: 1, count: 1 } }}
+            fetchPolicy="network-only"
+            ssr={false}
+          >
+            {({
+              error,
+              data
+            }: QueryResult<{ getActions: GetActionsResponse }>) => {
+              if (error) {
+                return null;
+              }
+              const timestamp =
+                data &&
+                data.getActions &&
+                data.getActions.actionInfo &&
+                data.getActions.actionInfo[0].timestamp;
+              return (
+                <Col xs={19} md={21}>
+                  <div className={"info"}>
+                    {(timestamp && translateFn(timestamp)) || ""}
+                    {timestamp &&
+                      dateformat(
+                        new Date(timestamp.seconds * 1000).toUTCString(),
+                        "UTC:yyyy-mm-dd HH:MM:ssTT Z"
+                      )}
+                  </div>
+                </Col>
+              );
+            }}
+          </Query>
+        </Row>
+        <Row style={{ padding: "15px 0" }}>
+          <Col xs={5} md={3}>
+            <div className={"name"}>{`${t("address.balance")}:`}</div>
+          </Col>
+          <Col xs={19} md={21}>
+            <div className={"info"}>{`${(+utils.fromRau(
+              String((addressInfo && addressInfo.balance) || 0),
+              "IOTX"
+            )).toFixed(4)} IOTX`}</div>
+            {this.renderOtherTokenBalance()}
+          </Col>
+        </Row>
+        <Row style={{ padding: "15px 0" }}>
+          <Col xs={5} md={3}>
+            <div className={"name"}>{`${t("address.name")}:`}</div>
+          </Col>
+          <Col xs={19} md={21}>
+            <Query
+              query={GET_BP_CANDIDATE}
+              variables={{ ioOperatorAddress: address }}
+              client={webBpApolloClient}
+            >
+              {({ data }: QueryResult) => {
+                const name =
+                  (data.bpCandidate && data.bpCandidate.registeredName) ||
+                  address;
+
+                return <div className={"info"}>{name}</div>;
+              }}
+            </Query>
+          </Col>
+        </Row>
       </div>
-      <div className={"item"}>
-        <div className={"icon"}>
-          <Icon type="border" />
-        </div>
-        <div className={"name"}>{t("address.nonce")}</div>
-        <div className={"info"}>{(addressInfo && addressInfo.nonce) || 0}</div>
-      </div>
-      <div className={"item"}>
-        <div className={"icon"}>
-          <Icon type="project" />
-        </div>
-        <div className={"name"}>{t("address.pendingNonce")}</div>
-        <div className={"info"}>
-          {(addressInfo && addressInfo.pendingNonce) || 0}
-        </div>
-      </div>
-    </>
-  );
+    );
+  };
 
   public render(): JSX.Element {
     const {
@@ -128,8 +180,11 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     return (
       <ContentPadding>
         <Helmet title={`IoTeX ${t("address.address")} ${address}`} />
-        <Row style={{ marginTop: 60 }} justify="end" type="flex">
-          <Col xs={24} md={12}>
+        <Row justify="end" type="flex">
+          <Col xs={24} md={12} style={{ marginTop: 20 }}>
+            <Navigation />
+          </Col>
+          <Col xs={24} md={12} style={{ marginTop: 30 }}>
             <SearchBox
               enterButton
               size="large"
@@ -153,40 +208,44 @@ class AddressDetailsInner extends PureComponent<Props, State> {
             const numActions = +((addressInfo && addressInfo.numActions) || 0);
             return (
               <SpinPreloader spinning={loading}>
-                <div className="address-top">
-                  <PageTitle>
-                    <Icon type="wallet" /> {t("address.address")}:
-                    <span>
-                      {" "}
-                      {(addressInfo && addressInfo.address) || address}{" "}
-                    </span>
-                    <CopyButtonClipboardComponent text={copyAddress} />
-                    <span style={{ marginLeft: "5px" }}>
-                      <ShowQrcodeButton text={copyAddress} />
-                    </span>
-                  </PageTitle>
-                  <Divider orientation="left">{t("title.overview")}</Divider>
-                  <div className="overview-list">
-                    {this.renderAddressInfo(addressInfo)}
-                  </div>
+                <div className="addressList">
+                  <Card>
+                    <div>
+                      <span
+                        style={{
+                          color: "#333",
+                          fontSize: 24,
+                          wordBreak: "break-all"
+                        }}
+                      >
+                        {`${t("address.address")}:`}{" "}
+                        {(addressInfo && addressInfo.address) || address}{" "}
+                      </span>
+                      <CopyButtonClipboardComponent text={copyAddress} />
+                      <span style={{ marginLeft: "5px" }}>
+                        <ShowQrcodeButton text={copyAddress} />
+                      </span>
+                    </div>
+
+                    <Divider style={{ width: "102%", margin: "24px -10px" }} />
+                    {this.renderAddressInfo(addressInfo, address)}
+                  </Card>
+                  <br />
+                  <ActionTable
+                    totalActions={numActions}
+                    getVariable={({ current, pageSize }) => {
+                      const start =
+                        numActions - pageSize - (current - 1) * pageSize;
+                      return {
+                        byAddr: {
+                          address,
+                          start: start < 0 ? 0 : start,
+                          count: pageSize
+                        }
+                      };
+                    }}
+                  />
                 </div>
-                <Divider style={{ marginTop: 60 }} orientation="left">
-                  {t("title.actionList")}
-                </Divider>
-                <ActionTable
-                  totalActions={numActions}
-                  getVariable={({ current, pageSize }) => {
-                    const start =
-                      numActions - pageSize - (current - 1) * pageSize;
-                    return {
-                      byAddr: {
-                        address,
-                        start: start < 0 ? 0 : start,
-                        count: pageSize
-                      }
-                    };
-                  }}
-                />
               </SpinPreloader>
             );
           }}
