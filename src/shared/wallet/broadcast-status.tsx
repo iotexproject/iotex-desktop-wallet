@@ -36,7 +36,7 @@ export function BroadcastSuccess({
         {t("broadcast.warn.three")}
         <ActionPoll txHash={txHash} />
         <span style={{ marginLeft: "5px" }}>
-          <CopyButtonClipboardComponent text={txHash} />
+          <CopyButtonClipboardComponent text={txHash} icon="copy" />
         </span>
       </p>
       <div style={{ marginTop: "40px" }} />

@@ -93,7 +93,11 @@ export class WhitelistSetting extends React.Component<Props, State> {
                     <span style={{ marginRight: 10 }}>
                       {origin} > {method}
                     </span>
-                    <CopyButtonClipboardComponent text={method} size="small" />
+                    <CopyButtonClipboardComponent
+                      icon="copy"
+                      text={method}
+                      size="small"
+                    />
                   </span>
                 </Checkbox>
               )}
