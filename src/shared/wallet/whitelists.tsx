@@ -160,7 +160,11 @@ class WhitelistTable extends React.Component<
         render: (_, { origin, method }: Record): JSX.Element => (
           <Flex flexWrap="nowrap">
             <div style={{ flex: "1 0 auto", marginRight: 5 }}>
-              <CopyButtonClipboardComponent text={method} size="small" />
+              <CopyButtonClipboardComponent
+                icon="copy"
+                text={method}
+                size="small"
+              />
             </div>
             <span>
               {origin}/{method}

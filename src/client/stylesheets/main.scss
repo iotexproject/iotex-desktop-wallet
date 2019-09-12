@@ -449,3 +449,16 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
   }
   border-radius: 5px;
 }
+
+.action-detail.ant-card {
+  &:hover {
+    transform: none;
+  }
+  border-radius: 5px;
+}
+
+.action-table {
+  .ant-table-tbody > tr > td {
+    border-bottom: none;
+  }
+}

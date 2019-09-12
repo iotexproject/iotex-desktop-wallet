@@ -677,7 +677,11 @@ class AccountSection extends React.Component<Props, State> {
           </div>
           <div>
             <small>{account.address}</small>{" "}
-            <CopyButtonClipboardComponent text={account.address} size="small" />
+            <CopyButtonClipboardComponent
+              text={account.address}
+              size="small"
+              icon="copy"
+            />
           </div>
         </Col>
         <Col>
