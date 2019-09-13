@@ -114,20 +114,24 @@ class AddressDetailsInner extends PureComponent<Props, State> {
               if (error) {
                 return null;
               }
+
               const timestamp =
                 data &&
                 data.getActions &&
                 data.getActions.actionInfo &&
                 data.getActions.actionInfo[0].timestamp;
+
+              const age =
+                timestamp &&
+                `(${dateformat(
+                  new Date(timestamp.seconds * 1000).toUTCString(),
+                  "UTC:dd-mm-yyyy HH:MM:ssTT Z"
+                )})`;
+
               return (
                 <Col xs={19} md={21}>
                   <div className={"info"}>
-                    {(timestamp && translateFn(timestamp)) || ""}
-                    {timestamp &&
-                      dateformat(
-                        new Date(timestamp.seconds * 1000).toUTCString(),
-                        "UTC:yyyy-mm-dd HH:MM:ssTT Z"
-                      )}
+                    {(timestamp && translateFn(timestamp)) || ""} &nbsp; {age}
                   </div>
                 </Col>
               );
