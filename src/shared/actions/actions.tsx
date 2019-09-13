@@ -79,8 +79,6 @@ export class ActionTable extends Component<{}, State> {
               query={GET_ACTIONS_BY_INDEX}
               variables={{ byIndex: { start, count } }}
               notifyOnNetworkStatusChange={true}
-              fetchPolicy="network-only"
-              ssr={false}
             >
               {({
                 loading,
