@@ -131,7 +131,7 @@ const HoverableRow = styled(Row, HoverableStyle);
 const SignInMenuItem = () => {
   const [visible, setVisible] = useState(false);
   return (
-    <HoverableRow>
+    <HoverableRow style={{ marginRight: 5 }}>
       <span onClick={() => setVisible(!visible)} role="menu">
         {t("topbar.sign_in")}
       </span>
@@ -194,88 +194,97 @@ const TopMobileMenu = ({
 }: {
   enableSignIn?: boolean;
 }): JSX.Element => {
-  const [collapsed, setCollapsedState] = useState(true);
+  const [collapsed, setCollapsed] = useState(true);
   const icon = collapsed ? "menu" : "close";
   const mobileMenus: Array<INavMenuItem> = [...MAIN_NAV_MENUS, CHAIN_MENU_ITEM];
-  const setCollapsed = (val: boolean) => {
-    document.body.style.overflow = val ? "" : "hidden";
-    setCollapsedState(val);
-  };
   return (
-    <ContentPadding
+    <div
       style={{
-        backgroundColor: colors.nav01,
         position: "relative",
-        zIndex: 9999
+        height: TOP_BAR_HEIGHT
       }}
     >
-      <Row
-        type="flex"
-        align="middle"
-        justify="space-between"
-        style={{ height: TOP_BAR_HEIGHT }}
-        onClick={() => !collapsed && setCollapsed(true)}
+      <ContentPadding
+        style={{
+          position: "fixed",
+          backgroundColor: colors.nav01,
+          top: 0,
+          height: TOP_BAR_HEIGHT,
+          width: "100vw",
+          zIndex: 9999
+        }}
       >
-        <Col>
-          <IotexLogo />
-        </Col>
         <Row
           type="flex"
           align="middle"
-          justify="end"
-          style={{ height: TOP_BAR_HEIGHT, color: colors.white }}
-          gutter={20}
+          justify="space-between"
+          onClick={() => !collapsed && setCollapsed(true)}
         >
-          {enableSignIn && (
-            <Col>
-              <SignInMenuItem />
-            </Col>
-          )}
           <Col>
-            <LanguageSwitcherMenu />
+            <IotexLogo />
           </Col>
-          <Col>
-            <Button
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                padding: 0,
-                color: colors.white,
-                fontSize: 30,
-                backgroundColor: "rgba(0,0,0,0)",
-                border: 0
-              }}
-              icon={icon}
-            ></Button>
-          </Col>
-        </Row>
-      </Row>
-      <Drawer
-        getContainer="#top-mobile-menu-nav"
-        bodyStyle={{
-          padding: 0,
-          paddingTop: collapsed ? 0 : TOP_BAR_HEIGHT
-        }}
-        visible={!collapsed}
-        placement="top"
-        height="100%"
-      >
-        <ContentPadding>
-          <Menu
-            mode="inline"
-            theme="dark"
-            selectable={false}
-            onClick={() => {
-              setCollapsed(true);
-            }}
-            style={{
-              backgroundColor: colors.nav01
+          <Row
+            type="flex"
+            align="middle"
+            justify="end"
+            style={{ height: TOP_BAR_HEIGHT, color: colors.white }}
+            gutter={{
+              xs: 10,
+              sm: 20,
+              md: 40
             }}
           >
-            {mobileMenus.map(renderMenuItem)}
-          </Menu>
-        </ContentPadding>
-      </Drawer>
-    </ContentPadding>
+            {enableSignIn && (
+              <Col>
+                <SignInMenuItem />
+              </Col>
+            )}
+            <Col>
+              <LanguageSwitcherMenu />
+            </Col>
+            <Col>
+              <Button
+                onClick={() => setCollapsed(!collapsed)}
+                style={{
+                  padding: 0,
+                  color: colors.white,
+                  fontSize: 30,
+                  backgroundColor: "rgba(0,0,0,0)",
+                  border: 0
+                }}
+                icon={icon}
+              ></Button>
+            </Col>
+          </Row>
+        </Row>
+        <Drawer
+          getContainer="#top-mobile-menu-nav"
+          bodyStyle={{
+            padding: 0,
+            paddingTop: collapsed ? 0 : TOP_BAR_HEIGHT
+          }}
+          visible={!collapsed}
+          placement="top"
+          height="100%"
+        >
+          <ContentPadding>
+            <Menu
+              mode="inline"
+              theme="dark"
+              selectable={false}
+              onClick={() => {
+                setCollapsed(true);
+              }}
+              style={{
+                backgroundColor: colors.nav01
+              }}
+            >
+              {mobileMenus.map(renderMenuItem)}
+            </Menu>
+          </ContentPadding>
+        </Drawer>
+      </ContentPadding>
+    </div>
   );
 };
 
