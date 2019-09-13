@@ -139,7 +139,7 @@
     "@types/react-redux": "7.0.3",
     "@types/react-router": "4.4.5",
     "@types/react-router-dom": "4.3.3",
-    "@types/uuid": "3.4.4",
+    "@types/uuid": "3.4.5",
     "@types/validator": "10.11.0",
     "antd": "3.14.0",
     "apollo-cache-inmemory": "1.6.2",
@@ -206,7 +206,7 @@
     "ts-node": "8.2.0",
     "type-graphql": "0.17.4",
     "typescript": "3.4.5",
-    "uuid": "3.3.2",
+    "uuid": "3.3.3",
     "validator": "10.11.0",
     "ws": "7.0.1"
   },
