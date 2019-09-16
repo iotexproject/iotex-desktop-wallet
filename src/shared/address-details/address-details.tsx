@@ -3,10 +3,11 @@ import Card from "antd/lib/card";
 import Col from "antd/lib/col";
 import Divider from "antd/lib/divider";
 import Row from "antd/lib/row";
-import dateformat from "dateformat";
+import Table from "antd/lib/table";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
 import isBrowser from "is-browser";
+import * as _ from "lodash/fp";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -22,9 +23,10 @@ import {
   GetActionsResponse
 } from "../../api-gateway/resolvers/antenna-types";
 import { ITokenInfo, Token } from "../../erc20/token";
+import { buildKeyValueArray } from "../action/action-detail";
+import { getColumns } from "../block/block-detail";
 import { webBpApolloClient } from "../common/apollo-client";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
-import { translateFn } from "../common/from-now";
 import { Navigation } from "../common/navigation";
 import { ShowQrcodeButton } from "../common/show-qrcode-button";
 import { SpinPreloader } from "../common/spin-preloader";
@@ -80,77 +82,26 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     this.pollTokenInfos(xrc20tokens, address);
   }
 
-  public renderOtherTokenBalance = (): JSX.Element => (
-    <>
-      {this.state.xrc20Infos.map(tokenInfo => (
-        <div
-          key={`token${tokenInfo.symbol}`}
-          className={"info"}
-        >{`${tokenInfo.balanceString} ${tokenInfo.symbol}`}</div>
-      ))}
-    </>
-  );
-
   public renderAddressInfo = (
-    addressInfo: AccountMeta,
-    address: string
+    address: string,
+    addressInfo: AccountMeta
   ): JSX.Element => {
     return (
-      <div className="overview-list">
-        <Row style={{ padding: "10px 0" }}>
-          <Col xs={5} md={3}>
-            <div className={"name"}>{`${t("block.timestamp")}:`}</div>
-          </Col>
-          <Query
-            query={GET_ACTIONS}
-            variables={{ byAddr: { address, start: 1, count: 1 } }}
-            fetchPolicy="network-only"
-            ssr={false}
-          >
-            {({
-              error,
-              data
-            }: QueryResult<{ getActions: GetActionsResponse }>) => {
-              if (error) {
-                return null;
-              }
-              const timestamp =
-                data &&
-                data.getActions &&
-                data.getActions.actionInfo &&
-                data.getActions.actionInfo[0].timestamp;
-              return (
-                <Col xs={19} md={21}>
-                  <div className={"info"}>
-                    {(timestamp && translateFn(timestamp)) || ""}
-                    {timestamp &&
-                      dateformat(
-                        new Date(timestamp.seconds * 1000).toUTCString(),
-                        "UTC:yyyy-mm-dd HH:MM:ssTT Z"
-                      )}
-                  </div>
-                </Col>
-              );
-            }}
-          </Query>
-        </Row>
-        <Row style={{ padding: "15px 0" }}>
-          <Col xs={5} md={3}>
-            <div className={"name"}>{`${t("address.balance")}:`}</div>
-          </Col>
-          <Col xs={19} md={21}>
-            <div className={"info"}>{`${(+utils.fromRau(
-              String((addressInfo && addressInfo.balance) || 0),
-              "IOTX"
-            )).toFixed(4)} IOTX`}</div>
-            {this.renderOtherTokenBalance()}
-          </Col>
-        </Row>
-        <Row style={{ padding: "15px 0" }}>
-          <Col xs={5} md={3}>
-            <div className={"name"}>{`${t("address.name")}:`}</div>
-          </Col>
-          <Col xs={19} md={21}>
+      <Query
+        query={GET_ACTIONS}
+        variables={{ byAddr: { address, start: 1, count: 1 } }}
+        fetchPolicy="network-only"
+        ssr={false}
+      >
+        {({ error, data }: QueryResult<{ getActions: GetActionsResponse }>) => {
+          if (error) {
+            return null;
+          }
+
+          const timestamp =
+            data && data.getActions && data.getActions.actionInfo[0].timestamp;
+
+          return (
             <Query
               query={GET_BP_CANDIDATE}
               variables={{ ioOperatorAddress: address }}
@@ -161,12 +112,41 @@ class AddressDetailsInner extends PureComponent<Props, State> {
                   (data.bpCandidate && data.bpCandidate.registeredName) ||
                   address;
 
-                return <div className={"info"}>{name}</div>;
+                const balance = addressInfo && addressInfo.balance;
+                const { xrc20Infos } = this.state;
+
+                const tokenBalance = [];
+                tokenBalance.push(balance);
+
+                xrc20Infos.map(tokenInfo => {
+                  tokenBalance.push(
+                    `${tokenInfo.balanceString} ${tokenInfo.symbol}`
+                  );
+                });
+
+                const source = {
+                  timestamp,
+                  balance: tokenBalance.join(","),
+                  name
+                };
+                const dataSource = buildKeyValueArray(source);
+                return (
+                  <Table
+                    pagination={false}
+                    dataSource={dataSource}
+                    columns={getColumns("")}
+                    rowKey={"key"}
+                    style={{ width: "100%" }}
+                    scroll={{ x: true }}
+                    showHeader={false}
+                    className="action-table"
+                  />
+                );
               }}
             </Query>
-          </Col>
-        </Row>
-      </div>
+          );
+        }}
+      </Query>
     );
   };
 
@@ -206,6 +186,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
             }
             const copyAddress = (addressInfo && addressInfo.address) || address;
             const numActions = +((addressInfo && addressInfo.numActions) || 0);
+
             return (
               <SpinPreloader spinning={loading}>
                 <div className="addressList">
@@ -231,7 +212,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
                     </div>
 
                     <Divider style={{ width: "102%", margin: "24px -10px" }} />
-                    {this.renderAddressInfo(addressInfo, address)}
+                    {this.renderAddressInfo(address, addressInfo)}
                   </Card>
                   <br />
                   <ActionTable
