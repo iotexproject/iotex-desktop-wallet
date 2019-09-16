@@ -226,8 +226,6 @@ class ActionDetailsInner extends PureComponent<Props> {
         {!dataSource && (
           <Query
             query={GET_ACTIONS_BY_HASH}
-            fetchPolicy="network-only"
-            ssr={false}
             variables={{
               byHash: { actionHash: hash, checkingPending: true },
               ignoreErrorNotification: true
