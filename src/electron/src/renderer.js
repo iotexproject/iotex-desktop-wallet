@@ -8,11 +8,24 @@ const { ipcRenderer } = require("electron");
 const isDev = require("electron-is-dev");
 const document = require("global/document");
 const console = require("global/console");
+const uuidv4 = require("uuid/v4");
+const ua = require("universal-analytics");
 
 let globalState = process.env.GLOBAL_STATE || {};
 if (isDev) {
   globalState = require("../global-state");
 }
+
+const uuid = getConf("uuid", uuidv4());
+const trackingId =
+  (globalState &&
+    globalState.state &&
+    globalState.state.base.analytics &&
+    globalState.state.base.analytics.googleTid) ||
+  "UA-111756489-15";
+
+// Global instance of google universal analytics.
+window.gua = ua(trackingId, uuid);
 
 window.xopen = function(url) {
   shell.openExternal(url);

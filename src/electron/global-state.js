@@ -20,7 +20,7 @@ module.exports = {
       multiChain,
       defaultERC20Tokens,
       analytics: {
-        googleTid: "UA-111756489-2"
+        googleTid: "UA-111756489-15"
       },
       webBpApiGatewayUrl: "https://member.iotex.io/api-gateway/",
       enableSignIn: false,

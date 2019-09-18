@@ -1,5 +1,5 @@
 {
-  "name": "ioPay",
+  "name": "io-pay",
   "version": "0.6.1",
   "description": "IoTeX Wallet App",
   "main": "dist/app/main.js",
@@ -62,6 +62,8 @@
     "pem": "1.14.2",
     "query-string": "^6.5.0",
     "solc": "^0.5.8",
+    "universal-analytics": "^0.4.20",
+    "uuid": "^3.3.3",
     "ws": "^7.1.0"
   }
 }
