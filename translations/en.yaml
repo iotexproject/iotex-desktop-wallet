@@ -61,9 +61,6 @@ render.key.data: Data
 render.key.recipient: Recipient
 render.key.payload: Payload
 render.key.type: 'Reward Type'
-render.key.balance: 'Balance'
-render.key.name: 'Name Tag'
-
 render.value.grantReward: 'Grant Reward'
 render.value.execution: Execution
 render.value.transfer: Transfer
