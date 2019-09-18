@@ -299,6 +299,37 @@ export const GET_ACTIONS_BY_HASH = gql`
   }
 `;
 
+export const GET_ACTION_DETAILS_BY_HASH = gql`
+  query getActions($actionHash: String!, $checkingPending:Boolean!) {
+    action:getActions(byHash: {
+      actionHash: $actionHash,
+      checkingPending: $checkingPending
+    }) {
+      ${FULL_ACTION_INFO}
+    }
+    receipt:getReceiptByAction(actionHash: $actionHash) {
+      receiptInfo {
+        receipt {
+          status
+          blkHeight
+          actHash
+          gasConsumed
+          contractAddress
+          logs {
+            contractAddress
+            topics
+            data
+            blkHeight
+            actHash
+            index
+          }
+        }
+        blkHash
+      }
+    }
+  }
+`;
+
 export const ACTION_EXISTS_BY_HASH = gql`
   query getActions($byHash: GetActionsByHashRequest) {
     getActions(byHash: $byHash) {
@@ -438,6 +469,20 @@ export const GET_ANALYTICS_CHAIN = gql`
       mostRecentBlockHeight
       numberOfActions {
         count
+      }
+    }
+  }
+`;
+
+export const GET_ANALYTICS_EVM_TRANSFERS = gql`
+  query($actHash: String!) {
+    action {
+      byHash(actHash: $actHash) {
+        evmTransfers {
+          from
+          to
+          quantity
+        }
       }
     }
   }

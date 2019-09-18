@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Heebo:300,400&display=swap");
+
 * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -461,4 +463,13 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
   .ant-table-tbody > tr > td {
     border-bottom: none;
   }
+}
+
+.action-detail-card-title {
+  font-family: "Heebo", sans-serif, Microsoft YaHei !important;
+  font-size: 24px;
+  font-weight: 300;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
