@@ -1,7 +1,8 @@
-import { Col, Divider, Row } from "antd";
+import { Col, Divider, Row, Tabs } from "antd";
 import { get } from "dottie";
 // @ts-ignore
 import window from "global/window";
+import isBrowser from "is-browser";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
@@ -12,14 +13,13 @@ import {
   GetReceiptByActionResponse
 } from "../../api-gateway/resolvers/antenna-types";
 import { assetURL } from "../common/asset-url";
+import { CardDetails } from "../common/card-details";
 import { ErrorPage } from "../common/error-page";
 import { PageNav } from "../common/page-nav-bar";
-import { ShareCallout } from "../common/share-callout";
-import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
-import { VerticalTable } from "../common/vertical-table";
 import { GET_ADDRESS_DETAILS } from "../queries";
 import { AddressDetailRenderer } from "../renderer";
+import { ActionTable } from "./action-table";
 
 export interface IActionsDetails {
   action: GetActionsResponse;
@@ -84,49 +84,54 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
           if (data && data.action) {
             details = parseAddressDetails(data);
           }
+          const emailBody = t("share_link.email_body", {
+            href: `${isBrowser ? location.origin : ""}/address/${address}`
+          });
+          const { numActions = 0 } =
+            get(data || {}, "action.actionInfo.0") || {};
           return (
             <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
-              <Row
-                type="flex"
-                justify="center"
-                align="middle"
+              <CardDetails
+                title={`${t("address_details.address", { address })}`}
+                share={{
+                  link: `/address/${address}`,
+                  emailSubject: t("share_link.email_subject"),
+                  title: t("address_details.share_address"),
+                  emailBody
+                }}
+                vtable={{
+                  style: { width: "100%", padding: "20px 0px" },
+                  objectSource: details,
+                  headerRender: text => `${t(`render.key.${text}`)}: `,
+                  valueRenderMap: AddressDetailRenderer
+                }}
+              />
+              <Tabs
+                style={{ padding: 20, margin: "40px 0px" }}
+                type="card"
+                size="large"
                 className="card-shadow"
+                tabBarStyle={{
+                  backgroundColor: "rgba(170, 170, 192, 0.05)"
+                }}
               >
-                <Col xs={20} md={22}>
-                  <Row type="flex" justify="start" align="middle" gutter={20}>
-                    <Col style={{ maxWidth: "80%" }}>
-                      <div className="action-detail-card-title">
-                        {t("address_details.address", { address })}
-                      </div>
-                    </Col>
-                    <Col>
-                      <ShareCallout
-                        link={`/address/${address}`}
-                        emailSubject={t("share_link.email_subject")}
-                        title={t("address_details.share_address")}
-                        emailBody={t("share_link.email_body", {
-                          href: `${(window.location &&
-                            window.location.origin) ||
-                            ""}/address/${address}`
-                        })}
-                      />
-                    </Col>
-                  </Row>
-                </Col>
-                <Col xs={22} md={23}>
-                  <Divider style={{ margin: 0 }} />
-                </Col>
-                <Col xs={20} md={22}>
-                  <SpinPreloader spinning={loading}>
-                    <VerticalTable
-                      style={{ width: "100%", padding: "20px 0px" }}
-                      objectSource={details}
-                      headerRender={text => `${t(`render.key.${text}`)}: `}
-                      valueRenderMap={AddressDetailRenderer}
-                    />
-                  </SpinPreloader>
-                </Col>
-              </Row>
+                <Tabs.TabPane tab={t("common.transactions")} key="1">
+                  <ActionTable
+                    totalActions={numActions}
+                    getVariable={({ current, pageSize }) => {
+                      const start =
+                        numActions - pageSize - (current - 1) * pageSize;
+                      return {
+                        byAddr: {
+                          address,
+                          start: start < 0 ? 0 : start,
+                          count: pageSize
+                        }
+                      };
+                    }}
+                  />
+                </Tabs.TabPane>
+              </Tabs>
             </ContentPadding>
           );
         }}
