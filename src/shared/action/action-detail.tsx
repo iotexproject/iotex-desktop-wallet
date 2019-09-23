@@ -1,19 +1,27 @@
-import { Button, Card, Col, Popover, Row, Table, Tooltip } from "antd";
+import { Col, Divider, Row } from "antd";
 import { get } from "dottie";
+// @ts-ignore
+import window from "global/window";
+import { fromRau } from "iotex-antenna/lib/account/utils";
+import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
+import { IActionCore, IReceipt } from "iotex-antenna/lib/rpc-method/types";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import { RouteComponentProps } from "react-router";
+import { Link } from "react-router-dom";
 import {
   GetActionsResponse,
   GetReceiptByActionResponse
 } from "../../api-gateway/resolvers/antenna-types";
-import { renderActHash } from "../block/block-detail";
 import { ActionNotFound } from "../common/action-not-found";
-import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
-import { ShareIcon } from "../common/icons/share_icon.svg";
+import { PageNav } from "../common/page-nav-bar";
+import { ShareCallout } from "../common/share-callout";
+import { SpinPreloader } from "../common/spin-preloader";
 import { ContentPadding } from "../common/styles/style-padding";
+import { VerticalTable } from "../common/vertical-table";
 import { GET_ACTION_DETAILS_BY_HASH } from "../queries";
+import { CommonRenderer } from "../renderer";
 
 export interface IActionsDetails {
   action: GetActionsResponse;
@@ -23,41 +31,43 @@ export interface IActionsDetails {
 export type GetActionDetailsResponse = QueryResult<IActionsDetails>;
 
 const parseActionDetails = (data: IActionsDetails) => {
-  const { blkHeight, contractAddress, gasConsumed, status } =
-    get(data, "receipt.receiptInfo.receipt") || {};
+  // destruct receipt info
+  const { blkHeight, gasConsumed, status, logs = [] } =
+    get<IReceipt>(data, "receipt.receiptInfo.receipt") || {};
+
+  // destruct action core info
+  const { gasLimit, gasPrice, grantReward, execution, nonce, transfer } =
+    get<IActionCore>(data, "action.actionInfo.0.action.core") || {};
+
+  const {
+    timestamp,
+    action: { senderPubKey }
+  } = get(data, "action.actionInfo.0");
+
+  const { actHash = "" } = get(data, "action.actionInfo.0") || {};
+
+  const from = (senderPubKey && publicKeyToAddress(senderPubKey)) || "n/a";
 
   return {
     status,
     blkHeight,
-    contractAddress,
-    gasConsumed
+    timestamp,
+    from,
+    ...(execution ? { to: { execution } } : {}),
+    ...(transfer ? { to: { transfer } } : {}),
+    ...(grantReward ? { actionType: t("render.value.grantReward") } : {}),
+    ...(execution ? { evmTransfer: actHash, value: execution.amount } : {}),
+    ...(transfer ? { value: transfer.amount } : {}),
+    fee: `${fromRau(`${gasConsumed * Number(gasPrice)}`, "Iotx")} IOTX`,
+    gasLimit: Number(gasLimit).toLocaleString(),
+    gasPrice: `${Number(gasPrice).toLocaleString()} (${fromRau(
+      gasPrice,
+      "Qev"
+    )} Qev)`,
+    nonce,
+    ...(execution ? { data: execution.data.toString() } : {}),
+    logs
   };
-};
-
-const ShareActionCallout: React.FC<{ hash: string }> = ({ hash }) => {
-  return (
-    <Popover
-      placement="bottomRight"
-      content={
-        <Row type="flex" justify="space-around">
-          <Col>
-            <CopyButtonClipboardComponent text={hash} icon="link" />
-          </Col>
-          <Col>
-            <Tooltip placement="top" title={t("action.click_send_email")}>
-              <Button className="copied" shape="circle" icon="mail" />
-            </Tooltip>
-          </Col>
-        </Row>
-      }
-      title={t("action.share_this_action")}
-      trigger="hover"
-    >
-      <span style={{ padding: 5 }}>
-        <ShareIcon />
-      </span>
-    </Popover>
-  );
 };
 
 const ActionDetail: React.FC<RouteComponentProps<{ hash: string }>> = (
@@ -68,56 +78,73 @@ const ActionDetail: React.FC<RouteComponentProps<{ hash: string }>> = (
     return null;
   }
   return (
-    <Query
-      errorPolicy="ignore"
-      query={GET_ACTION_DETAILS_BY_HASH}
-      variables={{ actionHash: hash, checkingPending: true }}
-      pollInterval={3000}
-    >
-      {({ data, loading, stopPolling }: GetActionDetailsResponse) => {
-        if (!loading && (!data || !data.action)) {
-          return <ActionNotFound info={hash} />;
-        }
-        let details = [];
-        if (data && data.action) {
-          stopPolling();
-          details = parseActionDetails(data);
-        }
-        return (
-          <ContentPadding>
-            <Row>
-              <Col
-                style={{
-                  boxShadow: "0 0 4px 0 rgba(87, 71, 81, 0.5)",
-                  padding: 40,
-                  margin: "40px 0",
-                  fontFamily: ""
-                }}
+    <>
+      <PageNav
+        items={[<Link to={`/action`}>{t("topbar.actions")}</Link>, hash]}
+      />
+      <Query
+        errorPolicy="ignore"
+        query={GET_ACTION_DETAILS_BY_HASH}
+        variables={{ actionHash: hash, checkingPending: true }}
+        pollInterval={3000}
+      >
+        {({ data, loading, stopPolling }: GetActionDetailsResponse) => {
+          if (!loading && (!data || !data.action)) {
+            return <ActionNotFound info={hash} />;
+          }
+          let details = {};
+          if (data && data.action) {
+            stopPolling();
+            details = parseActionDetails(data);
+          }
+          return (
+            <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
+              <Row
+                type="flex"
+                justify="center"
+                align="middle"
+                className="card-shadow"
               >
-                <Row type="flex" justify="start" align="middle">
-                  <Col md={18}>
-                    <div className="action-detail-card-title">
-                      {t("action_details.hash", { actionHash: hash })}
-                    </div>
-                  </Col>
-                  <Col>
-                    <ShareActionCallout hash={hash} />
-                  </Col>
-                </Row>
-
-                <div
-                  style={{
-                    borderBottom: "solid 1px rgba(230, 230, 230, 1)",
-                    margin: "34px -20px"
-                  }}
-                />
-                {JSON.stringify(details, null, 2)}
-              </Col>
-            </Row>
-          </ContentPadding>
-        );
-      }}
-    </Query>
+                <Col xs={20} md={22}>
+                  <Row type="flex" justify="start" align="middle" gutter={20}>
+                    <Col style={{ maxWidth: "80%" }}>
+                      <div className="action-detail-card-title">
+                        {t("action_details.hash", { actionHash: hash })}
+                      </div>
+                    </Col>
+                    <Col>
+                      <ShareCallout
+                        link={`/action/${hash}`}
+                        emailSubject={t("share_link.email_subject")}
+                        emailBody={t("share_link.email_body", {
+                          href: `${(window.location &&
+                            window.location.origin) ||
+                            ""}/action/${hash}`
+                        })}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+                <Col xs={22} md={23}>
+                  <Divider style={{ margin: 0 }} />
+                </Col>
+                <Col xs={20} md={22}>
+                  <SpinPreloader spinning={loading}>
+                    <VerticalTable
+                      style={{ width: "100%", margin: "20px 0px" }}
+                      objectSource={details}
+                      headerRender={text => `${t(`render.key.${text}`)}: `}
+                      maxRowsCount={7}
+                      valueRenderMap={CommonRenderer}
+                    />
+                  </SpinPreloader>
+                </Col>
+              </Row>
+            </ContentPadding>
+          );
+        }}
+      </Query>
+    </>
   );
 };
 
