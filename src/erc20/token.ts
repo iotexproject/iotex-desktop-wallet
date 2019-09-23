@@ -8,6 +8,7 @@ import isBrowser from "is-browser";
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
+import { xconf, XConfKeys } from "../shared/common/xconf";
 import { toIoTeXAddress } from "../shared/wallet/address";
 import { getAntenna } from "../shared/wallet/get-antenna";
 import { BID_ABI } from "./abi";
@@ -26,6 +27,13 @@ export interface ITokenInfo {
   symbol: string;
   name: string;
   balanceString: string;
+}
+
+export interface ITokenBasicInfo {
+  tokenAddress: string;
+  symbol: string;
+  name: string;
+  decimals: BigNumber;
 }
 
 export interface IERC20TokenDict {
@@ -92,7 +100,7 @@ export class Token {
 
   public async checkValid(): Promise<boolean> {
     try {
-      const symbol = await this.api.symbol(this.api.address);
+      const { symbol } = await this.getBasicTokenInfo();
       return `${symbol}`.length > 0;
     } catch (error) {
       return false;
@@ -131,6 +139,33 @@ export class Token {
       name,
       balanceString
     };
+  }
+
+  public async getBasicTokenInfo(): Promise<ITokenBasicInfo> {
+    const api = this.api;
+    const cache = xconf.getConf<{ [index: string]: ITokenBasicInfo }>(
+      XConfKeys.TOKENS_BASIC_INFOS,
+      {}
+    );
+    if (!cache[api.address]) {
+      const [name, symbol, decimals] = await Promise.all<
+        string,
+        string,
+        BigNumber
+      >([
+        api.name(api.address),
+        api.symbol(api.address),
+        api.decimals(api.address)
+      ]);
+      cache[api.address] = {
+        tokenAddress: this.api.address,
+        decimals,
+        symbol,
+        name
+      };
+      xconf.setConf(XConfKeys.TOKENS_BASIC_INFOS, cache);
+    }
+    return cache[api.address];
   }
 
   public async transfer(
