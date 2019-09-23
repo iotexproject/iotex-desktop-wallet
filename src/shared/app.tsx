@@ -8,7 +8,7 @@ import { Switch } from "react-router";
 import { Route } from "react-router-dom";
 import { ActionDetail } from "./action/action-detail";
 import { Actions } from "./actions/actions";
-import { AddressDetails } from "./address-details/address-details";
+import { AddressDetailsPage } from "./address-details/address-details-page";
 import { BlockDetail } from "./block/block-detail";
 import { Blocks } from "./block/blocks";
 // @ts-ignore
@@ -50,7 +50,7 @@ export class App extends Component<Props> {
               <Route
                 exact
                 path="/address/:address"
-                component={AddressDetails}
+                component={AddressDetailsPage}
               />
               <Route path="/block/:height" component={BlockDetail} />
               <Route exact path="/block" component={Blocks} />
