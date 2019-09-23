@@ -1,4 +1,4 @@
-import { Row, Tag } from "antd";
+import { Tag } from "antd";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import isBrowser from "is-browser";
 import { Dict } from "onefx/lib/types";
@@ -16,7 +16,7 @@ const AccountBalanceRenderer: VerticalTableRender<Dict> = ({
   return (
     <>
       <Tag>{`${fromRau(balance, "iotx")} IOTX`}</Tag>
-      {xrc20tokens.map(token => (
+      {xrc20tokens.map((token: string) => (
         <span key={`balance-${token}`}>
           <XRC20TokenBalanceTag contract={token} address={address} />
         </span>

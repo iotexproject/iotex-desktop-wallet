@@ -2,7 +2,6 @@ import { Icon } from "antd";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { AddressName } from "../common/address-name";
-import { LinkButton } from "../common/buttons";
 import { CopyToClipboard } from "../common/copy-to-clipboard";
 import { VerticalTableRender } from "../common/vertical-table";
 

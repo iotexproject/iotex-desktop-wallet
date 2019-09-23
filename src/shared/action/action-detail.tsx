@@ -4,7 +4,11 @@ import { get } from "dottie";
 import window from "global/window";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
-import { IActionCore, IReceipt } from "iotex-antenna/lib/rpc-method/types";
+import {
+  IActionCore,
+  IReceipt,
+  ReceiptStatus
+} from "iotex-antenna/lib/rpc-method/types";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
@@ -32,12 +36,23 @@ export type GetActionDetailsResponse = QueryResult<IActionsDetails>;
 
 const parseActionDetails = (data: IActionsDetails) => {
   // destruct receipt info
-  const { blkHeight, gasConsumed, status, logs = [] } =
-    get<IReceipt>(data, "receipt.receiptInfo.receipt") || {};
+  const {
+    blkHeight = 0,
+    gasConsumed = 0,
+    status = ReceiptStatus.Failure,
+    logs = []
+  } = get<IReceipt>(data, "receipt.receiptInfo.receipt") || {};
 
   // destruct action core info
-  const { gasLimit, gasPrice, grantReward, execution, nonce, transfer } =
-    get<IActionCore>(data, "action.actionInfo.0.action.core") || {};
+  const {
+    gasLimit,
+    gasPrice,
+    grantReward,
+    execution,
+    nonce,
+    transfer
+  }: // tslint:disable-next-line:no-any
+  any = get<IActionCore>(data, "action.actionInfo.0.action.core") || {};
 
   const {
     timestamp,

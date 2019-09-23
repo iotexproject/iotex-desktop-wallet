@@ -2,7 +2,6 @@ import { Col, Icon, Row } from "antd";
 import { get } from "dottie";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
-import { Link } from "react-router-dom";
 import { LinkButton } from "../common/buttons";
 import { colors } from "../common/styles/style-color";
 import { VerticalTableRender } from "../common/vertical-table";

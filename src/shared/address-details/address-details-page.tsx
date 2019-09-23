@@ -1,4 +1,4 @@
-import { Col, Divider, Row, Tabs } from "antd";
+import { Tabs } from "antd";
 import { get } from "dottie";
 // @ts-ignore
 import window from "global/window";
@@ -32,9 +32,12 @@ const parseAddressDetails = (data: {
   account: GetAccountResponse;
   action: GetActionsResponse;
 }) => {
-  const { address, balance, nonce, pendingNonce, numActions } =
+  // tslint:disable-next-line:no-any
+  const { address, balance, nonce, pendingNonce, numActions }: any =
     get(data || {}, "account.accountMeta") || {};
-  const { timestamp } = get(data || {}, "action.actionInfo.0") || {};
+
+  // tslint:disable-next-line:no-any
+  const { timestamp }: any = get(data || {}, "action.actionInfo.0") || {};
   return {
     timestamp,
     balance: {

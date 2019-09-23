@@ -72,7 +72,6 @@ export class CopyButtonClipboardComponent extends Component<Props, State> {
           className={copied}
           icon={icon}
           size={size}
-          type="link"
           onClick={() => this.copyToAddress()}
           onMouseLeave={() => this.hideTips()}
           onMouseOver={() => this.btnReload()}

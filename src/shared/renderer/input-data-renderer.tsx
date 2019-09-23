@@ -12,7 +12,7 @@ const InputDataRenderer: VerticalTableRender<{
   transfer?: Transfer;
   grantReward?: GrantReward;
 }> = ({ value }) => {
-  const { execution, transfer, grantReward } = value;
+  const { transfer } = value;
   if (transfer) {
     return (
       <TextArea

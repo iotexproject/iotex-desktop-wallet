@@ -24,7 +24,6 @@ import {
   BlockMeta,
   GetBlockMetasResponse
 } from "../../api-gateway/resolvers/antenna-types";
-import { ActionDetail } from "../action/action-detail";
 import { ActionTable } from "../address-details/action-table";
 import { CommonMargin } from "../common/common-margin";
 import { Flex } from "../common/flex";
@@ -247,16 +246,6 @@ class BlockDetailsInner extends PureComponent<Props, State> {
                   exact
                   path={`${url}/action`}
                   component={() => this.renderActionList(blockMeta)}
-                />
-                <Route
-                  exact
-                  path={`${url}/action/:hash`}
-                  component={() => (
-                    <ActionDetail
-                      showContentPadding={false}
-                      showNavigation={false}
-                    />
-                  )}
                 />
               </SpinPreloader>
             );

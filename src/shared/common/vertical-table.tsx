@@ -26,13 +26,14 @@ export interface IVerticalTableProps<T> {
     index: number
   ): JSX.Element | string;
   valueRender?: VerticalTableRender<T>;
-  valueRenderMap?: { [index: string]: VerticalTableRender<T> };
+  // tslint:disable-next-line:no-any
+  valueRenderMap?: { [index: string]: VerticalTableRender<any> };
   style?: CSSProperties;
   className?: string;
 }
 
 // tslint:disable-next-line:no-any
-function VerticalTable(props: IVerticalTableProps<any>): JSX.Element {
+function VerticalTable<T = any>(props: IVerticalTableProps<T>): JSX.Element {
   const {
     objectSource,
     className,

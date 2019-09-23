@@ -13,7 +13,8 @@ const AddressName: React.FC<{ address: string }> = ({ address }) => {
       client={webBpApolloClient}
     >
       {({ data }: QueryResult<{}>) => {
-        const { registeredName } = get(data || {}, "bpCandidate") || {};
+        const { registeredName = address } =
+          get(data || {}, "bpCandidate") || {};
         return (
           <LinkButton href={`/address/${address}`}>
             {registeredName || address}
