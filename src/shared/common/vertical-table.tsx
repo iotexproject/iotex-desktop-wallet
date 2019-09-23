@@ -1,6 +1,6 @@
 import { Col, Divider, Row } from "antd";
 import { t } from "onefx/lib/iso-i18n";
-import React, { useState } from "react";
+import React, { CSSProperties, useState } from "react";
 import { LinkButton } from "./buttons";
 
 export interface IVerticalTableKeyPair<T> {
@@ -16,8 +16,7 @@ export interface IVerticalTableRendererProps<T> {
 
 export type VerticalTableRender<T> = React.FC<IVerticalTableRendererProps<T>>;
 
-export interface IVerticalTableProps<T>
-  extends TableProps<IVerticalTableKeyPair<T>> {
+export interface IVerticalTableProps<T> {
   objectSource: { [index: string]: T };
   maxRowsCount?: number;
   showMoreRender?(expanded: boolean): JSX.Element;
@@ -28,6 +27,8 @@ export interface IVerticalTableProps<T>
   ): JSX.Element | string;
   valueRender?: VerticalTableRender<T>;
   valueRenderMap?: { [index: string]: VerticalTableRender<T> };
+  style?: CSSProperties;
+  className?: string;
 }
 
 // tslint:disable-next-line:no-any

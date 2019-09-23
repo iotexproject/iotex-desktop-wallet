@@ -498,3 +498,4 @@ address_details.share_address: Share this address
 render.key.balance: Balance
 render.key.nametag: "Name Tag"
 render.key.pendingNonce: Pending Nonce
+common.transactions: Transactions

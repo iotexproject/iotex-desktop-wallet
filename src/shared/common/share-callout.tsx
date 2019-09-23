@@ -5,12 +5,18 @@ import { LinkButton } from "./buttons";
 import { CopyToClipboard } from "./copy-to-clipboard";
 import { ShareIcon } from "./icons/share_icon.svg";
 
-const ShareCallout: React.FC<{
+export interface IShareCallOutProps {
   link: string;
   emailBody: string;
   emailSubject: string;
   title?: string;
-}> = ({ link, emailBody, emailSubject, title }) => {
+}
+const ShareCallout: React.FC<IShareCallOutProps> = ({
+  link,
+  emailBody,
+  emailSubject,
+  title
+}) => {
   const emailHref = `mailto:?subject=${encodeURIComponent(
     emailSubject
   )}&body=${encodeURIComponent(emailBody)}`;
