@@ -474,14 +474,37 @@ export const GET_ANALYTICS_CHAIN = gql`
   }
 `;
 
-export const GET_ANALYTICS_EVM_TRANSFERS = gql`
-  query($actHash: String!) {
+export const GET_ANALYTICS_EVM_TRANSFERS = (hash: string) => {
+  const query = `query {
     action {
-      byHash(actHash: $actHash) {
+      byHash(actHash: "${hash}") {
         evmTransfers {
           from
           to
           quantity
+        }
+      }
+    }
+  }`;
+  return gql(query);
+};
+
+export const GET_ADDRESS_DETAILS = gql`
+  query($address: String!) {
+    account: getAccount(address: $address) {
+      accountMeta {
+        address
+        balance
+        nonce
+        pendingNonce
+        numActions
+      }
+    }
+    action: getActions(byAddr: { address: $address, start: 1, count: 1 }) {
+      actionInfo {
+        timestamp {
+          seconds
+          nanos
         }
       }
     }
