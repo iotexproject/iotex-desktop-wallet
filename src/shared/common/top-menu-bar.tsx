@@ -224,7 +224,11 @@ const TopMobileMenu = ({
           align="middle"
           justify="end"
           style={{ height: TOP_BAR_HEIGHT, color: colors.white }}
-          gutter={20}
+          gutter={{
+            xs: 5,
+            sm: 10,
+            md: 20
+          }}
         >
           {enableSignIn && (
             <Col>
