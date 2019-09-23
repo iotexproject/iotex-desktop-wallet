@@ -55,12 +55,15 @@ render.key.blkHash: Block
 render.key.actionType: Type
 render.key.actionData: Data
 render.key.sender: Sender
+render.key.from: From
 render.key.amount: Amount
+render.key.value: Value
 render.key.contract: Contract
 render.key.data: Data
 render.key.recipient: Recipient
 render.key.payload: Payload
 render.key.type: 'Reward Type'
+render.key.fee: 'Transaction Fee'
 render.value.grantReward: 'Grant Reward'
 render.value.execution: Execution
 render.value.transfer: Transfer
@@ -117,6 +120,7 @@ title.overview: Overview
 title.actionList: 'List of Actions'
 copy.copied: Copied
 copy.toClipboard: 'Copy address to clipboard'
+copy.copyToClipboard: 'Copy ${field} to clipboard'
 input.error.private_key.invalid: 'Please input your private key'
 input.error.private_key.length: 'Private key has to be of length 64'
 input.error.mnemonic.invalid: 'Please input your mnemonic phrase'
@@ -260,7 +264,8 @@ broadcast.fail.network: 'The transaction failed to be broadcast to the network'
 broadcast.error.message: 'Error message:'
 broadcast.suggested.action: 'Suggested actions:'
 wallet.transfer.sendNew: 'Send new'
-render.key.nonce: nonce
+render.key.nonce: Nonce
+render.key.inputData: Input Data
 wallet.vote.title: 'Vote for delegate'
 wallet.vote.content: 'Help IoTeX Build A Stronger Network'
 wallet.vote.button: 'Vote on member.iotex.io'
@@ -481,3 +486,15 @@ wallet.unlock_alert.title: Unlock Wallet First
 wallet.unlock_alert.tip: Please unlock your wallet before perform other operations.
 wallet.unlock_alert.confirm: I know
 action_details.hash: "Hash: ${actionHash}"
+common.show_more: Show More
+common.show_less: Show Less
+common.address: Address
+share_link.email_body: Check out this site ${href}
+share_link.email_subject: Checkout this block hash on IoTeX blockchain
+render.key.evmTransfer: Tokens Transferred
+transfer.for: For ${value}
+address_details.address: "Address: ${address}"
+address_details.share_address: Share this address
+render.key.balance: Balance
+render.key.nametag: "Name Tag"
+render.key.pendingNonce: Pending Nonce
