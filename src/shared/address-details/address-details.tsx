@@ -109,7 +109,9 @@ class AddressDetailsInner extends PureComponent<Props, State> {
             >
               {({ data }: QueryResult) => {
                 const name =
-                  (data.bpCandidate && data.bpCandidate.registeredName) ||
+                  (data &&
+                    data.bpCandidate &&
+                    data.bpCandidate.registeredName) ||
                   address;
 
                 const balance = addressInfo && addressInfo.balance;
@@ -166,6 +168,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
           </Col>
           <Col xs={24} md={12} style={{ marginTop: 30 }}>
             <SearchBox
+              autoFocus={true}
               enterButton
               size="large"
               placeholder={t("topbar.searchAddress")}
