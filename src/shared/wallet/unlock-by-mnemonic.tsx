@@ -1,6 +1,7 @@
 import Button from "antd/lib/button";
 import Form, { FormComponentProps } from "antd/lib/form/Form";
 import Input from "antd/lib/input";
+import Row from "antd/lib/row";
 // @ts-ignore
 import Mnemonic from "bitcore-mnemonic";
 import { get } from "dottie";
@@ -60,11 +61,13 @@ class UnlockByMnemonicInner extends PureComponent<
       <React.Fragment>
         <div style={{ margin: "24px" }} />
         <Form layout="vertical">
-          <Form.Item
-            label={
-              <FormItemLabel>{t("input.error.mnemonic.label")}</FormItemLabel>
-            }
-          >
+          <Row className="ant-form-item">
+            <div className="ant-form-item-label">
+              <label className="ant-form-item-required" title="">
+                <FormItemLabel>{t("input.error.mnemonic.label")}</FormItemLabel>
+              </label>
+            </div>
+
             {getFieldDecorator("mnemonicPhrase", {
               rules: [
                 {
@@ -88,7 +91,7 @@ class UnlockByMnemonicInner extends PureComponent<
                 onChange={e => this.handleInputChange(e)}
               />
             )}
-          </Form.Item>
+          </Row>
           <Button
             htmlType="submit"
             disabled={!validMnemonicPhrase}

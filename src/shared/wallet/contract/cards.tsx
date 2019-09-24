@@ -6,6 +6,7 @@ import { WrappedFormUtils } from "antd/lib/form/Form";
 import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
 import InputNumber from "antd/lib/input-number";
+import Row from "antd/lib/row";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -243,9 +244,12 @@ export function PasswordFormInputItem({
 }): JSX.Element {
   const { getFieldDecorator } = form;
   return (
-    <Form.Item
-      label={<FormItemLabel>{t("wallet.input.password")}</FormItemLabel>}
-    >
+    <Row className="ant-form-item">
+      <div className="ant-form-item-label">
+        <label className="ant-form-item-required" title="">
+          <FormItemLabel>{t("wallet.input.password")}</FormItemLabel>
+        </label>
+      </div>
       {getFieldDecorator("password", {
         initialValue: initialValue,
         rules: checkWeakPassword ? rulesMap.password : [rules.required]
@@ -256,6 +260,6 @@ export function PasswordFormInputItem({
           autoComplete="on"
         />
       )}
-    </Form.Item>
+    </Row>
   );
 }
