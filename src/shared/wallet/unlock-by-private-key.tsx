@@ -2,6 +2,7 @@ import Button from "antd/lib/button";
 import Form, { FormComponentProps } from "antd/lib/form/Form";
 import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
+import Row from "antd/lib/row";
 import { get } from "dottie";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -54,13 +55,14 @@ class UnlockByPrivateKeyInner extends PureComponent<
       <React.Fragment>
         <div style={{ margin: "24px" }} />
         <Form layout="vertical">
-          <Form.Item
-            label={
-              <FormItemLabel>
-                {t("wallet.account.enterPrivateKey")}
-              </FormItemLabel>
-            }
-          >
+          <Row className="ant-form-item">
+            <div className="ant-form-item-label">
+              <label className="ant-form-item-required" title="">
+                <FormItemLabel>
+                  {t("wallet.account.enterPrivateKey")}
+                </FormItemLabel>
+              </label>
+            </div>
             {getFieldDecorator("priKey", {
               rules: [
                 {
@@ -87,7 +89,7 @@ class UnlockByPrivateKeyInner extends PureComponent<
                 }
               />
             )}
-          </Form.Item>
+          </Row>
           <Button
             htmlType="submit"
             disabled={!validPrikey}
