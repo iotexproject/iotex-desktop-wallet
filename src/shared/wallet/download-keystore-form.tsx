@@ -88,26 +88,22 @@ class DownloadKeystoreFormInner extends Component<Props & FormComponentProps> {
           />
         )}
         <PasswordFormInputItem form={form} />
-
-        {/*
-      // @ts-ignore*/}
-        <Button
-          loading={exporting}
-          disabled={exporting}
-          onClick={this.onClickHanlder}
-        >
-          {t("new-wallet.download")}
-        </Button>
-
-        <Button
-          loading={exporting}
-          disabled={exporting}
-          onClick={this.showPrivateKey}
-          icon="qrcode"
-          style={{ marginLeft: 10 }}
-        >
-          {t("new-wallet.showPrivateKey")}
-        </Button>
+        <Row type="flex" justify="start" gutter={10}>
+          <Col style={{ margin: "5px 0" }}>
+            <Button
+              loading={exporting}
+              disabled={exporting}
+              onClick={this.onClickHanlder}
+            >
+              {t("new-wallet.download")}
+            </Button>
+          </Col>
+          <Col style={{ margin: "5px 0" }}>
+            <Button onClick={this.showPrivateKey} icon="qrcode">
+              {t("new-wallet.showPrivateKey")}
+            </Button>
+          </Col>
+        </Row>
       </Form>
     );
   }
