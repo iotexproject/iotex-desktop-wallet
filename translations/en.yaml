@@ -288,7 +288,7 @@ topbar.wallet: Wallet
 render.key.actionFee: 'Action Fee'
 block.show_more: 'Show More'
 block.show_less: 'Show Less'
-new-wallet.download: 'Download Keystore File (UTC / JSON)'
+new-wallet.export_keystore: 'Export Keystore File (UTC / JSON)'
 wallet.cannot_load_solidity_version: 'Cannot load solidity version'
 new-wallet.mnemonic: 'Mnemonic Phrase'
 new-wallet.save_keystore: '<div><p class="wallet-title" style="display: inline-block;">Save your</p><p class="private-key">keystore file</p></div>'
