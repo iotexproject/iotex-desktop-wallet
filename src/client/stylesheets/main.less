@@ -529,17 +529,16 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
   display: none !important;
 }
 
-.ellipsis-text * {
-  max-width: 100%;
-  position: relative;
+.ellipsis-text {
   overflow: hidden;
   text-overflow: ellipsis;
-  display: inline-block;
+  word-wrap: none;
+  white-space: nowrap;
 }
 
-span.ellipsis-text * {
+span.ellipsis-text {
   display: inline-block;
-  margin-right: 1em;
+  vertical-align: text-bottom;
 }
 
 .wordwrap {
