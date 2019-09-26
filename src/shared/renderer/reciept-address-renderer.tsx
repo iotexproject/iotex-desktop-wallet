@@ -29,7 +29,18 @@ const TransferRenderer: VerticalTableRender<Transfer> = ({
 const ExecutionRenderer: VerticalTableRender<Execution> = ({
   value: { contract, data }
 }) => {
-  const decodedData = Token.getToken(contract).decode(`${data}`);
+  let decodedData;
+  try {
+    decodedData = Token.getToken(contract).decode(`${data}`);
+  } catch (error) {
+    // tslint:disable-next-line:no-console
+    console.log(`Decode data failed!`, error);
+  }
+
+  if (!decodedData) {
+    return <ContracAddressRenderer value={contract} />;
+  }
+
   const method = (decodedData && decodedData.method) || "";
   return (
     <Row type="flex" justify="start" align="top" gutter={20}>
