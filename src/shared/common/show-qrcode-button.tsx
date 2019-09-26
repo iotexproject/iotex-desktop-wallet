@@ -3,7 +3,6 @@ import Button from "antd/lib/button";
 import Tooltip from "antd/lib/tooltip";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
-// @ts-ignore
 import QRcode from "qrcode.react";
 import { Component } from "react";
 import React from "react";
@@ -55,8 +54,7 @@ export class ShowQrcodeButton extends Component<Props, State> {
             bgColor={"#ffffff"}
             fgColor={"#000000"}
             level={"M"}
-            includeMargin={false}
-            renderAs={"svg"}
+            renderAs="svg"
           />
         </div>
       </div>

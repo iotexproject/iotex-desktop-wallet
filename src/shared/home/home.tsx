@@ -90,6 +90,7 @@ class HomeComponent extends Component<Props, State> {
             <Row type="flex" justify="center" align="middle">
               <Col xs={20} md={12}>
                 <SearchBox
+                  autoFocus={true}
                   enterButton
                   size="large"
                   placeholder={t("topbar.search")}

@@ -323,6 +323,39 @@ function queryRegisteredName(text: string, record: any): JSX.Element {
   );
 }
 
+function renderBlockHeight(text: string): JSX.Element {
+  const height = Number(text);
+  return (
+    <span>
+      {height === 1 ? (
+        <Icon type="caret-left" style={{ color: colors.black60 }} />
+      ) : (
+        <FlexLink
+          path={`/block/${height - 1}`}
+          text={<Icon type="caret-left" style={{ color: colors.primary }} />}
+        />
+      )}
+      <FlexLink path={`/block/${text}`} text={` ${text} `} />
+      <Query query={GET_LATEST_HEIGHT}>
+        {({ data }: QueryResult<{ chainMeta: { height: number } }>) => {
+          const latestHeight =
+            (data && data.chainMeta && data.chainMeta.height) || 0;
+          return Number(latestHeight) === height ? (
+            <Icon type="caret-right" style={{ color: colors.black60 }} />
+          ) : (
+            <FlexLink
+              path={`/block/${height + 1}`}
+              text={
+                <Icon type="caret-right" style={{ color: colors.primary }} />
+              }
+            />
+          );
+        }}
+      </Query>
+    </span>
+  );
+}
+
 // tslint:disable:no-any
 export function renderValue(text: string, record: any): JSX.Element | string {
   switch (record.key) {
@@ -332,6 +365,25 @@ export function renderValue(text: string, record: any): JSX.Element | string {
       return <span>{t(`render.value.rewardType.${text}`)}</span>;
     case "amount":
       return `${fromRau(text, "IOTX")} IOTX`;
+
+    case "balance": {
+      return record.value.split(",").map((v: string, i: number) => (
+        <span key={i}>
+          {i === 0 ? (
+            `${fromRau(String(v || 0), "IOTX")} IOTX`
+          ) : (
+            <>
+              <br />
+              {v}
+            </>
+          )}
+        </span>
+      ));
+    }
+
+    case "name":
+      return record.value || "";
+
     case "producerAddress":
       return queryRegisteredName(text, record);
     case "sender":
@@ -368,41 +420,7 @@ export function renderValue(text: string, record: any): JSX.Element | string {
     }
     case "height":
     case "blkHeight":
-      const height = Number(text);
-      return (
-        <span>
-          {height === 1 ? (
-            <Icon type="caret-left" style={{ color: colors.black60 }} />
-          ) : (
-            <FlexLink
-              path={`/block/${height - 1}`}
-              text={
-                <Icon type="caret-left" style={{ color: colors.primary }} />
-              }
-            />
-          )}
-          <FlexLink path={`/block/${text}`} text={` ${text} `} />
-          <Query query={GET_LATEST_HEIGHT}>
-            {({ data }: QueryResult<{ chainMeta: { height: number } }>) => {
-              const latestHeight =
-                (data && data.chainMeta && data.chainMeta.height) || 0;
-              return Number(latestHeight) === height ? (
-                <Icon type="caret-right" style={{ color: colors.black60 }} />
-              ) : (
-                <FlexLink
-                  path={`/block/${height + 1}`}
-                  text={
-                    <Icon
-                      type="caret-right"
-                      style={{ color: colors.primary }}
-                    />
-                  }
-                />
-              );
-            }}
-          </Query>
-        </span>
-      );
+      return renderBlockHeight(text);
     case "txRoot":
     case "hash":
     case "receiptRoot":
