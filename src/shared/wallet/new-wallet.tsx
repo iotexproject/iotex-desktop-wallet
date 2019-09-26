@@ -45,12 +45,6 @@ class NewWallet extends React.Component<Props, State> {
     };
   }
 
-  public copyPriKey = () => {
-    const { account } = this.state;
-    copyCB(account.privateKey);
-    this.setState({ copiedPriKey: true });
-  };
-
   public copyMnemonic = () => {
     const { mnemonicPhrase } = this.state;
     copyCB(mnemonicPhrase);
@@ -92,13 +86,7 @@ class NewWallet extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    const { account, copiedPriKey } = this.state;
-    const copyPriKeyButton = (
-      // @ts-ignore
-      <Button onClick={this.copyPriKey} style={{ margin: "0 -11px" }}>
-        {copiedPriKey ? <Icon type="check" /> : t("new-wallet.copy")}
-      </Button>
-    );
+    const { account } = this.state;
 
     return (
       <div>
@@ -117,17 +105,6 @@ class NewWallet extends React.Component<Props, State> {
               style={inputStyle}
               placeholder={t("wallet.account.addressPlaceHolder")}
               value={account.address}
-              readOnly={true}
-            />
-          </Form.Item>
-          <Form.Item
-            label={<FormItemLabel>{t("wallet.account.private")}</FormItemLabel>}
-          >
-            <Input.Password
-              className="form-input"
-              placeholder={t("wallet.account.addressPlaceHolder")}
-              addonAfter={copyPriKeyButton}
-              value={account.privateKey}
               readOnly={true}
             />
           </Form.Item>

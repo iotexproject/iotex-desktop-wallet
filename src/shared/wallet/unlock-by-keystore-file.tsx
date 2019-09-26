@@ -4,7 +4,6 @@ import Form, { FormComponentProps, WrappedFormUtils } from "antd/lib/form/Form";
 import Icon from "antd/lib/icon";
 import Menu from "antd/lib/menu";
 import notification from "antd/lib/notification";
-import Row from "antd/lib/row";
 import Tag from "antd/lib/tag";
 import Upload from "antd/lib/upload";
 import { RcFile } from "antd/lib/upload/interface";
@@ -266,12 +265,9 @@ class Keystore extends React.Component<KeystoreProps, KeystoreState> {
     const { form } = this.props;
     const { keyname } = this.state;
     return (
-      <Row className="ant-form-item">
-        <div className="ant-form-item-label">
-          <label className="ant-form-item-required" title="">
-            <FormItemLabel>{t("wallet.input.keystore")}</FormItemLabel>
-          </label>
-        </div>
+      <Form.Item
+        label={<FormItemLabel>{t("wallet.input.keystore")}</FormItemLabel>}
+      >
         {form.getFieldDecorator("keystore", {
           rules: [
             {
@@ -294,7 +290,7 @@ class Keystore extends React.Component<KeystoreProps, KeystoreState> {
             </Tag>
           ) : null}
         </div>
-      </Row>
+      </Form.Item>
     );
   }
 }
