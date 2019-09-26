@@ -63,7 +63,7 @@ render.key.data: Data
 render.key.recipient: Recipient
 render.key.payload: Payload
 render.key.type: 'Reward Type'
-render.key.fee: 'Transaction Fee'
+render.key.fee: 'Gas Fee'
 render.value.grantReward: 'Grant Reward'
 render.value.execution: Execution
 render.value.transfer: Transfer

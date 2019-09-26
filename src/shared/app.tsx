@@ -6,7 +6,6 @@ import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
 import { Switch } from "react-router";
 import { Route } from "react-router-dom";
-import { Actions } from "./actions/actions";
 import { BlockDetail } from "./block/block-detail";
 import { Blocks } from "./block/blocks";
 // @ts-ignore
@@ -19,6 +18,7 @@ import { fonts } from "./common/styles/style-font";
 import { TOP_BAR_HEIGHT, TopMenuBar } from "./common/top-menu-bar";
 import { Home } from "./home/home";
 import { ActionDetailPage } from "./pages/action-detail-page";
+import { ActionListPage } from "./pages/action-list-page";
 import { AddressDetailsPage } from "./pages/address-details-page";
 import { Wallet } from "./wallet/wallet";
 
@@ -55,7 +55,7 @@ export class App extends Component<Props> {
               <Route path="/block/:height" component={BlockDetail} />
               <Route exact path="/block" component={Blocks} />
               <Route exact path="/action/:hash" component={ActionDetailPage} />
-              <Route exact path="/action" component={Actions} />
+              <Route exact path="/action" component={ActionListPage} />
               <Route path="/wallet" component={Wallet} />
               <Route component={NotFound} />
             </Switch>
