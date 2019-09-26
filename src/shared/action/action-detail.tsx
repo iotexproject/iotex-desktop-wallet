@@ -261,6 +261,7 @@ class ActionDetailsInner extends PureComponent<Props> {
               </Col>
               <Col xs={24} md={12} style={{ padding: "20px 0" }}>
                 <SearchBox
+                  autoFocus={false}
                   enterButton
                   size="large"
                   placeholder={t("topbar.search")}
