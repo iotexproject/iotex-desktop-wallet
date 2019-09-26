@@ -21,7 +21,7 @@ const trackingId =
   (globalState &&
     globalState.state &&
     globalState.state.base.analytics &&
-    globalState.state.base.analytics.googleTid) ||
+    globalState.state.base.analytics.googleTidApp) ||
   "UA-111756489-15";
 
 // Global instance of google universal analytics.
