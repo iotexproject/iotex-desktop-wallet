@@ -85,7 +85,7 @@ const parseActionDetails = (data: IActionsDetails) => {
   };
 };
 
-const ActionDetail: React.FC<RouteComponentProps<{ hash: string }>> = (
+const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
   props
 ): JSX.Element | null => {
   const { hash } = props.match.params;
@@ -95,7 +95,12 @@ const ActionDetail: React.FC<RouteComponentProps<{ hash: string }>> = (
   return (
     <>
       <PageNav
-        items={[<Link to={`/action`}>{t("topbar.actions")}</Link>, hash]}
+        items={[
+          <Link to={`/action`}>{t("topbar.actions")}</Link>,
+          <span className="ellipsis-text" style={{ maxWidth: "20vw" }}>
+            {hash}
+          </span>
+        ]}
       />
       <Query
         errorPolicy="ignore"
@@ -163,4 +168,4 @@ const ActionDetail: React.FC<RouteComponentProps<{ hash: string }>> = (
   );
 };
 
-export { ActionDetail };
+export { ActionDetailPage };

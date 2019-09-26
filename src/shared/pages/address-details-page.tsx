@@ -12,6 +12,7 @@ import {
   GetActionsResponse,
   GetReceiptByActionResponse
 } from "../../api-gateway/resolvers/antenna-types";
+import { ActionTable } from "../address-details/action-table";
 import { assetURL } from "../common/asset-url";
 import { CardDetails } from "../common/card-details";
 import { ErrorPage } from "../common/error-page";
@@ -19,7 +20,6 @@ import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_ADDRESS_DETAILS } from "../queries";
 import { AddressDetailRenderer } from "../renderer";
-import { ActionTable } from "./action-table";
 
 export interface IActionsDetails {
   action: GetActionsResponse;
