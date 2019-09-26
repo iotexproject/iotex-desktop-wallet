@@ -1,6 +1,7 @@
 import { Table, Tag } from "antd";
 import { ColumnProps } from "antd/lib/table";
 import { get } from "dottie";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import { GetChainMetaResponse } from "iotex-antenna/protogen/proto/api/api_pb";
 import { t } from "onefx/lib/iso-i18n";
@@ -80,6 +81,25 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
       ) : (
         receipt
       );
+    }
+  },
+  {
+    title: t("action.amount"),
+    dataIndex: "amount",
+    render(_: string, record: ActionInfo, __: number): string {
+      const amount: string =
+        get(record, "action.core.execution.amount") ||
+        get(record, "action.core.grantReward.amount") ||
+        get(record, "action.core.transfer.amount") ||
+        get(record, "action.core.createDeposit.amount") ||
+        get(record, "action.core.settleDeposit.amount") ||
+        get(record, "action.core.createPlumChain.amount") ||
+        get(record, "action.core.plumCreateDeposit.amount") ||
+        "";
+      if (!amount) {
+        return "-";
+      }
+      return `${fromRau(amount, "IOTX")} IOTX`;
     }
   },
   {
