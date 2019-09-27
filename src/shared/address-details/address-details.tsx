@@ -4,6 +4,7 @@ import Col from "antd/lib/col";
 import Divider from "antd/lib/divider";
 import Row from "antd/lib/row";
 import Table from "antd/lib/table";
+import { get } from "dottie";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
 import isBrowser from "is-browser";
@@ -97,10 +98,10 @@ class AddressDetailsInner extends PureComponent<Props, State> {
           if (error) {
             return null;
           }
-
-          const timestamp =
-            data && data.getActions && data.getActions.actionInfo[0].timestamp;
-
+          const timestamp = get(
+            data || {},
+            "getActions.actionInfo.0.timestamp"
+          );
           return (
             <Query
               query={GET_BP_CANDIDATE}
@@ -109,11 +110,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
             >
               {({ data }: QueryResult) => {
                 const name =
-                  (data &&
-                    data.bpCandidate &&
-                    data.bpCandidate.registeredName) ||
-                  address;
-
+                  get(data || {}, "bpCandidate.registeredName") || address;
                 const balance = addressInfo && addressInfo.balance;
                 const { xrc20Infos } = this.state;
 
@@ -127,7 +124,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
                 });
 
                 const source = {
-                  timestamp,
+                  ...(timestamp ? { timestamp } : {}),
                   balance: tokenBalance.join(","),
                   name
                 };
