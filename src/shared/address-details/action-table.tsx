@@ -1,7 +1,7 @@
 // tslint:disable:max-func-body-length
 import Icon from "antd/lib/icon";
-import { ColumnProps } from "antd/lib/table";
 import Table from "antd/lib/table";
+import { ColumnProps } from "antd/lib/table";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
@@ -11,14 +11,15 @@ import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import {
   ActionInfo,
-  GetActionsResponse
+  GetActionsResponse,
+  GetReceiptByActionResponse
 } from "../../api-gateway/resolvers/antenna-types";
 import { FlexLink } from "../common/flex-link";
 import { translateFn } from "../common/from-now";
 import { getActionType } from "../common/get-action-type";
 import { SpinPreloader } from "../common/spin-preloader";
 import { LAP_WIDTH } from "../common/styles/style-media";
-import { GET_ACTIONS } from "../queries";
+import { GET_ACTIONS, GET_RECEIPT_BY_ACTION } from "../queries";
 
 export function getAddress(record: ActionInfo): string {
   const addr: string =
@@ -41,8 +42,11 @@ interface CustomCoulns {
 }
 
 export function getActionColumns({
-  customColumns = {}
-}: { customColumns?: CustomCoulns } = {}): Array<ColumnProps<ActionInfo>> {
+  customColumns = {},
+  isAddressPage = false
+}: { customColumns?: CustomCoulns; isAddressPage?: boolean } = {}): Array<
+  ColumnProps<ActionInfo>
+> {
   const { actHash } = customColumns;
   return [
     actHash
@@ -66,15 +70,20 @@ export function getActionColumns({
         return <span>{translateFn(get(record, "timestamp"))}</span>;
       }
     },
-    {
-      title: t("action.block_hash"),
-      dataIndex: "blkHash",
-      render(text: string, _: ActionInfo, __: number): JSX.Element {
-        return (
-          <FlexLink path={`/block/${text}`} text={String(text).substr(0, 8)} />
-        );
-      }
-    },
+    isAddressPage
+      ? {}
+      : {
+          title: t("action.block_hash"),
+          dataIndex: "blkHash",
+          render(text: string, _: ActionInfo, __: number): JSX.Element {
+            return (
+              <FlexLink
+                path={`/block/${text}`}
+                text={String(text).substr(0, 8)}
+              />
+            );
+          }
+        },
     {
       title: t("action.type"),
       dataIndex: "name",
@@ -84,7 +93,7 @@ export function getActionColumns({
       }
     },
     {
-      title: t("action.sender"),
+      title: isAddressPage ? t("action.from") : t("action.sender"),
       dataIndex: "sender",
       render(_: string, record: ActionInfo, __: number): JSX.Element {
         const addr = publicKeyToAddress(String(record.action.senderPubKey));
@@ -97,7 +106,7 @@ export function getActionColumns({
       }
     },
     {
-      title: t("action.recipient"),
+      title: isAddressPage ? t("action.to") : t("action.recipient"),
       dataIndex: "recipient",
       render(_: string, record: ActionInfo, __: number): JSX.Element | string {
         const addr = getAddress(record);
@@ -130,31 +139,79 @@ export function getActionColumns({
         return `${fromRau(amount, "IOTX")} IOTX`;
       }
     },
-    {
-      title: t("action.data"),
-      dataIndex: "status",
-      render(_: string, record: ActionInfo, __: number): JSX.Element | string {
-        const data =
-          get<string>(record, "action.core.transfer.payload") ||
-          get<string>(record, "action.core.execution.data") ||
-          "";
-        const hash = String(record.actHash || "").substr(0, 8);
-        if (!data || !hash) {
-          return "-";
+    isAddressPage
+      ? {}
+      : {
+          title: t("action.data"),
+          dataIndex: "status",
+          render(
+            _: string,
+            record: ActionInfo,
+            __: number
+          ): JSX.Element | string {
+            const data =
+              get<string>(record, "action.core.transfer.payload") ||
+              get<string>(record, "action.core.execution.data") ||
+              "";
+            const hash = String(record.actHash || "").substr(0, 8);
+            if (!data || !hash) {
+              return "-";
+            }
+            const downloadHref = `data:text/plan,${encodeURIComponent(data)}`;
+            return (
+              <a
+                href={`${downloadHref}`}
+                download={`${hash}.txt`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Icon type="download" />
+              </a>
+            );
+          }
+        },
+    !isAddressPage
+      ? {}
+      : {
+          title: t("action.gasFee"),
+          dataIndex: "gasFee",
+          render(
+            _: string,
+            record: ActionInfo,
+            __: number
+          ): JSX.Element | string {
+            const actionHash = record.actHash;
+            const POLL_INTERVAL = 6000;
+            return (
+              <Query
+                query={GET_RECEIPT_BY_ACTION}
+                variables={{ actionHash, ignoreErrorNotification: true }}
+              >
+                {({
+                  error,
+                  data,
+                  startPolling,
+                  stopPolling
+                }: QueryResult<{
+                  getReceiptByAction: GetReceiptByActionResponse;
+                }>) => {
+                  if (error) {
+                    startPolling(POLL_INTERVAL);
+                    return null;
+                  }
+                  stopPolling();
+                  const gasConsumed =
+                    data &&
+                    get(
+                      data || {},
+                      "getReceiptByAction.receiptInfo.receipt.gasConsumed"
+                    );
+                  return gasConsumed || "-";
+                }}
+              </Query>
+            );
+          }
         }
-        const downloadHref = `data:text/plan,${encodeURIComponent(data)}`;
-        return (
-          <a
-            href={`${downloadHref}`}
-            download={`${hash}.txt`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Icon type="download" />
-          </a>
-        );
-      }
-    }
   ];
 }
 
@@ -183,12 +240,14 @@ export function ActionTable({
   pageSize = 10,
   totalActions = 100,
   getVariable,
-  customColumns
+  customColumns,
+  isAddressPage = false
 }: {
   pageSize?: number;
   totalActions?: number;
   getVariable: GetVariable;
   customColumns?: CustomCoulns;
+  isAddressPage?: boolean;
 }): JSX.Element {
   return (
     <Query
@@ -216,7 +275,7 @@ export function ActionTable({
               style={{ width: "100%" }}
               scroll={{ x: `${LAP_WIDTH}px` }}
               rowKey={"hash"}
-              columns={getActionColumns({ customColumns })}
+              columns={getActionColumns({ customColumns, isAddressPage })}
               dataSource={actionInfo}
               pagination={{
                 pageSize,

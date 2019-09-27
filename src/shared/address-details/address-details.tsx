@@ -1,14 +1,19 @@
 // @ts-ignore
+import { Icon } from "antd";
+import Button from "antd/lib/button";
 import Card from "antd/lib/card";
 import Col from "antd/lib/col";
+import DatePicker from "antd/lib/date-picker";
 import Divider from "antd/lib/divider";
 import Row from "antd/lib/row";
 import Table from "antd/lib/table";
+import Tabs from "antd/lib/tabs";
 import { get } from "dottie";
 // @ts-ignore
 import * as utils from "iotex-antenna/lib/account/utils";
 import isBrowser from "is-browser";
 import * as _ from "lodash/fp";
+import moment from "moment";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -43,6 +48,9 @@ type PathParamsType = {
 type State = {
   xrc20Infos: Array<ITokenInfo>;
   address: string;
+  start: moment.Moment;
+  end: moment.Moment;
+  filterTime: moment.Moment | null;
 };
 
 type Props = RouteComponentProps<PathParamsType> & {};
@@ -52,7 +60,10 @@ class AddressDetailsInner extends PureComponent<Props, State> {
     super(props);
     this.state = {
       xrc20Infos: [],
-      address: ""
+      address: "",
+      start: moment(),
+      end: moment(),
+      filterTime: null
     };
   }
 
@@ -82,6 +93,10 @@ class AddressDetailsInner extends PureComponent<Props, State> {
       isBrowser && JsonGlobal("state").base.defaultERC20Tokens;
     this.pollTokenInfos(xrc20tokens, address);
   }
+
+  public handleFilter = (dateFormat: moment.Moment, state: string) => {
+    this.setState({ ...this.state, [state]: dateFormat });
+  };
 
   public renderAddressInfo = (
     address: string,
@@ -146,6 +161,59 @@ class AddressDetailsInner extends PureComponent<Props, State> {
           );
         }}
       </Query>
+    );
+  };
+
+  public renderActions = (address: string, numActions: number): JSX.Element => {
+    const dateFormat = "YYYY-MM-DD HH:mm:ss";
+    return (
+      <Tabs onChange={() => undefined} type="card">
+        <Tabs.TabPane tab={t("tabs.actions")} key="1">
+          <div className="daterange">
+            <DatePicker
+              showTime
+              placeholder="Start Date"
+              format={dateFormat}
+              onChange={dateFormat => this.handleFilter(dateFormat, "start")}
+              value={this.state.start}
+            />
+            <span>~</span>
+            <DatePicker
+              showTime
+              placeholder="End Date"
+              format={dateFormat}
+              onChange={dateFormat => this.handleFilter(dateFormat, "end")}
+              value={this.state.end}
+            />
+            <Button
+              onClick={() => {
+                this.setState({ filterTime: moment() });
+              }}
+            >
+              <Icon type="filter" />
+            </Button>
+          </div>
+          <ActionTable
+            totalActions={numActions}
+            isAddressPage={true}
+            // TO DO:send props to apply filter on actions timestamp
+            // daterange={ this.state.filterTime ? { start: this.state.start, end: this.state.end } : {}}
+            getVariable={({ current, pageSize }) => {
+              const start = numActions - pageSize - (current - 1) * pageSize;
+              return {
+                byAddr: {
+                  address,
+                  start: start < 0 ? 0 : start,
+                  count: pageSize
+                }
+              };
+            }}
+          />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab={t("tabs.erc_actions")} key="2">
+          {/* TO DO: implement erc20 transactions table */}
+        </Tabs.TabPane>
+      </Tabs>
     );
   };
 
@@ -215,20 +283,7 @@ class AddressDetailsInner extends PureComponent<Props, State> {
                     {this.renderAddressInfo(address, addressInfo)}
                   </Card>
                   <br />
-                  <ActionTable
-                    totalActions={numActions}
-                    getVariable={({ current, pageSize }) => {
-                      const start =
-                        numActions - pageSize - (current - 1) * pageSize;
-                      return {
-                        byAddr: {
-                          address,
-                          start: start < 0 ? 0 : start,
-                          count: pageSize
-                        }
-                      };
-                    }}
-                  />
+                  {this.renderActions(address, numActions)}
                 </div>
               </SpinPreloader>
             );

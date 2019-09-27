@@ -51,6 +51,10 @@
 }
 .addressList {
   padding-top: 20px;
+  .ant-table-pagination.ant-pagination {
+    text-align: center;
+    float: none;
+  }
   .ant-card {
     &:hover {
       transform: none;
@@ -460,5 +464,20 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
 .action-table {
   .ant-table-tbody > tr > td {
     border-bottom: none;
+  }
+}
+
+.daterange {
+  margin-bottom: 15px;
+  float: right;
+  button {
+    z-index: 1;
+    border: none;
+  }
+  .anticon-filter {
+    font-size: 20px;
+  }
+  .ant-calendar-picker {
+    padding: 10px;
   }
 }

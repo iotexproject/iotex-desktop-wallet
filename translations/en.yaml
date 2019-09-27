@@ -40,6 +40,7 @@ action.amount: Amount
 action.action: Action
 action.sender: Sender
 action.recipient: Recipient
+action.gasFee: Gas Fee
 title.action: Action
 render.key.height: Height
 render.key.hash: Hash
@@ -114,6 +115,8 @@ topbar.search: 'Search by Address / Public Key / Hash / Height'
 coming_soon.title: 'Coming Soon...'
 coming_soon.bar: 'coming soon'
 action.actions: Actions
+action.from: From
+action.to: To
 address.address: Address
 address.name: "Name Tag"
 title.overview: Overview
@@ -446,6 +449,8 @@ navigation.address: Address List
 navigation.action: Action List
 navigation.action_detail: Action Detail
 navigation.block: Block List
+tabs.actions: Transactions 1
+tabs.erc_actions: ERC20 Transactions
 unlock-wallet.by_ledger: 'Connect Ledger'
 unlock_by_ledger.message: 'Click the following button to proceed with Ledger.'
 unlock-by-ledger.pluginDevice: 'Please plugin ledger device and try again!'
