@@ -494,7 +494,7 @@ export function renderActHash(text: string): JSX.Element | string {
         title={t("action.share_this_action")}
         trigger="hover"
       >
-        <span style={{ marginLeft: "20px", position: "relative", top: "3px" }}>
+        <span style={{ marginLeft: "20px", position: "relative", top: "3px", cursor: "pointer" }}>
           <ShareIcon />
         </span>
       </Popover>
