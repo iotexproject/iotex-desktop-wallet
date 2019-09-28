@@ -7,9 +7,9 @@ import isElectron from "is-electron";
 // TODO: enable USE_WS_SIGNER to active the WsSignerPlugin
 const USE_WS_SIGNER = false;
 
-export function getAntenna(): Antenna {
+export function getAntenna(initial?: boolean): Antenna {
   const injectedWindow: Window & { antenna?: Antenna } = window;
-  if (injectedWindow.antenna) {
+  if (injectedWindow.antenna && !initial) {
     return injectedWindow.antenna;
   }
   if (isElectron()) {
