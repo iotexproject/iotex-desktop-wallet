@@ -38,7 +38,7 @@ class UnlockByPrivateKeyInner extends PureComponent<
     this.props.form.validateFields(async err => {
       if (!err) {
         const { priKey } = this.state;
-        const antenna = getAntenna();
+        const antenna = getAntenna(true);
         const account = await antenna.iotx.accounts.privateKeyToAccount(priKey);
         this.props.dispatch(setAccount(account));
       }

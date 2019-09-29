@@ -39,7 +39,7 @@ class UnlockByMnemonicInner extends PureComponent<
     this.props.form.validateFields(async err => {
       if (!err) {
         const { mnemonicPhrase } = this.state;
-        const antenna = getAntenna();
+        const antenna = getAntenna(true);
         const code = new Mnemonic(mnemonicPhrase);
         code.toString();
         const xpriv = code.toHDPrivateKey();
