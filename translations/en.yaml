@@ -183,7 +183,7 @@ wallet.account.raw: 'Account Address'
 wallet.account.private: 'Private Key'
 wallet.account.addressPlaceHolder: 'IoTeX Address...'
 new-wallet.copy: Copy
-new-wallet.created: 'Wallet is created! Save your'
+new-wallet.created: 'Wallet is created!'
 new-wallet.privateKey: 'Private Key'
 new-wallet.showPrivateKey: 'Show Private Key'
 new-wallet.warn.cant-recover: 'It cannot be recovered if you lose it.'
