@@ -51,7 +51,7 @@ class UnlockByKeystoreFileInnerComponent extends PureComponent<
         try {
           const keyObj = JSON.parse(keystore);
           const { privateKey } = decrypt(keyObj, password);
-          const antenna = getAntenna();
+          const antenna = getAntenna(true);
           const account = await antenna.iotx.accounts.privateKeyToAccount(
             privateKey
           );
