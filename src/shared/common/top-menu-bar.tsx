@@ -217,7 +217,7 @@ const TopMobileMenu = ({
         <Row
           type="flex"
           align="middle"
-          justify="end"
+          justify="space-between"
           style={{ height: TOP_BAR_HEIGHT, color: colors.white }}
           gutter={{
             xs: 5,
