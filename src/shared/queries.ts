@@ -533,3 +533,42 @@ export const GET_ADDRESS_DETAILS = gql`
     }
   }
 `;
+
+export const GET_ANALYTICS_XRC20_ACTIONS = ({
+  pageSize,
+  page,
+  address
+}: {
+  pageSize: number;
+  page: number;
+  address?: string;
+}) => {
+  const query = `
+  {
+    total: xrc20 {
+      data:${
+        address ? "byAddress" : "byPage"
+      }(numPerPage: 9999999999999, page: 1 ${address &&
+    `,address:"${address}"`}) {
+        count
+      }
+    }
+    xrc20 {
+      data:${
+        address ? "byAddress" : "byPage"
+      }(numPerPage: ${pageSize}, page: ${page} ${address &&
+    `,address:"${address}"`}) {
+        xrc20 {
+          contract
+          hash
+          timestamp
+          from
+          to
+          quantity
+        }
+      }
+    }
+  }
+  `;
+  return gql(query);
+};

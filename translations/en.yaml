@@ -500,8 +500,12 @@ render.key.balance: Balance
 render.key.nametag: "Name Tag"
 render.key.pendingNonce: Pending Nonce
 common.transactions: Transactions
+common.xrc20Transactions: XRC20 Transactions
 block_details.hash: "Block Hash: ${hash}"
 page_navs.block: "Block #${height}"
 action.types.in: IN
 action.types.out: OUT
 action.types.self: SELF
+pages.token: Token Transfers
+token.xrc20: XRC-20
+topbar.xrc20Transfer: XRC20 Token Transfers

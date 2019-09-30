@@ -20,6 +20,7 @@ import { ActionListPage } from "./pages/action-list-page";
 import { AddressDetailsPage } from "./pages/address-details-page";
 import { BlockDetailPage } from "./pages/block-detail-page";
 import { BlockListPage } from "./pages/block-list-page";
+import { XRC20ActionListPage } from "./pages/xrc20-action-list-page";
 import { Wallet } from "./wallet/wallet";
 
 type Props = {
@@ -56,6 +57,7 @@ export class App extends Component<Props> {
               <Route exact path="/block" component={BlockListPage} />
               <Route exact path="/action/:hash" component={ActionDetailPage} />
               <Route exact path="/action" component={ActionListPage} />
+              <Route exact path="/tokentxns" component={XRC20ActionListPage} />
               <Route path="/wallet" component={Wallet} />
               <Route component={NotFound} />
             </Switch>

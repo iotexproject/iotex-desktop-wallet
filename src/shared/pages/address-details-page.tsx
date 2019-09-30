@@ -21,6 +21,7 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { GET_ACCOUNT } from "../queries";
 import { AddressDetailRenderer } from "../renderer";
 import { ActionTable } from "./action-list-page";
+import { XRC20ActionTable } from "./xrc20-action-list-page";
 
 export interface IActionsDetails {
   action: GetActionsResponse;
@@ -119,12 +120,12 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
                 style={{ padding: 20, margin: "40px 0px" }}
                 size="large"
                 className="card-shadow"
-                tabBarStyle={{
-                  backgroundColor: "rgba(170, 170, 192, 0.05)"
-                }}
               >
                 <Tabs.TabPane tab={t("common.transactions")} key="1">
                   <ActionTable numActions={numActions} address={address} />
+                </Tabs.TabPane>
+                <Tabs.TabPane tab={t("common.xrc20Transactions")} key="2">
+                  <XRC20ActionTable address={address} />
                 </Tabs.TabPane>
               </Tabs>
             </ContentPadding>

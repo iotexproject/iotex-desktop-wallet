@@ -67,6 +67,10 @@ const MAIN_NAV_MENUS: Array<INavMenuItem> = [
         path: "/action"
       },
       {
+        label: "topbar.xrc20Transfer",
+        path: "/tokentxns"
+      },
+      {
         label: "topbar.blocks",
         path: "/block"
       }
