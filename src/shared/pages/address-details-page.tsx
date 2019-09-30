@@ -1,4 +1,4 @@
-import { Tabs } from "antd";
+import Tabs from "antd/lib/tabs";
 import { get } from "dottie";
 // @ts-ignore
 import window from "global/window";
@@ -6,20 +6,21 @@ import isBrowser from "is-browser";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
+import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
 import {
   GetAccountResponse,
   GetActionsResponse,
   GetReceiptByActionResponse
 } from "../../api-gateway/resolvers/antenna-types";
-import { ActionTable } from "../address-details/action-table";
 import { assetURL } from "../common/asset-url";
 import { CardDetails } from "../common/card-details";
 import { ErrorPage } from "../common/error-page";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
-import { GET_ADDRESS_DETAILS } from "../queries";
+import { GET_ACCOUNT } from "../queries";
 import { AddressDetailRenderer } from "../renderer";
+import { ActionTable } from "./action-list-page";
 
 export interface IActionsDetails {
   action: GetActionsResponse;
@@ -28,18 +29,16 @@ export interface IActionsDetails {
 
 export type GetActionDetailsResponse = QueryResult<IActionsDetails>;
 
-const parseAddressDetails = (data: {
-  account: GetAccountResponse;
-  action: GetActionsResponse;
-}) => {
-  // tslint:disable-next-line:no-any
-  const { address, balance, nonce, pendingNonce, numActions }: any =
-    get(data || {}, "account.accountMeta") || {};
+const parseAddressDetails = (data: { getAccount: GetAccountResponse }) => {
+  const {
+    address = "",
+    balance = "0",
+    nonce = 0,
+    pendingNonce = 0,
+    numActions = 0
+  } = get(data || {}, "getAccount.accountMeta") || {};
 
-  // tslint:disable-next-line:no-any
-  const { timestamp }: any = get(data || {}, "action.actionInfo.0") || {};
   return {
-    timestamp,
     balance: {
       address,
       balance
@@ -60,20 +59,16 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
   }
   return (
     <>
+      <Helmet title={`IoTeX ${t("address.address")} ${address}`} />
       <PageNav items={[t("address.address"), address]} />
-      <Query
-        errorPolicy="ignore"
-        query={GET_ADDRESS_DETAILS}
-        variables={{ address }}
-      >
+      <Query errorPolicy="ignore" query={GET_ACCOUNT} variables={{ address }}>
         {({
           data,
           loading
         }: QueryResult<{
-          account: GetAccountResponse;
-          action: GetActionsResponse;
+          getAccount: GetAccountResponse;
         }>) => {
-          if (!loading && (!data || !data.account)) {
+          if (!loading && !data) {
             return (
               <ErrorPage
                 bg={assetURL("/action-not-found.png")}
@@ -84,14 +79,14 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
             );
           }
           let details = {};
-          if (data && data.action) {
+          if (data) {
             details = parseAddressDetails(data);
           }
           const emailBody = t("share_link.email_body", {
             href: `${isBrowser ? location.origin : ""}/address/${address}`
           });
           const { numActions = 0 } =
-            get(data || {}, "action.actionInfo.0") || {};
+            get(data || {}, "getAccount.accountMeta") || {};
           return (
             <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
               <CardDetails
@@ -103,7 +98,8 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
                   emailBody
                 }}
                 vtable={{
-                  style: { width: "100%", padding: "20px 0px" },
+                  loading: loading,
+                  style: { width: "100%" },
                   objectSource: details,
                   headerRender: text => `${t(`render.key.${text}`)}: `,
                   valueRenderMap: AddressDetailRenderer
@@ -111,7 +107,6 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
               />
               <Tabs
                 style={{ padding: 20, margin: "40px 0px" }}
-                type="card"
                 size="large"
                 className="card-shadow"
                 tabBarStyle={{
@@ -119,20 +114,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
                 }}
               >
                 <Tabs.TabPane tab={t("common.transactions")} key="1">
-                  <ActionTable
-                    totalActions={numActions}
-                    getVariable={({ current, pageSize }) => {
-                      const start =
-                        numActions - pageSize - (current - 1) * pageSize;
-                      return {
-                        byAddr: {
-                          address,
-                          start: start < 0 ? 0 : start,
-                          count: pageSize
-                        }
-                      };
-                    }}
-                  />
+                  <ActionTable numActions={numActions} address={address} />
                 </Tabs.TabPane>
               </Tabs>
             </ContentPadding>
