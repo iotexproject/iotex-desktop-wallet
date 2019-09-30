@@ -256,7 +256,7 @@ class ActionDetailsInner extends PureComponent<Props> {
         ) : (
           <Root style={{ marginBottom: 30 }}>
             <Row>
-              <Col xs={24} md={12} style={{ marginTop: "10px" }}>
+              <Col xs={24} md={12}>
                 {showNavigation && <Navigation />}
               </Col>
               <Col xs={24} md={12} style={{ padding: "20px 0" }}>
