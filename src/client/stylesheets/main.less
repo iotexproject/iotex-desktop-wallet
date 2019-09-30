@@ -30,14 +30,7 @@ body {
   margin-bottom: 20px;
   border-radius: 5px;
 }
-.page-title {
-  font-size: 22px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  line-height: 1;
-  border-bottom: 1px solid #ebeef5;
-  padding-bottom: 10px;
-}
+
 .front-top-info {
   svg {
     width: 2rem;
@@ -484,15 +477,16 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
   box-shadow: @box-shadow-base;
 }
 
-.action-detail-card-title {
-  font-family: "Heebo", sans-serif, Microsoft YaHei !important;
+.page-title {
+  font-family: @font-family;
   font-size: 24px;
   font-weight: 300;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding: 30px 0px;
+  padding: 40px 0px 0px 0px;
   color: @text-color;
+}
+
+.page-body {
+  padding: 30px 0;
 }
 
 .vertical-table {
@@ -558,4 +552,8 @@ span.ellipsis-text {
 
 .auto-spacing > * {
   padding-right: 0.5em !important;
+}
+
+.ant-table-thead > tr > th {
+  background-color: unset !important;
 }
