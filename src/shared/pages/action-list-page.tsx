@@ -62,7 +62,10 @@ const getActionListColumns = (
     render(_: string, record: ActionInfo, __: number): JSX.Element {
       const addr = publicKeyToAddress(String(record.action.senderPubKey));
       return (
-        <span className="ellipsis-text" style={{ maxWidth: "10vw" }}>
+        <span
+          className="ellipsis-text"
+          style={{ maxWidth: "10vw", minWidth: 100 }}
+        >
           <AddressName address={addr} />
         </span>
       );
@@ -97,7 +100,10 @@ const getActionListColumns = (
     render: (_: string, record: ActionInfo): JSX.Element | string => {
       const receipt = getAddress(record);
       return receipt !== "-" ? (
-        <span className="ellipsis-text" style={{ maxWidth: "10vw" }}>
+        <span
+          className="ellipsis-text"
+          style={{ maxWidth: "10vw", minWidth: 100 }}
+        >
           <AddressName address={receipt} />
         </span>
       ) : (

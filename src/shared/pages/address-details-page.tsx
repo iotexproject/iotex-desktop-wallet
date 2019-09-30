@@ -60,7 +60,17 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
   return (
     <>
       <Helmet title={`IoTeX ${t("address.address")} ${address}`} />
-      <PageNav items={[t("address.address"), address]} />
+      <PageNav
+        items={[
+          t("address.address"),
+          <span
+            className="ellipsis-text"
+            style={{ maxWidth: "10vw", minWidth: 100 }}
+          >
+            {address}
+          </span>
+        ]}
+      />
       <Query errorPolicy="ignore" query={GET_ACCOUNT} variables={{ address }}>
         {({
           data,

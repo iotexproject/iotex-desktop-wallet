@@ -88,7 +88,10 @@ const BlockDetailPage: React.FC<RouteComponentProps<{ height: string }>> = (
       <PageNav
         items={[
           <Link to={`/block`}>{t("block.block")}</Link>,
-          <span className="ellipsis-text" style={{ maxWidth: "20vw" }}>
+          <span
+            className="ellipsis-text"
+            style={{ maxWidth: "10vw", minWidth: 100 }}
+          >
             {t("page_navs.block", { height })}
           </span>
         ]}

@@ -79,7 +79,10 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
       <PageNav
         items={[
           <Link to={`/action`}>{t("topbar.actions")}</Link>,
-          <span className="ellipsis-text" style={{ maxWidth: "20vw" }}>
+          <span
+            className="ellipsis-text"
+            style={{ maxWidth: "10vw", minWidth: 100 }}
+          >
             {hash}
           </span>
         ]}
