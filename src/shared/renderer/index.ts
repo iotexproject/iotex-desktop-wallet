@@ -4,6 +4,7 @@ import { BlockHeightRenderer } from "./block-height-renderer";
 import { IOTXValueRenderer } from "./iotx-value-renderer";
 import { ReceiptAddressRenderer } from "./reciept-address-renderer";
 import { StatusRenderer } from "./status-renderer";
+import { TextCopyRenderer } from "./text-copy-renderer";
 import { TextAreaRenderer } from "./textarea-renderer";
 import { TokenTransferRenderer } from "./token-transfer-renderer";
 import { WalletAddressRenderer } from "./wallet-address-renderer";
@@ -26,4 +27,14 @@ const AddressDetailRenderer = {
   nametag: WalletAddressRenderer
 };
 
-export { AddressDetailRenderer, CommonRenderer };
+const BlockDetailRenderer = {
+  height: BlockHeightRenderer,
+  timestamp: AgeRenderer,
+  producerAddress: WalletAddressRenderer,
+  transferAmount: IOTXValueRenderer,
+  txRoot: TextCopyRenderer,
+  receiptRoot: TextCopyRenderer,
+  deltaStateDigest: TextCopyRenderer
+};
+
+export { AddressDetailRenderer, CommonRenderer, BlockDetailRenderer };
