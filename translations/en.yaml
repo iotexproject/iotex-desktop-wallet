@@ -486,7 +486,7 @@ wallet.whitelist.operation.alert: Sure to cancel?
 wallet.unlock_alert.title: Unlock Wallet First
 wallet.unlock_alert.tip: Please unlock your wallet before perform other operations.
 wallet.unlock_alert.confirm: I know
-action_details.hash: "Hash: ${actionHash}"
+action_details.hash: "Action Hash: ${actionHash}"
 common.show_more: Show More
 common.show_less: Show Less
 common.address: Address
@@ -500,3 +500,8 @@ render.key.balance: Balance
 render.key.nametag: "Name Tag"
 render.key.pendingNonce: Pending Nonce
 common.transactions: Transactions
+block_details.hash: "Block Hash: ${hash}"
+page_navs.block: "Block #${height}"
+action.types.in: IN
+action.types.out: OUT
+action.types.self: SELF
