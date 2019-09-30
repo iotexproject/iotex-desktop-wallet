@@ -91,7 +91,7 @@ const MAIN_NAV_MENUS: Array<INavMenuItem> = [
   },
   {
     label: "topbar.wallet",
-    path: "/wallet"
+    path: "/wallet/transfer"
   }
 ];
 
