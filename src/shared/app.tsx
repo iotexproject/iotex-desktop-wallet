@@ -56,7 +56,7 @@ export class App extends Component<Props> {
               <Route exact path="/block" component={Blocks} />
               <Route exact path="/action/:hash" component={ActionDetail} />
               <Route exact path="/action" component={Actions} />
-              <Route path="/wallet/transfer" component={Wallet} />
+              <Route path="/wallet" component={Wallet} />
               <Route component={NotFound} />
             </Switch>
           </ScrollToTop>
