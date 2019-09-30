@@ -284,8 +284,8 @@ export const GET_BLOCK_METAS = gql`
 `;
 
 export const GET_ACTIONS = gql`
-  query getActions($byAddr: GetActionsByAddressRequest, $byHash: GetActionsByHashRequest, $byBlk: GetActionsByBlockRequest) {
-    getActions(byAddr: $byAddr, byHash: $byHash, byBlk: $byBlk) {
+  query getActions($byIndex:GetActionsByIndexRequest, $byAddr: GetActionsByAddressRequest, $byHash: GetActionsByHashRequest, $byBlk: GetActionsByBlockRequest) {
+    getActions(byAddr: $byAddr, byHash: $byHash, byBlk: $byBlk, byIndex: $byIndex) {
       ${FULL_ACTION_INFO}
     }
   }
@@ -489,6 +489,37 @@ export const GET_ANALYTICS_EVM_TRANSFERS = (hash: string) => {
   return gql(query);
 };
 
+export const GET_ANALYTICS_ACTIONS_BY_DATES = ({
+  startDate,
+  endDate,
+  skip,
+  first
+}: {
+  startDate: Number;
+  endDate: Number;
+  skip: Number;
+  first: Number;
+}) => {
+  const query = `query {
+    action {
+      byDates(startDate: ${startDate}, endDate: ${endDate}) {
+        actions(pagination: { skip: ${skip}, first: ${first} }) {
+          actHash
+          blkHash
+          timeStamp
+          actType
+          sender
+          recipient
+          amount
+        }
+        exist
+        count
+      }
+    }
+  }`;
+  return gql(query);
+};
+
 export const GET_ADDRESS_DETAILS = gql`
   query($address: String!) {
     account: getAccount(address: $address) {
@@ -498,14 +529,6 @@ export const GET_ADDRESS_DETAILS = gql`
         nonce
         pendingNonce
         numActions
-      }
-    }
-    action: getActions(byAddr: { address: $address, start: 1, count: 1 }) {
-      actionInfo {
-        timestamp {
-          seconds
-          nanos
-        }
       }
     }
   }
