@@ -6,8 +6,6 @@ import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
 import { Switch } from "react-router";
 import { Route } from "react-router-dom";
-import { BlockDetail } from "./block/block-detail";
-import { Blocks } from "./block/blocks";
 // @ts-ignore
 import initGoogleAnalytics from "./common/google-analytics";
 import { HtmlHead } from "./common/html-head";
@@ -20,6 +18,8 @@ import { Home } from "./home/home";
 import { ActionDetailPage } from "./pages/action-detail-page";
 import { ActionListPage } from "./pages/action-list-page";
 import { AddressDetailsPage } from "./pages/address-details-page";
+import { BlockDetailPage } from "./pages/block-detail-page";
+import { BlockListPage } from "./pages/block-list-page";
 import { Wallet } from "./wallet/wallet";
 
 type Props = {
@@ -52,8 +52,8 @@ export class App extends Component<Props> {
                 path="/address/:address"
                 component={AddressDetailsPage}
               />
-              <Route path="/block/:height" component={BlockDetail} />
-              <Route exact path="/block" component={Blocks} />
+              <Route path="/block/:height" component={BlockDetailPage} />
+              <Route exact path="/block" component={BlockListPage} />
               <Route exact path="/action/:hash" component={ActionDetailPage} />
               <Route exact path="/action" component={ActionListPage} />
               <Route path="/wallet" component={Wallet} />
