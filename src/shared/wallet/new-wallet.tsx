@@ -94,7 +94,6 @@ class NewWallet extends React.Component<Props, State> {
           <p style={{ display: "inline-block" }} className="wallet-title">
             {t("new-wallet.created")}
           </p>
-          <p className="private-key">{t("new-wallet.privateKey")}</p>
         </div>
         <br />
         <Form layout="vertical">
