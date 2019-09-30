@@ -118,7 +118,8 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
                   style: { width: "100%" },
                   objectSource: details,
                   headerRender: text => `${t(`render.key.${text}`)}: `,
-                  valueRenderMap: CommonRenderer
+                  valueRenderMap: CommonRenderer,
+                  maxRowsCount: 7
                 }}
               />
             </ContentPadding>
