@@ -284,8 +284,8 @@ export const GET_BLOCK_METAS = gql`
 `;
 
 export const GET_ACTIONS = gql`
-  query getActions($byAddr: GetActionsByAddressRequest, $byHash: GetActionsByHashRequest, $byBlk: GetActionsByBlockRequest) {
-    getActions(byAddr: $byAddr, byHash: $byHash, byBlk: $byBlk) {
+  query getActions($byIndex:GetActionsByIndexRequest, $byAddr: GetActionsByAddressRequest, $byHash: GetActionsByHashRequest, $byBlk: GetActionsByBlockRequest) {
+    getActions(byAddr: $byAddr, byHash: $byHash, byBlk: $byBlk, byIndex: $byIndex) {
       ${FULL_ACTION_INFO}
     }
   }
@@ -295,6 +295,37 @@ export const GET_ACTIONS_BY_HASH = gql`
   query getActions($byHash: GetActionsByHashRequest) {
     getActions(byHash: $byHash) {
       ${FULL_ACTION_INFO}
+    }
+  }
+`;
+
+export const GET_ACTION_DETAILS_BY_HASH = gql`
+  query getActions($actionHash: String!, $checkingPending:Boolean!) {
+    action:getActions(byHash: {
+      actionHash: $actionHash,
+      checkingPending: $checkingPending
+    }) {
+      ${FULL_ACTION_INFO}
+    }
+    receipt:getReceiptByAction(actionHash: $actionHash) {
+      receiptInfo {
+        receipt {
+          status
+          blkHeight
+          actHash
+          gasConsumed
+          contractAddress
+          logs {
+            contractAddress
+            topics
+            data
+            blkHeight
+            actHash
+            index
+          }
+        }
+        blkHash
+      }
     }
   }
 `;
@@ -442,3 +473,102 @@ export const GET_ANALYTICS_CHAIN = gql`
     }
   }
 `;
+
+export const GET_ANALYTICS_EVM_TRANSFERS = (hash: string) => {
+  const query = `query {
+    action {
+      byHash(actHash: "${hash}") {
+        evmTransfers {
+          from
+          to
+          quantity
+        }
+      }
+    }
+  }`;
+  return gql(query);
+};
+
+export const GET_ANALYTICS_ACTIONS_BY_DATES = ({
+  startDate,
+  endDate,
+  skip,
+  first
+}: {
+  startDate: Number;
+  endDate: Number;
+  skip: Number;
+  first: Number;
+}) => {
+  const query = `query {
+    action {
+      byDates(startDate: ${startDate}, endDate: ${endDate}) {
+        actions(pagination: { skip: ${skip}, first: ${first} }) {
+          actHash
+          blkHash
+          timeStamp
+          actType
+          sender
+          recipient
+          amount
+        }
+        exist
+        count
+      }
+    }
+  }`;
+  return gql(query);
+};
+
+export const GET_ADDRESS_DETAILS = gql`
+  query($address: String!) {
+    account: getAccount(address: $address) {
+      accountMeta {
+        address
+        balance
+        nonce
+        pendingNonce
+        numActions
+      }
+    }
+  }
+`;
+
+export const GET_ANALYTICS_XRC20_ACTIONS = ({
+  pageSize,
+  page,
+  address
+}: {
+  pageSize: number;
+  page: number;
+  address?: string;
+}) => {
+  const query = `
+  {
+    total: xrc20 {
+      data:${
+        address ? "byAddress" : "byPage"
+      }(numPerPage: 9999999999999, page: 1 ${address &&
+    `,address:"${address}"`}) {
+        count
+      }
+    }
+    xrc20 {
+      data:${
+        address ? "byAddress" : "byPage"
+      }(numPerPage: ${pageSize}, page: ${page} ${address &&
+    `,address:"${address}"`}) {
+        xrc20 {
+          contract
+          hash
+          timestamp
+          from
+          to
+          quantity
+        }
+      }
+    }
+  }
+  `;
+  return gql(query);
+};

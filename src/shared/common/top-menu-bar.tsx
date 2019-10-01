@@ -67,6 +67,10 @@ const MAIN_NAV_MENUS: Array<INavMenuItem> = [
         path: "/action"
       },
       {
+        label: "topbar.xrc20Transfer",
+        path: "/tokentxns"
+      },
+      {
         label: "topbar.blocks",
         path: "/block"
       }
@@ -218,7 +222,12 @@ const TopMobileMenu = ({
           type="flex"
           align="middle"
           justify="space-between"
-          onClick={() => !collapsed && setCollapsed(true)}
+          style={{ height: TOP_BAR_HEIGHT, color: colors.white }}
+          gutter={{
+            xs: 5,
+            sm: 10,
+            md: 20
+          }}
         >
           <Col>
             <IotexLogo />

@@ -6,11 +6,6 @@ import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
 import { Switch } from "react-router";
 import { Route } from "react-router-dom";
-import { ActionDetail } from "./action/action-detail";
-import { Actions } from "./actions/actions";
-import { AddressDetails } from "./address-details/address-details";
-import { BlockDetail } from "./block/block-detail";
-import { Blocks } from "./block/blocks";
 // @ts-ignore
 import initGoogleAnalytics from "./common/google-analytics";
 import { HtmlHead } from "./common/html-head";
@@ -20,6 +15,12 @@ import { colors } from "./common/styles/style-color";
 import { fonts } from "./common/styles/style-font";
 import { TOP_BAR_HEIGHT, TopMenuBar } from "./common/top-menu-bar";
 import { Home } from "./home/home";
+import { ActionDetailPage } from "./pages/action-detail-page";
+import { ActionListPage } from "./pages/action-list-page";
+import { AddressDetailsPage } from "./pages/address-details-page";
+import { BlockDetailPage } from "./pages/block-detail-page";
+import { BlockListPage } from "./pages/block-list-page";
+import { XRC20ActionListPage } from "./pages/xrc20-action-list-page";
 import { Wallet } from "./wallet/wallet";
 
 type Props = {
@@ -50,12 +51,13 @@ export class App extends Component<Props> {
               <Route
                 exact
                 path="/address/:address"
-                component={AddressDetails}
+                component={AddressDetailsPage}
               />
-              <Route path="/block/:height" component={BlockDetail} />
-              <Route exact path="/block" component={Blocks} />
-              <Route exact path="/action/:hash" component={ActionDetail} />
-              <Route exact path="/action" component={Actions} />
+              <Route path="/block/:height" component={BlockDetailPage} />
+              <Route exact path="/block" component={BlockListPage} />
+              <Route exact path="/action/:hash" component={ActionDetailPage} />
+              <Route exact path="/action" component={ActionListPage} />
+              <Route exact path="/tokentxns" component={XRC20ActionListPage} />
               <Route path="/wallet" component={Wallet} />
               <Route component={NotFound} />
             </Switch>

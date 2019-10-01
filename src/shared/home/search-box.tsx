@@ -8,7 +8,7 @@ import { handleSearch } from "../common/search-handler";
 type SearchBoxProps = SearchProps &
   RouteComponentProps &
   WithApolloClient<{}> & {
-    autoFocus: boolean;
+    autoFocus?: boolean;
   };
 
 class SearchBoxComponent extends Component<SearchBoxProps> {
@@ -17,6 +17,9 @@ class SearchBoxComponent extends Component<SearchBoxProps> {
   > = React.createRef();
 
   public componentDidMount(): void {
+    if (!this.props.autoFocus) {
+      return;
+    }
     if (!this.inputRef.current) {
       return;
     }

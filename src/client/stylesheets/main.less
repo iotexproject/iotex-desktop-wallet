@@ -1,7 +1,28 @@
+@import "../../../node_modules/antd/dist/antd.less";
+
+@primary-color: #00b4a0; // primary color for all components
+@link-color: #00b4a0; // link color
+@success-color: #5aa700; // success state color
+@warning-color: #efc100; // warning state color
+@error-color: #e71d32; // error state color
+@font-size-base: 14px; // major text font size
+@heading-color: rgba(0, 0, 0, 0.85); // heading text color
+@text-color: rgba(0, 0, 0, 0.65); // major text color
+@text-color-secondary : rgba(0, 0, 0, .45); // secondary text color
+@disabled-color : rgba(0, 0, 0, .25); // disable state color
+@border-radius-base: 4px; // major border radius
+@border-color-base: #d9d9d9; // major border color
+@box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15); // major shadow for layers
+@font-family: "Heebo", sans-serif, Microsoft YaHei !important;
+
 * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+body {
+  color: @text-color;
 }
 
 .section-top {
@@ -9,14 +30,7 @@
   margin-bottom: 20px;
   border-radius: 5px;
 }
-.page-title {
-  font-size: 22px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  line-height: 1;
-  border-bottom: 1px solid #ebeef5;
-  padding-bottom: 10px;
-}
+
 .front-top-info {
   svg {
     width: 2rem;
@@ -229,17 +243,6 @@
   }
 }
 
-@mixin clearfix() {
-  &:before,
-  &:after {
-    content: " "; // 1
-    display: table; // 2
-  }
-  &:after {
-    clear: both;
-  }
-}
-
 .dl-horizontal {
   margin: 12px;
   dt {
@@ -250,11 +253,18 @@
   }
 
   dd {
-    @include clearfix; // Clear the floated `dt` if an empty `dd` is present
     margin-left: 116px;
     color: #3d3d3d;
   }
 
+  dd::before,
+  dd::after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  dd::after {
+    clear: both;
+  }
   @media only screen and (max-width: 768px) {
     dl.dl-horizontal dd {
       margin-left: 0;
@@ -461,4 +471,89 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
   .ant-table-tbody > tr > td {
     border-bottom: none;
   }
+}
+
+.card-shadow {
+  box-shadow: @box-shadow-base;
+}
+
+.page-title {
+  font-family: @font-family;
+  font-size: 24px;
+  font-weight: 300;
+  padding: 40px 0px 0px 0px;
+  color: @text-color;
+}
+
+.page-body {
+  padding: 30px 0;
+}
+
+.vertical-table {
+  color: @text-color;
+}
+
+.vtable-row {
+  padding: 16px 10px;
+}
+
+.vtable-row:hover {
+  background-color: @item-hover-bg;
+}
+
+.link-button {
+  background-color: unset !important;
+  border: none !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.link-button a {
+  color: @link-color !important;
+  text-decoration: none;
+}
+
+.link-button::before {
+  display: none !important;
+}
+
+.link-button::after {
+  display: none !important;
+}
+
+.ellipsis-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: none;
+  white-space: nowrap;
+}
+
+span.ellipsis-text {
+  display: inline-block;
+  vertical-align: text-bottom;
+}
+
+.wordwrap {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+.bg-light {
+  background-color: #f8f9fa !important;
+}
+.monospace-code {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono,
+    Courier New, monospace !important;
+}
+
+.auto-spacing > * {
+  padding-right: 0.5em !important;
+}
+
+.ant-table-thead > tr > th {
+  background-color: unset !important;
 }

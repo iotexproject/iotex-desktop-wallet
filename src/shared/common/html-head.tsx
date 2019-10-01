@@ -43,11 +43,6 @@ export function HtmlHead({ locale }: { locale: string }): JSX.Element {
           href: assetURL("/stylesheets/main.css")
         },
         {
-          rel: "stylesheet",
-          type: "text/css",
-          href: assetURL("/antd.css")
-        },
-        {
           href:
             "https://fonts.googleapis.com/css?family=Heebo:100,300,400,500,700",
           rel: "stylesheet",

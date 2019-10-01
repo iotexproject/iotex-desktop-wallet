@@ -65,6 +65,7 @@ const compileStylesheets = done => {
 
 const watchStylesheets = done => {
   gulp.watch("src/**/*.scss", compileStylesheets);
+  gulp.watch("src/**/*.less", compileLess);
   done();
 };
 
@@ -98,6 +99,7 @@ const watchStatic = done => {
 const build = gulp.parallel(
   compileJavascripts,
   compileStylesheets,
+  compileLess,
   compileStatic
 );
 const watch = gulp.parallel(
