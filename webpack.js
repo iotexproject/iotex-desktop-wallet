@@ -31,7 +31,15 @@ module.exports = {
   module: {
     rules: [
       { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
-      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
+      {
+        enforce: "pre",
+        test: /\.js$/,
+        loader: "source-map-loader",
+        exclude: [
+          path.resolve(__dirname, "./node_modules/ethereumjs-util"),
+          path.resolve(__dirname, "./node_modules/rlp")
+        ]
+      },
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
