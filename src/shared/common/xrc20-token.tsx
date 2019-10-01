@@ -1,5 +1,6 @@
 import { Tag } from "antd";
 import BigNumber from "bignumber.js";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 import React, { useState } from "react";
 import { Token } from "../../erc20/token";
 
@@ -86,10 +87,13 @@ const XRC20TokenValue: React.FC<{ contract: string; value: BigNumber }> = ({
           new BigNumber(`1e${info.decimals}`)
         );
         setBalance(`${tokenTransfered} ${info.symbol}`);
+      } else {
+        setBalance(`${fromRau(`${value}`, "Iotx")} IOTX`);
       }
     })
     .catch(() => {
-      setBalance("");
+      // failback to native
+      setBalance(`${fromRau(`${value}`, "Iotx")} IOTX`);
     });
   const [balance, setBalance] = useState("");
   return <span>{balance}</span>;
