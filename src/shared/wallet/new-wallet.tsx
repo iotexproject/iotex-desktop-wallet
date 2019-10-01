@@ -27,6 +27,7 @@ export interface State {
   copiedMnemonic: boolean;
   account: Account;
   mnemonicPhrase: string;
+  showMnemonic: boolean;
 }
 
 class NewWallet extends React.Component<Props, State> {
@@ -41,6 +42,7 @@ class NewWallet extends React.Component<Props, State> {
       copiedMnemonic: false,
       copiedPriKey: false,
       mnemonicPhrase: code.toString(),
+      showMnemonic: false,
       account
     };
   }
@@ -56,7 +58,8 @@ class NewWallet extends React.Component<Props, State> {
   };
 
   public renderSaveMnemonic(): JSX.Element {
-    const { copiedMnemonic } = this.state;
+    const { copiedMnemonic, mnemonicPhrase, showMnemonic } = this.state;
+    const icon = showMnemonic ? "eye" : "eye-invisible";
     const copyMnemonicButton = (
       // @ts-ignore
       <Button
@@ -74,11 +77,27 @@ class NewWallet extends React.Component<Props, State> {
         <Form.Item
           label={<FormItemLabel>{t("new-wallet.mnemonic")}</FormItemLabel>}
         >
-          <div className="ant-input" style={{ backgroundColor: "#f7f7f7" }}>
-            <div style={{ display: "inline-block" }}>
-              {this.state.mnemonicPhrase}
+          <div
+            className="ant-input"
+            style={{ backgroundColor: "#f7f7f7", height: "auto" }}
+          >
+            <div style={{ display: "inline-block", wordBreak: "break-all" }}>
+              {showMnemonic
+                ? mnemonicPhrase
+                : mnemonicPhrase.replace(/./g, "*")}
             </div>
             {copyMnemonicButton}
+            <Icon
+              onClick={() => {
+                this.setState({ showMnemonic: !showMnemonic });
+              }}
+              type={icon}
+              style={{
+                float: "right",
+                marginRight: 25,
+                marginTop: 3
+              }}
+            />
           </div>
         </Form.Item>
       </div>
