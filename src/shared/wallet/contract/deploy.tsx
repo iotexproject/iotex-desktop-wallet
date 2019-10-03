@@ -203,7 +203,7 @@ class DeployFormInner extends Component<DeployProps, State> {
     const dataSource = {
       address: address,
       data: byteCode,
-      amount: toRau(amount, "IoTx"),
+      amount: `${Number(amount).toLocaleString()} IOTX`,
       price: toRau(gasPrice, "Qev"),
       limit: gasLimit
     };
@@ -243,7 +243,7 @@ class DeployFormInner extends Component<DeployProps, State> {
       window.console.log(
         `antenna.iotx.deployContract(${JSON.stringify({
           from: String(address),
-          amount,
+          amount: toRau(amount, "Iotx"),
           data: Buffer.from(trimmed0xHex, "hex"),
           gasPrice: price,
           gasLimit: gasLimit || undefined
@@ -254,7 +254,7 @@ class DeployFormInner extends Component<DeployProps, State> {
         {
           abi: abi,
           from: String(address),
-          amount,
+          amount: toRau(amount, "Iotx"),
           data: Buffer.from(trimmed0xHex, "hex"),
           gasPrice: price,
           gasLimit: gasLimit || undefined
