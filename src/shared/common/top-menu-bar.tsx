@@ -81,7 +81,7 @@ const MAIN_NAV_MENUS: Array<INavMenuItem> = [
     items: [
       {
         label: "topbar.explorer_playground",
-        path: "/api-gateway"
+        path: "/api-gateway/"
       },
       {
         label: "topbar.analytics_playground",
@@ -164,7 +164,7 @@ const renderMenuItem = (menu: INavMenuItem): JSX.Element => {
   if (!items) {
     return (
       <Menu.Item key={`menu-item-${label}`}>
-        {path.match(/^https?:\/\//i) ? (
+        {path.match(/^https?:\/\//i) || path.match("/api-gateway/") ? (
           <HoverableA href={path} target="_blank" rel="noreferrer">
             {t(label)}
           </HoverableA>
