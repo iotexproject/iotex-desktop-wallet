@@ -47,6 +47,7 @@ import { setAccount, setTokens } from "./wallet-actions";
 import { IRPCProvider, IWalletState } from "./wallet-reducer";
 
 const DISCORD_URL = "https://discord.gg/4z3BTcd";
+const VOTING_URL = "https://member.iotex.io";
 
 export interface Props extends DispatchProp, RouteComponentProps {
   account?: Account;
@@ -534,20 +535,32 @@ class AccountSection extends React.Component<Props, State> {
     );
   }
 
+  private renderSymbol(
+    symbol: string,
+    href: string,
+    linkName: string
+  ): JSX.Element {
+    return (
+      <>
+        <Row>{symbol}</Row>
+        <Row>
+          <a
+            href={href}
+            style={{ marginRight: 4, cursor: "pointer" }}
+            target="_blank noopener noreferer"
+            onClick={onElectronClick(href)}
+          >
+            {t(linkName)}
+          </a>
+        </Row>
+      </>
+    );
+  }
+
   private renderVITAPanel(token: ITokenInfo): JSX.Element {
     return (
       <div style={{ paddingBottom: 42 }}>
-        <Row>{token.symbol}</Row>
-        <Row>
-          <a
-            href={DISCORD_URL}
-            style={{ marginRight: 4, cursor: "pointer" }}
-            target="_blank noopener noreferer"
-            onClick={onElectronClick(DISCORD_URL)}
-          >
-            {t("account.joinDiscord")}
-          </a>
-        </Row>
+        {this.renderSymbol(token.symbol, DISCORD_URL, "account.joinDiscord")}
         <Row
           type="flex"
           justify="end"
@@ -590,6 +603,13 @@ class AccountSection extends React.Component<Props, State> {
           text: string,
           token: ITokenInfo
         ): JSX.Element | string | null => {
+          if (token.symbol === "IOTX") {
+            return this.renderSymbol(
+              token.symbol,
+              VOTING_URL,
+              "wallet.vote.title"
+            );
+          }
           if (!Token.getToken(token.tokenAddress).isVita()) {
             return text;
           }
