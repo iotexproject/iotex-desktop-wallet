@@ -16,7 +16,6 @@ import { BroadcastSuccess } from "./broadcast-status";
 import { ChooseFunction } from "./contract/choose-function";
 import { Deploy } from "./contract/deploy";
 import { Interact } from "./contract/interact";
-import { Vote } from "./contract/vote";
 import { DownloadKeystoreForm } from "./download-keystore-form";
 import { LockWalletAlert } from "./lock-alert";
 import { Sign } from "./sign";
@@ -87,9 +86,7 @@ class WalletTabsInner extends Component<Props> {
   // tslint:disable: no-any
   public getActiveKey(location: H.Location<any>): string {
     let activeKey = `/wallet/transfer`;
-    if (location.pathname.match(/vote/)) {
-      activeKey = `/wallet/vote`;
-    } else if (location.pathname.match(/smart-contract/)) {
+    if (location.pathname.match(/smart-contract/)) {
       activeKey = `/wallet/smart-contract`;
     } else if (location.pathname.match(/sign/)) {
       activeKey = `/wallet/sign`;
@@ -157,9 +154,6 @@ class WalletTabsInner extends Component<Props> {
             </Switch>
           </Tabs.TabPane>
 
-          <Tabs.TabPane key={`/wallet/vote`} tab={t("wallet.tab.vote")}>
-            <Vote />
-          </Tabs.TabPane>
           {this.props.wallet && (
             <Tabs.TabPane
               key={`/wallet/keystore`}
