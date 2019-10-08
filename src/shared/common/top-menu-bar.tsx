@@ -67,6 +67,10 @@ const MAIN_NAV_MENUS: Array<INavMenuItem> = [
         path: "/action"
       },
       {
+        label: "topbar.xrc20Transfer",
+        path: "/tokentxns"
+      },
+      {
         label: "topbar.blocks",
         path: "/block"
       }
@@ -77,7 +81,7 @@ const MAIN_NAV_MENUS: Array<INavMenuItem> = [
     items: [
       {
         label: "topbar.explorer_playground",
-        path: "/api-gateway"
+        path: "/api-gateway/"
       },
       {
         label: "topbar.analytics_playground",
@@ -91,7 +95,7 @@ const MAIN_NAV_MENUS: Array<INavMenuItem> = [
   },
   {
     label: "topbar.wallet",
-    path: "/wallet"
+    path: "/wallet/transfer"
   }
 ];
 
@@ -160,7 +164,7 @@ const renderMenuItem = (menu: INavMenuItem): JSX.Element => {
   if (!items) {
     return (
       <Menu.Item key={`menu-item-${label}`}>
-        {path.match(/^https?:\/\//i) ? (
+        {path.match(/^https?:\/\//i) || path.match("/api-gateway/") ? (
           <HoverableA href={path} target="_blank" rel="noreferrer">
             {t(label)}
           </HoverableA>
@@ -218,7 +222,12 @@ const TopMobileMenu = ({
           type="flex"
           align="middle"
           justify="space-between"
-          onClick={() => !collapsed && setCollapsed(true)}
+          style={{ height: TOP_BAR_HEIGHT, color: colors.white }}
+          gutter={{
+            xs: 5,
+            sm: 10,
+            md: 20
+          }}
         >
           <Col>
             <IotexLogo />

@@ -42,6 +42,7 @@ export enum XConfKeys {
   KEYSTORES = "keystores",
   LAST_USED_KEYSTORE_NAME = "last_used_keystore_name",
   TOKENS_ADDRS = "tokens_address",
+  TOKENS_BASIC_INFOS = "tokens_basic_info",
   LAST_INTERACT_CONTRACT = "last_interact_contract",
   WHITELISTS = "whitelists",
   IS_WHITELIST_ENABLE = "is_whitelist_enable"

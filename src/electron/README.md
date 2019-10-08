@@ -17,6 +17,12 @@ Then open another terminal window.
 npm run start
 ```
 
+To build it in production
+
+```bash
+npm run build
+```
+
 ## Deep Link Integration
 
 ```text
