@@ -1,6 +1,7 @@
 import { Col, Icon, Row } from "antd";
 import BigNumber from "bignumber.js";
 import { t } from "onefx/lib/iso-i18n";
+import { string } from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 import {
@@ -26,26 +27,36 @@ const TransferRenderer: VerticalTableRender<Transfer> = ({
   );
 };
 
-const ExecutionRenderer: VerticalTableRender<Execution> = ({
-  value: { contract, data }
+const ExecutionRenderer: VerticalTableRender<{
+  execution: Execution;
+  contractAddress?: string;
+}> = ({
+  value: {
+    execution: { contract, data },
+    contractAddress
+  }
 }) => {
   let decodedData;
+  const contractAddr = contract || contractAddress;
+  if (!contractAddr) {
+    return null;
+  }
   try {
-    decodedData = Token.getToken(contract).decode(`${data}`);
+    decodedData = Token.getToken(contractAddr).decode(`${data}`);
   } catch (error) {
     // tslint:disable-next-line:no-console
-    console.log(`Decode data failed!`, error);
+    console.log(`Decode data failed!`);
   }
 
   if (!decodedData) {
-    return <ContracAddressRenderer value={contract} />;
+    return <ContracAddressRenderer value={contractAddr} />;
   }
 
   const method = (decodedData && decodedData.method) || "";
   return (
     <Row type="flex" justify="start" align="top" gutter={20}>
       <Col span={24}>
-        <ContracAddressRenderer value={contract} />
+        <ContracAddressRenderer value={contractAddr} />
       </Col>
       <Col span={24}>
         <small className="auto-spacing">
@@ -57,7 +68,7 @@ const ExecutionRenderer: VerticalTableRender<Execution> = ({
               </span>
               <span>
                 <XRC20TokenValue
-                  contract={contract}
+                  contract={contractAddr}
                   value={new BigNumber(decodedData.data._value)}
                 />
               </span>
@@ -87,11 +98,14 @@ const ReceiptAddressRenderer: VerticalTableRender<{
   execution?: Execution;
   transfer?: Transfer;
   grantReward?: GrantReward;
-}> = ({ value: { execution, transfer } }) => {
+  contractAddress?: string;
+}> = ({ value: { execution, transfer, contractAddress } }) => {
   return (
     <>
       {transfer && <TransferRenderer value={transfer} />}
-      {execution && <ExecutionRenderer value={execution} />}
+      {execution && (
+        <ExecutionRenderer value={{ execution, contractAddress }} />
+      )}
     </>
   );
 };
