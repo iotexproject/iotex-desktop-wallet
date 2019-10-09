@@ -31,7 +31,7 @@ export type GetActionDetailsResponse = QueryResult<IActionsDetails>;
 
 const parseActionDetails = (data: IActionsDetails) => {
   // destruct receipt info
-  const { blkHeight, gasConsumed, status, logs }: Dict =
+  const { blkHeight, gasConsumed, status, logs, contractAddress }: Dict =
     get(data, "receipt.receiptInfo.receipt") || {};
 
   // destruct action core info
@@ -49,7 +49,7 @@ const parseActionDetails = (data: IActionsDetails) => {
     blkHeight,
     timestamp,
     from,
-    ...(execution ? { to: { execution } } : {}),
+    ...(execution ? { to: { execution, contractAddress } } : {}),
     ...(transfer ? { to: { transfer } } : {}),
     ...(grantReward ? { actionType: t("render.value.grantReward") } : {}),
     ...(execution ? { evmTransfer: actHash, value: execution.amount } : {}),
