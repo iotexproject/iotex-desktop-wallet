@@ -1,7 +1,6 @@
 import { Col, Icon, Row } from "antd";
 import BigNumber from "bignumber.js";
 import { t } from "onefx/lib/iso-i18n";
-import { string } from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 import {
