@@ -112,7 +112,7 @@ class StatsCard extends React.Component<IStatsCardProps, State> {
               alignItems: "center",
               justifyContent: "flex-start",
               padding: 10,
-              fontSize: "5vmin",
+              fontSize: 32,
               ...this.props.valueStyle
             }}
             prefix={<div style={{ marginRight: 20 }}>{this.props.prefix}</div>}

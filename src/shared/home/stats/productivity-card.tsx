@@ -45,9 +45,6 @@ export const ProductivityCard = (): JSX.Element => {
                   )})`
                 }}
                 value={`${Math.round(percent)}%`}
-                valueStyle={{
-                  fontSize: "4.2vmin"
-                }}
                 prefix={
                   <CompCirclePercentChart
                     percent={percent}
