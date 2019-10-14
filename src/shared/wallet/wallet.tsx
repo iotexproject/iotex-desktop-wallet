@@ -14,7 +14,6 @@ import { ITokenInfoDict } from "../../erc20/token";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "./account-section";
-import { DeployPreloadHeader } from "./contract/deploy";
 import NewWallet from "./new-wallet";
 import UnlockWallet from "./unlock-wallet";
 import { UnlockWalletAlert } from "./unlock-wallet-alert";
@@ -87,7 +86,6 @@ class WalletInner extends PureComponent<Props, State> {
     const { account } = this.props;
     return (
       <UnlockWalletAlert>
-        <DeployPreloadHeader />
         <ContentPadding>
           <Row
             type="flex"

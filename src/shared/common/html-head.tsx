@@ -24,6 +24,16 @@ export function HtmlHead({ locale }: { locale: string }): JSX.Element {
         { property: "og:description", content: t("meta.description") },
         { property: "twitter:card", content: "summary" }
       ]}
+      script={[
+        {
+          src: "https://ethereum.github.io/solc-bin/bin/list.js",
+          type: "text/javascript"
+        },
+        {
+          src: assetURL("/browser-solc.min.js"),
+          type: "text/javascript"
+        }
+      ]}
       link={[
         // PWA & mobile
         { rel: "manifest", href: "/manifest.json" },
