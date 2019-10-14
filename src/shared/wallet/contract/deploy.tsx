@@ -19,9 +19,9 @@ import { isValidBytes } from "../validator";
 import Dropdown from "antd/lib/dropdown";
 import Icon from "antd/lib/icon";
 import Menu from "antd/lib/menu";
+
 import { toRau } from "iotex-antenna/lib/account/utils";
 import isElectron from "is-electron";
-import { assetURL } from "../../common/asset-url";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
@@ -37,23 +37,6 @@ import {
 import { ContractLayout } from "./contract-layout";
 
 const { TextArea } = Input;
-
-export function DeployPreloadHeader(): JSX.Element {
-  return (
-    <Helmet
-      script={[
-        {
-          src: "https://ethereum.github.io/solc-bin/bin/list.js",
-          type: "text/javascript"
-        },
-        {
-          src: assetURL("/browser-solc.min.js"),
-          type: "text/javascript"
-        }
-      ]}
-    />
-  );
-}
 
 export class Deploy extends Component<{ address: string }> {
   public render(): JSX.Element {
@@ -91,6 +74,7 @@ interface State {
   compiledOutput: any;
   txHash: string;
   constructorArgs: Array<{ name: string; type: string }>;
+  loadingSolc: boolean;
 }
 
 class DeployFormInner extends Component<DeployProps, State> {
@@ -106,19 +90,46 @@ class DeployFormInner extends Component<DeployProps, State> {
     broadcast: null,
     compiledOutput: null,
     txHash: "",
-    constructorArgs: []
+    constructorArgs: [],
+    loadingSolc: true
   };
+
+  public componentDidMount(): void {
+    if (this.state.loadingSolc) {
+      if (!window.soljsonReleases) {
+        window.BrowserSolc.getVersions(() => {
+          this.setState({
+            loadingSolc: false
+          });
+        });
+      } else {
+        this.setState({
+          loadingSolc: false
+        });
+      }
+    }
+  }
 
   public solcRefs: { [index: string]: any } = {};
   public loadSolc(version: string, callback: Function): any {
+    if (this.state.loadingSolc) {
+      setTimeout(() => this.loadSolc(version, callback), 1000);
+      return;
+    }
     if (!version) {
       callback(null);
     } else if (this.solcRefs[version]) {
       callback(this.solcRefs[version]);
     } else {
+      this.setState({ loadingSolc: true });
       window.BrowserSolc.loadVersion(version, (solc: any) => {
-        this.solcRefs[version] = solc;
-        callback(solc);
+        if (solc && solc.version()) {
+          this.solcRefs[solc.version()] = solc;
+          this.setState({ loadingSolc: false });
+          callback(solc);
+        } else {
+          callback(null);
+        }
       });
     }
   }
@@ -185,7 +196,6 @@ class DeployFormInner extends Component<DeployProps, State> {
       if (!solc) {
         // Just incase loading solc failed
         callback(t("wallet.cannot_load_solidity_version"));
-
         return;
       }
       const output = solc.compile(value);
@@ -316,12 +326,23 @@ class DeployFormInner extends Component<DeployProps, State> {
   }
 
   public renderGenerateAbiButton(): JSX.Element {
-    const { compiledOutput } = this.state;
+    const { compiledOutput, loadingSolc } = this.state;
     const { contracts = {} } = compiledOutput || {};
     const contractList = Object.keys(contracts).map(contractName => ({
       ...contracts[contractName],
       contractName
     }));
+    if (loadingSolc) {
+      return (
+        <Button
+          loading={true}
+          disabled
+          style={{ fontSize: "0.8em", padding: "0 15px", marginBottom: "32px" }}
+        >
+          {t("wallet.contract.loadindSolc")}
+        </Button>
+      );
+    }
     if (!compiledOutput || !contractList.length) {
       return (
         <Button
