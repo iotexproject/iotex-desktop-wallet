@@ -29,7 +29,7 @@ const Page: React.FC<IPageProps> = props => {
     <Row
       type="flex"
       justify="center"
-      align="middle"
+      align="top"
       className={classes}
       {...attrs}
     >
