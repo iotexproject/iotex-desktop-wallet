@@ -101,15 +101,19 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
             stopPolling();
           }
           const details = parseActionDetails(data || {});
+          const actionUrl = `${
+            isBrowser ? location.origin : ""
+          }/action/${hash}`;
           const emailBody = t("share_link.email_body", {
-            href: `${isBrowser ? location.origin : ""}/action/${hash}`
+            href: actionUrl
           });
           return (
             <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
               <CardDetails
                 title={t("action_details.hash", { actionHash: hash })}
+                titleToCopy={hash}
                 share={{
-                  link: `/action/${hash}`,
+                  link: actionUrl,
                   emailSubject: t("share_link.email_subject"),
                   emailBody
                 }}

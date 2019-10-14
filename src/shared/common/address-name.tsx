@@ -11,6 +11,7 @@ const AddressName: React.FC<{ address: string }> = ({ address }) => {
       query={GET_BP_CANDIDATE}
       variables={{ ioOperatorAddress: address }}
       client={webBpApolloClient}
+      errorPolicy="ignore"
     >
       {({ data }: QueryResult<{}>) => {
         const { registeredName = address } =

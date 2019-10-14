@@ -111,15 +111,19 @@ const BlockDetailPage: React.FC<RouteComponentProps<{ height: string }>> = (
           );
           const details = parseBlockDetails(blockMeta || {});
           const blkHash = (blockMeta && blockMeta.hash) || "";
+          const blockUrl = `${
+            isBrowser ? location.origin : ""
+          }/block/${height}`;
           const emailBody = t("share_link.email_body", {
-            href: `${isBrowser ? location.origin : ""}/block/${height}`
+            href: blockUrl
           });
           return (
             <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
               <CardDetails
                 title={t("block_details.hash", { hash: blkHash })}
+                titleToCopy={blkHash}
                 share={{
-                  link: `/block/${height}`,
+                  link: blockUrl,
                   emailSubject: t("share_link.email_subject"),
                   emailBody
                 }}

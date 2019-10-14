@@ -93,8 +93,11 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
           if (data) {
             details = parseAddressDetails(data);
           }
+          const addressUrl = `${
+            isBrowser ? location.origin : ""
+          }/address/${address}`;
           const emailBody = t("share_link.email_body", {
-            href: `${isBrowser ? location.origin : ""}/address/${address}`
+            href: addressUrl
           });
           const { numActions = 0 } =
             get(data || {}, "getAccount.accountMeta") || {};
@@ -102,8 +105,9 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
             <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
               <CardDetails
                 title={`${t("address_details.address", { address })}`}
+                titleToCopy={address}
                 share={{
-                  link: `/address/${address}`,
+                  link: addressUrl,
                   emailSubject: t("share_link.email_subject"),
                   title: t("address_details.share_address"),
                   emailBody
