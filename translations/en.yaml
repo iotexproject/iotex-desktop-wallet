@@ -457,6 +457,7 @@ wallet.sign.envelop_msg: 'Are you sure you want to sign this transaction?'
 wallet.sign.confirm: 'Yes, sign transaction'
 topbar.searchAddress: 'Search an address, block, hash...'
 home.stats.progressEpoch: 'Progress of Epoch'
+home.stats.currentEpoch: 'Current Epoch'
 action.pending: 'IoTeX Pending Action'
 wallet.whitelist.intro: 'Whitelisting actions makes it so you don''t have to keep approving actions for application you trust. When whitelisting actions you will see checkboxes appear next to each action and value.'
 wallet.whitelist.title: Whitelist Configuration

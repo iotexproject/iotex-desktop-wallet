@@ -23,10 +23,10 @@ export const StatsArea = (): JSX.Element => {
             </Col>
           </Row>
           <Row type="flex" justify="space-between" gutter={10}>
-            <Col span={12}>
+            <Col lg={12} xs={24}>
               <ProductivityCard />
             </Col>
-            <Col span={12}>
+            <Col lg={12} xs={24}>
               <VotesCard />
             </Col>
           </Row>
