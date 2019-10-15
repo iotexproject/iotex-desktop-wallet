@@ -20,7 +20,7 @@ const InputDataRenderer: VerticalTableRender<{
         value={`${transfer.payload || "0x"}`}
         readOnly={true}
         className="monospace-code bg-light"
-      ></TextArea>
+      />
     );
   }
 

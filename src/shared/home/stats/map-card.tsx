@@ -85,7 +85,10 @@ export const MapCard = (): JSX.Element => {
         const showLoading = loading || !!error;
         const { mostRecentEpoch = 0 } = (data && data.chain) || {};
         return (
-          <Spin spinning={showLoading} indicator={<Icon type="loading" spin />}>
+          <Spin
+            spinning={showLoading}
+            indicator={<Icon type="loading" spin={true} />}
+          >
             <Card style={Styles.mapBox} bodyStyle={Styles.mapBoxBody}>
               <div style={{ padding: 10 }}>
                 {/* <Row type="flex" justify="space-around">

@@ -11,7 +11,7 @@ const TextAreaRenderer: VerticalTableRender<{}> = ({ value }) => {
       value={text}
       readOnly={true}
       className="monospace-code bg-light"
-    ></TextArea>
+    />
   );
 };
 

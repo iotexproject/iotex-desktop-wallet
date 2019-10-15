@@ -1,6 +1,7 @@
 {
   "extends": [
     "tslint:latest",
+    "tslint-react",
     "tslint-microsoft-contrib/recommended_ruleset",
     "tslint-require-connnect-typing",
     "tslint-config-prettier"
@@ -108,7 +109,8 @@
     "no-implicit-dependencies": false,
     "no-suspicious-comment": false,
     "no-use-before-declare": false,
-    "react-unused-props-and-state": false
+    "react-unused-props-and-state": false,
+    "jsx-no-lambda": false
   },
   "jsRules": {
     "quotemark": [true, "double", "jsx-double"],

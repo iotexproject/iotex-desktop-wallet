@@ -186,9 +186,9 @@ class Keystore extends React.Component<KeystoreProps, KeystoreState> {
 
     const menu = (
       <Menu>
-        {keystoresList.map(name => (
+        {keystoresList.map((name, i) => (
           <Menu.Item
-            key={name}
+            key={i}
             onClick={() => this.selectKeystore(name)}
             style={{ textAlign: "right" }}
           >

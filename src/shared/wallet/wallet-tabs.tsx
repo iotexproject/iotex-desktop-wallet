@@ -142,12 +142,12 @@ class WalletTabsInner extends Component<Props> {
                 }}
               />
               <Route
-                exact
+                exact={true}
                 path={`/wallet/smart-contract/interact`}
                 component={() => <Interact fromAddress={address} />}
               />
               <Route
-                exact
+                exact={true}
                 path={`/wallet/smart-contract`}
                 component={ChooseFunction}
               />

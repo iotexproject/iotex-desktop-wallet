@@ -65,6 +65,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
         items={[
           t("address.address"),
           <span
+            key={1}
             className="ellipsis-text"
             style={{ maxWidth: "10vw", minWidth: 100 }}
           >
@@ -86,7 +87,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
                 bar={t("not_found.bar")}
                 info={t("not_found.info")}
                 title={t("not_found.title")}
-              ></ErrorPage>
+              />
             );
           }
           let details = {};

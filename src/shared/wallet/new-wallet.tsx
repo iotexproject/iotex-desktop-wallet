@@ -153,8 +153,8 @@ class NewWallet extends React.Component<Props, State> {
             </div>
           }
           type="warning"
-          closable
-          showIcon
+          closable={true}
+          showIcon={true}
         />
         <br />
         <Button href="#" type="primary" onClick={this.setAccount}>

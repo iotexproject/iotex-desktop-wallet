@@ -68,7 +68,7 @@ function ActionPoll({ txHash }: { txHash: string }): JSX.Element {
           return (
             <span>
               {" "}
-              <Icon type="loading" spin /> <strong>{txHash}</strong>{" "}
+              <Icon type="loading" spin={true} /> <strong>{txHash}</strong>{" "}
             </span>
           );
         }

@@ -47,17 +47,25 @@ export class App extends Component<Props> {
         >
           <ScrollToTop>
             <Switch>
-              <Route exact path="/" component={Home} />
+              <Route exact={true} path="/" component={Home} />
               <Route
-                exact
+                exact={true}
                 path="/address/:address"
                 component={AddressDetailsPage}
               />
               <Route path="/block/:height" component={BlockDetailPage} />
-              <Route exact path="/block" component={BlockListPage} />
-              <Route exact path="/action/:hash" component={ActionDetailPage} />
-              <Route exact path="/action" component={ActionListPage} />
-              <Route exact path="/tokentxns" component={XRC20ActionListPage} />
+              <Route exact={true} path="/block" component={BlockListPage} />
+              <Route
+                exact={true}
+                path="/action/:hash"
+                component={ActionDetailPage}
+              />
+              <Route exact={true} path="/action" component={ActionListPage} />
+              <Route
+                exact={true}
+                path="/tokentxns"
+                component={XRC20ActionListPage}
+              />
               <Route path="/wallet" component={Wallet} />
               <Route component={NotFound} />
             </Switch>

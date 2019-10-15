@@ -76,7 +76,7 @@ class StatsCard extends React.Component<IStatsCardProps, State> {
   public render(): JSX.Element {
     const { loading = false } = this.props;
     return (
-      <Spin spinning={loading} indicator={<Icon type="loading" spin />}>
+      <Spin spinning={loading} indicator={<Icon type="loading" spin={true} />}>
         <Card
           style={{
             height: 190,

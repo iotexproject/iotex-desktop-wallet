@@ -24,7 +24,7 @@ const CardDetails: React.FC<{
           {titleToCopy && (
             <span style={{ padding: "4px 0px 4px 16px", fontSize: 18 }}>
               <CopyToClipboard text={titleToCopy}>
-                <Icon type="copy"></Icon>
+                <Icon type="copy" />
               </CopyToClipboard>
             </span>
           )}

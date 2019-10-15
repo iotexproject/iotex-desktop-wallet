@@ -57,8 +57,8 @@ class UnlockWallet extends React.Component<Props, State> {
             <Alert
               message={t("unlock-wallet.warn.message")}
               type="warning"
-              closable
-              showIcon
+              closable={true}
+              showIcon={true}
             />
             <CommonMargin />
           </React.Fragment>
