@@ -33,7 +33,7 @@ const PageNav: React.FC<{ items: Array<JSX.Element | string> }> = ({
         </Col>
         <Col xs={24} sm={24} md={8}>
           <SearchBox
-            enterButton
+            enterButton={true}
             size="large"
             placeholder={t("topbar.search")}
             autoFocus={false}

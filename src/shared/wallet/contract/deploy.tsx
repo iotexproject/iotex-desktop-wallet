@@ -336,7 +336,7 @@ class DeployFormInner extends Component<DeployProps, State> {
       return (
         <Button
           loading={true}
-          disabled
+          disabled={true}
           style={{ fontSize: "0.8em", padding: "0 15px", marginBottom: "32px" }}
         >
           {t("wallet.contract.loadindSolc")}
@@ -346,7 +346,7 @@ class DeployFormInner extends Component<DeployProps, State> {
     if (!compiledOutput || !contractList.length) {
       return (
         <Button
-          disabled
+          disabled={true}
           style={{ fontSize: "0.8em", padding: "0 5px", marginBottom: "32px" }}
         >
           {t("wallet.deploy.generateAbiAndByteCode")}
@@ -432,12 +432,13 @@ class DeployFormInner extends Component<DeployProps, State> {
         <h3 style={{ marginBottom: 30 }}>
           {t("wallet.contract.executeParameter")}
         </h3>
-        {constructorArgs.map(arg => {
+        {constructorArgs.map((arg, key) => {
           const { name, type } = arg;
           return (
             <Form.Item
               {...formItemLayout}
               label={<FormItemLabel>{name}</FormItemLabel>}
+              key={key}
             >
               {getFieldDecorator(`ctor${name}`, {
                 rules: [{ required: true, message: t("wallet.error.required") }]

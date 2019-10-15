@@ -91,7 +91,7 @@ class HomeComponent extends Component<Props, State> {
               <Col xs={20} md={12}>
                 <SearchBox
                   autoFocus={true}
-                  enterButton
+                  enterButton={true}
                   size="large"
                   placeholder={t("topbar.search")}
                 />

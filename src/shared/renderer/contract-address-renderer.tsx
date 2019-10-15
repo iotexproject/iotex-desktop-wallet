@@ -18,7 +18,7 @@ const ContracAddressRenderer: VerticalTableRender<string> = ({ value }) => {
         text={value}
         title={t("copy.copyToClipboard", { field: t("common.address") })}
       >
-        <Icon type="copy"></Icon>
+        <Icon type="copy" />
       </CopyToClipboard>
     </span>
   );

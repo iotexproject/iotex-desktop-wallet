@@ -105,7 +105,7 @@ const SubscriptionComponent = ({ client }: SubscriptionProps): JSX.Element => {
           {t("footer.subscribe")}
         </Button>
       ) : (
-        <Button style={disabledButton} disabled>
+        <Button style={disabledButton} disabled={true}>
           {t("footer.subscribe")}
         </Button>
       )}

@@ -78,8 +78,11 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
       <Helmet title={`IoTeX ${t("action.action")} ${hash}`} />
       <PageNav
         items={[
-          <Link to={`/action`}>{t("topbar.actions")}</Link>,
+          <Link key={0} to={`/action`}>
+            {t("topbar.actions")}
+          </Link>,
           <span
+            key={1}
             className="ellipsis-text"
             style={{ maxWidth: "10vw", minWidth: 100 }}
           >

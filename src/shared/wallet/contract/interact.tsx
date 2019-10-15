@@ -404,7 +404,7 @@ class InteractFormInner extends Component<InteractProps, State> {
           })(
             <Select
               className="form-input"
-              showSearch
+              showSearch={true}
               optionFilterProp="children"
               filterOption={(input: string, option: JSX.Element) =>
                 option.props.children
@@ -457,7 +457,11 @@ class InteractFormInner extends Component<InteractProps, State> {
                 label={<FormItemLabel>{input.name}</FormItemLabel>}
                 {...formItemLayout}
               >
-                <Input disabled style={inputStyle} value={outputValues[i]} />
+                <Input
+                  disabled={true}
+                  style={inputStyle}
+                  value={outputValues[i]}
+                />
               </Form.Item>
             ))}
           </div>

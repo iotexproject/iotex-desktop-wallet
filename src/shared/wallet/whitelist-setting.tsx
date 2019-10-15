@@ -88,7 +88,7 @@ export class WhitelistSetting extends React.Component<Props, State> {
                 valuePropName: "checked",
                 initialValue: true
               })(
-                <Checkbox name="origin" disabled>
+                <Checkbox name="origin" disabled={true}>
                   <span>
                     <span style={{ marginRight: 10 }}>
                       {origin} > {method}

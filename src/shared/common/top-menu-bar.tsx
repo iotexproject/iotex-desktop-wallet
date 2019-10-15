@@ -262,7 +262,7 @@ const TopMobileMenu = ({
                   border: 0
                 }}
                 icon={icon}
-              ></Button>
+              />
             </Col>
           </Row>
         </Row>
@@ -368,7 +368,7 @@ const TopMenuBar = connect<{ enableSignIn?: boolean }>(
         }}
       >
         <Col xs={24} lg={0}>
-          <div id="top-mobile-menu-nav"></div>
+          <div id="top-mobile-menu-nav" />
           <TopMobileMenu enableSignIn={enableSignIn} />
         </Col>
         <Col xs={0} lg={24}>

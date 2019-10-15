@@ -338,7 +338,7 @@ class WhitelistTable extends React.Component<
       <EditableContext.Provider value={this.props.form}>
         <Table
           components={components}
-          bordered
+          bordered={true}
           dataSource={this.props.dataSource}
           columns={columns}
           locale={{

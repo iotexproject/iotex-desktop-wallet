@@ -19,6 +19,6 @@ export const ActionNotFound = ({ info }: Props): JSX.Element => (
       info={t("action.notFound")}
       title={t("not_found.title")}
       subTitle={`${t("action.pending")} ${info}`}
-    ></ErrorPage>
+    />
   </>
 );

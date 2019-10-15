@@ -10,7 +10,7 @@ const TextCopyRenderer: VerticalTableRender<string> = ({ value }) => {
         {value}
       </span>
       <CopyToClipboard text={value}>
-        <Icon type="copy"></Icon>
+        <Icon type="copy" />
       </CopyToClipboard>
     </>
   );

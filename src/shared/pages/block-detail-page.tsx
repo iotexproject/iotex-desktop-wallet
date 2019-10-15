@@ -87,8 +87,11 @@ const BlockDetailPage: React.FC<RouteComponentProps<{ height: string }>> = (
       <Helmet title={`IoTeX ${t("block.block")} ${height}`} />
       <PageNav
         items={[
-          <Link to={`/block`}>{t("block.block")}</Link>,
+          <Link key={0} to={`/block`}>
+            {t("block.block")}
+          </Link>,
           <span
+            key={1}
             className="ellipsis-text"
             style={{ maxWidth: "10vw", minWidth: 100 }}
           >
