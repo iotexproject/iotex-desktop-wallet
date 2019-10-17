@@ -370,7 +370,9 @@ export class ERC20 implements IERC20 {
       gasLimit = new BigNumber(gas)
         .multipliedBy(GAS_LIMIT_MULTIPLIED_BY)
         .toFixed(0);
-    } catch (e) {}
+    } catch (e) {
+      window.console.log("estimateGasForAction failed!");
+    }
 
     return {
       gasPrice: `${gasPrice}`,
