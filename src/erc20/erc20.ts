@@ -361,14 +361,20 @@ export class ERC20 implements IERC20 {
       account.publicKey,
       envelop
     );
-    const { gas } = await getAntenna().iotx.estimateGasForAction({
-      action: selp.action()
-    });
+
+    let gasLimit = "400000";
+    try {
+      const { gas } = await getAntenna().iotx.estimateGasForAction({
+        action: selp.action()
+      });
+      gasLimit = new BigNumber(gas)
+        .multipliedBy(GAS_LIMIT_MULTIPLIED_BY)
+        .toFixed(0);
+    } catch (e) {}
+
     return {
       gasPrice: `${gasPrice}`,
-      gasLimit: new BigNumber(gas)
-        .multipliedBy(GAS_LIMIT_MULTIPLIED_BY)
-        .toFixed(0)
+      gasLimit
     };
   }
 
