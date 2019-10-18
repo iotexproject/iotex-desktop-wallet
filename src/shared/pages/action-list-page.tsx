@@ -222,7 +222,10 @@ const ActionListPage: React.FC = (): JSX.Element => {
               if (!data) {
                 return null;
               }
-              const numActions = get<number>(data, "chainMeta.numActions");
+              const numActions = parseInt(
+                get(data, "chainMeta.numActions"),
+                10
+              );
               return <ActionTable numActions={numActions} />;
             }}
           </Query>
