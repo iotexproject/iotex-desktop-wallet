@@ -41,9 +41,7 @@ export function getAddress(record: ActionInfo): string {
   return addr;
 }
 
-const getActionListColumns = (
-  address?: string
-): Array<ColumnProps<ActionInfo>> => [
+const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
   {
     title: t("action.hash"),
     dataIndex: "actHash",
@@ -75,21 +73,6 @@ const getActionListColumns = (
     title: t("action.type"),
     dataIndex: "name",
     render: (_: string, record: ActionInfo, __: number): JSX.Element => {
-      if (address) {
-        const sender = publicKeyToAddress(String(record.action.senderPubKey));
-        const receipt = getAddress(record);
-        if (receipt !== "-") {
-          const type =
-            sender === receipt ? "self" : sender === address ? "out" : "in";
-          const tagColors = {
-            in: "green",
-            out: "red",
-            self: "orange"
-          };
-          return <Tag color={tagColors[type]}>{t(`action.types.${type}`)}</Tag>;
-        }
-      }
-
       return <Tag>{getActionType(record)}</Tag>;
     }
   },
@@ -197,7 +180,7 @@ export const ActionTable: React.FC<IActionTable> = ({
             }}
             rowKey="actHash"
             dataSource={actions}
-            columns={getActionListColumns(address)}
+            columns={getActionListColumns()}
             style={{ width: "100%" }}
             scroll={{ x: "auto" }}
             pagination={{
