@@ -12,7 +12,7 @@ import StatsCard from "./stats-card";
 
 export const ProductivityCard = (): JSX.Element => {
   return (
-    <Query query={GET_BP_STATS} client={webBpApolloClient}>
+    <Query query={GET_BP_STATS} client={webBpApolloClient} pollInterval={10000}>
       {({ data, loading, error }: QueryResult) => {
         const {
           bpCandidates = [],
@@ -33,6 +33,7 @@ export const ProductivityCard = (): JSX.Element => {
         const percent =
           productivityBase > 0 ? (productivity * 100) / productivityBase : 0;
         const showLoading = loading || !!error;
+
         return (
           <Row type="flex" align="top" justify="space-between" gutter={10}>
             <Col span={12}>
@@ -44,7 +45,8 @@ export const ProductivityCard = (): JSX.Element => {
                     "/icon_overview_Productivity.png"
                   )})`
                 }}
-                value={`${Math.round(percent)}%`}
+                value={Math.round(percent)}
+                unit="%"
                 prefix={
                   <CompCirclePercentChart
                     percent={percent}
@@ -64,7 +66,7 @@ export const ProductivityCard = (): JSX.Element => {
                     "/icon_overview_Productivity.png"
                   )})`
                 }}
-                value={`${currentEpochNumber}`}
+                value={currentEpochNumber}
                 prefix={null}
                 suffix={null}
               />

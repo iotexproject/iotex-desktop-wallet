@@ -13,7 +13,11 @@ const PEAK_TPS = 500; // Fixed number for now. Might be updated later.
 
 export const TPSCard = (): JSX.Element => {
   return (
-    <Query query={GET_ANALYTICS_TPS} client={analyticsClient}>
+    <Query
+      query={GET_ANALYTICS_TPS}
+      client={analyticsClient}
+      pollInterval={10000}
+    >
       {({ data, loading, error }: QueryResult) => {
         const currentTps = data && data.chain ? data.chain.mostRecentTPS : 0;
         const percent = PEAK_TPS > 0 ? (currentTps / PEAK_TPS) * 100 : 100;

@@ -12,7 +12,11 @@ import StatsCard from "./stats-card";
 
 export const ActionsCard = (): JSX.Element => {
   return (
-    <Query query={GET_ANALYTICS_CHAIN} client={analyticsClient}>
+    <Query
+      query={GET_ANALYTICS_CHAIN}
+      client={analyticsClient}
+      pollInterval={10000}
+    >
       {({ error, loading, data }: QueryResult) => {
         const showLoading = loading || !!error;
         const { mostRecentEpoch = 0, numberOfActions = { count: 0 } } =
@@ -24,7 +28,7 @@ export const ActionsCard = (): JSX.Element => {
             titleStyle={{
               backgroundImage: `url(${assetURL("/icon_overviw_TPS.png")})`
             }}
-            value={`${numberOfActions.count.toLocaleString()}`}
+            value={numberOfActions.count}
             prefix={
               <div style={{ width: 46, height: 46 }}>
                 {mostRecentEpoch && (
