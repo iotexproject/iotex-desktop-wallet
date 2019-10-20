@@ -11,7 +11,7 @@ import StatsCard from "./stats-card";
 
 export const CandidatesCard = (): JSX.Element => {
   return (
-    <Query query={GET_BP_STATS} client={webBpApolloClient}>
+    <Query query={GET_BP_STATS} client={webBpApolloClient} pollInterval={10000}>
       {({ data, loading, error }: QueryResult) => {
         const {
           bpCandidates = []

@@ -80,7 +80,11 @@ export const MapButton = (
 
 export const MapCard = (): JSX.Element => {
   return (
-    <Query query={GET_ANALYTICS_CHAIN} client={analyticsClient}>
+    <Query
+      query={GET_ANALYTICS_CHAIN}
+      client={analyticsClient}
+      pollInterval={10000}
+    >
       {({ error, loading, data }: QueryResult) => {
         const showLoading = loading || !!error;
         const { mostRecentEpoch = 0 } = (data && data.chain) || {};

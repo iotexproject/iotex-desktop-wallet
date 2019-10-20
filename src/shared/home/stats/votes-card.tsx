@@ -11,7 +11,7 @@ import StatsCard from "./stats-card";
 
 export const VotesCard = (): JSX.Element => {
   return (
-    <Query query={GET_BP_STATS} client={webBpApolloClient}>
+    <Query query={GET_BP_STATS} client={webBpApolloClient} pollInterval={10000}>
       {({ data, loading, error }: QueryResult) => {
         const {
           totalVotes = 0,
@@ -36,7 +36,7 @@ export const VotesCard = (): JSX.Element => {
                 "/icon_overview_Delegates.png"
               )})`
             }}
-            value={Number(Math.round(totalVotes)).toLocaleString()}
+            value={Math.round(totalVotes)}
             prefix={
               <div style={{ width: 46, height: 46 }}>
                 <CompAreaChart
