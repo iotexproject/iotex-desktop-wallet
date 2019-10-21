@@ -131,7 +131,7 @@ export const ActionTable: React.FC<IActionTable> = ({
   numActions,
   address
 }) => {
-  const start = Math.max(numActions - PAGE_SIZE, 1);
+  const start = Math.max(numActions - PAGE_SIZE, 0);
   const count = PAGE_SIZE;
   const getVariables = (
     start: number,
