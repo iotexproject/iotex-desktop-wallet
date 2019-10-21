@@ -131,7 +131,7 @@ export const ActionTable: React.FC<IActionTable> = ({
   numActions,
   address
 }) => {
-  const start = Math.max(numActions - PAGE_SIZE, 1);
+  const start = Math.max(numActions - PAGE_SIZE, 0);
   const count = PAGE_SIZE;
   const getVariables = (
     start: number,
@@ -223,6 +223,9 @@ const ActionListPage: React.FC = (): JSX.Element => {
                 return null;
               }
               const numActions = get<number>(data, "chainMeta.numActions");
+              if (!numActions) {
+                return null;
+              }
               return <ActionTable numActions={numActions} />;
             }}
           </Query>
