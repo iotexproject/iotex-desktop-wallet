@@ -3,6 +3,7 @@ import Row from "antd/lib/grid/row";
 // @ts-ignore
 import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
+import isElectron from "is-electron";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
@@ -49,12 +50,24 @@ class WalletInner extends PureComponent<Props, State> {
     tokensInfo: {}
   };
 
-  public componentDidUpdate(): void {
+  public sendUAPageView(): void {
+    if (isElectron() && window.gua) {
+      window.gua.pageview(this.props.location.pathname).send();
+    }
+  }
+
+  public componentDidUpdate(props: Props): void {
     const { account } = this.props;
     const { createNew } = this.state;
     if (account && createNew) {
       this.setState({ createNew: false });
     }
+
+    // Send UA pageview if location changed.
+    if (props.location.pathname !== this.props.location.pathname) {
+      this.sendUAPageView();
+    }
+
     if (!account) {
       return;
     }
@@ -79,6 +92,7 @@ class WalletInner extends PureComponent<Props, State> {
   public componentDidMount(): void {
     const { dispatch } = this.props;
     window.dispatch = dispatch;
+    this.sendUAPageView();
   }
 
   public render(): JSX.Element {
