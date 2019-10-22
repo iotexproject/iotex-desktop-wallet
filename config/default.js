@@ -65,6 +65,7 @@ module.exports = {
       "self",
       "https://api.coinmarketcap.com/v1/ticker/iotex/",
       "https://member.iotex.io/api-gateway/",
+      "https://member-testnet.iotex.io/api-gateway/",
       "https://api.github.com/",
       "https://iotexscan.io/",
       "https://testnet.iotexscan.io/",
@@ -93,7 +94,10 @@ module.exports = {
     ]
   },
   apiGatewayUrl: getApiGatewayUrl() || "http://localhost:4004/api-gateway/",
-  webBpApiGatewayUrl: "https://member.iotex.io/api-gateway/",
+  webBpApiGatewayUrl:
+    process.env.CURRENT_CHAIN_NAME == "testnet"
+      ? "https://member-testnet.iotex.io/api-gateway/"
+      : "https://member.iotex.io/api-gateway/",
   analyticsApiGatewayUrl:
     process.env.CURRENT_CHAIN_NAME == "testnet"
       ? "https://iotex-analytics-testnet.herokuapp.com/query"

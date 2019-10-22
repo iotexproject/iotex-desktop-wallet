@@ -15,9 +15,9 @@ const state = isBrowser && JsonGlobal("state");
 const apolloState = isBrowser && state.apolloState;
 const apolloAnalyticsState = isBrowser && state.apolloAnalyticsState;
 const apiGatewayUrl = isBrowser && state.base.apiGatewayUrl;
+const webBpApiGatewayUrl = isBrowser && state.base.webBpApiGatewayUrl;
 const analyticsApiGatewayUrl = isBrowser && state.base.analyticsApiGatewayUrl;
 const csrfToken = isBrowser && state.base.csrfToken;
-
 
 const apolloClientConfig = {
   uri: apiGatewayUrl
@@ -46,7 +46,7 @@ export const setApolloClientEndpoint = (url: string) => {
 };
 
 export const webBpApolloClient = createWebBpApolloClient(
-  "https://member.iotex.io/api-gateway/"
+  webBpApiGatewayUrl || "https://member.iotex.io/api-gateway/"
 );
 
 const httpAnalyticsLink = new HttpLink({
