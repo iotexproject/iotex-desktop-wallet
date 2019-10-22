@@ -570,3 +570,28 @@ span.ellipsis-text {
 .ant-notification {
   top: 80px !important;
 }
+
+.dots div {
+  animation: fade 0.8s ease-in-out alternate infinite;
+}
+
+.dots div:nth-of-type(1) {
+  animation-delay: -0.6s;
+}
+
+.dots div:nth-of-type(2) {
+  animation-delay: -0.4s;
+}
+
+.dots div:nth-of-type(3) {
+  animation-delay: -0.2s;
+}
+
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
