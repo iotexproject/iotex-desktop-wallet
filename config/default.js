@@ -69,6 +69,7 @@ module.exports = {
       "https://iotexscan.io/",
       "https://testnet.iotexscan.io/",
       "https://analytics.iotexscan.io/",
+      "https://iotex-analytics-testnet.herokuapp.com/",
       "wss://local.get-scatter.com:64102/",
       process.env.API_GATEWAY_URL
     ],
@@ -93,7 +94,10 @@ module.exports = {
   },
   apiGatewayUrl: getApiGatewayUrl() || "http://localhost:4004/api-gateway/",
   webBpApiGatewayUrl: "https://member.iotex.io/api-gateway/",
-  analyticsApiGatewayUrl: "https://analytics.iotexscan.io/query",
+  analyticsApiGatewayUrl:
+    process.env.CURRENT_CHAIN_NAME == "testnet"
+      ? "https://iotex-analytics-testnet.herokuapp.com/query"
+      : "https://analytics.iotexscan.io/query",
   multiChain: {
     current: process.env.CURRENT_CHAIN_NAME || "mainnet",
     chains: [
