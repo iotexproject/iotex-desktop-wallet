@@ -124,6 +124,7 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
               />
               <Col style={{ ...anim }}>{`# ${height}`}</Col>
             </Row>
+
             <Link to={`/block/${height}`} style={BlockCardStyles.blockLink} />
             <div style={BlockCardStyles.content}>
               <Link
@@ -277,6 +278,7 @@ export const BlockList = (props: { height: string }): JSX.Element => {
         type="flex"
         justify="center"
         style={{ padding: 10, paddingBottom: 20 }}
+        className="dots"
       >
         {[...Array(4)].map((_, i) => (
           <Col key={`dot-${i}`} style={BlockListStyles.dot} />
