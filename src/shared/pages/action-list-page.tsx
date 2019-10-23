@@ -190,7 +190,7 @@ export const ActionTable: React.FC<IActionTable> = ({
             }}
             onChange={pagination => {
               const current = pagination.current || 0;
-              const cStart = start - (current - 1) * count;
+              const cStart = Math.max(start - (current - 1) * count, 0);
               fetchMore({
                 variables: getVariables(cStart, count),
                 updateQuery: (prev, { fetchMoreResult }) => {
