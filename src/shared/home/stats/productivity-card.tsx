@@ -23,7 +23,12 @@ export const ProductivityCard = (): JSX.Element => {
             productivityBase: number | null;
           }>;
           stats: { currentEpochNumber: number };
-        } = data || { stats: {} };
+        } =
+          data && data.stats && data.stats.currentEpochNumber
+            ? data
+            : {
+                stats: {}
+              };
         const productivityBase = bpCandidates
           .map(a => a.productivityBase || 0)
           .reduce((a, b) => a + b, 0);
