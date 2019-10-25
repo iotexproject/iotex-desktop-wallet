@@ -209,7 +209,7 @@
     "type-graphql": "0.17.4",
     "typescript": "3.4.5",
     "uuid": "3.3.3",
-    "validator": "10.11.0",
+    "validator": "11.1.0",
     "ws": "7.0.1"
   },
   "engines": {
