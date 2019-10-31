@@ -510,23 +510,26 @@ class AccountSection extends React.Component<Props, State> {
 
     return (
       <Badge count={this.state.claimableAmount}>
-        <Button
-          style={{
-            borderTopLeftRadius: 4,
-            borderBottomLeftRadius: 4,
-            boxShadow: "none"
-          }}
-          onClick={this.onClaimClickHandle(token)}
-          disabled={!this.state.claimable}
-        >
-          {t("account.claim")}
-        </Button>
         <Dropdown.Button
           overlay={claimMenu}
           className="claimButton"
           trigger={["click", "hover"]}
         >
-          <></>
+          {
+            // @ts-ignore
+            <Button
+              type="primary"
+              style={{
+                borderTopLeftRadius: 4,
+                borderBottomLeftRadius: 4,
+                boxShadow: "none"
+              }}
+              onClick={this.onClaimClickHandle(token)}
+              disabled={!this.state.claimable}
+            >
+              {t("account.claim")}
+            </Button>
+          }
         </Dropdown.Button>
       </Badge>
     );
