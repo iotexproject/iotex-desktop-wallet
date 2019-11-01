@@ -167,6 +167,12 @@ type CoinPrice {
   marketCapUsd: String!
 }
 
+type Contract {
+  name: String!
+  abi: String!
+  bytecode: String!
+}
+
 type CreateDeposit {
   chainID: Int!
   amount: Buffer!
@@ -529,6 +535,8 @@ type Query {
   health: String!
   fetchCoinPrice: CoinPrice!
   fetchVersionInfo: VersionInfo!
+  getSolcVersions: [SolcVersion!]!
+  compileSolidity(source: String!, version: String!): [Contract!]!
 }
 
 type ReadContractResponse {
@@ -612,6 +620,15 @@ input SettleDepositInput {
   amount: Buffer!
   recipient: String!
   index: Int!
+}
+
+type SolcResult {
+  contracts: [Contract!]!
+}
+
+type SolcVersion {
+  name: String!
+  version: String!
 }
 
 type StartSubChain {

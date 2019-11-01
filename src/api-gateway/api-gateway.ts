@@ -6,9 +6,10 @@ import { buildSchema } from "type-graphql";
 import { MyServer } from "../server/start-server";
 import { AntennaResolver } from "./resolvers/antenna";
 import { MetaResolver } from "./resolvers/meta";
+import { SolcResolver } from "./resolvers/solc";
 
 export async function setApiGateway(server: MyServer): Promise<void> {
-  const resolvers = [MetaResolver, AntennaResolver];
+  const resolvers = [MetaResolver, AntennaResolver, SolcResolver];
   server.resolvers = resolvers;
 
   const sdlPath = path.resolve(__dirname, "api-gateway.graphql");
