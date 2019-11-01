@@ -32,7 +32,17 @@
         "owner": "iotexproject",
         "repo": "iotex-explorer"
       }
-    ]
+    ],
+    "mac": {
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "src/entitlements.mac.plist",
+      "entitlementsInherit": "src/entitlements.mac.plist"
+    },
+    "afterSign": "src/notarize.js",
+    "dmg": {
+      "sign": false
+    }
   },
   "author": "Tian Pan (https://tianpan.co)",
   "license": "Apache",
@@ -41,6 +51,7 @@
     "electron": "6.1.0",
     "electron-builder": "21.2.0",
     "electron-devtools-installer": "2.2.4",
+    "electron-notarize": "^0.1.1",
     "eslint": "5.16.0",
     "eslint-plugin-import": "2.18.1",
     "friendly-errors-webpack-plugin": "1.7.0",
