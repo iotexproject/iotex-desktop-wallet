@@ -22,7 +22,8 @@ function onConnection(ws) {
       webContents.send("GET_ACCOUNTS", received);
     } else {
       webContents.send("sign", received);
-      mainWindow.focus();
+      mainWindow.show();
+      mainWindow.moveTop();
     }
 
     console.log(`[sign-${json.reqId}]: send to wallet`);
