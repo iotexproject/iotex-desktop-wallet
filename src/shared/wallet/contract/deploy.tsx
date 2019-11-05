@@ -24,7 +24,7 @@ import { toRau } from "iotex-antenna/lib/account/utils";
 import { Query, QueryResult } from "react-apollo";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
-import { COMPILE_SOLIDITY } from "../../queries";
+import { COMPILE_SOLIDITY, GET_SOLC_VERSIONS } from "../../queries";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
 import { inputStyle } from "../wallet";
@@ -69,6 +69,7 @@ interface State {
   txHash: string;
   constructorArgs: Array<{ name: string; type: string }>;
   loadingSolc: boolean;
+  solJsonReleases: Array<{ name: string; version: string; type: string }>;
 }
 
 class DeployFormInner extends Component<DeployProps, State> {
@@ -84,24 +85,9 @@ class DeployFormInner extends Component<DeployProps, State> {
     broadcast: null,
     txHash: "",
     constructorArgs: [],
-    loadingSolc: true
+    loadingSolc: true,
+    solJsonReleases: []
   };
-
-  public componentDidMount(): void {
-    if (this.state.loadingSolc) {
-      if (!window.soljsonReleases) {
-        window.BrowserSolc.getVersions(() => {
-          this.setState({
-            loadingSolc: false
-          });
-        });
-      } else {
-        this.setState({
-          loadingSolc: false
-        });
-      }
-    }
-  }
 
   public handleGenerateAbiAndByteCode(contract: any): void {
     const {
@@ -121,14 +107,14 @@ class DeployFormInner extends Component<DeployProps, State> {
     if (!value) {
       return callback();
     }
-
     const verFound = /pragma solidity \^(.*);/.exec(value);
     if (!verFound || !verFound[1]) {
       return callback(t("wallet.missing_solidity_pragma"));
     }
-
     const inputVersion = verFound[1];
-    const solidityVersion = (window.soljsonReleases || {})[inputVersion];
+    const solJsonReleases = this.state.solJsonReleases;
+    const solJson = solJsonReleases.find(v => v.name === inputVersion);
+    const solidityVersion = solJson && solJson.version;
     if (!solidityVersion) {
       return callback(t("wallet.cannot_find_solidity_version"));
     }
@@ -260,10 +246,7 @@ class DeployFormInner extends Component<DeployProps, State> {
 
   public renderGenerateAbiButton(): JSX.Element {
     const source = this.props.form.getFieldsValue().solidity;
-    const verFound =
-      this.state.solidityReleaseVersion &&
-      /soljson-(.*).js/.exec(this.state.solidityReleaseVersion);
-    const version = (verFound && verFound[1]) || "";
+    const version = this.state.solidityReleaseVersion;
     if (!source || !version) {
       return (
         <Button
@@ -411,16 +394,28 @@ class DeployFormInner extends Component<DeployProps, State> {
   }
 
   public render(): JSX.Element | null {
-    const { broadcast } = this.state;
+    const { broadcast, solJsonReleases } = this.state;
     if (broadcast) {
       return this.renderBroadcast();
     }
-
     const { form } = this.props;
     const { getFieldDecorator } = form;
-
     return (
       <Form layout={"vertical"}>
+        {(!solJsonReleases || !(Object.keys(solJsonReleases).length > 0)) && (
+          <Query query={GET_SOLC_VERSIONS}>
+            {({ data }: QueryResult) => {
+              if (
+                data &&
+                data.getSolcVersions &&
+                data.getSolcVersions.length > 0
+              ) {
+                this.setState({ solJsonReleases: data.getSolcVersions });
+              }
+              return null;
+            }}
+          </Query>
+        )}
         <Form.Item
           {...formItemLayout}
           label={<FormItemLabel>{t("wallet.input.solidity")}</FormItemLabel>}

@@ -398,6 +398,14 @@ export const COMPILE_SOLIDITY = gql`
     }
   }
 `;
+export const GET_SOLC_VERSIONS = gql`
+  query {
+    getSolcVersions {
+      name
+      version
+    }
+  }
+`;
 
 export const GET_BP_CANDIDATE = gql`
   query bpCandidate($ioOperatorAddress: ID) {
