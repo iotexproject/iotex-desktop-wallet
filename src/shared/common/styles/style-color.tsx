@@ -13,14 +13,14 @@ export const colors = {
 
   text01: "#333333",
   white: "#fff",
-  whiteText: "#acb0c3",
+  whiteText: "#fff",
 
   error: "#E54937", //	Error
   success: "#07A35A", //	Success
   warning: "#FFA000", //	Warning
   information: "#5aaafa", //	Information
 
-  nav01: "#262632",
+  nav01: "#3C3C4D",
   nav02: "#20232a",
   nav03: "#151d27",
 

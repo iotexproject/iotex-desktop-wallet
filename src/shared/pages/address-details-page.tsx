@@ -80,7 +80,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
         }: QueryResult<{
           getAccount: GetAccountResponse;
         }>) => {
-          if (!loading && !data) {
+          if (!loading && (!data || Object.keys(data).length === 0)) {
             return (
               <ErrorPage
                 bg={assetURL("/action-not-found.png")}

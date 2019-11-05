@@ -5,8 +5,6 @@ import Icon from "antd/lib/icon";
 import Menu from "antd/lib/menu";
 import Row from "antd/lib/row";
 import { RowProps } from "antd/lib/row";
-// @ts-ignore
-import window from "global/window";
 import { Languages } from "iotex-react-language-dropdown";
 import { LanguageSwitcher } from "iotex-react-language-dropdown/lib/language-switcher";
 import isBrowser from "is-browser";
@@ -25,7 +23,7 @@ import { colors } from "./styles/style-color";
 import { ContentPadding } from "./styles/style-padding";
 
 const globalState = isBrowser && JsonGlobal("state");
-export const TOP_BAR_HEIGHT = 80;
+export const TOP_BAR_HEIGHT = 60;
 
 const multiChain: {
   current: string;
@@ -124,7 +122,7 @@ const HoverableStyle = {
   ":hover": {
     color: `${colors.primary} !important`
   },
-  color: colors.whiteText,
+  color: `${colors.whiteText} !important`,
   cursor: "pointer"
 };
 
@@ -258,7 +256,6 @@ const TopMobileMenu = ({
                   padding: 0,
                   color: colors.white,
                   fontSize: 30,
-                  backgroundColor: "rgba(0,0,0,0)",
                   border: 0
                 }}
                 icon={icon}
