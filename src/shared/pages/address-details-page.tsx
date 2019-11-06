@@ -1,5 +1,5 @@
-import Tabs from "antd/lib/tabs";
 import notification from "antd/lib/notification";
+import Tabs from "antd/lib/tabs";
 import { get } from "dottie";
 // @ts-ignore
 import window from "global/window";

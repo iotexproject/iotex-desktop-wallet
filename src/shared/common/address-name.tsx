@@ -1,5 +1,5 @@
-import { get } from "dottie";
 import notification from "antd/lib/notification";
+import { get } from "dottie";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import { GET_BP_CANDIDATE } from "../queries";

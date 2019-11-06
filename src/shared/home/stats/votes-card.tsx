@@ -1,6 +1,6 @@
 // @ts-ignore
-import { t } from "onefx/lib/iso-i18n";
 import notification from "antd/lib/notification";
+import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import { webBpApolloClient } from "../../common/apollo-client";

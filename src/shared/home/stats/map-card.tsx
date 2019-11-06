@@ -1,9 +1,9 @@
 import Card from "antd/lib/card";
 import Col from "antd/lib/col";
 import Icon from "antd/lib/icon";
+import notification from "antd/lib/notification";
 import Row from "antd/lib/row";
 import Spin from "antd/lib/spin";
-import notification from "antd/lib/notification";
 import gql from "graphql-tag";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
