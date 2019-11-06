@@ -261,11 +261,15 @@ class TransferForm extends React.PureComponent<Props, State> {
         {this.renderAmountFormItem()}
         <GasPriceFormInputItem
           form={form}
-          onChange={this.updateGasCostLimit(form)}
+          onChange={() => {
+            this.updateGasCostLimit(form);
+          }}
         />
         <GasLimitFormInputItem
           form={form}
-          onChange={this.updateGasCostLimit(form)}
+          onChange={() => {
+            this.updateGasCostLimit(form);
+          }}
         />
         {this.state.showDataHex && (
           <Form.Item
