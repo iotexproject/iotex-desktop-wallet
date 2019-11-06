@@ -152,7 +152,7 @@ export function GasPriceFormInputItem({
 }: {
   form: WrappedFormUtils;
   initialValue?: string;
-  onChange?: () => void;
+  onChange?(): void;
 }): JSX.Element {
   const { getFieldDecorator } = form;
   return (
@@ -183,7 +183,7 @@ export function GasLimitFormInputItem({
 }: {
   form: WrappedFormUtils;
   initialValue?: number;
-  onChange?: () => void;
+  onChange?(): void;
 }): JSX.Element {
   const { getFieldDecorator } = form;
   return (

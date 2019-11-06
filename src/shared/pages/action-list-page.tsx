@@ -156,7 +156,7 @@ export const ActionTable: React.FC<IActionTable> = ({
           }
         }
       : {
-          byIndex: { start, count }
+          byIndex: { start: start || 0, count: count || 0 }
         };
   };
   return (

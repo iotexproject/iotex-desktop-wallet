@@ -1,6 +1,4 @@
 import { get } from "dottie";
-// @ts-ignore
-import window from "global/window";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import isBrowser from "is-browser";

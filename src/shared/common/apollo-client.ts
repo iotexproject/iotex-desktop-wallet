@@ -9,7 +9,6 @@ import isBrowser from "is-browser";
 import unfetch from "isomorphic-unfetch";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
-import onErrorLink from "./apollo-error-handling";
 
 const state = isBrowser && JsonGlobal("state");
 const apolloState = isBrowser && state.apolloState;
@@ -31,7 +30,7 @@ const httpLink = new HttpLink({
   headers: { "x-csrf-token": csrfToken }
 });
 
-const link = ApolloLink.from([onErrorLink, httpLink]);
+const link = ApolloLink.from([httpLink]);
 
 export const apolloClient = new ApolloClient({
   ssrMode: !isBrowser,

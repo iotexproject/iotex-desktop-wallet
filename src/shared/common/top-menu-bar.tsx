@@ -256,7 +256,8 @@ const TopMobileMenu = ({
                   padding: 0,
                   color: colors.white,
                   fontSize: 30,
-                  border: 0
+                  border: 0,
+                  backgroundColor: colors.nav01
                 }}
                 icon={icon}
               />
