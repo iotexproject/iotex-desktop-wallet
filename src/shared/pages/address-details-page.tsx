@@ -1,4 +1,5 @@
 import Tabs from "antd/lib/tabs";
+import notification from "antd/lib/notification";
 import { get } from "dottie";
 // @ts-ignore
 import window from "global/window";
@@ -76,10 +77,16 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
       <Query errorPolicy="ignore" query={GET_ACCOUNT} variables={{ address }}>
         {({
           data,
-          loading
+          loading,
+          error
         }: QueryResult<{
           getAccount: GetAccountResponse;
         }>) => {
+          if (error) {
+            notification.error({
+              message: `failed to query account: ${error}`
+            });
+          }
           if (!loading && (!data || Object.keys(data).length === 0)) {
             return (
               <ErrorPage

@@ -1,3 +1,4 @@
+import notification from "antd/lib/notification";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { IActionCore, IReceipt } from "iotex-antenna/lib/rpc-method/types";
@@ -13,9 +14,14 @@ const ActionFeeRenderer: VerticalTableRender<string> = ({ value }) => {
       query={GET_ACTION_DETAILS_BY_HASH}
       variables={{ actionHash: value, checkingPending: true }}
     >
-      {({ data }: GetActionDetailsResponse) => {
-        if (!data) {
+      {({ data, error, loading }: GetActionDetailsResponse) => {
+        if (!data || loading) {
           return null;
+        }
+        if (error) {
+          notification.error({
+            message: `failed to query action details by hash: ${error}`
+          });
         }
         const { gasPrice = "0" } =
           get<IActionCore>(data, "action.actionInfo.0.action.core") || {};

@@ -1,4 +1,5 @@
 import { get } from "dottie";
+import notification from "antd/lib/notification";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import { GET_BP_CANDIDATE } from "../queries";
@@ -13,7 +14,13 @@ const AddressName: React.FC<{ address: string }> = ({ address }) => {
       client={webBpApolloClient}
       errorPolicy="ignore"
     >
-      {({ data }: QueryResult<{}>) => {
+      {({ data, error }: QueryResult<{}>) => {
+        if (error) {
+          notification.error({
+            message: `failed to query address name: ${error}`
+          });
+        }
+
         const { registeredName = address } =
           get(data || {}, "bpCandidate") || {};
         return (

@@ -1,4 +1,5 @@
 import Icon from "antd/lib/icon";
+import notification from "antd/lib/notification";
 import Table, { ColumnProps } from "antd/lib/table";
 import Tag from "antd/lib/tag";
 import BigNumber from "bignumber.js";
@@ -102,7 +103,12 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
       notifyOnNetworkStatusChange={true}
       client={analyticsClient}
     >
-      {({ data, loading, fetchMore }: QueryResult) => {
+      {({ data, loading, fetchMore, error }: QueryResult) => {
+        if (error) {
+          notification.error({
+            message: `failed to query analytics xrc20: ${error}`
+          });
+        }
         const actions =
           get<Array<IXRC20ActionInfo>>(data || {}, "xrc20.data.xrc20") || [];
         const numActions = get<number>(data || {}, "total.data.count") || 0;

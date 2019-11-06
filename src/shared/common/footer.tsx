@@ -140,6 +140,11 @@ export function Footer(): JSX.Element {
               data
             }: QueryResult<{ fetchVersionInfo: VersionInfo }>) => {
               if (loading || error || !data) {
+                if (error) {
+                  notification.error({
+                    message: `failed to qeury version info: ${error}`
+                  });
+                }
                 return null;
               }
               return (

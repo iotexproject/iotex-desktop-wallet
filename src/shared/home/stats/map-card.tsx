@@ -3,7 +3,7 @@ import Col from "antd/lib/col";
 import Icon from "antd/lib/icon";
 import Row from "antd/lib/row";
 import Spin from "antd/lib/spin";
-
+import notification from "antd/lib/notification";
 import gql from "graphql-tag";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -86,6 +86,9 @@ export const MapCard = (): JSX.Element => {
       pollInterval={10000}
     >
       {({ error, loading, data }: QueryResult) => {
+        if (error) {
+          notification.error({ message: `failed to get gas fee: ${error}` });
+        }
         const showLoading = loading || !!error;
         const { mostRecentEpoch = 0 } = (data && data.chain) || {};
         return (
@@ -133,8 +136,14 @@ export const MapCard = (): JSX.Element => {
                   >
                     {({ data, error, loading }: QueryResult) => {
                       if (error || loading || !data) {
+                        if (error) {
+                          notification.error({
+                            message: `failed to query analytics client: ${error}`
+                          });
+                        }
                         return null;
                       }
+
                       const mapdata = Object.keys(data).map((name, i) => ({
                         name: `Day ${i + 1}`,
                         value: data[name].numberOfActions.count

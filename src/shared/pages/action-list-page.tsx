@@ -1,4 +1,5 @@
 import Icon from "antd/lib/icon";
+import notification from "antd/lib/notification";
 import Table, { ColumnProps } from "antd/lib/table";
 import Tag from "antd/lib/tag";
 import { get } from "dottie";
@@ -168,8 +169,12 @@ export const ActionTable: React.FC<IActionTable> = ({
       {({
         data,
         loading,
-        fetchMore
+        fetchMore,
+        error
       }: QueryResult<{ getActions: GetActionsResponse }>) => {
+        if (error) {
+          notification.error({ message: `failed to query actions: ${error}` });
+        }
         const actions =
           get<Array<ActionInfo>>(data || {}, "getActions.actionInfo") || [];
         return (
@@ -217,10 +222,17 @@ const ActionListPage: React.FC = (): JSX.Element => {
         <Page header={t("topbar.actions")}>
           <Query query={GET_CHAIN_META}>
             {({
-              data
+              data,
+              loading,
+              error
             }: QueryResult<{ chainMetaData: GetChainMetaResponse }>) => {
-              if (!data) {
+              if (!data || loading) {
                 return null;
+              }
+              if (error) {
+                notification.error({
+                  message: `failed to query chain meta: ${error}`
+                });
               }
               const numActions = parseInt(
                 get(data, "chainMeta.numActions"),

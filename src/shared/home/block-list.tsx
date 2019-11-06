@@ -1,6 +1,7 @@
 import Card from "antd/lib/card";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
+import notification from "antd/lib/notification";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { CSSProperties, useState } from "react";
@@ -142,7 +143,11 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
                     if (loading) {
                       return address;
                     }
-
+                    if (error) {
+                      notification.error({
+                        message: `failed to query bp candidate: ${error}`
+                      });
+                    }
                     if (!!error) {
                       return <span>{address}</span>;
                     }

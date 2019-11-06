@@ -1,4 +1,5 @@
 import { Col, Icon, Row } from "antd";
+import notification from "antd/lib/notification";
 import { get } from "dottie";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
@@ -33,7 +34,15 @@ const BlockHeightRenderer: VerticalTableRender<string> = ({ value }) => {
       </Col>
       <Col>
         <Query query={GET_LATEST_HEIGHT}>
-          {({ data }: QueryResult<{ chainMeta: { height: number } }>) => {
+          {({
+            data,
+            error
+          }: QueryResult<{ chainMeta: { height: number } }>) => {
+            if (error) {
+              notification.error({
+                message: `failed to get gas fee: ${error}`
+              });
+            }
             const latestHeight = Number(
               get<string>(data || {}, "chainMeta.height")
             );
