@@ -234,6 +234,7 @@ wallet.placeholder.solidity: "pragma solidity ^0.5.12; ..."
 wallet.placeholder.abi: ...
 wallet.placeholder.byteCode: '0x1234 ...'
 wallet.placeholder.contractAddress: io...
+wallet.placeholder.compile: 'Select compiler version'
 wallet.tab.transfer: 'Send ${token}'
 wallet.tab.vote: 'Vote for delegate'
 wallet.tab.contract: 'Smart Contracts'
@@ -246,6 +247,7 @@ wallet.transfer.title: 'Send IOTX'
 wallet.error.required: 'This field is required.'
 wallet.error.number: 'This field should be number.'
 wallet.error.number-ge1: 'This field should be greater than or equal to 1.'
+wallet.error.compile: 'Failed to compile solidity. Please check and try again.'
 wallet.confirm.contract.title: 'You are about to send ...'
 wallet.confirm.contract.p1: 'After sending this, your account balance will be'
 wallet.confirm.contract.p2: 'Are you sure you want to do this?'

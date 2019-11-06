@@ -20,12 +20,10 @@ import { isValidBytes } from "../validator";
 import Dropdown from "antd/lib/dropdown";
 import Icon from "antd/lib/icon";
 import Menu from "antd/lib/menu";
-
 import { toRau } from "iotex-antenna/lib/account/utils";
 import { Query, QueryResult } from "react-apollo";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
-import { SpinPreloader } from "../../common/spin-preloader";
 import { COMPILE_SOLIDITY, GET_SOLC_VERSIONS } from "../../queries";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
@@ -77,7 +75,6 @@ interface State {
   } | null;
   txHash: string;
   constructorArgs: Array<{ name: string; type: string }>;
-  loadingSolc: boolean;
 }
 
 class DeployFormInner extends Component<DeployProps, State> {
@@ -92,8 +89,7 @@ class DeployFormInner extends Component<DeployProps, State> {
     showConfirmation: false,
     broadcast: null,
     txHash: "",
-    constructorArgs: [],
-    loadingSolc: true
+    constructorArgs: []
   };
 
   public handleGenerateAbiAndByteCode(contract: any): void {
@@ -114,7 +110,7 @@ class DeployFormInner extends Component<DeployProps, State> {
     if (!value) {
       return callback();
     }
-    const verFound = /pragma solidity \^(.*);/.exec(value);
+    const verFound = /pragma solidity [\^|>](.*);/.exec(value);
     if (!verFound || !verFound[1]) {
       return callback(t("wallet.missing_solidity_pragma"));
     }
@@ -241,8 +237,42 @@ class DeployFormInner extends Component<DeployProps, State> {
     );
   }
 
+  public renderContractMenu(
+    contracts: Array<{ name: string; abi: string; bytecode: string }>
+  ): JSX.Element {
+    const contractMenu = (
+      <Menu>
+        {contracts.map(contract => (
+          <Menu.Item
+            key={`contract-${contract.name}`}
+            onClick={() => this.handleGenerateAbiAndByteCode(contract)}
+          >
+            {`Contract ${contract.name.substr(1)}`}
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+    return (
+      <Dropdown overlay={contractMenu}>
+        {/*
+          // @ts-ignore */}
+        <Button
+          type="primary"
+          style={{
+            fontSize: "0.8em",
+            padding: "0 5px",
+            marginBottom: "32px"
+          }}
+        >
+          {t("wallet.deploy.generateAbiAndByteCode")} <Icon type="down" />
+        </Button>
+      </Dropdown>
+    );
+  }
+
   public renderGenerateAbiButton(): JSX.Element {
-    const source = this.props.form.getFieldsValue().solidity;
+    const { setFields, getFieldsValue, getFieldError } = this.props.form;
+    const source = getFieldsValue().solidity;
     const version = this.state.solidityReleaseVersion;
     if (!source || !version) {
       return (
@@ -272,7 +302,22 @@ class DeployFormInner extends Component<DeployProps, State> {
               </Button>
             );
           }
-          if (error || !data || data.compileSolidity.length === 0) {
+
+          if (error && !getFieldError("solidity")) {
+            setFields({
+              solidity: {
+                value: source,
+                errors: [new Error(t("wallet.error.compile"))]
+              }
+            });
+          }
+
+          if (
+            error ||
+            !data ||
+            !data.compileSolidity ||
+            data.compileSolidity.length === 0
+          ) {
             return (
               <Button
                 disabled={true}
@@ -304,36 +349,7 @@ class DeployFormInner extends Component<DeployProps, State> {
               </Button>
             );
           }
-          const contractMenu = (
-            <Menu>
-              {/*
-                // @ts-ignore */}
-              {data.compileSolidity.map(contract => (
-                <Menu.Item
-                  key={`contract-${contract.name}`}
-                  onClick={() => this.handleGenerateAbiAndByteCode(contract)}
-                >
-                  {`Contract ${contract.name.substr(1)}`}
-                </Menu.Item>
-              ))}
-            </Menu>
-          );
-          return (
-            <Dropdown overlay={contractMenu}>
-              {/*
-                // @ts-ignore */}
-              <Button
-                type="primary"
-                style={{
-                  fontSize: "0.8em",
-                  padding: "0 5px",
-                  marginBottom: "32px"
-                }}
-              >
-                {t("wallet.deploy.generateAbiAndByteCode")} <Icon type="down" />
-              </Button>
-            </Dropdown>
-          );
+          return this.renderContractMenu(data.compileSolidity);
         }}
       </Query>
     );
@@ -390,8 +406,11 @@ class DeployFormInner extends Component<DeployProps, State> {
     );
   }
 
+  public updateInputVersion = (version: string) => {
+    this.setState({ solidityReleaseVersion: version });
+  };
+
   public renderVersionInput(): JSX.Element | null {
-    const { solidityReleaseVersion, loadingSolc } = this.state;
     const { form } = this.props;
     const { getFieldDecorator } = form;
     return (
@@ -399,49 +418,46 @@ class DeployFormInner extends Component<DeployProps, State> {
         {...formItemLayout}
         label={<FormItemLabel>{t("wallet.input.solVersion")}</FormItemLabel>}
       >
-        {getFieldDecorator("solVersion", {
-          initialValue: "",
-          rules: [{ required: true, message: t("wallet.error.required") }]
-        })(
-          <SpinPreloader spinning={loadingSolc}>
-            <Query query={GET_SOLC_VERSIONS}>
-              {({ data }: QueryResult) => {
-                if (
-                  data &&
-                  data.getSolcVersions &&
-                  data.getSolcVersions.length > 0
-                ) {
-                  if (!solidityReleaseVersion) {
-                    this.setState({
-                      solidityReleaseVersion: data.getSolcVersions[0].version,
-                      loadingSolc: false
-                    });
-                  }
-                  return (
-                    <Select
-                      defaultValue={data.getSolcVersions[0].version}
-                      onChange={(value: string) => {
-                        this.setState({ solidityReleaseVersion: value });
-                      }}
-                    >
-                      {data.getSolcVersions.map((solcVersion: SolcVersion) => {
-                        return (
-                          <Option
-                            value={solcVersion.version}
-                            key={solcVersion.name}
-                          >
-                            {`${solcVersion.name}`}
-                          </Option>
-                        );
-                      })}
-                    </Select>
-                  );
-                }
-                return null;
-              }}
-            </Query>
-          </SpinPreloader>
-        )}
+        <Query query={GET_SOLC_VERSIONS}>
+          {({ data, loading }: QueryResult) => {
+            if (loading) {
+              return (
+                <div style={{ textAlign: "center" }}>
+                  <Icon type="loading" spin={true} />
+                </div>
+              );
+            }
+            if (
+              data &&
+              data.getSolcVersions &&
+              data.getSolcVersions.length > 0
+            ) {
+              return getFieldDecorator("solVersion", {
+                rules: [{ required: true, message: t("wallet.error.required") }]
+              })(
+                <Select
+                  showSearch={true}
+                  placeholder={t("wallet.placeholder.compile")}
+                  onChange={(value: string) => {
+                    this.updateInputVersion(value);
+                  }}
+                >
+                  {data.getSolcVersions.map((solcVersion: SolcVersion) => {
+                    return (
+                      <Option
+                        value={solcVersion.version}
+                        key={solcVersion.name}
+                      >
+                        {`${solcVersion.name}`}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              );
+            }
+            return null;
+          }}
+        </Query>
       </Form.Item>
     );
   }
