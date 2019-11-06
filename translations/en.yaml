@@ -230,7 +230,7 @@ wallet.deploy.send-new: "Send new contract"
 wallet.deploy.detail-title: "You are about to deploy ..."
 wallet.deploy.deploy: "Deploy Contract"
 wallet.deploy.signTransaction: "Sign Transaction"
-wallet.placeholder.solidity: "pragma solidity ^0.4.23; ..."
+wallet.placeholder.solidity: "pragma solidity ^0.5.12; ..."
 wallet.placeholder.abi: ...
 wallet.placeholder.byteCode: '0x1234 ...'
 wallet.placeholder.contractAddress: io...
@@ -364,6 +364,7 @@ multiChain.chains.mainnet: 'Main IoTeX Network'
 multiChain.chains.testnet: 'IoTeX Test Network'
 multiChain.chains.custom: 'Custom RPC'
 wallet.input.name: Name
+wallet.input.solVersion: Version
 wallet.input.url: Url
 account.addCustomRPC: 'Add custom RPC'
 account.rpc.nameHolder: 'My RPC'

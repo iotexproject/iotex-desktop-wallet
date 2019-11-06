@@ -4,6 +4,7 @@ import Button from "antd/lib/button";
 import { FormComponentProps } from "antd/lib/form";
 import Form from "antd/lib/form/Form";
 import Input from "antd/lib/input";
+import Select from "antd/lib/select";
 // @ts-ignore
 import window from "global/window";
 // @ts-ignore
@@ -24,6 +25,7 @@ import { toRau } from "iotex-antenna/lib/account/utils";
 import { Query, QueryResult } from "react-apollo";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
+import { SpinPreloader } from "../../common/spin-preloader";
 import { COMPILE_SOLIDITY, GET_SOLC_VERSIONS } from "../../queries";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
@@ -38,6 +40,7 @@ import {
 import { ContractLayout } from "./contract-layout";
 
 const { TextArea } = Input;
+const { Option } = Select;
 
 export class Deploy extends Component<{ address: string }> {
   public render(): JSX.Element {
@@ -52,6 +55,12 @@ export class Deploy extends Component<{ address: string }> {
 interface DeployProps extends FormComponentProps {
   address?: string;
   updateWalletInfo?: any;
+}
+
+interface SolcVersion {
+  name: string;
+  version: string;
+  type: string;
 }
 
 interface State {
@@ -69,7 +78,6 @@ interface State {
   txHash: string;
   constructorArgs: Array<{ name: string; type: string }>;
   loadingSolc: boolean;
-  solJsonReleases: Array<{ name: string; version: string; type: string }>;
 }
 
 class DeployFormInner extends Component<DeployProps, State> {
@@ -85,8 +93,7 @@ class DeployFormInner extends Component<DeployProps, State> {
     broadcast: null,
     txHash: "",
     constructorArgs: [],
-    loadingSolc: true,
-    solJsonReleases: []
+    loadingSolc: true
   };
 
   public handleGenerateAbiAndByteCode(contract: any): void {
@@ -110,16 +117,6 @@ class DeployFormInner extends Component<DeployProps, State> {
     const verFound = /pragma solidity \^(.*);/.exec(value);
     if (!verFound || !verFound[1]) {
       return callback(t("wallet.missing_solidity_pragma"));
-    }
-    const inputVersion = verFound[1];
-    const solJsonReleases = this.state.solJsonReleases;
-    const solJson = solJsonReleases.find(v => v.name === inputVersion);
-    const solidityVersion = solJson && solJson.version;
-    if (!solidityVersion) {
-      return callback(t("wallet.cannot_find_solidity_version"));
-    }
-    if (solidityVersion !== this.state.solidityReleaseVersion) {
-      this.setState({ solidityReleaseVersion: solidityVersion });
     }
   };
 
@@ -393,8 +390,64 @@ class DeployFormInner extends Component<DeployProps, State> {
     );
   }
 
+  public renderVersionInput(): JSX.Element | null {
+    const { solidityReleaseVersion, loadingSolc } = this.state;
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+    return (
+      <Form.Item
+        {...formItemLayout}
+        label={<FormItemLabel>{t("wallet.input.solVersion")}</FormItemLabel>}
+      >
+        {getFieldDecorator("solVersion", {
+          initialValue: "",
+          rules: [{ required: true, message: t("wallet.error.required") }]
+        })(
+          <SpinPreloader spinning={loadingSolc}>
+            <Query query={GET_SOLC_VERSIONS}>
+              {({ data }: QueryResult) => {
+                if (
+                  data &&
+                  data.getSolcVersions &&
+                  data.getSolcVersions.length > 0
+                ) {
+                  if (!solidityReleaseVersion) {
+                    this.setState({
+                      solidityReleaseVersion: data.getSolcVersions[0].version,
+                      loadingSolc: false
+                    });
+                  }
+                  return (
+                    <Select
+                      defaultValue={data.getSolcVersions[0].version}
+                      onChange={(value: string) => {
+                        this.setState({ solidityReleaseVersion: value });
+                      }}
+                    >
+                      {data.getSolcVersions.map((solcVersion: SolcVersion) => {
+                        return (
+                          <Option
+                            value={solcVersion.version}
+                            key={solcVersion.name}
+                          >
+                            {`${solcVersion.name}`}
+                          </Option>
+                        );
+                      })}
+                    </Select>
+                  );
+                }
+                return null;
+              }}
+            </Query>
+          </SpinPreloader>
+        )}
+      </Form.Item>
+    );
+  }
+
   public render(): JSX.Element | null {
-    const { broadcast, solJsonReleases } = this.state;
+    const { broadcast } = this.state;
     if (broadcast) {
       return this.renderBroadcast();
     }
@@ -402,20 +455,7 @@ class DeployFormInner extends Component<DeployProps, State> {
     const { getFieldDecorator } = form;
     return (
       <Form layout={"vertical"}>
-        {(!solJsonReleases || !(Object.keys(solJsonReleases).length > 0)) && (
-          <Query query={GET_SOLC_VERSIONS}>
-            {({ data }: QueryResult) => {
-              if (
-                data &&
-                data.getSolcVersions &&
-                data.getSolcVersions.length > 0
-              ) {
-                this.setState({ solJsonReleases: data.getSolcVersions });
-              }
-              return null;
-            }}
-          </Query>
-        )}
+        {this.renderVersionInput()}
         <Form.Item
           {...formItemLayout}
           label={<FormItemLabel>{t("wallet.input.solidity")}</FormItemLabel>}
