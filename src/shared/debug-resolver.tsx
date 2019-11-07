@@ -166,7 +166,7 @@ class TestAntennaInner extends PureComponent<Props> {
               if (error) {
                 notification.error({
                   message: "Error",
-                  description: `failed to query  ${name}: ${error}`,
+                  description: `failed to query epoch meta: ${error}`,
                   duration: 3
                 });
                 window.console.log(error);

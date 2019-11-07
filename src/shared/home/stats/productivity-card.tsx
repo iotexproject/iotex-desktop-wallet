@@ -16,7 +16,9 @@ export const ProductivityCard = (): JSX.Element => {
     <Query query={GET_BP_STATS} client={webBpApolloClient} pollInterval={10000}>
       {({ data, loading, error }: QueryResult) => {
         if (error) {
-          notification.error({ message: `failed to query bp stats: ${error}` });
+          notification.error({
+            message: `failed to query bp stats in ProductivityCard: ${error}`
+          });
         }
         const {
           bpCandidates = [],

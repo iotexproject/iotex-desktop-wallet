@@ -17,10 +17,9 @@ const AddressName: React.FC<{ address: string }> = ({ address }) => {
       {({ data, error }: QueryResult<{}>) => {
         if (error) {
           notification.error({
-            message: `failed to query address name: ${error}`
+            message: `failed to query bp candidate in AddressName: ${error}`
           });
         }
-
         const { registeredName = address } =
           get(data || {}, "bpCandidate") || {};
         return (

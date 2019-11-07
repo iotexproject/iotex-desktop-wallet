@@ -87,7 +87,9 @@ export const MapCard = (): JSX.Element => {
     >
       {({ error, loading, data }: QueryResult) => {
         if (error) {
-          notification.error({ message: `failed to get gas fee: ${error}` });
+          notification.error({
+            message: `failed to query analytics chain in MapCard: ${error}`
+          });
         }
         const showLoading = loading || !!error;
         const { mostRecentEpoch = 0 } = (data && data.chain) || {};
@@ -138,7 +140,7 @@ export const MapCard = (): JSX.Element => {
                       if (error || loading || !data) {
                         if (error) {
                           notification.error({
-                            message: `failed to query analytics client: ${error}`
+                            message: `failed to query analytics client in MapCard: ${error}`
                           });
                         }
                         return null;

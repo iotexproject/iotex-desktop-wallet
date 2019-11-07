@@ -173,7 +173,9 @@ export const ActionTable: React.FC<IActionTable> = ({
         error
       }: QueryResult<{ getActions: GetActionsResponse }>) => {
         if (error) {
-          notification.error({ message: `failed to query actions: ${error}` });
+          notification.error({
+            message: `failed to query actions in ActionTable: ${error}`
+          });
         }
         const actions =
           get<Array<ActionInfo>>(data || {}, "getActions.actionInfo") || [];
@@ -226,13 +228,13 @@ const ActionListPage: React.FC = (): JSX.Element => {
               loading,
               error
             }: QueryResult<{ chainMetaData: GetChainMetaResponse }>) => {
-              if (!data || loading) {
-                return null;
-              }
               if (error) {
                 notification.error({
-                  message: `failed to query chain meta: ${error}`
+                  message: `failed to query chain meta in ActionListPage: ${error}`
                 });
+              }
+              if (!data || loading) {
+                return null;
               }
               const numActions = parseInt(
                 get(data, "chainMeta.numActions"),

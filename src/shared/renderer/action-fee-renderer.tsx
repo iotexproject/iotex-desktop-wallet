@@ -15,13 +15,13 @@ const ActionFeeRenderer: VerticalTableRender<string> = ({ value }) => {
       variables={{ actionHash: value, checkingPending: true }}
     >
       {({ data, error, loading }: GetActionDetailsResponse) => {
-        if (!data || loading) {
-          return null;
-        }
         if (error) {
           notification.error({
-            message: `failed to query action details by hash: ${error}`
+            message: `failed to query action details by hash in ActionFeeRenderer: ${error}`
           });
+        }
+        if (!data || loading) {
+          return null;
         }
         const { gasPrice = "0" } =
           get<IActionCore>(data, "action.actionInfo.0.action.core") || {};

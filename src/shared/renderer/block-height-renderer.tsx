@@ -40,7 +40,7 @@ const BlockHeightRenderer: VerticalTableRender<string> = ({ value }) => {
           }: QueryResult<{ chainMeta: { height: number } }>) => {
             if (error) {
               notification.error({
-                message: `failed to get gas fee: ${error}`
+                message: `failed to get latest height in BlockHeightRenderer: ${error}`
               });
             }
             const latestHeight = Number(

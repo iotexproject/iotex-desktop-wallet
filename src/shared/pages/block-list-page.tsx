@@ -77,13 +77,13 @@ const BlockListPage: React.FC = (): JSX.Element => {
               data,
               error
             }: QueryResult<{ chainMeta: { height: number } }>) => {
-              if (!data) {
-                return null;
-              }
               if (error) {
                 notification.error({
-                  message: `failed to query latest height: ${error}`
+                  message: `failed to query latest height in BlockListPage: ${error}`
                 });
+              }
+              if (!data) {
+                return null;
               }
               const latestHeight = Number(get(data, "chainMeta.height"));
               const start = Math.max(latestHeight - PAGE_SIZE, 1);
@@ -104,7 +104,7 @@ const BlockListPage: React.FC = (): JSX.Element => {
                   }: QueryResult<{ getBlockMetas: GetBlockMetasResponse }>) => {
                     if (error) {
                       notification.error({
-                        message: `failed to query block metas: ${error}`
+                        message: `failed to query block metas in BlockListPage: ${error}`
                       });
                     }
                     let blkMetas =

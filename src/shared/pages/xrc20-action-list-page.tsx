@@ -106,7 +106,7 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
       {({ data, loading, fetchMore, error }: QueryResult) => {
         if (error) {
           notification.error({
-            message: `failed to query analytics xrc20: ${error}`
+            message: `failed to query analytics xrc20 in XRC20ActionTable: ${error}`
           });
         }
         const actions =

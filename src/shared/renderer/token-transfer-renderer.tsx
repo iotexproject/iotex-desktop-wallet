@@ -18,7 +18,7 @@ const TokenTransferRenderer: VerticalTableRender<string> = ({ value }) => {
       {({ data, error }: QueryResult) => {
         if (error) {
           notification.error({
-            message: `failed to query analytics evm transfers: ${error}`
+            message: `failed to query analytics evm transfers in TokenTransferRenderer: ${error}`
           });
         }
         const { evmTransfers = [] } = get(data || {}, "action.byHash") || {};

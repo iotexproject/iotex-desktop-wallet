@@ -22,7 +22,7 @@ export const TPSCard = (): JSX.Element => {
       {({ data, loading, error }: QueryResult) => {
         if (error) {
           notification.error({
-            message: `failed to query analytics tps: ${error}`
+            message: `failed to query analytics tps in TPSCard: ${error}`
           });
         }
         const currentTps = data && data.chain ? data.chain.mostRecentTPS : 0;

@@ -1,5 +1,6 @@
 import Card from "antd/lib/card";
 import Col from "antd/lib/col";
+import notification from "antd/lib/notification";
 import Row from "antd/lib/row";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -68,6 +69,7 @@ const BlockCardStyles: { [index: string]: CSSProperties } = {
   }
 };
 
+// tslint:disable-next-line: max-func-body-length
 export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
   const [state, setState] = useState<IBlockCardState>({
     block: undefined,
@@ -138,7 +140,11 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
                 >
                   {({ loading, error, data }: QueryResult) => {
                     const address = producerAddress.substr(0, 8);
-
+                    if (error) {
+                      notification.error({
+                        message: `failed to query bp candidate in block list: ${error}`
+                      });
+                    }
                     if (loading) {
                       return address;
                     }

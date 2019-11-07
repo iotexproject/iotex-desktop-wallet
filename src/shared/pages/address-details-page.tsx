@@ -84,7 +84,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
         }>) => {
           if (error) {
             notification.error({
-              message: `failed to query account: ${error}`
+              message: `failed to query account in AddressDetailsPage: ${error}`
             });
           }
           if (!loading && (!data || Object.keys(data).length === 0)) {

@@ -1,4 +1,5 @@
 import Icon from "antd/lib/icon";
+import notification from "antd/lib/notification";
 import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -65,6 +66,11 @@ function ActionPoll({ txHash }: { txHash: string }): JSX.Element {
           }, POLL_INTERVAL);
         }
         if (loading || error) {
+          if (error) {
+            notification.error({
+              message: `failed to query action in ActionPoll: ${error}`
+            });
+          }
           return (
             <span>
               {" "}
