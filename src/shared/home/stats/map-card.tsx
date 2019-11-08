@@ -1,9 +1,9 @@
 import Card from "antd/lib/card";
 import Col from "antd/lib/col";
 import Icon from "antd/lib/icon";
+import notification from "antd/lib/notification";
 import Row from "antd/lib/row";
 import Spin from "antd/lib/spin";
-
 import gql from "graphql-tag";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -86,6 +86,11 @@ export const MapCard = (): JSX.Element => {
       pollInterval={10000}
     >
       {({ error, loading, data }: QueryResult) => {
+        if (error) {
+          notification.error({
+            message: `failed to query analytics chain in MapCard: ${error}`
+          });
+        }
         const showLoading = loading || !!error;
         const { mostRecentEpoch = 0 } = (data && data.chain) || {};
         return (
@@ -133,8 +138,14 @@ export const MapCard = (): JSX.Element => {
                   >
                     {({ data, error, loading }: QueryResult) => {
                       if (error || loading || !data) {
+                        if (error) {
+                          notification.error({
+                            message: `failed to query analytics client in MapCard: ${error}`
+                          });
+                        }
                         return null;
                       }
+
                       const mapdata = Object.keys(data).map((name, i) => ({
                         name: `Day ${i + 1}`,
                         value: data[name].numberOfActions.count

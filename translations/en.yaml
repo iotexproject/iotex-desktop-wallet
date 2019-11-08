@@ -275,7 +275,7 @@ wallet.vote.button: 'Vote on member.iotex.io'
 wallet.missing_solidity_pragma: 'Incorrect Solidity'
 wallet.cannot_find_solidity_version: 'Cannot find solidity version'
 input.error.raw_address.length: 'IOTX address has to be of length 41'
-candidate.productivity: Productivity
+candidate.productivity: Progress of Epoch
 candidates.election.consensus_delegates: 'IoTeX Consensus Delegates'
 candidates.election.delegates: 'IoTeX Delegates'
 candidates.election.delegates_candidates: 'IoTeX Delegates Candidates'

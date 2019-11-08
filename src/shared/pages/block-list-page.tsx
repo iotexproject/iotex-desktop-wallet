@@ -1,4 +1,5 @@
 import Icon from "antd/lib/icon";
+import notification from "antd/lib/notification";
 import Table, { ColumnProps } from "antd/lib/table";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
@@ -72,7 +73,15 @@ const BlockListPage: React.FC = (): JSX.Element => {
       <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
         <Page header={t("block.blocks")}>
           <Query query={GET_LATEST_HEIGHT}>
-            {({ data }: QueryResult<{ chainMeta: { height: number } }>) => {
+            {({
+              data,
+              error
+            }: QueryResult<{ chainMeta: { height: number } }>) => {
+              if (error) {
+                notification.error({
+                  message: `failed to query latest height in BlockListPage: ${error}`
+                });
+              }
               if (!data) {
                 return null;
               }
@@ -90,8 +99,14 @@ const BlockListPage: React.FC = (): JSX.Element => {
                   {({
                     data,
                     loading,
-                    fetchMore
+                    fetchMore,
+                    error
                   }: QueryResult<{ getBlockMetas: GetBlockMetasResponse }>) => {
+                    if (error) {
+                      notification.error({
+                        message: `failed to query block metas in BlockListPage: ${error}`
+                      });
+                    }
                     let blkMetas =
                       get<Array<BlockMeta>>(
                         data || {},

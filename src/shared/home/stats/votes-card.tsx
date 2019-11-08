@@ -1,4 +1,5 @@
 // @ts-ignore
+import notification from "antd/lib/notification";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
@@ -13,6 +14,11 @@ export const VotesCard = (): JSX.Element => {
   return (
     <Query query={GET_BP_STATS} client={webBpApolloClient} pollInterval={10000}>
       {({ data, loading, error }: QueryResult) => {
+        if (error) {
+          notification.error({
+            message: `failed to get bp stats in VodesCard: ${error}`
+          });
+        }
         const {
           totalVotes = 0,
           totalVotesHistory = []

@@ -1,3 +1,4 @@
+import notification from "antd/lib/notification";
 import { get } from "dottie";
 // @ts-ignore
 import window from "global/window";
@@ -106,6 +107,11 @@ const BlockDetailPage: React.FC<RouteComponentProps<{ height: string }>> = (
           loading
         }: QueryResult<{ getBlockMetas: GetBlockMetasResponse }>) => {
           if (error || (!loading && !data)) {
+            if (error) {
+              notification.error({
+                message: `failed to query block meta in BlockDetailPage: ${error}`
+              });
+            }
             return <BlockNotFound />;
           }
           const blockMeta: BlockMeta = get(

@@ -1,3 +1,4 @@
+import notification from "antd/lib/notification";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
@@ -96,6 +97,11 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
       >
         {({ error, data, loading, stopPolling }: GetActionDetailsResponse) => {
           if (error || (!loading && (!data || !data.action || !data.receipt))) {
+            if (error) {
+              notification.error({
+                message: `failed to get bp stats in VodesCard: ${error}`
+              });
+            }
             return <ActionNotFound info={hash} />;
           }
           if (data && data.action) {

@@ -1,5 +1,6 @@
 // @ts-ignore
 import { Col, Row } from "antd";
+import notification from "antd/lib/notification";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
@@ -14,6 +15,11 @@ export const ProductivityCard = (): JSX.Element => {
   return (
     <Query query={GET_BP_STATS} client={webBpApolloClient} pollInterval={10000}>
       {({ data, loading, error }: QueryResult) => {
+        if (error) {
+          notification.error({
+            message: `failed to query bp stats in ProductivityCard: ${error}`
+          });
+        }
         const {
           bpCandidates = [],
           stats: { currentEpochNumber = 0 }

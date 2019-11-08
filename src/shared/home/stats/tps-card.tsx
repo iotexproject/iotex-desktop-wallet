@@ -1,4 +1,5 @@
 // @ts-ignore
+import notification from "antd/lib/notification";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
@@ -19,6 +20,11 @@ export const TPSCard = (): JSX.Element => {
       pollInterval={10000}
     >
       {({ data, loading, error }: QueryResult) => {
+        if (error) {
+          notification.error({
+            message: `failed to query analytics tps in TPSCard: ${error}`
+          });
+        }
         const currentTps = data && data.chain ? data.chain.mostRecentTPS : 0;
         const percent = PEAK_TPS > 0 ? (currentTps / PEAK_TPS) * 100 : 100;
         const showLoading = loading || !!error;

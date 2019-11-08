@@ -1,4 +1,5 @@
 // @ts-ignore
+import notification from "antd/lib/notification";
 import gql from "graphql-tag";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
@@ -19,6 +20,11 @@ export const ActionsCard = (): JSX.Element => {
     >
       {({ error, loading, data }: QueryResult) => {
         const showLoading = loading || !!error;
+        if (error) {
+          notification.error({
+            message: `failed to query bp candidate in ActionsCard: ${error}`
+          });
+        }
         const { mostRecentEpoch = 0, numberOfActions = { count: 0 } } =
           (data && data.chain) || {};
         return (
@@ -48,6 +54,11 @@ export const ActionsCard = (): JSX.Element => {
                   `}
                   >
                     {({ data, error, loading }: QueryResult) => {
+                      if (error) {
+                        notification.error({
+                          message: `failed to query in ActionsCard: ${error}`
+                        });
+                      }
                       if (error || loading || !data) {
                         return null;
                       }
