@@ -115,6 +115,9 @@ class HomeComponent extends Component<Props, State> {
               <Col xs={24} sm={24} md={19} lg={20} xl={20} xxl={21}>
                 <div style={{ backgroundColor: "#fff", borderRadius: 5 }}>
                   <BlockProducers
+                    badgeImg={
+                      "https://user-images.githubusercontent.com/38968374/61657311-7e350380-ac77-11e9-86ea-0e87869e7962.png"
+                    }
                     apolloClient={webBpApolloClient}
                     height="750px"
                   />
