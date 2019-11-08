@@ -114,6 +114,7 @@ class DeployFormInner extends Component<DeployProps, State> {
     if (!verFound || !verFound[1]) {
       return callback(t("wallet.missing_solidity_pragma"));
     }
+    return callback();
   };
 
   public renderConfirmation = () => {
