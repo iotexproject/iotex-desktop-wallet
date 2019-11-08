@@ -81,8 +81,8 @@ function VerticalTable<T = any>(props: IVerticalTableProps<T>): JSX.Element {
               record.value === undefined
                 ? ""
                 : (valRender &&
-                    valRender({ value: record.value, record, index })) ||
-                  `${record.value}`;
+                  valRender({ value: record.value, record, index })) ||
+                `${record.value}`;
             return (
               <Row key={`vtable-row-${index}`}>
                 {index > 0 && (
