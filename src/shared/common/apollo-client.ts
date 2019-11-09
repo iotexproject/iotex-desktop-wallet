@@ -26,6 +26,7 @@ const fetch = unfetch.bind(window);
 
 const httpLink = new HttpLink({
   uri: apiGatewayUrl,
+  // @ts-ignore
   fetch: (_, ...opts) => fetch(apolloClientConfig.uri, ...opts),
   headers: { "x-csrf-token": csrfToken }
 });

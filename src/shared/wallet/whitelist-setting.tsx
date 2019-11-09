@@ -59,11 +59,11 @@ export class WhitelistSetting extends React.Component<Props, State> {
     });
   };
 
-  public componentDidMount = (): void => {
+  public componentDidMount(): void {
     if (this.props.handleWhitelist) {
       this.props.handleWhitelist(this);
     }
-  };
+  }
 
   public render(): JSX.Element | null {
     const { form, origin, amount, recipient, method } = this.props;
@@ -130,4 +130,4 @@ export class WhitelistSetting extends React.Component<Props, State> {
   }
 }
 
-export const Whitelist = Form.create()(WhitelistSetting);
+export const Whitelist = Form.create<Props>()(WhitelistSetting);

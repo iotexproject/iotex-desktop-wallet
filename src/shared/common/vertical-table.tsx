@@ -72,7 +72,9 @@ function VerticalTable<T = any>(props: IVerticalTableProps<T>): JSX.Element {
             const header = headerRender
               ? headerRender(record.key, record, index)
               : `${record.key}`;
-            const valRender =
+            const valRender: React.FunctionComponent<
+              IVerticalTableRendererProps<T>
+            > | null =
               (valueRenderMap && valueRenderMap[record.key]) ||
               valueRender ||
               null;

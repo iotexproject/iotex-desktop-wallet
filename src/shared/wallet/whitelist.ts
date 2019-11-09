@@ -1,6 +1,5 @@
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { Envelop } from "iotex-antenna/lib/action/envelop";
-import { IExecution, ITransfer } from "iotex-antenna/lib/rpc-method/types";
 
 import { xconf, XConfKeys } from "../common/xconf";
 import { decode } from "./decode-contract-data";
@@ -33,14 +32,14 @@ export function getDataSource(
   };
 
   if (transfer) {
-    const { recipient, amount, payload } = (transfer as unknown) as ITransfer;
+    const { recipient, amount, payload } = transfer;
     dataSource.toAddress = recipient;
     dataSource.amount = `${fromRau(amount, "IOTX")} IOTX`;
     dataSource.dataInHex = `${Buffer.from(payload as Buffer).toString("hex")}`;
   }
 
   if (execution) {
-    const { contract, amount, data } = (execution as unknown) as IExecution;
+    const { contract, amount, data } = execution;
     dataSource.toContract = contract;
     dataSource.amount = `${fromRau(amount, "IOTX")} IOTX`;
     dataSource.dataInHex = `${Buffer.from(data as Buffer).toString("hex")}`;

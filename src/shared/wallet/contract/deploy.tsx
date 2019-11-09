@@ -533,6 +533,6 @@ class DeployFormInner extends Component<DeployProps, State> {
   }
 }
 
-export const DeployForm = Form.create({ name: "deploy-contract" })(
+export const DeployForm = Form.create<DeployProps>({ name: "deploy-contract" })(
   DeployFormInner
 );

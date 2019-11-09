@@ -38,8 +38,8 @@ export function memoryReactRender({ reducer = noopReducer, VDom }: Opts): void {
   initAssetURL(manifest);
   const stylesheets = document.getElementsByClassName(STYLETRON_GLOBAL);
   const styletron = new StyletronClient({ hydrate: stylesheets, prefix: "_" });
-
   render(
+    // @ts-ignore
     <RootMemory store={store} styletron={styletron}>
       {VDom}
     </RootMemory>,

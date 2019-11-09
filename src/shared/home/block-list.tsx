@@ -286,7 +286,7 @@ export const BlockList = (props: { height: string }): JSX.Element => {
         style={{ padding: 10, paddingBottom: 20 }}
         className="dots"
       >
-        {[...Array(4)].map((_, i) => (
+        {[1, 2, 3, 4].map((_, i) => (
           <Col key={`dot-${i}`} style={BlockListStyles.dot} />
         ))}
       </Row>

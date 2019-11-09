@@ -166,4 +166,4 @@ class NewWallet extends React.Component<Props, State> {
   }
 }
 
-export default Form.create<NewWallet>()(connect()(NewWallet));
+export default Form.create()(connect()(NewWallet));

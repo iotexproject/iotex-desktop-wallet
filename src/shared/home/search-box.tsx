@@ -27,7 +27,7 @@ class SearchBoxComponent extends Component<SearchBoxProps> {
       "input"
     );
     if (input && this.props.autoFocus) {
-      input.focus({ preventScroll: false });
+      input.focus();
     }
   }
 

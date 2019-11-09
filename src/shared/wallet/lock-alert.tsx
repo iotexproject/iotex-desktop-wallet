@@ -74,19 +74,19 @@ class LockWalletComponent extends React.Component<LockWalletProps, State> {
     }
   };
 
-  public componentDidMount = () => {
+  public componentDidMount(): void {
     this.setTimers();
-  };
+  }
 
-  public componentDidUpdate = (preProps: LockWalletProps, _: State) => {
+  public componentDidUpdate(preProps: LockWalletProps, _: State): void {
     if (this.props.lockAt !== preProps.lockAt) {
       this.setTimers();
     }
-  };
+  }
 
-  public componentWillUnmount = () => {
+  public componentWillUnmount(): void {
     this.clearTimers();
-  };
+  }
 
   private readonly clearTimers = () => {
     clearTimeout(this.timer);
