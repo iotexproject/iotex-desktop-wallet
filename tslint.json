@@ -4,13 +4,15 @@
     "tslint-react",
     "tslint-microsoft-contrib/recommended_ruleset",
     "tslint-require-connnect-typing",
-    "tslint-config-prettier"
+    "tslint-config-prettier",
+    "tslint-react-hooks"
   ],
   "rulesDirectory": [
     "node_modules/tslint-microsoft-contrib",
     "node_modules/tslint-require-connnect-typing"
   ],
   "rules": {
+    "react-hooks-nesting": "error",
     "react-no-dangerous-html": [
       true,
       [

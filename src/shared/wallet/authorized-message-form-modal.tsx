@@ -81,7 +81,7 @@ class AuthorizedMessageForm extends React.PureComponent<
   }
 }
 
-const AuthorizedMessageFormModal = Form.create<AuthorizedMessageForm>()(
+const AuthorizedMessageFormModal = Form.create<IClaimAsFormModalProps>()(
   AuthorizedMessageForm
 );
 export default AuthorizedMessageFormModal;

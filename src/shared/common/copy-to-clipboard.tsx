@@ -8,8 +8,8 @@ const CopyToClipboard: React.FC<{
   title?: string;
   style?: CSSProperties;
 }> = props => {
-  const { text, children, style, ...attrs } = props;
   const [copied, setCopied] = useState(false);
+  const { text, children, style, ...attrs } = props;
   const title = copied
     ? t("copy.copied")
     : props.title || t("copy.copyToClipboard", { field: "" });

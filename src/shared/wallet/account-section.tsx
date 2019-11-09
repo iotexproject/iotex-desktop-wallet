@@ -709,9 +709,11 @@ class AccountSection extends React.Component<Props, State> {
             <Link
               to=""
               target="_blank noopener noreferer"
-              onClick={onElectronClick(
-                `https://iotexscan.io/address/${account.address}`
-              )}
+              onClick={() =>
+                onElectronClick(
+                  `https://iotexscan.io/address/${account.address}`
+                )
+              }
             >
               {t("account.actionHistory")}
             </Link>

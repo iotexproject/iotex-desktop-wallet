@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { Token } from "../../erc20/token";
 
 const XRC20TokenName: React.FC<{ contract: string }> = ({ contract }) => {
+  const [name, setName] = useState("");
   const token = Token.getToken(contract);
   token
     .getBasicTokenInfo()
@@ -16,11 +17,11 @@ const XRC20TokenName: React.FC<{ contract: string }> = ({ contract }) => {
     .catch(() => {
       setName("");
     });
-  const [name, setName] = useState("");
   return <span>{name}</span>;
 };
 
 const XRC20TokenUnit: React.FC<{ contract: string }> = ({ contract }) => {
+  const [text, setText] = useState("");
   const token = Token.getToken(contract);
   token
     .getBasicTokenInfo()
@@ -32,7 +33,6 @@ const XRC20TokenUnit: React.FC<{ contract: string }> = ({ contract }) => {
     .catch(() => {
       setText("");
     });
-  const [text, setText] = useState("");
   return <span>{text}</span>;
 };
 
@@ -40,6 +40,7 @@ const XRC20TokenBalance: React.FC<{ contract: string; address: string }> = ({
   contract,
   address
 }) => {
+  const [balance, setBalance] = useState("");
   const token = Token.getToken(contract);
   token
     .getInfo(address)
@@ -51,7 +52,6 @@ const XRC20TokenBalance: React.FC<{ contract: string; address: string }> = ({
     .catch(() => {
       setBalance("");
     });
-  const [balance, setBalance] = useState("");
   return <span>{balance}</span>;
 };
 
@@ -59,6 +59,7 @@ const XRC20TokenBalanceTag: React.FC<{ contract: string; address: string }> = ({
   contract,
   address
 }) => {
+  const [balance, setBalance] = useState("");
   const token = Token.getToken(contract);
   token
     .getInfo(address)
@@ -70,7 +71,6 @@ const XRC20TokenBalanceTag: React.FC<{ contract: string; address: string }> = ({
     .catch(() => {
       setBalance("");
     });
-  const [balance, setBalance] = useState("");
   return balance ? <Tag>{balance}</Tag> : null;
 };
 
@@ -78,6 +78,7 @@ const XRC20TokenValue: React.FC<{ contract: string; value: BigNumber }> = ({
   contract,
   value
 }) => {
+  const [balance, setBalance] = useState("");
   const token = Token.getToken(contract);
   token
     .getBasicTokenInfo()
@@ -95,7 +96,6 @@ const XRC20TokenValue: React.FC<{ contract: string; value: BigNumber }> = ({
       // failback to native
       setBalance(`${fromRau(`${value}`, "Iotx")} IOTX`);
     });
-  const [balance, setBalance] = useState("");
   return <span>{balance}</span>;
 };
 

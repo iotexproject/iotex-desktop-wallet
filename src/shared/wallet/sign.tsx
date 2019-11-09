@@ -26,8 +26,8 @@ export function SignInner({
   fromAddress,
   reqId
 }: Props): JSX.Element {
-  const msgRaw = messageToSign || get(window, "query.message") || "";
   const [signedMsg, setSignedMsg] = useState("");
+  const msgRaw = messageToSign || get(window, "query.message") || "";
 
   return (
     <Form>

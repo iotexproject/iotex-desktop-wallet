@@ -146,7 +146,7 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
                       });
                     }
                     if (loading) {
-                      return address;
+                      return <span>{address}</span>;
                     }
                     if (!!error) {
                       return <span>{address}</span>;
@@ -174,6 +174,7 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
 };
 
 export const BlockListPlaceHolder = (props: { count: number }) => {
+  // tslint:disable-next-line: prefer-array-literal
   const blocks = [...Array(props.count)];
   return (
     <>

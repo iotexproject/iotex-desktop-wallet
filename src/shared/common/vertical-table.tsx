@@ -49,7 +49,6 @@ function VerticalTable<T = any>(props: IVerticalTableProps<T>): JSX.Element {
     loading
   } = props;
   const [expanded, setExpanded] = useState(false);
-
   const dataSource = Object.keys(objectSource)
     .map(
       (key: string): IVerticalTableKeyPair<T> => ({

@@ -42,6 +42,7 @@ export const setProviderNetwork = (url: string) => {
 export const ChainNetworkSwitchComponent = (
   props: IChainNetworkSwitchComponentProps
 ) => {
+  const [isShowForm, showForm] = useState(false);
   const { Option } = Select;
   const { current, chains } = props.multiChain;
   const { network, customRPCs, dispatch, defaultERC20Tokens } = props;
@@ -67,7 +68,6 @@ export const ChainNetworkSwitchComponent = (
       dispatch(setNetwork(defaultNetwork, supportTokens));
     });
   }
-  const [isShowForm, showForm] = useState(false);
   return (
     <>
       <Select

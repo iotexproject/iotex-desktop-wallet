@@ -16,6 +16,9 @@ import { RootServer } from "onefx/lib/iso-react-render/root/root-server";
 import React from "react";
 import { ApolloProvider } from "react-apollo";
 import { getDataFromTree } from "react-apollo";
+import { Provider } from "react-redux";
+import { StaticRouter } from "react-router";
+import { createStore } from "redux";
 // @ts-ignore
 import * as engine from "styletron-engine-atomic";
 import { IWalletState } from "../wallet/wallet-reducer";
@@ -59,17 +62,23 @@ export async function apolloSSR(
     defaultNetworkTokens: []
   };
 
+  const AppVDom = (
+    <StaticRouter>
+      <Provider store={createStore(noopReducer, store.getState())}>
+        <RootServer
+          store={store}
+          location={ctx.url}
+          context={context}
+          styletron={styletron}
+        >
+          <ApolloProvider client={apolloClient}>{VDom}</ApolloProvider>
+        </RootServer>
+      </Provider>
+    </StaticRouter>
+  );
+
   try {
-    await getDataFromTree(
-      <RootServer
-        store={store}
-        location={ctx.url}
-        context={context}
-        styletron={styletron}
-      >
-        <ApolloProvider client={apolloClient}>{VDom}</ApolloProvider>
-      </RootServer>
-    );
+    await getDataFromTree(AppVDom);
     const apolloState = apolloClient.extract();
     ctx.setState("apolloState", apolloState);
     ctx.setState("apolloAnalyticsState", analyticsClient.extract());
@@ -79,7 +88,7 @@ export async function apolloSSR(
     logger.error(`failed to hydrate apollo SSR: ${e} ${e.stack}`);
   }
   return ctx.isoReactRender({
-    VDom: <ApolloProvider client={apolloClient}>{VDom}</ApolloProvider>,
+    VDom: AppVDom,
     clientScript,
     reducer
   });

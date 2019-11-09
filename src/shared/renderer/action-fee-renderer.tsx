@@ -27,7 +27,9 @@ const ActionFeeRenderer: VerticalTableRender<string> = ({ value }) => {
           get<IActionCore>(data, "action.actionInfo.0.action.core") || {};
         const { gasConsumed = 0 } =
           get<IReceipt>(data, "receipt.receiptInfo.receipt") || {};
-        return `${fromRau(`${gasConsumed * Number(gasPrice)}`, "Iotx")}`;
+        return (
+          <span>`${fromRau(`${gasConsumed * Number(gasPrice)}`, "Iotx")}`</span>
+        );
       }}
     </Query>
   );

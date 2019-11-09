@@ -98,4 +98,6 @@ class AddCustomRPCFormModal extends React.PureComponent<
   }
 }
 
-export default Form.create<AddCustomRPCFormModal>()(AddCustomRPCFormModal);
+export default Form.create<IAddCustomRPCFormModalProps>()(
+  AddCustomRPCFormModal
+);

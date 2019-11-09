@@ -70,6 +70,6 @@ class AddCustomTokensFormModal extends React.PureComponent<
   }
 }
 
-export default Form.create<AddCustomTokensFormModal>()(
+export default Form.create<IAddCustomTokensFormModalProps>()(
   AddCustomTokensFormModal
 );
