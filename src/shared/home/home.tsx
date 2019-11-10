@@ -132,4 +132,4 @@ class HomeComponent extends Component<Props, State> {
   }
 }
 
-export const Home = withRouter(withApollo(HomeComponent));
+export const Home = withRouter(withApollo<Props>(HomeComponent));

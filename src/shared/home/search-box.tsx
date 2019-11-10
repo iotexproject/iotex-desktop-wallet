@@ -47,4 +47,6 @@ class SearchBoxComponent extends Component<SearchBoxProps> {
   }
 }
 
-export const SearchBox = withRouter(withApollo(SearchBoxComponent));
+export const SearchBox = withRouter(
+  withApollo<SearchBoxProps>(SearchBoxComponent)
+);
