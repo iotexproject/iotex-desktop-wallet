@@ -174,6 +174,7 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
 };
 
 export const BlockListPlaceHolder = (props: { count: number }) => {
+  // tslint:disable-next-line: prefer-array-literal
   const blocks = [...Array(props.count)];
   return (
     <>
@@ -285,7 +286,7 @@ export const BlockList = (props: { height: string }): JSX.Element => {
         style={{ padding: 10, paddingBottom: 20 }}
         className="dots"
       >
-        {[...Array(4)].map((_, i) => (
+        {[1, 2, 3, 4].map((_, i) => (
           <Col key={`dot-${i}`} style={BlockListStyles.dot} />
         ))}
       </Row>
