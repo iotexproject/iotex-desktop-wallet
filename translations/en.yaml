@@ -330,7 +330,7 @@ topbar.goback_home: 'Go back home'
 topbar.voting: Voting
 topbar.dashboard: Dashboard
 topbar.tools: Tools
-footer.policy: 'Term of Use & Privacy Policy.'
+footer.policy: 'Terms of Use & Privacy Policy.'
 footer.enter_email: 'Enter email for Iotex updates!'
 footer.subscribe: Subscribe
 home.blocklist.ofActions: 'of actions'
@@ -426,7 +426,7 @@ footer.charity_program: 'Charity Program'
 footer.develop: Develop
 footer.github: Github
 footer.documentations: Documentations
-footer.libraries_tools: 'Libraries and tools'
+footer.libraries_tools: 'Libraries and Tools'
 footer.explorer: Explorer
 footer.wallet: Wallet
 footer.about_us: 'About Us'
