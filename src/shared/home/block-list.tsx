@@ -162,8 +162,9 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
               </Link>
               <div>{`${translateFn(timestamp)}`}</div>
               <Row type="flex" justify="space-between">
-                <Col>{`${numActions}`}</Col>
-                <Col>{t("home.blocklist.ofActions")}</Col>
+                <Col>
+                  {`${numActions}`} {t("home.blocklist.ofActions")}
+                </Col>
               </Row>
             </div>
           </div>
