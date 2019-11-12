@@ -110,7 +110,9 @@ class DeployFormInner extends Component<DeployProps, State> {
     if (!value) {
       return callback();
     }
-    const verFound = /pragma solidity [\^|>](.*);/.exec(value);
+    const verFound = /pragmasolidity(\d*\.\d*\.\d*|([\^|>|<](?:=)*\d*\.\d*\.\d*)){1,2}\;/.exec(
+      value.replace(/\s/g, "")
+    );
     if (!verFound || !verFound[1]) {
       return callback(t("wallet.missing_solidity_pragma"));
     }
