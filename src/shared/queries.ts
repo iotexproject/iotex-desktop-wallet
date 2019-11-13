@@ -572,3 +572,21 @@ export const GET_ANALYTICS_XRC20_ACTIONS = ({
   `;
   return gql(query);
 };
+
+export const GET_ANALYTICS_CONTRACT_ACTIONS = gql`
+  query contractActions($address: String!, $pagination: Pagination!) {
+    action {
+      evm: evmTransfersByAddress(address: $address) {
+        count
+        evmTransfers(pagination: $pagination) {
+          from
+          to
+          quantity
+          actHash
+          blkHash
+          timeStamp
+        }
+      }
+    }
+  }
+`;

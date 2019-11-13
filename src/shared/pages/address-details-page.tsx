@@ -19,6 +19,7 @@ import { CardDetails } from "../common/card-details";
 import { ErrorPage } from "../common/error-page";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
+import { EvmTransfersTable } from "../components/evm-transfer-table";
 import { GET_ACCOUNT } from "../queries";
 import { AddressDetailRenderer } from "../renderer";
 import { ActionTable } from "./action-list-page";
@@ -138,6 +139,9 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
                 </Tabs.TabPane>
                 <Tabs.TabPane tab={t("common.xrc20Transactions")} key="2">
                   <XRC20ActionTable address={address} />
+                </Tabs.TabPane>
+                <Tabs.TabPane tab={t("common.contract_transactions")} key="3">
+                  <EvmTransfersTable address={address} />
                 </Tabs.TabPane>
               </Tabs>
             </ContentPadding>
