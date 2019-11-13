@@ -40,6 +40,7 @@ action.block_hash: Block
 action.amount: Amount
 action.action: Action
 action.sender: Sender
+action.from: From
 action.recipient: Recipient
 title.action: Action
 render.key.height: Height
@@ -504,6 +505,7 @@ render.key.nametag: "Name Tag"
 render.key.pendingNonce: Pending Nonce
 common.transactions: Transactions
 common.xrc20Transactions: XRC20 Transactions
+common.contract_transactions: Contract Transactions
 block_details.hash: "Block Hash: ${hash}"
 page_navs.block: "Block #${height}"
 action.types.in: IN
