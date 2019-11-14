@@ -102,23 +102,6 @@ class DeployFormInner extends Component<DeployProps, State> {
     });
   }
 
-  private readonly solidityValidator = (
-    _: any,
-    value: any,
-    callback: Function
-  ): void => {
-    if (!value) {
-      return callback();
-    }
-    const verFound = /pragmasolidity(\d*\.\d*\.\d*|([\^|>|<](?:=)*\d*\.\d*\.\d*)){1,2}\;/.exec(
-      value.replace(/\s/g, "")
-    );
-    if (!verFound || !verFound[1]) {
-      return callback(t("wallet.missing_solidity_pragma"));
-    }
-    return callback();
-  };
-
   public renderConfirmation = () => {
     const { form, address } = this.props;
     const { showConfirmation } = this.state;
@@ -480,12 +463,7 @@ class DeployFormInner extends Component<DeployProps, State> {
           label={<FormItemLabel>{t("wallet.input.solidity")}</FormItemLabel>}
         >
           {getFieldDecorator("solidity", {
-            initialValue: "",
-            rules: [
-              {
-                validator: this.solidityValidator
-              }
-            ]
+            initialValue: ""
           })(
             <TextArea
               rows={4}
