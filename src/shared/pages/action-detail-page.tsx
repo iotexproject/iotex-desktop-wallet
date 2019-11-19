@@ -20,7 +20,7 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { Dict } from "../common/types";
 import { GET_ACTION_DETAILS_BY_HASH } from "../queries";
 import { CommonRenderer } from "../renderer";
-import _ from "lodash"
+import {omit} from "lodash"
 
 function isArray(arr: object){
   return Object.prototype.toString.call(arr)
@@ -36,12 +36,12 @@ function removeTypeName(obj: any){
     }
     return obj
   }else if(isArray(obj) === '[object Object]'){
-    obj = _.omit(obj, '__typename')
+    obj = omit(obj, '__typename')
     for(let index in obj){
       if(isArray(obj[index]) === '[object Array]'){
         obj[index] = removeTypeName(obj[index])
       }else if(isArray(obj[index]) === '[object Object]'){
-        obj[index] = _.omit(obj[index], '__typename')
+        obj[index] = omit(obj[index], '__typename')
       }
     }
     return obj
