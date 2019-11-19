@@ -22,29 +22,36 @@ import { GET_ACTION_DETAILS_BY_HASH } from "../queries";
 import { CommonRenderer } from "../renderer";
 import {omit} from "lodash"
 
-function isArray(arr: object){
+function isArray(arr: LogObject): string{
   return Object.prototype.toString.call(arr)
 }
 
-function removeTypeName(obj: any){
+interface LogObject {
+  [key: string]: LogObject;
+}
+
+function removeTypeName(obj: LogObject):LogObject{
   if(isArray(obj) === '[object Array]'){
-    if(obj.length === 0){
+    if(JSON.stringify(obj) === "[]"){
       return obj
     }
-    for(let i = 0; i < obj.length; i++){
-      obj[i] = removeTypeName(obj[i])
+    let objArrKeys = Object.keys(obj)
+    for(let i = 0; i < objArrKeys.length; i++){
+      obj[objArrKeys[i]] = removeTypeName(obj[objArrKeys[i]])
     }
     return obj
   }else if(isArray(obj) === '[object Object]'){
-    obj = omit(obj, '__typename')
-    for(let index in obj){
-      if(isArray(obj[index]) === '[object Array]'){
-        obj[index] = removeTypeName(obj[index])
-      }else if(isArray(obj[index]) === '[object Object]'){
-        obj[index] = omit(obj[index], '__typename')
+    let newObj: LogObject
+    newObj = omit(obj, '__typename')
+    let objKeys = Object.keys(newObj)
+    for(let i = 0; i < objKeys.length; i++){
+      if(isArray(newObj[objKeys[i]]) === '[object Array]'){
+        newObj[objKeys[i]] = removeTypeName(newObj[objKeys[i]])
+      }else if(isArray(newObj[objKeys[i]]) === '[object Object]'){
+        newObj[objKeys[i]] = omit(newObj[objKeys[i]], '__typename')
       }
     }
-    return obj
+    return newObj
   }else{
     return obj
   }
