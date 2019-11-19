@@ -181,6 +181,7 @@
     "is-electron": "2.2.0",
     "isomorphic-unfetch": "3.0.0",
     "koa-server-http-proxy": "0.1.0",
+    "lodash": "^4.17.15",
     "lodash.partition": "4.6.0",
     "lodash.throttle": "4.1.1",
     "node-fetch": "2.6.0",

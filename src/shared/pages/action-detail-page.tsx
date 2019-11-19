@@ -20,6 +20,35 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { Dict } from "../common/types";
 import { GET_ACTION_DETAILS_BY_HASH } from "../queries";
 import { CommonRenderer } from "../renderer";
+import _ from "lodash"
+
+function isArray(arr: object){
+  return Object.prototype.toString.call(arr)
+}
+
+function removeTypeName(obj: any){
+  if(isArray(obj) === '[object Array]'){
+    if(obj.length === 0){
+      return obj
+    }
+    for(let i = 0; i < obj.length; i++){
+      obj[i] = removeTypeName(obj[i])
+    }
+    return obj
+  }else if(isArray(obj) === '[object Object]'){
+    obj = _.omit(obj, '__typename')
+    for(let index in obj){
+      if(isArray(obj[index]) === '[object Array]'){
+        obj[index] = removeTypeName(obj[index])
+      }else if(isArray(obj[index]) === '[object Object]'){
+        obj[index] = _.omit(obj[index], '__typename')
+      }
+    }
+    return obj
+  }else{
+    return obj
+  }
+}
 
 export interface IActionsDetails {
   action?: GetActionsResponse;
@@ -61,7 +90,7 @@ const parseActionDetails = (data: IActionsDetails) => {
     )} Qev)`,
     nonce,
     ...(execution ? { data: execution.data.toString() } : {}),
-    logs
+    logs: removeTypeName(logs)
   };
 };
 
