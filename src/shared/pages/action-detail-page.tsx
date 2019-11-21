@@ -21,7 +21,6 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { Dict } from "../common/types";
 import { GET_ACTION_DETAILS_BY_HASH } from "../queries";
 import { CommonRenderer } from "../renderer";
-import omit from "lodash.omit";
 
 function isArray(arr: LogObject): string {
   return Object.prototype.toString.call(arr);
@@ -36,7 +35,7 @@ function removeTypeName(obj: LogObject): LogObject {
     if (JSON.stringify(obj) === "[]") {
       return obj;
     }
-    let objArrKeys = Object.keys(obj);
+    const objArrKeys = Object.keys(obj);
     for (let i = 0; i < objArrKeys.length; i++) {
       obj[objArrKeys[i]] = removeTypeName(obj[objArrKeys[i]]);
     }
@@ -44,7 +43,7 @@ function removeTypeName(obj: LogObject): LogObject {
   } else if (isArray(obj) === "[object Object]") {
     let newObj: LogObject;
     newObj = omit(obj, "__typename");
-    let objKeys = Object.keys(newObj);
+    const objKeys = Object.keys(newObj);
     for (let i = 0; i < objKeys.length; i++) {
       if (isArray(newObj[objKeys[i]]) === "[object Array]") {
         newObj[objKeys[i]] = removeTypeName(newObj[objKeys[i]]);
