@@ -109,7 +109,7 @@ const IotexLogo = () => (
   <Link to="/">
     <img
       alt="iotex-logo"
-      src={assetURL("/logo_explorer.svg")}
+      src={assetURL("/logo_explorer.png")}
       style={{
         height: 38,
         width: "auto"
