@@ -3,6 +3,7 @@ import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import isBrowser from "is-browser";
+import omit from "lodash.omit";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
@@ -20,6 +21,41 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { Dict } from "../common/types";
 import { GET_ACTION_DETAILS_BY_HASH } from "../queries";
 import { CommonRenderer } from "../renderer";
+
+function isArray(arr: LogObject): string {
+  return Object.prototype.toString.call(arr);
+}
+
+interface LogObject {
+  [key: string]: LogObject;
+}
+
+function removeTypeName(obj: LogObject): LogObject {
+  if (isArray(obj) === "[object Array]") {
+    if (JSON.stringify(obj) === "[]") {
+      return obj;
+    }
+    const objArrKeys = Object.keys(obj);
+    for (let i = 0; i < objArrKeys.length; i++) {
+      obj[objArrKeys[i]] = removeTypeName(obj[objArrKeys[i]]);
+    }
+    return obj;
+  } else if (isArray(obj) === "[object Object]") {
+    let newObj: LogObject;
+    newObj = omit(obj, "__typename");
+    const objKeys = Object.keys(newObj);
+    for (let i = 0; i < objKeys.length; i++) {
+      if (isArray(newObj[objKeys[i]]) === "[object Array]") {
+        newObj[objKeys[i]] = removeTypeName(newObj[objKeys[i]]);
+      } else if (isArray(newObj[objKeys[i]]) === "[object Object]") {
+        newObj[objKeys[i]] = omit(newObj[objKeys[i]], "__typename");
+      }
+    }
+    return newObj;
+  } else {
+    return obj;
+  }
+}
 
 export interface IActionsDetails {
   action?: GetActionsResponse;
@@ -61,7 +97,7 @@ const parseActionDetails = (data: IActionsDetails) => {
     )} Qev)`,
     nonce,
     ...(execution ? { data: execution.data.toString() } : {}),
-    logs
+    logs: removeTypeName(logs)
   };
 };
 
