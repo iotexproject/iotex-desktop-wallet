@@ -132,6 +132,7 @@
     "@types/graphql": "14.2.3",
     "@types/graphql-iso-date": "3.3.1",
     "@types/koa": "2.0.48",
+    "@types/lodash.omit": "^4.5.6",
     "@types/node": "11.15.2",
     "@types/node-fetch": "2.3.5",
     "@types/qrcode.react": "0.8.2",
