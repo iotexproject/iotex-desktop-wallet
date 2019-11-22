@@ -58,7 +58,7 @@ export const apolloClient = new ApolloClient({
 
 export const setApolloClientEndpoint = (url: string) => {
   apolloClientConfig.uri = url;
-  apolloClient.cache.reset();
+  apolloClient.resetStore();
   apolloClient.reFetchObservableQueries(true);
 };
 
