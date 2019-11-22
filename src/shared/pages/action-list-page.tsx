@@ -24,7 +24,7 @@ import { ActionFeeRenderer } from "../renderer/action-fee-renderer";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { Page } from "./page";
 
-const PAGE_SIZE = 30;
+const PAGE_SIZE = 15;
 
 export function getAddress(record: ActionInfo): string {
   const addr: string =

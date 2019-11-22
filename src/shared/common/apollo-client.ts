@@ -24,9 +24,27 @@ const apolloClientConfig = {
 
 const fetch = unfetch.bind(window);
 
+const MAX_CONCURRENT_REQUEST = 5;
+
+let availableCap = MAX_CONCURRENT_REQUEST;
+setInterval(() => (availableCap = MAX_CONCURRENT_REQUEST), 1000); // Rate cap to 5 requests per second
+
+const limitRateFetch = async (
+  req: RequestInfo,
+  opt?: RequestInit
+): Promise<Response> => {
+  if (availableCap > 0) {
+    availableCap--;
+    return fetch(req, opt);
+  }
+  return new Promise(resolve =>
+    setTimeout(() => resolve(limitRateFetch(req, opt)), 100)
+  );
+};
+
 const httpLink = new HttpLink({
   uri: apiGatewayUrl,
-  fetch: (_, ...opts) => fetch(apolloClientConfig.uri, ...opts),
+  fetch: async (_, ...opts) => limitRateFetch(apolloClientConfig.uri, ...opts),
   headers: { "x-csrf-token": csrfToken }
 });
 
@@ -40,7 +58,7 @@ export const apolloClient = new ApolloClient({
 
 export const setApolloClientEndpoint = (url: string) => {
   apolloClientConfig.uri = url;
-  apolloClient.resetStore();
+  apolloClient.cache.reset();
   apolloClient.reFetchObservableQueries(true);
 };
 
@@ -50,7 +68,7 @@ export const webBpApolloClient = createWebBpApolloClient(
 
 const httpAnalyticsLink = new HttpLink({
   uri: analyticsApiGatewayUrl || "https://analytics.iotexscan.io/query",
-  fetch
+  fetch: limitRateFetch
 });
 
 export const analyticsClient = new ApolloClient({
