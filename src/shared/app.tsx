@@ -1,7 +1,7 @@
 // @ts-ignore
 
 // @ts-ignore
-import Footer, { FOOTER_HEIGHT } from "iotex-react-footer";
+import { FOOTER_HEIGHT } from "iotex-react-footer";
 import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
 import { Switch } from "react-router";
@@ -22,6 +22,7 @@ import { BlockDetailPage } from "./pages/block-detail-page";
 import { BlockListPage } from "./pages/block-list-page";
 import { XRC20ActionListPage } from "./pages/xrc20-action-list-page";
 import { Wallet } from "./wallet/wallet";
+import { Footer } from "./common/footer";
 
 type Props = {
   googleTid: string;
