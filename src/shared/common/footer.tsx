@@ -299,10 +299,13 @@ import { assetURL } from "onefx/lib/asset-url";
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
-import React from "react";
 import { colors } from "./styles/style-color";
 import { media } from "./styles/style-media";
-import { contentPadding } from "./styles/style-padding";
+import React, { ChangeEvent, useState } from "react";
+import { withApollo, WithApolloClient } from "react-apollo";
+import { SendGridInfo } from "../../api-gateway/resolvers/meta";
+import { ADD_SUBSCRIPTION } from "../queries";
+import notification from "antd/lib/notification";
 
 export const FOOTER_HEIGHT = 375;
 
@@ -420,13 +423,95 @@ const links = [
   }
 ];
 
+const linkPx: Array<string> = ["40px", "240px", "413px"];
+
+const InputWrapper = styled("div", (_: React.CSSProperties) => ({
+  [media.media960]: {
+    marginBottom: "10px"
+  },
+  [media.palm]: {
+    textAlign: "center"
+  }
+}));
+
+const disabledButton = {
+  cursor: "inherit",
+  background: "none",
+  color: "inherit"
+};
+
+type SubscriptionProps = WithApolloClient<object>;
+
+const SubscriptionComponent = ({ client }: SubscriptionProps): JSX.Element => {
+  const [email, setEmail] = useState("");
+  const [isEmailValid, setEmailValid] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const emailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      value,
+      validity: { valid }
+    } = event.target;
+
+    setEmail(value);
+    setEmailValid(!!value && !!valid);
+  };
+
+  const onSubscribe = () => {
+    setLoading(true);
+    client
+      .mutate<{ addSubscription: SendGridInfo }>({
+        mutation: ADD_SUBSCRIPTION,
+        variables: {
+          email
+        }
+      })
+      .then(({ data }) => {
+        setLoading(false);
+        const isSubscribeSuccess = (data as { addSubscription: SendGridInfo })
+          .addSubscription.isSubscribeSuccess;
+        const message = isSubscribeSuccess
+          ? "footer.subscribe.success"
+          : "footer.subscribe.failed";
+        const notice = { message: t(message), duration: 3 };
+
+        if (isSubscribeSuccess) {
+          notification.success(notice);
+        } else {
+          notification.error(notice);
+        }
+      });
+  };
+  return (
+    <InputWrapper>
+      <Input
+        type="email"
+        placeholder={`${t("footer.enter_email")}`}
+        onChange={emailChange}
+      />
+      {isEmailValid && !isLoading ? (
+        <FooterButton onClick={onSubscribe} className="ant-btn-primary">
+          {t("footer.subscribe")}
+        </FooterButton>
+      ) : (
+        <FooterButton
+          style={{ cursor: "inherit", background: "none", color: "inherit" }}
+        >
+          {t("footer.subscribe")}
+        </FooterButton>
+      )}
+    </InputWrapper>
+  );
+};
+
+const Subscription = withApollo(SubscriptionComponent);
+
 export function Footer(): JSX.Element {
   return (
     <FooterWrapper>
       <Align>
         {links.map((link, i) => (
-          <LinkWrapper key={i}>
-            <Title key={i}>{t(link.name)}</Title>
+          <LinkWrapper key={i} style={{ left: linkPx[i] }}>
+            <Title>{t(link.name)}</Title>
             <TitleValue>
               {link.value.map((res, j) => (
                 <LinkP key={`${i}-${j}`}>
@@ -439,8 +524,7 @@ export function Footer(): JSX.Element {
           </LinkWrapper>
         ))}
         <FooterRight>
-          <FooterInput placeholder={t("footer.enter_email")} />
-          <FooterButton>{t("footer.subscribe")}</FooterButton>
+          <Subscription />
           <FooterImages>
             {images.map((image, index) => (
               <a key={index} href={image.href}>
@@ -475,6 +559,7 @@ const Team = styled("a", {
 });
 
 const LinkWrapper = styled("div", {
+  flex: 0,
   [media.media1024]: { marginRight: 0 }
 });
 
@@ -502,7 +587,7 @@ const FooterAvatar = styled(Avatar, {
 
 const FooterRight = styled("div", {
   textAlign: "right",
-  margin: "20px 0px 13px 40px",
+  margin: "48px 0px 13px 40px",
   [media.media1024]: {
     width: "100%",
     marginTop: "16px",
@@ -514,7 +599,11 @@ const FooterRight = styled("div", {
 
 const FooterBottom = styled("div", {
   textAlign: "center",
-  color: "#dbdbdb"
+  color: "#dbdbdb",
+  position: "relative",
+  margin: "0px 0px 18px calc((100% - 980px) * 0.87)",
+  width: "394px",
+  minHeight: "auto"
 });
 
 const FooterButton = styled(Button, {
@@ -531,14 +620,13 @@ const FooterButton = styled(Button, {
 });
 
 const Title = styled("div", {
-  fontSize: "16px",
   width: "91px",
   height: "auto",
   lineHeight: 2,
   color: "#dbdbdb",
   position: "relative",
-  left: "40%",
-  margin: "20px 0px 13px 0px",
+  left: "40px",
+  margin: "48px 0px 13px 0px",
   [media.media1024]: { lineHeight: 1.5 }
 });
 
@@ -546,8 +634,8 @@ const TitleValue = styled("div", {
   width: "192px",
   height: "auto",
   position: "relative",
-  left: "40%",
-  margin: "0px 0px 60px 0px"
+  left: "40px",
+  margin: "0px 0px 50px 0px"
 });
 
 const LinkP = styled("p", {
@@ -572,28 +660,20 @@ const FooterImages = styled("div", {
 });
 
 const FooterWrapper = styled("div", {
-  ...contentPadding,
-  paddingTop: "32px",
-  paddingBottom: "32px",
   minHeight: `${FOOTER_HEIGHT}px`,
   backgroundColor: colors.nav02,
   color: colors.white,
   minWidth: "980px",
   width: "100%",
-  height: "375px",
-  position: "static",
-  [media.media1024]: {
-    minWidth: 0,
-    paddingTop: "16px",
-    paddingBottom: "16px"
-  }
+  position: "static"
 });
 
 const Align = styled("div", {
   display: "flex",
   flexDirection: "row",
   alignItems: "flex-start",
-  justifyContent: "center",
+  justifyContent: "flex-start",
   width: "100%",
-  minWidth: "980px"
+  minWidth: "980px",
+  margin: "0px 0px 0px calc((100% - 980px) * 0.5)"
 });
