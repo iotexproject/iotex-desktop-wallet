@@ -205,7 +205,7 @@
     "safe-json-globals": "2.1.0",
     "shader": "1.0.0",
     "solc": "0.5.12",
-    "styletron-engine-atomic": "1.1.2",
+    "styletron-engine-atomic": "1.4.4",
     "text-to-clipboard": "3.0.5",
     "ts-node": "8.2.0",
     "tslint-react": "4.1.0",
