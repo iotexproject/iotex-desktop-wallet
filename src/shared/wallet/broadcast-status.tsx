@@ -66,7 +66,7 @@ function ActionPoll({ txHash }: { txHash: string }): JSX.Element {
           }, POLL_INTERVAL);
         }
         if (loading || error) {
-          if (error) {
+          if (error && !error.message.match(/not\s+exist/i)) {
             notification.error({
               message: `failed to query action in ActionPoll: ${error}`
             });

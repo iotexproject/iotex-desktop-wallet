@@ -34,14 +34,14 @@ const multiChain: {
     }
   ];
 } = (isBrowser && globalState.base.multiChain) || {
-  current: "mainnet",
+  current: "MAINNET",
   chains: [
     {
-      name: "mainnet",
+      name: "MAINNET",
       url: "https://iotexscan.io/"
     },
     {
-      name: "testnet",
+      name: "TESTNET",
       url: "https://testnet.iotexscan.io/"
     }
   ]
@@ -109,7 +109,7 @@ const IotexLogo = () => (
   <Link to="/">
     <img
       alt="iotex-logo"
-      src={assetURL("/logo_explorer.svg")}
+      src={assetURL("/logo_explorer.png")}
       style={{
         height: 38,
         width: "auto"
@@ -177,9 +177,8 @@ const renderMenuItem = (menu: INavMenuItem): JSX.Element => {
     <Menu.SubMenu
       title={
         <HoverableRow type="flex" justify="space-between">
-          <Col>{t(label)}</Col>
-          <Col xs={0} lg={1}>
-            <Icon type="caret-down" />
+          <Col>
+            {t(label)} <Icon style={{ fontSize: 12 }} type="down" />
           </Col>
         </HoverableRow>
       }
