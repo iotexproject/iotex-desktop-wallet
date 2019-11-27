@@ -9,11 +9,11 @@ import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import { colors } from "./styles/style-color";
 import { media } from "./styles/style-media";
-import React, { ChangeEvent, useState } from "react";
-import { withApollo, WithApolloClient } from "react-apollo";
-import { SendGridInfo } from "../../api-gateway/resolvers/meta";
-import { ADD_SUBSCRIPTION } from "../queries";
-import notification from "antd/lib/notification";
+import React from "react";
+// import { withApollo, WithApolloClient } from "react-apollo";
+// import { SendGridInfo } from "../../api-gateway/resolvers/meta";
+// import { ADD_SUBSCRIPTION } from "../queries";
+// import notification from "antd/lib/notification";
 // import {webBpApolloClient} from "../common/apollo-client"
 
 export const FOOTER_HEIGHT = 375;
@@ -134,72 +134,71 @@ const links = [
 
 const linkPx: Array<string> = ["40px", "240px", "413px"];
 
-const InputWrapper = styled("div", (_: React.CSSProperties) => ({
-  [media.media960]: {
-    marginBottom: "10px"
-  },
-  [media.palm]: {
-    textAlign: "center"
-  }
-}));
+// const InputWrapper = styled("div", (_: React.CSSProperties) => ({
+//   [media.media960]: {
+//     marginBottom: "10px"
+//   },
+//   [media.palm]: {
+//     textAlign: "center"
+//   }
+// }));
 
-type SubscriptionProps = WithApolloClient<object>;
+// type SubscriptionProps = WithApolloClient<object>;
 
-const SubscriptionComponent = ({ client }: SubscriptionProps): JSX.Element => {
-  const [email, setEmail] = useState("");
-  const emailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
+// const SubscriptionComponent = ({ client }: SubscriptionProps): JSX.Element => {
+//   const [email, setEmail] = useState("");
+//   const emailChange = (event: ChangeEvent<HTMLInputElement>) => {
+//     const { value } = event.target;
 
-    setEmail(value);
-  };
+//     setEmail(value);
+//   };
 
-  const onSubscribe = () => {
-    try {
-      client
-        .mutate<{ addSubscription: SendGridInfo }>({
-          mutation: ADD_SUBSCRIPTION,
-          variables: {
-            email
-          }
-        })
-        .then(({ data }) => {
-          alert(data);
-          // setLoading(false);
-          const isSubscribeSuccess = (data as { addSubscription: SendGridInfo })
-            .addSubscription.isSubscribeSuccess;
-          const message = isSubscribeSuccess
-            ? "footer.subscribe.success"
-            : "footer.subscribe.failed";
-          const notice = { message: t(message), duration: 3 };
+//   const onSubscribe = () => {
+//     try {
+//       client
+//         .mutate<{ addSubscription: SendGridInfo }>({
+//           mutation: ADD_SUBSCRIPTION,
+//           variables: {
+//             email
+//           }
+//         })
+//         .then(({ data }) => {
+//           // setLoading(false);
+//           const isSubscribeSuccess = (data as { addSubscription: SendGridInfo })
+//             .addSubscription.isSubscribeSuccess;
+//           const message = isSubscribeSuccess
+//             ? "footer.subscribe.success"
+//             : "footer.subscribe.failed";
+//           const notice = { message: t(message), duration: 3 };
 
-          if (isSubscribeSuccess) {
-            notification.success(notice);
-          } else {
-            notification.error(notice);
-          }
-        })
-        .catch(err => {
-          alert(JSON.stringify(err));
-        });
-    } catch (err) {
-      alert(JSON.stringify(err));
-    }
-  };
-  return (
-    <InputWrapper>
-      <Form onSubmit={onSubscribe}>
-        <FooterInput
-          type="email"
-          placeholder={`${t("footer.enter_email")}`}
-          onChange={emailChange}
-        />
-        <FooterSubmit type="submit" value={`${t("footer.subscribe")}`} />
-      </Form>
-    </InputWrapper>
-  );
-};
+//           if (isSubscribeSuccess) {
+//             notification.success(notice);
+//           } else {
+//             notification.error(notice);
+//           }
+//         })
+//         .catch(err => {
+//           alert(JSON.stringify(err));
+//         });
+//     } catch (err) {
+//       alert(JSON.stringify(err));
+//     }
+//   };
+//   return (
+//     <InputWrapper>
+//       <Form onSubmit={onSubscribe}>
+//         <FooterInput
+//           type="email"
+//           placeholder={`${t("footer.enter_email")}`}
+//           onChange={emailChange}
+//         />
+//         <FooterSubmit type="submit" value={`${t("footer.subscribe")}`} />
+//       </Form>
+//     </InputWrapper>
+//   );
+// };
 
-const Subscription = withApollo(SubscriptionComponent);
+// const Subscription = withApollo(SubscriptionComponent);
 
 export function Footer(): JSX.Element {
   return (
@@ -220,7 +219,13 @@ export function Footer(): JSX.Element {
           </LinkWrapper>
         ))}
         <FooterRight>
-          <Subscription />
+          <Form>
+            <FooterInput
+              type="email"
+              placeholder={`${t("footer.enter_email")}`}
+            />
+            <FooterSubmit type="submit" value={`${t("footer.subscribe")}`} />
+          </Form>
           <FooterImages>
             {images.map((image, index) => (
               <a key={index} href={image.href}>
@@ -298,7 +303,7 @@ const FooterBottom = styled("div", {
   color: "#dbdbdb",
   position: "relative",
   margin: "0px 0px 18px calc((100% - 980px) * 0.87)",
-  width: "394px",
+  width: "500px",
   minHeight: "auto"
 });
 
