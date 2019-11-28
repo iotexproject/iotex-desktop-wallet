@@ -7,7 +7,8 @@ export const media = {
   lap: `@media only screen and (min-width: ${PALM_WIDTH}px) and (max-width: 768px)`,
   media960: "@media only screen and (max-width: 960px)",
   desk: "@media only screen and (min-width: 769px) and (max-width: 1280px)",
-  deskWide: "@media only screen and (min-width: 1281px)"
+  deskWide: "@media only screen and (min-width: 1281px)",
+  media1024: "@media only screen and (max-width: 1024px)"
 };
 
 export const fullOnPalm = {
