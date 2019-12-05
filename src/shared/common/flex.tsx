@@ -57,3 +57,13 @@ export function Flex({
 
   return <StyledDiv>{children}</StyledDiv>;
 }
+
+export const CenterFlex = styled("div", {
+  display: "flex",
+  "-webkit-box-flex": 1,
+  justifyContent: "center",
+  "-webkit-justify-content": "center",
+  alignContent: "center",
+  alignItems: "center",
+  width: "100%"
+});

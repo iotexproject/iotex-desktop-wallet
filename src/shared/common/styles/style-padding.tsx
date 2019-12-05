@@ -1,7 +1,7 @@
 import { styled } from "onefx/lib/styletron-react";
 import React, { CSSProperties } from "react";
 
-import { Flex } from "../flex";
+import { CenterFlex } from "../flex";
 import { media } from "./style-media";
 
 export const wideContentPadding = {
@@ -31,8 +31,10 @@ export const ContentPadding = ({
   style?: CSSProperties;
 }) => (
   <Pd style={style}>
-    <Flex width="100%" center={true}>
+    <CenterFlex>
       <div style={{ maxWidth: "1320px", width: "100%" }}>{children}</div>
-    </Flex>
+    </CenterFlex>
   </Pd>
 );
+
+export const WideContentPadding = styled("div", contentPadding);
