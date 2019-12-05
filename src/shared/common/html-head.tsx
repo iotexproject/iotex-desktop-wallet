@@ -28,10 +28,6 @@ export function HtmlHead({ locale }: { locale: string }): JSX.Element {
         {
           src: "https://ethereum.github.io/solc-bin/bin/list.js",
           type: "text/javascript"
-        },
-        {
-          src: assetURL("/browser-solc.min.js"),
-          type: "text/javascript"
         }
       ]}
       link={[

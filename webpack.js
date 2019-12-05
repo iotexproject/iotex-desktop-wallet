@@ -23,6 +23,12 @@ module.exports = {
       }),
     {}
   ),
+  node: {
+    fs: "empty",
+    net: "empty",
+    tls: "empty",
+    module: "empty"
+  },
   output: {
     filename: PROD ? "[name]-[chunkhash].js" : "[name].js",
     path: path.resolve(__dirname, OUTPUT_DIR)

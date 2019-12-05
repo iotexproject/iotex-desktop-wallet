@@ -19,6 +19,8 @@ import { isValidBytes } from "../validator";
 import Dropdown from "antd/lib/dropdown";
 import Icon from "antd/lib/icon";
 import Menu from "antd/lib/menu";
+//@ts-ignore
+import BrowserSolc from "../browser-solc";
 
 import { toRau } from "iotex-antenna/lib/account/utils";
 import isElectron from "is-electron";
@@ -91,31 +93,15 @@ class DeployFormInner extends Component<DeployProps, State> {
     compiledOutput: null,
     txHash: "",
     constructorArgs: [],
-    loadingSolc: true
+    loadingSolc: false
   };
 
   public componentDidMount(): void {
-    if (this.state.loadingSolc) {
-      if (!window.soljsonReleases) {
-        window.BrowserSolc.getVersions(() => {
-          this.setState({
-            loadingSolc: false
-          });
-        });
-      } else {
-        this.setState({
-          loadingSolc: false
-        });
-      }
-    }
+    window.BrowserSolc = BrowserSolc;
   }
 
   public solcRefs: { [index: string]: any } = {};
   public loadSolc(version: string, callback: Function): any {
-    if (this.state.loadingSolc) {
-      setTimeout(() => this.loadSolc(version, callback), 1000);
-      return;
-    }
     if (!version) {
       callback(null);
     } else if (this.solcRefs[version]) {
@@ -139,19 +125,15 @@ class DeployFormInner extends Component<DeployProps, State> {
       form: { setFieldsValue }
     } = this.props;
     setFieldsValue({
-      byteCode: contract.bytecode,
-      abi: contract.interface
+      byteCode: contract.evm.bytecode.object,
+      abi: JSON.stringify(contract.abi)
     });
   }
 
   private readonly handleSolcOutput = (output: ISolcOutput, cb: Function) => {
     if (output.error) {
       cb(t(output.error));
-    } else if (
-      output.errors &&
-      output.errors.length > 0 &&
-      output.errors.some((err: any) => err.indexOf("Warning:") === -1)
-    ) {
+    } else if (output.errors && output.errors.length > 0) {
       cb(JSON.stringify(output.errors));
     } else {
       cb();
@@ -198,7 +180,28 @@ class DeployFormInner extends Component<DeployProps, State> {
         callback(t("wallet.cannot_load_solidity_version"));
         return;
       }
-      const output = solc.compile(value);
+      const output = JSON.parse(
+        solc.compile(
+          JSON.stringify({
+            language: "Solidity",
+            sources: {
+              MyContract: {
+                content: value
+              }
+            },
+            settings: {
+              outputSelection: {
+                "*": {
+                  "*": ["*"]
+                }
+              }
+            }
+          })
+        )
+      );
+      if (output.contracts.MyContract) {
+        output.contracts = output.contracts.MyContract;
+      }
       const compiledOutput = this.handleSolcOutput(output, callback);
       this.setState({ compiledOutput });
     });
@@ -376,7 +379,7 @@ class DeployFormInner extends Component<DeployProps, State> {
             key={`contract-${contract.contractName}`}
             onClick={() => this.handleGenerateAbiAndByteCode(contract)}
           >
-            {`Contract ${contract.contractName.substr(1)}`}
+            {`Contract ${contract.contractName}`}
           </Menu.Item>
         ))}
       </Menu>
