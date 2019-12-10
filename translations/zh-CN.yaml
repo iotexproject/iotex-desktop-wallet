@@ -5,6 +5,7 @@ topbar.blockchain: 区块链
 topbar.blocks: 区块
 topbar.actions: 行动
 topbar.home: 首页
+topbar.accounts: 账户
 not_found.bar: 未找到
 not_found.title: 糟糕!
 not_found.info: 找不到页面...
@@ -393,6 +394,11 @@ footer.resource: 资源
 footer.lauch: 发布
 footer.roadmap: 路线图
 footer.research_paper: 研究论文
+fotter.community_resource: 社区资源
+fotter.secure_hardware: 安全硬件
+fotter.global_network: 全球网络
+fotter.brand_ambassador: 品牌代言人
+fotter.ecosystem: 生态系统
 footer.announcemenets: 公告
 footer.delegates_program: 节点项目
 footer.charity_program: 慈善项目

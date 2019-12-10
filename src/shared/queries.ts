@@ -187,6 +187,32 @@ export const GET_ACCOUNT = gql`
   }
 `;
 
+export const GET_ACCOUNT_DETAIL_BY_DETAIL = gql`
+  query($adress: String) {
+    getAccount(address: $address) {
+      accountMeta {
+        address
+        balance
+        nonce
+        pendingNonce
+        numActions
+      }
+    }
+  }
+`;
+
+export const GET_TOP_HOLDERS = gql`
+  query($endEpochNumber: Int!, $numberOfHolders: Int!) {
+    topHolders(
+      endEpochNumber: $endEpochNumber
+      numberOfHolders: $numberOfHolders
+    ) {
+      address
+      balance
+    }
+  }
+`;
+
 export const SUGGEST_GAS_PRICE = gql`
   query suggestGasPrice {
     suggestGasPrice {

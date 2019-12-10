@@ -17,6 +17,7 @@ import { TOP_BAR_HEIGHT, TopMenuBar } from "./common/top-menu-bar";
 import { Home } from "./home/home";
 import { ActionDetailPage } from "./pages/action-detail-page";
 import { ActionListPage } from "./pages/action-list-page";
+import { AccountListPage } from "./pages/account-list-page";
 import { AddressDetailsPage } from "./pages/address-details-page";
 import { BlockDetailPage } from "./pages/block-detail-page";
 import { BlockListPage } from "./pages/block-list-page";
@@ -61,6 +62,7 @@ export class App extends Component<Props> {
                 component={ActionDetailPage}
               />
               <Route exact={true} path="/action" component={ActionListPage} />
+              <Route exact={true} path="/account" component={AccountListPage} />
               <Route
                 exact={true}
                 path="/tokentxns"

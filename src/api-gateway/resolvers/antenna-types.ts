@@ -1,4 +1,5 @@
 import {
+  ITopHolderInfo,
   IAction,
   IActionCore,
   IActionInfo,
@@ -688,6 +689,14 @@ export class ActionInfo implements IActionInfo {
   public blkHash: string;
   @Field(_ => Timestamp)
   public timestamp: Timestamp;
+}
+
+@ObjectType()
+export class TopHolderInfo implements ITopHolderInfo {
+  @Field(_ => String)
+  public address: string;
+  @Field(_ => String)
+  public balance: string;
 }
 
 @ObjectType()

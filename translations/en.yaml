@@ -2,6 +2,10 @@ abi.input: Input
 abi.return: Return
 account.actionHistory: 'Action History'
 account.addCustomRPC: 'Add custom RPC'
+account.rank: "Rank"
+account.nameTag: "Name Tag"
+account.percentage: "Percentage"
+account.txnCount: "Txn Count"
 account.address: 'Account Address'
 account.availableForBid: 'Your balance available for bidding: '
 account.bid: Bid
@@ -175,6 +179,10 @@ footer.launch: Launch
 footer.libraries_tools: 'Libraries and Tools'
 footer.policy: 'Terms of Use & Privacy Policy.'
 footer.research_paper: 'Research Papers'
+fotter.secure_hardware: 'Secure Hardware'
+fotter.global_network: 'Global Network'
+fotter.brand_ambassador: 'Brand Ambassador'
+fotter.ecosystem: Ecosystem
 footer.resource: Resources
 footer.roadmap: Roadmap
 footer.subscribe.failed: 'Subscribe fail, please try again later!'
@@ -184,6 +192,7 @@ footer.subscribe_success: 'Success To Subscribe'
 footer.support: Support
 footer.team: Team
 footer.wallet: Wallet
+fotter.community_resource: Community Resources
 home.blockHeight: 'BLOCK HEIGHT'
 home.blocklist.ofActions: 'of actions'
 home.currentTPS: 'CURRENT TPS'
@@ -359,6 +368,7 @@ topbar.tools: TOOLS
 topbar.voting: VOTING
 topbar.wallet: WALLET
 topbar.xrc20Transfer: XRC20 TOKEN TRANSFERS
+topbar.accounts: ACCOUNTS
 transfer.for: For ${value}
 unlock-by-ledger.pluginDevice: 'Please plugin ledger device and try again!'
 unlock-by-ledger.warnTitle: 'Oops, couldn’t connect to device'
