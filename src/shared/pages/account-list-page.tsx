@@ -24,11 +24,7 @@ const getAccountListColumns = (): Array<ColumnProps<TopHolderInfo>> => [
     title: t("account.rank"),
     dataIndex: "Rank",
     width: "1vw",
-    render(
-      _: string,
-      record: TopHolderInfo,
-      index: number
-    ): JSX.Element | number {
+    render(_: string, __: TopHolderInfo, index: number): JSX.Element | number {
       return index + 1;
     }
   },
@@ -107,7 +103,7 @@ export const AccountTable: React.FC<IAccountTable> = ({
   endEpochNumber,
   numAccounts
 }) => {
-  const start = Math.max(20 - PAGE_SIZE, 0);
+  // const start = Math.max(20 - PAGE_SIZE, 0);
   const count = PAGE_SIZE;
   return (
     <Query
@@ -116,7 +112,7 @@ export const AccountTable: React.FC<IAccountTable> = ({
       client={analyticsClient}
       notifyOnNetworkStatusChange={true}
     >
-      {({ data, loading, fetchMore, error }: QueryResult) => {
+      {({ data, loading, error }: QueryResult) => {
         if (error) {
           notification.error({
             message: `failed to query accounts in AccountTable: ${error}`
