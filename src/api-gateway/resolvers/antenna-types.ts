@@ -20,7 +20,6 @@ import {
   ISendActionResponse,
   IServerMeta,
   IStartSubChain,
-  ITopHolderInfo,
   ITransfer
 } from "iotex-antenna/lib/rpc-method/types";
 import {
