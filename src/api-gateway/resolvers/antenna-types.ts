@@ -691,7 +691,7 @@ export class ActionInfo implements IActionInfo {
 }
 
 @ObjectType()
-export class TopHolderInfo implements ITopHolderInfo {
+export class TopHolderInfo {
   @Field(_ => String)
   public address: string;
   @Field(_ => String)
