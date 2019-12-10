@@ -22,6 +22,7 @@ import { BlockDetailPage } from "./pages/block-detail-page";
 import { BlockListPage } from "./pages/block-list-page";
 import { XRC20ActionListPage } from "./pages/xrc20-action-list-page";
 import { Wallet } from "./wallet/wallet";
+import { AccountListPage } from "./pages/account-list-page";
 
 type Props = {
   googleTid: string;
@@ -61,6 +62,7 @@ export class App extends Component<Props> {
                 component={ActionDetailPage}
               />
               <Route exact={true} path="/action" component={ActionListPage} />
+              <Route exact={true} path="/account" component={AccountListPage} />
               <Route
                 exact={true}
                 path="/tokentxns"
