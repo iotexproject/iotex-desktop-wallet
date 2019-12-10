@@ -2,20 +2,20 @@ import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
 import Table, { ColumnProps } from "antd/lib/table";
 import { get } from "dottie";
-import { analyticsClient } from "../common/apollo-client";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 import { TopHolderInfo } from "../../api-gateway/resolvers/antenna-types";
+import { analyticsClient } from "../common/apollo-client";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { GET_CHAIN_META, GET_TOP_HOLDERS } from "../queries";
+import { GET_ACCOUNT } from "../queries";
 import { AccountAddressRenderer } from "../renderer/account-address-renderer";
 import { WalletAddressRenderer } from "../renderer/wallet-address-renderer";
 import { Page } from "./page";
-import { GET_ACCOUNT } from "../queries";
-import { fromRau } from "iotex-antenna/lib/account/utils";
 
 const PAGE_SIZE = 15;
 
@@ -54,17 +54,18 @@ const getAccountListColumns = (): Array<ColumnProps<TopHolderInfo>> => [
       record: TopHolderInfo,
       __: number
     ): JSX.Element | string => {
-      return fromRau(record.balance, "iotx") + " IOTX";
+      const balance = fromRau(record.balance, "iotx");
+      return `${balance} IOTX`;
     }
   },
   {
     title: t("account.percentage"),
     dataIndex: "percentage",
     render: (_: string, record: TopHolderInfo): JSX.Element | string => {
-      return (
-        (parseFloat(fromRau(record.balance, "iotx")) / 10000000000).toFixed(8) +
-        "%"
-      );
+      const percentage: string = (
+        parseFloat(fromRau(record.balance, "iotx")) / 10000000000
+      ).toFixed(8);
+      return `${percentage}%`;
     }
   },
   {
@@ -180,7 +181,6 @@ const AccountListPage: React.FC = (): JSX.Element => {
                 get(data, "chainMeta.epoch.num"),
                 10
               );
-              console.log("endEpochNumber: ", JSON.stringify(endEpochNumber));
               return <AccountTable endEpochNumber={endEpochNumber} />;
             }}
           </Query>
