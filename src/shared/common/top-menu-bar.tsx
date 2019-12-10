@@ -20,7 +20,7 @@ import JsonGlobal from "safe-json-globals/get";
 import { assetURL } from "./asset-url";
 import { SignInModal } from "./sign-in-modal";
 import { colors } from "./styles/style-color";
-import { ContentPadding } from "./styles/style-padding";
+import { WideContentPadding } from "./styles/style-padding";
 
 const globalState = isBrowser && JsonGlobal("state");
 export const TOP_BAR_HEIGHT = 60;
@@ -209,7 +209,7 @@ const TopMobileMenu = ({
         height: TOP_BAR_HEIGHT
       }}
     >
-      <ContentPadding
+      <WideContentPadding
         style={{
           position: "fixed",
           backgroundColor: colors.nav01,
@@ -277,7 +277,7 @@ const TopMobileMenu = ({
           placement="top"
           height="100%"
         >
-          <ContentPadding>
+          <WideContentPadding>
             <Menu
               mode="inline"
               theme="dark"
@@ -291,9 +291,9 @@ const TopMobileMenu = ({
             >
               {mobileMenus.map(renderMenuItem)}
             </Menu>
-          </ContentPadding>
+          </WideContentPadding>
         </Drawer>
-      </ContentPadding>
+      </WideContentPadding>
     </div>
   );
 };
@@ -311,7 +311,7 @@ const TopWideMenu = ({
     gutter: 60
   };
   return (
-    <ContentPadding style={{ backgroundColor: colors.nav01 }}>
+    <WideContentPadding style={{ backgroundColor: colors.nav01 }}>
       <Row {...rowProps}>
         <Row {...rowProps}>
           <Col style={{ marginRight: 40 }}>
@@ -351,7 +351,7 @@ const TopWideMenu = ({
           </Col>
         </Row>
       </Row>
-    </ContentPadding>
+    </WideContentPadding>
   );
 };
 
