@@ -179,10 +179,10 @@ footer.launch: Launch
 footer.libraries_tools: 'Libraries and Tools'
 footer.policy: 'Terms of Use & Privacy Policy.'
 footer.research_paper: 'Research Papers'
-fotter.secure_hardware: 'Secure Hardware'
-fotter.global_network: 'Global Network'
-fotter.brand_ambassador: 'Brand Ambassador'
-fotter.ecosystem: Ecosystem
+footer.secure_hardware: 'Secure Hardware'
+footer.global_network: 'Global Network'
+footer.brand_ambassador: 'Brand Ambassador'
+footer.ecosystem: Ecosystem
 footer.resource: Resources
 footer.roadmap: Roadmap
 footer.subscribe.failed: 'Subscribe fail, please try again later!'
@@ -192,7 +192,7 @@ footer.subscribe_success: 'Success To Subscribe'
 footer.support: Support
 footer.team: Team
 footer.wallet: Wallet
-fotter.community_resource: Community Resources
+footer.community_resource: Community Resources
 home.blockHeight: 'BLOCK HEIGHT'
 home.blocklist.ofActions: 'of actions'
 home.currentTPS: 'CURRENT TPS'
