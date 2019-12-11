@@ -188,10 +188,6 @@ footer.subscribe_success: 'Success To Subscribe'
 footer.support: Support
 footer.team: Team
 footer.wallet: Wallet
-footer.secure_hardware: 'Secure Hardware'
-footer.global_network: 'Global Network'
-footer.brand_ambassador: 'Brand Ambassador'
-footer.community_resource: Community Resources
 home.blockHeight: 'BLOCK HEIGHT'
 home.blocklist.ofActions: 'of actions'
 home.currentTPS: 'CURRENT TPS'
@@ -368,6 +364,7 @@ topbar.voting: VOTING
 topbar.wallet: WALLET
 topbar.xrc20Transfer: XRC20 TOKEN TRANSFERS
 topbar.accounts: ACCOUNTS
+topbar.top_accounts: Top Accounts by IOTX Balance
 transfer.for: For ${value}
 unlock-by-ledger.pluginDevice: 'Please plugin ledger device and try again!'
 unlock-by-ledger.warnTitle: 'Oops, couldn’t connect to device'

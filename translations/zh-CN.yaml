@@ -6,6 +6,7 @@ topbar.blocks: 区块
 topbar.actions: 行动
 topbar.home: 首页
 topbar.accounts: 账户
+topbar.top_accounts: IOTX余额最高账户
 not_found.bar: 未找到
 not_found.title: 糟糕!
 not_found.info: 找不到页面...
@@ -308,10 +309,6 @@ footer.policy: 使用条款和隐私政策
 footer.enter_email: 输入电子邮件获取Iotex更新
 footer.subscribe: 订阅
 footer.community_resource: 社区资源
-footer.secure_hardware: 安全硬件
-footer.global_network: 全球网络
-footer.brand_ambassador: 品牌代言人
-footer.ecosystem: 生态系统
 home.blocklist.ofActions: 操作
 signin_modal.wallet: IoTeX钱包
 signin_modal.sign_in: 登录IoTeX钱包
@@ -357,6 +354,10 @@ account.token.addCustom: 自定义通证
 account.token.notfound: 未找到通证！
 account.joinDiscord: '加入 Discord'
 account.claim: 领取
+account.nameTag: "标签"
+account.percentage: "百分比"
+account.txnCount: "交易次数"
+account.rank: "排名"
 confirmation.amount: 数量
 confirmation.fromAddress: 来源地址
 confirmation.toAddress: 目标地址

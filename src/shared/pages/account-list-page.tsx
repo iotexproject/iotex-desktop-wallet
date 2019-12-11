@@ -14,7 +14,6 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { GET_CHAIN_META, GET_TOP_HOLDERS } from "../queries";
 import { GET_ACCOUNT } from "../queries";
 import { AccountAddressRenderer } from "../renderer/account-address-renderer";
-import { WalletAddressRenderer } from "../renderer/wallet-address-renderer";
 import { Page } from "./page";
 
 const PAGE_SIZE = 15;
@@ -23,7 +22,7 @@ const getAccountListColumns = (): Array<ColumnProps<TopHolderInfo>> => [
   {
     title: t("account.rank"),
     dataIndex: "Rank",
-    width: "1vw",
+    width: "5vw",
     render(_: string, __: TopHolderInfo, index: number): JSX.Element | number {
       return index + 1;
     }
@@ -31,16 +30,8 @@ const getAccountListColumns = (): Array<ColumnProps<TopHolderInfo>> => [
   {
     title: t("account.address"),
     dataIndex: "address",
-    width: "10vw",
-    render: text => <AccountAddressRenderer value={text} />
-  },
-  {
-    title: t("account.nameTag"),
-    dataIndex: "nameTag",
     width: "15vw",
-    render(_: string, record: TopHolderInfo, __: number): JSX.Element {
-      return <WalletAddressRenderer value={record.address} />;
-    }
+    render: text => <AccountAddressRenderer value={text} />
   },
   {
     title: t("address.balance"),
@@ -59,7 +50,8 @@ const getAccountListColumns = (): Array<ColumnProps<TopHolderInfo>> => [
     dataIndex: "percentage",
     render: (_: string, record: TopHolderInfo): JSX.Element | string => {
       const percentage: string = (
-        parseFloat(fromRau(record.balance, "iotx")) / 10000000000
+        (parseFloat(fromRau(record.balance, "iotx")) * 100) /
+        10000000000
       ).toFixed(8);
       return `${percentage}%`;
     }
@@ -159,10 +151,12 @@ export const AccountTable: React.FC<IAccountTable> = ({
 const AccountListPage: React.FC = (): JSX.Element => {
   return (
     <>
-      <Helmet title={`${t("topbar.accounts")} - ${t("meta.description")}`} />
-      <PageNav items={[t("topbar.accounts")]} />
+      <Helmet
+        title={`${t("topbar.top_accounts")} - ${t("meta.description")}`}
+      />
+      <PageNav items={[t("topbar.top_accounts")]} />
       <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
-        <Page header={t("topbar.accounts")}>
+        <Page header={t("topbar.top_accounts")}>
           <Query query={GET_CHAIN_META}>
             {({ data, loading, error }: QueryResult) => {
               if (error) {
