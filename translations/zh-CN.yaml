@@ -308,7 +308,6 @@ topbar.tools: 工具
 footer.policy: 使用条款和隐私政策
 footer.enter_email: 输入电子邮件获取Iotex更新
 footer.subscribe: 订阅
-footer.community_resource: 社区资源
 home.blocklist.ofActions: 操作
 signin_modal.wallet: IoTeX钱包
 signin_modal.sign_in: 登录IoTeX钱包

@@ -15,6 +15,7 @@ import { colors } from "./common/styles/style-color";
 import { fonts } from "./common/styles/style-font";
 import { TOP_BAR_HEIGHT, TopMenuBar } from "./common/top-menu-bar";
 import { Home } from "./home/home";
+import { AccountListPage } from "./pages/account-list-page";
 import { ActionDetailPage } from "./pages/action-detail-page";
 import { ActionListPage } from "./pages/action-list-page";
 import { AddressDetailsPage } from "./pages/address-details-page";
@@ -22,7 +23,6 @@ import { BlockDetailPage } from "./pages/block-detail-page";
 import { BlockListPage } from "./pages/block-list-page";
 import { XRC20ActionListPage } from "./pages/xrc20-action-list-page";
 import { Wallet } from "./wallet/wallet";
-import { AccountListPage } from "./pages/account-list-page";
 
 type Props = {
   googleTid: string;
