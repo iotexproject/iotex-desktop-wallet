@@ -71,10 +71,6 @@ const MAIN_NAV_MENUS: Array<INavMenuItem> = [
       {
         label: "topbar.blocks",
         path: "/block"
-      },
-      {
-        label: "topbar.accounts",
-        path: "/account"
       }
     ]
   },

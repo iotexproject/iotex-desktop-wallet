@@ -606,11 +606,8 @@ export const GET_ACCOUNT_DETAIL_BY_DETAIL = gql`
 `;
 
 export const GET_TOP_HOLDERS = gql`
-  query($endEpochNumber: Int!, $numberOfHolders: Int!) {
-    topHolders(
-      endEpochNumber: $endEpochNumber
-      numberOfHolders: $numberOfHolders
-    ) {
+  query($endEpochNumber: Int!, $pagination: Pagination!) {
+    topHolders(endEpochNumber: $endEpochNumber, pagination: $pagination) {
       address
       balance
     }

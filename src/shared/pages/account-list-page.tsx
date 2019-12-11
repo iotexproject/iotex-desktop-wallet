@@ -17,14 +17,16 @@ import { AccountAddressRenderer } from "../renderer/account-address-renderer";
 import { Page } from "./page";
 
 const PAGE_SIZE = 15;
+const numAccounts = 10000;
+let current = 1;
 
 const getAccountListColumns = (): Array<ColumnProps<TopHolderInfo>> => [
   {
     title: t("account.rank"),
     dataIndex: "Rank",
     width: "5vw",
-    render(_: string, __: TopHolderInfo, index: number): JSX.Element | number {
-      return index + 1;
+    render(_: string, __: TopHolderInfo, index: number): JSX.Element | string {
+      return `${(current - 1) * PAGE_SIZE + (index + 1)}`;
     }
   },
   {
@@ -88,23 +90,19 @@ const getAccountListColumns = (): Array<ColumnProps<TopHolderInfo>> => [
 
 export interface IAccountTable {
   endEpochNumber: number;
-  numAccounts?: number;
 }
 
-export const AccountTable: React.FC<IAccountTable> = ({
-  endEpochNumber,
-  numAccounts
-}) => {
-  // const start = Math.max(20 - PAGE_SIZE, 0);
-  const count = PAGE_SIZE;
+export const AccountTable: React.FC<IAccountTable> = ({ endEpochNumber }) => {
+  let skip = 0;
+  const first = PAGE_SIZE;
   return (
     <Query
       query={GET_TOP_HOLDERS}
-      variables={{ endEpochNumber, numberOfHolders: 15 }}
+      variables={{ endEpochNumber, pagination: { skip, first } }}
       client={analyticsClient}
       notifyOnNetworkStatusChange={true}
     >
-      {({ data, loading, error }: QueryResult) => {
+      {({ data, loading, fetchMore, error }: QueryResult) => {
         if (error) {
           notification.error({
             message: `failed to query accounts in AccountTable: ${error}`
@@ -124,23 +122,23 @@ export const AccountTable: React.FC<IAccountTable> = ({
             style={{ width: "100%" }}
             scroll={{ x: "auto" }}
             pagination={{
-              pageSize: count,
+              pageSize: first,
               total: numAccounts,
               showQuickJumper: true
             }}
-            // onChange={pagination => {
-            //   const current = pagination.current || 0;
-            //   const cStart = Math.max(start - (current - 1) * count, 0);
-            //   fetchMore({
-            //     variables: {cStart, count},
-            //     updateQuery: (prev, { fetchMoreResult }) => {
-            //       if (!fetchMoreResult) {
-            //         return prev;
-            //       }
-            //       return fetchMoreResult;
-            //     }
-            //   });
-            // }}
+            onChange={pagination => {
+              current = pagination.current || 1;
+              skip = (current - 1) * first;
+              fetchMore({
+                variables: { endEpochNumber, pagination: { skip, first } },
+                updateQuery: (prev, { fetchMoreResult }) => {
+                  if (!fetchMoreResult) {
+                    return prev;
+                  }
+                  return fetchMoreResult;
+                }
+              });
+            }}
           />
         );
       }}
