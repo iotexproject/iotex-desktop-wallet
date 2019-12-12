@@ -97,7 +97,12 @@ export class SolcResolver {
   }: SolcRequest): Promise<Array<Contract>> {
     const compiler = await loadSolc(version);
     if (compiler.lowlevel && compiler.lowlevel.compileSingle) {
-      const { contracts } = JSON.parse(compiler.lowlevel.compileSingle(source));
+      const { contracts, errors } = JSON.parse(
+        compiler.lowlevel.compileSingle(source)
+      );
+      if (errors && errors.length) {
+        throw new Error(errors.join("\n"));
+      }
       return Object.keys(contracts).map(
         (name): Contract => {
           const contract = contracts[name];
