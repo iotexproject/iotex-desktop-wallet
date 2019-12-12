@@ -35,6 +35,10 @@ account.token.notfound: 'Token not found!'
 account.transaction-history: 'Go to transaction history'
 account.wallet: Wallet
 account.why: 'Why save your private key?'
+account.rank: "Rank"
+account.nameTag: "Name Tag"
+account.percentage: "Percentage"
+account.txnCount: "Txn Count"
 action.action: Action
 action.actions: Actions
 action.amount: Amount
@@ -359,6 +363,8 @@ topbar.tools: TOOLS
 topbar.voting: VOTING
 topbar.wallet: WALLET
 topbar.xrc20Transfer: XRC20 TOKEN TRANSFERS
+topbar.accounts: ACCOUNTS
+topbar.top_accounts: Top Accounts by IOTX Balance
 transfer.for: For ${value}
 unlock-by-ledger.pluginDevice: 'Please plugin ledger device and try again!'
 unlock-by-ledger.warnTitle: 'Oops, couldn’t connect to device'

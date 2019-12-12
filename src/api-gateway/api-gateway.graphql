@@ -681,6 +681,11 @@ input TimestampInput {
   nanos: Int!
 }
 
+type TopHolderInfo {
+  address: String!
+  balance: String!
+}
+
 type Transfer {
   amount: String!
   recipient: String!
