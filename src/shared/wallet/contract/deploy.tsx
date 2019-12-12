@@ -289,11 +289,26 @@ class DeployFormInner extends Component<DeployProps, State> {
             );
           }
 
-          if (error && !getFieldError("solidity")) {
+          if (
+            error &&
+            (!getFieldError("solidity") || !getFieldError("solidity").length)
+          ) {
             setFields({
               solidity: {
                 value: source,
                 errors: [error]
+              }
+            });
+          }
+          if (
+            !error &&
+            getFieldError("solidity") &&
+            getFieldError("solidity").length
+          ) {
+            setFields({
+              solidity: {
+                value: source,
+                errors: error ? [error] : []
               }
             });
           }
