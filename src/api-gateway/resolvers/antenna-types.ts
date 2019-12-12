@@ -788,11 +788,3 @@ export class GetEpochMetaResponse implements IGetEpochMetaResponse {
   })
   public blockProducersInfo: Array<BlockProducerInfo>;
 }
-
-@ObjectType()
-export class TopHolderInfo {
-  @Field(_ => String)
-  public address: string;
-  @Field(_ => String)
-  public balance: string;
-}

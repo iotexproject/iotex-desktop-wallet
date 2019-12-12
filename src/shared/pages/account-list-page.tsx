@@ -7,7 +7,6 @@ import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
-import { TopHolderInfo } from "../../api-gateway/resolvers/antenna-types";
 import { analyticsClient } from "../common/apollo-client";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
@@ -15,6 +14,11 @@ import { GET_CHAIN_META, GET_TOP_HOLDERS } from "../queries";
 import { GET_ACCOUNT } from "../queries";
 import { AccountAddressRenderer } from "../renderer/account-address-renderer";
 import { Page } from "./page";
+
+type TopHolderInfo = {
+  address: string;
+  balance: string;
+};
 
 const PAGE_SIZE = 15;
 const numAccounts = 10000;
