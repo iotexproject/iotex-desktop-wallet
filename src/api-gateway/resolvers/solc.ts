@@ -125,12 +125,21 @@ export class SolcResolver {
       }
     };
 
-    const {
-      contracts: { main }
-    } = JSON.parse(solc.compile(JSON.stringify(input)));
-    return Object.keys(main).map(
+    const result = solc.compile(JSON.stringify(input));
+    if (!result) {
+      return [];
+    }
+    const { contracts = { main: [] }, errors = [] } = JSON.parse(result);
+    if (errors.length) {
+      throw new Error(
+        errors
+          .map((e: { formattedMessage: string }) => e.formattedMessage)
+          .join("\n")
+      );
+    }
+    return Object.keys(contracts.main).map(
       (name): Contract => {
-        const contract = main[name];
+        const contract = contracts.main[name];
         return {
           name,
           abi: JSON.stringify(contract.abi),
