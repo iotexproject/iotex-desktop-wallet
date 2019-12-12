@@ -151,7 +151,7 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
             href: actionUrl
           });
           return (
-            <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
+            <ContentPadding>
               <CardDetails
                 title={t("action_details.hash", { actionHash: hash })}
                 titleToCopy={hash}

@@ -9,14 +9,10 @@ const PageNav: React.FC<{ items: Array<JSX.Element | string> }> = ({
   items
 }) => {
   return (
-    <ContentPadding style={{ margin: "40px 0", fontSize: 16 }}>
+    <ContentPadding style={{ margin: "16px 0" }}>
       <Row type="flex" justify="space-between" align="top" gutter={20}>
-        <Col xs={24} sm={24} md={16} style={{ marginBottom: 10 }}>
-          <Breadcrumb
-            style={{ fontSize: 16 }}
-            separator=">"
-            className="wordwrap"
-          >
+        <Col xs={24} sm={24} md={16} style={{ marginBottom: "16px" }}>
+          <Breadcrumb separator=">" className="wordwrap">
             <Breadcrumb.Item>
               <Link to="/" style={{ whiteSpace: "nowrap" }}>
                 <Icon type="home" /> {t("topbar.home")}

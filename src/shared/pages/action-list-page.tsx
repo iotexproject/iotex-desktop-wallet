@@ -220,7 +220,7 @@ const ActionListPage: React.FC = (): JSX.Element => {
     <>
       <Helmet title={`${t("topbar.actions")} - ${t("meta.description")}`} />
       <PageNav items={[t("topbar.actions")]} />
-      <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
+      <ContentPadding>
         <Page header={t("topbar.actions")}>
           <Query query={GET_CHAIN_META}>
             {({

@@ -9,30 +9,18 @@ export interface IPageProps extends RowProps {
 }
 
 const Page: React.FC<IPageProps> = props => {
-  const { loading, header, className, children, ...attrs } = props;
-  const classes = ["card-shadow", className || ""].join(" ");
+  const { loading, header, children } = props;
   if (loading) {
     return (
       <SpinPreloader spinning={true}>
-        <Row
-          type="flex"
-          justify="center"
-          align="middle"
-          style={{ padding: 40 }}
-        >
+        <Row type="flex" justify="center" align="middle">
           {" "}
         </Row>
       </SpinPreloader>
     );
   }
   return (
-    <Row
-      type="flex"
-      justify="center"
-      align="top"
-      className={classes}
-      {...attrs}
-    >
+    <Row>
       {header && (
         <Col span={22}>
           <Row type="flex" justify="start" align="top" className="page-title">
