@@ -293,7 +293,7 @@ class DeployFormInner extends Component<DeployProps, State> {
             setFields({
               solidity: {
                 value: source,
-                errors: [new Error(t("wallet.error.compile"))]
+                errors: [error]
               }
             });
           }
@@ -341,9 +341,11 @@ class DeployFormInner extends Component<DeployProps, State> {
     );
   }
 
+  private validateTimeoutID: NodeJS.Timeout;
   public onABIChange = () => {
     const { form } = this.props;
-    setTimeout(() => {
+    clearTimeout(this.validateTimeoutID);
+    this.validateTimeoutID = setTimeout(() => {
       form.validateFields(["abi"], (error, { abi }) => {
         this.setState({ constructorArgs: [] });
         if (error) {
@@ -359,7 +361,7 @@ class DeployFormInner extends Component<DeployProps, State> {
         const { inputs } = ctor;
         this.setState({ constructorArgs: [...inputs] });
       });
-    }, 1);
+    }, 250);
   };
 
   public renderConstructorArgsForm(): JSX.Element | null {
