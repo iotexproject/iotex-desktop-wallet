@@ -74,7 +74,7 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
     title: t("action.type"),
     dataIndex: "name",
     render: (_: string, record: ActionInfo, __: number): JSX.Element => {
-      return <Tag>{getActionType(record)}</Tag>;
+      return <Tag style={{ cursor: "text" }}>{getActionType(record)}</Tag>;
     }
   },
   {
