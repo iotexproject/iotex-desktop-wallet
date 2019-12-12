@@ -111,7 +111,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
           const { numActions = 0 } =
             get(data || {}, "getAccount.accountMeta") || {};
           return (
-            <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
+            <ContentPadding>
               <CardDetails
                 title={`${t("address_details.address", { address })}`}
                 titleToCopy={address}
@@ -129,11 +129,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
                   valueRenderMap: AddressDetailRenderer
                 }}
               />
-              <Tabs
-                style={{ padding: 20, margin: "40px 0px" }}
-                size="large"
-                className="card-shadow"
-              >
+              <Tabs size="large" className="card-shadow">
                 <Tabs.TabPane tab={t("common.transactions")} key="1">
                   <ActionTable numActions={numActions} address={address} />
                 </Tabs.TabPane>

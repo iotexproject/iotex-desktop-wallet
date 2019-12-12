@@ -155,7 +155,7 @@ const XRC20ActionListPage: React.FC = (): JSX.Element => {
     <>
       <Helmet title={`${t("pages.token")} - ${t("meta.description")}`} />
       <PageNav items={[t("pages.token")]} />
-      <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
+      <ContentPadding>
         <Page
           header={
             <>

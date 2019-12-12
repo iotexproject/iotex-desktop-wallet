@@ -127,7 +127,7 @@ const BlockDetailPage: React.FC<RouteComponentProps<{ height: string }>> = (
             href: blockUrl
           });
           return (
-            <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
+            <ContentPadding>
               <CardDetails
                 title={t("block_details.hash", { hash: blkHash })}
                 titleToCopy={blkHash}
