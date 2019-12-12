@@ -70,7 +70,7 @@ const BlockListPage: React.FC = (): JSX.Element => {
     <>
       <Helmet title={`${t("block.blocks")} - ${t("meta.description")}`} />
       <PageNav items={[t("topbar.blocks")]} />
-      <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
+      <ContentPadding>
         <Page header={t("block.blocks")}>
           <Query query={GET_LATEST_HEIGHT}>
             {({

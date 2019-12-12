@@ -20,7 +20,7 @@ import JsonGlobal from "safe-json-globals/get";
 import { assetURL } from "./asset-url";
 import { SignInModal } from "./sign-in-modal";
 import { colors } from "./styles/style-color";
-import { ContentPadding } from "./styles/style-padding";
+import { WideContentPadding } from "./styles/style-padding";
 
 const globalState = isBrowser && JsonGlobal("state");
 export const TOP_BAR_HEIGHT = 60;
@@ -34,14 +34,14 @@ const multiChain: {
     }
   ];
 } = (isBrowser && globalState.base.multiChain) || {
-  current: "mainnet",
+  current: "MAINNET",
   chains: [
     {
-      name: "mainnet",
+      name: "MAINNET",
       url: "https://iotexscan.io/"
     },
     {
-      name: "testnet",
+      name: "TESTNET",
       url: "https://testnet.iotexscan.io/"
     }
   ]
@@ -71,6 +71,10 @@ const MAIN_NAV_MENUS: Array<INavMenuItem> = [
       {
         label: "topbar.blocks",
         path: "/block"
+      },
+      {
+        label: "topbar.accounts",
+        path: "/account"
       }
     ]
   },
@@ -177,9 +181,8 @@ const renderMenuItem = (menu: INavMenuItem): JSX.Element => {
     <Menu.SubMenu
       title={
         <HoverableRow type="flex" justify="space-between">
-          <Col>{t(label)}</Col>
-          <Col xs={0} lg={1}>
-            <Icon type="caret-down" />
+          <Col>
+            {t(label)} <Icon style={{ fontSize: 12 }} type="down" />
           </Col>
         </HoverableRow>
       }
@@ -206,7 +209,7 @@ const TopMobileMenu = ({
         height: TOP_BAR_HEIGHT
       }}
     >
-      <ContentPadding
+      <WideContentPadding
         style={{
           position: "fixed",
           backgroundColor: colors.nav01,
@@ -274,7 +277,7 @@ const TopMobileMenu = ({
           placement="top"
           height="100%"
         >
-          <ContentPadding>
+          <WideContentPadding>
             <Menu
               mode="inline"
               theme="dark"
@@ -288,9 +291,9 @@ const TopMobileMenu = ({
             >
               {mobileMenus.map(renderMenuItem)}
             </Menu>
-          </ContentPadding>
+          </WideContentPadding>
         </Drawer>
-      </ContentPadding>
+      </WideContentPadding>
     </div>
   );
 };
@@ -308,7 +311,7 @@ const TopWideMenu = ({
     gutter: 60
   };
   return (
-    <ContentPadding style={{ backgroundColor: colors.nav01 }}>
+    <WideContentPadding style={{ backgroundColor: colors.nav01 }}>
       <Row {...rowProps}>
         <Row {...rowProps}>
           <Col style={{ marginRight: 40 }}>
@@ -348,7 +351,7 @@ const TopWideMenu = ({
           </Col>
         </Row>
       </Row>
-    </ContentPadding>
+    </WideContentPadding>
   );
 };
 

@@ -24,7 +24,7 @@ import { ActionFeeRenderer } from "../renderer/action-fee-renderer";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { Page } from "./page";
 
-const PAGE_SIZE = 30;
+const PAGE_SIZE = 15;
 
 export function getAddress(record: ActionInfo): string {
   const addr: string =
@@ -74,7 +74,7 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
     title: t("action.type"),
     dataIndex: "name",
     render: (_: string, record: ActionInfo, __: number): JSX.Element => {
-      return <Tag>{getActionType(record)}</Tag>;
+      return <Tag style={{ cursor: "text" }}>{getActionType(record)}</Tag>;
     }
   },
   {
@@ -220,7 +220,7 @@ const ActionListPage: React.FC = (): JSX.Element => {
     <>
       <Helmet title={`${t("topbar.actions")} - ${t("meta.description")}`} />
       <PageNav items={[t("topbar.actions")]} />
-      <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
+      <ContentPadding>
         <Page header={t("topbar.actions")}>
           <Query query={GET_CHAIN_META}>
             {({

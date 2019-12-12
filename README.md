@@ -23,7 +23,7 @@ git clone git@github.com:iotexproject/iotex-explorer.git
 This is intended for \*nix users. If you use Windows, go to [Run on Windows](#run-on-windows). Let's first prepare the environment.
 
 ```bash
-cd guanxilab
+cd iotex-explorer
 
 nvm use 10.15.0
 npm install
@@ -33,6 +33,11 @@ cp ./.env.tmpl ./.env
 ```
 
 Note: please provide your iotex-core URL like `IOTEX_CORE=http://api.mainnet.iotex.one:80` in `./.env` file.
+
+Built with OneFx (React, GraphQL, KOA, TypeScript, AVA, Webpack, etc.)
+
+- [Documentation](https://onefx.js.org/doc.html?utm_source=github-iotex-explorer)
+- [Contributing](https://onefx.js.org/contributing.html?utm_source=github-iotex-explorer)
 
 #### Development mode
 

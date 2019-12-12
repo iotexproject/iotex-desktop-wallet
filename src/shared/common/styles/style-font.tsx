@@ -1,6 +1,3 @@
-// @ts-ignore
-import window from "global/window";
-
 const fontFamily = "'Heebo',sans-serif,Microsoft YaHei !important";
 
 export const fonts = {

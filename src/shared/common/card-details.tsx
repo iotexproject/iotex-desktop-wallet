@@ -1,4 +1,4 @@
-import { Divider, Icon } from "antd";
+import { Icon } from "antd";
 import React from "react";
 import { Page } from "../pages/page";
 import { CopyToClipboard } from "./copy-to-clipboard";
@@ -31,7 +31,6 @@ const CardDetails: React.FC<{
           <span style={{ padding: "4px 0px 4px 12px", fontSize: 18 }}>
             <ShareCallout {...share} />
           </span>
-          <Divider style={{ marginBottom: 0 }} />
         </>
       }
     >
