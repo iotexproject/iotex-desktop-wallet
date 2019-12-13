@@ -389,6 +389,24 @@ export const FETCH_VERSION_INFO = gql`
   }
 `;
 
+export const COMPILE_SOLIDITY = gql`
+  query($source: String!, $version: String!) {
+    compileSolidity(source: $source, version: $version) {
+      name
+      abi
+      bytecode
+    }
+  }
+`;
+export const GET_SOLC_VERSIONS = gql`
+  query {
+    getSolcVersions {
+      name
+      version
+    }
+  }
+`;
+
 export const GET_BP_CANDIDATE = gql`
   query bpCandidate($ioOperatorAddress: ID) {
     bpCandidate(ioOperatorAddress: $ioOperatorAddress) {

@@ -96,19 +96,6 @@ export class SolcResolver {
     version
   }: SolcRequest): Promise<Array<Contract>> {
     const compiler = await loadSolc(version);
-    if (compiler.lowlevel && compiler.lowlevel.compileSingle) {
-      const { contracts } = JSON.parse(compiler.lowlevel.compileSingle(source));
-      return Object.keys(contracts).map(
-        (name): Contract => {
-          const contract = contracts[name];
-          return {
-            name: `${name}`.substr(1),
-            abi: contract.interface,
-            bytecode: contract.bytecode
-          };
-        }
-      );
-    }
     const input = {
       language: "Solidity",
       settings: {
@@ -125,12 +112,21 @@ export class SolcResolver {
       }
     };
 
-    const {
-      contracts: { main }
-    } = JSON.parse(solc.compile(JSON.stringify(input)));
-    return Object.keys(main).map(
+    const result = compiler.compile(JSON.stringify(input));
+    if (!result) {
+      return [];
+    }
+    const { contracts = { main: [] }, errors = [] } = JSON.parse(result);
+    if (errors.length) {
+      throw new Error(
+        errors
+          .map((e: { formattedMessage: string }) => e.formattedMessage)
+          .join("\n")
+      );
+    }
+    return Object.keys(contracts.main).map(
       (name): Contract => {
-        const contract = main[name];
+        const contract = contracts.main[name];
         return {
           name,
           abi: JSON.stringify(contract.abi),
