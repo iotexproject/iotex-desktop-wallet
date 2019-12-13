@@ -25,6 +25,7 @@ const getBlockListColumns = (): Array<ColumnProps<BlockMeta>> => [
   {
     title: t("block.height"),
     dataIndex: "height",
+    width: "10vw",
     render(_: string, record: BlockMeta, __: number): JSX.Element {
       return (
         <LinkButton href={`/block/${record.height}`}>
@@ -36,18 +37,20 @@ const getBlockListColumns = (): Array<ColumnProps<BlockMeta>> => [
   {
     title: t("block.timestamp"),
     dataIndex: "timestamp",
+    width: "15vw",
     render(_: string, record: BlockMeta, __: number): JSX.Element {
       return <span>{translateFn(record.timestamp)}</span>;
     }
   },
   {
     title: t("block.num_actions"),
-    dataIndex: "numActions"
+    dataIndex: "numActions",
+    width: "10vw"
   },
   {
     title: t("block.producer_address"),
     dataIndex: "producerAddress",
-    width: "10vw",
+    width: "20vw",
     render(_: string, record: BlockMeta, __: number): JSX.Element {
       return (
         <span className="ellipsis-text" style={{ maxWidth: "10vw" }}>
@@ -59,6 +62,7 @@ const getBlockListColumns = (): Array<ColumnProps<BlockMeta>> => [
   {
     title: t("block.transfer_amount"),
     dataIndex: "transferAmount",
+    width: "20vw",
     render(text: string, _: BlockMeta, __: number): string {
       return `${fromRau(text || "0", "IOTX")} IOTX`;
     }
@@ -132,6 +136,7 @@ const BlockListPage: React.FC = (): JSX.Element => {
                           total: latestHeight,
                           showQuickJumper: true
                         }}
+                        size="middle"
                         onChange={pagination => {
                           const current = pagination.current || 0;
                           const cstart = Math.max(
