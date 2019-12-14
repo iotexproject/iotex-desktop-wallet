@@ -447,6 +447,7 @@ wallet.input.solidity: "Solidity (optional)"
 wallet.input.to: 'Recipient address'
 wallet.input.type: Type
 wallet.input.url: Url
+wallet.input.solVersion: Version
 wallet.interact.abiTemplate: '[{ "type":"contructor", "inputs": [{ "name":"param1", "type":"uint256", "indexed":true }], "name":"Event" }, { "type":"function", "inputs": [{"name":"a", "type":"uint256"}], "name":"foo", "outputs": [{"name":"a", "type":"uint256"}] }]'
 wallet.interact.access: Access
 wallet.interact.contract: 'Interact with smart contract'
@@ -461,7 +462,8 @@ wallet.missing_solidity_pragma: 'Incorrect Solidity'
 wallet.placeholder.abi: ...
 wallet.placeholder.byteCode: '0x1234 ...'
 wallet.placeholder.contractAddress: io...
-wallet.placeholder.solidity: "pragma solidity ^0.4.23; ..."
+wallet.placeholder.solidity: "pragma solidity ^0.5.12; ..."
+wallet.placeholder.compile: 'Select compiler version'
 wallet.sign.confirm: 'Yes, sign transaction'
 wallet.sign.envelop_msg: 'Are you sure you want to sign this transaction?'
 wallet.sign.envelop_title: 'Transaction signing'
