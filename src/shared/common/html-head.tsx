@@ -10,7 +10,13 @@ import React from "react";
 import { assetURL } from "./asset-url";
 import { colors } from "./styles/style-color";
 
-export function HtmlHead({ locale }: { locale: string }): JSX.Element {
+export function HtmlHead({
+  locale,
+  isEnterprise
+}: {
+  locale: string;
+  isEnterprise: boolean;
+}): JSX.Element {
   return (
     <Helmet
       title={`${t("meta.title")} - ${t("meta.description")}`}
@@ -50,7 +56,9 @@ export function HtmlHead({ locale }: { locale: string }): JSX.Element {
         {
           rel: "stylesheet",
           type: "text/css",
-          href: assetURL("/stylesheets/main.css")
+          href: assetURL(
+            `/stylesheets/main${isEnterprise ? "-enterprise" : ""}.css`
+          )
         },
         {
           href:

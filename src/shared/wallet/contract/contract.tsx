@@ -1,7 +1,3 @@
-// @ts-ignore
-import { t } from "onefx/lib/iso-i18n";
-// @ts-ignore
-import Helmet from "onefx/lib/react-helmet";
 import React, { Component } from "react";
 
 import { Route, withRouter } from "react-router";
