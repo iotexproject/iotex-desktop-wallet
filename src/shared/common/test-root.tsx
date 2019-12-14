@@ -22,7 +22,7 @@ export function TestRoot({ children }: { children: JSX.Element }): JSX.Element {
   return (
     <RootServer store={store} styletron={styletron} context={{}} location={""}>
       <div>
-        <HtmlHead locale={"en"} />
+        <HtmlHead locale={"en"} isEnterprise={false} />
         <Helmet>
           <link
             rel="stylesheet"

@@ -1,5 +1,5 @@
 export const colors = {
-  primary: "#00b4a0",
+  primary: "#2970FB",
   secondary: "#0C8DE4",
 
   black: "#000000",
@@ -21,8 +21,8 @@ export const colors = {
   information: "#5aaafa", //	Information
 
   nav01: "#3C3C4D",
-  nav02: "#20232a",
-  nav03: "#151d27",
+  nav02: "#102262",
+  nav03: "#102262",
 
   PRODUCING: "#0b8de3",
   ELECTED: "#06a35a",

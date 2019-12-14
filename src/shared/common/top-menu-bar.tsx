@@ -194,10 +194,13 @@ const renderMenuItem = (menu: INavMenuItem): JSX.Element => {
   );
 };
 
+// tslint:disable-next-line:max-func-body-length
 const TopMobileMenu = ({
-  enableSignIn
+  enableSignIn,
+  isEnterprise
 }: {
   enableSignIn?: boolean;
+  isEnterprise: boolean;
 }): JSX.Element => {
   const [collapsed, setCollapsed] = useState(true);
   const icon = collapsed ? "menu" : "close";
@@ -249,9 +252,11 @@ const TopMobileMenu = ({
                 <SignInMenuItem />
               </Col>
             )}
-            <Col>
-              <LanguageSwitcherMenu />
-            </Col>
+            {!isEnterprise && (
+              <Col>
+                <LanguageSwitcherMenu />
+              </Col>
+            )}
             <Col>
               <Button
                 onClick={() => setCollapsed(!collapsed)}
@@ -299,9 +304,11 @@ const TopMobileMenu = ({
 };
 
 const TopWideMenu = ({
-  enableSignIn
+  enableSignIn,
+  isEnterprise
 }: {
   enableSignIn?: boolean;
+  isEnterprise: boolean;
 }): JSX.Element => {
   const rowProps: RowProps = {
     type: "flex",
@@ -329,7 +336,7 @@ const TopWideMenu = ({
           </Col>
         </Row>
         <Row {...rowProps} gutter={30} justify="end">
-          {multiChain && (
+          {!isEnterprise && multiChain && (
             <Col>
               <Menu
                 mode="horizontal"
@@ -346,20 +353,31 @@ const TopWideMenu = ({
               <SignInMenuItem />
             </Col>
           )}
-          <Col>
-            <LanguageSwitcherMenu />
-          </Col>
+          {!isEnterprise && (
+            <Col>
+              <LanguageSwitcherMenu />
+            </Col>
+          )}
         </Row>
       </Row>
     </WideContentPadding>
   );
 };
 
-const TopMenuBar = connect<{ enableSignIn?: boolean }>(
-  // @ts-ignore
-  ({ base: { enableSignIn } }) => ({ enableSignIn })
+const TopMenuBar = connect(
+  ({
+    base: { enableSignIn, isEnterprise }
+  }: {
+    base: { enableSignIn: boolean; isEnterprise: boolean };
+  }) => ({ enableSignIn, isEnterprise })
 )(
-  ({ enableSignIn }: { enableSignIn?: boolean }): JSX.Element => {
+  ({
+    enableSignIn,
+    isEnterprise
+  }: {
+    enableSignIn?: boolean;
+    isEnterprise: boolean;
+  }): JSX.Element => {
     return (
       <Row
         style={{
@@ -370,10 +388,16 @@ const TopMenuBar = connect<{ enableSignIn?: boolean }>(
       >
         <Col xs={24} lg={0}>
           <div id="top-mobile-menu-nav" />
-          <TopMobileMenu enableSignIn={enableSignIn} />
+          <TopMobileMenu
+            enableSignIn={enableSignIn}
+            isEnterprise={isEnterprise}
+          />
         </Col>
         <Col xs={0} lg={24}>
-          <TopWideMenu enableSignIn={enableSignIn} />
+          <TopWideMenu
+            enableSignIn={enableSignIn}
+            isEnterprise={isEnterprise}
+          />
         </Col>
       </Row>
     );
