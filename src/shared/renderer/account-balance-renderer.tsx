@@ -15,7 +15,7 @@ const AccountBalanceRenderer: VerticalTableRender<Dict> = ({
     (isBrowser && JsonGlobal("state").base.defaultERC20Tokens) || [];
   return (
     <>
-      <Tag style={{ cursor: "text" }}>{`${fromRau(balance, "iotx")} IOTX`}</Tag>
+      <Tag>{`${fromRau(balance, "iotx")} IOTX`}</Tag>
       {xrc20tokens.map((token: string) => (
         <span key={`balance-${token}`}>
           <XRC20TokenBalanceTag contract={token} address={address} />
