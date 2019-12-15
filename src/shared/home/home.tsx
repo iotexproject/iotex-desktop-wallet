@@ -62,12 +62,16 @@ class HomeComponent extends Component<Props, State> {
     if (this.state.search) {
       return <></>;
     }
+    const { isEnterprise } = this.props;
     return (
       <Layout tagName={"main"} className={"main-container"}>
         <Layout.Content tagName={"main"}>
           <div
             style={{
-              backgroundImage: `url(${assetURL("/bg_search.png")})`,
+              backgroundImage: isEnterprise
+                ? ""
+                : `url(${assetURL("/bg_search.png")})`,
+              backgroundColor: isEnterprise ? colors.white : "",
               width: "100%",
               height: "40vh",
               backgroundSize: "cover",
@@ -87,9 +91,18 @@ class HomeComponent extends Component<Props, State> {
                 paddingBottom: 20
               }}
             >
-              I{" "}
-              <Icon component={IoTeXExplorer} style={{ padding: "0px 6px" }} />{" "}
-              TeX.Explorer
+              {isEnterprise ? (
+                <span style={{ color: colors.text01 }}>区块链浏览器</span>
+              ) : (
+                <>
+                  I{" "}
+                  <Icon
+                    component={IoTeXExplorer}
+                    style={{ padding: "0px 6px" }}
+                  />{" "}
+                  {"TeX.Explorer"}
+                </>
+              )}
             </Row>
             <Row type="flex" justify="center" align="middle">
               <Col xs={20} md={12}>
