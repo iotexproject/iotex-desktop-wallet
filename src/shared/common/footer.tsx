@@ -5,11 +5,11 @@ import { colors } from "./styles/style-color";
 import { contentPadding } from "./styles/style-padding";
 import { TOP_BAR_HEIGHT } from "./top-menu-bar";
 
-export const FOOTER_HEIGHT = 89;
+export const ENTERPRISE_FOOTER_HEIGHT = 89;
 export const LINE = "1px #EDEDED solid";
 
-export const FOOTER_ABOVE = {
-  minHeight: `calc(100vh - ${FOOTER_HEIGHT + TOP_BAR_HEIGHT}px)`
+export const ENTERPRISE_FOOTER_ABOVE = {
+  minHeight: `calc(100vh - ${ENTERPRISE_FOOTER_HEIGHT + TOP_BAR_HEIGHT}px)`
 };
 
 export function EnterpriseFooter(): JSX.Element {
@@ -32,6 +32,6 @@ const Align = styled("div", (_: React.CSSProperties) => ({
   justifyContent: "space-between",
   paddingTop: "32px",
   paddingBottom: "32px",
-  minHeight: `${FOOTER_HEIGHT}px`,
+  minHeight: `${ENTERPRISE_FOOTER_HEIGHT}px`,
   color: colors.text01
 }));

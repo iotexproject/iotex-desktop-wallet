@@ -8,6 +8,7 @@ import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { CommonMargin } from "../common/common-margin";
+import { colors } from "../common/styles/style-color";
 import { UnlockByKeystoreFile } from "./unlock-by-keystore-file";
 import { UnlockByMnemonic } from "./unlock-by-mnemonic";
 import { UnlockByPrivateKey } from "./unlock-by-private-key";
@@ -108,7 +109,7 @@ const WalletTitle = styled("p", {
 });
 
 const StyleLink = styled("span", {
-  color: "#00b4a0"
+  color: colors.primary
 });
 
 export default UnlockWallet;
