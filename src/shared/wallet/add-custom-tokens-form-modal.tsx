@@ -70,6 +70,7 @@ class AddCustomTokensFormModal extends React.PureComponent<
   }
 }
 
-export default Form.create<AddCustomTokensFormModal>()(
+const AddCustomRPCFormModalCom = Form.create<IAddCustomTokensFormModalProps>()(
   AddCustomTokensFormModal
 );
+export default AddCustomRPCFormModalCom;

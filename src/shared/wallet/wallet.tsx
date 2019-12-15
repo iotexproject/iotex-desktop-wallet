@@ -79,8 +79,9 @@ class WalletInner extends PureComponent<Props, State> {
 
   public renderNoWallet = () => {
     const { createNew } = this.state;
+    const { dispatch } = this.props;
     return createNew ? (
-      <NewWallet />
+      <NewWallet dispatch={dispatch} />
     ) : (
       <UnlockWallet
         setCreateNew={() => this.setState({ createNew: true })}

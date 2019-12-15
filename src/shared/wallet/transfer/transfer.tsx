@@ -425,6 +425,6 @@ const mapStateToProps = (state: {
   tokens: (state.wallet || {}).tokens || {}
 });
 
-const TransferFormComp = Form.create<TransferForm>()(TransferForm);
+const TransferFormComp = Form.create<Props>()(TransferForm);
 
 export default connect(mapStateToProps)(withRouter(TransferFormComp));

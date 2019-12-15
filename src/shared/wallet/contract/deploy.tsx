@@ -288,11 +288,8 @@ class DeployFormInner extends Component<DeployProps, State> {
               </Button>
             );
           }
-
-          if (
-            error &&
-            (!getFieldError("solidity") || !getFieldError("solidity").length)
-          ) {
+          const returnGetFieldError = getFieldError("solidity");
+          if (error && (!returnGetFieldError || !returnGetFieldError.length)) {
             setFields({
               solidity: {
                 value: source,
@@ -300,11 +297,7 @@ class DeployFormInner extends Component<DeployProps, State> {
               }
             });
           }
-          if (
-            !error &&
-            getFieldError("solidity") &&
-            getFieldError("solidity").length
-          ) {
+          if (!error && returnGetFieldError && returnGetFieldError.length) {
             setFields({
               solidity: {
                 value: source,
@@ -542,6 +535,6 @@ class DeployFormInner extends Component<DeployProps, State> {
   }
 }
 
-export const DeployForm = Form.create({ name: "deploy-contract" })(
+export const DeployForm = Form.create<DeployProps>({ name: "deploy-contract" })(
   DeployFormInner
 );

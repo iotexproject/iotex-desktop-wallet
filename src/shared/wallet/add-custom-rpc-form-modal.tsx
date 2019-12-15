@@ -21,7 +21,7 @@ export interface IAddCustomRPCFormModalProps {
   visible?: boolean;
   form: WrappedFormUtils;
 }
-class AddCustomRPCFormModal extends React.PureComponent<
+class AddCustomRPCFormModalCom extends React.PureComponent<
   IAddCustomRPCFormModalProps
 > {
   public state: { confirming: boolean } = {
@@ -98,4 +98,7 @@ class AddCustomRPCFormModal extends React.PureComponent<
   }
 }
 
-export default Form.create<AddCustomRPCFormModal>()(AddCustomRPCFormModal);
+const AddCustomRPCFormModal = Form.create<IAddCustomRPCFormModalProps>()(
+  AddCustomRPCFormModalCom
+);
+export default AddCustomRPCFormModal;

@@ -63,8 +63,8 @@ class HomeComponent extends Component<Props, State> {
       return <></>;
     }
     return (
-      <Layout tagName={"main"} className={"main-container"}>
-        <Layout.Content tagName={"main"}>
+      <Layout className={"main-container"}>
+        <Layout.Content>
           <div
             style={{
               backgroundImage: `url(${assetURL("/bg_search.png")})`,
@@ -106,7 +106,6 @@ class HomeComponent extends Component<Props, State> {
         {!this.props.isEnterprise && (
           <ContentPadding>
             <Layout.Content
-              tagName={"main"}
               style={{
                 backgroundColor: "rgba(0,0,0,0)",
                 marginTop: "-10vh",
@@ -115,7 +114,7 @@ class HomeComponent extends Component<Props, State> {
             >
               <StatsArea />
             </Layout.Content>
-            <Layout.Content tagName={"main"} style={{ marginBottom: "15px" }}>
+            <Layout.Content style={{ marginBottom: "15px" }}>
               <Row>
                 <Col xs={24} sm={24} md={19} lg={20} xl={20} xxl={21}>
                   <div style={{ backgroundColor: "#fff", borderRadius: 5 }}>

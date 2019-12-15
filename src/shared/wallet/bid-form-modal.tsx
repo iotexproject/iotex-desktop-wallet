@@ -144,5 +144,5 @@ class BidForm extends React.PureComponent<IBidFormProps> {
   }
 }
 
-const BidFormModal = Form.create<BidForm>()(BidForm);
+const BidFormModal = Form.create<IBidFormProps>()(BidForm);
 export default BidFormModal;
