@@ -103,17 +103,7 @@ module.exports = {
       ? "https://iotex-analytics-testnet.herokuapp.com/query"
       : "https://analytics.iotexscan.io/query",
   multiChain: {
-    current: process.env.CURRENT_CHAIN_NAME || "mainnet",
-    chains: [
-      {
-        name: "mainnet",
-        url: "https://iotexscan.io/"
-      },
-      {
-        name: "testnet",
-        url: "https://testnet.iotexscan.io/"
-      }
-    ]
+    current: process.env.CURRENT_CHAIN_NAME || "mainnet"
   },
   bidContractAddress: "io16alj8sw7pt0d5wv22gdyphuyz9vas5dk8czk88",
   vitaTokens: [
