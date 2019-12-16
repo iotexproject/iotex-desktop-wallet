@@ -71,7 +71,7 @@ const XRC20TokenBalanceTag: React.FC<{ contract: string; address: string }> = ({
       setBalance("");
     });
   const [balance, setBalance] = useState("");
-  return balance ? <Tag style={{ cursor: "text" }}>{balance}</Tag> : null;
+  return balance ? <Tag>{balance}</Tag> : null;
 };
 
 const XRC20TokenValue: React.FC<{ contract: string; value: BigNumber }> = ({

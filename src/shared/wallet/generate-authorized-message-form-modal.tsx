@@ -138,6 +138,6 @@ class GenerateAuthorizedMessageForm extends React.PureComponent<
 }
 
 const GenerateAuthorizedMessageFormModal = Form.create<
-  GenerateAuthorizedMessageForm
+  IGenerateAuthorizedMessageFormProps
 >()(GenerateAuthorizedMessageForm);
 export default GenerateAuthorizedMessageFormModal;

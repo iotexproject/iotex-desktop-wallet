@@ -43,10 +43,10 @@ export class Interact extends Component<IInteractProps> {
       <ContractLayout title={t("wallet.interact.title")} icon={"sync"}>
         {/*
         @ts-ignore */}
-        <InteractForm
+        {/* <InteractForm
           fromAddress={this.props.fromAddress}
           txHash={this.props.txHash}
-        />
+        /> */}
       </ContractLayout>
     );
   }
@@ -78,7 +78,7 @@ interface InteractProps extends FormComponentProps {
   abi?: string;
   contractAddress?: string;
   method?: string;
-  queryParams: QueryParams;
+  queryParams?: QueryParams;
   txHash?: string;
 }
 
@@ -125,12 +125,11 @@ const ContractAddressFormInputItem = ({
 
 class InteractFormInner extends Component<InteractProps, State> {
   public state: State;
-
   constructor(props: InteractProps) {
     super(props);
     this.state = {
       abiFunctions: null,
-      selectedFunction: props.queryParams.method || "",
+      selectedFunction: (props.queryParams && props.queryParams.method) || "",
       outputValues: [],
       broadcast: props.txHash
         ? {
@@ -173,7 +172,7 @@ class InteractFormInner extends Component<InteractProps, State> {
   }
 
   public componentDidMount(): void {
-    if (this.props.queryParams.method) {
+    if (this.props.queryParams && this.props.queryParams.method) {
       this.handleAccess();
     }
   }
@@ -375,22 +374,25 @@ class InteractFormInner extends Component<InteractProps, State> {
 
   public renderContractMethods = () => {
     const { getFieldDecorator } = this.props.form;
-    const { args = "[]" } = this.props.queryParams;
     // tslint:disable-next-line:no-any
     let argsObj: Array<any> = [];
-    try {
-      argsObj = JSON.parse(args);
-    } catch (e) {
-      // don't care the invalid param
+    if (this.props.queryParams) {
+      const { args = "[]" } = this.props.queryParams;
+      try {
+        argsObj = JSON.parse(args);
+      } catch (e) {
+        // don't care the invalid param
+      }
     }
-
     const { abiFunctions, outputValues } = this.state;
     if (!abiFunctions) {
       return null;
     }
 
     let { selectedFunction } = this.props.form.getFieldsValue();
-    selectedFunction = selectedFunction || this.props.queryParams.method;
+    selectedFunction =
+      selectedFunction ||
+      (this.props.queryParams && this.props.queryParams.method);
 
     const currentFunction = abiFunctions[selectedFunction];
 
@@ -552,7 +554,7 @@ class InteractFormInner extends Component<InteractProps, State> {
   }
 }
 
-export const InteractForm = Form.create({
+export const InteractForm = Form.create<InteractProps>({
   name: "interact-contract",
   onFieldsChange: (_, __, allFields) => {
     const formData: { [index: string]: string } = {};
@@ -562,7 +564,9 @@ export const InteractForm = Form.create({
     xconf.setConf(XConfKeys.LAST_INTERACT_CONTRACT, formData);
   }
 })(
-  connect((state: { queryParams: QueryParams }) => {
+  connect((state: { queryParams: QueryParams }): {
+    queryParams?: QueryParams;
+  } => {
     return { queryParams: state.queryParams };
   })(InteractFormInner)
 );

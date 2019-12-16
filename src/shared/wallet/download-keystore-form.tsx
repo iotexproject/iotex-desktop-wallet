@@ -109,8 +109,8 @@ class DownloadKeystoreFormInner extends Component<Props & FormComponentProps> {
   }
 }
 
-const DownloadKeystoreForm = Form.create({ name: "download-keystore-form" })(
-  DownloadKeystoreFormInner
-);
+const DownloadKeystoreForm = Form.create<Props & FormComponentProps>({
+  name: "download-keystore-form"
+})(DownloadKeystoreFormInner);
 
 export { DownloadKeystoreForm };
