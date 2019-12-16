@@ -63,4 +63,4 @@ export function SignInner({
   );
 }
 
-export const Sign = Form.create()(SignInner);
+export const Sign = Form.create<Props>()(SignInner);

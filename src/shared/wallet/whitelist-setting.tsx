@@ -130,4 +130,4 @@ export class WhitelistSetting extends React.Component<Props, State> {
   }
 }
 
-export const Whitelist = Form.create()(WhitelistSetting);
+export const Whitelist = Form.create<Props>()(WhitelistSetting);

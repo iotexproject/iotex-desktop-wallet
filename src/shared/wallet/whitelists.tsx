@@ -352,7 +352,7 @@ class WhitelistTable extends React.Component<
   }
 }
 
-const EditableFormTable = Form.create()(WhitelistTable);
+const EditableFormTable = Form.create<WhitelistTableProps>()(WhitelistTable);
 
 type Props = {};
 
