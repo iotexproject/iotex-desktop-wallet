@@ -12,6 +12,5 @@ module.exports = {
       level: "info"
     }
   },
-  enableSignIn: false,
-  webBpApiGatewayUrl: ""
+  enableSignIn: false
 };
