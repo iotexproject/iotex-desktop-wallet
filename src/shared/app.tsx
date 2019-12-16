@@ -6,7 +6,7 @@ import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
 import { RouteComponentProps, Switch } from "react-router";
 import { Route } from "react-router-dom";
-import { EnterpriseFooter } from "./common/footer";
+import { ENTERPRISE_FOOTER_ABOVE, EnterpriseFooter } from "./common/footer";
 // @ts-ignore
 import initGoogleAnalytics from "./common/google-analytics";
 import { HtmlHead } from "./common/html-head";
@@ -38,16 +38,16 @@ export class App extends Component<Props> {
 
   public render(): JSX.Element {
     const { locale, isEnterprise } = this.props;
-
+    const footerAboveStyle = isEnterprise
+      ? ENTERPRISE_FOOTER_ABOVE
+      : {
+          minHeight: `calc(100vh - ${FOOTER_HEIGHT + TOP_BAR_HEIGHT}px)`
+        };
     return (
       <RootStyle>
         <HtmlHead locale={locale} isEnterprise={isEnterprise} />
         <TopMenuBar />
-        <div
-          style={{
-            minHeight: `calc(100vh - ${FOOTER_HEIGHT + TOP_BAR_HEIGHT}px)`
-          }}
-        >
+        <div style={footerAboveStyle}>
           <ScrollToTop>
             <Switch>
               <Route exact={true} path="/" component={Home} />

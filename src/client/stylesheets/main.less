@@ -16,6 +16,7 @@
 @font-family: "Heebo", sans-serif, Microsoft YaHei !important;
 @bg-light-color: #f8f9fa;
 @white-color: #fff;
+@topbar-color: #3c3c4d;
 
 * {
   -moz-box-sizing: border-box;
@@ -440,19 +441,19 @@ text.recharts-text.recharts-cartesian-axis-tick-value {
 .top-nav-submenu > .ant-menu.ant-menu-sub.ant-menu-vertical {
   border: 0;
   border-radius: 0 !important;
-  background-color: #3c3c4d !important;
+  background-color: @topbar-color !important;
   padding-top: 4px !important;
   text-transform: capitalize !important;
 }
 
 #top-mobile-menu-nav .ant-drawer-content,
 #top-mobile-menu-nav .ant-menu-sub.ant-menu-inline {
-  background-color: #3c3c4d !important;
+  background-color: @topbar-color !important;
   box-shadow: none;
 }
 
 .language-switcher ul {
-  background-color: #3c3c4d !important;
+  background-color: @topbar-color !important;
   padding: 20px !important;
   padding-top: 30px !important;
   min-width: 150px !important;

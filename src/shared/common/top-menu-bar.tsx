@@ -52,55 +52,6 @@ export interface INavMenuItem {
   items?: Array<INavMenuItem>;
 }
 
-const MAIN_NAV_MENUS: Array<INavMenuItem> = [
-  {
-    label: "topbar.dashboard",
-    items: [
-      {
-        label: "topbar.dashboard",
-        path: "/"
-      },
-      {
-        label: "topbar.actions",
-        path: "/action"
-      },
-      {
-        label: "topbar.xrc20Transfer",
-        path: "/tokentxns"
-      },
-      {
-        label: "topbar.blocks",
-        path: "/block"
-      },
-      {
-        label: "topbar.accounts",
-        path: "/account"
-      }
-    ]
-  },
-  {
-    label: "topbar.tools",
-    items: [
-      {
-        label: "topbar.explorer_playground",
-        path: "/api-gateway/"
-      },
-      {
-        label: "topbar.analytics_playground",
-        path: "https://analytics.iotexscan.io/"
-      }
-    ]
-  },
-  {
-    label: "topbar.voting",
-    path: "https://member.iotex.io"
-  },
-  {
-    label: "topbar.wallet",
-    path: "/wallet/transfer"
-  }
-];
-
 const CHAIN_MENU_ITEM = {
   label: multiChain.current,
   items: multiChain.chains.map(({ name, url }) => ({
@@ -109,24 +60,26 @@ const CHAIN_MENU_ITEM = {
   }))
 };
 
-const IotexLogo = () => (
+const IotexLogo = connect((state: { base: { isEnterprise: boolean } }) => ({
+  isEnterprise: state.base.isEnterprise
+}))(({ isEnterprise }: { isEnterprise: boolean }) => (
   <Link to="/">
     <img
       alt="iotex-logo"
-      src={assetURL("/logo_explorer.png")}
+      src={assetURL(isEnterprise ? "/xunlian-logo.png" : "/logo_explorer.png")}
       style={{
         height: 38,
         width: "auto"
       }}
     />
   </Link>
-);
+));
 
 const HoverableStyle = {
   ":hover": {
     color: `${colors.primary} !important`
   },
-  color: `${colors.whiteText} !important`,
+  color: `${colors.topbarColor} !important`,
   cursor: "pointer"
 };
 
@@ -197,14 +150,16 @@ const renderMenuItem = (menu: INavMenuItem): JSX.Element => {
 // tslint:disable-next-line:max-func-body-length
 const TopMobileMenu = ({
   enableSignIn,
-  isEnterprise
+  isEnterprise,
+  menu
 }: {
   enableSignIn?: boolean;
   isEnterprise: boolean;
+  menu: Array<INavMenuItem>;
 }): JSX.Element => {
   const [collapsed, setCollapsed] = useState(true);
   const icon = collapsed ? "menu" : "close";
-  const mobileMenus: Array<INavMenuItem> = [...MAIN_NAV_MENUS, CHAIN_MENU_ITEM];
+  const mobileMenus: Array<INavMenuItem> = [...menu, CHAIN_MENU_ITEM];
   return (
     <div
       style={{
@@ -226,7 +181,7 @@ const TopMobileMenu = ({
           type="flex"
           align="middle"
           justify="space-between"
-          style={{ height: TOP_BAR_HEIGHT, color: colors.white }}
+          style={{ height: TOP_BAR_HEIGHT, color: colors.topbarColor }}
           gutter={{
             xs: 5,
             sm: 10,
@@ -240,7 +195,7 @@ const TopMobileMenu = ({
             type="flex"
             align="middle"
             justify="end"
-            style={{ height: TOP_BAR_HEIGHT, color: colors.white }}
+            style={{ height: TOP_BAR_HEIGHT }}
             gutter={{
               xs: 10,
               sm: 20,
@@ -262,7 +217,7 @@ const TopMobileMenu = ({
                 onClick={() => setCollapsed(!collapsed)}
                 style={{
                   padding: 0,
-                  color: colors.white,
+                  color: colors.topbarColor,
                   fontSize: 30,
                   border: 0,
                   backgroundColor: colors.nav01
@@ -305,16 +260,18 @@ const TopMobileMenu = ({
 
 const TopWideMenu = ({
   enableSignIn,
-  isEnterprise
+  isEnterprise,
+  menu
 }: {
   enableSignIn?: boolean;
   isEnterprise: boolean;
+  menu: Array<INavMenuItem>;
 }): JSX.Element => {
   const rowProps: RowProps = {
     type: "flex",
     align: "middle",
     justify: "space-between",
-    style: { height: TOP_BAR_HEIGHT, color: colors.white },
+    style: { height: TOP_BAR_HEIGHT, color: colors.topbarColor },
     gutter: 60
   };
   return (
@@ -331,7 +288,7 @@ const TopWideMenu = ({
               selectable={false}
               style={{ backgroundColor: colors.nav01 }}
             >
-              {MAIN_NAV_MENUS.map(renderMenuItem)}
+              {menu.map(renderMenuItem)}
             </Menu>
           </Col>
         </Row>
@@ -378,12 +335,65 @@ const TopMenuBar = connect(
     enableSignIn?: boolean;
     isEnterprise: boolean;
   }): JSX.Element => {
+    const MAIN_NAV_MENUS: Array<INavMenuItem> = [
+      {
+        label: "topbar.dashboard",
+        items: [
+          {
+            label: "topbar.dashboard",
+            path: "/"
+          },
+          {
+            label: "topbar.actions",
+            path: "/action"
+          },
+          {
+            label: "topbar.xrc20Transfer",
+            path: "/tokentxns"
+          },
+          {
+            label: "topbar.blocks",
+            path: "/block"
+          },
+          {
+            label: "topbar.accounts",
+            path: "/account"
+          }
+        ]
+      },
+      {
+        label: "topbar.tools",
+        items: [
+          {
+            label: "topbar.explorer_playground",
+            path: "/api-gateway/"
+          },
+          {
+            label: "topbar.analytics_playground",
+            path: "https://analytics.iotexscan.io/"
+          }
+        ]
+      },
+      ...(isEnterprise
+        ? []
+        : [
+            {
+              label: "topbar.voting",
+              path: "https://member.iotex.io"
+            }
+          ]),
+      {
+        label: "topbar.wallet",
+        path: "/wallet/transfer"
+      }
+    ];
     return (
       <Row
         style={{
           position: "relative",
           zIndex: 9999,
-          textTransform: "capitalize"
+          textTransform: "capitalize",
+          borderBottom: isEnterprise ? "1px #EDEDED solid" : 0
         }}
       >
         <Col xs={24} lg={0}>
@@ -391,12 +401,14 @@ const TopMenuBar = connect(
           <TopMobileMenu
             enableSignIn={enableSignIn}
             isEnterprise={isEnterprise}
+            menu={MAIN_NAV_MENUS}
           />
         </Col>
         <Col xs={0} lg={24}>
           <TopWideMenu
             enableSignIn={enableSignIn}
             isEnterprise={isEnterprise}
+            menu={MAIN_NAV_MENUS}
           />
         </Col>
       </Row>

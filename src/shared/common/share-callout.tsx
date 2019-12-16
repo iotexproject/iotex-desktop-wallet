@@ -1,9 +1,9 @@
 import { Col, Popover, Row, Tooltip } from "antd";
+import Icon from "antd/lib/icon";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { LinkButton } from "./buttons";
 import { CopyToClipboard } from "./copy-to-clipboard";
-import { ShareIcon } from "./icons/share_icon.svg";
 
 export interface IShareCallOutProps {
   link: string;
@@ -45,7 +45,7 @@ const ShareCallout: React.FC<IShareCallOutProps> = ({
       trigger="hover"
     >
       <LinkButton>
-        <ShareIcon />
+        <Icon style={{ fontSize: "18px" }} type="share-alt" />
       </LinkButton>
     </Popover>
   );
