@@ -6,18 +6,25 @@ import { App } from "./app";
 type Props = {
   googleTid: string;
   locale: string;
+  isEnterprise: boolean;
 };
 
-export const AppContainer = withRouter(
-  // @ts-ignore
-  connect<Props>(
-    (state: object): Props => {
-      return {
-        // @ts-ignore
-        googleTid: state.base.analytics.googleTid,
-        // @ts-ignore
-        locale: state.base.locale
+const connected = connect(
+  (state: {
+    base: {
+      locale: string;
+      isEnterprise: boolean;
+      analytics: {
+        googleTid: string;
       };
-    }
-  )(App)
-);
+    };
+  }): Props => {
+    return {
+      googleTid: state.base.analytics.googleTid,
+      locale: state.base.locale,
+      isEnterprise: state.base.isEnterprise
+    };
+  }
+)(App);
+
+export const AppContainer = withRouter(connected);

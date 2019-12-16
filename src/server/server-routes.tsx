@@ -47,6 +47,7 @@ export function setServerRoutes(server: MyServer): void {
         server.config.analyticsApiGatewayUrl
       );
       ctx.setState("base.enableSignIn", server.config.enableSignIn);
+      ctx.setState("base.isEnterprise", server.config.isEnterprise);
       ctx.body = await apolloSSR(ctx, server.config.apiGatewayUrl, {
         VDom: <AppContainer />,
         reducer: noopReducer,

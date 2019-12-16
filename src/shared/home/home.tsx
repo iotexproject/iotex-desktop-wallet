@@ -8,6 +8,7 @@ import BlockProducers from "iotex-react-block-producers";
 import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
 import { withApollo, WithApolloClient } from "react-apollo";
+import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { webBpApolloClient } from "../common/apollo-client";
 import { assetURL } from "../common/asset-url";
@@ -29,7 +30,10 @@ type PathParamsType = {
   hash: string;
 };
 
-type Props = RouteComponentProps<PathParamsType> & WithApolloClient<{}> & {};
+type Props = RouteComponentProps<PathParamsType> &
+  WithApolloClient<{}> & {
+    isEnterprise: boolean;
+  };
 
 class HomeComponent extends Component<Props, State> {
   constructor(props: Props) {
@@ -58,12 +62,16 @@ class HomeComponent extends Component<Props, State> {
     if (this.state.search) {
       return <></>;
     }
+    const { isEnterprise } = this.props;
     return (
-      <Layout tagName={"main"} className={"main-container"}>
-        <Layout.Content tagName={"main"}>
+      <Layout className={"main-container"}>
+        <Layout.Content>
           <div
             style={{
-              backgroundImage: `url(${assetURL("/bg_search.png")})`,
+              backgroundImage: isEnterprise
+                ? ""
+                : `url(${assetURL("/bg_search.png")})`,
+              backgroundColor: isEnterprise ? colors.white : "",
               width: "100%",
               height: "40vh",
               backgroundSize: "cover",
@@ -83,9 +91,18 @@ class HomeComponent extends Component<Props, State> {
                 paddingBottom: 20
               }}
             >
-              I{" "}
-              <Icon component={IoTeXExplorer} style={{ padding: "0px 6px" }} />{" "}
-              TeX.Explorer
+              {isEnterprise ? (
+                <span style={{ color: colors.text01 }}>区块链浏览器</span>
+              ) : (
+                <>
+                  I{" "}
+                  <Icon
+                    component={IoTeXExplorer}
+                    style={{ padding: "0px 6px" }}
+                  />{" "}
+                  {"TeX.Explorer"}
+                </>
+              )}
             </Row>
             <Row type="flex" justify="center" align="middle">
               <Col xs={20} md={12}>
@@ -99,39 +116,44 @@ class HomeComponent extends Component<Props, State> {
             </Row>
           </div>
         </Layout.Content>
-        <ContentPadding>
-          <Layout.Content
-            tagName={"main"}
-            style={{
-              backgroundColor: "rgba(0,0,0,0)",
-              marginTop: "-10vh",
-              marginBottom: 40
-            }}
-          >
-            <StatsArea />
-          </Layout.Content>
-          <Layout.Content tagName={"main"} style={{ marginBottom: "15px" }}>
-            <Row>
-              <Col xs={24} sm={24} md={19} lg={20} xl={20} xxl={21}>
-                <div style={{ backgroundColor: "#fff", borderRadius: 5 }}>
-                  <BlockProducers
-                    badgeImg={
-                      "https://user-images.githubusercontent.com/38968374/61657311-7e350380-ac77-11e9-86ea-0e87869e7962.png"
-                    }
-                    apolloClient={webBpApolloClient}
-                    height="750px"
-                  />
-                </div>
-              </Col>
-              <Col xs={0} sm={0} md={5} lg={4} xl={4} xxl={3}>
-                {/** Don't show block list on small devices */}
-                <BlockList height="836px" />
-              </Col>
-            </Row>
-          </Layout.Content>
-        </ContentPadding>
+        {!this.props.isEnterprise && (
+          <ContentPadding>
+            <Layout.Content
+              style={{
+                backgroundColor: "rgba(0,0,0,0)",
+                marginTop: "-10vh",
+                marginBottom: 40
+              }}
+            >
+              <StatsArea />
+            </Layout.Content>
+            <Layout.Content style={{ marginBottom: "15px" }}>
+              <Row>
+                <Col xs={24} sm={24} md={19} lg={20} xl={20} xxl={21}>
+                  <div style={{ backgroundColor: "#fff", borderRadius: 5 }}>
+                    {/*
+                      // @ts-ignore */}
+                    <BlockProducers
+                      badgeImg={
+                        "https://user-images.githubusercontent.com/38968374/61657311-7e350380-ac77-11e9-86ea-0e87869e7962.png"
+                      }
+                      apolloClient={webBpApolloClient}
+                      height="750px"
+                    />
+                  </div>
+                </Col>
+                <Col xs={0} sm={0} md={5} lg={4} xl={4} xxl={3}>
+                  {/** Don't show block list on small devices */}
+                  <BlockList height="836px" />
+                </Col>
+              </Row>
+            </Layout.Content>
+          </ContentPadding>
+        )}
       </Layout>
     );
   }
 }
-export const Home = withRouter(withApollo(HomeComponent));
+export const Home = connect((state: { base: { isEnterprise: boolean } }) => {
+  return { isEnterprise: state.base.isEnterprise };
+})(withRouter(withApollo(HomeComponent)));

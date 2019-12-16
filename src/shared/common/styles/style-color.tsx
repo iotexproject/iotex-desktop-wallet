@@ -1,3 +1,15 @@
+const enterpriseColors =
+  process.env.NODE_CONFIG_ENV === "enterprise"
+    ? {
+        primary: "#2970FB",
+        secondary: "#0C8DE4",
+        topbarColor: "#333333",
+        nav01: "#fff",
+        nav02: "#fff",
+        nav03: "#fff"
+      }
+    : {};
+
 export const colors = {
   primary: "#00b4a0",
   secondary: "#0C8DE4",
@@ -13,7 +25,7 @@ export const colors = {
 
   text01: "#333333",
   white: "#fff",
-  whiteText: "#fff",
+  topbarColor: "#fff",
 
   error: "#E54937", //	Error
   success: "#07A35A", //	Success
@@ -33,5 +45,7 @@ export const colors = {
   topbarGray: "#AAAFC1",
   background: "#f0f2f5",
   menuHover: "#51515a",
-  transparent: "rgba(0,0,0,0)"
+  transparent: "rgba(0,0,0,0)",
+
+  ...enterpriseColors
 };

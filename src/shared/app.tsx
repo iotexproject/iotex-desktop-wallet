@@ -4,8 +4,9 @@
 import Footer, { FOOTER_HEIGHT } from "iotex-react-footer";
 import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
-import { Switch } from "react-router";
+import { RouteComponentProps, Switch } from "react-router";
 import { Route } from "react-router-dom";
+import { ENTERPRISE_FOOTER_ABOVE, EnterpriseFooter } from "./common/footer";
 // @ts-ignore
 import initGoogleAnalytics from "./common/google-analytics";
 import { HtmlHead } from "./common/html-head";
@@ -27,7 +28,8 @@ import { Wallet } from "./wallet/wallet";
 type Props = {
   googleTid: string;
   locale: string;
-};
+  isEnterprise: boolean;
+} & RouteComponentProps;
 
 export class App extends Component<Props> {
   public componentDidMount(): void {
@@ -35,17 +37,17 @@ export class App extends Component<Props> {
   }
 
   public render(): JSX.Element {
-    const { locale } = this.props;
-
+    const { locale, isEnterprise } = this.props;
+    const footerAboveStyle = isEnterprise
+      ? ENTERPRISE_FOOTER_ABOVE
+      : {
+          minHeight: `calc(100vh - ${FOOTER_HEIGHT + TOP_BAR_HEIGHT}px)`
+        };
     return (
       <RootStyle>
-        <HtmlHead locale={locale} />
+        <HtmlHead locale={locale} isEnterprise={isEnterprise} />
         <TopMenuBar />
-        <div
-          style={{
-            minHeight: `calc(100vh - ${FOOTER_HEIGHT + TOP_BAR_HEIGHT}px)`
-          }}
-        >
+        <div style={footerAboveStyle}>
           <ScrollToTop>
             <Switch>
               <Route exact={true} path="/" component={Home} />
@@ -73,7 +75,7 @@ export class App extends Component<Props> {
             </Switch>
           </ScrollToTop>
         </div>
-        <Footer />
+        {isEnterprise ? <EnterpriseFooter /> : <Footer />}
       </RootStyle>
     );
   }

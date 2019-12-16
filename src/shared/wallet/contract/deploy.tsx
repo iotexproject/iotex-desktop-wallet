@@ -4,6 +4,7 @@ import Button from "antd/lib/button";
 import { FormComponentProps } from "antd/lib/form";
 import Form from "antd/lib/form/Form";
 import Input from "antd/lib/input";
+import Select from "antd/lib/select";
 // @ts-ignore
 import window from "global/window";
 // @ts-ignore
@@ -19,11 +20,11 @@ import { isValidBytes } from "../validator";
 import Dropdown from "antd/lib/dropdown";
 import Icon from "antd/lib/icon";
 import Menu from "antd/lib/menu";
-
 import { toRau } from "iotex-antenna/lib/account/utils";
-import isElectron from "is-electron";
+import { Query, QueryResult } from "react-apollo";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
+import { COMPILE_SOLIDITY, GET_SOLC_VERSIONS } from "../../queries";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
 import { inputStyle } from "../wallet";
@@ -37,6 +38,7 @@ import {
 import { ContractLayout } from "./contract-layout";
 
 const { TextArea } = Input;
+const { Option } = Select;
 
 export class Deploy extends Component<{ address: string }> {
   public render(): JSX.Element {
@@ -53,10 +55,10 @@ interface DeployProps extends FormComponentProps {
   updateWalletInfo?: any;
 }
 
-interface ISolcOutput {
-  error?: string;
-  errors?: Array<string>;
-  contracts?: { [index: string]: any };
+interface SolcVersion {
+  name: string;
+  version: string;
+  type: string;
 }
 
 interface State {
@@ -71,10 +73,8 @@ interface State {
   broadcast: {
     success: boolean;
   } | null;
-  compiledOutput: any;
   txHash: string;
   constructorArgs: Array<{ name: string; type: string }>;
-  loadingSolc: boolean;
 }
 
 class DeployFormInner extends Component<DeployProps, State> {
@@ -88,51 +88,9 @@ class DeployFormInner extends Component<DeployProps, State> {
     rawTransaction: null,
     showConfirmation: false,
     broadcast: null,
-    compiledOutput: null,
     txHash: "",
-    constructorArgs: [],
-    loadingSolc: true
+    constructorArgs: []
   };
-
-  public componentDidMount(): void {
-    if (this.state.loadingSolc) {
-      if (!window.soljsonReleases) {
-        window.BrowserSolc.getVersions(() => {
-          this.setState({
-            loadingSolc: false
-          });
-        });
-      } else {
-        this.setState({
-          loadingSolc: false
-        });
-      }
-    }
-  }
-
-  public solcRefs: { [index: string]: any } = {};
-  public loadSolc(version: string, callback: Function): any {
-    if (this.state.loadingSolc) {
-      setTimeout(() => this.loadSolc(version, callback), 1000);
-      return;
-    }
-    if (!version) {
-      callback(null);
-    } else if (this.solcRefs[version]) {
-      callback(this.solcRefs[version]);
-    } else {
-      this.setState({ loadingSolc: true });
-      window.BrowserSolc.loadVersion(version, (solc: any) => {
-        if (solc && solc.version()) {
-          this.solcRefs[solc.version()] = solc;
-          this.setState({ loadingSolc: false });
-          callback(solc);
-        } else {
-          callback(null);
-        }
-      });
-    }
-  }
 
   public handleGenerateAbiAndByteCode(contract: any): void {
     const {
@@ -140,69 +98,9 @@ class DeployFormInner extends Component<DeployProps, State> {
     } = this.props;
     setFieldsValue({
       byteCode: contract.bytecode,
-      abi: contract.interface
+      abi: contract.abi
     });
   }
-
-  private readonly handleSolcOutput = (output: ISolcOutput, cb: Function) => {
-    if (output.error) {
-      cb(t(output.error));
-    } else if (
-      output.errors &&
-      output.errors.length > 0 &&
-      output.errors.some((err: any) => err.indexOf("Warning:") === -1)
-    ) {
-      cb(JSON.stringify(output.errors));
-    } else {
-      cb();
-      return output;
-    }
-    return null;
-  };
-
-  private readonly solidityValidator = (
-    _: any,
-    value: any,
-    callback: Function
-  ): void => {
-    // reset compiledOutput
-    this.setState({ compiledOutput: null });
-    if (!value) {
-      return callback();
-    }
-
-    if (isElectron()) {
-      window.solidityCompile(value, (output: ISolcOutput) => {
-        const compiledOutput = this.handleSolcOutput(output, callback);
-        this.setState({ compiledOutput });
-      });
-      return;
-    }
-
-    const verFound = /pragma solidity \^(.*);/.exec(value);
-    if (!verFound || !verFound[1]) {
-      return callback(t("wallet.missing_solidity_pragma"));
-    }
-
-    const inputVersion = verFound[1];
-    const solidityVersion = (window.soljsonReleases || {})[inputVersion];
-    if (!solidityVersion) {
-      return callback(t("wallet.cannot_find_solidity_version"));
-    }
-    if (solidityVersion !== this.state.solidityReleaseVersion) {
-      this.setState({ solidityReleaseVersion: solidityVersion });
-    }
-    this.loadSolc(solidityVersion, (solc: any) => {
-      if (!solc) {
-        // Just incase loading solc failed
-        callback(t("wallet.cannot_load_solidity_version"));
-        return;
-      }
-      const output = solc.compile(value);
-      const compiledOutput = this.handleSolcOutput(output, callback);
-      this.setState({ compiledOutput });
-    });
-  };
 
   public renderConfirmation = () => {
     const { form, address } = this.props;
@@ -325,58 +223,17 @@ class DeployFormInner extends Component<DeployProps, State> {
     );
   }
 
-  public renderGenerateAbiButton(): JSX.Element {
-    const { compiledOutput, loadingSolc } = this.state;
-    const { contracts = {} } = compiledOutput || {};
-    const contractList = Object.keys(contracts).map(contractName => ({
-      ...contracts[contractName],
-      contractName
-    }));
-    if (loadingSolc) {
-      return (
-        <Button
-          loading={true}
-          disabled={true}
-          style={{ fontSize: "0.8em", padding: "0 15px", marginBottom: "32px" }}
-        >
-          {t("wallet.contract.loadindSolc")}
-        </Button>
-      );
-    }
-    if (!compiledOutput || !contractList.length) {
-      return (
-        <Button
-          disabled={true}
-          style={{ fontSize: "0.8em", padding: "0 5px", marginBottom: "32px" }}
-        >
-          {t("wallet.deploy.generateAbiAndByteCode")}
-        </Button>
-      );
-    }
-    if (contractList.length === 1) {
-      return (
-        // @ts-ignore
-        <Button
-          type="primary"
-          style={{
-            fontSize: "0.8em",
-            padding: "0 5px",
-            marginBottom: "32px"
-          }}
-          onClick={() => this.handleGenerateAbiAndByteCode(contractList[0])}
-        >
-          {t("wallet.deploy.generateAbiAndByteCode")}
-        </Button>
-      );
-    }
+  public renderContractMenu(
+    contracts: Array<{ name: string; abi: string; bytecode: string }>
+  ): JSX.Element {
     const contractMenu = (
       <Menu>
-        {contractList.map(contract => (
+        {contracts.map(contract => (
           <Menu.Item
-            key={`contract-${contract.contractName}`}
+            key={`contract-${contract.name}`}
             onClick={() => this.handleGenerateAbiAndByteCode(contract)}
           >
-            {`Contract ${contract.contractName.substr(1)}`}
+            {`Contract ${contract.name.substr(1)}`}
           </Menu.Item>
         ))}
       </Menu>
@@ -399,9 +256,104 @@ class DeployFormInner extends Component<DeployProps, State> {
     );
   }
 
+  public renderGenerateAbiButton(): JSX.Element {
+    const { setFields, getFieldsValue, getFieldError } = this.props.form;
+    const source = getFieldsValue().solidity;
+    const version = this.state.solidityReleaseVersion;
+    if (!source || !version) {
+      return (
+        <Button
+          disabled={true}
+          style={{ fontSize: "0.8em", padding: "0 5px", marginBottom: "32px" }}
+        >
+          {t("wallet.deploy.generateAbiAndByteCode")}
+        </Button>
+      );
+    }
+    return (
+      <Query query={COMPILE_SOLIDITY} variables={{ source, version }}>
+        {({ data, loading, error }: QueryResult) => {
+          if (loading) {
+            return (
+              <Button
+                loading={true}
+                disabled={true}
+                style={{
+                  fontSize: "0.8em",
+                  padding: "0 15px",
+                  marginBottom: "32px"
+                }}
+              >
+                {t("wallet.contract.loadindSolc")}
+              </Button>
+            );
+          }
+          const returnGetFieldError = getFieldError("solidity");
+          if (error && (!returnGetFieldError || !returnGetFieldError.length)) {
+            setFields({
+              solidity: {
+                value: source,
+                errors: [error]
+              }
+            });
+          }
+          if (!error && returnGetFieldError && returnGetFieldError.length) {
+            setFields({
+              solidity: {
+                value: source,
+                errors: error ? [error] : []
+              }
+            });
+          }
+
+          if (
+            error ||
+            !data ||
+            !data.compileSolidity ||
+            data.compileSolidity.length === 0
+          ) {
+            return (
+              <Button
+                disabled={true}
+                style={{
+                  fontSize: "0.8em",
+                  padding: "0 5px",
+                  marginBottom: "32px"
+                }}
+              >
+                {t("wallet.deploy.generateAbiAndByteCode")}
+              </Button>
+            );
+          }
+          if (data.compileSolidity.length === 1) {
+            return (
+              // @ts-ignore
+              <Button
+                type="primary"
+                style={{
+                  fontSize: "0.8em",
+                  padding: "0 5px",
+                  marginBottom: "32px"
+                }}
+                onClick={() =>
+                  this.handleGenerateAbiAndByteCode(data.compileSolidity[0])
+                }
+              >
+                {t("wallet.deploy.generateAbiAndByteCode")}
+              </Button>
+            );
+          }
+          return this.renderContractMenu(data.compileSolidity);
+        }}
+      </Query>
+    );
+  }
+
+  private validateTimeoutID: NodeJS.Timeout;
   public onABIChange = () => {
     const { form } = this.props;
-    setTimeout(() => {
+    clearTimeout(this.validateTimeoutID);
+    this.validateTimeoutID = setTimeout(() => {
       form.validateFields(["abi"], (error, { abi }) => {
         this.setState({ constructorArgs: [] });
         if (error) {
@@ -417,7 +369,7 @@ class DeployFormInner extends Component<DeployProps, State> {
         const { inputs } = ctor;
         this.setState({ constructorArgs: [...inputs] });
       });
-    }, 1);
+    }, 250);
   };
 
   public renderConstructorArgsForm(): JSX.Element | null {
@@ -450,28 +402,78 @@ class DeployFormInner extends Component<DeployProps, State> {
     );
   }
 
+  public updateInputVersion = (version: string) => {
+    this.setState({ solidityReleaseVersion: version });
+  };
+
+  public renderVersionInput(): JSX.Element | null {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+    return (
+      <Form.Item
+        {...formItemLayout}
+        label={<FormItemLabel>{t("wallet.input.solVersion")}</FormItemLabel>}
+      >
+        <Query query={GET_SOLC_VERSIONS}>
+          {({ data, loading }: QueryResult) => {
+            if (loading) {
+              return (
+                <div style={{ textAlign: "center" }}>
+                  <Icon type="loading" spin={true} />
+                </div>
+              );
+            }
+            if (
+              data &&
+              data.getSolcVersions &&
+              data.getSolcVersions.length > 0
+            ) {
+              return getFieldDecorator("solVersion", {
+                rules: [{ required: true, message: t("wallet.error.required") }]
+              })(
+                <Select
+                  showSearch={true}
+                  placeholder={t("wallet.placeholder.compile")}
+                  onChange={(value: string) => {
+                    this.updateInputVersion(value);
+                  }}
+                >
+                  {data.getSolcVersions.map((solcVersion: SolcVersion) => {
+                    return (
+                      <Option
+                        value={solcVersion.version}
+                        key={solcVersion.name}
+                      >
+                        {`${solcVersion.name}`}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              );
+            }
+            return null;
+          }}
+        </Query>
+      </Form.Item>
+    );
+  }
+
   public render(): JSX.Element | null {
     const { broadcast } = this.state;
     if (broadcast) {
       return this.renderBroadcast();
     }
-
     const { form } = this.props;
     const { getFieldDecorator } = form;
-
     return (
       <Form layout={"vertical"}>
+        {this.renderVersionInput()}
         <Form.Item
           {...formItemLayout}
           label={<FormItemLabel>{t("wallet.input.solidity")}</FormItemLabel>}
         >
           {getFieldDecorator("solidity", {
-            initialValue: "",
-            rules: [
-              {
-                validator: this.solidityValidator
-              }
-            ]
+            initialValue: ""
           })(
             <TextArea
               rows={4}
@@ -533,6 +535,6 @@ class DeployFormInner extends Component<DeployProps, State> {
   }
 }
 
-export const DeployForm = Form.create({ name: "deploy-contract" })(
+export const DeployForm = Form.create<DeployProps>({ name: "deploy-contract" })(
   DeployFormInner
 );
