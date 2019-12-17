@@ -33,7 +33,7 @@ export function setServerRoutes(server: MyServer): void {
       ctx.setState("base.chainArray", [
         {
           name: "mainnet",
-          url: "https://iotexscan.io/"
+          url: `https://iotexscan.io${ctx.path}`
         },
         {
           name: "testnet",
