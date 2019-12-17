@@ -13,5 +13,6 @@ module.exports = {
     }
   },
   enableSignIn: false,
+  analyticsApiGatewayUrl: process.env.ANALYTICS_API_GATEWAY_URL,
   webBpApiGatewayUrl: ""
 };

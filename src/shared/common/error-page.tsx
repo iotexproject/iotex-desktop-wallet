@@ -1,18 +1,15 @@
 import Button from "antd/lib/button";
 // @ts-ignore
 
-// @ts-ignore
+import { FOOTER_HEIGHT } from "iotex-react-footer";
 import { t } from "onefx/lib/iso-i18n";
-// @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
-// @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import { PureComponent } from "react";
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Flex } from "./flex";
-import { FOOTER_HEIGHT } from "iotex-react-footer";
 import { ENTERPRISE_FOOTER_ABOVE } from "./footer";
 import { ContentPadding } from "./styles/style-padding";
 import { TOP_BAR_HEIGHT } from "./top-menu-bar";

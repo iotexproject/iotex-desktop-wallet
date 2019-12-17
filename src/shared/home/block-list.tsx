@@ -1,6 +1,5 @@
 import Card from "antd/lib/card";
 import Col from "antd/lib/col";
-import notification from "antd/lib/notification";
 import Row from "antd/lib/row";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -141,17 +140,11 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
                   {({ loading, error, data }: QueryResult) => {
                     const address = producerAddress.substr(0, 8);
                     if (error) {
-                      notification.error({
-                        message: `failed to query bp candidate in block list: ${error}`
-                      });
+                      return <span>{address}</span>;
                     }
                     if (loading) {
                       return address;
                     }
-                    if (!!error) {
-                      return <span>{address}</span>;
-                    }
-
                     const name =
                       (data.bpCandidate && data.bpCandidate.registeredName) ||
                       address;
