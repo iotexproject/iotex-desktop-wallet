@@ -73,7 +73,11 @@ export async function apolloSSR(
     const apolloState = apolloClient.extract();
     ctx.setState("apolloState", apolloState);
     ctx.setState("apolloAnalyticsState", analyticsClient.extract());
-    ctx.setState("webBpApolloState", webBpApolloClient.extract());
+    try {
+      ctx.setState("webBpApolloState", webBpApolloClient.extract());
+    } catch (e) {
+      logger.debug(`soft-failed to hydrate webBpApolloState`);
+    }
     ctx.setState("wallet", walletState);
   } catch (e) {
     logger.error(`failed to hydrate apollo SSR: ${e} ${e.stack}`);

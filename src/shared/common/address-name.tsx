@@ -1,4 +1,3 @@
-import notification from "antd/lib/notification";
 import { get } from "dottie";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
@@ -16,9 +15,9 @@ const AddressName: React.FC<{ address: string }> = ({ address }) => {
     >
       {({ data, error }: QueryResult<{}>) => {
         if (error) {
-          notification.error({
-            message: `failed to query bp candidate in AddressName: ${error}`
-          });
+          return (
+            <LinkButton href={`/address/${address}`}>{address}</LinkButton>
+          );
         }
         const { registeredName = address } =
           get(data || {}, "bpCandidate") || {};

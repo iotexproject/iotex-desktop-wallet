@@ -62,12 +62,10 @@ export const setApolloClientEndpoint = (url: string) => {
   apolloClient.reFetchObservableQueries(true);
 };
 
-export const webBpApolloClient = createWebBpApolloClient(
-  webBpApiGatewayUrl || "https://member.iotex.io/api-gateway/"
-);
+export const webBpApolloClient = createWebBpApolloClient(webBpApiGatewayUrl);
 
 const httpAnalyticsLink = new HttpLink({
-  uri: analyticsApiGatewayUrl || "https://analytics.iotexscan.io/query",
+  uri: analyticsApiGatewayUrl,
   fetch: limitRateFetch
 });
 

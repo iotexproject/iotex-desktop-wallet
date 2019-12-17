@@ -1,5 +1,12 @@
+import isBrowser from "is-browser";
+// @ts-ignore
+import JsonGlobal from "safe-json-globals/get";
+
+const state = isBrowser && JsonGlobal("state");
+const isEnterprise = isBrowser && state.base.isEnterprise;
+
 const enterpriseColors =
-  process.env.NODE_CONFIG_ENV === "enterprise"
+  (process.env.NODE_CONFIG_ENV === "enterprise" || isEnterprise)
     ? {
         primary: "#2970FB",
         secondary: "#0C8DE4",
