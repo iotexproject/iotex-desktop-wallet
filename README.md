@@ -58,6 +58,14 @@ npm run build-production
 NODE_ENV=production npm run start
 ```
 
+#### Debugging Enterprise Mode
+
+```bash
+NODE_CONFIG_ENV=enterprise npm run watch
+```
+
+And then visit http://localhost:4004/?locale=zh-CN
+
 #### NPM scripts
 
 - `npm run test`: test the whole project and generate a test coverage
