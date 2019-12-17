@@ -12,5 +12,7 @@ module.exports = {
       level: "info"
     }
   },
-  enableSignIn: false
+  enableSignIn: false,
+  analyticsApiGatewayUrl: process.env.ANALYTICS_API_GATEWAY_URL,
+  webBpApiGatewayUrl: ""
 };
