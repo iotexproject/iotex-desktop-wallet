@@ -21,6 +21,7 @@ import { assetURL } from "./asset-url";
 import { SignInModal } from "./sign-in-modal";
 import { colors } from "./styles/style-color";
 import { WideContentPadding } from "./styles/style-padding";
+import { Flex } from "./flex";
 
 const globalState = isBrowser && JsonGlobal("state");
 export const TOP_BAR_HEIGHT = 60;
@@ -62,18 +63,44 @@ const CHAIN_MENU_ITEM = {
 
 const IotexLogo = connect((state: { base: { isEnterprise: boolean } }) => ({
   isEnterprise: state.base.isEnterprise
-}))(({ isEnterprise }: { isEnterprise: boolean }) => (
-  <Link to="/">
-    <img
-      alt="iotex-logo"
-      src={assetURL(isEnterprise ? "/xunlian-logo.png" : "/logo_explorer.png")}
-      style={{
-        height: 38,
-        width: "auto"
-      }}
-    />
-  </Link>
-));
+}))(({ isEnterprise }: { isEnterprise: boolean }) => {
+  const commonVersion = (
+    <Link to="/">
+      <img
+        alt="iotex-logo"
+        src={assetURL("/logo_explorer.png")}
+        style={{
+          height: 38,
+          width: "auto"
+        }}
+      />
+    </Link>
+  );
+  const enterpriseVersion = (
+    <Link to="/">
+      <Flex alignItems="center">
+        <img
+          alt="enterprise-logo"
+          src={assetURL("/wechart_image_20191215185219.png")}
+          style={{
+            height: 26,
+            width: "auto"
+          }}
+        />
+        <div style={{ marginLeft: "15px" }}>
+          <h4 style={{ margin: 0, fontSize: "20px", fontWeight: 600 }}>
+            讯联科技
+          </h4>
+          <p style={{ margin: 0, fontSize: "12px", color: "#808080" }}>
+            用信任链接世界
+          </p>
+        </div>
+      </Flex>
+    </Link>
+  );
+
+  return isEnterprise ? enterpriseVersion : commonVersion;
+});
 
 const HoverableStyle = {
   ":hover": {
