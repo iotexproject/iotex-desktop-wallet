@@ -8,6 +8,21 @@ import { apolloSSR } from "../shared/common/apollo-ssr";
 // @ts-ignore
 import { MyServer } from "./start-server";
 
+function addDynamicPath(
+  chainObject: {
+    chains: Array<{ name: string; url: string }>;
+    current: string;
+  },
+  path: string
+): Array<{ name: string; url: string }> {
+  return chainObject.chains.map(item => {
+    return {
+      url: item.url + path.slice(1),
+      name: item.name
+    };
+  });
+}
+
 export function setServerRoutes(server: MyServer): void {
   // Health checks
   server.get("health", "/health", (ctx: koa.Context) => {
@@ -30,16 +45,16 @@ export function setServerRoutes(server: MyServer): void {
       ctx.setState("base.bidContractAddress", server.config.bidContractAddress);
       ctx.setState("base.vitaTokens", server.config.vitaTokens);
       ctx.setState("base.multiChain", server.config.multiChain);
-      ctx.setState("base.chainArray", [
-        {
-          name: "mainnet",
-          url: `https://iotexscan.io${ctx.path}`
-        },
-        {
-          name: "testnet",
-          url: `https://testnet.iotexscan.io${ctx.path}`
-        }
-      ]);
+      ctx.setState(
+        "base.chainArray",
+        addDynamicPath(
+          server.config.multiChain as {
+            chains: Array<{ name: string; url: string }>;
+            current: string;
+          },
+          ctx.path
+        )
+      );
       ctx.setState("base.defaultERC20Tokens", server.config.defaultERC20Tokens);
       ctx.setState("base.webBpApiGatewayUrl", server.config.webBpApiGatewayUrl);
       ctx.setState(
