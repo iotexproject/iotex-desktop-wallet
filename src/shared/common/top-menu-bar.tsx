@@ -34,9 +34,9 @@ const multiChain: {
       url: string;
     }
   ];
-} = (isBrowser && globalState.base.multiChain) || {
-  current: "MAINNET",
-  chains: [
+} = {
+  current: (isBrowser && globalState.base.multiChain.current) || "MAINNET",
+  chains: (isBrowser && globalState.base.chainArray) || [
     {
       name: "MAINNET",
       url: "https://iotexscan.io/"
