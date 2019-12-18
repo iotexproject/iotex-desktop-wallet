@@ -17,6 +17,8 @@ export function HtmlHead({
   locale: string;
   isEnterprise: boolean;
 }): JSX.Element {
+  const favicon = isEnterprise ? "/favicon-xunlian.png" : "/favicon.png";
+
   return (
     <Helmet
       title={`${t("meta.title")} - ${t("meta.description")}`}
@@ -43,13 +45,13 @@ export function HtmlHead({
       link={[
         // PWA & mobile
         { rel: "manifest", href: "/manifest.json" },
-        { rel: "apple-touch-icon", href: "/favicon.png" },
+        { rel: "apple-touch-icon", href: favicon },
 
         {
           rel: "icon",
           type: "image/png",
           sizes: "any",
-          href: assetURL("/favicon.png")
+          href: assetURL(favicon)
         },
 
         // styles
