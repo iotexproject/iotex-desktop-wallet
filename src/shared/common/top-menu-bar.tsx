@@ -18,10 +18,10 @@ import { Link } from "react-router-dom";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
 import { assetURL } from "./asset-url";
+import { Flex } from "./flex";
 import { SignInModal } from "./sign-in-modal";
 import { colors } from "./styles/style-color";
 import { WideContentPadding } from "./styles/style-padding";
-import { Flex } from "./flex";
 
 const globalState = isBrowser && JsonGlobal("state");
 export const TOP_BAR_HEIGHT = 60;
@@ -81,7 +81,7 @@ const IotexLogo = connect((state: { base: { isEnterprise: boolean } }) => ({
       <Flex alignItems="center">
         <img
           alt="enterprise-logo"
-          src={assetURL("/wechart_image_20191215185219.png")}
+          src={assetURL("/xunlian-logo.png")}
           style={{
             height: 26,
             width: "auto"

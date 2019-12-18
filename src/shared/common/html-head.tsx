@@ -17,7 +17,7 @@ export function HtmlHead({
   locale: string;
   isEnterprise: boolean;
 }): JSX.Element {
-  const favicon = isEnterprise ? "/favicon_x.png" : "/favicon.png";
+  const favicon = isEnterprise ? "/favicon-xunlian.png" : "/favicon.png";
 
   return (
     <Helmet
