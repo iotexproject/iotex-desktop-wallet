@@ -311,7 +311,6 @@ const TopWideMenu = ({
           <Col>
             <Menu
               mode="horizontal"
-              theme="dark"
               selectable={false}
               style={{ backgroundColor: colors.nav01 }}
             >
