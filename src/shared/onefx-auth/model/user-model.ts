@@ -1,4 +1,3 @@
-// @ts-ignore
 import mongoose from "mongoose";
 import tools from "../utils/tools";
 import { baseModel } from "./base-model";

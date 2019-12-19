@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-// @ts-ignore
 import mongoose from "mongoose";
 import { promisify } from "util";
 

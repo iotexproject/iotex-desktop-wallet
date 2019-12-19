@@ -1,4 +1,3 @@
-// @ts-ignore
 import mongoose from "mongoose";
 import uuidV4 from "uuid/v4";
 

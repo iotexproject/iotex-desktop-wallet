@@ -1,5 +1,4 @@
 // mongoose plugin http://mongoosejs.com/docs/plugins.html
-// @ts-ignore
 import mongoose from "mongoose";
 import tools from "../utils/tools";
 
