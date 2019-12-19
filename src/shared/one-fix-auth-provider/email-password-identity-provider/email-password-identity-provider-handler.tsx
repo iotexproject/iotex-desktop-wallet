@@ -2,9 +2,10 @@ import koa from "koa";
 import { noopReducer } from "onefx/lib/iso-react-render/root/root-reducer";
 import * as React from "react";
 import validator from "validator";
+import { setConfigs } from "../../../server/set-configs";
 import { MyServer } from "../../../server/start-server";
 import { TUser } from "../../onefx-auth/model/user-model";
-import { IdentityApp } from "./view/identity-app";
+import { IdentityAppContainer } from "./view/identity-app-container";
 
 const PASSWORD_MIN_LENGTH = 8;
 
@@ -59,7 +60,7 @@ export function setEmailPasswordIdentityProviderRoutes(server: MyServer): void {
     async (ctx: koa.Context, _: Function) => {
       ctx.setState("base.next", ctx.query.next);
       ctx.setState("base.userId", ctx.state.userId);
-      return isoRender(ctx);
+      return isoRender(server, ctx);
     }
   );
   server.get(
@@ -69,7 +70,7 @@ export function setEmailPasswordIdentityProviderRoutes(server: MyServer): void {
     async (ctx: koa.Context, _: Function) => {
       ctx.setState("base.next", ctx.query.next);
       ctx.setState("base.userId", ctx.state.userId);
-      return isoRender(ctx);
+      return isoRender(server, ctx);
     }
   );
   server.get(
@@ -79,7 +80,7 @@ export function setEmailPasswordIdentityProviderRoutes(server: MyServer): void {
     async (ctx: koa.Context, _: Function) => {
       ctx.setState("base.next", ctx.query.next);
       ctx.setState("base.userId", ctx.state.userId);
-      return isoRender(ctx);
+      return isoRender(server, ctx);
     }
   );
   server.get(
@@ -89,7 +90,7 @@ export function setEmailPasswordIdentityProviderRoutes(server: MyServer): void {
       const token = ctx.query.token;
       const found = await server.auth.emailToken.findOne(token);
       ctx.setState("base.token", found && found.token);
-      return isoRender(ctx);
+      return isoRender(server, ctx);
     }
   );
   server.get("logout", "/logout", server.auth.logout);
@@ -101,7 +102,7 @@ export function setEmailPasswordIdentityProviderRoutes(server: MyServer): void {
         ctx.params.token
       );
       if (!et || !et.userId) {
-        return isoRender(ctx);
+        return isoRender(server, ctx);
       }
 
       const newToken = await server.auth.emailToken.newAndSave(et.userId);
@@ -261,16 +262,10 @@ export function setEmailPasswordIdentityProviderRoutes(server: MyServer): void {
   );
 }
 
-function isoRender(ctx: koa.Context): void {
-  const state = ctx.getState();
-
+function isoRender(server: MyServer, ctx: koa.Context): void {
+  setConfigs(server, ctx);
   ctx.body = ctx.isoReactRender({
-    VDom: (
-      <IdentityApp
-        locale={state.base.local}
-        isEnterprise={state.base.isEnterprise}
-      />
-    ),
+    VDom: <IdentityAppContainer />,
     reducer: noopReducer,
     clientScript: "/identity-provider-main.js"
   });

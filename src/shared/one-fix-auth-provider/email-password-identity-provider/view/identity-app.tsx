@@ -3,7 +3,7 @@ import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import { Component } from "react";
 import React from "react";
-import { Switch } from "react-router";
+import { RouteComponentProps, Switch } from "react-router";
 import { Link, Route } from "react-router-dom";
 import { Flex } from "../../../common/flex";
 // import { Footer, FOOTER_ABOVE } from "../../../common/footer";
@@ -25,7 +25,7 @@ type Props = {
   googleTid?: string;
   locale?: string;
   isEnterprise?: boolean;
-};
+} & RouteComponentProps;
 
 export class IdentityApp extends Component<Props> {
   public componentDidMount(): void {
@@ -69,7 +69,6 @@ export class IdentityApp extends Component<Props> {
 
 const RootStyle = styled("div", (_: React.CSSProperties) => ({
   ...fonts.body,
-  backgroundColor: colors.black10,
   color: colors.text01,
   textRendering: "optimizeLegibility"
 }));
