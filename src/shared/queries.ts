@@ -408,8 +408,8 @@ export const GET_SOLC_VERSIONS = gql`
 `;
 
 export const GET_BP_CANDIDATE = gql`
-  query bpCandidate($ioOperatorAddress: ID) {
-    bpCandidate(ioOperatorAddress: $ioOperatorAddress) {
+  query bpCandidate($addressess: ID) {
+    bpCandidate(addressess: $addressess) {
       registeredName
     }
   }
