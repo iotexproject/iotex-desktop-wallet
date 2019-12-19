@@ -45,6 +45,9 @@ module.exports = {
     sendgrid: {
       url: "/v3/contactdb/recipients",
       method: "POST"
+    },
+    mongoose: {
+      uri: process.env.MONGODB_URI
     }
   },
   analytics: {
