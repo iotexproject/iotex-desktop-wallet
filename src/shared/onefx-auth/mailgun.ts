@@ -1,4 +1,6 @@
+// @ts-ignore
 import mailer from "nodemailer";
+// @ts-ignore
 import mg from "nodemailer-mailgun-transport";
 import { logger } from "onefx/lib/integrated-gateways/logger";
 

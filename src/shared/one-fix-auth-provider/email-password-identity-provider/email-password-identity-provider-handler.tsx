@@ -262,8 +262,15 @@ export function setEmailPasswordIdentityProviderRoutes(server: MyServer): void {
 }
 
 function isoRender(ctx: koa.Context): void {
+  const state = ctx.getState();
+
   ctx.body = ctx.isoReactRender({
-    VDom: <IdentityApp />,
+    VDom: (
+      <IdentityApp
+        locale={state.base.local}
+        isEnterprise={state.base.isEnterprise}
+      />
+    ),
     reducer: noopReducer,
     clientScript: "/identity-provider-main.js"
   });

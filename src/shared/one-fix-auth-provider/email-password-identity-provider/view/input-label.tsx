@@ -2,6 +2,7 @@
 import { styled, StyleObject } from "onefx/lib/styletron-react";
 import { fonts } from "../../../common/styles/style-font";
 
+// @ts-ignore
 const style: StyleObject = {
   ...fonts.inputLabel,
   display: "inline-block",
