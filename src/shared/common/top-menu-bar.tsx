@@ -301,6 +301,7 @@ const TopWideMenu = ({
     style: { height: TOP_BAR_HEIGHT, color: colors.topbarColor },
     gutter: 60
   };
+  const theme = isEnterprise ? "light" : "dark";
   return (
     <WideContentPadding style={{ backgroundColor: colors.nav01 }}>
       <Row {...rowProps}>
@@ -310,6 +311,7 @@ const TopWideMenu = ({
           </Col>
           <Col>
             <Menu
+              theme={theme}
               mode="horizontal"
               selectable={false}
               style={{ backgroundColor: colors.nav01 }}
