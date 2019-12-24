@@ -28,7 +28,7 @@ const getAccountListColumns = (): Array<ColumnProps<TopHolderInfo>> => [
   {
     title: t("account.rank"),
     dataIndex: "Rank",
-    width: "5vw",
+    width: "10vw",
     render(_: string, __: TopHolderInfo, index: number): JSX.Element | string {
       return `${(current - 1) * PAGE_SIZE + (index + 1)}`;
     }
@@ -36,12 +36,13 @@ const getAccountListColumns = (): Array<ColumnProps<TopHolderInfo>> => [
   {
     title: t("account.address"),
     dataIndex: "address",
-    width: "15vw",
+    width: "20vw",
     render: text => <AccountAddressRenderer value={text} />
   },
   {
     title: t("address.balance"),
     dataIndex: "balance",
+    width: "20vw",
     render: (
       _: string,
       record: TopHolderInfo,
@@ -54,6 +55,7 @@ const getAccountListColumns = (): Array<ColumnProps<TopHolderInfo>> => [
   {
     title: t("account.percentage"),
     dataIndex: "percentage",
+    width: "20vw",
     render: (_: string, record: TopHolderInfo): JSX.Element | string => {
       const percentage: string = (
         (parseFloat(fromRau(record.balance, "iotx")) * 100) /
@@ -65,6 +67,7 @@ const getAccountListColumns = (): Array<ColumnProps<TopHolderInfo>> => [
   {
     title: t("account.txnCount"),
     dataIndex: "txnCount",
+    width: "20vw",
     render(_: string, record: TopHolderInfo, __: number): JSX.Element | string {
       return (
         <Query
@@ -130,6 +133,7 @@ export const AccountTable: React.FC<IAccountTable> = ({ endEpochNumber }) => {
               total: numAccounts,
               showQuickJumper: true
             }}
+            size="middle"
             onChange={pagination => {
               current = pagination.current || 1;
               skip = (current - 1) * first;

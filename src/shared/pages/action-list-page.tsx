@@ -46,18 +46,19 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
   {
     title: t("action.hash"),
     dataIndex: "actHash",
-    width: "10vw",
+    width: "12vw",
     render: text => <ActionHashRenderer value={text} />
   },
   {
     title: t("block.timestamp"),
     dataIndex: "timestamp",
+    width: "8vw",
     render: (_, { timestamp }) => translateFn(timestamp)
   },
   {
     title: t("action.sender"),
     dataIndex: "sender",
-    width: "10vw",
+    width: "12vw",
     render(_: string, record: ActionInfo, __: number): JSX.Element {
       const addr = publicKeyToAddress(String(record.action.senderPubKey));
       return (
@@ -73,6 +74,7 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
   {
     title: t("action.type"),
     dataIndex: "name",
+    width: "3vw",
     render: (_: string, record: ActionInfo, __: number): JSX.Element => {
       return <Tag>{getActionType(record)}</Tag>;
     }
@@ -195,6 +197,7 @@ export const ActionTable: React.FC<IActionTable> = ({
               total: numActions,
               showQuickJumper: true
             }}
+            size="middle"
             onChange={pagination => {
               const current = pagination.current || 0;
               const cStart = Math.max(start - (current - 1) * count, 0);
