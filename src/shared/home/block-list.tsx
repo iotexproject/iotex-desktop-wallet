@@ -1,20 +1,20 @@
 import Card from "antd/lib/card";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
+import { get } from "dottie";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { CSSProperties, useState } from "react";
 import { Query, QueryResult } from "react-apollo";
 
 import { Link } from "react-router-dom";
-import { webBpApolloClient } from "../common/apollo-client";
 import { assetURL } from "../common/asset-url";
 import { translateFn } from "../common/from-now";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import {
+  GET_ADDRESS_META,
   GET_BLOCK_METAS,
-  GET_BP_CANDIDATE,
   GET_LATEST_HEIGHT
 } from "../queries";
 
@@ -133,11 +133,15 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
                 style={{ position: "relative" }}
               >
                 <Query
-                  query={GET_BP_CANDIDATE}
-                  variables={{ ioOperatorAddress: producerAddress }}
-                  client={webBpApolloClient}
+                  query={GET_ADDRESS_META}
+                  variables={{ address: producerAddress }}
+                  errorPolicy="ignore"
                 >
-                  {({ loading, error, data }: QueryResult) => {
+                  {({
+                    loading,
+                    error,
+                    data
+                  }: QueryResult<{ name: string }>) => {
                     const address = producerAddress.substr(0, 8);
                     if (error) {
                       return <span>{address}</span>;
@@ -145,10 +149,8 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
                     if (loading) {
                       return address;
                     }
-                    const name =
-                      (data.bpCandidate && data.bpCandidate.registeredName) ||
-                      address;
-
+                    const { name = address } =
+                      get(data || {}, "addressMeta") || {};
                     return <span>{name}</span>;
                   }}
                 </Query>
