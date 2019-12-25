@@ -88,6 +88,10 @@ input ActionInput {
   signature: Buffer!
 }
 
+type AddressMeta {
+  name: String!
+}
+
 # The BigNumber scalar type represents numeric values with precision as in https://github.com/MikeMcl/bignumber.js/
 scalar BigNumber
 
@@ -512,13 +516,20 @@ type Query {
   ): GetActionsResponse!
 
   # read contract
-  readContract(execution: ExecutionInput!, callerAddress: String!): ReadContractResponse!
+  readContract(
+    execution: ExecutionInput!
+    callerAddress: String!
+  ): ReadContractResponse!
 
   # sendAction
   sendAction(action: ActionInput!): SendActionResponse!
 
   # read state
-  readState(protocolID: Buffer!, methodName: Buffer!, arguments: [Buffer!]!): ReadStateResponse!
+  readState(
+    protocolID: Buffer!
+    methodName: Buffer!
+    arguments: [Buffer!]!
+  ): ReadStateResponse!
 
   # estimate gas for action
   estimateGasForAction(action: ActionInput!): EstimateGasForActionResponse!
@@ -530,6 +541,7 @@ type Query {
   fetchVersionInfo: VersionInfo!
   getSolcVersions: [SolcVersion!]!
   compileSolidity(source: String!, version: String!): [Contract!]!
+  addressMeta(address: String!): AddressMeta!
 }
 
 type ReadContractResponse {

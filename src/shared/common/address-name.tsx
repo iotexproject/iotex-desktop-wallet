@@ -1,29 +1,26 @@
 import { get } from "dottie";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
-import { GET_BP_CANDIDATE } from "../queries";
-import { webBpApolloClient } from "./apollo-client";
+import { GET_ADDRESS_META } from "../queries";
 import { LinkButton } from "./buttons";
 
 const AddressName: React.FC<{ address: string }> = ({ address }) => {
   return (
     <Query
-      query={GET_BP_CANDIDATE}
-      variables={{ ioOperatorAddress: address }}
-      client={webBpApolloClient}
+      query={GET_ADDRESS_META}
+      variables={{ address }}
       errorPolicy="ignore"
     >
-      {({ data, error }: QueryResult<{}>) => {
+      {({ data, error }: QueryResult<{ name: string }>) => {
         if (error) {
           return (
             <LinkButton href={`/address/${address}`}>{address}</LinkButton>
           );
         }
-        const { registeredName = address } =
-          get(data || {}, "bpCandidate") || {};
+        const { name = address } = get(data || {}, "addressMeta") || {};
         return (
           <LinkButton href={`/address/${address}`}>
-            {registeredName || address}
+            {name || address}
           </LinkButton>
         );
       }}
