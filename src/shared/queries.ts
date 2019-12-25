@@ -407,10 +407,10 @@ export const GET_SOLC_VERSIONS = gql`
   }
 `;
 
-export const GET_BP_CANDIDATE = gql`
-  query bpCandidate($addressess: ID) {
-    bpCandidate(addressess: $addressess) {
-      registeredName
+export const GET_ADDRESS_META = gql`
+  query addressMeta($address: String!) {
+    addressMeta(address: $address) {
+      name
     }
   }
 `;
