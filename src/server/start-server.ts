@@ -6,7 +6,7 @@ import { Config, Server } from "onefx/lib/server";
 import { AntennaResolver } from "../api-gateway/resolvers/antenna";
 import { MetaResolver } from "../api-gateway/resolvers/meta";
 import { SolcResolver } from "../api-gateway/resolvers/solc";
-import { TokenResolver } from "../api-gateway/resolvers/token";
+import { AddressResolver } from "../api-gateway/resolvers/token";
 import { setModel } from "../model";
 import "../shared/common/setup-big-number";
 import { OnefxAuth } from "../shared/onefx-auth";
@@ -20,7 +20,7 @@ export type MyServer = Server & {
     | typeof MetaResolver
     | typeof AntennaResolver
     | typeof SolcResolver
-    | typeof TokenResolver
+    | typeof AddressResolver
   >;
   model: {};
   gateways: {

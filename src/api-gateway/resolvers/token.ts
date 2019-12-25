@@ -22,7 +22,7 @@ export class AddressMeta {
 }
 
 @Resolver()
-export class TokenResolver {
+export class AddressResolver {
   @Query(_ => AddressMeta)
   public async addressMeta(@Args() { address }: AddressMetaRequest): Promise<
     AddressMeta
