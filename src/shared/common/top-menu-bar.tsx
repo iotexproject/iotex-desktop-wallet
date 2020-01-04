@@ -141,13 +141,27 @@ const LanguageSwitcherMenu = () => {
   );
 };
 
+const goToRelatedNetPage = (uri: string): void => {
+  const { pathname, search } = location;
+  const domain =
+    uri.lastIndexOf("/") === uri.length - 1
+      ? uri.slice(0, uri.length - 1)
+      : uri;
+  const url = `${domain}${pathname}${search}`;
+  window.open(url, "target");
+};
+
 const renderMenuItem = (menu: INavMenuItem): JSX.Element => {
   const { path = "", items, label } = menu;
   if (!items) {
     return (
       <Menu.Item key={`menu-item-${label}`}>
         {path.match(/^https?:\/\//i) || path.match("/api-gateway/") ? (
-          <HoverableA href={path} target="_blank" rel="noreferrer">
+          <HoverableA
+            href="#"
+            onClick={() => goToRelatedNetPage(path)}
+            rel="noreferrer"
+          >
             {t(label)}
           </HoverableA>
         ) : (
