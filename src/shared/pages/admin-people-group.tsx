@@ -51,7 +51,7 @@ class EditableCell extends React.Component<EditableCellProps> {
                     message: `Please Input ${title}!`
                   }
                 ],
-                initialValue: record[dataIndex as string]
+                initialValue: record[dataIndex]
               })(this.getInput())}
             </Form.Item>
           ) : (
@@ -90,7 +90,7 @@ interface Props {
 }
 
 class AdminGroupMode extends React.Component<Props, State> {
-  private columns: any;
+  private readonly columns: any;
   constructor(props: Props) {
     super(props);
     this.state = {
