@@ -20,6 +20,7 @@ import { AccountListPage } from "./pages/account-list-page";
 import { ActionDetailPage } from "./pages/action-detail-page";
 import { ActionListPage } from "./pages/action-list-page";
 import { AddressDetailsPage } from "./pages/address-details-page";
+import { AdminPeople } from "./pages/admin-people";
 import { BlockDetailPage } from "./pages/block-detail-page";
 import { BlockListPage } from "./pages/block-list-page";
 import { XRC20ActionListPage } from "./pages/xrc20-action-list-page";
@@ -71,6 +72,7 @@ export class App extends Component<Props> {
                 component={XRC20ActionListPage}
               />
               <Route path="/wallet" component={Wallet} />
+              <Route path="/admin/people" component={AdminPeople} />
               <Route component={NotFound} />
             </Switch>
           </ScrollToTop>
