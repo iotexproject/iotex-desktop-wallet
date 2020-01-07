@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
 import { assetURL } from "./asset-url";
+import { Flex } from "./flex";
 import { SignInModal } from "./sign-in-modal";
 import { colors } from "./styles/style-color";
 import { WideContentPadding } from "./styles/style-padding";
@@ -62,18 +63,44 @@ const CHAIN_MENU_ITEM = {
 
 const IotexLogo = connect((state: { base: { isEnterprise: boolean } }) => ({
   isEnterprise: state.base.isEnterprise
-}))(({ isEnterprise }: { isEnterprise: boolean }) => (
-  <Link to="/">
-    <img
-      alt="iotex-logo"
-      src={assetURL(isEnterprise ? "/xunlian-logo.png" : "/logo_explorer.png")}
-      style={{
-        height: 38,
-        width: "auto"
-      }}
-    />
-  </Link>
-));
+}))(({ isEnterprise }: { isEnterprise: boolean }) => {
+  const commonVersion = (
+    <Link to="/">
+      <img
+        alt="iotex-logo"
+        src={assetURL("/logo_explorer.png")}
+        style={{
+          height: 38,
+          width: "auto"
+        }}
+      />
+    </Link>
+  );
+  const enterpriseVersion = (
+    <Link to="/">
+      <Flex alignItems="center">
+        <img
+          alt="enterprise-logo"
+          src={assetURL("/xunlian-logo.png")}
+          style={{
+            height: 26,
+            width: "auto"
+          }}
+        />
+        <div style={{ marginLeft: "15px" }}>
+          <h4 style={{ margin: 0, fontSize: "20px", fontWeight: 600 }}>
+            讯联科技
+          </h4>
+          <p style={{ margin: 0, fontSize: "12px", color: "#808080" }}>
+            用信任链接世界
+          </p>
+        </div>
+      </Flex>
+    </Link>
+  );
+
+  return isEnterprise ? enterpriseVersion : commonVersion;
+});
 
 const HoverableStyle = {
   ":hover": {
@@ -274,6 +301,7 @@ const TopWideMenu = ({
     style: { height: TOP_BAR_HEIGHT, color: colors.topbarColor },
     gutter: 60
   };
+  const theme = isEnterprise ? "light" : "dark";
   return (
     <WideContentPadding style={{ backgroundColor: colors.nav01 }}>
       <Row {...rowProps}>
@@ -283,8 +311,8 @@ const TopWideMenu = ({
           </Col>
           <Col>
             <Menu
+              theme={theme}
               mode="horizontal"
-              theme="dark"
               selectable={false}
               style={{ backgroundColor: colors.nav01 }}
             >

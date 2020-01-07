@@ -77,3 +77,24 @@ And then visit http://localhost:4004/?locale=zh-CN
 ## Contribute to Localization?
 
 Join here to contribute: https://lokalise.co/public/903185115c91ceff0cb2a0.70666943/
+
+## How to add meta for an address?
+
+- Fork this repo to your own.
+- Modify `src/api-gateway/address-meta.json` by append you entry to the json list.
+  - Your entry should be follow struct as below
+    ```
+    {
+      "address": "<your address>",
+      "name": "<your address's name>"
+    }
+    ```
+    Ex:
+    ```
+    {
+      "address": "io1et7zkzc76m9twa4gn5xht3urt9mwj05qvdtj66",
+      "name": "iotxplorerio"
+    }
+    ```
+- Commit & push your changes to your git repo.
+- Send a PR with title prefix `[ADDRESS-META]` and description of your address if you want to merge into our repo.

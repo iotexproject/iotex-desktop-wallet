@@ -41,12 +41,10 @@ export class Interact extends Component<IInteractProps> {
   public render(): JSX.Element {
     return (
       <ContractLayout title={t("wallet.interact.title")} icon={"sync"}>
-        {/*
-        @ts-ignore */}
-        {/* <InteractForm
+        <InteractForm
           fromAddress={this.props.fromAddress}
           txHash={this.props.txHash}
-        /> */}
+        />
       </ContractLayout>
     );
   }

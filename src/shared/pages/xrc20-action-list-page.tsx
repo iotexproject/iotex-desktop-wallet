@@ -33,19 +33,20 @@ const getXrc20ActionListColumns = (): Array<ColumnProps<IXRC20ActionInfo>> => [
   {
     title: t("action.hash"),
     dataIndex: "hash",
-    width: "10vw",
+    width: "20vw",
     render: text => <ActionHashRenderer value={text} />
   },
   {
     title: t("block.timestamp"),
     dataIndex: "timestamp",
+    width: "20vw",
     render: (_, { timestamp }) =>
       translateFn({ seconds: Number(timestamp), nanos: 0 })
   },
   {
     title: t("action.sender"),
     dataIndex: "from",
-    width: "10vw",
+    width: "20vw",
     render: (text: string): JSX.Element | string => {
       return (
         <span
@@ -60,7 +61,7 @@ const getXrc20ActionListColumns = (): Array<ColumnProps<IXRC20ActionInfo>> => [
   {
     title: t("render.key.to"),
     dataIndex: "to",
-    width: "10vw",
+    width: "20vw",
     render: (text: string): JSX.Element | string => {
       return (
         <span
@@ -75,6 +76,7 @@ const getXrc20ActionListColumns = (): Array<ColumnProps<IXRC20ActionInfo>> => [
   {
     title: t("action.amount"),
     dataIndex: "quantity",
+    width: "20vw",
     render(text: string, record: IXRC20ActionInfo, __: number): JSX.Element {
       return (
         <XRC20TokenValue
@@ -111,7 +113,8 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
         }
         const actions =
           get<Array<IXRC20ActionInfo>>(data || {}, "xrc20.data.xrc20") || [];
-        const numActions = get<number>(data || {}, "total.data.count") || 0;
+        const numActions =
+          get<number>(data || {}, "total.data.count") || 100000;
         return (
           <Table
             loading={{
@@ -128,6 +131,7 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
               total: numActions,
               showQuickJumper: true
             }}
+            size="middle"
             onChange={pagination => {
               fetchMore({
                 query: GET_ANALYTICS_XRC20_ACTIONS({

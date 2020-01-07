@@ -407,10 +407,10 @@ export const GET_SOLC_VERSIONS = gql`
   }
 `;
 
-export const GET_BP_CANDIDATE = gql`
-  query bpCandidate($ioOperatorAddress: ID) {
-    bpCandidate(ioOperatorAddress: $ioOperatorAddress) {
-      registeredName
+export const GET_ADDRESS_META = gql`
+  query addressMeta($address: String!) {
+    addressMeta(address: $address) {
+      name
     }
   }
 `;
@@ -561,21 +561,35 @@ export const GET_ANALYTICS_XRC20_ACTIONS = ({
   page: number;
   address?: string;
 }) => {
-  const query = `
-  {
-    total: xrc20 {
+  let query = `{
+    xrc20 {
       data:${
         address ? "byAddress" : "byPage"
-      }(numPerPage: 9999999999999, page: 1 ${address &&
-    `,address:"${address}"`}) {
+      }(pagination:{first: ${pageSize}, skip: ${page * pageSize}}) {
+        xrc20 {
+          contract
+          hash
+          timestamp
+          from
+          to
+          quantity
+        }
+      }
+    }
+  }
+  `;
+  if (!address) {
+    return gql(query);
+  }
+  query = `
+  {
+    total: xrc20 {
+      data:byAddress(numPerPage: 9999999999999, page: 1, address:"${address}") {
         count
       }
     }
     xrc20 {
-      data:${
-        address ? "byAddress" : "byPage"
-      }(numPerPage: ${pageSize}, page: ${page} ${address &&
-    `,address:"${address}"`}) {
+      data:byAddress (numPerPage: ${pageSize}, page: ${page}, address:"${address}") {
         xrc20 {
           contract
           hash

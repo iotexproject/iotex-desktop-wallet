@@ -6,15 +6,21 @@ import { Config, Server } from "onefx/lib/server";
 import { AntennaResolver } from "../api-gateway/resolvers/antenna";
 import { MetaResolver } from "../api-gateway/resolvers/meta";
 import { SolcResolver } from "../api-gateway/resolvers/solc";
+import { AddressResolver } from "../api-gateway/resolvers/token";
 import { setModel } from "../model";
 import "../shared/common/setup-big-number";
+import { OnefxAuth } from "../shared/onefx-auth";
+import { authConfig } from "../shared/onefx-auth/auth-config";
 import { setGateways } from "./gateways/gateways";
 import { setMiddleware } from "./middleware";
 import { setServerRoutes } from "./server-routes";
 
 export type MyServer = Server & {
   resolvers: Array<
-    typeof MetaResolver | typeof AntennaResolver | typeof SolcResolver
+    | typeof MetaResolver
+    | typeof AntennaResolver
+    | typeof SolcResolver
+    | typeof AddressResolver
   >;
   model: {};
   gateways: {
@@ -23,6 +29,8 @@ export type MyServer = Server & {
     sendgrid: {};
   };
   config: MyConfig;
+  // tslint:disable-next-line:no-any
+  auth: any;
 };
 
 export type MyConfig = Config & {
@@ -74,6 +82,7 @@ const serverConfig: Config = {
 export async function startServer(): Promise<MyServer> {
   const server = new Server(serverConfig as MyConfig) as MyServer;
   setGateways(server);
+  server.auth = new OnefxAuth(server, authConfig);
   setMiddleware(server);
   setModel(server);
   setServerRoutes(server);

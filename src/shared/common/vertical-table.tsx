@@ -98,6 +98,7 @@ function VerticalTable<T = any>(props: IVerticalTableProps<T>): JSX.Element {
                   align="top"
                   justify="start"
                   className="vtable-row"
+                  style={{ padding: "8px 5px" }}
                 >
                   <Col xs={24} sm={24} md={0}>
                     <strong>{header}</strong>
