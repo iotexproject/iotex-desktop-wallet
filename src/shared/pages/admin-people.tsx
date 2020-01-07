@@ -19,7 +19,7 @@ import WrapperAdminGroupMode from "./admin-people-group";
 interface Props {}
 
 interface State {
-  isactive: boolean;
+  active: boolean;
   mode?: "people" | "group";
 }
 
@@ -262,7 +262,7 @@ const WrapperAdminPeopleMode = Form.create()(AdminPeopleMode);
 class AdminPeople extends React.Component<Props, State> {
   public state: State = {
     mode: "people",
-    isactive: false
+    active: false
   };
   public chooseMode = (mode: "people" | "group") => {
     this.setState({ mode });
@@ -274,18 +274,18 @@ class AdminPeople extends React.Component<Props, State> {
         <Row>
           <Col span={6}>
             <AdminPanel>
-              <div onClick={() => this.chooseMode("people")}>
+              <div onClick={() => this.chooseMode("people")} role="menu">
                 <AdminPanelItem
-                  isactive={mode === "people"}
-                  className={mode === "people" ? "people_admin_inactive" : ""}
+                  active={mode === "people"}
+                  // className={mode === "people" ? "people_admin_inactive" : ""}
                 >
                   People
                 </AdminPanelItem>
               </div>
-              <div onClick={() => this.chooseMode("group")}>
+              <div onClick={() => this.chooseMode("group")} role="menu">
                 <AdminPanelItem
-                  isactive={mode === "group"}
-                  className={mode === "group" ? "people_admin_inactive" : ""}
+                  active={mode === "group"}
+                  // className={mode === "group" ? "people_admin_inactive" : ""}
                 >
                   Groups
                 </AdminPanelItem>
@@ -321,7 +321,7 @@ const AdminPanelItem = styled("a", (props: State) => ({
   display: "flex",
   alignItems: "center",
   padding: "14px 10px",
-  color: props.isactive ? "#509ee3" : "#2e353b",
+  color: props.active ? "#509ee3" : "#2e353b",
   cursor: "pointer",
   marginBottom: "0.25em",
   ":hover": {
