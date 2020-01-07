@@ -113,7 +113,8 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
         }
         const actions =
           get<Array<IXRC20ActionInfo>>(data || {}, "xrc20.data.xrc20") || [];
-        const numActions = get<number>(data || {}, "total.data.count") || 0;
+        const numActions =
+          get<number>(data || {}, "total.data.count") || 100000;
         return (
           <Table
             loading={{
