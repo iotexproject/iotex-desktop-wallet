@@ -53,6 +53,7 @@ const parseAddressDetails = (data: { getAccount: GetAccountResponse }) => {
   };
 };
 
+// tslint:disable-next-line:max-func-body-length
 const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
   props
 ): JSX.Element | null => {
@@ -110,6 +111,11 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
           });
           const { numActions = 0 } =
             get(data || {}, "getAccount.accountMeta") || {};
+          const hashRoute =
+            isBrowser && location.hash.includes("#")
+              ? location.hash.slice(1)
+              : "transactions";
+          const { history } = props;
           return (
             <ContentPadding>
               <CardDetails
@@ -129,14 +135,27 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
                   valueRenderMap: AddressDetailRenderer
                 }}
               />
-              <Tabs size="large" className="card-shadow">
-                <Tabs.TabPane tab={t("common.transactions")} key="1">
+              <Tabs
+                size="large"
+                className="card-shadow"
+                defaultActiveKey={hashRoute}
+                onChange={key => {
+                  history.replace(`#${key}`);
+                }}
+              >
+                <Tabs.TabPane tab={t("common.transactions")} key="transactions">
                   <ActionTable numActions={numActions} address={address} />
                 </Tabs.TabPane>
-                <Tabs.TabPane tab={t("common.xrc20Transactions")} key="2">
+                <Tabs.TabPane
+                  tab={t("common.xrc20Transactions")}
+                  key="xrc_transactions"
+                >
                   <XRC20ActionTable address={address} />
                 </Tabs.TabPane>
-                <Tabs.TabPane tab={t("common.contract_transactions")} key="3">
+                <Tabs.TabPane
+                  tab={t("common.contract_transactions")}
+                  key="contract_transactions"
+                >
                   <EvmTransfersTable address={address} />
                 </Tabs.TabPane>
               </Tabs>
