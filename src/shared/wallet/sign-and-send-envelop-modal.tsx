@@ -31,6 +31,10 @@ type Props = {
   fromAddress: string;
   reqId?: number;
   origin: string;
+  network: {
+    name: string;
+    url: string;
+  };
 } & DispatchProp<SignParamAction | WalletAction> &
   RouteComponentProps;
 
@@ -56,7 +60,7 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
   private whitelist: WhitelistSetting;
 
   public async signAndSend(): Promise<void> {
-    const { fromAddress, reqId } = this.props;
+    const { fromAddress, reqId, network } = this.props;
     const acct = getAntenna().iotx.accounts.getAccount(fromAddress);
     const sealed = SealedEnvelop.sign(
       String(acct && acct.privateKey),
@@ -68,7 +72,7 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
     });
 
     if (window.signed && !this.sendList.includes(reqId as number)) {
-      window.signed(reqId, JSON.stringify({ actionHash, reqId }));
+      window.signed(reqId, JSON.stringify({ actionHash, reqId, network }));
       this.sendList.push(reqId as number);
       message.success(t("wallet.sign_and_send.success", { actionHash }));
     }
@@ -179,7 +183,8 @@ export const SignAndSendEnvelopModal: any = withRouter(
   connect((state: { signParams: SignParams; wallet: IWalletState }) => ({
     envelop: state.signParams.envelop,
     reqId: state.signParams.reqId,
-    origin: state.signParams.origin
+    origin: state.signParams.origin,
+    network: state.wallet.network
   }))(
     // @ts-ignore
     SignAndSendEnvelopModalInner
