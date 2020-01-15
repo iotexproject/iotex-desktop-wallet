@@ -8,7 +8,7 @@ import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
-import { RouteComponentProps, RouterProps } from "react-router";
+import { RouteComponentProps } from "react-router";
 import { AddressName } from "../common/address-name";
 import { analyticsClient } from "../common/apollo-client";
 import { translateFn } from "../common/from-now";
