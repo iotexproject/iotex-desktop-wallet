@@ -645,3 +645,23 @@ export const GET_TOP_HOLDERS = gql`
     }
   }
 `;
+
+export const GET_XRC20_TOKENS = gql`
+  query($pagination: Pagination!) {
+    xrc20 {
+      xrc20Addresses(pagination: $pagination) {
+        exist
+        count
+        addresses
+      }
+    }
+  }
+`;
+
+export const GET_TOKEN_ADDRESS_META = gql`
+  query($address: String!) {
+    addressMeta(address: $address) {
+      name
+    }
+  }
+`;

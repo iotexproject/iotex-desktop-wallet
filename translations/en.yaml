@@ -251,6 +251,7 @@ not_found.info: 'We cannot find the page for you...'
 not_found.title: Oops!
 page_navs.block: "Block #${height}"
 pages.token: Token Transfers
+pages.tokenTracker: Token Tracker
 render.key.actHash: Hash
 render.key.actionData: Data
 render.key.actionFee: 'Action Fee'
@@ -345,6 +346,8 @@ title.actionList: 'List of Actions'
 title.overview: Overview
 title.receipt: Receipt
 token.xrc20: XRC-20
+token.name: Name
+token.address: Address
 topbar.actions: ACTIONS
 topbar.analytics_playground: 'ANALYTICS PLAYGROUND'
 topbar.blockchain: BLOCKCHAIN
@@ -363,6 +366,8 @@ topbar.tools: TOOLS
 topbar.voting: VOTING
 topbar.wallet: WALLET
 topbar.xrc20Transfer: XRC20 TOKEN TRANSFERS
+topbar.tokens: XRC20 TOKENS
+topbar.tokensMenu: TOKENS
 topbar.accounts: ACCOUNTS
 topbar.top_accounts: Top Accounts by IOTX Balance
 transfer.for: For ${value}

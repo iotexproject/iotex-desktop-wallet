@@ -23,6 +23,7 @@ import { AddressDetailsPage } from "./pages/address-details-page";
 import { BlockDetailPage } from "./pages/block-detail-page";
 import { BlockListPage } from "./pages/block-list-page";
 import { XRC20ActionListPage } from "./pages/xrc20-action-list-page";
+import { XRC20TokenListPage } from "./pages/xrc20-token-list-page";
 import { Wallet } from "./wallet/wallet";
 
 type Props = {
@@ -67,7 +68,17 @@ export class App extends Component<Props> {
               <Route exact={true} path="/account" component={AccountListPage} />
               <Route
                 exact={true}
+                path="/tokens"
+                component={XRC20TokenListPage}
+              />
+              <Route
+                exact={true}
                 path="/tokentxns"
+                component={XRC20ActionListPage}
+              />
+              <Route
+                exact={true}
+                path="/token/:address"
                 component={XRC20ActionListPage}
               />
               <Route path="/wallet" component={Wallet} />

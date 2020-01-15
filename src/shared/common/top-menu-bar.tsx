@@ -376,16 +376,25 @@ const TopMenuBar = connect(
             path: "/action"
           },
           {
-            label: "topbar.xrc20Transfer",
-            path: "/tokentxns"
-          },
-          {
             label: "topbar.blocks",
             path: "/block"
           },
           {
             label: "topbar.accounts",
             path: "/account"
+          }
+        ]
+      },
+      {
+        label: "topbar.tokensMenu",
+        items: [
+          {
+            label: "topbar.tokens",
+            path: "/tokens"
+          },
+          {
+            label: "topbar.xrc20Transfer",
+            path: "/tokentxns"
           }
         ]
       },
