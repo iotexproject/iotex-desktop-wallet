@@ -1,5 +1,13 @@
 [
   {
+    "name": "Vita",
+    "address": "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw"
+  },
+  {
+    "name": "BITX",
+    "address": "io1vuter8fpsnp2yee5q469l68eq7h3p48ke5alt4"
+  },
+  {
     "address": "io1et7zkzc76m9twa4gn5xht3urt9mwj05qvdtj66",
     "name": "iotxplorerio"
   },

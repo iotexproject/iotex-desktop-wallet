@@ -8,14 +8,17 @@ import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
+import { RouteComponentProps } from "react-router";
 import { AddressName } from "../common/address-name";
 import { analyticsClient } from "../common/apollo-client";
 import { translateFn } from "../common/from-now";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { XRC20TokenValue } from "../common/xrc20-token";
+import { EvmTransfersTable } from "../components/evm-transfer-table";
 import { GET_ANALYTICS_XRC20_ACTIONS } from "../queries";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
+import { TokenNameRenderer } from "../renderer/token-name-renderer";
 import { Page } from "./page";
 
 const PAGE_SIZE = 30;
@@ -154,11 +157,24 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
   );
 };
 
-const XRC20ActionListPage: React.FC = (): JSX.Element => {
+const XRC20ActionListPage: React.FC<
+  RouteComponentProps<{ address: string }>
+> = ({
+  match: {
+    params: { address }
+  }
+}): JSX.Element => {
   return (
     <>
       <Helmet title={`${t("pages.token")} - ${t("meta.description")}`} />
-      <PageNav items={[t("pages.token")]} />
+      <PageNav
+        items={[
+          t("pages.token"),
+          ...(address
+            ? [<TokenNameRenderer key={`token-${address}`} value={address} />]
+            : [])
+        ]}
+      />
       <ContentPadding>
         <Page
           header={
@@ -170,7 +186,8 @@ const XRC20ActionListPage: React.FC = (): JSX.Element => {
             </>
           }
         >
-          <XRC20ActionTable />
+          {address && <EvmTransfersTable address={address} />}
+          {!address && <XRC20ActionTable />}
         </Page>
       </ContentPadding>
     </>
