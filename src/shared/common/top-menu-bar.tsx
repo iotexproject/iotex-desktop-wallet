@@ -306,7 +306,7 @@ const TopWideMenu = ({
     <WideContentPadding style={{ backgroundColor: colors.nav01 }}>
       <Row {...rowProps}>
         <Row {...rowProps}>
-          <Col style={{ marginRight: 40 }}>
+          <Col style={{ marginRight: 30 }}>
             <IotexLogo />
           </Col>
           <Col>
@@ -320,7 +320,7 @@ const TopWideMenu = ({
             </Menu>
           </Col>
         </Row>
-        <Row {...rowProps} gutter={30} justify="end">
+        <Row {...rowProps} gutter={20} justify="end">
           {!isEnterprise && multiChain && (
             <Col>
               <Menu
@@ -433,7 +433,7 @@ const TopMenuBar = connect(
           borderBottom: isEnterprise ? "1px #EDEDED solid" : 0
         }}
       >
-        <Col xs={24} lg={0}>
+        <Col xs={24} xxl={0}>
           <div id="top-mobile-menu-nav" />
           <TopMobileMenu
             enableSignIn={enableSignIn}
@@ -441,7 +441,7 @@ const TopMenuBar = connect(
             menu={MAIN_NAV_MENUS}
           />
         </Col>
-        <Col xs={0} lg={24}>
+        <Col xs={0} xxl={24}>
           <TopWideMenu
             enableSignIn={enableSignIn}
             isEnterprise={isEnterprise}

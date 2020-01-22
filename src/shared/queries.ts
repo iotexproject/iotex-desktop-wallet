@@ -564,7 +564,7 @@ export const GET_ANALYTICS_XRC20_ACTIONS = ({
   let query = `{
     xrc20 {
       data:${
-        address ? "byAddress" : "byPage"
+        address ? "byContractAddress" : "byPage"
       }(pagination:{first: ${pageSize}, skip: ${page * pageSize}}) {
         xrc20 {
           contract
@@ -584,12 +584,12 @@ export const GET_ANALYTICS_XRC20_ACTIONS = ({
   query = `
   {
     total: xrc20 {
-      data:byAddress(numPerPage: 9999999999999, page: 1, address:"${address}") {
+      data:byContractAddress(numPerPage: 9999999999999, page: 1, address:"${address}") {
         count
       }
     }
     xrc20 {
-      data:byAddress (numPerPage: ${pageSize}, page: ${page}, address:"${address}") {
+      data:byContractAddress (numPerPage: ${pageSize}, page: ${page}, address:"${address}") {
         xrc20 {
           contract
           hash
