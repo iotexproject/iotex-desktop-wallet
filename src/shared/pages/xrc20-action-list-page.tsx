@@ -16,7 +16,6 @@ import { translateFn } from "../common/from-now";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { XRC20TokenValue } from "../common/xrc20-token";
-import { EvmTransfersTable } from "../components/evm-transfer-table";
 import { GET_ANALYTICS_XRC20_ACTIONS } from "../queries";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
