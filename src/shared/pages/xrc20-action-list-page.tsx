@@ -11,11 +11,11 @@ import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
 import { AddressName } from "../common/address-name";
 import { analyticsClient } from "../common/apollo-client";
+import { FlexLink } from "../common/flex-link";
 import { translateFn } from "../common/from-now";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { XRC20TokenValue } from "../common/xrc20-token";
-import { EvmTransfersTable } from "../components/evm-transfer-table";
 import { GET_ANALYTICS_XRC20_ACTIONS } from "../queries";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
@@ -169,7 +169,11 @@ const XRC20ActionListPage: React.FC<
       <Helmet title={`${t("pages.token")} - ${t("meta.description")}`} />
       <PageNav
         items={[
-          t("pages.token"),
+          <FlexLink
+            key="nav-transfer"
+            path="/tokens"
+            text={t("pages.tokens")}
+          />,
           ...(address
             ? [<TokenNameRenderer key={`token-${address}`} value={address} />]
             : [])
@@ -186,8 +190,7 @@ const XRC20ActionListPage: React.FC<
             </>
           }
         >
-          {address && <EvmTransfersTable address={address} />}
-          {!address && <XRC20ActionTable />}
+          <XRC20ActionTable address={address} />
         </Page>
       </ContentPadding>
     </>
