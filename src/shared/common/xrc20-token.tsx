@@ -40,19 +40,35 @@ const XRC20TokenBalance: React.FC<{ contract: string; address: string }> = ({
   contract,
   address
 }) => {
-  const token = Token.getToken(contract);
-  token
-    .getInfo(address)
-    .then(info => {
-      if (info && info.symbol) {
-        setBalance(`${info.balanceString} ${info.symbol}`);
-      }
-    })
-    .catch(() => {
-      setBalance("");
-    });
-  const [balance, setBalance] = useState("");
-  return <span>{balance}</span>;
+  const [{ balance, balanceAddress, balanceContract }, setBalance] = useState({
+    balance: "",
+    balanceAddress: "",
+    balanceContract: ""
+  });
+  let balanceStr = balance;
+  if (balanceAddress !== address || balanceContract !== contract) {
+    balanceStr = "";
+    const token = Token.getToken(contract);
+    token
+      .getInfo(address)
+      .then(info => {
+        if (info && info.symbol) {
+          setBalance({
+            balance: `${info.balanceString} ${info.symbol}`,
+            balanceAddress: address,
+            balanceContract: contract
+          });
+        }
+      })
+      .catch(() => {
+        setBalance({
+          balance: "",
+          balanceAddress: address,
+          balanceContract: contract
+        });
+      });
+  }
+  return <span>{balanceStr}</span>;
 };
 
 const XRC20TokenBalanceTag: React.FC<{ contract: string; address: string }> = ({

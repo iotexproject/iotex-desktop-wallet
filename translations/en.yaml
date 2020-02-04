@@ -251,6 +251,7 @@ not_found.info: 'We cannot find the page for you...'
 not_found.title: Oops!
 page_navs.block: "Block #${height}"
 pages.token: Token Transfers
+pages.tokenHolders: Token Holders
 pages.tokenTracker: Token Tracker
 render.key.actHash: Hash
 render.key.actionData: Data
@@ -312,6 +313,7 @@ render.key.startHeight: 'Start Height'
 render.key.status: Status
 render.key.stopHeight: 'Stop Height'
 render.key.subChainAddress: 'subChain Address'
+render.key.address: 'Address'
 render.key.timestamp: Age
 render.key.to: To
 render.key.tokens: 'Tokens Transferred'

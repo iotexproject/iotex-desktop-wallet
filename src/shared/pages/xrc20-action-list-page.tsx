@@ -1,11 +1,11 @@
+import { Tabs } from "antd";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
 import Table, { ColumnProps } from "antd/lib/table";
-import Tag from "antd/lib/tag";
 import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { t } from "onefx/lib/iso-i18n";
-import React from "react";
+import React, { useState } from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
@@ -15,11 +15,14 @@ import { FlexLink } from "../common/flex-link";
 import { translateFn } from "../common/from-now";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
-import { XRC20TokenValue } from "../common/xrc20-token";
-import { GET_ANALYTICS_XRC20_ACTIONS } from "../queries";
+import { XRC20TokenBalance, XRC20TokenValue } from "../common/xrc20-token";
+import {
+  GET_ANALYTICS_CONTRACT_HOLDERS,
+  GET_ANALYTICS_XRC20_ACTIONS
+} from "../queries";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
-import { Page } from "./page";
+const { TabPane } = Tabs;
 
 const PAGE_SIZE = 30;
 
@@ -30,6 +33,11 @@ export interface IXRC20ActionInfo {
   from: string;
   to: string;
   quantity: string;
+}
+
+export interface IXRC20HolderInfo {
+  address: string;
+  contract: string;
 }
 
 const getXrc20ActionListColumns = (): Array<ColumnProps<IXRC20ActionInfo>> => [
@@ -86,6 +94,43 @@ const getXrc20ActionListColumns = (): Array<ColumnProps<IXRC20ActionInfo>> => [
           contract={record.contract}
           value={new BigNumber(text)}
         />
+      );
+    }
+  }
+];
+
+const getXrc20HoldersListColumns = (): Array<ColumnProps<IXRC20HolderInfo>> => [
+  {
+    title: t("render.key.address"),
+    dataIndex: "address",
+    width: "50vw",
+    render: (text: string): JSX.Element | string => {
+      return (
+        <span
+          className="ellipsis-text"
+          style={{ maxWidth: "50vw", minWidth: 250 }}
+        >
+          <AddressName address={text} />
+        </span>
+      );
+    }
+  },
+  {
+    title: t("render.key.balance"),
+    dataIndex: "contract",
+    width: "50vw",
+    render: (text: string, item: IXRC20HolderInfo): JSX.Element | string => {
+      return (
+        <span
+          className="ellipsis-text"
+          style={{ maxWidth: "50vw", minWidth: 250 }}
+        >
+          <XRC20TokenBalance
+            key={`balance-${text}-${item.address}`}
+            contract={text}
+            address={item.address}
+          />
+        </span>
       );
     }
   }
@@ -157,6 +202,62 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
   );
 };
 
+export const XRC20HoldersTable: React.FC<IXRC20ActionTable> = ({
+  address = ""
+}) => {
+  const [offset, setOffset] = useState(0);
+  return (
+    <Query
+      query={GET_ANALYTICS_CONTRACT_HOLDERS}
+      variables={{
+        tokenAddress: address
+      }}
+      notifyOnNetworkStatusChange={true}
+      client={analyticsClient}
+    >
+      {({ data, loading, error }: QueryResult) => {
+        if (error) {
+          notification.error({
+            message: `failed to query analytics xrc20 in XRC20HoldersTable: ${error}`
+          });
+        }
+        const holders =
+          get<Array<string>>(
+            data || {},
+            "xrc20.tokenHolderAddresses.addresses"
+          ) || [];
+        const numHolders =
+          get<number>(data || {}, "xrc20.tokenHolderAddresses.count") || 100000;
+        const holdersPage = holders
+          .slice(offset, offset + PAGE_SIZE)
+          .map(addr => ({ address: addr, contract: address }));
+        return (
+          <Table
+            loading={{
+              spinning: loading,
+              indicator: <Icon type="loading" />
+            }}
+            rowKey="hash"
+            dataSource={holdersPage}
+            columns={getXrc20HoldersListColumns()}
+            style={{ width: "100%" }}
+            scroll={{ x: "auto" }}
+            pagination={{
+              pageSize: PAGE_SIZE,
+              total: numHolders,
+              showQuickJumper: true
+            }}
+            size="middle"
+            onChange={pagination => {
+              setOffset(((pagination.current || 1) - 1) * PAGE_SIZE);
+            }}
+          />
+        );
+      }}
+    </Query>
+  );
+};
+
 const XRC20ActionListPage: React.FC<
   RouteComponentProps<{ address: string }>
 > = ({
@@ -172,7 +273,7 @@ const XRC20ActionListPage: React.FC<
           <FlexLink
             key="nav-transfer"
             path="/tokens"
-            text={t("pages.tokens")}
+            text={t("topbar.tokensMenu")}
           />,
           ...(address
             ? [<TokenNameRenderer key={`token-${address}`} value={address} />]
@@ -180,18 +281,14 @@ const XRC20ActionListPage: React.FC<
         ]}
       />
       <ContentPadding>
-        <Page
-          header={
-            <>
-              {t("pages.token")}{" "}
-              <Tag color="blue" style={{ marginTop: -2, marginLeft: 10 }}>
-                {t("token.xrc20")}
-              </Tag>
-            </>
-          }
-        >
-          <XRC20ActionTable address={address} />
-        </Page>
+        <Tabs defaultActiveKey="1">
+          <TabPane tab={t("pages.token")} key="1">
+            <XRC20ActionTable address={address} />
+          </TabPane>
+          <TabPane tab={t("pages.tokenHolders")} key="2">
+            <XRC20HoldersTable address={address} />
+          </TabPane>
+        </Tabs>
       </ContentPadding>
     </>
   );

@@ -623,6 +623,17 @@ export const GET_ANALYTICS_CONTRACT_ACTIONS = gql`
   }
 `;
 
+export const GET_ANALYTICS_CONTRACT_HOLDERS = gql`
+  query tokenHolders($tokenAddress: String!) {
+    xrc20 {
+      tokenHolderAddresses(tokenAddress: $tokenAddress) {
+        addresses
+        count
+      }
+    }
+  }
+`;
+
 export const GET_ACCOUNT_DETAIL_BY_DETAIL = gql`
   query($adress: String) {
     getAccount(address: $address) {
