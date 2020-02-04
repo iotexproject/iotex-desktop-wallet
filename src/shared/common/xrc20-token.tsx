@@ -1,7 +1,7 @@
 import { Tag } from "antd";
 import BigNumber from "bignumber.js";
 import { fromRau } from "iotex-antenna/lib/account/utils";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Token } from "../../erc20/token";
 
 const XRC20TokenName: React.FC<{ contract: string }> = ({ contract }) => {
