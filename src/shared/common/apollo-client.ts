@@ -64,7 +64,7 @@ export const setApolloClientEndpoint = (url: string) => {
 
 export const webBpApolloClient = createWebBpApolloClient(
   webBpApiGatewayUrl,
-  "web-bp"
+  "iotex-explorer"
 );
 
 const httpAnalyticsLink = new HttpLink({
