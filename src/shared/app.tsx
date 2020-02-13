@@ -14,7 +14,7 @@ import { NotFound } from "./common/not-found";
 import { ScrollToTop } from "./common/scroll-top";
 import { colors } from "./common/styles/style-color";
 import { fonts } from "./common/styles/style-font";
-import { TOP_BAR_HEIGHT, TopMenuBar } from "./common/top-menu-bar";
+import { TOP_BAR_HEIGHT, TopBar } from "./common/top-bar";
 import { Home } from "./home/home";
 import { AccountListPage } from "./pages/account-list-page";
 import { ActionDetailPage } from "./pages/action-detail-page";
@@ -48,7 +48,7 @@ export class App extends Component<Props> {
     return (
       <RootStyle>
         <HtmlHead locale={locale} isEnterprise={isEnterprise} />
-        <TopMenuBar />
+        <TopBar />
         <div style={footerAboveStyle}>
           <ScrollToTop>
             <Switch>
