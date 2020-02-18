@@ -273,7 +273,7 @@ const XRC20ActionListPage: React.FC<
           <FlexLink
             key="nav-transfer"
             path="/tokens"
-            text={t("topbar.tokensMenu")}
+            text={t("topbar.tokens")}
           />,
           ...(address
             ? [<TokenNameRenderer key={`token-${address}`} value={address} />]
