@@ -147,8 +147,8 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
     <Query
       query={GET_ANALYTICS_XRC20_ACTIONS({
         address,
-        page: 1,
-        pageSize: PAGE_SIZE
+        page: 0,
+        pageSize: 999
       })}
       notifyOnNetworkStatusChange={true}
       client={analyticsClient}
@@ -162,7 +162,7 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
         const actions =
           get<Array<IXRC20ActionInfo>>(data || {}, "xrc20.data.xrc20") || [];
         const numActions =
-          get<number>(data || {}, "total.data.count") || 100000;
+          get<number>(data || {}, "total.data.count") || actions.length;
         return (
           <Table
             loading={{
