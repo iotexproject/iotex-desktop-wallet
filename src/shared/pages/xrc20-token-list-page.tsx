@@ -15,7 +15,7 @@ import { TokenAddressRenderer } from "../renderer/token-address-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
 import { Page } from "./page";
 
-const PAGE_SIZE = 30;
+const PAGE_SIZE = 15;
 
 export interface IXRC20TokenInfo {
   name: string;
