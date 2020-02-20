@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
 import { assetURL } from "./asset-url";
-import { CommonMargin, SmallMargin } from "./common-margin";
+import { CommonMargin } from "./common-margin";
 import { Logo as Icon } from "./icon";
 import { Cross } from "./icons/cross.svg";
 import { Hamburger } from "./icons/hamburger.svg";
@@ -230,7 +230,9 @@ export const TopBar = connect(
             <Flex>
               <LinkLogoWrapper to={`/`}>
                 <Icon
-                  height={`${TOP_BAR_HEIGHT}px`}
+                  height="38px"
+                  width="auto"
+                  margin="11px 0"
                   url={assetURL(
                     locale === "en"
                       ? "/logo_explorer.png"
@@ -238,23 +240,27 @@ export const TopBar = connect(
                   )}
                 />
               </LinkLogoWrapper>
-              <SmallMargin />
+              <CommonMargin />
+              <CommonMargin />
+              <CommonMargin />
               <HiddenOnMobile>
                 {this.renderBlockchain(true)}
                 {this.renderToken(true)}
                 {this.renderTools(true)}
-                <BrandLink
-                  to="https://member.iotex.io"
+                <BrandLinkExternalUrl
+                  href="https://member.iotex.io"
+                  target="_blank"
                   onClick={this.hideMobileMenu}
                 >
                   {t("topbar.voting")}
-                </BrandLink>
+                </BrandLinkExternalUrl>
                 <BrandLink to="/wallet/transfer" onClick={this.hideMobileMenu}>
                   {t("topbar.wallet")}
                 </BrandLink>
+                <CommonMargin />
+                <CommonMargin />
+                <CommonMargin />
               </HiddenOnMobile>
-            </Flex>
-            <Flex>
               {this.renderNetSelector(true)}
               <CommonMargin />
               <LanguageSwitcherMenu />
@@ -269,7 +275,6 @@ export const TopBar = connect(
               <Cross />
             </CrossBtn>
           </Bar>
-          <BarPlaceholder />
           {this.renderMobileMenu()}
         </div>
       );
@@ -285,7 +290,6 @@ const Bar = styled("div", {
   lineHeight: `${TOP_BAR_HEIGHT}px`,
   height: `${TOP_BAR_HEIGHT}px`,
   backgroundColor: colors.nav01,
-  position: "fixed",
   top: "0px",
   left: "0px",
   width: "100%",
@@ -293,15 +297,6 @@ const Bar = styled("div", {
   ...contentPadding,
   boxSizing: "border-box",
   boxShadow: "0"
-});
-
-const BarPlaceholder = styled("div", (_: React.CSSProperties) => {
-  const height = TOP_BAR_HEIGHT / 2;
-  return {
-    display: "block",
-    padding: `${height}px ${height}px ${height}px ${height}px`,
-    backgroundColor: colors.nav01
-  };
 });
 
 function HamburgerBtn({
@@ -379,13 +374,11 @@ const menuItem: StyleObject = {
   }
 };
 const A = styled("a", menuItem);
-// const BrandText = styled("a", {
-//   ...menuItem,
-//   marginLeft: 0,
-//   marginRight: "14px",
-//   [media.toLap]: {}
-// });
 const BrandLink = styled(Link, {
+  ...menuItem,
+  [media.toLap]: {}
+});
+const BrandLinkExternalUrl = styled("a", {
   ...menuItem,
   [media.toLap]: {}
 });

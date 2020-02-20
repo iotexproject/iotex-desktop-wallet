@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { styled } from "styletron-react";
 import { colors } from "./styles/style-color";
 import { media } from "./styles/style-media";
+import AntIcon from "antd/lib/icon";
 
 const SubMenuIcon = styled("i", {
   fontSize: "12px",
@@ -50,7 +51,7 @@ const SubMenu = styled("div", (props: { shadow: string }) => ({
   minWidth: "120px",
   boxShadow: props.shadow ? "0" : "0 0 4px 0 #c6c6c6ba!important",
   textAlign: "left",
-  backgroundColor: colors.nav01,
+  backgroundColor: colors.nav02,
   position: "absolute",
   left: "-5px",
   padding: "5px 10px",
@@ -89,7 +90,8 @@ export function TopbarExtMenu({
       onMouseLeave={() => setShouldDisplay(false)}
       onClick={() => setShouldDisplay(true)}
     >
-      {name}
+      {name}&nbsp;
+      <AntIcon type="down" />
       <SubMenu
         shadow={shadowAttr}
         style={{
@@ -124,6 +126,7 @@ const menuItem = {
   },
   position: "relative",
   padding: "0 20px",
+  textTransform: "capitalize",
   [media.palm]: {
     boxSizing: "border-box",
     width: "100%",
