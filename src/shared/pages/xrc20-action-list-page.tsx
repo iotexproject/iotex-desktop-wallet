@@ -24,7 +24,7 @@ import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
 const { TabPane } = Tabs;
 
-const PAGE_SIZE = 30;
+const PAGE_SIZE = 15;
 
 export interface IXRC20ActionInfo {
   contract: string;
