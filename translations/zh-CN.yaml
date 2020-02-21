@@ -3,7 +3,7 @@ meta.description: 探索IoTeX区块链地址，操作和智能合约。
 topbar.brand: 品牌
 topbar.blockchain: 区块链
 topbar.blocks: 区块
-topbar.actions: 行动
+topbar.actions: 事务
 topbar.home: 首页
 topbar.accounts: 账户
 topbar.top_accounts: IOTX余额最高账户
@@ -39,7 +39,7 @@ topbar.graphql_doc: 'GraphQL 文档'
 action.hash: 哈希
 action.block_hash: 区块
 action.amount: 总量
-action.action: 行动
+action.action: 事务
 action.sender: 发送方
 action.recipient: 接收方
 title.action: 操作
@@ -167,7 +167,7 @@ render.key.logs: 日志
 wallet.title.wallet: 钱包
 wallet.contract.title: 合约
 wallet.contract.learn: 了解更多信息
-wallet.contract.chooseFunction: 请选择一个行动。
+wallet.contract.chooseFunction: 请选择一个事务。
 wallet.contract.interactWith: 与智能合约交互
 wallet.contract.deployContract: 部署合约
 wallet.contract.interactWith.desc: 这是一个描述句子。这是一个描述句子。
@@ -200,7 +200,7 @@ wallet.write.contract.p1: 你即将
 wallet.write.contract.p1.b: 在合约上执行函数。
 wallet.write.contract.p2: 它将部署在以下网络中
 wallet.write.contract.p3: '要发送的金额。在大多数情况下，你应该将其保留为 0。'
-wallet.contract.back: 回到行动页
+wallet.contract.back: 回到事务页
 wallet.interact.access: 访问
 wallet.interact.title: 与智能合约交互
 wallet.input.to: 接受者地址
@@ -241,8 +241,8 @@ wallet.confirm.contract.cancel: 取消
 wallet.contract.interaction.success: 已成功广播请求
 wallet.contract.interaction.success.p1: 你的请求已广播到网络。这并不意味着它在区块链上被挖掘。确认通常需要几秒钟。
 wallet.contract.interaction.success.p2: 你可以通过单击以下按钮立即检查状态，或保存TX哈希值并稍后检查状态
-wallet.contract.interaction.success.p3: '你的行动的哈希值:'
-wallet.contract.button.check: 检查行动的状态
+wallet.contract.interaction.success.p3: '你的事务的哈希值:'
+wallet.contract.button.check: 检查事务的状态
 wallet.contract.button.new: '发送新的 IOTX 和通证'
 wallet.transactions.send: 发送交易
 broadcast.success: 已成功广播交易记录
