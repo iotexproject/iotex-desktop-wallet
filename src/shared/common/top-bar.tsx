@@ -184,33 +184,19 @@ export const TopBar = connect(
         return null;
       }
 
-      if (!this.props.loggedIn) {
-        return (
-          <OutsideClickHandler onOutsideClick={this.hideMobileMenu}>
-            <Dropdown>
-              <A href="/login" onClick={this.hideMobileMenu}>
-                {t("topbar.login")}
-              </A>
-              <A href="/sign-up" onClick={this.hideMobileMenu}>
-                {t("topbar.sign_up")}
-              </A>
-            </Dropdown>
-          </OutsideClickHandler>
-        );
-      }
-
       return (
         <OutsideClickHandler onOutsideClick={this.hideMobileMenu}>
           <Dropdown>
             {this.renderBlockchain(true)}
             {this.renderToken(true)}
             {this.renderTools(true)}
-            <StyledLink
-              to="https://member.iotex.io"
+            <StyledExternalLink
+              href="https://member.iotex.io"
+              target="_blank"
               onClick={this.hideMobileMenu}
             >
               {t("topbar.voting")}
-            </StyledLink>
+            </StyledExternalLink>
             <StyledLink to="/wallet/transfer" onClick={this.hideMobileMenu}>
               {t("topbar.wallet")}
             </StyledLink>
@@ -225,7 +211,12 @@ export const TopBar = connect(
       const displayMobileMenu = this.state.displayMobileMenu;
 
       return (
-        <div>
+        <div
+          style={{
+            position: "relative",
+            height: `${TOP_BAR_HEIGHT}px`
+          }}
+        >
           <Bar>
             <Flex>
               <LinkLogoWrapper to={`/`}>
@@ -240,10 +231,10 @@ export const TopBar = connect(
                   )}
                 />
               </LinkLogoWrapper>
-              <CommonMargin />
-              <CommonMargin />
-              <CommonMargin />
               <HiddenOnMobile>
+                <CommonMargin />
+                <CommonMargin />
+                <CommonMargin />
                 {this.renderBlockchain(true)}
                 {this.renderToken(true)}
                 {this.renderTools(true)}
@@ -260,20 +251,21 @@ export const TopBar = connect(
                 <CommonMargin />
                 <CommonMargin />
                 <CommonMargin />
+                {this.renderNetSelector(true)}
               </HiddenOnMobile>
-              {this.renderNetSelector(true)}
-              <CommonMargin />
-              <LanguageSwitcherMenu />
             </Flex>
-            <HamburgerBtn
-              onClick={this.displayMobileMenu}
-              displayMobileMenu={displayMobileMenu}
-            >
-              <Hamburger />
-            </HamburgerBtn>
-            <CrossBtn displayMobileMenu={displayMobileMenu}>
-              <Cross />
-            </CrossBtn>
+            <Flex>
+              <LanguageSwitcherMenu />
+              <HamburgerBtn
+                onClick={this.displayMobileMenu}
+                displayMobileMenu={displayMobileMenu}
+              >
+                <Hamburger />
+              </HamburgerBtn>
+              <CrossBtn displayMobileMenu={displayMobileMenu}>
+                <Cross />
+              </CrossBtn>
+            </Flex>
           </Bar>
           {this.renderMobileMenu()}
         </div>
@@ -284,6 +276,7 @@ export const TopBar = connect(
 
 const Bar = styled("div", {
   display: "flex",
+  position: "inherit",
   flexDirection: "row",
   justifyContent: "space-between",
   alignItems: "center",
@@ -296,7 +289,10 @@ const Bar = styled("div", {
   "z-index": "70",
   ...contentPadding,
   boxSizing: "border-box",
-  boxShadow: "0"
+  boxShadow: "0",
+  [media.toLap]: {
+    position: "fixed"
+  }
 });
 
 function HamburgerBtn({
@@ -312,13 +308,15 @@ function HamburgerBtn({
     ":hover": {
       color: colors.primary
     },
+    color: colors.white,
     display: "none!important",
     [media.toLap]: {
       display: "flex!important",
       ...(displayMobileMenu ? { display: "none!important" } : {})
     },
     cursor: "pointer",
-    justifyContent: "center"
+    justifyContent: "center",
+    alignItems: "center"
   });
   return (
     <Styled
@@ -341,6 +339,7 @@ function CrossBtn({
     ":hover": {
       color: colors.primary
     },
+    color: colors.white,
     display: "none!important",
     [media.toLap]: {
       display: "none!important",
@@ -348,6 +347,7 @@ function CrossBtn({
     },
     cursor: "pointer",
     justifyContent: "center",
+    alignItems: "center",
     padding: "5px"
   });
   return <Styled>{children}</Styled>;
@@ -359,7 +359,6 @@ const LinkLogoWrapper = styled(Link, {
 });
 const menuItem: StyleObject = {
   color: colors.topbarColor,
-  marginLeft: "14px",
   textDecoration: "none",
   ":hover": {
     color: colors.primary
@@ -369,11 +368,10 @@ const menuItem: StyleObject = {
   [media.toLap]: {
     boxSizing: "border-box",
     width: "100%",
-    padding: "16px 0 16px 0",
-    borderBottom: "1px #EDEDED solid"
+    padding: "16px 0 16px 0"
   }
 };
-const A = styled("a", menuItem);
+// const A = styled("a", menuItem);
 const BrandLink = styled(Link, {
   ...menuItem,
   [media.toLap]: {}
@@ -384,6 +382,7 @@ const BrandLinkExternalUrl = styled("a", {
 });
 // @ts-ignore
 const StyledLink = styled(Link, menuItem);
+const StyledExternalLink = styled("a", menuItem);
 
 const Flex = styled("div", (_: React.CSSProperties) => ({
   flexDirection: "row",
@@ -397,8 +396,8 @@ const Dropdown = styled("div", {
   flexDirection: "column",
   ...contentPadding,
   position: "fixed",
-  top: TOP_BAR_HEIGHT,
-  "z-index": "4",
+  top: `${TOP_BAR_HEIGHT}px`,
+  "z-index": "999",
   width: "100vw",
   height: "100vh",
   alignItems: "flex-end!important",

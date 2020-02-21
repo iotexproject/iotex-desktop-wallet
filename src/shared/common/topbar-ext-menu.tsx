@@ -12,7 +12,7 @@ const SubMenuIcon = styled("i", {
   top: "-8px",
   left: "18px",
   color: "#fff",
-  [media.palm]: {
+  [media.toLap]: {
     display: "none !important"
   }
 });
@@ -25,7 +25,7 @@ const SubMenuA = styled(Link, {
   ":hover": {
     color: colors.primary
   },
-  [media.palm]: {
+  [media.toLap]: {
     boxSizing: "border-box",
     width: "100%",
     padding: "5px"
@@ -40,7 +40,7 @@ const ExternalSubMenuA = styled("a", {
   ":hover": {
     color: colors.primary
   },
-  [media.palm]: {
+  [media.toLap]: {
     boxSizing: "border-box",
     width: "100%",
     padding: "5px"
@@ -60,14 +60,15 @@ const SubMenu = styled("div", (props: { shadow: string }) => ({
   zIndex: 1,
   lineHeight: "35px",
   transition: "opacity 0.3s linear",
-  [media.palm]: {
+  [media.toLap]: {
     position: "relative",
     padding: "5px",
     borderTop: "none",
     color: "#fff",
     left: "20px",
     lineHeight: "25px",
-    marginBottom: "-13px"
+    marginBottom: "-13px",
+    backgroundColor: colors.nav01
   }
 }));
 
@@ -90,8 +91,8 @@ export function TopbarExtMenu({
       onMouseLeave={() => setShouldDisplay(false)}
       onClick={() => setShouldDisplay(true)}
     >
-      {name}&nbsp;
-      <AntIcon type="down" />
+      {name}
+      <AntIcon type="down" style={{ marginLeft: "4px" }} />
       <SubMenu
         shadow={shadowAttr}
         style={{
@@ -118,7 +119,6 @@ export function TopbarExtMenu({
 }
 const menuItem = {
   cursor: "pointer",
-  marginLeft: "14px",
   textDecoration: "none",
   color: colors.white,
   ":hover": {
@@ -127,11 +127,10 @@ const menuItem = {
   position: "relative",
   padding: "0 20px",
   textTransform: "capitalize",
-  [media.palm]: {
+  [media.toLap]: {
     boxSizing: "border-box",
     width: "100%",
-    padding: "16px 0 16px 0",
-    borderBottom: "1px #EDEDED solid"
+    padding: "16px 0 16px 0"
   }
 };
 // @ts-ignore
