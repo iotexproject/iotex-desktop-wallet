@@ -19,7 +19,7 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { GET_BLOCK_METAS, GET_LATEST_HEIGHT } from "../queries";
 import { Page } from "./page";
 
-const PAGE_SIZE = 30;
+const PAGE_SIZE = 15;
 
 const getBlockListColumns = (): Array<ColumnProps<BlockMeta>> => [
   {
