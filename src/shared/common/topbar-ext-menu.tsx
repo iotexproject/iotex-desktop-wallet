@@ -1,10 +1,10 @@
+import AntIcon from "antd/lib/icon";
 import { MouseEventHandler, useState } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
 import { styled } from "styletron-react";
 import { colors } from "./styles/style-color";
 import { media } from "./styles/style-media";
-import AntIcon from "antd/lib/icon";
 
 const SubMenuIcon = styled("i", {
   fontSize: "12px",
