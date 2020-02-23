@@ -12,7 +12,7 @@ const SubMenuIcon = styled("i", {
   top: "-8px",
   left: "18px",
   color: "#fff",
-  [media.toLap]: {
+  [media.toWide]: {
     display: "none !important"
   }
 });
@@ -25,7 +25,7 @@ const SubMenuA = styled(Link, {
   ":hover": {
     color: colors.primary
   },
-  [media.toLap]: {
+  [media.toWide]: {
     boxSizing: "border-box",
     width: "100%",
     padding: "5px"
@@ -40,7 +40,7 @@ const ExternalSubMenuA = styled("a", {
   ":hover": {
     color: colors.primary
   },
-  [media.toLap]: {
+  [media.toWide]: {
     boxSizing: "border-box",
     width: "100%",
     padding: "5px"
@@ -60,7 +60,7 @@ const SubMenu = styled("div", (props: { shadow: string }) => ({
   zIndex: 1,
   lineHeight: "35px",
   transition: "opacity 0.3s linear",
-  [media.toLap]: {
+  [media.toWide]: {
     position: "relative",
     padding: "5px",
     borderTop: "none",
@@ -127,7 +127,7 @@ const menuItem = {
   position: "relative",
   padding: "0 20px",
   textTransform: "capitalize",
-  [media.toLap]: {
+  [media.toWide]: {
     boxSizing: "border-box",
     width: "100%",
     padding: "16px 0 16px 0"

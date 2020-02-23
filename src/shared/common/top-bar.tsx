@@ -290,7 +290,7 @@ const Bar = styled("div", {
   ...contentPadding,
   boxSizing: "border-box",
   boxShadow: "0",
-  [media.toLap]: {
+  [media.toWide]: {
     position: "fixed"
   }
 });
@@ -310,7 +310,7 @@ function HamburgerBtn({
     },
     color: colors.white,
     display: "none!important",
-    [media.toLap]: {
+    [media.toWide]: {
       display: "flex!important",
       ...(displayMobileMenu ? { display: "none!important" } : {})
     },
@@ -341,7 +341,7 @@ function CrossBtn({
     },
     color: colors.white,
     display: "none!important",
-    [media.toLap]: {
+    [media.toWide]: {
       display: "none!important",
       ...(displayMobileMenu ? { display: "flex!important" } : {})
     },
@@ -365,7 +365,7 @@ const menuItem: StyleObject = {
   },
   transition,
   padding: "0 20px",
-  [media.toLap]: {
+  [media.toWide]: {
     boxSizing: "border-box",
     width: "100%",
     padding: "16px 0 16px 0"
@@ -374,11 +374,11 @@ const menuItem: StyleObject = {
 // const A = styled("a", menuItem);
 const BrandLink = styled(Link, {
   ...menuItem,
-  [media.toLap]: {}
+  [media.toWide]: {}
 });
 const BrandLinkExternalUrl = styled("a", {
   ...menuItem,
-  [media.toLap]: {}
+  [media.toWide]: {}
 });
 // @ts-ignore
 const StyledLink = styled(Link, menuItem);
@@ -406,7 +406,7 @@ const Dropdown = styled("div", {
 
 const HiddenOnMobile = styled("div", {
   display: "flex!important",
-  [media.toLap]: {
+  [media.toWide]: {
     display: "none!important"
   }
 });
