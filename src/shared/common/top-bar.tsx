@@ -126,7 +126,7 @@ export const TopBar = connect(
           routes={[
             {
               name: t("topbar.explorer_playground"),
-              path: "/api-gateway/"
+              path: "/explorer-playground/"
             },
             {
               name: t("topbar.analytics_playground"),

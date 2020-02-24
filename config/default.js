@@ -63,7 +63,7 @@ module.exports = {
       "https://use.fontawesome.com/releases/v5.0.13/",
       "https://translate.googleapis.com/"
     ],
-    "frame-src": [],
+    "frame-src": ["self"],
     "connect-src": [
       "self",
       "https://api.coinmarketcap.com/v1/ticker/iotex/",
