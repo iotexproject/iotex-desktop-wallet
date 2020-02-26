@@ -200,6 +200,7 @@
     "react": "16.8.6",
     "react-apollo": "2.5.8",
     "react-dom": "16.8.6",
+    "react-iframe": "1.8.0",
     "react-outside-click-handler": "1.2.3",
     "react-redux": "5.1.1",
     "react-router": "4.3.1",
