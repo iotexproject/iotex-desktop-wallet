@@ -552,21 +552,12 @@ export const GET_ADDRESS_DETAILS = gql`
   }
 `;
 
-export const GET_ANALYTICS_XRC20_ACTIONS = ({
-  pageSize,
-  page,
-  address
-}: {
-  pageSize: number;
-  page: number;
-  address?: string;
-}) => {
-  let query = `{
+export const GET_ANALYTICS_XRC20_ACTIONS_BY_PAGE = gql`
+  query($pagination: Pagination!) {
     xrc20 {
-      data:${
-        address ? "byContractAddress" : "byPage"
-      }(pagination:{first: ${pageSize}, skip: ${page * pageSize}}) {
-        xrc20 {
+      data: byPage(pagination: $pagination) {
+        exist
+        xrc {
           contract
           hash
           timestamp
@@ -574,23 +565,22 @@ export const GET_ANALYTICS_XRC20_ACTIONS = ({
           to
           quantity
         }
-      }
-    }
-  }
-  `;
-  if (!address) {
-    return gql(query);
-  }
-  query = `
-  {
-    total: xrc20 {
-      data:byContractAddress(numPerPage: 9999999999999, page: 1, address:"${address}") {
         count
       }
     }
+  }
+`;
+
+export const GET_ANALYTICS_XRC20_ACTIONS_BY_CONTRACT = gql`
+  query($address: String!, $page: Int!, $numPerPage: Int!) {
     xrc20 {
-      data:byContractAddress (numPerPage: ${pageSize}, page: ${page}, address:"${address}") {
-        xrc20 {
+      data: byContractAddress(
+        address: $address
+        page: $page
+        numPerPage: $numPerPage
+      ) {
+        exist
+        xrc {
           contract
           hash
           timestamp
@@ -598,12 +588,11 @@ export const GET_ANALYTICS_XRC20_ACTIONS = ({
           to
           quantity
         }
+        count
       }
     }
   }
-  `;
-  return gql(query);
-};
+`;
 
 export const GET_ANALYTICS_CONTRACT_ACTIONS = gql`
   query contractActions($address: String!, $pagination: Pagination!) {
