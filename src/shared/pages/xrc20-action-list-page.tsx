@@ -18,13 +18,14 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { XRC20TokenBalance, XRC20TokenValue } from "../common/xrc20-token";
 import {
   GET_ANALYTICS_CONTRACT_HOLDERS,
-  GET_ANALYTICS_XRC20_ACTIONS
+  GET_ANALYTICS_XRC20_ACTIONS_BY_CONTRACT,
+  GET_ANALYTICS_XRC20_ACTIONS_BY_PAGE
 } from "../queries";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
 const { TabPane } = Tabs;
 
-const PAGE_SIZE = 30;
+const PAGE_SIZE = 15;
 
 export interface IXRC20ActionInfo {
   contract: string;
@@ -143,15 +144,27 @@ export interface IXRC20ActionTable {
 export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
   address = ""
 }) => {
+  const query = address
+    ? GET_ANALYTICS_XRC20_ACTIONS_BY_CONTRACT
+    : GET_ANALYTICS_XRC20_ACTIONS_BY_PAGE;
+  const variables = address
+    ? {
+        page: 0,
+        numPerPage: PAGE_SIZE,
+        address
+      }
+    : {
+        pagination: {
+          skip: 0,
+          first: PAGE_SIZE
+        }
+      };
   return (
     <Query
-      query={GET_ANALYTICS_XRC20_ACTIONS({
-        address,
-        page: 0,
-        pageSize: 999
-      })}
+      query={query}
       notifyOnNetworkStatusChange={true}
       client={analyticsClient}
+      variables={variables}
     >
       {({ data, loading, fetchMore, error }: QueryResult) => {
         if (error) {
@@ -159,10 +172,9 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
             message: `failed to query analytics xrc20 in XRC20ActionTable: ${error}`
           });
         }
-        const actions =
-          get<Array<IXRC20ActionInfo>>(data || {}, "xrc20.data.xrc20") || [];
-        const numActions =
-          get<number>(data || {}, "total.data.count") || actions.length;
+        const actions = get<Array<IXRC20ActionInfo>>(data || {}, "xrc20.data.xrc") || [];
+        const numActions = get<number>(data || {}, "xrc20.data.count");
+
         return (
           <Table
             loading={{
@@ -181,12 +193,23 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
             }}
             size="middle"
             onChange={pagination => {
+              const updatevariables = address
+                ? {
+                    page: (pagination.current && pagination.current - 1) || 0,
+                    numPerPage: PAGE_SIZE,
+                    address
+                  }
+                : {
+                    pagination: {
+                      skip: pagination.current
+                        ? (pagination.current - 1) * PAGE_SIZE
+                        : 0,
+                      first: PAGE_SIZE
+                    }
+                  };
               fetchMore({
-                query: GET_ANALYTICS_XRC20_ACTIONS({
-                  address,
-                  pageSize: PAGE_SIZE,
-                  page: pagination.current || 1
-                }),
+                // @ts-ignore
+                variables: updatevariables,
                 updateQuery: (prev, { fetchMoreResult }) => {
                   if (!fetchMoreResult) {
                     return prev;
@@ -227,7 +250,7 @@ export const XRC20HoldersTable: React.FC<IXRC20ActionTable> = ({
             "xrc20.tokenHolderAddresses.addresses"
           ) || [];
         const numHolders =
-          get<number>(data || {}, "xrc20.tokenHolderAddresses.count") || 100000;
+          get<number>(data || {}, "xrc20.tokenHolderAddresses.count") || 0;
         const holdersPage = holders
           .slice(offset, offset + PAGE_SIZE)
           .map(addr => ({ address: addr, contract: address }));

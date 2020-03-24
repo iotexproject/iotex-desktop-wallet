@@ -179,7 +179,7 @@
     "https": "1.0.0",
     "iotex-antenna": "0.25.0",
     "iotex-react-block-producers": "2.5.3",
-    "iotex-react-footer": "2.4.0",
+    "iotex-react-footer": "2.6.2",
     "iotex-react-language-dropdown": "2.4.0",
     "is-browser": "2.1.0",
     "is-electron": "2.2.0",
