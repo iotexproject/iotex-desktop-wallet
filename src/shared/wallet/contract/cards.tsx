@@ -147,8 +147,7 @@ export function NonceFormInputItem(
 
 export function GasPriceFormInputItem({
   form,
-  initialValue,
-  onChange
+  initialValue
 }: {
   form: WrappedFormUtils;
   initialValue?: string;
@@ -169,7 +168,6 @@ export function GasPriceFormInputItem({
           placeholder="0"
           name="gasPrice"
           addonAfter="Qev"
-          onChange={() => onChange}
         />
       )}
     </Form.Item>
@@ -178,8 +176,7 @@ export function GasPriceFormInputItem({
 
 export function GasLimitFormInputItem({
   form,
-  initialValue,
-  onChange
+  initialValue
 }: {
   form: WrappedFormUtils;
   initialValue?: number;
@@ -192,7 +189,7 @@ export function GasLimitFormInputItem({
       label={<FormItemLabel>{t("wallet.input.gasLimit")}</FormItemLabel>}
     >
       {getFieldDecorator("gasLimit", {
-        initialValue: initialValue || "1000000",
+        initialValue: initialValue || "200000",
         rules: rulesMap.gasLimit
       })(
         <Input
@@ -200,7 +197,6 @@ export function GasLimitFormInputItem({
           placeholder="0"
           name="gasLimit"
           style={inputStyle}
-          onChange={() => onChange}
         />
       )}
     </Form.Item>

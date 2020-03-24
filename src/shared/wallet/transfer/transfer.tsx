@@ -60,6 +60,10 @@ class TransferForm extends React.PureComponent<Props, State> {
     gasCostLimit: ""
   };
 
+  public componentDidMount(): void {
+    this.updateGasCostLimit(this.props.form);
+  }
+
   public sendTransfer = async (status: boolean) => {
     const antenna = getAntenna();
     const { form, account, tokens = {} } = this.props;
@@ -242,7 +246,12 @@ class TransferForm extends React.PureComponent<Props, State> {
     const { getFieldDecorator } = form;
     const { sending } = this.state;
     return (
-      <Form layout="vertical">
+      <Form
+        layout="vertical"
+        onChange={() => {
+          this.updateGasCostLimit(form);
+        }}
+      >
         <Form.Item
           label={<FormItemLabel>{t("wallet.input.to")}</FormItemLabel>}
           {...formItemLayout}
@@ -259,18 +268,8 @@ class TransferForm extends React.PureComponent<Props, State> {
           )}
         </Form.Item>
         {this.renderAmountFormItem()}
-        <GasPriceFormInputItem
-          form={form}
-          onChange={() => {
-            this.updateGasCostLimit(form);
-          }}
-        />
-        <GasLimitFormInputItem
-          form={form}
-          onChange={() => {
-            this.updateGasCostLimit(form);
-          }}
-        />
+        <GasPriceFormInputItem form={form} />
+        <GasLimitFormInputItem form={form} />
         {this.state.showDataHex && (
           <Form.Item
             label={<FormItemLabel>{t("wallet.input.dib")}</FormItemLabel>}
@@ -381,11 +380,16 @@ class TransferForm extends React.PureComponent<Props, State> {
 
   public updateGasCostLimit = (form: WrappedFormUtils) => {
     const { gasLimit, gasPrice } = form.getFieldsValue();
+    if (!gasLimit || !gasPrice) {
+      return;
+    }
     const gasCostLimit = fromRau(
       `${Number(toRau(gasPrice, "Qev")) * gasLimit}`,
       "IoTx"
     );
-    this.setState({ gasCostLimit });
+    if (gasCostLimit !== this.state.gasCostLimit) {
+      this.setState({ gasCostLimit });
+    }
   };
 
   public render(): JSX.Element {
