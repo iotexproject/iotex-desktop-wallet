@@ -14,6 +14,7 @@ const getApiGatewayUrl = () => {
 module.exports = {
   project: "iotex-explorer",
   server: {
+    routePrefix: "",
     port: process.env.PORT || 4004,
     staticDir: "./dist",
     delayInitMiddleware: false,
@@ -28,7 +29,8 @@ module.exports = {
       "/api-gateway/": true,
       "/api/": true,
       "/iotex-core-proxy/": true
-    }
+    },
+    proxy: false
   },
   ssm: {
     enabled: false
@@ -96,7 +98,6 @@ module.exports = {
       "https://ethereum.github.io/solc-bin/bin/"
     ]
   },
-  apiGatewayUrl: getApiGatewayUrl() || "http://localhost:4004/api-gateway/",
   webBpApiGatewayUrl:
     process.env.CURRENT_CHAIN_NAME == "testnet"
       ? "https://member-testnet.iotex.io/api-gateway/"
