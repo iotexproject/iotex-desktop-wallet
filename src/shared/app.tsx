@@ -14,13 +14,13 @@ import { NotFound } from "./common/not-found";
 import { ScrollToTop } from "./common/scroll-top";
 import { colors } from "./common/styles/style-color";
 import { fonts } from "./common/styles/style-font";
-import { TOP_BAR_HEIGHT, TopMenuBar } from "./common/top-menu-bar";
+import { TOP_BAR_HEIGHT, TopBar } from "./common/top-bar";
+import { ExplorerPlayground } from "./dev-tools/explorer-playground";
 import { Home } from "./home/home";
 import { AccountListPage } from "./pages/account-list-page";
 import { ActionDetailPage } from "./pages/action-detail-page";
 import { ActionListPage } from "./pages/action-list-page";
 import { AddressDetailsPage } from "./pages/address-details-page";
-import { AdminPeople } from "./pages/admin-people";
 import { BlockDetailPage } from "./pages/block-detail-page";
 import { BlockListPage } from "./pages/block-list-page";
 import { XRC20ActionListPage } from "./pages/xrc20-action-list-page";
@@ -48,7 +48,7 @@ export class App extends Component<Props> {
     return (
       <RootStyle>
         <HtmlHead locale={locale} isEnterprise={isEnterprise} />
-        <TopMenuBar />
+        <TopBar />
         <div style={footerAboveStyle}>
           <ScrollToTop>
             <Switch>
@@ -83,7 +83,10 @@ export class App extends Component<Props> {
                 component={XRC20ActionListPage}
               />
               <Route path="/wallet" component={Wallet} />
-              <Route path="/admin/people" component={AdminPeople} />
+              <Route
+                path="/explorer-playground"
+                component={() => <ExplorerPlayground isExplorer={true} />}
+              />
               <Route component={NotFound} />
             </Switch>
           </ScrollToTop>
