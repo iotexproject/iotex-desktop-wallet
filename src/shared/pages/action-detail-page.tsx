@@ -70,8 +70,15 @@ const parseActionDetails = (data: IActionsDetails) => {
     get(data, "receipt.receiptInfo.receipt") || {};
 
   // destruct action core info
-  const { gasLimit, gasPrice, grantReward, execution, nonce, transfer }: Dict =
-    get(data, "action.actionInfo.0.action.core") || {};
+  const {
+    gasLimit,
+    gasPrice,
+    grantReward,
+    execution,
+    nonce,
+    transfer,
+    depositToRewardingFund
+  }: Dict = get(data, "action.actionInfo.0.action.core") || {};
 
   const { timestamp, actHash }: Dict = get(data, "action.actionInfo.0") || {};
 
@@ -95,6 +102,14 @@ const parseActionDetails = (data: IActionsDetails) => {
       gasPrice,
       "Qev"
     )} Qev)`,
+    ...(depositToRewardingFund
+      ? {
+          depositToRewardingFund: `${fromRau(
+            depositToRewardingFund.amount,
+            "Iotx"
+          )} IOTX`
+        }
+      : {}),
     nonce,
     ...(execution ? { data: execution.data.toString() } : {}),
     logs: removeTypeName(logs)

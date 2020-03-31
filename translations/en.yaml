@@ -321,6 +321,7 @@ render.key.transferAmount: 'Transfer Amount'
 render.key.txRoot: 'Tx Root'
 render.key.type: 'Reward Type'
 render.key.value: Value
+render.key.depositToRewardingFund: depositToRewardingFund
 render.value.execution: Execution
 render.value.grantReward: 'Grant Reward'
 render.value.rewardType.BlockReward: 'Block Reward'
