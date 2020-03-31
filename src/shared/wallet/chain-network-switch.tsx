@@ -4,6 +4,7 @@ import { t } from "onefx/lib/iso-i18n";
 import React, { useState } from "react";
 
 // @ts-ignore
+import isBrowser from "is-browser";
 import { connect, DispatchProp } from "react-redux";
 import { Token } from "../../erc20/token";
 import { setApolloClientEndpoint } from "../common/apollo-client";
@@ -35,8 +36,10 @@ const getDefaultNetworkTokens = async (
 };
 
 export const setProviderNetwork = (url: string) => {
-  getAntenna().iotx.setProvider(`${url}iotex-core-proxy`);
-  setApolloClientEndpoint(`${url}api-gateway/`);
+  if (isBrowser) {
+    getAntenna().iotx.setProvider(`${url}iotex-core-proxy`);
+    setApolloClientEndpoint(`${url}api-gateway/`);
+  }
 };
 
 export const ChainNetworkSwitchComponent = (
@@ -61,7 +64,7 @@ export const ChainNetworkSwitchComponent = (
     const key = `${chain.name}:${chain.url}`;
     availableNetworks[key] = chain;
   });
-  if (!network && defaultNetwork) {
+  if (isBrowser && !network && defaultNetwork) {
     setProviderNetwork(`${defaultNetwork.url}`);
     getDefaultNetworkTokens(defaultERC20Tokens).then(supportTokens => {
       dispatch(setNetwork(defaultNetwork, supportTokens));

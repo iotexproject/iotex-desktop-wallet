@@ -46,7 +46,7 @@ export function setServerRoutes(server: MyServer): void {
     /^(?!\/?api-gateway\/).+$/,
     async (ctx: koa.Context) => {
       setConfigs(server, ctx);
-      ctx.body = await apolloSSR(ctx, server.config.apiGatewayUrl, {
+      ctx.body = await apolloSSR(ctx, {
         VDom: <AppContainer />,
         reducer: noopReducer,
         clientScript: "/main.js"

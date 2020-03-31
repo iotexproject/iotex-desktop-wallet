@@ -13,7 +13,7 @@ import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { BlockHashRenderer } from "../renderer/block-hash-renderer";
 import { IOTXValueRenderer } from "../renderer/iotx-value-renderer";
 
-const PAGE_SIZE = 30;
+const PAGE_SIZE = 15;
 
 export interface IEvmTransferInfo {
   from: string;

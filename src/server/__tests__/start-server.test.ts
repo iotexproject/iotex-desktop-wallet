@@ -9,7 +9,9 @@ setupTestServer();
 
 test("GET /health", async t => {
   try {
-    const res = await axios.get(`http://localhost:${port}/health`);
+    const res = await axios.get(
+      `http://localhost:${port}${config.get("server.routePrefix") || ""}/health`
+    );
     t.deepEqual(res.status, 200, "res.status");
     t.deepEqual(res.data, "OK", "res.data");
   } catch (err) {

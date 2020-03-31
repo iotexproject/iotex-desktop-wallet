@@ -5,7 +5,7 @@ const fetch = require("isomorphic-unfetch");
 
 function createServerWithCertAndKey(port, cert, key, callback) {
   const server = https.createServer({ cert, key });
-  server.listen(port, "local.get-scatter.com");
+  server.listen(port, "local.iotex.io");
   const namespace = new WebSocket.Server({
     server
   });
@@ -20,7 +20,7 @@ function createServer(port, callback) {
 
 const getCerts = async () => {
   return fetch(
-    "https://certs.get-scatter.com?rand=" + Math.round(Math.random() * 100 + 1)
+    "https://certs.iotex.io?rand=" + Math.round(Math.random() * 100 + 1)
   )
     .then(res => res.json())
     .catch(err =>

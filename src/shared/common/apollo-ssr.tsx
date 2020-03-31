@@ -1,6 +1,7 @@
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
+import config from "config";
 import fetch from "isomorphic-unfetch";
 import koa from "koa";
 // @ts-ignore
@@ -29,14 +30,19 @@ type Opts = {
 
 export async function apolloSSR(
   ctx: koa.Context,
-  uri: string,
   { VDom, reducer, clientScript }: Opts
 ): Promise<string> {
-  ctx.setState("base.apiGatewayUrl", uri);
+  const routePrefix = config.get("server.routePrefix") || "";
+  ctx.setState(
+    "base.apiGatewayUrl",
+    `${ctx.origin}${routePrefix}/api-gateway/`
+  );
   const apolloClient = new ApolloClient({
     ssrMode: true,
     link: createHttpLink({
-      uri,
+      uri: `http://localhost:${config.get(
+        "server.port"
+      )}${routePrefix}/api-gateway/`,
       fetch,
       credentials: "same-origin",
       headers: {

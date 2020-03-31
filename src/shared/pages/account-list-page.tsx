@@ -160,7 +160,7 @@ const AccountListPage: React.FC = (): JSX.Element => {
       <Helmet
         title={`${t("topbar.top_accounts")} - ${t("meta.description")}`}
       />
-      <PageNav items={[t("topbar.top_accounts")]} />
+      <PageNav items={[t("address.address")]} />
       <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
         <Page header={t("topbar.top_accounts")}>
           <Query query={GET_CHAIN_META}>
