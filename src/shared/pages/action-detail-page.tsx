@@ -94,6 +94,9 @@ const parseActionDetails = (data: IActionsDetails) => {
     ...(execution ? { to: { execution, contractAddress } } : {}),
     ...(transfer ? { to: { transfer } } : {}),
     ...(grantReward ? { actionType: t("render.value.grantReward") } : {}),
+    ...(depositToRewardingFund
+      ? { actionType: t("render.value.deposit") }
+      : {}),
     ...(execution ? { evmTransfer: actHash, value: execution.amount } : {}),
     ...(transfer ? { value: transfer.amount } : {}),
     fee: `${fromRau(`${gasConsumed * Number(gasPrice)}`, "Iotx")} IOTX`,
