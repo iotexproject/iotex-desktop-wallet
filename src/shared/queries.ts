@@ -557,7 +557,7 @@ export const GET_ANALYTICS_XRC20_ACTIONS_BY_PAGE = gql`
     xrc20 {
       data: byPage(pagination: $pagination) {
         exist
-        xrc {
+        xrc20 {
           contract
           hash
           timestamp
@@ -580,7 +580,7 @@ export const GET_ANALYTICS_XRC20_ACTIONS_BY_CONTRACT = gql`
         numPerPage: $numPerPage
       ) {
         exist
-        xrc {
+        xrc20 {
           contract
           hash
           timestamp
