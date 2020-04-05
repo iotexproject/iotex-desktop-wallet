@@ -7,9 +7,9 @@ import { t } from "onefx/lib/iso-i18n";
 import React, { CSSProperties, useState } from "react";
 import { Query, QueryResult } from "react-apollo";
 
+import moment from "moment";
 import { Link } from "react-router-dom";
 import { assetURL } from "../common/asset-url";
-import { translateFn } from "../common/from-now";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import {
@@ -155,7 +155,7 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
                   }}
                 </Query>
               </Link>
-              <div>{`${translateFn(timestamp)}`}</div>
+              <div>{`${moment(timestamp.seconds * 1000).fromNow()}`}</div>
               <Row type="flex" justify="space-between">
                 <Col>
                   {`${numActions}`} {t("home.blocklist.ofActions")}

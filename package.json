@@ -189,6 +189,7 @@
     "lodash.omit": "4.5.0",
     "lodash.partition": "4.6.0",
     "lodash.throttle": "4.1.1",
+    "moment": "^2.24.0",
     "node-fetch": "2.6.0",
     "nodemailer": "6.4.2",
     "nodemailer-mailgun-transport": "2.0.0",
