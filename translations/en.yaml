@@ -324,6 +324,7 @@ render.key.value: Value
 render.key.depositToRewardingFund: depositToRewardingFund
 render.value.execution: Execution
 render.value.grantReward: 'Grant Reward'
+render.value.deposit: 'Deposit'
 render.value.rewardType.BlockReward: 'Block Reward'
 render.value.rewardType.EpochReward: 'Epoch Reward'
 render.value.transfer: Transfer
