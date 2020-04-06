@@ -96,7 +96,7 @@ export function TopbarExtMenu({
       <SubMenu
         shadow={shadowAttr}
         style={{
-          opacity: shouldDisplay ? "1" : "0",
+          opacity: shouldDisplay ? 1 : 0,
           display: shouldDisplay ? "block" : "none"
         }}
       >
