@@ -10,6 +10,11 @@ import React from "react";
 import { assetURL } from "./asset-url";
 import { colors } from "./styles/style-color";
 
+import moment from "moment";
+import "moment/locale/de";
+import "moment/locale/it";
+import "moment/locale/zh-cn";
+
 export function HtmlHead({
   locale,
   isEnterprise
@@ -18,6 +23,8 @@ export function HtmlHead({
   isEnterprise: boolean;
 }): JSX.Element {
   const favicon = isEnterprise ? "/favicon-xunlian.png" : "/favicon.png";
+  // set momment language
+  moment.locale(locale);
 
   return (
     <Helmet
