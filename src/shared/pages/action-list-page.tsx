@@ -204,7 +204,7 @@ export const ActionTable: React.FC<IActionTable> = ({
               fetchMore({
                 variables: getVariables(cStart, count),
                 updateQuery: (_, { fetchMoreResult }) => {
-                  return fetchMoreResult;
+                  return fetchMoreResult || {};
                 }
               });
             }}
