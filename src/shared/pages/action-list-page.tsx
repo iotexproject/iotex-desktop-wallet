@@ -199,15 +199,12 @@ export const ActionTable: React.FC<IActionTable> = ({
             }}
             size="middle"
             onChange={pagination => {
-              const current = pagination.current || 0;
+              const current = pagination.current || 1;
               const cStart = Math.max(start - (current - 1) * count, 0);
               fetchMore({
                 variables: getVariables(cStart, count),
-                updateQuery: (prev, { fetchMoreResult }) => {
-                  if (!fetchMoreResult) {
-                    return prev;
-                  }
-                  return fetchMoreResult;
+                updateQuery: (_, { fetchMoreResult }) => {
+                  return fetchMoreResult || {};
                 }
               });
             }}
