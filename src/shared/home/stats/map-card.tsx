@@ -12,7 +12,6 @@ import { Query, QueryResult } from "react-apollo";
 import { analyticsClient } from "../../common/apollo-client";
 import { assetURL } from "../../common/asset-url";
 import { colors } from "../../common/styles/style-color";
-import { GET_ANALYTICS_CHAIN } from "../../queries";
 import { CompAreaChart } from "../charts/area-chart";
 
 const fontFamily = "'Heebo',sans-serif,Microsoft YaHei !important";
@@ -85,32 +84,10 @@ export const MapButton = (
 export const MapCard = (): JSX.Element => {
   const mostRecentEpoch = LAST_EPOTCH + DIFF_HOURS;
   return (
-    <Card style={Styles.mapBox} bodyStyle={Styles.mapBoxBody}>
-      <div style={{ padding: 10 }}>
-        {/* <Row type="flex" justify="space-around">
-                  <Col span={12}>
-                    <MapButton>{t("home.stats.map")}</MapButton>
-                  </Col>
-                  <Col span={12}>
-                    <MapButton>{t("home.stats.energyConsumption")}</MapButton>
-                  </Col>
-                </Row> */}
-        <Row type="flex" justify="start">
-          {/* <Col span={12}>
-                    <MapButton>{t("home.stats.numberOfAddresses")}</MapButton>
-                  </Col> */}
-          <Col span={12}>
-            <MapButton active={true}>
-              {t("home.stats.numberOfTransactions")}
-            </MapButton>
-          </Col>
-        </Row>
-      </div>
-      <div style={Styles.mapContainer}>
-        <Query
-          ssr={true}
-          client={analyticsClient}
-          query={gql`{
+    <Query
+      ssr={true}
+      client={analyticsClient}
+      query={gql`{
                     ${[1, 2, 3, 4, 5, 6, 7].map(day => {
                       return `day${day}:chain{
                         numberOfActions(pagination: { startEpoch: ${mostRecentEpoch -
@@ -122,25 +99,42 @@ export const MapCard = (): JSX.Element => {
                     })}
                   }
                   `}
-        >
-          {({ data, error, loading }: QueryResult) => {
-            if (error || loading || !data) {
-              if (error) {
-                notification.error({
-                  message: `failed to query analytics client in MapCard: ${error}`
-                });
-              }
-              return null;
-            }
-
-            const mapdata = Object.keys(data).map((name, i) => ({
-              name: `Day ${i + 1}`,
-              value: data[name].numberOfActions.count
-            }));
-            return <CompAreaChart data={mapdata} />;
-          }}
-        </Query>
-      </div>
-    </Card>
+    >
+      {({ data, error, loading }: QueryResult) => {
+        if (error || !data) {
+          if (error) {
+            notification.error({
+              message: `failed to query analytics client in MapCard: ${error}`
+            });
+          }
+          return null;
+        }
+        const mapdata = Object.keys(data).map((name, i) => ({
+          name: `Day ${i + 1}`,
+          value: data[name].numberOfActions.count
+        }));
+        return (
+          <Spin
+            spinning={loading}
+            indicator={<Icon type="loading" spin={true} />}
+          >
+            <Card style={Styles.mapBox} bodyStyle={Styles.mapBoxBody}>
+              <div style={{ padding: 10 }}>
+                <Row type="flex" justify="start">
+                  <Col span={12}>
+                    <MapButton active={true}>
+                      {t("home.stats.numberOfTransactions")}
+                    </MapButton>
+                  </Col>
+                </Row>
+              </div>
+              <div style={Styles.mapContainer}>
+                <CompAreaChart data={mapdata} />
+              </div>
+            </Card>
+          </Spin>
+        );
+      }}
+    </Query>
   );
 };
