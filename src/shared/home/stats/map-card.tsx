@@ -12,7 +12,6 @@ import { Query, QueryResult } from "react-apollo";
 import { analyticsClient } from "../../common/apollo-client";
 import { assetURL } from "../../common/asset-url";
 import { colors } from "../../common/styles/style-color";
-import { GET_ANALYTICS_CHAIN } from "../../queries";
 import { CompAreaChart } from "../charts/area-chart";
 
 const fontFamily = "'Heebo',sans-serif,Microsoft YaHei !important";
@@ -49,6 +48,10 @@ const Styles = {
   }
 };
 
+const LAST_EPOTCH = 8434;
+const LAST_EPOTCH_HOURS = 440689;
+const DIFF_HOURS = Math.floor(Date.now() / 3600000) - LAST_EPOTCH_HOURS;
+
 export const MapButton = (
   props: React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
@@ -79,51 +82,12 @@ export const MapButton = (
 };
 
 export const MapCard = (): JSX.Element => {
+  const mostRecentEpoch = LAST_EPOTCH + DIFF_HOURS;
   return (
     <Query
-      query={GET_ANALYTICS_CHAIN}
+      ssr={true}
       client={analyticsClient}
-      pollInterval={10000}
-    >
-      {({ error, loading, data }: QueryResult) => {
-        if (error) {
-          notification.error({
-            message: `failed to query analytics chain in MapCard: ${error}`
-          });
-        }
-        const showLoading = loading || !!error;
-        const { mostRecentEpoch = 0 } = (data && data.chain) || {};
-        return (
-          <Spin
-            spinning={showLoading}
-            indicator={<Icon type="loading" spin={true} />}
-          >
-            <Card style={Styles.mapBox} bodyStyle={Styles.mapBoxBody}>
-              <div style={{ padding: 10 }}>
-                {/* <Row type="flex" justify="space-around">
-                  <Col span={12}>
-                    <MapButton>{t("home.stats.map")}</MapButton>
-                  </Col>
-                  <Col span={12}>
-                    <MapButton>{t("home.stats.energyConsumption")}</MapButton>
-                  </Col>
-                </Row> */}
-                <Row type="flex" justify="start">
-                  {/* <Col span={12}>
-                    <MapButton>{t("home.stats.numberOfAddresses")}</MapButton>
-                  </Col> */}
-                  <Col span={12}>
-                    <MapButton active={true}>
-                      {t("home.stats.numberOfTransactions")}
-                    </MapButton>
-                  </Col>
-                </Row>
-              </div>
-              <div style={Styles.mapContainer}>
-                {mostRecentEpoch && (
-                  <Query
-                    client={analyticsClient}
-                    query={gql`{
+      query={gql`{
                     ${[1, 2, 3, 4, 5, 6, 7].map(day => {
                       return `day${day}:chain{
                         numberOfActions(pagination: { startEpoch: ${mostRecentEpoch -
@@ -135,25 +99,37 @@ export const MapCard = (): JSX.Element => {
                     })}
                   }
                   `}
-                  >
-                    {({ data, error, loading }: QueryResult) => {
-                      if (error || loading || !data) {
-                        if (error) {
-                          notification.error({
-                            message: `failed to query analytics client in MapCard: ${error}`
-                          });
-                        }
-                        return null;
-                      }
-
-                      const mapdata = Object.keys(data).map((name, i) => ({
-                        name: `Day ${i + 1}`,
-                        value: data[name].numberOfActions.count
-                      }));
-                      return <CompAreaChart data={mapdata} />;
-                    }}
-                  </Query>
-                )}
+    >
+      {({ data, error, loading }: QueryResult) => {
+        if (error || !data) {
+          if (error) {
+            notification.error({
+              message: `failed to query analytics client in MapCard: ${error}`
+            });
+          }
+          return null;
+        }
+        const mapdata = Object.keys(data).map((name, i) => ({
+          name: `Day ${i + 1}`,
+          value: data[name].numberOfActions.count
+        }));
+        return (
+          <Spin
+            spinning={loading}
+            indicator={<Icon type="loading" spin={true} />}
+          >
+            <Card style={Styles.mapBox} bodyStyle={Styles.mapBoxBody}>
+              <div style={{ padding: 10 }}>
+                <Row type="flex" justify="start">
+                  <Col span={12}>
+                    <MapButton active={true}>
+                      {t("home.stats.numberOfTransactions")}
+                    </MapButton>
+                  </Col>
+                </Row>
+              </div>
+              <div style={Styles.mapContainer}>
+                <CompAreaChart data={mapdata} />
               </div>
             </Card>
           </Spin>
