@@ -140,6 +140,7 @@ candidates.election.NOT_EQUIPPED: 'Not Equipped'
 candidates.election.OFFLINE: Offline
 candidates.election.ONLINE: Online
 candidates.election.UNQUALIFIED: 'Not Elected'
+candidates.election.PROBATION: 'Probation'
 candidates.rank: Rank
 coming_soon.bar: 'coming soon'
 coming_soon.title: 'Coming Soon...'
