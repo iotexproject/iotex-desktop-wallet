@@ -7,23 +7,31 @@ import { fromRau } from "iotex-antenna/lib/account/utils";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import { GetChainMetaResponse } from "iotex-antenna/protogen/proto/api/api_pb";
 import { t } from "onefx/lib/iso-i18n";
-import React from "react";
+import React, { FC } from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
+
+import { List } from "antd";
+import moment from "moment";
+import { withRouter } from "react-router";
 import {
   ActionInfo,
   GetActionsResponse
 } from "../../api-gateway/resolvers/antenna-types";
 import { AddressName } from "../common/address-name";
+import { analyticsClient } from "../common/apollo-client";
 import { translateFn } from "../common/from-now";
-import { getActionType } from "../common/get-action-type";
+import { actionsTypes, getActionType } from "../common/get-action-type";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
-import { GET_ACTIONS, GET_CHAIN_META } from "../queries";
+import {
+  GET_ACTIONS,
+  GET_ANALYTICS_ACTIONS_BY_TYPE,
+  GET_CHAIN_META
+} from "../queries";
 import { ActionFeeRenderer } from "../renderer/action-fee-renderer";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { Page } from "./page";
-
 const PAGE_SIZE = 15;
 
 export function getAddress(record: ActionInfo): string {
@@ -41,6 +49,24 @@ export function getAddress(record: ActionInfo): string {
   }
   return addr;
 }
+
+const filterTypeDropDown = () => (
+  <div style={{ padding: 8 }}>
+    <List
+      size="small"
+      dataSource={["all", ...actionsTypes]}
+      renderItem={item => (
+        <List.Item>
+          {item !== "all" ? (
+            <a href={`/action?actionType=${item}`}>{item}</a>
+          ) : (
+            <a href={`/action`}>{item}</a>
+          )}
+        </List.Item>
+      )}
+    />
+  </div>
+);
 
 const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
   {
@@ -77,7 +103,8 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
     width: "3vw",
     render: (_: string, record: ActionInfo, __: number): JSX.Element => {
       return <Tag>{getActionType(record)}</Tag>;
-    }
+    },
+    filterDropdown: filterTypeDropDown
   },
   {
     title: t("render.key.to"),
@@ -124,12 +151,10 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
     }
   }
 ];
-
 export interface IActionTable {
   address?: string;
   numActions: number;
 }
-
 export const ActionTable: React.FC<IActionTable> = ({
   numActions,
   address
@@ -162,6 +187,7 @@ export const ActionTable: React.FC<IActionTable> = ({
           byIndex: { start: start || 0, count: count || 0 }
         };
   };
+
   return (
     <Query
       query={GET_ACTIONS}
@@ -215,38 +241,182 @@ export const ActionTable: React.FC<IActionTable> = ({
   );
 };
 
-const ActionListPage: React.FC = (): JSX.Element => {
+export interface IActionByTypeInfo {
+  actHash: string;
+  blkHash: string;
+  timeStamp: string;
+  actType: string;
+  sender: string;
+  recipient: string;
+  amount: string;
+  gasFee: string;
+}
+
+const getActionByTypeColumns = (): Array<ColumnProps<IActionByTypeInfo>> => [
+  {
+    title: t("action.hash"),
+    dataIndex: "actHash",
+    width: "12vw",
+    render: text => <ActionHashRenderer value={text} />
+  },
+  {
+    title: t("block.timestamp"),
+    dataIndex: "timeStamp",
+    width: "8vw",
+    render: (_, { timeStamp }) => moment(parseInt(timeStamp, 10)).fromNow()
+  },
+  {
+    title: t("action.sender"),
+    dataIndex: "sender",
+    width: "12vw",
+    render: text => <AddressName address={text} />
+  },
+  {
+    title: t("action.type"),
+    dataIndex: "actType",
+    width: "5vw",
+    render: (text): JSX.Element => {
+      return <Tag>{text}</Tag>;
+    },
+    filterDropdown: filterTypeDropDown
+  },
+  {
+    title: t("render.key.to"),
+    dataIndex: "recipient",
+    width: "10vw",
+    render: text => <AddressName address={text} />
+  },
+  {
+    title: t("action.amount"),
+    dataIndex: "amount",
+    render: text => `${fromRau(text, "IOTX")} IOTX`
+  },
+  {
+    title: t("render.key.fee"),
+    dataIndex: "gasfee",
+    render: text => text
+  }
+];
+export const ActionTableByType: FC<{ actionType: string }> = ({
+  actionType
+}) => {
   return (
-    <>
-      <Helmet title={`${t("topbar.actions")} - ${t("meta.description")}`} />
-      <PageNav items={[t("topbar.actions")]} />
-      <ContentPadding>
-        <Page header={t("topbar.actions")}>
-          <Query query={GET_CHAIN_META}>
-            {({
-              data,
-              loading,
-              error
-            }: QueryResult<{ chainMetaData: GetChainMetaResponse }>) => {
-              if (error) {
-                notification.error({
-                  message: `failed to query chain meta in ActionListPage: ${error}`
-                });
-              }
-              if (!data || loading) {
-                return null;
-              }
-              const numActions = parseInt(
-                get(data, "chainMeta.numActions"),
-                10
-              );
-              return <ActionTable numActions={numActions} />;
+    <Query
+      query={GET_ANALYTICS_ACTIONS_BY_TYPE}
+      variables={{
+        type: actionType,
+        pagination: {
+          skip: 0,
+          first: PAGE_SIZE
+        }
+      }}
+      client={analyticsClient}
+    >
+      {({
+        data,
+        loading,
+        fetchMore,
+        error
+      }: QueryResult<{
+        action: {
+          byType: {
+            count: number;
+            actions: Array<IActionByTypeInfo>;
+          };
+        };
+      }>) => {
+        if (error) {
+          notification.error({
+            message: `failed to query actions in ActionTable: ${error}`
+          });
+        }
+        const actions =
+          (data &&
+            data.action &&
+            data.action.byType &&
+            data.action.byType.actions) ||
+          [];
+        const numActions =
+          data && data.action && data.action.byType && data.action.byType.count;
+        return (
+          <Table
+            loading={{
+              spinning: loading,
+              indicator: <Icon type="loading" />
             }}
-          </Query>
-        </Page>
-      </ContentPadding>
-    </>
+            rowKey="actHash"
+            dataSource={actions}
+            columns={getActionByTypeColumns()}
+            style={{ width: "100%" }}
+            scroll={{ x: "auto" }}
+            pagination={{
+              pageSize: PAGE_SIZE,
+              total: numActions,
+              showQuickJumper: true
+            }}
+            size="middle"
+            onChange={pagination => {
+              const current = Math.max(pagination.current || 1, 1);
+              fetchMore({
+                // @ts-ignore
+                updateQuery: (_, { fetchMoreResult }) => {
+                  return fetchMoreResult || {};
+                },
+                variables: {
+                  type: actionType,
+                  pagination: {
+                    skip: (current - 1) * PAGE_SIZE,
+                    first: PAGE_SIZE
+                  }
+                }
+              });
+            }}
+          />
+        );
+      }}
+    </Query>
   );
 };
+
+const ActionListPage = withRouter(
+  ({ location }): JSX.Element => {
+    const actionType =
+      new URLSearchParams(location.search).get("actionType") || "";
+    return (
+      <>
+        <Helmet title={`${t("topbar.actions")} - ${t("meta.description")}`} />
+        <PageNav items={[t("topbar.actions")]} />
+        <ContentPadding>
+          <Page header={t("topbar.actions")}>
+            {actionType && <ActionTableByType actionType={actionType} />}
+            {!actionType && (
+              <Query query={GET_CHAIN_META}>
+                {({
+                  data,
+                  loading,
+                  error
+                }: QueryResult<{ chainMetaData: GetChainMetaResponse }>) => {
+                  if (error) {
+                    notification.error({
+                      message: `failed to query chain meta in ActionListPage: ${error}`
+                    });
+                  }
+                  if (!data || loading) {
+                    return null;
+                  }
+                  const numActions = parseInt(
+                    get(data, "chainMeta.numActions"),
+                    10
+                  );
+                  return <ActionTable numActions={numActions} />;
+                }}
+              </Query>
+            )}
+          </Page>
+        </ContentPadding>
+      </>
+    );
+  }
+);
 
 export { ActionListPage };

@@ -730,3 +730,23 @@ export const GET_TOKEN_ADDRESS_META = gql`
     }
   }
 `;
+
+export const GET_ANALYTICS_ACTIONS_BY_TYPE = gql`
+  query($type: String!, $pagination: Pagination!) {
+    action {
+      byType(type: $type) {
+        count
+        actions(pagination: $pagination) {
+          actHash
+          blkHash
+          timeStamp
+          actType
+          sender
+          recipient
+          amount
+          gasFee
+        }
+      }
+    }
+  }
+`;
