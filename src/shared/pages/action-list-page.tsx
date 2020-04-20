@@ -12,27 +12,26 @@ import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 
 import { List } from "antd";
+import moment from "moment";
+import { withRouter } from "react-router";
 import {
   ActionInfo,
   GetActionsResponse
 } from "../../api-gateway/resolvers/antenna-types";
 import { AddressName } from "../common/address-name";
-import { translateFn, fromNow } from "../common/from-now";
+import { analyticsClient } from "../common/apollo-client";
+import { translateFn } from "../common/from-now";
 import { actionsTypes, getActionType } from "../common/get-action-type";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import {
   GET_ACTIONS,
-  GET_CHAIN_META,
-  GET_ANALYTICS_ACTIONS_BY_TYPE
+  GET_ANALYTICS_ACTIONS_BY_TYPE,
+  GET_CHAIN_META
 } from "../queries";
 import { ActionFeeRenderer } from "../renderer/action-fee-renderer";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { Page } from "./page";
-import moment from "moment";
-import { analyticsClient } from "../common/apollo-client";
-import isBrowser from "is-browser";
-import { withRouter, RouteComponentProps } from "react-router";
 const PAGE_SIZE = 15;
 
 export function getAddress(record: ActionInfo): string {
