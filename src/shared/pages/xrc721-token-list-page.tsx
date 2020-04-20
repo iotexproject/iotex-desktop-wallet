@@ -10,19 +10,19 @@ import Helmet from "react-helmet";
 import { analyticsClient } from "../common/apollo-client";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
-import { GET_XRC20_TOKENS } from "../queries";
-import { TokenAddressRenderer } from "../renderer/token-address-renderer";
+import { GET_XRC721_TOKENS } from "../queries";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
+import { Xrc721TokenAddressRenderer } from "../renderer/xrc721-token-address-renderer";
 import { Page } from "./page";
 
 const PAGE_SIZE = 15;
 
-export interface IXRC20TokenInfo {
+export interface IXRC721TokenInfo {
   name: string;
   address: string;
 }
 
-const getXrc20TokenListColumns = (): Array<ColumnProps<IXRC20TokenInfo>> => [
+const getXrc721TokenListColumns = (): Array<ColumnProps<IXRC721TokenInfo>> => [
   {
     title: t("token.name"),
     dataIndex: "name",
@@ -36,15 +36,15 @@ const getXrc20TokenListColumns = (): Array<ColumnProps<IXRC20TokenInfo>> => [
     dataIndex: "address",
     width: "20vw",
     render: (text: string): JSX.Element | string => {
-      return <TokenAddressRenderer value={text} />;
+      return <Xrc721TokenAddressRenderer value={text} />;
     }
   }
 ];
 
-export const XRC20TokenTable: React.FC = () => {
+export const XRC721TokenTable: React.FC = () => {
   return (
     <Query
-      query={GET_XRC20_TOKENS}
+      query={GET_XRC721_TOKENS}
       notifyOnNetworkStatusChange={true}
       client={analyticsClient}
       variables={{
@@ -62,15 +62,15 @@ export const XRC20TokenTable: React.FC = () => {
       }: QueryResult<{ addressMeta: { name: string } }>) => {
         if (error) {
           notification.error({
-            message: `failed to query analytics xrc20 in XRC20TokenTable: ${error}`
+            message: `failed to query analytics xrc721 in XRC721TokenTable: ${error}`
           });
         }
         const addresses =
-          get<Array<string>>(data || {}, "xrc20.xrc20Addresses.addresses") ||
+          get<Array<string>>(data || {}, "xrc721.xrc721Addresses.addresses") ||
           [];
         const numAddress = get<number>(
           data || {},
-          "xrc20.xrc20Addresses.count"
+          "xrc721.xrc721Addresses.count"
         );
         const tokens = addresses.map(a => ({ name: a, address: a }));
 
@@ -90,7 +90,7 @@ export const XRC20TokenTable: React.FC = () => {
             }}
             rowKey="hash"
             dataSource={tokens}
-            columns={getXrc20TokenListColumns()}
+            columns={getXrc721TokenListColumns()}
             style={{ width: "100%" }}
             scroll={{ x: "auto" }}
             pagination={paginationConfig}
@@ -118,27 +118,29 @@ export const XRC20TokenTable: React.FC = () => {
   );
 };
 
-const XRC20TokenListPage: React.FC = (): JSX.Element => {
+const XRC721TokenListPage: React.FC = (): JSX.Element => {
   return (
     <>
-      <Helmet title={`${t("topbar.tokens")} - ${t("meta.description")}`} />
-      <PageNav items={[t("topbar.tokens")]} />
+      <Helmet
+        title={`${t("topbar.xrc721Tokens")} - ${t("meta.description")}`}
+      />
+      <PageNav items={[t("topbar.xrc721Tokens")]} />
       <ContentPadding>
         <Page
           header={
             <>
               {t("pages.tokenTracker")}{" "}
               <Tag color="blue" style={{ marginTop: -2, marginLeft: 10 }}>
-                {t("token.xrc20")}
+                {t("token.xrc721")}
               </Tag>
             </>
           }
         >
-          <XRC20TokenTable />
+          <XRC721TokenTable />
         </Page>
       </ContentPadding>
     </>
   );
 };
 
-export { XRC20TokenListPage };
+export { XRC721TokenListPage };
