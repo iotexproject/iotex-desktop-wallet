@@ -7,6 +7,7 @@ import { StatusRenderer } from "./status-renderer";
 import { TextCopyRenderer } from "./text-copy-renderer";
 import { TextAreaRenderer } from "./textarea-renderer";
 import { TokenTransferRenderer } from "./token-transfer-renderer";
+import { TransferPayloadRenderer } from "./transfer-payload-renderer";
 import { WalletAddressRenderer } from "./wallet-address-renderer";
 
 const CommonRenderer = {
@@ -15,6 +16,7 @@ const CommonRenderer = {
   blkHeight: BlockHeightRenderer,
   from: WalletAddressRenderer,
   to: ReceiptAddressRenderer,
+  payload: TransferPayloadRenderer,
   value: IOTXValueRenderer,
   logs: TextAreaRenderer,
   data: TextAreaRenderer,

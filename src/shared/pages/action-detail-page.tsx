@@ -93,6 +93,7 @@ const parseActionDetails = (data: IActionsDetails) => {
     from,
     ...(execution ? { to: { execution, contractAddress } } : {}),
     ...(transfer ? { to: { transfer } } : {}),
+    ...(transfer ? { payload: { transfer } } : {}),
     ...(grantReward ? { actionType: t("render.value.grantReward") } : {}),
     ...(depositToRewardingFund
       ? { actionType: t("render.value.deposit") }
