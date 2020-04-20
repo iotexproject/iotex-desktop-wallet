@@ -161,7 +161,9 @@ export const TopBar = connect(
           name={t("topbar.tokensMenu")}
           routes={[
             { name: t("topbar.tokens"), path: "/tokens" },
-            { name: t("topbar.xrc20Transfer"), path: "/tokentxns" }
+            { name: t("topbar.xrc20Transfer"), path: "/tokentxns" },
+            { name: t("topbar.xrc721Tokens"), path: "/xrc721-tokens" },
+            { name: t("topbar.xrc721Transfer"), path: "/xrc721-tokentxns" }
           ]}
           onClick={this.hideMobileMenu}
         />

@@ -571,6 +571,25 @@ export const GET_ANALYTICS_XRC20_ACTIONS_BY_PAGE = gql`
   }
 `;
 
+export const GET_ANALYTICS_XRC721_ACTIONS_BY_PAGE = gql`
+  query($pagination: Pagination!) {
+    xrc721 {
+      data: byPage(pagination: $pagination) {
+        exist
+        xrc721 {
+          contract
+          hash
+          timestamp
+          from
+          to
+          quantity
+        }
+        count
+      }
+    }
+  }
+`;
+
 export const GET_ANALYTICS_XRC20_ACTIONS_BY_CONTRACT = gql`
   query($address: String!, $page: Int!, $numPerPage: Int!) {
     xrc20 {
@@ -581,6 +600,29 @@ export const GET_ANALYTICS_XRC20_ACTIONS_BY_CONTRACT = gql`
       ) {
         exist
         xrc20 {
+          contract
+          hash
+          timestamp
+          from
+          to
+          quantity
+        }
+        count
+      }
+    }
+  }
+`;
+
+export const GET_ANALYTICS_XRC721_ACTIONS_BY_CONTRACT = gql`
+  query($address: String!, $page: Int!, $numPerPage: Int!) {
+    xrc721 {
+      data: byContractAddress(
+        address: $address
+        page: $page
+        numPerPage: $numPerPage
+      ) {
+        exist
+        xrc721 {
           contract
           hash
           timestamp
@@ -623,6 +665,17 @@ export const GET_ANALYTICS_CONTRACT_HOLDERS = gql`
   }
 `;
 
+export const GET_ANALYTICS_XRC721_CONTRACT_HOLDERS = gql`
+  query tokenHolders($tokenAddress: String!) {
+    xrc721 {
+      tokenHolderAddresses(tokenAddress: $tokenAddress) {
+        addresses
+        count
+      }
+    }
+  }
+`;
+
 export const GET_ACCOUNT_DETAIL_BY_DETAIL = gql`
   query($adress: String) {
     getAccount(address: $address) {
@@ -650,6 +703,18 @@ export const GET_XRC20_TOKENS = gql`
   query($pagination: Pagination!) {
     xrc20 {
       xrc20Addresses(pagination: $pagination) {
+        exist
+        count
+        addresses
+      }
+    }
+  }
+`;
+
+export const GET_XRC721_TOKENS = gql`
+  query($pagination: Pagination!) {
+    xrc721 {
+      xrc721Addresses(pagination: $pagination) {
         exist
         count
         addresses

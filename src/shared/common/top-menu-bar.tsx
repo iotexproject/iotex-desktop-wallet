@@ -395,6 +395,14 @@ const TopMenuBar = connect(
           {
             label: "topbar.xrc20Transfer",
             path: "/tokentxns"
+          },
+          {
+            label: "topbar.xrc721Tokens",
+            path: "/xrc721-tokens"
+          },
+          {
+            label: "topbar.xrc721Transfer",
+            path: "/xrc721-tokentxns"
           }
         ]
       },
