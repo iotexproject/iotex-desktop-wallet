@@ -16,6 +16,7 @@ import {
 } from "../../api-gateway/resolvers/antenna-types";
 import { ActionNotFound } from "../common/action-not-found";
 import { CardDetails } from "../common/card-details";
+import { NotFound } from "../common/not-found";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { Dict } from "../common/types";
@@ -124,6 +125,9 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
   props
 ): JSX.Element | null => {
   const { hash } = props.match.params;
+  if (hash && hash.length < 64) {
+    return <NotFound />;
+  }
   if (!hash) {
     return null;
   }
@@ -157,7 +161,7 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
                 message: `failed to get bp stats in VodesCard: ${error}`
               });
             }
-            return <ActionNotFound info={hash} />;
+            return <ActionNotFound />;
           }
           if (data && data.action) {
             stopPolling();
