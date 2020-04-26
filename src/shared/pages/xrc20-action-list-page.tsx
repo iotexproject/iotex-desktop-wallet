@@ -308,9 +308,11 @@ const XRC20ActionListPage: React.FC<
           <TabPane tab={t("pages.token")} key="1">
             <XRC20ActionTable address={address} />
           </TabPane>
-          <TabPane tab={t("pages.tokenHolders")} key="2">
-            <XRC20HoldersTable address={address} />
-          </TabPane>
+          {address && (
+            <TabPane tab={t("pages.tokenHolders")} key="2">
+              <XRC20HoldersTable address={address} />
+            </TabPane>
+          )}
         </Tabs>
       </ContentPadding>
     </>
