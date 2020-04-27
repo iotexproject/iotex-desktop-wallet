@@ -7,6 +7,7 @@ import { ActionsCard } from "./stats/actions-card";
 import { CandidatesCard } from "./stats/candidates-card";
 import { MapCard } from "./stats/map-card";
 import { ProductivityCard } from "./stats/productivity-card";
+import { StakedVotesCard } from "./stats/staked-card";
 import { VotesCard } from "./stats/votes-card";
 
 export const StatsArea = (): JSX.Element => {
@@ -19,7 +20,14 @@ export const StatsArea = (): JSX.Element => {
               <ActionsCard />
             </Col>
             <Col span={12}>
-              <CandidatesCard />
+              <Row type="flex" align="top" justify="space-between" gutter={10}>
+                <Col span={12}>
+                  <CandidatesCard />
+                </Col>
+                <Col span={12}>
+                  <StakedVotesCard />
+                </Col>
+              </Row>
             </Col>
           </Row>
           <Row type="flex" justify="space-between" gutter={10}>
