@@ -10,7 +10,7 @@ import { GET_LATEST_HEIGHT } from "../queries";
 
 const BlockHeightRenderer: VerticalTableRender<string> = ({ value }) => {
   const height = Number(`${value}`);
-  const leftPath = height > 1 ? `/block/${height - 1}` : "";
+  const leftPath = height > 1 ? `/block/${height - 1}` : `/block/${height}`;
   return (
     <Row type="flex" align="middle" justify="start" gutter={10}>
       <Col>
@@ -23,7 +23,7 @@ const BlockHeightRenderer: VerticalTableRender<string> = ({ value }) => {
             <Icon
               type="caret-left"
               style={{
-                color: leftPath ? colors.primary : colors.black60
+                color: height > 1 ? colors.primary : colors.black60
               }}
             />
           }
@@ -47,14 +47,17 @@ const BlockHeightRenderer: VerticalTableRender<string> = ({ value }) => {
               get<string>(data || {}, "chainMeta.height")
             );
             const rightPath =
-              latestHeight > height ? `/block/${height + 1}` : "";
+              latestHeight > height
+                ? `/block/${height + 1}`
+                : `/block/${height}`;
             return (
-              <LinkButton href={rightPath} disabled={!rightPath}>
+              <LinkButton href={rightPath}>
                 {
                   <Icon
                     type="caret-right"
                     style={{
-                      color: rightPath ? colors.primary : colors.black60
+                      color:
+                        latestHeight > height ? colors.primary : colors.black60
                     }}
                   />
                 }
