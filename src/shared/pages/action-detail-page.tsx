@@ -1,4 +1,3 @@
-import notification from "antd/lib/notification";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
@@ -14,8 +13,8 @@ import {
   GetActionsResponse,
   GetReceiptByActionResponse
 } from "../../api-gateway/resolvers/antenna-types";
-import { ActionNotFound } from "../common/action-not-found";
 import { CardDetails } from "../common/card-details";
+import { NotFound } from "../common/not-found";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { Dict } from "../common/types";
@@ -122,10 +121,10 @@ const parseActionDetails = (data: IActionsDetails) => {
 
 const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
   props
-): JSX.Element | null => {
+): JSX.Element => {
   const { hash } = props.match.params;
-  if (!hash) {
-    return null;
+  if (!hash || hash.length !== 64) {
+    return <NotFound />;
   }
   return (
     <>
@@ -152,12 +151,7 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
       >
         {({ error, data, loading, stopPolling }: GetActionDetailsResponse) => {
           if (error || (!loading && (!data || !data.action || !data.receipt))) {
-            if (error) {
-              notification.error({
-                message: `failed to get bp stats in VodesCard: ${error}`
-              });
-            }
-            return <ActionNotFound info={hash} />;
+            return <NotFound />;
           }
           if (data && data.action) {
             stopPolling();
