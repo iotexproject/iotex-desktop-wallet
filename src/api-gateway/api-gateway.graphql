@@ -529,6 +529,7 @@ type Query {
     protocolID: Buffer!
     methodName: Buffer!
     arguments: [Buffer!]!
+    height: String!
   ): ReadStateResponse!
 
   # estimate gas for action
@@ -537,6 +538,9 @@ type Query {
   # get epoch meta
   getEpochMeta(epochNumber: Int!): GetEpochMetaResponse!
   health: String!
+
+  # Total supply for the native IOTX token
+  totalSupply: String!
   fetchCoinPrice: CoinPrice!
   fetchVersionInfo: VersionInfo!
   getSolcVersions: [SolcVersion!]!
@@ -579,6 +583,18 @@ enum ReceiptStatus {
   ErrExecutionReverted
   ErrMaxCodeSizeExceeded
   ErrWriteProtection
+  ErrLoadAccount
+  ErrNotEnoughBalance
+  ErrInvalidBucketIndex
+  ErrUnauthorizedOperator
+  ErrInvalidBucketType
+  ErrCandidateNotExist
+  ErrReduceDurationBeforeMaturity
+  ErrUnstakeBeforeMaturity
+  ErrWithdrawBeforeUnstake
+  ErrWithdrawBeforeMaturity
+  ErrCandidateAlreadyExist
+  ErrCandidateConflict
 }
 
 enum RewardType {

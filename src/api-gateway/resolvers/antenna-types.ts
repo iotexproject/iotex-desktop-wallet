@@ -144,10 +144,9 @@ export class Log implements ILog {
   public index: number;
 }
 
-export enum ReceiptStatus {
+enum ReceiptStatus {
   Failure = "0",
   Success = "1",
-  //1xx for EVM ErrorCode
   ErrUnknown = "100",
   ErrOutOfGas = "101",
   ErrCodeStoreOutOfGas = "102",
@@ -156,7 +155,19 @@ export enum ReceiptStatus {
   ErrNoCompatibleInterpreter = "105",
   ErrExecutionReverted = "106",
   ErrMaxCodeSizeExceeded = "107",
-  ErrWriteProtection = "108"
+  ErrWriteProtection = "108",
+  ErrLoadAccount = "200",
+  ErrNotEnoughBalance = "201",
+  ErrInvalidBucketIndex = "202",
+  ErrUnauthorizedOperator = "203",
+  ErrInvalidBucketType = "204",
+  ErrCandidateNotExist = "205",
+  ErrReduceDurationBeforeMaturity = "206",
+  ErrUnstakeBeforeMaturity = "207",
+  ErrWithdrawBeforeUnstake = "208",
+  ErrWithdrawBeforeMaturity = "209",
+  ErrCandidateAlreadyExist = "210",
+  ErrCandidateConflict = "211"
 }
 
 registerEnumType(ReceiptStatus, {
@@ -734,6 +745,9 @@ export class ReadStateRequest {
   // tslint:disable-next-line:no-banned-terms
   @Field(_ => [BufferScalar])
   public arguments: Array<Buffer>;
+
+  @Field(_ => String)
+  public height: string | undefined;
 }
 
 @ObjectType()
