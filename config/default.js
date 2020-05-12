@@ -1,16 +1,6 @@
 const { config } = require("dotenv");
 config();
 
-const getApiGatewayUrl = () => {
-  const initial = process.env.API_GATEWAY_URL;
-
-  if (!!initial) {
-    return initial.endsWith("/") ? initial : initial + "/";
-  } else {
-    return "";
-  }
-};
-
 module.exports = {
   project: "iotex-explorer",
   server: {
@@ -76,8 +66,7 @@ module.exports = {
       "https://testnet.iotexscan.io/",
       "https://analytics.iotexscan.io/",
       "https://iotex-analytics-testnet.herokuapp.com/",
-      "wss://local.get-scatter.com:64102/",
-      process.env.API_GATEWAY_URL
+      "wss://local.get-scatter.com:64102/"
     ],
     "child-src": ["self"],
     "font-src": [
