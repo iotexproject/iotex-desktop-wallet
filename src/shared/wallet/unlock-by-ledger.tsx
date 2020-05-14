@@ -1,4 +1,3 @@
-import TransportNodeHid from "@ledgerhq/hw-transport-node-hid";
 import Button from "antd/lib/button";
 import Form, { FormComponentProps } from "antd/lib/form/Form";
 // @ts-ignore
@@ -6,6 +5,7 @@ import { t } from "onefx/lib/iso-i18n";
 import React, { PureComponent } from "react";
 import { connect, DispatchProp } from "react-redux";
 import { IoTeXApp } from "../ledger";
+import { getTransport } from "../ledger/get-transport";
 import { getAntenna } from "./get-antenna";
 import { setAccount } from "./wallet-actions";
 
@@ -23,10 +23,11 @@ class UnlockByLedgerInner extends PureComponent<
     this.props.form.validateFields(async err => {
       if (!err) {
         // TODO
-        const transport = await TransportNodeHid.create();
+        const transport = await getTransport();
         const app = new IoTeXApp(transport);
-        await app.publicKey([44, 304, 0, 0, 0]);
+        const publicKey = await app.publicKey([44, 304, 0, 0, 0]);
         await transport.close();
+        window.console.log(publicKey);
 
         const antenna = getAntenna(true);
         const account = await antenna.iotx.accounts.privateKeyToAccount("");
