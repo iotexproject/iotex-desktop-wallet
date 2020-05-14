@@ -24,7 +24,7 @@ class UnlockByLedgerInner extends PureComponent<
       if (!err) {
         const transport = await TransportNodeHid.create();
         const app = new IoTeXApp(transport);
-        const publicKey = await app.publicKey([44, 304, 0, 0, 0]);
+        await app.publicKey([44, 304, 0, 0, 0]);
         // TODO
         await transport.close();
         const antenna = getAntenna(true);

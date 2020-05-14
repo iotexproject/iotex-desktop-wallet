@@ -49,14 +49,6 @@ function processErrorResponse(response: any): any {
   };
 }
 
-// tslint:disable-next-line:no-any
-function serializeHRP(hrp: any): Buffer {
-  const buf = Buffer.alloc(hrp.length + 1);
-  buf.writeUInt8(hrp.length, 0);
-  buf.write(hrp, 1);
-  return buf;
-}
-
 function serializePath(path: Array<number>): Buffer {
   if (path == null || path.length < 3) {
     throw new Error("Invalid path.");
