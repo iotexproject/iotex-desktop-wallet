@@ -10,6 +10,7 @@ import React from "react";
 import { CommonMargin } from "../common/common-margin";
 import { colors } from "../common/styles/style-color";
 import { UnlockByKeystoreFile } from "./unlock-by-keystore-file";
+import { UnlockByLedger } from "./unlock-by-ledger";
 import { UnlockByMnemonic } from "./unlock-by-mnemonic";
 import { UnlockByPrivateKey } from "./unlock-by-private-key";
 
@@ -74,6 +75,9 @@ class UnlockWallet extends React.Component<Props, State> {
           </Tabs.TabPane>
           <Tabs.TabPane tab={t("unlock-wallet.by_mnemonic")} key="3">
             <UnlockByMnemonic />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab={t("unlock-wallet.by_ledger")} key="4">
+            <UnlockByLedger />
           </Tabs.TabPane>
         </Tabs>
 
