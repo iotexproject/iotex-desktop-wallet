@@ -97,7 +97,7 @@ function signGetChunks(path: Array<number>, message: Buffer): Array<any> {
 
 export class IoTeXApp {
   // tslint:disable-next-line:no-any
-  private transport: any;
+  private readonly transport: any;
 
   // tslint:disable-next-line:no-any
   constructor(transport: any, scrambleKey: string = "CSM") {
@@ -267,11 +267,14 @@ export class IoTeXApp {
       );
   }
 
-  // tslint:disable-next-line:no-any
   public async signSendChunk(
+    // tslint:disable-next-line:no-any
     chunkIdx: any,
+    // tslint:disable-next-line:no-any
     chunkNum: any,
+    // tslint:disable-next-line:no-any
     chunk: any
+    // tslint:disable-next-line:no-any
   ): Promise<any> {
     return this.transport
       .send(CLA, INS.SIGN_SECP256K1, chunkIdx, chunkNum, chunk, [
