@@ -1,9 +1,10 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Menu, shell } = require("electron");
+const { app, BrowserWindow, Menu, shell, ipcMain } = require("electron");
 const path = require("path");
 const { session } = require("electron");
 const { initSolc } = require("./solc");
 const { createServer } = require("./server");
+const { IoTeXApp } = require("./ledger");
 const Service = require("./service");
 const console = require("global/console");
 
@@ -430,5 +431,13 @@ app.on("open-url", function(event, url) {
     setTimeout(() => {
       return mainWindow.webContents.send("query", query);
     }, 3000);
+  });
+
+  ipcMain.on("getPublicKey", async (event, path) => {
+    const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
+    const transport = TransportNodeHid.create();
+    const app = new IoTeXApp(transport);
+    const result = await app.publicKey(path);
+    event.send(result);
   });
 });
