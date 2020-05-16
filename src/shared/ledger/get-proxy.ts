@@ -36,6 +36,7 @@ export class WebUSBTransportProxy implements TransportProxy {
 
 class TransportNodeHidProxy {
   public async getPublicKey(path: Array<number>): Promise<Buffer> {
+    // @ts-ignore
     const { ipcRenderer } = await import("electron");
     const result = ipcRenderer.sendSync("getPublicKey", path);
     if (result.code !== 0x9000) {
@@ -46,7 +47,13 @@ class TransportNodeHidProxy {
 
   public async sign(path: Array<number>, message: Buffer): Promise<Buffer> {
     // TODO
-    return message;
+    // @ts-ignore
+    const { ipcRenderer } = await import("electron");
+    const result = ipcRenderer.sendSync("sign", path, message);
+    if (result.code !== 0x9000) {
+      throw new Error(result.message);
+    }
+    return result.publicKey;
   }
 }
 
