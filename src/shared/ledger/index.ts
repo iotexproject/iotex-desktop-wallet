@@ -87,7 +87,7 @@ function signGetChunks(path: Array<number>, message: Uint8Array): Array<any> {
   return chunks;
 }
 
-export class IoTeXApp {
+export class IoTeXLedgerApp {
   // tslint:disable-next-line:no-any
   private readonly transport: any;
 

@@ -6,7 +6,7 @@ const { session } = require("electron");
 const { initSolc } = require("./solc");
 const { createServer } = require("./server");
 const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
-const { IoTeXApp } = require("./ledger");
+const { IoTeXLedgerApp } = require("./ledger");
 const Service = require("./service");
 const console = require("global/console");
 
@@ -258,7 +258,7 @@ function createWindow() {
 
   ipcMain.on("getPublicKey", async (event, path) => {
     const transport = await TransportNodeHid.create();
-    const app = new IoTeXApp(transport);
+    const app = new IoTeXLedgerApp(transport);
     const result = await app.publicKey(path);
     await transport.close();
     event.returnValue = result;
@@ -266,7 +266,7 @@ function createWindow() {
 
   ipcMain.on("sign", async (event, path, message) => {
     const transport = await TransportNodeHid.create();
-    const app = new IoTeXApp(transport);
+    const app = new IoTeXLedgerApp(transport);
     const result = await app.sign(path, message);
     await transport.close();
     event.returnValue = result;

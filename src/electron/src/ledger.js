@@ -39,7 +39,6 @@ function errorCodeToString(statusCode) {
 }
 
 function processErrorResponse(response) {
-  console.log(response);
   return {
     return_code: response.statusCode,
     error_message: errorCodeToString(response.statusCode)
@@ -90,7 +89,7 @@ function signGetChunks(path, message) {
   return chunks;
 }
 
-class IoTeXApp {
+class IoTeXLedgerApp {
   constructor(transport, scrambleKey = "CSM") {
     if (typeof transport === "undefined") {
       throw new Error("Transport has not been defined");
@@ -296,5 +295,5 @@ class IoTeXApp {
 }
 
 module.exports = {
-  IoTeXApp
+  IoTeXLedgerApp
 };

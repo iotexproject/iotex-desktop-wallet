@@ -1,9 +1,10 @@
+import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 // @ts-ignore
 import window from "global/window";
 import { Envelop, SealedEnvelop } from "iotex-antenna/lib/action/envelop";
 import { SignerPlugin } from "iotex-antenna/lib/action/method";
 import isElectron from "is-electron";
-import { IoTeXApp } from ".";
+import { IoTeXLedgerApp } from ".";
 
 export interface TransportProxy {
   getPublicKey(path: Array<number>): Promise<Buffer>;
@@ -12,9 +13,8 @@ export interface TransportProxy {
 
 export class WebUSBTransportProxy implements TransportProxy {
   public async getPublicKey(path: Array<number>): Promise<Buffer> {
-    const TransportWebUSB = await import("@ledgerhq/hw-transport-webusb");
-    const transport = await TransportWebUSB.default.create();
-    const app = new IoTeXApp(transport);
+    const transport = await TransportWebUSB.create();
+    const app = new IoTeXLedgerApp(transport);
     const result = await app.publicKey(path);
     await transport.close();
     if (result.code !== 0x9000) {
@@ -24,9 +24,8 @@ export class WebUSBTransportProxy implements TransportProxy {
   }
 
   public async sign(path: Array<number>, message: Uint8Array): Promise<Buffer> {
-    const TransportWebUSB = await import("@ledgerhq/hw-transport-webusb");
-    const transport = await TransportWebUSB.default.create();
-    const app = new IoTeXApp(transport);
+    const transport = await TransportWebUSB.create();
+    const app = new IoTeXLedgerApp(transport);
     const result = await app.sign(path, message);
     await transport.close();
     if (result.code !== 0x9000) {
