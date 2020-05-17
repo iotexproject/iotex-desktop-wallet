@@ -361,7 +361,7 @@ topbar.actions: ACTIONS
 topbar.analytics_playground: 'ANALYTICS PLAYGROUND'
 topbar.blockchain: BLOCKCHAIN
 topbar.blocks: BLOCKS
-topbar.brand: BRAND
+topbar.brand: IoTeX
 topbar.dashboard: DASHBOARD
 topbar.explorer_playground: 'EXPLORER PLAYGROUND'
 topbar.goback_home: 'GO BACK HOME'
