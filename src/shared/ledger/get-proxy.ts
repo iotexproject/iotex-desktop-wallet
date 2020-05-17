@@ -55,9 +55,9 @@ export async function getTransportProxy(): Promise<TransportProxy> {
 }
 
 export class LedgerPlugin implements SignerPlugin {
-  private path: Array<number>;
-  private publicKey: Buffer;
-  private proxy: TransportProxy;
+  private readonly path: Array<number>;
+  private readonly publicKey: Buffer;
+  private readonly proxy: TransportProxy;
 
   constructor(path: Array<number>, publicKey: Buffer, proxy: TransportProxy) {
     this.path = path;

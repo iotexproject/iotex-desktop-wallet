@@ -1,5 +1,4 @@
 // Modules to control application life and create native browser window
-require("babel-polyfill");
 const { app, BrowserWindow, Menu, shell, ipcMain } = require("electron");
 const path = require("path");
 const { session } = require("electron");
