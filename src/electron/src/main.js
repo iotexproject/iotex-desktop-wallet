@@ -1,9 +1,11 @@
 // Modules to control application life and create native browser window
+require("babel-polyfill");
 const { app, BrowserWindow, Menu, shell, ipcMain } = require("electron");
 const path = require("path");
 const { session } = require("electron");
 const { initSolc } = require("./solc");
 const { createServer } = require("./server");
+const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
 const { IoTeXApp } = require("./ledger");
 const Service = require("./service");
 const console = require("global/console");
@@ -253,6 +255,22 @@ function createWindow() {
     }
   ]);
   Menu.setApplicationMenu(menu);
+
+  ipcMain.on("getPublicKey", async (event, path) => {
+    const transport = await TransportNodeHid.create();
+    const app = new IoTeXApp(transport);
+    const result = await app.publicKey(path);
+    await transport.close();
+    event.returnValue = result;
+  });
+
+  ipcMain.on("sign", async (event, path, message) => {
+    const transport = await TransportNodeHid.create();
+    const app = new IoTeXApp(transport);
+    const result = await app.sign(path, message);
+    await transport.close();
+    event.returnValue = result;
+  });
 }
 
 // This method will be called when Electron has finished
@@ -431,13 +449,5 @@ app.on("open-url", function(event, url) {
     setTimeout(() => {
       return mainWindow.webContents.send("query", query);
     }, 3000);
-  });
-
-  ipcMain.on("getPublicKey", async (event, path) => {
-    const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
-    const transport = TransportNodeHid.create();
-    const app = new IoTeXApp(transport);
-    const result = await app.publicKey(path);
-    event.send(result);
   });
 });

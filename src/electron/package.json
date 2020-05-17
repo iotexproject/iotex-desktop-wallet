@@ -10,7 +10,8 @@
     "build:js": "NODE_OPTIONS=\"--max-old-space-size=20148\" NODE_ENV=production webpack --config ./webpack.app.config.js",
     "build:electron": "electron-builder -mwl",
     "publish": "electron-builder --mac --win --linux -p always # please specify APPLEID APPLEIDPASS",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "postinstall": "electron-rebuild"
   },
   "repository": {
     "type": "git",
@@ -52,6 +53,7 @@
     "electron-builder": "22.4.1",
     "electron-devtools-installer": "2.2.4",
     "electron-notarize": "0.1.1",
+    "electron-rebuild": "^1.11.0",
     "eslint": "5.16.0",
     "eslint-plugin-import": "2.18.1",
     "friendly-errors-webpack-plugin": "1.7.0",
@@ -62,7 +64,8 @@
     "yaml-js": "0.2.3"
   },
   "dependencies": {
-    "@ledgerhq/hw-transport-node-hid": "^5.13.1",
+    "@ledgerhq/hw-transport-node-hid": "4.38.6",
+    "babel-polyfill": "^6.26.0",
     "config": "^3.1.0",
     "electron-is-dev": "^1.1.0",
     "electron-log": "^3.0.5",

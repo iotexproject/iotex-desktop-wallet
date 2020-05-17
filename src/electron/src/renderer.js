@@ -71,6 +71,22 @@ window.signed = function(id, response) {
   ipcRenderer.send(`signed-${id}`, response);
 };
 
+window.getPublicKey = function(path) {
+  const result = ipcRenderer.sendSync("getPublicKey", path);
+  if (result.code !== 0x9000) {
+    throw new Error(result.message);
+  }
+  return result.publicKey;
+};
+
+window.sign = function(path, message) {
+  const result = ipcRenderer.sendSync("sign", path, message);
+  if (result.code !== 0x9000) {
+    throw new Error(result.message);
+  }
+  return result.signature.toString("hex");
+};
+
 ipcRenderer.on("query", function(event, query) {
   const actionEvent = {
     type: "QUERY_PARAMS",

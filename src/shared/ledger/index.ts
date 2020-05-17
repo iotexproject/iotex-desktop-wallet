@@ -70,7 +70,7 @@ function serializePath(path: Array<number>): Buffer {
 }
 
 // tslint:disable-next-line:no-any
-function signGetChunks(path: Array<number>, message: Buffer): Array<any> {
+function signGetChunks(path: Array<number>, message: Uint8Array): Array<any> {
   const chunks = [];
   chunks.push(serializePath(path));
 
@@ -304,7 +304,7 @@ export class IoTeXApp {
   }
 
   // tslint:disable-next-line:no-any
-  public async sign(path: Array<number>, message: Buffer): Promise<any> {
+  public async sign(path: Array<number>, message: Uint8Array): Promise<any> {
     const chunks = signGetChunks(path, message);
     return this.signSendChunk(1, chunks.length, chunks[0]).then(
       async response => {

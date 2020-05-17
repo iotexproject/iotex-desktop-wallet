@@ -1,11 +1,13 @@
 // @ts-ignore
 import window from "global/window";
+import { Envelop, SealedEnvelop } from "iotex-antenna/lib/action/envelop";
+import { SignerPlugin } from "iotex-antenna/lib/action/method";
 import isElectron from "is-electron";
 import { IoTeXApp } from ".";
 
 export interface TransportProxy {
   getPublicKey(path: Array<number>): Promise<Buffer>;
-  sign(path: Array<number>, message: Buffer): Promise<Buffer>;
+  sign(path: Array<number>, message: Uint8Array): Promise<Buffer>;
 }
 
 export class WebUSBTransportProxy implements TransportProxy {
@@ -21,7 +23,7 @@ export class WebUSBTransportProxy implements TransportProxy {
     return result.publicKey;
   }
 
-  public async sign(path: Array<number>, message: Buffer): Promise<Buffer> {
+  public async sign(path: Array<number>, message: Uint8Array): Promise<Buffer> {
     const TransportWebUSB = await import("@ledgerhq/hw-transport-webusb");
     const transport = await TransportWebUSB.default.create();
     const app = new IoTeXApp(transport);
@@ -30,30 +32,18 @@ export class WebUSBTransportProxy implements TransportProxy {
     if (result.code !== 0x9000) {
       throw new Error(result.message);
     }
-    return result.publicKey;
+    return result.signature;
   }
 }
 
 class TransportNodeHidProxy {
   public async getPublicKey(path: Array<number>): Promise<Buffer> {
-    // @ts-ignore
-    const { ipcRenderer } = await import("electron");
-    const result = ipcRenderer.sendSync("getPublicKey", path);
-    if (result.code !== 0x9000) {
-      throw new Error(result.message);
-    }
-    return result.publicKey;
+    return window.getPublicKey(path);
   }
 
-  public async sign(path: Array<number>, message: Buffer): Promise<Buffer> {
-    // TODO
-    // @ts-ignore
-    const { ipcRenderer } = await import("electron");
-    const result = ipcRenderer.sendSync("sign", path, message);
-    if (result.code !== 0x9000) {
-      throw new Error(result.message);
-    }
-    return result.publicKey;
+  public async sign(path: Array<number>, message: Uint8Array): Promise<Buffer> {
+    const signature = window.sign(path, message);
+    return Buffer.from(signature, "hex");
   }
 }
 
@@ -62,6 +52,27 @@ export async function getTransportProxy(): Promise<TransportProxy> {
     return new TransportNodeHidProxy();
   } else {
     return new WebUSBTransportProxy();
+  }
+}
+
+export class LedgerPlugin implements SignerPlugin {
+  private path: Array<number>;
+  private publicKey: Buffer;
+  private proxy: TransportProxy;
+
+  constructor(path: Array<number>, publicKey: Buffer, proxy: TransportProxy) {
+    this.path = path;
+    this.publicKey = publicKey;
+    this.proxy = proxy;
+  }
+
+  public async signOnly(envelop: Envelop): Promise<SealedEnvelop> {
+    const signed = await this.proxy.sign(this.path, envelop.bytestream());
+    return new SealedEnvelop(
+      envelop,
+      Buffer.from(this.publicKey),
+      Buffer.from(signed)
+    );
   }
 }
 
