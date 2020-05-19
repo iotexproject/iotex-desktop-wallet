@@ -112,7 +112,9 @@ export class Vita extends ERC20 implements IVita {
     vita.address = address;
     vita.provider = provider;
     vita.contract = new Contract(ABI, address, {
-      provider: provider
+      provider: provider,
+      // @ts-ignore
+      signer: provider.signer
     });
 
     const methods = {};
