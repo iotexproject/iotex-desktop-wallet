@@ -4,8 +4,7 @@ import ethereumjs from "ethereumjs-abi";
 // @ts-ignore
 import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
-import { SealedEnvelop } from "iotex-antenna/lib/action/envelop";
-import { ExecutionMethod, SignerPlugin } from "iotex-antenna/lib/action/method";
+import { ExecutionMethod } from "iotex-antenna/lib/action/method";
 import { ABIDefinition } from "iotex-antenna/lib/contract/abi";
 import {
   getArgTypes,
