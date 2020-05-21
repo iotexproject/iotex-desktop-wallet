@@ -1,9 +1,11 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Menu, shell } = require("electron");
+const { app, BrowserWindow, Menu, shell, ipcMain } = require("electron");
 const path = require("path");
 const { session } = require("electron");
 const { initSolc } = require("./solc");
 const { createServer } = require("./server");
+const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
+const { IoTeXLedgerApp } = require("./ledger");
 const Service = require("./service");
 const console = require("global/console");
 
@@ -252,6 +254,22 @@ function createWindow() {
     }
   ]);
   Menu.setApplicationMenu(menu);
+
+  ipcMain.on("getPublicKey", async (event, path) => {
+    const transport = await TransportNodeHid.create();
+    const app = new IoTeXLedgerApp(transport);
+    const result = await app.publicKey(path);
+    await transport.close();
+    event.returnValue = result;
+  });
+
+  ipcMain.on("sign", async (event, path, message) => {
+    const transport = await TransportNodeHid.create();
+    const app = new IoTeXLedgerApp(transport);
+    const result = await app.sign(path, message);
+    await transport.close();
+    event.returnValue = result;
+  });
 }
 
 // This method will be called when Electron has finished

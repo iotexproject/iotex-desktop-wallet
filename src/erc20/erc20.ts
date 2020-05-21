@@ -4,7 +4,6 @@ import ethereumjs from "ethereumjs-abi";
 // @ts-ignore
 import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
-import { SealedEnvelop } from "iotex-antenna/lib/action/envelop";
 import { ExecutionMethod } from "iotex-antenna/lib/action/method";
 import { ABIDefinition } from "iotex-antenna/lib/contract/abi";
 import {
@@ -102,7 +101,9 @@ export class ERC20 implements IERC20 {
     erc20.address = address;
     erc20.provider = provider;
     erc20.contract = new Contract(abi, address, {
-      provider: provider
+      provider: provider,
+      // @ts-ignore
+      signer: provider.signer
     });
 
     const methods = {};
@@ -356,16 +357,13 @@ export class ERC20 implements IERC20 {
     const { gasPrice } = await getAntenna().iotx.suggestGasPrice({});
     const envelop = await executionMethod.baseEnvelop("100000", `${gasPrice}`);
     envelop.execution = execution;
-    const selp = SealedEnvelop.sign(
-      account.privateKey,
-      account.publicKey,
-      envelop
-    );
 
     let gasLimit = "400000";
     try {
-      const { gas } = await getAntenna().iotx.estimateGasForAction({
-        action: selp.action()
+      const { gas } = await getAntenna().iotx.estimateActionGasConsumption({
+        transfer: envelop.transfer,
+        execution: envelop.execution,
+        callerAddress: account.address
       });
       gasLimit = new BigNumber(gas)
         .multipliedBy(GAS_LIMIT_MULTIPLIED_BY)
