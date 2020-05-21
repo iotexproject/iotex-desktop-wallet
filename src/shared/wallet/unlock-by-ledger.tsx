@@ -5,6 +5,8 @@ import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import { t } from "onefx/lib/iso-i18n";
 import React, { PureComponent } from "react";
 import { connect, DispatchProp } from "react-redux";
+import { assetURL } from "../common/asset-url";
+import { CommonMargin } from "../common/common-margin";
 import { getTransportProxy, LedgerPlugin } from "../ledger/get-proxy";
 import { getAntenna } from "./get-antenna";
 import { setAccount } from "./wallet-actions";
@@ -42,12 +44,20 @@ class UnlockByLedgerInner extends PureComponent<
 
   public render(): JSX.Element {
     return (
-      <React.Fragment>
-        <div style={{ margin: "24px" }} />
+      <div>
+        <CommonMargin />
         <Button htmlType="button" onClick={this.unlockWallet}>
           {t("wallet.account.unlock")}
         </Button>
-      </React.Fragment>
+        <CommonMargin />
+        <img
+          style={{
+            maxHeight: "64px"
+          }}
+          src={assetURL("/connect-ledger.png")}
+          alt="connect ledger"
+        />
+      </div>
     );
   }
 }

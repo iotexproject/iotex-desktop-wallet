@@ -76,9 +76,11 @@ class UnlockWallet extends React.Component<Props, State> {
           <Tabs.TabPane tab={t("unlock-wallet.by_mnemonic")} key="3">
             <UnlockByMnemonic />
           </Tabs.TabPane>
-          <Tabs.TabPane tab={t("unlock-wallet.by_ledger")} key="4">
-            <UnlockByLedger />
-          </Tabs.TabPane>
+          {isElectron() && (
+            <Tabs.TabPane tab={t("unlock-wallet.by_ledger")} key="4">
+              <UnlockByLedger />
+            </Tabs.TabPane>
+          )}
         </Tabs>
 
         <div style={{ paddingTop: "24px" }}>

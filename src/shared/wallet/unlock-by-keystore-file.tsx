@@ -14,6 +14,7 @@ import isElectron from "is-electron";
 import { t } from "onefx/lib/iso-i18n";
 import React, { PureComponent } from "react";
 import { connect, DispatchProp } from "react-redux";
+import { CommonMargin } from "../common/common-margin";
 import { xconf, XConfKeys } from "../common/xconf";
 import { PasswordFormInputItem } from "./contract/cards";
 import { getAntenna } from "./get-antenna";
@@ -84,7 +85,7 @@ class UnlockByKeystoreFileInnerComponent extends PureComponent<
 
     return (
       <React.Fragment>
-        <div style={{ margin: "24px" }} />
+        <CommonMargin />
         <Form layout="vertical">
           <p>{t("unlock_by_keystore_file.never_upload")}</p>
           <Keystore form={form} />

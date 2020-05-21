@@ -8,6 +8,7 @@ import { get } from "dottie";
 import { t } from "onefx/lib/iso-i18n";
 import React, { PureComponent } from "react";
 import { connect, DispatchProp } from "react-redux";
+import { CommonMargin } from "../common/common-margin";
 import { getAntenna } from "./get-antenna";
 import { FormItemLabel } from "./wallet";
 import { setAccount } from "./wallet-actions";
@@ -58,7 +59,7 @@ class UnlockByMnemonicInner extends PureComponent<
 
     return (
       <React.Fragment>
-        <div style={{ margin: "24px" }} />
+        <CommonMargin />
         <Form layout="vertical">
           <Form.Item
             label={
