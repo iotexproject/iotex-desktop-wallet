@@ -154,7 +154,7 @@ class WalletTabsInner extends Component<Props> {
             </Switch>
           </Tabs.TabPane>
 
-          {this.props.wallet && (
+          {this.props.wallet && !isElectron() && (
             <Tabs.TabPane
               key={`/wallet/keystore`}
               tab={t("wallet.tab.keystore")}
