@@ -72,6 +72,7 @@ export type WalletAction = {
     | "DELAY_LOCK";
   payload: {
     account?: Account;
+    hideExport?: boolean;
     network?: IRPCProvider;
     customRPC?: IRPCProvider;
     tokens?: ITokenInfoDict;
@@ -83,6 +84,7 @@ export type WalletAction = {
 
 export interface IWalletState {
   account?: Account;
+  hideExport?: boolean;
   network?: IRPCProvider;
   customRPCs: Array<IRPCProvider>;
   tokens: ITokenInfoDict;
@@ -103,8 +105,8 @@ export const walletReducer = (
 ) => {
   switch (action.type) {
     case "SET_ACCOUNT":
-      const { account } = action.payload;
-      return { ...state, account };
+      const { account, hideExport } = action.payload;
+      return { ...state, account, hideExport };
     case "ADD_CUSTOM_RPC":
       const { customRPC } = action.payload;
       if (!customRPC) {

@@ -35,6 +35,7 @@ const ENABLE_SIGN = false;
 type Props = RouteComponentProps & {
   address: string;
   wallet: Account | null;
+  hideExport?: boolean;
   tokensInfo: ITokenInfoDict;
   queryType?: QueryType;
   queryNonce?: number;
@@ -154,7 +155,7 @@ class WalletTabsInner extends Component<Props> {
             </Switch>
           </Tabs.TabPane>
 
-          {this.props.wallet && (
+          {this.props.wallet && !this.props.hideExport && (
             <Tabs.TabPane
               key={`/wallet/keystore`}
               tab={t("wallet.tab.keystore")}
@@ -200,12 +201,14 @@ function mapStateToProps(state: {
   queryNonce?: number;
   reqId?: number;
   contentToSign?: string;
+  hideExport?: boolean;
 } {
   return {
     queryType: state.queryParams && state.queryParams.type,
     queryNonce: state.queryParams && state.queryParams.queryNonce,
     reqId: state.signParams && state.signParams.reqId,
-    contentToSign: state.signParams && state.signParams.content
+    contentToSign: state.signParams && state.signParams.content,
+    hideExport: state.wallet && state.wallet.hideExport
   };
 }
 
