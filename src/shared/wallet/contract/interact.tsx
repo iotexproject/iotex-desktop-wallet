@@ -253,7 +253,7 @@ class InteractFormInner extends Component<InteractProps, State> {
       } = values;
 
       const price = gasPrice ? toRau(gasPrice, "Qev") : undefined;
-
+      const formatArgs = this.formatArgs(abi, selectedFunction, args);
       window.console.log(
         `antenna.iotx.executeContract(${JSON.stringify({
           from: fromAddress,
@@ -264,7 +264,7 @@ class InteractFormInner extends Component<InteractProps, State> {
           gasPrice: price,
           gasLimit
         })},`,
-        ...(args || []),
+        ...(formatArgs || []),
         ")"
       );
 
@@ -279,7 +279,7 @@ class InteractFormInner extends Component<InteractProps, State> {
             gasPrice: price,
             gasLimit
           },
-          ...(args || [])
+          ...(formatArgs || [])
         );
         this.setState({
           broadcast: {
@@ -324,6 +324,32 @@ class InteractFormInner extends Component<InteractProps, State> {
     );
   };
 
+  // tslint:disable:no-any
+  private formatArgs(
+    abiStr: string,
+    fname: string,
+    args: Array<any>
+  ): Array<any> {
+    if (!args) {
+      return args;
+    }
+    const values = [] as Array<any>;
+    JSON.parse(abiStr).forEach((f: any) => {
+      if (f.type === "function" && f.name === fname) {
+        if (f.inputs && Array.isArray(f.inputs)) {
+          args.forEach((arg, index) => {
+            if (f.inputs[index].type === "bytes") {
+              values[index] = Buffer.from(arg.replace(/^0x/, ""), "hex");
+            } else {
+              values[index] = arg;
+            }
+          });
+        }
+      }
+    });
+    return values;
+  }
+
   private readonly copyByteCode = () => {
     this.props.form.validateFields(async (err, values) => {
       if (err) {
@@ -333,7 +359,11 @@ class InteractFormInner extends Component<InteractProps, State> {
       const { contractAddress, abi, selectedFunction, args = [] } = values;
       const contract = new Contract(JSON.parse(abi), contractAddress);
       const bytecode = contract
-        .pureEncodeMethod("0", selectedFunction, ...args)
+        .pureEncodeMethod(
+          "0",
+          selectedFunction,
+          ...this.formatArgs(abi, selectedFunction, args)
+        )
         .data.toString("hex");
       copyCB(bytecode);
     });
