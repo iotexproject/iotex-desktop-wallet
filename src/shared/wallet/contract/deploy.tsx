@@ -428,9 +428,7 @@ class DeployFormInner extends Component<DeployProps, State> {
               data.getSolcVersions &&
               data.getSolcVersions.length > 0
             ) {
-              return getFieldDecorator("solVersion", {
-                rules: [{ required: true, message: t("wallet.error.required") }]
-              })(
+              return getFieldDecorator("solVersion")(
                 <Select
                   showSearch={true}
                   placeholder={t("wallet.placeholder.compile")}
