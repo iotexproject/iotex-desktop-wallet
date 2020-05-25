@@ -37,7 +37,7 @@ class UnlockByLedgerInner extends PureComponent<
         const account = antenna.iotx.accounts.addressToAccount(
           publicKeyToAddress(publicKey.toString("hex"))
         );
-        this.props.dispatch(setAccount(account));
+        this.props.dispatch(setAccount(account, true));
       }
     });
   };
