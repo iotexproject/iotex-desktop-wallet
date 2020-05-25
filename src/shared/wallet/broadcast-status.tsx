@@ -5,12 +5,14 @@ import isElectron from "is-electron";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
+import { connect } from "react-redux";
 import { GetActionsResponse } from "../../api-gateway/resolvers/antenna-types";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { FlexLink } from "../common/flex-link";
 import { onElectronClick } from "../common/on-electron-click";
 import { colors } from "../common/styles/style-color";
 import { ACTION_EXISTS_BY_HASH } from "../queries";
+import { IRPCProvider, IWalletState } from "./wallet-reducer";
 
 export type BroadcastType = "transfer";
 
@@ -46,7 +48,13 @@ export function BroadcastSuccess({
   );
 }
 
-function ActionPoll({ txHash }: { txHash: string }): JSX.Element {
+function ActionPollInner({
+  txHash,
+  network
+}: {
+  txHash: string;
+  network?: IRPCProvider;
+}): JSX.Element {
   return (
     <Query
       query={ACTION_EXISTS_BY_HASH}
@@ -91,7 +99,8 @@ function ActionPoll({ txHash }: { txHash: string }): JSX.Element {
                   target="_blank"
                   style={{ cursor: "pointer" }}
                   onClick={onElectronClick(
-                    `https://iotexscan.io/action/${txHash}`
+                    `${(network !== undefined && network.url) ||
+                      "https://iotexscan.io/"}action/${txHash}`
                   )}
                 >
                   {txHash}
@@ -106,6 +115,16 @@ function ActionPoll({ txHash }: { txHash: string }): JSX.Element {
     </Query>
   );
 }
+
+const mapStateToProps = (state: {
+  wallet: IWalletState;
+}): {
+  network?: IRPCProvider;
+} => ({
+  network: (state.wallet || {}).network
+});
+
+const ActionPoll = connect(mapStateToProps)(ActionPollInner);
 
 export function BroadcastFailure({
   errorMessage,

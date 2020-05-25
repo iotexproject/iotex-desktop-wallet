@@ -680,7 +680,7 @@ class AccountSection extends React.Component<Props, State> {
   }
 
   public renderActionBar(): JSX.Element | null {
-    const { account } = this.props;
+    const { account, network } = this.props;
     if (!account) {
       return null;
     }
@@ -710,7 +710,8 @@ class AccountSection extends React.Component<Props, State> {
               to=""
               target="_blank noopener noreferer"
               onClick={onElectronClick(
-                `https://iotexscan.io/address/${account.address}`
+                `${(network !== undefined && network.url) ||
+                  "https://iotexscan.io/"}address/${account.address}`
               )}
             >
               {t("account.actionHistory")}
