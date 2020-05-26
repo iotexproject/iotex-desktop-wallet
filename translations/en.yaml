@@ -197,6 +197,7 @@ home.IOTXPrice: 'IOTX PRICE'
 home.marketCap: MARKETCAP
 home.producer: PRODUCER
 home.stats.actions: Transactions
+home.stats.balanceCard: Total Circulating Token
 home.stats.candidates: 'Consensus Delegates / Candidates'
 home.stats.currentEpoch: 'Current Epoch'
 home.stats.day: Day
