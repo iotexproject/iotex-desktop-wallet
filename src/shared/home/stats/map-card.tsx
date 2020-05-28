@@ -1,5 +1,4 @@
 import Card from "antd/lib/card";
-import Statistic from "antd/lib/statistic";
 import Col from "antd/lib/col";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
@@ -128,34 +127,6 @@ export const MapCard = (): JSX.Element => {
                     </MapButton>
                   </Col>
                 </Row>
-                <Query
-                  ssr={true}
-                  query={gql`
-                    {
-                      chainMeta {
-                        numActions
-                      }
-                    }
-                  `}
-                  pollInterval={10000}
-                >
-                  {({ error, data }: QueryResult) => {
-                    if (error) {
-                      notification.error({
-                        message: `failed to query bp transaction in ActionsCard: ${error}`
-                      });
-                    }
-                    const numberOfActions =
-                      (data && data.chainMeta && data.chainMeta.numActions) ||
-                      0;
-                    return (
-                      <Statistic
-                        value={Math.floor(numberOfActions)}
-                        valueStyle={{ color: colors.white }}
-                      />
-                    );
-                  }}
-                </Query>
               </div>
               <div style={Styles.mapContainer}>
                 <CompAreaChart data={mapdata} />

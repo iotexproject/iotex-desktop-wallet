@@ -49,20 +49,6 @@ export const ProductivityCard = (): JSX.Element => {
           <Row type="flex" align="top" justify="space-between" gutter={10}>
             <Col span={12}>
               <StatsCard
-                title={t("home.stats.currentEpoch")}
-                loading={showLoading}
-                titleStyle={{
-                  backgroundImage: `url(${assetURL(
-                    "/icon_overview_Productivity.png"
-                  )})`
-                }}
-                value={currentEpochNumber}
-                prefix={null}
-                suffix={null}
-              />
-            </Col>
-            <Col span={12}>
-              <StatsCard
                 title={t("home.stats.progressEpoch")}
                 loading={showLoading}
                 titleStyle={{
@@ -79,6 +65,20 @@ export const ProductivityCard = (): JSX.Element => {
                     size={46}
                   />
                 }
+                suffix={null}
+              />
+            </Col>
+            <Col span={12}>
+              <StatsCard
+                title={t("home.stats.currentEpoch")}
+                loading={showLoading}
+                titleStyle={{
+                  backgroundImage: `url(${assetURL(
+                    "/icon_overview_Productivity.png"
+                  )})`
+                }}
+                value={currentEpochNumber}
+                prefix={null}
                 suffix={null}
               />
             </Col>
