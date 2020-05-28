@@ -260,7 +260,7 @@ function createWindow() {
     const app = new IoTeXLedgerApp(transport);
     const result = await app.publicKey(path);
     await transport.close();
-    event.returnValue = result;
+    event.reply("getPublicKey-response", result);
   });
 
   ipcMain.on("sign", async (event, path, message) => {

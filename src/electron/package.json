@@ -75,6 +75,7 @@
     "ipc": "0.0.1",
     "isomorphic-unfetch": "^3.0.0",
     "pem": "1.14.2",
+    "promise-timeout": "^1.3.0",
     "query-string": "^6.5.0",
     "solc": "^0.5.8",
     "universal-analytics": "^0.4.20",

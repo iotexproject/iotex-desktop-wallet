@@ -10,6 +10,7 @@ const document = require("global/document");
 const console = require("global/console");
 const uuidv4 = require("uuid/v4");
 const ua = require("universal-analytics");
+const { timeout: promiseTimeout } = require("promise-timeout");
 
 let globalState = process.env.GLOBAL_STATE || {};
 if (isDev) {
@@ -71,10 +72,22 @@ window.signed = function(id, response) {
   ipcRenderer.send(`signed-${id}`, response);
 };
 
-window.getPublicKey = function(path) {
-  const result = ipcRenderer.sendSync("getPublicKey", path);
-  if (result.code !== 0x9000) {
+window.getPublicKey = async function(path) {
+  await ipcRenderer.send("getPublicKey", path);
+
+  const result = await promiseTimeout(
+    new Promise(resolve => {
+      ipcRenderer.on("getPublicKey-response", (event, query) => {
+        resolve(query);
+      });
+    }),
+    6000
+  );
+  if (result.code && result.code !== 0x9000) {
     throw new Error(result.message);
+  }
+  if (result.error_message) {
+    throw new Error(result.error_message);
   }
   return result.publicKey;
 };

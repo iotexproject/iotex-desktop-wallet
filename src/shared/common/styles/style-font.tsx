@@ -29,7 +29,6 @@ export const fonts = {
   },
   inputError: {
     fontFamily,
-    fontSize: "12px !important",
-    fontWeight: "100 !important"
+    fontSize: "12px !important"
   }
 };
