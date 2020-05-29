@@ -61,14 +61,20 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
 
   public async signAndSend(): Promise<void> {
     const { fromAddress, reqId, network } = this.props;
-    const acct = getAntenna().iotx.accounts.getAccount(fromAddress);
-    const sealed = SealedEnvelop.sign(
-      String(acct && acct.privateKey),
-      String(acct && acct.publicKey),
-      this.envelop
-    );
+    const antenna = getAntenna();
+    let signed;
+    if (!antenna.iotx.signer || !antenna.iotx.signer.signOnly) {
+      const acct = getAntenna().iotx.accounts.getAccount(fromAddress);
+      signed = SealedEnvelop.sign(
+        String(acct && acct.privateKey),
+        String(acct && acct.publicKey),
+        this.envelop
+      );
+    } else {
+      signed = await antenna.iotx.signer.signOnly(this.envelop);
+    }
     const { actionHash } = await getAntenna().iotx.sendAction({
-      action: sealed.action()
+      action: signed.action()
     });
 
     if (window.signed && !this.sendList.includes(reqId as number)) {
