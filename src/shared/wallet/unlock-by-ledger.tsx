@@ -42,8 +42,7 @@ class UnlockByLedgerInner extends PureComponent<
             proxy
           );
 
-          const antenna = getAntenna(true);
-          antenna.iotx.signer = ledgerPlugin;
+          const antenna = getAntenna(true, ledgerPlugin);
           const account = antenna.iotx.accounts.addressToAccount(
             publicKeyToAddress(publicKey.toString("hex"))
           );
