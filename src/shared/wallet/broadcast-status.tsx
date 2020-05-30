@@ -145,9 +145,11 @@ export function BroadcastFailure({
 
       <p>{t("broadcast.fail.network")}</p>
       <ul>
-        <li>
-          {t("broadcast.error.message")} {t(errorMessage)}
-        </li>
+        {errorMessage && (
+          <li>
+            {t("broadcast.error.message")} {t(errorMessage)}
+          </li>
+        )}
         <li>
           {t("broadcast.suggested.action")}{" "}
           <strong>{t(suggestedMessage)}</strong>

@@ -496,7 +496,7 @@ wallet.tab.xrc20: XRC20
 wallet.tab.xrc721: XRC721
 wallet.title.wallet: Wallet
 wallet.transactions.send: 'Send Transaction'
-wallet.transfer.broadcast.fail: 'Increase gasLimit and try again!'
+wallet.transfer.broadcast.fail: 'Increase gas limit or approve on your Ledger and try again!'
 wallet.transfer.send-erc20: 'Send ERC20 tokens'
 wallet.transfer.send-xrc20: 'Send XRC20 tokens'
 wallet.transfer.send-xrc721: 'Send XRC721 tokens'
