@@ -129,6 +129,59 @@ const FULL_ACTION_INFO = `
             }
           }
         }
+        stakeCreate{
+          candidateName
+          stakedAmount
+          stakedDuration
+          autoStake
+          payload
+        }
+        stakeUnstake{
+          bucketIndex
+          payload
+        }
+        stakeWithdraw{
+          bucketIndex
+          payload
+        }
+        stakeAddDeposit{
+          amount
+          bucketIndex
+          payload
+        }
+        stakeRestake{
+          bucketIndex
+          stakedDuration
+          autoStake
+          payload
+        }
+        stakeChangeCandidate{
+          bucketIndex
+          candidateName
+          payload
+        }
+        stakeTransferOwnership{
+          bucketIndex
+          voterAddress
+          payload
+        }
+        candidateRegister{
+          candidate{
+            name
+            operatorAddress
+            rewardAddress
+          }
+          ownerAddress
+          stakedAmount
+          stakedDuration
+          autoStake
+          payload
+        }
+        candidateUpdate{
+          name
+          operatorAddress
+          rewardAddress
+        }
       }
       signature
       senderPubKey

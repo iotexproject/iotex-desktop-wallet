@@ -4,6 +4,8 @@ import {
   IActionInfo,
   IBlockMeta,
   IBlockProducerInfo,
+  ICandidateBasicInfo,
+  ICandidateRegister,
   IChainMeta,
   IDepositToRewardingFund,
   IEpochData,
@@ -19,6 +21,12 @@ import {
   IReceiptInfo,
   ISendActionResponse,
   IServerMeta,
+  IStakeAddDeposit,
+  IStakeChangeCandidate,
+  IStakeCreate,
+  IStakeReclaim,
+  IStakeRestake,
+  IStakeTransferOwnership,
   IStartSubChain,
   ITransfer
 } from "iotex-antenna/lib/rpc-method/types";
@@ -609,6 +617,104 @@ export class PutPollResult {
   public candidates: CandidateList | undefined;
 }
 
+@InputType("StakeCreateInput")
+@ObjectType()
+export class StakeCreate implements IStakeCreate {
+  @Field(_ => String)
+  public candidateName: string;
+  @Field(_ => String)
+  public stakedAmount: string;
+  @Field(_ => Int)
+  public stakedDuration: number;
+  @Field(_ => Boolean)
+  public autoStake: boolean;
+  @Field(_ => BufferScalar)
+  public payload: Buffer | string;
+}
+
+@InputType("StakeReclaimInput")
+@ObjectType()
+export class StakeReclaim implements IStakeReclaim {
+  @Field(_ => Int)
+  public bucketIndex: number;
+  @Field(_ => BufferScalar)
+  public payload: Buffer | string;
+}
+
+@InputType("StakeAddDepositInput")
+@ObjectType()
+export class StakeAddDeposit implements IStakeAddDeposit {
+  @Field(_ => String)
+  public amount: string;
+  @Field(_ => Int)
+  public bucketIndex: number;
+  @Field(_ => BufferScalar)
+  public payload: Buffer | string;
+}
+
+@InputType("StakeRestakeInput")
+@ObjectType()
+export class StakeRestake implements IStakeRestake {
+  @Field(_ => Int)
+  public bucketIndex: number;
+  @Field(_ => Int)
+  public stakedDuration: number;
+  @Field(_ => Boolean)
+  public autoStake: boolean;
+  @Field(_ => BufferScalar)
+  public payload: Buffer | string;
+}
+
+@InputType("StakeChangeCandidateInput")
+@ObjectType()
+export class StakeChangeCandidate implements IStakeChangeCandidate {
+  @Field(_ => Int)
+  public bucketIndex: number;
+  @Field(_ => String)
+  public candidateName: string;
+  @Field(_ => BufferScalar)
+  public payload: Buffer | string;
+}
+
+@InputType("StakeTransferOwnershipInput")
+@ObjectType()
+export class StakeTransferOwnership implements IStakeTransferOwnership {
+  @Field(_ => Int)
+  public bucketIndex: number;
+  @Field(_ => String)
+  public voterAddress: string;
+  @Field(_ => BufferScalar)
+  public payload: Buffer | string;
+}
+
+@InputType("CandidateBasicInfoInput")
+@ObjectType()
+export class CandidateBasicInfo implements ICandidateBasicInfo {
+  @Field(_ => String)
+  public name: string;
+  @Field(_ => String)
+  public operatorAddress: string;
+  @Field(_ => String)
+  public rewardAddress: string;
+}
+
+@InputType("CandidateRegisterInput")
+@ObjectType()
+export class CandidateRegister implements ICandidateRegister {
+  @Field(_ => CandidateBasicInfo)
+  public candidate: CandidateBasicInfo;
+  @Field(_ => String)
+  public ownerAddress: string;
+  @Field(_ => String)
+  public stakedAmount: string;
+  @Field(_ => Int)
+  public stakedDuration: number;
+  @Field(_ => Boolean)
+  public autoStake: boolean;
+  @Field(_ => BufferScalar)
+  public payload: Buffer | string;
+}
+
 @InputType("ActionCoreInput")
 @ObjectType()
 export class ActionCore implements IActionCore {
@@ -674,6 +780,26 @@ export class ActionCore implements IActionCore {
 
   @Field(_ => PutPollResult, { nullable: true })
   public putPollResult?: PutPollResult | undefined;
+
+  // nsv2
+  @Field(_ => StakeCreate, { nullable: true })
+  public stakeCreate?: StakeCreate | undefined;
+  @Field(_ => StakeReclaim, { nullable: true })
+  public stakeUnstake?: StakeReclaim | undefined;
+  @Field(_ => StakeReclaim, { nullable: true })
+  public stakeWithdraw?: StakeReclaim | undefined;
+  @Field(_ => StakeAddDeposit, { nullable: true })
+  public stakeAddDeposit?: StakeAddDeposit | undefined;
+  @Field(_ => StakeRestake, { nullable: true })
+  public stakeRestake?: StakeRestake | undefined;
+  @Field(_ => StakeChangeCandidate, { nullable: true })
+  public stakeChangeCandidate?: StakeChangeCandidate | undefined;
+  @Field(_ => StakeTransferOwnership, { nullable: true })
+  public stakeTransferOwnership?: StakeTransferOwnership | undefined;
+  @Field(_ => CandidateRegister, { nullable: true })
+  public candidateRegister?: CandidateRegister | undefined;
+  @Field(_ => CandidateBasicInfo, { nullable: true })
+  public candidateUpdate?: CandidateBasicInfo | undefined;
 }
 
 @InputType("ActionInput")
