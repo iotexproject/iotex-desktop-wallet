@@ -24,7 +24,16 @@ export const actionsTypes = [
   "plumFinalizeExit",
   "plumSettleDeposit",
   "plumTransfer",
-  "putPollResult"
+  "putPollResult",
+  "stakeCreate",
+  "stakeUnstake",
+  "stakeWithdraw",
+  "stakeAddDeposit",
+  "stakeRestake",
+  "stakeChangeCandidate",
+  "stakeTransferOwnership",
+  "candidateRegister",
+  "candidateUpdate"
 ];
 
 export function getActionType(info: ActionInfo | {}): string {
