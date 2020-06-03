@@ -134,9 +134,7 @@ class HomeComponent extends Component<Props, State> {
                     {/*
                       // @ts-ignore */}
                     <BlockProducers
-                      badgeImg={
-                        "https://user-images.githubusercontent.com/38968374/61657311-7e350380-ac77-11e9-86ea-0e87869e7962.png"
-                      }
+                      badgeImg={assetURL("bnbridge/hermes.svg")}
                       apolloClient={webBpApolloClient}
                       height="750px"
                     />
