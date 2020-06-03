@@ -76,7 +76,16 @@ const parseActionDetails = (data: IActionsDetails) => {
     execution,
     nonce,
     transfer,
-    depositToRewardingFund
+    depositToRewardingFund,
+    stakeCreate,
+    stakeTransferOwnership,
+    stakeUnstake,
+    stakeWithdraw,
+    stakeAddDeposit,
+    stakeRestake,
+    stakeChangeCandidate,
+    candidateRegister,
+    candidateUpdate
   }: Dict = get(data, "action.actionInfo.0.action.core") || {};
 
   const { timestamp, actHash }: Dict = get(data, "action.actionInfo.0") || {};
@@ -85,6 +94,29 @@ const parseActionDetails = (data: IActionsDetails) => {
 
   const from = (senderPubKey && publicKeyToAddress(senderPubKey)) || undefined;
 
+  const types: Dict = {
+    grantReward,
+    deposit: depositToRewardingFund,
+    stakeCreate,
+    stakeTransferOwnership,
+    stakeUnstake,
+    stakeWithdraw,
+    stakeAddDeposit,
+    stakeRestake,
+    stakeChangeCandidate,
+    candidateRegister,
+    candidateUpdate
+  };
+
+  let actionType = {};
+  Object.keys(types).every(key => {
+    if (types[key]) {
+      actionType = { actionType: t(`render.value.${key}`) };
+      return false;
+    }
+    return true;
+  });
+
   return {
     status,
     blkHeight,
@@ -92,13 +124,12 @@ const parseActionDetails = (data: IActionsDetails) => {
     from,
     ...(execution ? { to: { execution, contractAddress } } : {}),
     ...(transfer ? { to: { transfer } } : {}),
+    ...(stakeTransferOwnership ? { to: { stakeTransferOwnership } } : {}),
+    ...(stakeCreate ? { to: { stakeCreate } } : {}),
     ...(transfer ? { payload: { transfer } } : {}),
-    ...(grantReward ? { actionType: t("render.value.grantReward") } : {}),
-    ...(depositToRewardingFund
-      ? { actionType: t("render.value.deposit") }
-      : {}),
     ...(execution ? { evmTransfer: actHash, value: execution.amount } : {}),
     ...(transfer ? { value: transfer.amount } : {}),
+    ...actionType,
     fee: `${fromRau(`${gasConsumed * Number(gasPrice)}`, "Iotx")} IOTX`,
     gasLimit: Number(gasLimit).toLocaleString(),
     gasPrice: `${Number(gasPrice).toLocaleString()} (${fromRau(
