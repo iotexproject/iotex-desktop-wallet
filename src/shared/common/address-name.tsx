@@ -1,10 +1,14 @@
 import { get } from "dottie";
+import { validateAddress } from "iotex-antenna/lib/account/utils";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import { GET_ADDRESS_META } from "../queries";
 import { LinkButton } from "./buttons";
 
 const AddressName: React.FC<{ address: string }> = ({ address }) => {
+  if (!validateAddress(address)) {
+    return <LinkButton>{address}</LinkButton>;
+  }
   return (
     <Query
       query={GET_ADDRESS_META}

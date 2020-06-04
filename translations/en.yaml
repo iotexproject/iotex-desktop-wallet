@@ -76,6 +76,15 @@ action.type.startSubChain: 'start SubChain'
 action.type.stopSubChain: 'stop SubChain'
 action.type.terminatePlumChain: 'terminate PlumChain'
 action.type.transfer: Transfer
+action.type.stakeCreate: 'Stake Create'
+action.type.stakeUnstake: 'Stake Unstake'
+action.type.stakeWithdraw: 'Stake Withdraw'
+action.type.stakeAddDeposit: 'Stake Add Deposit'
+action.type.stakeRestake: 'Stake Restake'
+action.type.stakeChangeCandidate: 'Stake Change Candidate'
+action.type.stakeTransferOwnership: 'Stake Transfer Ownership'
+action.type.candidateRegister: 'Candidate Register'
+action.type.candidateUpdate: 'Candidate Update'
 action.type: Type
 action.types.in: IN
 action.types.out: OUT
@@ -208,7 +217,7 @@ home.stats.productivity: 'Average Productivity'
 home.stats.progressEpoch: 'Progress of Epoch'
 home.stats.tps: 'Curent TPS / Peak'
 home.stats.votes: Votes
-home.stats.stakedVotes: Staked Votes
+home.stats.stakedVotes: Staked IOTX
 input.error.bytes.invalid: 'Invalid byte code'
 input.error.erc20_address.length: 'ERC20 Token address has to be of length 41'
 input.error.keystore.failed_to_derive: 'Key derivation failed. Possibly wrong password.'
@@ -332,6 +341,15 @@ render.value.deposit: 'Deposit'
 render.value.rewardType.BlockReward: 'Block Reward'
 render.value.rewardType.EpochReward: 'Epoch Reward'
 render.value.transfer: Transfer
+render.value.stakeCreate: Stake Create
+render.value.stakeUnstake: Stake Unstake
+render.value.stakeWithdraw: Stake Withdraw
+render.value.stakeAddDeposit: Stake Add Deposit
+render.value.stakeRestake: Stake Restake
+render.value.stakeChangeCandidate: Stake Change Candidate
+render.value.candidateRegister: Candidate Register
+render.value.candidateUpdate: Candidate Update
+render.value.stakeTransferOwnership: Stake Transfer Ownership
 share_link.email_body: Check out this site ${href}
 share_link.email_subject: Checkout this block hash on IoTeX blockchain
 signin_modal.download: 'Haven''t installed yet? Download'

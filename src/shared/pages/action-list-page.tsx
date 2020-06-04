@@ -43,6 +43,9 @@ export function getAddress(record: ActionInfo): string {
     get(record, "action.core.plumCreateDeposit.recipient") ||
     get(record, "action.core.plumTransfer.recipient") ||
     get(record, "action.core.createPlumChain.contract") ||
+    get(record, "action.core.stakeTransferOwnership.voterAddress") ||
+    get(record, "action.core.stakeCreate.candidateName") ||
+    get(record, "action.core.stakeChangeCandidate.candidateName") ||
     "";
   if (!addr) {
     return "-";
@@ -261,7 +264,8 @@ const getActionByTypeColumns = (): Array<ColumnProps<IActionByTypeInfo>> => [
   {
     title: t("block.timestamp"),
     dataIndex: "timeStamp",
-    render: (_, { timeStamp }) => moment(parseInt(timeStamp, 10)).fromNow()
+    width: "8vw",
+    render: (_, { timeStamp }) => moment.unix(parseInt(timeStamp, 10)).fromNow()
   },
   {
     title: t("action.sender"),
