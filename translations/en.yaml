@@ -136,7 +136,7 @@ candidate.delegate_badges: 'Badges'
 candidate.delegate_name: 'Delegate Name'
 candidate.live_votes: LiveVotes
 candidate.percent: Percent
-candidate.productivity: Progress of Epoch
+candidate.productivity: Epoch Progress
 candidate.status: Status
 candidates.delegate_list: 'Delegate List'
 candidates.election.consensus_delegates: 'IoTeX Consensus Delegates'
@@ -163,7 +163,7 @@ common.address: Address
 common.contract_transactions: Contract Transactions
 common.show_less: Show Less
 common.show_more: Show More
-common.transactions: Transactions
+common.transactions: Total Transactions
 common.xrc20Transactions: XRC20 Transactions
 common.xrc721Transactions: XRC20 Transactions
 confirmation.amount: Amount
@@ -212,7 +212,7 @@ home.IOTXPrice: 'IOTX PRICE'
 home.marketCap: MARKETCAP
 home.producer: PRODUCER
 home.stats.actions: Transactions
-home.stats.candidates: 'Consensus Delegates / Candidates'
+home.stats.candidates: 'Consensus Delegates / Delegates'
 home.stats.currentEpoch: 'Current Epoch'
 home.stats.day: Day
 home.stats.energyConsumption: 'Daily Energy Consumption'
@@ -222,7 +222,7 @@ home.stats.numberOfTransactions: '# of Transactions'
 home.stats.productivity: 'Average Productivity'
 home.stats.progressEpoch: 'Progress of Epoch'
 home.stats.tps: 'Curent TPS / Peak'
-home.stats.votes: Votes
+home.stats.votes: Total Votes
 home.stats.stakedVotes: Staked IOTX
 input.error.bytes.invalid: 'Invalid byte code'
 input.error.erc20_address.length: 'ERC20 Token address has to be of length 41'
