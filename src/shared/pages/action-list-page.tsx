@@ -266,7 +266,7 @@ const getActionByTypeColumns = (): Array<ColumnProps<IActionByTypeInfo>> => [
     title: t("block.timestamp"),
     dataIndex: "timeStamp",
     width: "8vw",
-    render: (_, { timeStamp }) => moment(parseInt(timeStamp, 10)).fromNow()
+    render: (_, { timeStamp }) => moment.unix(parseInt(timeStamp, 10)).fromNow()
   },
   {
     title: t("action.sender"),
