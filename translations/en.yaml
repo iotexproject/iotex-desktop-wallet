@@ -151,6 +151,12 @@ candidates.election.ONLINE: Online
 candidates.election.UNQUALIFIED: 'Not Elected'
 candidates.election.PROBATION: 'Probation'
 candidates.rank: Rank
+candidates.badge_info.hermes.title: Hermes Delegate
+candidates.badge_info.hermes.content: Automatic Rewards Distribution via Hermes
+candidates.badge_info.genesis.title: Delegate Since Day 1
+candidates.badge_info.genesis.content: Joined to produce the genesis block
+candidates.badge_info.ambassador.title: Ambassador Delegate
+candidates.badge_info.ambassador.content: Official IoTeX Community Ambassador
 coming_soon.bar: 'coming soon'
 coming_soon.title: 'Coming Soon...'
 common.address: Address

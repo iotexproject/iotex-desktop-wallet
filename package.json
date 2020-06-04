@@ -177,7 +177,7 @@
     "graphql-tools": "4.0.6",
     "https": "1.0.0",
     "iotex-antenna": "0.29.1",
-    "iotex-react-block-producers": "2.8.0",
+    "iotex-react-block-producers": "2.8.4",
     "iotex-react-footer": "2.6.2",
     "iotex-react-language-dropdown": "2.4.0",
     "is-browser": "2.1.0",
