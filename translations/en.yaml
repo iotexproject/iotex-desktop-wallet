@@ -217,7 +217,7 @@ home.stats.productivity: 'Average Productivity'
 home.stats.progressEpoch: 'Progress of Epoch'
 home.stats.tps: 'Curent TPS / Peak'
 home.stats.votes: Votes
-home.stats.stakedVotes: Staked Votes
+home.stats.stakedVotes: Staked IOTX
 input.error.bytes.invalid: 'Invalid byte code'
 input.error.erc20_address.length: 'ERC20 Token address has to be of length 41'
 input.error.keystore.failed_to_derive: 'Key derivation failed. Possibly wrong password.'
