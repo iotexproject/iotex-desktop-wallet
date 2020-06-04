@@ -341,6 +341,15 @@ render.value.deposit: 'Deposit'
 render.value.rewardType.BlockReward: 'Block Reward'
 render.value.rewardType.EpochReward: 'Epoch Reward'
 render.value.transfer: Transfer
+render.value.stakeCreate: Stake Create
+render.value.stakeUnstake: Stake Unstake
+render.value.stakeWithdraw: Stake Withdraw
+render.value.stakeAddDeposit: Stake Add Deposit
+render.value.stakeRestake: Stake Restake
+render.value.stakeChangeCandidate: Stake Change Candidate
+render.value.candidateRegister: Candidate Register
+render.value.candidateUpdate: Candidate Update
+render.value.stakeTransferOwnership: Stake Transfer Ownership
 share_link.email_body: Check out this site ${href}
 share_link.email_subject: Checkout this block hash on IoTeX blockchain
 signin_modal.download: 'Haven''t installed yet? Download'

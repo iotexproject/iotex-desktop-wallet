@@ -43,6 +43,9 @@ export function getAddress(record: ActionInfo): string {
     get(record, "action.core.plumCreateDeposit.recipient") ||
     get(record, "action.core.plumTransfer.recipient") ||
     get(record, "action.core.createPlumChain.contract") ||
+    get(record, "action.core.stakeTransferOwnership.voterAddress") ||
+    get(record, "action.core.stakeCreate.candidateName") ||
+    get(record, "action.core.stakeChangeCandidate.candidateName") ||
     "";
   if (!addr) {
     return "-";

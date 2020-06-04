@@ -6,9 +6,13 @@ import { Link } from "react-router-dom";
 import {
   Execution,
   GrantReward,
+  StakeChangeCandidate,
+  StakeCreate,
+  StakeTransferOwnership,
   Transfer
 } from "../../api-gateway/resolvers/antenna-types";
 import { Token } from "../../erc20/token";
+import { LinkButton } from "../common/buttons";
 import { VerticalTableRender } from "../common/vertical-table";
 import { XRC20TokenValue } from "../common/xrc20-token";
 import { ContracAddressRenderer } from "./contract-address-renderer";
@@ -21,6 +25,30 @@ const TransferRenderer: VerticalTableRender<Transfer> = ({
     <Row type="flex" justify="start" align="middle">
       <Col span={24}>
         <WalletAddressRenderer value={recipient} />
+      </Col>
+    </Row>
+  );
+};
+
+const StakeTransferOwnershipRenderer: VerticalTableRender<
+  StakeTransferOwnership
+> = ({ value: { voterAddress } }) => {
+  return (
+    <Row type="flex" justify="start" align="middle">
+      <Col span={24}>
+        <WalletAddressRenderer value={voterAddress} />
+      </Col>
+    </Row>
+  );
+};
+
+const DelegateNameRenderer: VerticalTableRender<
+  StakeCreate | StakeChangeCandidate
+> = ({ value: { candidateName } }) => {
+  return (
+    <Row type="flex" justify="start" align="middle">
+      <Col span={24}>
+        <LinkButton>{candidateName}</LinkButton>
       </Col>
     </Row>
   );
@@ -97,13 +125,32 @@ const ReceiptAddressRenderer: VerticalTableRender<{
   execution?: Execution;
   transfer?: Transfer;
   grantReward?: GrantReward;
+  stakeTransferOwnership?: StakeTransferOwnership;
+  stakeCreate?: StakeCreate;
+  stakeChangeCandidate?: StakeChangeCandidate;
   contractAddress?: string;
-}> = ({ value: { execution, transfer, contractAddress } }) => {
+}> = ({
+  value: {
+    execution,
+    transfer,
+    contractAddress,
+    stakeTransferOwnership,
+    stakeCreate,
+    stakeChangeCandidate
+  }
+}) => {
   return (
     <>
       {transfer && <TransferRenderer value={transfer} />}
       {execution && (
         <ExecutionRenderer value={{ execution, contractAddress }} />
+      )}
+      {stakeTransferOwnership && (
+        <StakeTransferOwnershipRenderer value={stakeTransferOwnership} />
+      )}
+      {stakeCreate && <DelegateNameRenderer value={stakeCreate} />}
+      {stakeChangeCandidate && (
+        <DelegateNameRenderer value={stakeChangeCandidate} />
       )}
     </>
   );
