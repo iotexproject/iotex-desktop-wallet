@@ -218,7 +218,7 @@ home.stats.day: Day
 home.stats.energyConsumption: 'Daily Energy Consumption'
 home.stats.map: Map
 home.stats.numberOfAddresses: '# of Addresses'
-home.stats.numberOfTransactions: '# of Transactions'
+home.stats.numberOfTransactions: 'Transaction History'
 home.stats.productivity: 'Average Productivity'
 home.stats.progressEpoch: 'Progress of Epoch'
 home.stats.tps: 'Curent TPS / Peak'
