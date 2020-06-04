@@ -81,7 +81,6 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
   {
     title: t("block.timestamp"),
     dataIndex: "timestamp",
-    width: "8vw",
     render: (_, { timestamp }) => translateFn(timestamp)
   },
   {
