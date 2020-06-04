@@ -16,6 +16,7 @@ export const TPSCard = (): JSX.Element => {
   return (
     <Query
       query={GET_ANALYTICS_TPS}
+      ssr={false}
       client={analyticsClient}
       pollInterval={10000}
     >

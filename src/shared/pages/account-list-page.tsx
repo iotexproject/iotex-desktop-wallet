@@ -106,6 +106,7 @@ export const AccountTable: React.FC<IAccountTable> = ({ endEpochNumber }) => {
     <Query
       query={GET_TOP_HOLDERS}
       variables={{ endEpochNumber, pagination: { skip, first } }}
+      ssr={false}
       client={analyticsClient}
       notifyOnNetworkStatusChange={true}
     >

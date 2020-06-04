@@ -49,7 +49,7 @@ export const ActionsCard = (): JSX.Element => {
               <div style={{ width: 46, height: 46 }}>
                 <Query
                   client={analyticsClient}
-                  ssr={true}
+                  ssr={false}
                   query={gql`{
                 ${[1, 2, 3, 4, 5, 6, 7].map(day => {
                   return `day${day}:chain{

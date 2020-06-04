@@ -76,18 +76,27 @@ export async function apolloSSR(
         <ApolloProvider client={apolloClient}>{VDom}</ApolloProvider>
       </RootServer>
     );
-    const apolloState = apolloClient.extract();
-    ctx.setState("apolloState", apolloState);
-    ctx.setState("apolloAnalyticsState", analyticsClient.extract());
-    try {
-      ctx.setState("webBpApolloState", webBpApolloClient.extract());
-    } catch (e) {
-      logger.debug(`soft-failed to hydrate webBpApolloState`);
-    }
-    ctx.setState("wallet", walletState);
   } catch (e) {
     logger.error(`failed to hydrate apollo SSR: ${e} ${e.stack}`);
   }
+  try {
+    const apolloState = apolloClient.extract();
+    ctx.setState("apolloState", apolloState);
+  } catch (e) {
+    logger.debug(`soft-failed to hydrate apolloState`);
+  }
+  try {
+    ctx.setState("apolloAnalyticsState", analyticsClient.extract());
+  } catch (e) {
+    logger.debug(`soft-failed to hydrate apolloAnalyticsState`);
+  }
+  try {
+    ctx.setState("webBpApolloState", webBpApolloClient.extract());
+  } catch (e) {
+    logger.debug(`soft-failed to hydrate webBpApolloState`);
+  }
+  ctx.setState("wallet", walletState);
+
   return ctx.isoReactRender({
     VDom: <ApolloProvider client={apolloClient}>{VDom}</ApolloProvider>,
     clientScript,

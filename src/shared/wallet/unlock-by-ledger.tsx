@@ -3,12 +3,12 @@ import Form, { FormComponentProps } from "antd/lib/form/Form";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
+import { styled } from "onefx/lib/styletron-react";
 import React, { PureComponent } from "react";
 import { connect, DispatchProp } from "react-redux";
 import { assetURL } from "../common/asset-url";
 import { CommonMargin } from "../common/common-margin";
 import { getTransportProxy, LedgerPlugin } from "../ledger/get-proxy";
-import { InputError } from "../one-fix-auth-provider/email-password-identity-provider/view/input-error";
 import { getAntenna } from "./get-antenna";
 import { setAccount } from "./wallet-actions";
 
@@ -17,6 +17,12 @@ export interface State {
   errorMessage: string;
   isPending: boolean;
 }
+
+export const InputError = styled("div", {
+  color: "#d93900 !important",
+  height: "16px",
+  lineHeight: "16px"
+});
 
 export interface Props extends DispatchProp {}
 

@@ -13,7 +13,12 @@ import StatsCard from "./stats-card";
 
 export const ProductivityCard = (): JSX.Element => {
   return (
-    <Query query={GET_BP_STATS} client={webBpApolloClient} pollInterval={10000}>
+    <Query
+      query={GET_BP_STATS}
+      ssr={false}
+      client={webBpApolloClient}
+      pollInterval={10000}
+    >
       {({ data, loading, error }: QueryResult) => {
         if (error) {
           notification.error({

@@ -312,6 +312,7 @@ export const ActionTableByType: FC<{ actionType: string }> = ({
           first: PAGE_SIZE
         }
       }}
+      ssr={false}
       client={analyticsClient}
     >
       {({

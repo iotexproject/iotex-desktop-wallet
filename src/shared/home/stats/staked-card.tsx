@@ -14,7 +14,12 @@ const CIRCULATING_SUPPLY = 5400000000;
 
 export const StakedVotesCard = (): JSX.Element => {
   return (
-    <Query query={GET_BP_STATS} client={webBpApolloClient} pollInterval={10000}>
+    <Query
+      query={GET_BP_STATS}
+      ssr={false}
+      client={webBpApolloClient}
+      pollInterval={10000}
+    >
       {({ data, loading, error }: QueryResult) => {
         if (error) {
           notification.error({

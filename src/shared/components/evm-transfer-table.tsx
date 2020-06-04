@@ -99,6 +99,7 @@ export const EvmTransfersTable: React.FC<IEvmTransferTable> = ({
           first: PAGE_SIZE
         }
       }}
+      ssr={false}
       notifyOnNetworkStatusChange={true}
       client={analyticsClient}
     >

@@ -85,7 +85,7 @@ export const MapCard = (): JSX.Element => {
   const mostRecentEpoch = LAST_EPOTCH + DIFF_HOURS;
   return (
     <Query
-      ssr={true}
+      ssr={false}
       client={analyticsClient}
       query={gql`{
                     ${[1, 2, 3, 4, 5, 6, 7].map(day => {

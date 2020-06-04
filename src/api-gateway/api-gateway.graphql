@@ -45,6 +45,15 @@ type ActionCore {
   claimFromRewardingFund: ClaimFromRewardingFund
   grantReward: GrantReward
   putPollResult: PutPollResult
+  stakeCreate: StakeCreate
+  stakeUnstake: StakeReclaim
+  stakeWithdraw: StakeReclaim
+  stakeAddDeposit: StakeAddDeposit
+  stakeRestake: StakeRestake
+  stakeChangeCandidate: StakeChangeCandidate
+  stakeTransferOwnership: StakeTransferOwnership
+  candidateRegister: CandidateRegister
+  candidateUpdate: CandidateBasicInfo
 }
 
 input ActionCoreInput {
@@ -73,6 +82,15 @@ input ActionCoreInput {
   claimFromRewardingFund: ClaimFromRewardingFundInput
   grantReward: GrantRewardInput
   putPollResult: PutPollResultInput
+  stakeCreate: StakeCreateInput
+  stakeUnstake: StakeReclaimInput
+  stakeWithdraw: StakeReclaimInput
+  stakeAddDeposit: StakeAddDepositInput
+  stakeRestake: StakeRestakeInput
+  stakeChangeCandidate: StakeChangeCandidateInput
+  stakeTransferOwnership: StakeTransferOwnershipInput
+  candidateRegister: CandidateRegisterInput
+  candidateUpdate: CandidateBasicInfoInput
 }
 
 type ActionInfo {
@@ -133,6 +151,18 @@ type Candidate {
   rewardAddress: String!
 }
 
+type CandidateBasicInfo {
+  name: String!
+  operatorAddress: String!
+  rewardAddress: String!
+}
+
+input CandidateBasicInfoInput {
+  name: String!
+  operatorAddress: String!
+  rewardAddress: String!
+}
+
 input CandidateInput {
   address: String!
   votes: Buffer
@@ -146,6 +176,24 @@ type CandidateList {
 
 input CandidateListInput {
   candidates: [CandidateInput!]!
+}
+
+type CandidateRegister {
+  candidate: CandidateBasicInfo!
+  ownerAddress: String!
+  stakedAmount: String!
+  stakedDuration: Int!
+  autoStake: Boolean!
+  payload: Buffer!
+}
+
+input CandidateRegisterInput {
+  candidate: CandidateBasicInfoInput!
+  ownerAddress: String!
+  stakedAmount: String!
+  stakedDuration: Int!
+  autoStake: Boolean!
+  payload: Buffer!
 }
 
 type ChainMeta {
@@ -650,6 +698,82 @@ type SolcResult {
 type SolcVersion {
   name: String!
   version: String!
+}
+
+type StakeAddDeposit {
+  amount: String!
+  bucketIndex: Int!
+  payload: Buffer!
+}
+
+input StakeAddDepositInput {
+  amount: String!
+  bucketIndex: Int!
+  payload: Buffer!
+}
+
+type StakeChangeCandidate {
+  bucketIndex: Int!
+  candidateName: String!
+  payload: Buffer!
+}
+
+input StakeChangeCandidateInput {
+  bucketIndex: Int!
+  candidateName: String!
+  payload: Buffer!
+}
+
+type StakeCreate {
+  candidateName: String!
+  stakedAmount: String!
+  stakedDuration: Int!
+  autoStake: Boolean!
+  payload: Buffer!
+}
+
+input StakeCreateInput {
+  candidateName: String!
+  stakedAmount: String!
+  stakedDuration: Int!
+  autoStake: Boolean!
+  payload: Buffer!
+}
+
+type StakeReclaim {
+  bucketIndex: Int!
+  payload: Buffer!
+}
+
+input StakeReclaimInput {
+  bucketIndex: Int!
+  payload: Buffer!
+}
+
+type StakeRestake {
+  bucketIndex: Int!
+  stakedDuration: Int!
+  autoStake: Boolean!
+  payload: Buffer!
+}
+
+input StakeRestakeInput {
+  bucketIndex: Int!
+  stakedDuration: Int!
+  autoStake: Boolean!
+  payload: Buffer!
+}
+
+type StakeTransferOwnership {
+  bucketIndex: Int!
+  voterAddress: String!
+  payload: Buffer!
+}
+
+input StakeTransferOwnershipInput {
+  bucketIndex: Int!
+  voterAddress: String!
+  payload: Buffer!
 }
 
 type StartSubChain {

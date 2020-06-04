@@ -46,6 +46,7 @@ export const XRC20TokenTable: React.FC = () => {
     <Query
       query={GET_XRC20_TOKENS}
       notifyOnNetworkStatusChange={true}
+      ssr={false}
       client={analyticsClient}
       variables={{
         pagination: {

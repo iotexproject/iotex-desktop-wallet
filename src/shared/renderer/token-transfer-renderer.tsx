@@ -14,7 +14,11 @@ import { GET_ANALYTICS_EVM_TRANSFERS } from "../queries";
 
 const TokenTransferRenderer: VerticalTableRender<string> = ({ value }) => {
   return (
-    <Query client={analyticsClient} query={GET_ANALYTICS_EVM_TRANSFERS(value)}>
+    <Query
+      ssr={false}
+      client={analyticsClient}
+      query={GET_ANALYTICS_EVM_TRANSFERS(value)}
+    >
       {({ data, error }: QueryResult) => {
         if (error && !error.message.match(/not\s+exist/i)) {
           notification.error({

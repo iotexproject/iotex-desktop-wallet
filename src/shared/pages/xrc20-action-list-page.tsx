@@ -163,6 +163,7 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
     <Query
       query={query}
       notifyOnNetworkStatusChange={true}
+      ssr={false}
       client={analyticsClient}
       variables={variables}
     >
@@ -236,6 +237,7 @@ export const XRC20HoldersTable: React.FC<IXRC20ActionTable> = ({
         tokenAddress: address
       }}
       notifyOnNetworkStatusChange={true}
+      ssr={false}
       client={analyticsClient}
     >
       {({ data, loading, error }: QueryResult) => {
