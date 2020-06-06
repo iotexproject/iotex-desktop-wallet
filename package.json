@@ -150,7 +150,7 @@
     "apollo-client": "2.6.8",
     "apollo-link-error": "1.1.12",
     "apollo-link-http": "1.5.16",
-    "apollo-server-koa": "2.9.15",
+    "apollo-server-koa": "2.14.2",
     "axios": "0.19.0",
     "babel-loader": "8.0.6",
     "babel-plugin-module-resolver": "3.2.0",
