@@ -33,6 +33,15 @@ action.type: 类型
 action.type.transfer: 传递
 action.type.grant_reward: 授予的奖励
 action.type.execution: 执行
+action.type.stakeCreate: 创建质押
+action.type.stakeUnstake: 赎回质押
+action.type.stakeWithdraw: 提取赎回
+action.type.stakeAddDeposit: 增加质押
+action.type.stakeRestake: 重新质押
+action.type.stakeChangeCandidate: 修改候选人
+action.type.stakeTransferOwnership: 转让质押
+action.type.candidateRegister: 注册为候选人
+action.type.candidateUpdate: 更新资料
 action.data: 数据
 topbar.graphql_playground: 'GraphQL 测试区'
 topbar.graphql_doc: 'GraphQL 文档'

@@ -76,15 +76,15 @@ action.type.startSubChain: 'start SubChain'
 action.type.stopSubChain: 'stop SubChain'
 action.type.terminatePlumChain: 'terminate PlumChain'
 action.type.transfer: Transfer
-action.type.stakeCreate: 'Stake Create'
-action.type.stakeUnstake: 'Stake Unstake'
-action.type.stakeWithdraw: 'Stake Withdraw'
-action.type.stakeAddDeposit: 'Stake Add Deposit'
-action.type.stakeRestake: 'Stake Restake'
-action.type.stakeChangeCandidate: 'Stake Change Candidate'
-action.type.stakeTransferOwnership: 'Stake Transfer Ownership'
-action.type.candidateRegister: 'Candidate Register'
-action.type.candidateUpdate: 'Candidate Update'
+action.type.stakeCreate: "Create Stask"
+action.type.stakeUnstake: "Unstake"
+action.type.stakeWithdraw: "Withdraw Stake"
+action.type.stakeAddDeposit: "Deposit to Stake"
+action.type.stakeRestake: "Restake"
+action.type.stakeChangeCandidate: "Change Candidate"
+action.type.stakeTransferOwnership: "Transfer Stake"
+action.type.candidateRegister: "Register Candidate"
+action.type.candidateUpdate: "Update Candidate"
 action.type: Type
 action.types.in: IN
 action.types.out: OUT
