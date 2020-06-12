@@ -11,6 +11,7 @@ import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
 import { AddressName } from "../common/address-name";
 import { analyticsClient } from "../common/apollo-client";
+import { GetTokenMetadataMap } from "../common/common-metadata";
 import { FlexLink } from "../common/flex-link";
 import { translateFn } from "../common/from-now";
 import { PageNav } from "../common/page-nav-bar";
@@ -41,64 +42,88 @@ export interface IXRC20HolderInfo {
   contract: string;
 }
 
-const getXrc20ActionListColumns = (): Array<ColumnProps<IXRC20ActionInfo>> => [
-  {
-    title: t("action.hash"),
-    dataIndex: "hash",
-    width: "20vw",
-    render: text => <ActionHashRenderer value={text} />
-  },
-  {
-    title: t("block.timestamp"),
-    dataIndex: "timestamp",
-    width: "20vw",
-    render: (_, { timestamp }) =>
-      translateFn({ seconds: Number(timestamp), nanos: 0 })
-  },
-  {
-    title: t("action.sender"),
-    dataIndex: "from",
-    width: "20vw",
-    render: (text: string): JSX.Element | string => {
-      return (
-        <span
-          className="ellipsis-text"
-          style={{ maxWidth: "10vw", minWidth: 100 }}
-        >
-          <AddressName address={text} />
-        </span>
-      );
+const getXrc20ActionListColumns = ({
+  tokenMetadataMap
+}: {
+  tokenMetadataMap: ReturnType<typeof GetTokenMetadataMap>;
+}): Array<ColumnProps<IXRC20ActionInfo>> => {
+  return [
+    {
+      title: t("action.hash"),
+      dataIndex: "hash",
+      width: "20vw",
+      render: text => <ActionHashRenderer value={text} />
+    },
+    {
+      title: t("block.timestamp"),
+      dataIndex: "timestamp",
+      width: "20vw",
+      render: (_, { timestamp }) =>
+        translateFn({ seconds: Number(timestamp), nanos: 0 })
+    },
+    {
+      title: t("action.sender"),
+      dataIndex: "from",
+      width: "20vw",
+      render: (text: string): JSX.Element | string => {
+        return (
+          <span
+            className="ellipsis-text"
+            style={{ maxWidth: "10vw", minWidth: 100 }}
+          >
+            <AddressName address={text} />
+          </span>
+        );
+      }
+    },
+    {
+      title: t("render.key.to"),
+      dataIndex: "to",
+      width: "20vw",
+      render: (text: string): JSX.Element | string => {
+        return (
+          <span
+            className="ellipsis-text"
+            style={{ maxWidth: "10vw", minWidth: 100 }}
+          >
+            <AddressName address={text} />
+          </span>
+        );
+      }
+    },
+    {
+      title: t("action.amount"),
+      dataIndex: "quantity",
+      width: "20vw",
+      render(text: string, record: IXRC20ActionInfo, __: number): JSX.Element {
+        return (
+          <XRC20TokenValue
+            contract={record.contract}
+            value={new BigNumber(text)}
+          />
+        );
+      }
+    },
+    {
+      title: t("token.token"),
+      width: "20vw",
+      render: (record: IXRC20ActionInfo): JSX.Element | string => {
+        const metadata = tokenMetadataMap[record.contract];
+        if (metadata) {
+          return (
+            <TokenNameRenderer
+              name={metadata.name}
+              symbol={metadata.symbol}
+              logo={metadata.logo}
+            />
+          );
+        } else {
+          return "";
+        }
+      }
     }
-  },
-  {
-    title: t("render.key.to"),
-    dataIndex: "to",
-    width: "20vw",
-    render: (text: string): JSX.Element | string => {
-      return (
-        <span
-          className="ellipsis-text"
-          style={{ maxWidth: "10vw", minWidth: 100 }}
-        >
-          <AddressName address={text} />
-        </span>
-      );
-    }
-  },
-  {
-    title: t("action.amount"),
-    dataIndex: "quantity",
-    width: "20vw",
-    render(text: string, record: IXRC20ActionInfo, __: number): JSX.Element {
-      return (
-        <XRC20TokenValue
-          contract={record.contract}
-          value={new BigNumber(text)}
-        />
-      );
-    }
-  }
-];
+  ];
+};
 
 const getXrc20HoldersListColumns = (): Array<ColumnProps<IXRC20HolderInfo>> => [
   {
@@ -173,6 +198,7 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
             message: `failed to query analytics xrc20 in XRC20ActionTable: ${error}`
           });
         }
+        const tokenMetadataMap = GetTokenMetadataMap();
         const actions =
           get<Array<IXRC20ActionInfo>>(data || {}, "xrc20.data.xrc20") || [];
         const numActions = get<number>(data || {}, "xrc20.data.count");
@@ -184,7 +210,7 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
             }}
             rowKey="hash"
             dataSource={actions}
-            columns={getXrc20ActionListColumns()}
+            columns={getXrc20ActionListColumns({ tokenMetadataMap })}
             style={{ width: "100%" }}
             scroll={{ x: "auto" }}
             pagination={{
@@ -301,7 +327,7 @@ const XRC20ActionListPage: React.FC<
             text={t("topbar.tokens")}
           />,
           ...(address
-            ? [<TokenNameRenderer key={`token-${address}`} value={address} />]
+            ? [<TokenNameRenderer key={`token-${address}`} name={address} />]
             : [])
         ]}
       />

@@ -380,6 +380,7 @@ title.receipt: Receipt
 token.xrc20: XRC-20
 token.xrc721: XRC-721
 token.name: Name
+token.token: Token
 token.address: Address
 topbar.actions: ACTIONS
 topbar.analytics_playground: 'ANALYTICS PLAYGROUND'

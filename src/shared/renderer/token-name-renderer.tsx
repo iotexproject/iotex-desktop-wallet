@@ -1,26 +1,26 @@
 import React from "react";
-import { Query, QueryResult } from "react-apollo";
-import { VerticalTableRender } from "../common/vertical-table";
-import { GET_ADDRESS_META } from "../queries";
 
-const TokenNameRenderer: VerticalTableRender<string> = ({ value }) => {
+const TokenNameRenderer = ({
+  name,
+  symbol,
+  logo
+}: {
+  name: string;
+  symbol?: string;
+  logo?: string;
+}) => {
   return (
-    <Query
-      query={GET_ADDRESS_META}
-      variables={{ address: value }}
-      errorPolicy="ignore"
-    >
-      {({
-        data,
-        error,
-        loading
-      }: QueryResult<{ addressMeta: { name: string } }>) => {
-        if (error || loading || !data) {
-          return null;
-        }
-        return `${(data.addressMeta && data.addressMeta.name) || ""}`;
-      }}
-    </Query>
+    <div style={{ display: "flex", alignItems: "center" }}>
+      {logo && (
+        <img
+          src={`/image/token/${logo}`}
+          alt="ico"
+          style={{ width: "13px", height: "13px" }}
+        />
+      )}
+      <span style={{ marginLeft: "2px" }}>{name}</span>
+      {symbol && <span>({symbol})</span>}
+    </div>
   );
 };
 
