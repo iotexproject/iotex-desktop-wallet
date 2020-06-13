@@ -20,6 +20,7 @@ import { DownloadKeystoreForm } from "./download-keystore-form";
 import { LockWalletAlert } from "./lock-alert";
 import { Sign } from "./sign";
 import { SignAndSendEnvelopModal } from "./sign-and-send-envelop-modal";
+import { SignMsgContainer } from "./sign-msg";
 import Transfer from "./transfer/transfer";
 import { countdownToLockInMS } from "./wallet-actions";
 import {
@@ -187,6 +188,7 @@ class WalletTabsInner extends Component<Props> {
           )}
         </Tabs>
         <SignAndSendEnvelopModal fromAddress={address} />
+        <SignMsgContainer fromAddress={address} />
       </LockWalletAlert>
     );
   }

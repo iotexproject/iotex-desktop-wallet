@@ -22,6 +22,8 @@ type QueryParamAction = {
 
 export type SignParams = {
   reqId?: number;
+  type?: "SIGN_AND_SEND" | "GET_ACCOUNTS" | "SIGN_MSG";
+  msg?: string;
   content?: string; // message
   envelop?: string;
   method?: string | Array<string>;
@@ -53,12 +55,25 @@ export const signParamsReducer = (state: {} = {}, action: SignParamAction) => {
       ...action.payload
     };
   }
+  if (action.type === "CLEAR_SIGN_MSG") {
+    return {
+      ...state,
+      type: "",
+      msg: ""
+    };
+  }
   return state || {};
 };
 
 export interface IRPCProvider {
   name: string;
   url: string;
+}
+
+export function actionClearSignMsg(): { type: "CLEAR_SIGN_MSG" } {
+  return {
+    type: "CLEAR_SIGN_MSG"
+  };
 }
 
 export type WalletAction = {

@@ -509,6 +509,8 @@ wallet.placeholder.compile: 'Select compiler version'
 wallet.sign.confirm: 'Yes, sign transaction'
 wallet.sign.envelop_msg: 'Are you sure you want to sign this transaction?'
 wallet.sign.envelop_title: 'Transaction signing'
+wallet.sign.success: 'Signed successfully!'
+wallet.sign_msg: 'Sign Message'
 wallet.sign_and_send.success: 'Request sent successfully, action code is ${actionHash}'
 wallet.tab.contract: 'Smart Contracts'
 wallet.tab.erc20: ERC20
