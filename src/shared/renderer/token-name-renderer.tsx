@@ -3,14 +3,16 @@ import React from "react";
 const TokenNameRenderer = ({
   name,
   symbol,
-  logo
+  logo,
+  style
 }: {
   name: string;
   symbol?: string;
   logo?: string;
+  style?: React.CSSProperties
 }) => {
   return (
-    <div style={{ display: "flex", alignItems: "center" }}>
+    <div style={{ display: "flex", alignItems: "center",...style }}>
       {logo && (
         <img
           src={`/image/token/${logo}`}

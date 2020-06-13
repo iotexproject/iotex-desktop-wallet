@@ -3,6 +3,8 @@ import BigNumber from "bignumber.js";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import React, { useState } from "react";
 import { Token } from "../../erc20/token";
+import { TokenNameRenderer } from "../renderer/token-name-renderer";
+import { GetTokenMetadataMap } from "./common-metadata";
 
 const XRC20TokenName: React.FC<{ contract: string }> = ({ contract }) => {
   const token = Token.getToken(contract);
@@ -22,6 +24,8 @@ const XRC20TokenName: React.FC<{ contract: string }> = ({ contract }) => {
 
 const XRC20TokenUnit: React.FC<{ contract: string }> = ({ contract }) => {
   const token = Token.getToken(contract);
+  const metadataMap = GetTokenMetadataMap();
+  const metadata = metadataMap[contract] || {};
   token
     .getBasicTokenInfo()
     .then(info => {
@@ -33,7 +37,13 @@ const XRC20TokenUnit: React.FC<{ contract: string }> = ({ contract }) => {
       setText("");
     });
   const [text, setText] = useState("");
-  return <span>{text}</span>;
+  return (
+    <TokenNameRenderer
+      name={text}
+      logo={metadata.logo}
+      style={{ display: "inline" }}
+    />
+  );
 };
 
 const XRC20TokenBalance: React.FC<{ contract: string; address: string }> = ({
