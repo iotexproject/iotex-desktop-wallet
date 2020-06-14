@@ -1,34 +1,28 @@
-import Icon from "antd/lib/icon";
-import notification from "antd/lib/notification";
 import Table, { ColumnProps } from "antd/lib/table";
 import Tag from "antd/lib/tag";
-import { get } from "dottie";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
-import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
-import { analyticsClient } from "../common/apollo-client";
+import { GetTokenMetadataMap, TokenMetadata } from "../common/common-metadata";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
-import { GET_XRC20_TOKENS } from "../queries";
 import { TokenAddressRenderer } from "../renderer/token-address-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
 import { Page } from "./page";
 
-const PAGE_SIZE = 15;
-
-export interface IXRC20TokenInfo {
-  name: string;
-  address: string;
-}
-
-const getXrc20TokenListColumns = (): Array<ColumnProps<IXRC20TokenInfo>> => [
+const getXrc20TokenListColumns = (): Array<ColumnProps<TokenMetadata>> => [
   {
     title: t("token.name"),
     dataIndex: "name",
     width: "20vw",
-    render: (text: string): JSX.Element | string => {
-      return <TokenNameRenderer value={text} />;
+    render: (text: string, record): JSX.Element | string => {
+      return (
+        <TokenNameRenderer
+          name={text}
+          symbol={record.symbol}
+          logo={record.logo}
+        />
+      );
     }
   },
   {
@@ -42,80 +36,25 @@ const getXrc20TokenListColumns = (): Array<ColumnProps<IXRC20TokenInfo>> => [
 ];
 
 export const XRC20TokenTable: React.FC = () => {
+  const metadataList: Array<TokenMetadata> = [];
+  const tokenMetadataMap = GetTokenMetadataMap();
+  if (tokenMetadataMap) {
+    for (const [k, v] of Object.entries(tokenMetadataMap)) {
+      if (v.type === "xrc20") {
+        v.address = k;
+        metadataList.push(v);
+      }
+    }
+  }
   return (
-    <Query
-      query={GET_XRC20_TOKENS}
-      notifyOnNetworkStatusChange={true}
-      ssr={false}
-      client={analyticsClient}
-      variables={{
-        pagination: {
-          skip: 0,
-          first: PAGE_SIZE
-        }
-      }}
-    >
-      {({
-        data,
-        loading,
-        fetchMore,
-        error
-      }: QueryResult<{ addressMeta: { name: string } }>) => {
-        if (error) {
-          notification.error({
-            message: `failed to query analytics xrc20 in XRC20TokenTable: ${error}`
-          });
-        }
-        const addresses =
-          get<Array<string>>(data || {}, "xrc20.xrc20Addresses.addresses") ||
-          [];
-        const numAddress = get<number>(
-          data || {},
-          "xrc20.xrc20Addresses.count"
-        );
-        const tokens = addresses.map(a => ({ name: a, address: a }));
-
-        const paginationConfig =
-          numAddress > PAGE_SIZE
-            ? {
-                pageSize: PAGE_SIZE,
-                total: numAddress,
-                showQuickJumper: true
-              }
-            : false;
-        return (
-          <Table
-            loading={{
-              spinning: loading,
-              indicator: <Icon type="loading" />
-            }}
-            rowKey="hash"
-            dataSource={tokens}
-            columns={getXrc20TokenListColumns()}
-            style={{ width: "100%" }}
-            scroll={{ x: "auto" }}
-            pagination={paginationConfig}
-            size="middle"
-            onChange={pagination => {
-              fetchMore({
-                variables: {
-                  pagination: {
-                    skip: ((pagination.current || 1) - 1) * PAGE_SIZE,
-                    first: PAGE_SIZE
-                  }
-                },
-                updateQuery: (prev, { fetchMoreResult }) => {
-                  if (!fetchMoreResult) {
-                    return prev;
-                  }
-                  return fetchMoreResult;
-                }
-              });
-            }}
-          />
-        );
-      }}
-    </Query>
+    <Table
+      rowKey="hash"
+      dataSource={metadataList}
+      columns={getXrc20TokenListColumns()}
+      style={{ width: "100%" }}
+      scroll={{ x: "auto" }}
+      size="middle"
+    />
   );
 };
 
