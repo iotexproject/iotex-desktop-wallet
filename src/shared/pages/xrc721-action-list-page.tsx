@@ -305,7 +305,8 @@ const XRC721ActionListPage: React.FC<
             text={t("topbar.xrc721Tokens")}
           />,
           ...(address
-            ? [<TokenNameRenderer key={`token-${address}`} value={address} />]
+            ? // @ts-ignore
+              [<TokenNameRenderer key={`token-${address}`} name={address} />]
             : [])
         ]}
       />

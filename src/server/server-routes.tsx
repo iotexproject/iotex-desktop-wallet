@@ -1,6 +1,8 @@
 import koa from "koa";
+import send from "koa-send";
 // @ts-ignore
 import { noopReducer } from "onefx/lib/iso-react-render/root/root-reducer";
+import * as path from "path";
 import * as React from "react";
 import { setApiGateway } from "../api-gateway/api-gateway";
 import { AppContainer } from "../shared/app-container";
@@ -28,6 +30,20 @@ export function setServerRoutes(server: MyServer): void {
   // Health checks
   server.get("health", "/health", (ctx: koa.Context) => {
     ctx.body = "OK";
+  });
+
+  // Iotex Token Image
+  server.get("token-image", "/image/token/*", async (ctx: koa.Context) => {
+    await send(
+      ctx,
+      path.resolve(
+        __dirname,
+        `/node_modules/iotex-token-metadata/images${ctx.path.replace(
+          "/image/token",
+          ""
+        )}`
+      )
+    );
   });
 
   setApiGateway(server);
