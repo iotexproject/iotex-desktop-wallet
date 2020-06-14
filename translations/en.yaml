@@ -20,7 +20,7 @@ account.erc20.notfound: 'Token not found!'
 account.error.invalidAuthorizedMessage: 'Invalid authentication private message!'
 account.error.notEnoughBalance: 'You don''t have enough IoTx balance to perform the action!'
 account.joinDiscord: 'Join Discord'
-account.not-hold: 'IoTeX.io does not hold your keys for you. We cannot access accounts recover keys, nor reverse transactions'
+account.not-hold: 'IoTeX.io does not hold your keys for you. We cannot access accounts recover keys, nor reverse actions'
 account.pay-attention: 'Pay attention'
 account.placeBid: 'Place bid for VITA'
 account.protect: 'Protect your keys & always check that you are on correct URL.'
@@ -32,7 +32,7 @@ account.switchAccount: 'Switch Account'
 account.testnet.token: IOTX
 account.token.addCustom: 'Custom Tokens'
 account.token.notfound: 'Token not found!'
-account.transaction-history: 'Go to transaction history'
+account.transaction-history: 'Go to action history'
 account.wallet: Wallet
 account.why: 'Why save your private key?'
 account.rank: "Rank"
@@ -49,7 +49,7 @@ action.data: Data
 action.email: Email
 action.from: From
 action.hash: Hash
-action.notFound: 'Sorry, we are unable to locate this transaction Hash'
+action.notFound: 'Sorry, we are unable to locate this action Hash'
 action.pending: 'IoTeX Pending Action'
 action.recipient: Recipient
 action.sender: Sender
@@ -124,9 +124,9 @@ block.tx_root: 'Tx Root'
 block_details.hash: "Block Hash: ${hash}"
 broadcast.button.check: 'Check TX Status'
 broadcast.error.message: 'Error message:'
-broadcast.fail.network: 'The transaction failed to be broadcast to the network'
-broadcast.fail: 'Fail to broadcast transaction'
-broadcast.success: 'Broadcast transaction successfully'
+broadcast.fail.network: 'The action failed to be broadcast to the network'
+broadcast.fail: 'Fail to broadcast action'
+broadcast.success: 'Broadcast action successfully'
 broadcast.suggested.action: 'Suggested actions:'
 broadcast.warn.one: 'Your TX has been broadcast to the network. This does not mean it has been mined on the blockchain. It usually take a few seconds to confirm.'
 broadcast.warn.three: 'Your TX hash:'
@@ -160,12 +160,12 @@ candidates.badge_info.ambassador.content: Official IoTeX Community Ambassador
 coming_soon.bar: 'coming soon'
 coming_soon.title: 'Coming Soon...'
 common.address: Address
-common.contract_transactions: Contract Transactions
+common.contract_transactions: Contract Actions
 common.show_less: Show Less
 common.show_more: Show More
-common.transactions: Total Transactions
-common.xrc20Transactions: XRC20 Transactions
-common.xrc721Transactions: XRC20 Transactions
+common.transactions: Total Actions
+common.xrc20Transactions: XRC20 Actions
+common.xrc721Transactions: XRC20 Actions
 confirmation.amount: Amount
 confirmation.data: Data
 confirmation.fromAddress: 'From address'
@@ -180,7 +180,7 @@ copy.copyToClipboard: 'Copy ${field} to clipboard'
 copy.scan: 'Scan the QR code'
 copy.toClipboard: 'Copy address to clipboard'
 erc20.execution.error.lowGasInput: 'Gas input too low!'
-erc20.execution.error.notEnoughBalance: 'Your IoTx balance is not enough to execute the transaction!'
+erc20.execution.error.notEnoughBalance: 'Your IoTx balance is not enough to execute the action!'
 footer.about_us: 'About Us'
 footer.announcemenets: Announcements
 footer.charity_program: 'Charity Program'
@@ -211,14 +211,14 @@ home.currentTPS: 'CURRENT TPS'
 home.IOTXPrice: 'IOTX PRICE'
 home.marketCap: MARKETCAP
 home.producer: PRODUCER
-home.stats.actions: Transactions
+home.stats.actions: Actions
 home.stats.candidates: 'Consensus Delegates / Delegates'
 home.stats.currentEpoch: 'Current Epoch'
 home.stats.day: Day
 home.stats.energyConsumption: 'Daily Energy Consumption'
 home.stats.map: Map
 home.stats.numberOfAddresses: '# of Addresses'
-home.stats.numberOfTransactions: 'Transaction History'
+home.stats.numberOfTransactions: 'Action History'
 home.stats.productivity: 'Average Productivity'
 home.stats.progressEpoch: 'Progress of Epoch'
 home.stats.tps: 'Curent TPS / Peak'
@@ -440,7 +440,7 @@ wallet.confirm.contract.cancel: 'No, cancel'
 wallet.confirm.contract.p1: 'After sending this, your account balance will be'
 wallet.confirm.contract.p2: 'Are you sure you want to do this?'
 wallet.confirm.contract.title: 'You are about to send ...'
-wallet.confirm.contract.yes: 'Yes, make transaction'
+wallet.confirm.contract.yes: 'Yes, make action'
 wallet.contract.back: 'Back to actions'
 wallet.contract.button.check: 'Check action status'
 wallet.contract.button.new: 'Send new IOTX & token'
@@ -451,7 +451,7 @@ wallet.contract.executeParameter: 'Contract execute parameters'
 wallet.contract.interaction.success.p1: 'Your request has been broadcast to the network. This does not mean it has been mined on the blockchain. It usually takes a few seconds to confirm.'
 wallet.contract.interaction.success.p2: 'You can check the status right now by click following button or save your TX hash and check the status later.'
 wallet.contract.interaction.success.p3: 'Your action hash'
-wallet.contract.interaction.success: 'Broadcast transaction successfully.'
+wallet.contract.interaction.success: 'Broadcast action successfully.'
 wallet.contract.interactWith.desc: 'This is a sentence of description. This is a sentence of description.'
 wallet.contract.interactWith: 'Interact with contract'
 wallet.contract.learn: 'Learn more'
@@ -462,7 +462,7 @@ wallet.deploy.deploy: "Deploy Contract"
 wallet.deploy.detail-title: "You are about to deploy ..."
 wallet.deploy.generateAbiAndByteCode: "Generate ABI and Byte Code"
 wallet.deploy.send-new: "Send new contract"
-wallet.deploy.signTransaction: "Sign Transaction"
+wallet.deploy.signTransaction: "Sign Action"
 wallet.deploy.title: "Deploy contract"
 wallet.erc20.title: 'Send VITA'
 wallet.error.number-ge1: 'This field should be greater than or equal to 1.'
@@ -480,7 +480,7 @@ wallet.input.fromXrc721: 'XRC721 Token address'
 wallet.input.gasCostLimit: "Gas Cost Limit"
 wallet.input.gasLimit: "Gas Limit"
 wallet.input.gasPrice: "Gas Price"
-wallet.input.generate: 'Generate Transaction'
+wallet.input.generate: 'Generate Action'
 wallet.input.getInfo: 'Get info'
 wallet.input.keystore: 'Keystore File'
 wallet.input.name: Name
@@ -507,9 +507,9 @@ wallet.placeholder.byteCode: '0x1234 ...'
 wallet.placeholder.contractAddress: io...
 wallet.placeholder.solidity: "pragma solidity ^0.5.12; ..."
 wallet.placeholder.compile: 'Select compiler version'
-wallet.sign.confirm: 'Yes, sign transaction'
-wallet.sign.envelop_msg: 'Are you sure you want to sign this transaction?'
-wallet.sign.envelop_title: 'Transaction signing'
+wallet.sign.confirm: 'Yes, sign action'
+wallet.sign.envelop_msg: 'Are you sure you want to sign this action?'
+wallet.sign.envelop_title: 'Action signing'
 wallet.sign.success: 'Signed successfully!'
 wallet.sign_msg: 'Sign Message'
 wallet.sign_and_send.success: 'Request sent successfully, action code is ${actionHash}'
@@ -522,7 +522,7 @@ wallet.tab.vote: 'Vote for delegate'
 wallet.tab.xrc20: XRC20
 wallet.tab.xrc721: XRC721
 wallet.title.wallet: Wallet
-wallet.transactions.send: 'Send Transaction'
+wallet.transactions.send: 'Send Action'
 wallet.transfer.broadcast.fail: 'Increase gas limit or approve on your Ledger and try again!'
 wallet.transfer.send-erc20: 'Send ERC20 tokens'
 wallet.transfer.send-xrc20: 'Send XRC20 tokens'
@@ -563,7 +563,7 @@ wallet.whitelist.title_origin: Origin/Method
 wallet.whitelist.title_recipient: Recipient
 wallet.whitelist.title_remain: Remain
 wallet.whitelist: Whitelist
-wallet.write.contract.ok: 'Generate transaction'
+wallet.write.contract.ok: 'Generate Action'
 wallet.write.contract.p1.b: 'execute a function on contract.'
 wallet.write.contract.p1: 'You are about to'
 wallet.write.contract.p2: 'It will be deployed on the following network'
