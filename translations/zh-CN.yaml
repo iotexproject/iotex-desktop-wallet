@@ -39,7 +39,7 @@ action.type.stakeWithdraw: 提取赎回
 action.type.stakeAddDeposit: 增加质押
 action.type.stakeRestake: 重新质押
 action.type.stakeChangeCandidate: 修改候选人
-action.type.stakeTransferOwnership: 转让质押
+action.type.stakeTransferOwnership: 转让质押桶
 action.type.candidateRegister: 注册为候选人
 action.type.candidateUpdate: 更新资料
 action.data: 数据
