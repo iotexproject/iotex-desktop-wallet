@@ -35,7 +35,7 @@ export const StakedVotesCard = (): JSX.Element => {
         const percent =
           totalSupply > 0
             ? Number(((totalCirculatingSupply / totalSupply) * 100).toFixed(2))
-            : "";
+            : 0;
 
         const showLoading = loading || !!error;
         return (
