@@ -36,7 +36,6 @@ export const StakedVotesCard = (): JSX.Element => {
             query={GET_ANALYTICS_BP_STATS}
             ssr={false}
             client={analyticsClient}
-            pollInterval={10000}
           >
             {({ data, loading, error }: QueryResult) => {
               if (error) {
