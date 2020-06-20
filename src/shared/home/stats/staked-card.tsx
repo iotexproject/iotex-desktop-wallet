@@ -3,21 +3,19 @@ import notification from "antd/lib/notification";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
-import { webBpApolloClient } from "../../common/apollo-client";
+import { analyticsClient } from "../../common/apollo-client";
 import { assetURL } from "../../common/asset-url";
 import { colors } from "../../common/styles/style-color";
-import { GET_BP_STATS } from "../../queries";
+import { GET_ANALYTICS_BP_STATS } from "../../queries";
 import { CompCirclePercentChart } from "../charts/circle-chart";
 import StatsCard from "./stats-card";
-
-const CIRCULATING_SUPPLY = 5400000000;
 
 export const StakedVotesCard = (): JSX.Element => {
   return (
     <Query
-      query={GET_BP_STATS}
+      query={GET_ANALYTICS_BP_STATS}
       ssr={false}
-      client={webBpApolloClient}
+      client={analyticsClient}
       pollInterval={10000}
     >
       {({ data, loading, error }: QueryResult) => {
@@ -27,14 +25,17 @@ export const StakedVotesCard = (): JSX.Element => {
           });
         }
         const {
-          totalVotedStakes = 0
+          totalSupply = 0,
+          totalCirculatingSupply = 0
         }: {
-          totalVotedStakes: number;
-        } = (data && data.stats) || {};
+          totalSupply: number;
+          totalCirculatingSupply: number;
+        } = (data && data.chain) || {};
 
-        const percent = Number(
-          ((totalVotedStakes / CIRCULATING_SUPPLY) * 100).toFixed(2)
-        );
+        const percent =
+          totalSupply > 0
+            ? Number(((totalCirculatingSupply / totalSupply) * 100).toFixed(2))
+            : "";
 
         const showLoading = loading || !!error;
         return (
