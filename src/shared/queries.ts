@@ -545,6 +545,15 @@ export const GET_ANALYTICS_CHAIN = gql`
   }
 `;
 
+export const GET_ANALYTICS_BP_STATS = gql`
+  query stats {
+    chain {
+      totalSupply
+      totalCirculatingSupply
+    }
+  }
+`;
+
 export const GET_ANALYTICS_EVM_TRANSFERS = (hash: string) => {
   const query = `query {
     action {
