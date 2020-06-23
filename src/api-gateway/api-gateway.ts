@@ -7,14 +7,15 @@ import { MyServer } from "../server/start-server";
 import { AntennaResolver } from "./resolvers/antenna";
 import { MetaResolver } from "./resolvers/meta";
 import { SolcResolver } from "./resolvers/solc";
-import { AddressResolver } from "./resolvers/token";
+import { AddressResolver, TokenMetaResolver } from "./resolvers/token";
 
 export async function setApiGateway(server: MyServer): Promise<void> {
   const resolvers = [
     MetaResolver,
     AntennaResolver,
     SolcResolver,
-    AddressResolver
+    AddressResolver,
+    TokenMetaResolver
   ];
   server.resolvers = resolvers;
 

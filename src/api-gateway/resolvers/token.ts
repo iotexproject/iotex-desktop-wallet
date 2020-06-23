@@ -4,9 +4,14 @@ import {
   Field,
   ObjectType,
   Query,
+  registerEnumType,
   Resolver
 } from "type-graphql";
 
+//@ts-ignore
+import testnetTokenMetadas from "iotex-testnet-token-metadata";
+//@ts-ignore
+import tokenMetadatas from "iotex-token-metadata";
 import addressMetas from "../address-meta.json";
 
 @ArgsType()
@@ -34,5 +39,68 @@ export class AddressResolver {
       };
     }
     throw new Error("Not exists!");
+  }
+}
+
+export enum ProviderType {
+  mainnet = "mainnet",
+  testnet = "testnet"
+}
+
+registerEnumType(ProviderType, { name: "ProviderType" });
+
+@ObjectType()
+export class TokenMetadata {
+  @Field(_ => String)
+  public name: string;
+  @Field(_ => String)
+  public address: string;
+  @Field(_ => String)
+  public logo: string;
+  @Field(_ => String)
+  public type: string;
+  @Field(_ => String, { nullable: true })
+  public symbol?: string;
+}
+
+@ArgsType()
+export class GetTokenMetadataRequset {
+  @Field(_ => ProviderType)
+  public provider: ProviderType;
+}
+
+@Resolver()
+export class TokenMetaResolver {
+  public tokenMetadataList: Array<TokenMetadata> = [];
+  public testTokenMetadataList: Array<TokenMetadata> = [];
+  constructor() {
+    for (const [k, v] of Object.entries(tokenMetadatas as {
+      [key: string]: TokenMetadata;
+    })) {
+      this.tokenMetadataList.push({
+        ...v,
+        address: k,
+        logo: `https://iotexscan.io/image/token/${v.logo}`
+      });
+    }
+    for (const [k, v] of Object.entries(testnetTokenMetadas as {
+      [key: string]: TokenMetadata;
+    })) {
+      this.testTokenMetadataList.push({
+        ...v,
+        address: k,
+        logo: `https://iotexscan.io/image/token/${v.logo}`
+      });
+    }
+  }
+
+  @Query(_ => [TokenMetadata])
+  public async tokenMetadatas(@Args()
+  {
+    provider
+  }: GetTokenMetadataRequset): Promise<Array<TokenMetadata>> {
+    return provider === "mainnet"
+      ? this.tokenMetadataList
+      : this.testTokenMetadataList;
   }
 }
