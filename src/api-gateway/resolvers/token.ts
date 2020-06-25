@@ -11,8 +11,8 @@ import {
 //@ts-ignore
 import testnetTokenMetadas from "iotex-testnet-token-metadata";
 //@ts-ignore
-import tokenMetadatas from "iotex-token-metadata";
-import addressMetas from "../address-meta.json";
+import tokenMetadata from "iotex-token-metadata";
+import addressMeta from "../address-meta.json";
 
 @ArgsType()
 export class AddressMetaRequest {
@@ -32,7 +32,7 @@ export class AddressResolver {
   public async addressMeta(@Args() { address }: AddressMetaRequest): Promise<
     AddressMeta
   > {
-    const meta = addressMetas.find(m => m.address === address);
+    const meta = addressMeta.find(m => m.address === address);
     if (meta) {
       return {
         name: meta.name
@@ -74,7 +74,7 @@ export class TokenMetaResolver {
   public tokenMetadataList: Array<TokenMetadata> = [];
   public testTokenMetadataList: Array<TokenMetadata> = [];
   constructor() {
-    for (const [k, v] of Object.entries(tokenMetadatas as {
+    for (const [k, v] of Object.entries(tokenMetadata as {
       [key: string]: TokenMetadata;
     })) {
       this.tokenMetadataList.push({
