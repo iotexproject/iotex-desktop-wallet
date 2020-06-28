@@ -9,7 +9,7 @@ import {
 } from "type-graphql";
 
 //@ts-ignore
-import testnetTokenMetadas from "iotex-testnet-token-metadata";
+import testnetTokenMetada from "iotex-testnet-token-metadata";
 //@ts-ignore
 import tokenMetadata from "iotex-token-metadata";
 import addressMeta from "../address-meta.json";
@@ -83,7 +83,7 @@ export class TokenMetaResolver {
         logo: `https://iotexscan.io/image/token/${v.logo}`
       });
     }
-    for (const [k, v] of Object.entries(testnetTokenMetadas as {
+    for (const [k, v] of Object.entries(testnetTokenMetada as {
       [key: string]: TokenMetadata;
     })) {
       this.testTokenMetadataList.push({
