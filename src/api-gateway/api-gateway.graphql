@@ -497,6 +497,11 @@ input PlumTransferInput {
   recipient: String!
 }
 
+enum ProviderType {
+  mainnet
+  testnet
+}
+
 type PutBlock {
   subChainAddress: String!
   height: Int!
@@ -586,6 +591,7 @@ type Query {
   getSolcVersions: [SolcVersion!]!
   compileSolidity(source: String!, version: String!): [Contract!]!
   addressMeta(address: String!): AddressMeta!
+  tokenMetadatas(provider: ProviderType!): [TokenMetadata!]!
 }
 
 type ReadContractResponse {
@@ -816,6 +822,14 @@ type Timestamp {
 input TimestampInput {
   seconds: Int!
   nanos: Int!
+}
+
+type TokenMetadata {
+  name: String!
+  address: String!
+  logo: String!
+  type: String!
+  symbol: String
 }
 
 type Transfer {

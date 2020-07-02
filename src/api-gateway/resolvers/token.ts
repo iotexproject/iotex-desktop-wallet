@@ -4,10 +4,15 @@ import {
   Field,
   ObjectType,
   Query,
+  registerEnumType,
   Resolver
 } from "type-graphql";
 
-import addressMetas from "../address-meta.json";
+//@ts-ignore
+import testnetTokenMetada from "iotex-testnet-token-metadata";
+//@ts-ignore
+import tokenMetadata from "iotex-token-metadata";
+import addressMeta from "../address-meta.json";
 
 @ArgsType()
 export class AddressMetaRequest {
@@ -27,12 +32,75 @@ export class AddressResolver {
   public async addressMeta(@Args() { address }: AddressMetaRequest): Promise<
     AddressMeta
   > {
-    const meta = addressMetas.find(m => m.address === address);
+    const meta = addressMeta.find(m => m.address === address);
     if (meta) {
       return {
         name: meta.name
       };
     }
     throw new Error("Not exists!");
+  }
+}
+
+export enum ProviderType {
+  mainnet = "mainnet",
+  testnet = "testnet"
+}
+
+registerEnumType(ProviderType, { name: "ProviderType" });
+
+@ObjectType()
+export class TokenMetadata {
+  @Field(_ => String)
+  public name: string;
+  @Field(_ => String)
+  public address: string;
+  @Field(_ => String)
+  public logo: string;
+  @Field(_ => String)
+  public type: string;
+  @Field(_ => String, { nullable: true })
+  public symbol?: string;
+}
+
+@ArgsType()
+export class GetTokenMetadataRequset {
+  @Field(_ => ProviderType)
+  public provider: ProviderType;
+}
+
+@Resolver()
+export class TokenMetaResolver {
+  public tokenMetadataList: Array<TokenMetadata> = [];
+  public testTokenMetadataList: Array<TokenMetadata> = [];
+  constructor() {
+    for (const [k, v] of Object.entries(tokenMetadata as {
+      [key: string]: TokenMetadata;
+    })) {
+      this.tokenMetadataList.push({
+        ...v,
+        address: k,
+        logo: `https://iotexscan.io/image/token/${v.logo}`
+      });
+    }
+    for (const [k, v] of Object.entries(testnetTokenMetada as {
+      [key: string]: TokenMetadata;
+    })) {
+      this.testTokenMetadataList.push({
+        ...v,
+        address: k,
+        logo: `https://iotexscan.io/image/token/${v.logo}`
+      });
+    }
+  }
+
+  @Query(_ => [TokenMetadata])
+  public async tokenMetadatas(@Args()
+  {
+    provider
+  }: GetTokenMetadataRequset): Promise<Array<TokenMetadata>> {
+    return provider === "mainnet"
+      ? this.tokenMetadataList
+      : this.testTokenMetadataList;
   }
 }
