@@ -2,7 +2,7 @@ import RpcMethod from "iotex-antenna/lib/rpc-method/node-rpc-method";
 import mongoose from "mongoose";
 // @ts-ignore
 import { MyServer } from "../start-server";
-import { fetchTotalSupply } from "./analytics";
+import { analytics } from "./analytics";
 import { fetchCoinPrice } from "./coin-market-cap";
 import { getSendgrid } from "./get-sendgrid";
 
@@ -28,6 +28,6 @@ export function setGateways(server: MyServer): void {
   const gateways = server.config.gateways;
   server.gateways.antenna = new RpcMethod(gateways.iotexAntenna);
   server.gateways.coinmarketcap = { fetchCoinPrice };
-  server.gateways.analytics = { fetchTotalSupply };
+  server.gateways.analytics = analytics;
   server.gateways.sendgrid = getSendgrid(gateways.sendgrid);
 }

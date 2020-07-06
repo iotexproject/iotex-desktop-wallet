@@ -12,6 +12,7 @@ import {
 } from "../api-gateway/resolvers/token";
 import { setModel } from "../model";
 import "../shared/common/setup-big-number";
+import { analytics } from "./gateways/analytics";
 import { setGateways } from "./gateways/gateways";
 import { setMiddleware } from "./middleware";
 import { setServerRoutes } from "./server-routes";
@@ -28,7 +29,7 @@ export type MyServer = Server & {
   gateways: {
     antenna: RpcMethod;
     coinmarketcap: { fetchCoinPrice(): Promise<AxiosResponse> };
-    analytics: { fetchTotalSupply(): Promise<string> };
+    analytics: typeof analytics;
     sendgrid: {};
   };
   config: MyConfig;

@@ -56,8 +56,7 @@ export function setServerRoutes(server: MyServer): void {
 
   server.get(
     "SPA",
-    // @ts-ignore
-    /^(?!\/?api-gateway\/).+$/,
+    /^(?!\/?api-gateway\/|\/api\/.*).+$/,
     async (ctx: koa.Context) => {
       setConfigs(server, ctx);
       ctx.body = await apolloSSR(ctx, {

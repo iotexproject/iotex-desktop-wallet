@@ -54,7 +54,7 @@ export class MetaResolver implements ResolverInterface<() => String> {
 
   @Query(_ => String, { description: "Total supply for the native IOTX token" })
   public async totalSupply(@Ctx() { gateways }: any): Promise<string> {
-    const total = await gateways.analytics.fetchTotalSupply();
+    const total = await gateways.analytics.fetchSupply();
     return `${total}`;
   }
 
