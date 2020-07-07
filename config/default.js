@@ -84,7 +84,8 @@ module.exports = {
       "https://www.google-analytics.com/",
       "https://translate.google.com/",
       "https://translate.googleapis.com/",
-      "https://ethereum.github.io/solc-bin/bin/"
+      "https://ethereum.github.io/solc-bin/bin/",
+      "https://iotex-explorer.b-cdn.net/"
     ]
   },
   webBpApiGatewayUrl:
