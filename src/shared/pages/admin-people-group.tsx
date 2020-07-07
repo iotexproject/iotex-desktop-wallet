@@ -1,7 +1,11 @@
-import { Button, Form, Icon, Input, Popover, Table } from "antd";
+import Button from "antd/lib/button";
+import Form from "antd/lib/form";
 import { WrappedFormUtils } from "antd/lib/form/Form";
+import Icon from "antd/lib/icon";
+import Input from "antd/lib/input";
+import Popover from "antd/lib/popover";
+import Table from "antd/lib/table";
 import { styled } from "onefx/lib/styletron-react";
-// import { ColumnProps } from "antd/es/table";
 import React from "react";
 
 interface EditableCellProps {

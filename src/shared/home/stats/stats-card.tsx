@@ -50,7 +50,7 @@ const StatsCard: React.FC<IStatsCardProps> = ({
       <Card
         style={{
           height: 190,
-          backgroundImage: `url(${assetURL("/stat_box_bg.png")})`,
+          backgroundImage: `url(${assetURL("stat_box_bg.png")})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           borderRadius: 6,

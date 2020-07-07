@@ -18,7 +18,7 @@ const fontFamily = "'Heebo',sans-serif,Microsoft YaHei !important";
 const Styles = {
   mapBox: {
     height: 390,
-    backgroundImage: `url(${assetURL("/map_box_bg.png")})`,
+    backgroundImage: `url(${assetURL("map_box_bg.png")})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     borderRadius: 6,

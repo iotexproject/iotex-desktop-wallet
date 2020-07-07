@@ -1,4 +1,6 @@
-import { Col, Icon, Row } from "antd";
+import Col from "antd/lib/col";
+import Icon from "antd/lib/icon";
+import Row from "antd/lib/row";
 import BigNumber from "bignumber.js";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";

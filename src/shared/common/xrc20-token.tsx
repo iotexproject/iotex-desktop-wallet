@@ -1,4 +1,4 @@
-import { Tag } from "antd";
+import Tag from "antd/lib/tag";
 import BigNumber from "bignumber.js";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import React, { useState } from "react";

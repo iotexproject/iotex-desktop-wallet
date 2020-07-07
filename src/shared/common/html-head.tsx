@@ -15,15 +15,7 @@ import "moment/locale/de";
 import "moment/locale/it";
 import "moment/locale/zh-cn";
 
-export function HtmlHead({
-  locale,
-  isEnterprise
-}: {
-  locale: string;
-  isEnterprise: boolean;
-}): JSX.Element {
-  const favicon = isEnterprise ? "/favicon-xunlian.png" : "/favicon.png";
-  // set momment language
+export function HtmlHead({ locale }: { locale: string }): JSX.Element {
   moment.locale(locale);
 
   return (
@@ -45,29 +37,27 @@ export function HtmlHead({
           type: "text/javascript"
         },
         {
-          src: assetURL("/browser-solc.min.js"),
+          src: assetURL("browser-solc.min.js"),
           type: "text/javascript"
         }
       ]}
       link={[
         // PWA & mobile
         { rel: "manifest", href: "/manifest.json" },
-        { rel: "apple-touch-icon", href: favicon },
+        { rel: "apple-touch-icon", href: assetURL("favicon.png") },
 
         {
           rel: "icon",
           type: "image/png",
           sizes: "any",
-          href: assetURL(favicon)
+          href: assetURL("/favi")
         },
 
         // styles
         {
           rel: "stylesheet",
           type: "text/css",
-          href: assetURL(
-            `/stylesheets/main${isEnterprise ? "-enterprise" : ""}.css`
-          )
+          href: assetURL(`/stylesheets/main.css`)
         },
         {
           href:

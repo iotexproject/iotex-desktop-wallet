@@ -1,4 +1,4 @@
-import { Tag } from "antd";
+import Tag from "antd/lib/tag";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import React from "react";
 import { VerticalTableRender } from "../common/vertical-table";

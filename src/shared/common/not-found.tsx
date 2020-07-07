@@ -12,7 +12,7 @@ export function NotFound(): JSX.Element {
   return (
     <Status code={404}>
       <ErrorPage
-        bg={assetURL("/bg_404.png")}
+        bg={assetURL("bg_404.png")}
         bar={t("not_found.bar")}
         title={t("not_found.title")}
         info={t("not_found.info")}

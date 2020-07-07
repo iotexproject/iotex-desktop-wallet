@@ -1,5 +1,8 @@
-import { Col, Popover, Row, Tooltip } from "antd";
+import Col from "antd/lib/col";
 import Icon from "antd/lib/icon";
+import Popover from "antd/lib/popover";
+import Row from "antd/lib/row";
+import Tooltip from "antd/lib/tooltip";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { LinkButton } from "./buttons";

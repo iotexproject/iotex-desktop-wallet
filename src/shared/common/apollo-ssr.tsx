@@ -21,6 +21,7 @@ import { getDataFromTree } from "react-apollo";
 import * as engine from "styletron-engine-atomic";
 import { IWalletState } from "../wallet/wallet-reducer";
 import { analyticsClient, webBpApolloClient } from "./apollo-client";
+const ROUTE_PREFIX = config.get("server.routePrefix") || "";
 
 type Opts = {
   VDom: JSX.Element;
@@ -32,17 +33,17 @@ export async function apolloSSR(
   ctx: koa.Context,
   { VDom, reducer, clientScript }: Opts
 ): Promise<string> {
-  const routePrefix = config.get("server.routePrefix") || "";
   ctx.setState(
     "base.apiGatewayUrl",
-    `${ctx.origin}${routePrefix}/api-gateway/`
+    `${ctx.origin}${ROUTE_PREFIX}/api-gateway/`
   );
+
   const apolloClient = new ApolloClient({
     ssrMode: true,
     link: createHttpLink({
       uri: `http://localhost:${config.get(
         "server.port"
-      )}${routePrefix}/api-gateway/`,
+      )}${ROUTE_PREFIX}/api-gateway/`,
       fetch,
       credentials: "same-origin",
       headers: {
@@ -71,6 +72,7 @@ export async function apolloSSR(
         store={store}
         location={ctx.url}
         context={context}
+        routePrefix={state.base.routePrefix}
         styletron={styletron}
       >
         <ApolloProvider client={apolloClient}>{VDom}</ApolloProvider>

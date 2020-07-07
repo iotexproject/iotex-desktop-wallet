@@ -1,4 +1,4 @@
-import { Icon } from "antd";
+import Icon from "antd/lib/icon";
 import React from "react";
 import { colors } from "../common/styles/style-color";
 import { VerticalTableRender } from "../common/vertical-table";

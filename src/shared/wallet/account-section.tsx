@@ -217,7 +217,7 @@ class AccountSection extends React.Component<Props, State> {
           className="blur-image"
           style={{ maxWidth: "100%", maxHeight: 400 }}
           alt="globe"
-          src={assetURL("/unlock-wallet.png")}
+          src={assetURL("unlock-wallet.png")}
         />
         <div className="centered-text">
           <p>{t("account.empty.unlock")}</p>

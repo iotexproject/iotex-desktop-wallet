@@ -1,4 +1,4 @@
-import { Tag } from "antd";
+import Tag from "antd/lib/tag";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import isBrowser from "is-browser";
 import { Dict } from "onefx/lib/types";

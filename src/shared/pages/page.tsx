@@ -1,4 +1,4 @@
-import { Col } from "antd";
+import Col from "antd/lib/col";
 import Row, { RowProps } from "antd/lib/row";
 import React from "react";
 import { SpinPreloader } from "../common/spin-preloader";

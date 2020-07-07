@@ -12,7 +12,7 @@ export function ComingSoon(): JSX.Element {
   return (
     <Status code={404}>
       <ErrorPage
-        bg={assetURL("/coming_soon.png")}
+        bg={assetURL("coming_soon.png")}
         bar={t("coming_soon.bar")}
         title={t("coming_soon.title")}
       />
