@@ -97,7 +97,9 @@ const XRC20TokenBalanceTag: React.FC<{ contract: string; address: string }> = ({
       setBalance("");
     });
   const [balance, setBalance] = useState("");
-  return balance ? <Tag>{balance}</Tag> : null;
+  return balance ? (
+    <Tag>{balance.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}</Tag>
+  ) : null;
 };
 
 const XRC20TokenValue: React.FC<{ contract: string; value: BigNumber }> = ({
