@@ -1,6 +1,6 @@
-// @ts-ignore
-import { Col, Row } from "antd";
+import Col from "antd/lib/col";
 import notification from "antd/lib/notification";
+import Row from "antd/lib/row";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";

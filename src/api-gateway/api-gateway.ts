@@ -1,4 +1,5 @@
 import { ApolloServer } from "apollo-server-koa";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 import * as path from "path";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
@@ -7,14 +8,15 @@ import { MyServer } from "../server/start-server";
 import { AntennaResolver } from "./resolvers/antenna";
 import { MetaResolver } from "./resolvers/meta";
 import { SolcResolver } from "./resolvers/solc";
-import { AddressResolver } from "./resolvers/token";
+import { AddressResolver, TokenMetaResolver } from "./resolvers/token";
 
 export async function setApiGateway(server: MyServer): Promise<void> {
   const resolvers = [
     MetaResolver,
     AntennaResolver,
     SolcResolver,
-    AddressResolver
+    AddressResolver,
+    TokenMetaResolver
   ];
   server.resolvers = resolvers;
 
@@ -40,4 +42,16 @@ export async function setApiGateway(server: MyServer): Promise<void> {
   });
   const gpath = "/api-gateway/";
   apollo.applyMiddleware({ app: server.app, path: gpath });
+
+  server.get("api-total-supply", "/api/total-supply", async ctx => {
+    const s = await server.gateways.analytics.fetchSupply();
+    ctx.response.body = fromRau(String(s.totalSupply), "Iotx");
+  });
+  server.get("api-circulating-supply", "/api/circulating-supply", async ctx => {
+    const s = await server.gateways.analytics.fetchSupply();
+    ctx.response.body = fromRau(String(s.totalCirculatingSupply), "Iotx");
+  });
+  server.get("api-number-of-accounts", "/api/number-of-accounts", async ctx => {
+    ctx.response.body = await server.gateways.analytics.totalNumberOfHolders();
+  });
 }

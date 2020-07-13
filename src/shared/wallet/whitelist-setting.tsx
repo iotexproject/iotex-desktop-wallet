@@ -1,6 +1,8 @@
-import { Checkbox, Form, InputNumber } from "antd";
-import { FormComponentProps } from "antd/es/form";
+import Checkbox from "antd/lib/checkbox";
+import { FormComponentProps } from "antd/lib/form";
+import Form from "antd/lib/form";
 import { WrappedFormUtils } from "antd/lib/form/Form";
+import InputNumber from "antd/lib/input-number";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";

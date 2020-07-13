@@ -6,9 +6,13 @@ import { Config, Server } from "onefx/lib/server";
 import { AntennaResolver } from "../api-gateway/resolvers/antenna";
 import { MetaResolver } from "../api-gateway/resolvers/meta";
 import { SolcResolver } from "../api-gateway/resolvers/solc";
-import { AddressResolver } from "../api-gateway/resolvers/token";
+import {
+  AddressResolver,
+  TokenMetaResolver
+} from "../api-gateway/resolvers/token";
 import { setModel } from "../model";
 import "../shared/common/setup-big-number";
+import { analytics } from "./gateways/analytics";
 import { setGateways } from "./gateways/gateways";
 import { setMiddleware } from "./middleware";
 import { setServerRoutes } from "./server-routes";
@@ -19,12 +23,13 @@ export type MyServer = Server & {
     | typeof AntennaResolver
     | typeof SolcResolver
     | typeof AddressResolver
+    | typeof TokenMetaResolver
   >;
   model: {};
   gateways: {
     antenna: RpcMethod;
     coinmarketcap: { fetchCoinPrice(): Promise<AxiosResponse> };
-    analytics: { fetchTotalSupply(): Promise<string> };
+    analytics: typeof analytics;
     sendgrid: {};
   };
   config: MyConfig;
@@ -45,7 +50,6 @@ export type MyConfig = Config & {
   enableSignIn: boolean;
   apiGatewayUrl: string;
   analyticsApiGatewayUrl: string;
-  isEnterprise: boolean;
 };
 
 const defaultConfig: Config = {

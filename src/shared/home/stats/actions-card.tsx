@@ -42,7 +42,7 @@ export const ActionsCard = (): JSX.Element => {
             loading={showLoading}
             title={t("home.stats.actions")}
             titleStyle={{
-              backgroundImage: `url(${assetURL("/icon_overviw_TPS.png")})`
+              backgroundImage: `url(${assetURL("icon_overviw_TPS.png")})`
             }}
             value={numberOfActions}
             prefix={

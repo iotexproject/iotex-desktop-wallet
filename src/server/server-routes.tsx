@@ -33,7 +33,7 @@ export function setServerRoutes(server: MyServer): void {
   });
 
   // Iotex Token Image
-  server.get("token-image", "/image/token/*", async (ctx: koa.Context) => {
+  server.get("token-image", "/image/token/(.*)", async (ctx: koa.Context) => {
     await send(
       ctx,
       path.resolve(
@@ -56,14 +56,13 @@ export function setServerRoutes(server: MyServer): void {
 
   server.get(
     "SPA",
-    // @ts-ignore
-    /^(?!\/?api-gateway\/).+$/,
+    /^(?!\/?api-gateway\/|\/api\/.*).+$/,
     async (ctx: koa.Context) => {
       setConfigs(server, ctx);
       ctx.body = await apolloSSR(ctx, {
         VDom: <AppContainer />,
         reducer: noopReducer,
-        clientScript: "/main.js"
+        clientScript: "main.js"
       });
     }
   );

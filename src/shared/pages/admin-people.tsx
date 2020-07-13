@@ -1,17 +1,15 @@
-import {
-  Button,
-  Checkbox,
-  Col,
-  Divider,
-  Form,
-  Icon,
-  Input,
-  Modal,
-  Popover,
-  Row,
-  Table
-} from "antd";
+import Button from "antd/lib/button";
+import Checkbox from "antd/lib/checkbox";
+import Col from "antd/lib/col";
+import Divider from "antd/lib/divider";
+import Form from "antd/lib/form";
 import { WrappedFormUtils } from "antd/lib/form/Form";
+import Icon from "antd/lib/icon";
+import Input from "antd/lib/input";
+import Modal from "antd/lib/modal";
+import Popover from "antd/lib/popover";
+import Row from "antd/lib/row";
+import Table from "antd/lib/table";
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import WrapperAdminGroupMode from "./admin-people-group";

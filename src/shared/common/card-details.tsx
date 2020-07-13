@@ -1,4 +1,4 @@
-import { Icon } from "antd";
+import Icon from "antd/lib/icon";
 import React from "react";
 import { Page } from "../pages/page";
 import { CopyToClipboard } from "./copy-to-clipboard";

@@ -1,4 +1,4 @@
-import { message } from "antd";
+import message from "antd/lib/message";
 import Modal from "antd/lib/modal/Modal";
 // @ts-ignore
 import window from "global/window";

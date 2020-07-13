@@ -1,8 +1,5 @@
-// @ts-ignore
 import { configureStore } from "onefx/lib/iso-react-render/root/configure-store";
-// @ts-ignore
 import { RootServer } from "onefx/lib/iso-react-render/root/root-server";
-// @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
 import React from "react";
 // @ts-ignore
@@ -20,9 +17,15 @@ export function TestRoot({ children }: { children: JSX.Element }): JSX.Element {
   const styletron = new StyletronClient({ hydrate: stylesheets, prefix: "_" });
 
   return (
-    <RootServer store={store} styletron={styletron} context={{}} location={""}>
+    <RootServer
+      store={store}
+      styletron={styletron}
+      context={{}}
+      location={""}
+      routePrefix={""}
+    >
       <div>
-        <HtmlHead locale={"en"} isEnterprise={false} />
+        <HtmlHead locale={"en"} />
         <Helmet>
           <link
             rel="stylesheet"

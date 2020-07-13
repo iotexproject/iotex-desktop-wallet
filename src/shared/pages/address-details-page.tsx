@@ -92,7 +92,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
           if (!loading && (!data || Object.keys(data).length === 0)) {
             return (
               <ErrorPage
-                bg={assetURL("/action-not-found.png")}
+                bg={assetURL("action-not-found.png")}
                 bar={t("not_found.bar")}
                 info={t("not_found.info")}
                 title={t("not_found.title")}

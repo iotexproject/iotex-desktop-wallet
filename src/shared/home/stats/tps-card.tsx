@@ -34,7 +34,7 @@ export const TPSCard = (): JSX.Element => {
             loading={showLoading}
             title={t("home.stats.tps")}
             titleStyle={{
-              backgroundImage: `url(${assetURL("/icon_overviw_TPS.png")})`
+              backgroundImage: `url(${assetURL("icon_overviw_TPS.png")})`
             }}
             value={currentTps}
             prefix={

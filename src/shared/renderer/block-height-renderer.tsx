@@ -1,5 +1,7 @@
-import { Col, Icon, Row } from "antd";
+import Col from "antd/lib/col";
+import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
+import Row from "antd/lib/row";
 import { get } from "dottie";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";

@@ -11,7 +11,7 @@ import React, { FC } from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 
-import { List } from "antd";
+import List from "antd/lib/list";
 import moment from "moment";
 import { withRouter } from "react-router";
 import {

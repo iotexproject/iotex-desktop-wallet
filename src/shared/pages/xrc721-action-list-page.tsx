@@ -1,7 +1,7 @@
-import { Tabs } from "antd";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
 import Table, { ColumnProps } from "antd/lib/table";
+import Tabs from "antd/lib/tabs";
 import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { t } from "onefx/lib/iso-i18n";
