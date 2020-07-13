@@ -1,6 +1,7 @@
 // @ts-ignore
 import window from "global/window";
 import isElectron from "is-electron";
+import { t } from "onefx/lib/iso-i18n";
 import { MouseEvent } from "react";
 
 export const onElectronClick = (url: string) => (e: MouseEvent): boolean => {
@@ -10,4 +11,13 @@ export const onElectronClick = (url: string) => (e: MouseEvent): boolean => {
   e.preventDefault();
   window.xopen(url);
   return false;
+};
+
+export const getIoPayDesktopVersionName = () => {
+  if (!isElectron() || !window.getAppInfo) {
+    return "";
+  }
+  const appInfo = window.getAppInfo();
+  const appVersion = appInfo.appVersion;
+  return `${t("wallet.desktop.app", { appVersion })}`;
 };
