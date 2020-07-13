@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
@@ -153,6 +154,7 @@ const parseActionDetails = (data: IActionsDetails) => {
 const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
   props
 ): JSX.Element => {
+  BigNumber.config({ DECIMAL_PLACES: 8, ROUNDING_MODE: BigNumber.ROUND_DOWN });
   const { hash } = props.match.params;
   if (!hash || hash.length !== 64) {
     return <NotFound />;
