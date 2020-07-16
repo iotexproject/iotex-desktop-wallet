@@ -34,14 +34,6 @@ import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { Page } from "./page";
 const PAGE_SIZE = 15;
 
-export type WidthTypes = {
-  actHashWidth: string;
-  senderWidth: string;
-  typeWidth: string;
-  timeStamp?: string;
-  toWidth: string;
-};
-
 export function getAddress(record: ActionInfo): string {
   const addr: string =
     get(record, "action.core.transfer.recipient") ||
@@ -79,13 +71,10 @@ const filterTypeDropDown = () => (
   </div>
 );
 
-const getActionListColumns = (
-  width: WidthTypes
-): Array<ColumnProps<ActionInfo>> => [
+const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
   {
     title: t("action.hash"),
     dataIndex: "actHash",
-    width: width.actHashWidth,
     render: text => <ActionHashRenderer value={text} />
   },
   {
@@ -96,7 +85,6 @@ const getActionListColumns = (
   {
     title: t("action.sender"),
     dataIndex: "sender",
-    width: width.senderWidth,
     render(_: string, record: ActionInfo, __: number): JSX.Element {
       const addr = publicKeyToAddress(String(record.action.senderPubKey));
       return (
@@ -112,7 +100,6 @@ const getActionListColumns = (
   {
     title: t("action.type"),
     dataIndex: "name",
-    width: width.typeWidth,
     render: (_: string, record: ActionInfo, __: number): JSX.Element => {
       return <Tag>{getActionType(record)}</Tag>;
     },
@@ -121,7 +108,6 @@ const getActionListColumns = (
   {
     title: t("render.key.to"),
     dataIndex: "to",
-    width: width.toWidth,
     render: (_: string, record: ActionInfo): JSX.Element | string => {
       const receipt = getAddress(record);
       return receipt !== "-" ? (
@@ -217,12 +203,6 @@ export const ActionTable: React.FC<IActionTable> = ({
             message: `failed to query actions in ActionTable: ${error}`
           });
         }
-        const widths = {
-          actHashWidth: "12vw",
-          senderWidth: "12vw",
-          typeWidth: "8vw",
-          toWidth: "10vw"
-        };
         const actions =
           get<Array<ActionInfo>>(data || {}, "getActions.actionInfo") || [];
         return (
@@ -233,7 +213,7 @@ export const ActionTable: React.FC<IActionTable> = ({
             }}
             rowKey="actHash"
             dataSource={actions}
-            columns={getActionListColumns(widths)}
+            columns={getActionListColumns()}
             style={{ width: "100%" }}
             scroll={{ x: "auto" }}
             pagination={{
@@ -270,31 +250,25 @@ export interface IActionByTypeInfo {
   gasFee: string;
 }
 
-const getActionByTypeColumns = (
-  width: WidthTypes
-): Array<ColumnProps<IActionByTypeInfo>> => [
+const getActionByTypeColumns = (): Array<ColumnProps<IActionByTypeInfo>> => [
   {
     title: t("action.hash"),
     dataIndex: "actHash",
-    width: width.actHashWidth,
     render: text => <ActionHashRenderer value={text} />
   },
   {
     title: t("block.timestamp"),
     dataIndex: "timeStamp",
-    width: width.timeStamp,
     render: (_, { timeStamp }) => moment.unix(parseInt(timeStamp, 10)).fromNow()
   },
   {
     title: t("action.sender"),
     dataIndex: "sender",
-    width: width.senderWidth,
     render: text => <AddressName address={text} />
   },
   {
     title: t("action.type"),
     dataIndex: "actType",
-    width: width.typeWidth,
     render: (text): JSX.Element => {
       return <Tag>{text}</Tag>;
     },
@@ -303,7 +277,6 @@ const getActionByTypeColumns = (
   {
     title: t("render.key.to"),
     dataIndex: "recipient",
-    width: width.toWidth,
     render: text => <AddressName address={text} />
   },
   {
@@ -357,13 +330,6 @@ export const ActionTableByType: FC<{ actionType: string }> = ({
             data.action.byType &&
             data.action.byType.actions) ||
           [];
-        const widths = {
-          actHashWidth: "12vw",
-          timeStamp: "8vw",
-          senderWidth: "12vw",
-          typeWidth: "8vw",
-          toWidth: "10vw"
-        };
         const numActions =
           data && data.action && data.action.byType && data.action.byType.count;
         return (
@@ -374,7 +340,7 @@ export const ActionTableByType: FC<{ actionType: string }> = ({
             }}
             rowKey="actHash"
             dataSource={actions}
-            columns={getActionByTypeColumns(widths)}
+            columns={getActionByTypeColumns()}
             style={{ width: "100%" }}
             scroll={{ x: "auto" }}
             pagination={{
