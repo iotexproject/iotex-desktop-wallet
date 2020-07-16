@@ -80,6 +80,7 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
   {
     title: t("block.timestamp"),
     dataIndex: "timestamp",
+    className: "age",
     render: (_, { timestamp }) => translateFn(timestamp)
   },
   {
@@ -125,6 +126,7 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
   {
     title: t("action.amount"),
     dataIndex: "amount",
+    className: "amount",
     render(_: string, record: ActionInfo, __: number): string {
       const amount: string =
         get(record, "action.core.execution.amount") ||
