@@ -12,6 +12,7 @@ import { GET_ANALYTICS_CONTRACT_ACTIONS } from "../queries";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { BlockHashRenderer } from "../renderer/block-hash-renderer";
 import { IOTXValueRenderer } from "../renderer/iotx-value-renderer";
+import { IOTXStatusRenderer } from "../renderer/iotx-status-renderer";
 
 const PAGE_SIZE = 15;
 
@@ -78,6 +79,13 @@ const getEvmTransferListColumns = (): Array<ColumnProps<IEvmTransferInfo>> => [
     dataIndex: "quantity",
     render(text: string): JSX.Element {
       return <IOTXValueRenderer value={text} />;
+    }
+  },
+  {
+    title: t("render.key.status"),
+    dataIndex: "status",
+    render(_: string, row: IEvmTransferInfo): JSX.Element {
+      return <IOTXStatusRenderer value={row.actHash} />;
     }
   }
 ];
