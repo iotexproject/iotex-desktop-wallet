@@ -24,14 +24,10 @@ const IOTXStatusRenderer: VerticalTableRender<string> = ({ value }) => {
       errorPolicy="ignore"
       query={GET_ACTION_STATUS_BY_HASH}
       variables={{ actionHash: value, checkingPending: true }}
-      pollInterval={3000}
     >
-      {({ error, data, loading, stopPolling }: GetActionDetailsResponse) => {
-        if (error || (!loading && (!data || !data.action || !data.receipt))) {
+      {({ error, data, loading }: GetActionDetailsResponse) => {
+        if (error || (!loading && (!data || !data.receipt))) {
           return null;
-        }
-        if (data && data.action) {
-          stopPolling();
         }
         if (loading) {
           return <Spin />;

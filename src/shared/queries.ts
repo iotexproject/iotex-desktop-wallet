@@ -384,19 +384,12 @@ export const GET_ACTION_DETAILS_BY_HASH = gql`
 `;
 
 export const GET_ACTION_STATUS_BY_HASH = gql`
-  query getActions($actionHash: String!, $checkingPending:Boolean!) {
-    action:getActions(byHash: {
-      actionHash: $actionHash,
-      checkingPending: $checkingPending
-    }) {
-      ${FULL_ACTION_INFO}
-    }
-    receipt:getReceiptByAction(actionHash: $actionHash) {
+  query getActions($actionHash: String!) {
+    receipt: getReceiptByAction(actionHash: $actionHash) {
       receiptInfo {
         receipt {
           status
         }
-        blkHash
       }
     }
   }
