@@ -30,14 +30,18 @@ const IOTXStatusRenderer: VerticalTableRender<string> = ({ value }) => {
         if (error || (!loading && (!data || !data.action || !data.receipt))) {
           return null;
         }
+
         if (data && data.action) {
           stopPolling();
         }
+
         if (loading) {
           return <Spin />;
         }
+
         const status = parseActionDetailsStatus(data || {});
         const statusColor = status === "Success" ? "green" : "volcano";
+
         return <Tag color={statusColor}>{status}</Tag>;
       }}
     </Query>
