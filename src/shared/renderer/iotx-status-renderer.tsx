@@ -23,7 +23,7 @@ const IOTXStatusRenderer: VerticalTableRender<string> = ({ value }) => {
     <Query
       errorPolicy="ignore"
       query={GET_ACTION_STATUS_BY_HASH}
-      variables={{ actionHash: value, checkingPending: true }}
+      variables={{ actionHash: value }}
     >
       {({ error, data, loading }: GetActionDetailsResponse) => {
         if (error || (!loading && (!data || !data.receipt))) {
