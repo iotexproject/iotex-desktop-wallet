@@ -36,7 +36,6 @@ const IOTXStatusRenderer: VerticalTableRender<string> = ({ value }) => {
         if (loading) {
           return <Spin />;
         }
-
         const status = parseActionDetailsStatus(data || {});
         const statusColor = status === "Success" ? "green" : "volcano";
         return <Tag color={statusColor}>{status}</Tag>;
