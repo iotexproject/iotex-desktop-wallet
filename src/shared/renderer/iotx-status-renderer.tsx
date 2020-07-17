@@ -3,7 +3,6 @@ import Tag from "antd/lib/tag";
 import { get } from "dottie";
 import React from "react";
 import { Query } from "react-apollo";
-import { NotFound } from "../common/not-found";
 import { Dict } from "../common/types";
 import { VerticalTableRender } from "../common/vertical-table";
 import {
