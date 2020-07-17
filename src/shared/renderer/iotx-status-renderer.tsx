@@ -1,16 +1,16 @@
+import Spin from "antd/lib/spin";
 import Tag from "antd/lib/tag";
+import { get } from "dottie";
 import React from "react";
-import { VerticalTableRender } from "../common/vertical-table";
 import { Query } from "react-apollo";
-import { GET_ACTION_STATUS_BY_HASH } from "../queries";
+import { NotFound } from "../common/not-found";
+import { Dict } from "../common/types";
+import { VerticalTableRender } from "../common/vertical-table";
 import {
   GetActionDetailsResponse,
   IActionsDetails
 } from "../pages/action-detail-page";
-import { NotFound } from "../common/not-found";
-import Spin from "antd/lib/spin";
-import { get } from "dottie";
-import { Dict } from "../common/types";
+import { GET_ACTION_STATUS_BY_HASH } from "../queries";
 
 const parseActionDetailsStatus = (data: IActionsDetails) => {
   // destruct receipt info
@@ -34,7 +34,9 @@ const IOTXStatusRenderer: VerticalTableRender<string> = ({ value }) => {
         if (data && data.action) {
           stopPolling();
         }
-        if (loading) return <Spin />;
+        if (loading) {
+          return <Spin />;
+        }
 
         const status = parseActionDetailsStatus(data || {});
         return (
