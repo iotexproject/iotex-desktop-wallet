@@ -26,6 +26,10 @@ function isArray(arr: LogObject): string {
   return Object.prototype.toString.call(arr);
 }
 
+function convertHexToUTF8(hex: string): string {
+  return new Buffer(hex, "hex").toString("utf8");
+}
+
 interface LogObject {
   [key: string]: LogObject;
 }
@@ -189,13 +193,22 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
           if (data && data.action) {
             stopPolling();
           }
-          const details = parseActionDetails(data || {});
+          let details = parseActionDetails(data || {});
           const actionUrl = `${
             isBrowser ? location.origin : ""
           }/action/${hash}`;
           const emailBody = t("share_link.email_body", {
             href: actionUrl
           });
+          details = {
+            ...details,
+            payload: {
+              transfer: {
+                ...details.payload.transfer,
+                payload: convertHexToUTF8(details.payload.transfer.payload)
+              }
+            }
+          };
           return (
             <ContentPadding>
               <CardDetails
