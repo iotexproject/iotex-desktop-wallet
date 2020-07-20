@@ -4,7 +4,6 @@ import Row from "antd/lib/grid/row";
 import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
 import isElectron from "is-electron";
-import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
