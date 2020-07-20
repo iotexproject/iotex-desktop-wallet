@@ -200,17 +200,17 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
           const emailBody = t("share_link.email_body", {
             href: actionUrl
           });
-          if (
-            details.payload &&
-            details.payload.transfer &&
-            details.payload.transfer.payload
-          ) {
+
+          if (get(details, "payload.transfer.payload")) {
             details = {
               ...details,
               payload: {
+                ...get(details, "payload"),
                 transfer: {
-                  ...details.payload.transfer,
-                  payload: convertHexToUTF8(details.payload.transfer.payload)
+                  ...get(details, "payload.transfer"),
+                  payload: convertHexToUTF8(
+                    get(details, "payload.transfer.payload")
+                  )
                 }
               }
             };
