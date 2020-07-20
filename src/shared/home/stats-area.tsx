@@ -16,25 +16,19 @@ export const StatsArea = (): JSX.Element => {
       <Row type="flex" justify="space-between" gutter={10}>
         <Col xs={24} sm={24} md={24} lg={16}>
           <Row type="flex" justify="space-between" gutter={10}>
-            <Col span={12}>
+            <Col xs={24} sm={24} md={12}>
               <ActionsCard />
             </Col>
-            <Col span={12}>
-              <Row type="flex" align="top" justify="space-between" gutter={10}>
-                <Col span={12}>
-                  <CandidatesCard />
-                </Col>
-                <Col span={12}>
-                  <StakedVotesCard />
-                </Col>
-              </Row>
+            <Col xs={12} sm={12} md={6}>
+              <CandidatesCard />
             </Col>
-          </Row>
-          <Row type="flex" justify="space-between" gutter={10}>
-            <Col lg={12} xs={24}>
+            <Col xs={12} sm={12} md={6}>
+              <StakedVotesCard />
+            </Col>
+            <Col xs={24} sm={24} md={12}>
               <ProductivityCard />
             </Col>
-            <Col lg={12} xs={24}>
+            <Col xs={24} sm={24} md={12}>
               <VotesCard />
             </Col>
           </Row>
