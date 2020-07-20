@@ -39,6 +39,8 @@ account.rank: "Rank"
 account.nameTag: "Name Tag"
 account.percentage: "Percentage"
 account.txnCount: "Txn Count"
+account.balance.hide: Hide Balance
+account.balance.show: Show Balance
 action.action: Action
 action.actions: Actions
 action.amount: Amount
