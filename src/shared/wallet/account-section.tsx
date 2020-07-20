@@ -211,7 +211,10 @@ class AccountSection extends React.Component<Props, State> {
   };
   public emptyWallet = (): JSX.Element => {
     return (
-      <Card bodyStyle={{ padding: 0 }} style={{ borderRadius: 5 }}>
+      <Card
+        bodyStyle={{ padding: 0 }}
+        style={{ borderRadius: 5, height: "90%" }}
+      >
         <img
           id="globe"
           className="blur-image"

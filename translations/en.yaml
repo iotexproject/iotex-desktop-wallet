@@ -570,5 +570,6 @@ wallet.write.contract.p2: 'It will be deployed on the following network'
 wallet.write.contract.p3: 'Amount to send. In most cases you should leave it as 0.'
 wallet.write.contract.title: Warining
 wallet.desktop.app: 'ioPay Desktop v${appVersion}'
+wallet.desktop.appVersion: 'Version: ${appVersion}'
 wallet.send-receive.title: 'Send and Receive IOTX'
 meta.description.desktop: 'Interact with Smart Contracts and the Blockchain'
