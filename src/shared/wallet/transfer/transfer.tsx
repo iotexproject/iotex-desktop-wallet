@@ -259,6 +259,8 @@ class TransferForm extends React.PureComponent<Props, State> {
           {...formItemLayout}
         >
           {getFieldDecorator("recipient", {
+            getValueFromEvent: (event: React.FormEvent<HTMLInputElement>) =>
+              event.currentTarget.value.trim(),
             rules: rulesMap.address
           })(
             <Input
