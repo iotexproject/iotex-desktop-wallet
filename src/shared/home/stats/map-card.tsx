@@ -83,22 +83,24 @@ export const MapButton = (
 
 export const MapCard = (): JSX.Element => {
   const mostRecentEpoch = LAST_EPOTCH + DIFF_HOURS;
+  const days = [];
+  for (let index = 1; index <= 30; days.push(index), index++);
   return (
     <Query
       ssr={false}
       client={analyticsClient}
       query={gql`{
-                    ${[1, 2, 3, 4, 5, 6, 7].map(day => {
-                      return `day${day}:chain{
-                        numberOfActions(pagination: { startEpoch: ${mostRecentEpoch -
-                          day * 24}, epochCount: 24 }) {
-                          count
-                        }
-                      }
-                      `;
-                    })}
-                  }
-                  `}
+        ${days.map(day => {
+          return `day${day}:chain{
+            numberOfActions(pagination: { startEpoch: ${mostRecentEpoch -
+              day * 24}, epochCount: 24 }) {
+              count
+            }
+          }
+          `;
+        })}
+      }
+      `}
     >
       {({ data, error, loading }: QueryResult) => {
         if (error || !data) {
