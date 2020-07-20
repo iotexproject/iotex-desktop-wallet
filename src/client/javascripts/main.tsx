@@ -36,5 +36,5 @@ clientReactRender({
     signParams: signParamsReducer,
     wallet: walletReducer
   }),
-  clientScript: "/main.js"
+  clientScript: "main.js"
 } as Opts);

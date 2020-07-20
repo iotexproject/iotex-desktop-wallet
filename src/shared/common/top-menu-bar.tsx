@@ -8,9 +8,7 @@ import { RowProps } from "antd/lib/row";
 import { Languages } from "iotex-react-language-dropdown";
 import { LanguageSwitcher } from "iotex-react-language-dropdown/lib/language-switcher";
 import isBrowser from "is-browser";
-// @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
-// @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React, { useState } from "react";
 import { connect } from "react-redux";
@@ -18,7 +16,6 @@ import { Link } from "react-router-dom";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
 import { assetURL } from "./asset-url";
-import { Flex } from "./flex";
 import { SignInModal } from "./sign-in-modal";
 import { colors } from "./styles/style-color";
 import { WideContentPadding } from "./styles/style-padding";
@@ -61,14 +58,12 @@ const CHAIN_MENU_ITEM = {
   }))
 };
 
-const IotexLogo = connect((state: { base: { isEnterprise: boolean } }) => ({
-  isEnterprise: state.base.isEnterprise
-}))(({ isEnterprise }: { isEnterprise: boolean }) => {
-  const commonVersion = (
+const IotexLogo = connect()(() => {
+  return (
     <Link to="/">
       <img
         alt="iotex-logo"
-        src={assetURL("/logo_explorer.png")}
+        src={assetURL("logo_explorer.png")}
         style={{
           height: 38,
           width: "auto"
@@ -76,30 +71,6 @@ const IotexLogo = connect((state: { base: { isEnterprise: boolean } }) => ({
       />
     </Link>
   );
-  const enterpriseVersion = (
-    <Link to="/">
-      <Flex alignItems="center">
-        <img
-          alt="enterprise-logo"
-          src={assetURL("/xunlian-logo.png")}
-          style={{
-            height: 26,
-            width: "auto"
-          }}
-        />
-        <div style={{ marginLeft: "15px" }}>
-          <h4 style={{ margin: 0, fontSize: "20px", fontWeight: 600 }}>
-            讯联科技
-          </h4>
-          <p style={{ margin: 0, fontSize: "12px", color: "#808080" }}>
-            用信任链接世界
-          </p>
-        </div>
-      </Flex>
-    </Link>
-  );
-
-  return isEnterprise ? enterpriseVersion : commonVersion;
 });
 
 const HoverableStyle = {
@@ -177,11 +148,9 @@ const renderMenuItem = (menu: INavMenuItem): JSX.Element => {
 // tslint:disable-next-line:max-func-body-length
 const TopMobileMenu = ({
   enableSignIn,
-  isEnterprise,
   menu
 }: {
   enableSignIn?: boolean;
-  isEnterprise: boolean;
   menu: Array<INavMenuItem>;
 }): JSX.Element => {
   const [collapsed, setCollapsed] = useState(true);
@@ -234,11 +203,9 @@ const TopMobileMenu = ({
                 <SignInMenuItem />
               </Col>
             )}
-            {!isEnterprise && (
-              <Col>
-                <LanguageSwitcherMenu />
-              </Col>
-            )}
+            <Col>
+              <LanguageSwitcherMenu />
+            </Col>
             <Col>
               <Button
                 onClick={() => setCollapsed(!collapsed)}
@@ -287,11 +254,9 @@ const TopMobileMenu = ({
 
 const TopWideMenu = ({
   enableSignIn,
-  isEnterprise,
   menu
 }: {
   enableSignIn?: boolean;
-  isEnterprise: boolean;
   menu: Array<INavMenuItem>;
 }): JSX.Element => {
   const rowProps: RowProps = {
@@ -301,7 +266,7 @@ const TopWideMenu = ({
     style: { height: TOP_BAR_HEIGHT, color: colors.topbarColor },
     gutter: 60
   };
-  const theme = isEnterprise ? "light" : "dark";
+  const theme = "dark";
   return (
     <WideContentPadding style={{ backgroundColor: colors.nav01 }}>
       <Row {...rowProps}>
@@ -321,7 +286,7 @@ const TopWideMenu = ({
           </Col>
         </Row>
         <Row {...rowProps} gutter={20} justify="end">
-          {!isEnterprise && multiChain && (
+          {multiChain && (
             <Col>
               <Menu
                 mode="horizontal"
@@ -338,11 +303,9 @@ const TopWideMenu = ({
               <SignInMenuItem />
             </Col>
           )}
-          {!isEnterprise && (
-            <Col>
-              <LanguageSwitcherMenu />
-            </Col>
-          )}
+          <Col>
+            <LanguageSwitcherMenu />
+          </Col>
         </Row>
       </Row>
     </WideContentPadding>
@@ -350,19 +313,11 @@ const TopWideMenu = ({
 };
 
 const TopMenuBar = connect(
-  ({
-    base: { enableSignIn, isEnterprise }
-  }: {
-    base: { enableSignIn: boolean; isEnterprise: boolean };
-  }) => ({ enableSignIn, isEnterprise })
+  ({ base: { enableSignIn } }: { base: { enableSignIn: boolean } }) => ({
+    enableSignIn
+  })
 )(
-  ({
-    enableSignIn,
-    isEnterprise
-  }: {
-    enableSignIn?: boolean;
-    isEnterprise: boolean;
-  }): JSX.Element => {
+  ({ enableSignIn }: { enableSignIn?: boolean }): JSX.Element => {
     const MAIN_NAV_MENUS: Array<INavMenuItem> = [
       {
         label: "topbar.dashboard",
@@ -419,14 +374,10 @@ const TopMenuBar = connect(
           }
         ]
       },
-      ...(isEnterprise
-        ? []
-        : [
-            {
-              label: "topbar.voting",
-              path: "https://member.iotex.io"
-            }
-          ]),
+      {
+        label: "topbar.voting",
+        path: "https://member.iotex.io"
+      },
       {
         label: "topbar.wallet",
         path: "/wallet/transfer"
@@ -438,23 +389,15 @@ const TopMenuBar = connect(
           position: "relative",
           zIndex: 9999,
           textTransform: "capitalize",
-          borderBottom: isEnterprise ? "1px #EDEDED solid" : 0
+          borderBottom: 0
         }}
       >
         <Col xs={24} xxl={0}>
           <div id="top-mobile-menu-nav" />
-          <TopMobileMenu
-            enableSignIn={enableSignIn}
-            isEnterprise={isEnterprise}
-            menu={MAIN_NAV_MENUS}
-          />
+          <TopMobileMenu enableSignIn={enableSignIn} menu={MAIN_NAV_MENUS} />
         </Col>
         <Col xs={0} xxl={24}>
-          <TopWideMenu
-            enableSignIn={enableSignIn}
-            isEnterprise={isEnterprise}
-            menu={MAIN_NAV_MENUS}
-          />
+          <TopWideMenu enableSignIn={enableSignIn} menu={MAIN_NAV_MENUS} />
         </Col>
       </Row>
     );

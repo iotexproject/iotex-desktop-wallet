@@ -1,18 +1,15 @@
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 
-// @ts-ignore
-import {
-  Divider,
-  Form,
-  Input,
-  InputNumber,
-  Popconfirm,
-  Switch,
-  Table
-} from "antd";
+import Divider from "antd/lib/divider";
+import Form from "antd/lib/form";
 import { FormComponentProps } from "antd/lib/form";
 import { WrappedFormUtils } from "antd/lib/form/Form";
+import Input from "antd/lib/input";
+import InputNumber from "antd/lib/input-number";
+import Popconfirm from "antd/lib/popconfirm";
+import Switch from "antd/lib/switch";
+import Table from "antd/lib/table";
 import { ColumnProps } from "antd/lib/table";
 import dayjs from "dayjs";
 import { t } from "onefx/lib/iso-i18n";

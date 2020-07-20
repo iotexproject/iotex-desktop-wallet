@@ -1,22 +1,3 @@
-import isBrowser from "is-browser";
-// @ts-ignore
-import JsonGlobal from "safe-json-globals/get";
-
-const state = isBrowser && JsonGlobal("state");
-const isEnterprise = isBrowser && state.base.isEnterprise;
-
-const enterpriseColors =
-  (process.env.NODE_CONFIG_ENV === "enterprise" || isEnterprise)
-    ? {
-        primary: "#2970FB",
-        secondary: "#0C8DE4",
-        topbarColor: "#333333",
-        nav01: "#fff",
-        nav02: "#fff",
-        nav03: "#fff"
-      }
-    : {};
-
 export const colors = {
   primary: "#00b4a0",
   secondary: "#0C8DE4",
@@ -52,7 +33,5 @@ export const colors = {
   topbarGray: "#AAAFC1",
   background: "#f0f2f5",
   menuHover: "#51515a",
-  transparent: "rgba(0,0,0,0)",
-
-  ...enterpriseColors
+  transparent: "rgba(0,0,0,0)"
 };

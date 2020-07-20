@@ -10,6 +10,7 @@ import Input from "antd/lib/input";
 import BigNumber from "bignumber.js";
 import { Account } from "iotex-antenna/lib/account/account";
 import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
+import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
@@ -21,6 +22,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { ITokenInfoDict, Token } from "../../../erc20/token";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
+import { getIoPayDesktopVersionName } from "../../common/on-electron-click";
 import { rulesMap } from "../../common/rules";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import {
@@ -257,6 +259,8 @@ class TransferForm extends React.PureComponent<Props, State> {
           {...formItemLayout}
         >
           {getFieldDecorator("recipient", {
+            getValueFromEvent: (event: React.FormEvent<HTMLInputElement>) =>
+              event.currentTarget.value.trim(),
             rules: rulesMap.address
           })(
             <Input
@@ -410,11 +414,14 @@ class TransferForm extends React.PureComponent<Props, State> {
       );
     }
 
+    const title = isElectron()
+      ? `${getIoPayDesktopVersionName()} - ${t(
+          "wallet.send-receive.title"
+        )}, ${t("meta.description.desktop")}`
+      : `${t("wallet.transfer.title")} - ${t("meta.description")}`;
     return (
       <div style={{ paddingRight: 2, paddingTop: 20 }}>
-        <Helmet
-          title={`${t("wallet.transfer.title")} - ${t("meta.description")}`}
-        />
+        <Helmet title={title} />
         {this.renderTransferForm()}
         {this.confirmTransfer()}
       </div>

@@ -1,4 +1,4 @@
-import { message } from "antd";
+import message from "antd/lib/message";
 // @ts-ignore
 import window from "global/window";
 import { Envelop, SealedEnvelop } from "iotex-antenna/lib/action/envelop";

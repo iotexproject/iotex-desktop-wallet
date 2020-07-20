@@ -1,4 +1,4 @@
-import { Icon } from "antd";
+import Icon from "antd/lib/icon";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { AddressName } from "../common/address-name";

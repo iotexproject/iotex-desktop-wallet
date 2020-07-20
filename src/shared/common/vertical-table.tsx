@@ -1,4 +1,6 @@
-import { Col, Divider, Row } from "antd";
+import Col from "antd/lib/col";
+import Divider from "antd/lib/divider";
+import Row from "antd/lib/row";
 import { t } from "onefx/lib/iso-i18n";
 import React, { CSSProperties, useState } from "react";
 import { LinkButton } from "./buttons";

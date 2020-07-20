@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
@@ -23,6 +24,10 @@ import { CommonRenderer } from "../renderer";
 
 function isArray(arr: LogObject): string {
   return Object.prototype.toString.call(arr);
+}
+
+function convertHexToUTF8(hex: string): string {
+  return new Buffer(hex, "hex").toString("utf8");
 }
 
 interface LogObject {
@@ -153,6 +158,7 @@ const parseActionDetails = (data: IActionsDetails) => {
 const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
   props
 ): JSX.Element => {
+  BigNumber.config({ DECIMAL_PLACES: 8, ROUNDING_MODE: BigNumber.ROUND_DOWN });
   const { hash } = props.match.params;
   if (!hash || hash.length !== 64) {
     return <NotFound />;
@@ -187,13 +193,29 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
           if (data && data.action) {
             stopPolling();
           }
-          const details = parseActionDetails(data || {});
+          let details = parseActionDetails(data || {});
           const actionUrl = `${
             isBrowser ? location.origin : ""
           }/action/${hash}`;
           const emailBody = t("share_link.email_body", {
             href: actionUrl
           });
+
+          if (get(details, "payload.transfer.payload")) {
+            details = {
+              ...details,
+              payload: {
+                ...get(details, "payload"),
+                transfer: {
+                  ...get(details, "payload.transfer"),
+                  payload: convertHexToUTF8(
+                    get(details, "payload.transfer.payload")
+                  )
+                }
+              }
+            };
+          }
+
           return (
             <ContentPadding>
               <CardDetails

@@ -60,13 +60,14 @@ module.exports = {
       "self",
       "https://api.coinmarketcap.com/v1/ticker/iotex/",
       "https://member.iotex.io/api-gateway/",
-      "https://member-testnet.iotex.io/api-gateway/",
+      "https://web-bp-testnet.herokuapp.com/api-gateway/",
       "https://api.github.com/",
       "https://iotexscan.io/",
       "https://testnet.iotexscan.io/",
       "https://analytics.iotexscan.io/",
       "https://iotex-analytics-testnet.herokuapp.com/",
-      "wss://local.get-scatter.com:64102/"
+      "wss://local.get-scatter.com:64102/",
+      "https://testnet.iotexscan.io/api-gateway/"
     ],
     "child-src": ["self"],
     "font-src": [
@@ -84,12 +85,13 @@ module.exports = {
       "https://www.google-analytics.com/",
       "https://translate.google.com/",
       "https://translate.googleapis.com/",
-      "https://ethereum.github.io/solc-bin/bin/"
+      "https://ethereum.github.io/solc-bin/bin/",
+      "https://iotex-explorer.b-cdn.net/"
     ]
   },
   webBpApiGatewayUrl:
     process.env.CURRENT_CHAIN_NAME == "testnet"
-      ? "https://member-testnet.iotex.io/api-gateway/"
+      ? "https://web-bp-testnet.herokuapp.com/api-gateway/"
       : "https://member.iotex.io/api-gateway/",
   analyticsApiGatewayUrl:
     process.env.CURRENT_CHAIN_NAME == "testnet"

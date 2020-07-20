@@ -1,4 +1,4 @@
-import { Tooltip } from "antd";
+import Tooltip from "antd/lib/tooltip";
 import { t } from "onefx/lib/iso-i18n";
 import React, { CSSProperties, useState } from "react";
 import * as copy from "text-to-clipboard";

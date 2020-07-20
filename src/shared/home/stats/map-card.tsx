@@ -18,7 +18,7 @@ const fontFamily = "'Heebo',sans-serif,Microsoft YaHei !important";
 const Styles = {
   mapBox: {
     height: 390,
-    backgroundImage: `url(${assetURL("/map_box_bg.png")})`,
+    backgroundImage: `url(${assetURL("map_box_bg.png")})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     borderRadius: 6,
@@ -83,22 +83,26 @@ export const MapButton = (
 
 export const MapCard = (): JSX.Element => {
   const mostRecentEpoch = LAST_EPOTCH + DIFF_HOURS;
+  const days = [];
+  for (let index = 1; index <= 30; index++) {
+    days.push(index);
+  }
   return (
     <Query
       ssr={false}
       client={analyticsClient}
       query={gql`{
-                    ${[1, 2, 3, 4, 5, 6, 7].map(day => {
-                      return `day${day}:chain{
-                        numberOfActions(pagination: { startEpoch: ${mostRecentEpoch -
-                          day * 24}, epochCount: 24 }) {
-                          count
-                        }
-                      }
-                      `;
-                    })}
-                  }
-                  `}
+        ${days.map(day => {
+          return `day${day}:chain{
+            numberOfActions(pagination: { startEpoch: ${mostRecentEpoch -
+              day * 24}, epochCount: 24 }) {
+              count
+            }
+          }
+          `;
+        })}
+      }
+      `}
     >
       {({ data, error, loading }: QueryResult) => {
         if (error || !data) {

@@ -11,7 +11,7 @@ import React, { FC } from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 
-import { List } from "antd";
+import List from "antd/lib/list";
 import moment from "moment";
 import { withRouter } from "react-router";
 import {
@@ -271,7 +271,14 @@ const getActionByTypeColumns = (): Array<ColumnProps<IActionByTypeInfo>> => [
     title: t("action.sender"),
     dataIndex: "sender",
     width: "12vw",
-    render: text => <AddressName address={text} />
+    render: text => (
+      <span
+        className="ellipsis-text"
+        style={{ maxWidth: "10vw", minWidth: 100 }}
+      >
+        <AddressName address={text} />
+      </span>
+    )
   },
   {
     title: t("action.type"),
@@ -286,7 +293,14 @@ const getActionByTypeColumns = (): Array<ColumnProps<IActionByTypeInfo>> => [
     title: t("render.key.to"),
     dataIndex: "recipient",
     width: "10vw",
-    render: text => <AddressName address={text} />
+    render: text => (
+      <span
+        className="ellipsis-text"
+        style={{ maxWidth: "10vw", minWidth: 100 }}
+      >
+        <AddressName address={text} />
+      </span>
+    )
   },
   {
     title: t("action.amount"),
