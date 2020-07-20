@@ -200,15 +200,22 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
           const emailBody = t("share_link.email_body", {
             href: actionUrl
           });
-          details = {
-            ...details,
-            payload: {
-              transfer: {
-                ...details.payload.transfer,
-                payload: convertHexToUTF8(details.payload.transfer.payload)
+          if (
+            details.payload &&
+            details.payload.transfer &&
+            details.payload.transfer.payload
+          ) {
+            details = {
+              ...details,
+              payload: {
+                transfer: {
+                  ...details.payload.transfer,
+                  payload: convertHexToUTF8(details.payload.transfer.payload)
+                }
               }
-            }
-          };
+            };
+          }
+
           return (
             <ContentPadding>
               <CardDetails
