@@ -1,3 +1,4 @@
+import Select from "antd/lib/select";
 import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
@@ -5,7 +6,7 @@ import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import isBrowser from "is-browser";
 import omit from "lodash.omit";
 import { t } from "onefx/lib/iso-i18n";
-import React from "react";
+import React, { useState } from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
@@ -21,6 +22,8 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { Dict } from "../common/types";
 import { GET_ACTION_DETAILS_BY_HASH } from "../queries";
 import { CommonRenderer } from "../renderer";
+
+const { Option } = Select;
 
 function isArray(arr: LogObject): string {
   return Object.prototype.toString.call(arr);
@@ -132,6 +135,7 @@ const parseActionDetails = (data: IActionsDetails) => {
     ...(stakeTransferOwnership ? { to: { stakeTransferOwnership } } : {}),
     ...(stakeCreate ? { to: { stakeCreate } } : {}),
     ...(transfer ? { payload: { transfer } } : {}),
+    payloadViewType: "UTF-8",
     ...(execution ? { evmTransfer: actHash, value: execution.amount } : {}),
     ...(transfer ? { value: transfer.amount } : {}),
     ...actionType,
@@ -154,12 +158,17 @@ const parseActionDetails = (data: IActionsDetails) => {
     logs: removeTypeName(logs)
   };
 };
+interface IData {
+  payloadViewType: "UTF-8" | "Original";
+}
 
+// tslint:disable-next-line:max-func-body-length
 const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
   props
 ): JSX.Element => {
   BigNumber.config({ DECIMAL_PLACES: 8, ROUNDING_MODE: BigNumber.ROUND_DOWN });
   const { hash } = props.match.params;
+  const [state, setState] = useState<IData>({ payloadViewType: "UTF-8" });
   if (!hash || hash.length !== 64) {
     return <NotFound />;
   }
@@ -201,7 +210,10 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
             href: actionUrl
           });
 
-          if (get(details, "payload.transfer.payload")) {
+          if (
+            get(details, "payload.transfer.payload") &&
+            state.payloadViewType === "UTF-8"
+          ) {
             details = {
               ...details,
               payload: {
@@ -229,9 +241,30 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
                 vtable={{
                   loading: loading,
                   style: { width: "100%" },
-                  objectSource: details,
+                  objectSource: {
+                    ...details,
+                    payloadViewType: state.payloadViewType
+                  },
                   headerRender: text => `${t(`render.key.${text}`)}: `,
-                  valueRenderMap: CommonRenderer,
+                  valueRenderMap: {
+                    ...CommonRenderer,
+                    payloadViewType: () => {
+                      return (
+                        <Select
+                          value={state.payloadViewType}
+                          onChange={(newValue: "UTF-8" | "Original") => {
+                            setState(prevState => ({
+                              ...prevState,
+                              payloadViewType: newValue
+                            }));
+                          }}
+                        >
+                          <Option value="UTF-8">UTF-8</Option>
+                          <Option value="Original">Original</Option>
+                        </Select>
+                      );
+                    }
+                  },
                   maxRowsCount: 7
                 }}
               />

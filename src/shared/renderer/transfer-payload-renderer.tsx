@@ -7,7 +7,7 @@ const TransferPayloadRenderer: VerticalTableRender<{ transfer: Transfer }> = ({
 }) => {
   const payload = transfer.payload.toString();
   return (
-    <span className="ellipsis-text" style={{ maxWidth: "10vw", minWidth: 100 }}>
+    <span className="ellipsis-text" style={{ maxWidth: "100%", minWidth: 100 }}>
       {payload}
     </span>
   );

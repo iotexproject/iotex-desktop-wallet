@@ -60,6 +60,7 @@ render.key.contract: Kontrakt
 render.key.data: Daten
 render.key.recipient: Empfänger
 render.key.payload: Nutzlast
+render.key.payloadViewType: Ansichtstyp
 render.key.type: Belohnungstyp
 render.value.grantReward: 'Belohnung gewähren'
 render.value.execution: Ausführung
