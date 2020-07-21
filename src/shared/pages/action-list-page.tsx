@@ -265,7 +265,14 @@ const getActionByTypeColumns = (): Array<ColumnProps<IActionByTypeInfo>> => [
     title: t("block.timestamp"),
     dataIndex: "timeStamp",
     width: "8vw",
-    render: (_, { timeStamp }) => moment.unix(parseInt(timeStamp, 10)).fromNow()
+    render: (_, { timeStamp }) => (
+      <span
+        className="ellipsis-text"
+        style={{ maxWidth: "10vw", minWidth: 100 }}
+      >
+        {moment.unix(parseInt(timeStamp, 10)).fromNow()}
+      </span>
+    )
   },
   {
     title: t("action.sender"),
