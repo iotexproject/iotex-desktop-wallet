@@ -20,8 +20,6 @@ import { fromRau } from "iotex-antenna/lib/account/utils";
 import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
-// @ts-ignore
-import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -33,6 +31,7 @@ import { IAuthorizedMessage } from "../../erc20/vita";
 import { assetURL } from "../common/asset-url";
 import ConfirmContractModal from "../common/confirm-contract-modal";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
+import { Flex } from "../common/flex";
 import { onElectronClick } from "../common/on-electron-click";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
@@ -77,6 +76,7 @@ export interface State {
   gasEstimation: IGasEstimation | null;
   claimable: boolean;
   claimableAmount: number;
+  showBalance: boolean;
 }
 
 class AccountSection extends React.Component<Props, State> {
@@ -99,7 +99,8 @@ class AccountSection extends React.Component<Props, State> {
     bidAmount: "0",
     gasEstimation: null,
     claimable: false,
-    claimableAmount: 0
+    claimableAmount: 0,
+    showBalance: false
   };
 
   private pollAccountInterval: number | undefined;
@@ -211,7 +212,10 @@ class AccountSection extends React.Component<Props, State> {
   };
   public emptyWallet = (): JSX.Element => {
     return (
-      <Card bodyStyle={{ padding: 0 }} style={{ borderRadius: 5 }}>
+      <Card
+        bodyStyle={{ padding: 0 }}
+        style={{ borderRadius: 5, height: "90%" }}
+      >
         <img
           id="globe"
           className="blur-image"
@@ -620,7 +624,10 @@ class AccountSection extends React.Component<Props, State> {
         title: "",
         dataIndex: "balanceString",
         className: "wallet-token-balance",
-        key: "balanceString"
+        key: "balanceString",
+        render: (text: string): JSX.Element | null => (
+          <span>{this.state.showBalance ? text : "******"}</span>
+        )
       },
       {
         title: "",
@@ -647,7 +654,7 @@ class AccountSection extends React.Component<Props, State> {
   }
 
   public renderBalance(): JSX.Element | null {
-    const { tokenInfos, accountMeta, isLoading } = this.state;
+    const { tokenInfos, accountMeta, isLoading, showBalance } = this.state;
     const { network } = this.props;
     const dataSource = Object.keys(tokenInfos)
       .map(addr => tokenInfos[addr])
@@ -666,8 +673,26 @@ class AccountSection extends React.Component<Props, State> {
       });
     }
     const spinning = isLoading || !network;
+    const displayBalanceText = showBalance
+      ? t("account.balance.hide")
+      : t("account.balance.show");
     return (
       <SpinPreloader spinning={spinning}>
+        <Flex justifyContent={"flex-end"}>
+          <Button
+            icon={"eye"}
+            style={{
+              backgroundColor: "transparent",
+              border: "none",
+              color: colors.deltaUp
+            }}
+            onClick={() => {
+              this.setState({ showBalance: !showBalance });
+            }}
+          >
+            {displayBalanceText}
+          </Button>
+        </Flex>
         <Table
           dataSource={dataSource}
           columns={columns}

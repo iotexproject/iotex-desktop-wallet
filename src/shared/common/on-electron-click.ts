@@ -13,11 +13,13 @@ export const onElectronClick = (url: string) => (e: MouseEvent): boolean => {
   return false;
 };
 
-export const getIoPayDesktopVersionName = () => {
+export const getIoPayDesktopVersionName = (
+  prefix: string = "wallet.desktop.app"
+) => {
   if (!isElectron() || !window.getAppInfo) {
     return "";
   }
   const appInfo = window.getAppInfo();
   const appVersion = appInfo.appVersion;
-  return `${t("wallet.desktop.app", { appVersion })}`;
+  return `${t(prefix, { appVersion })}`;
 };

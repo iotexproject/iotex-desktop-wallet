@@ -12,6 +12,8 @@ import { connect, DispatchProp } from "react-redux";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import { ITokenInfoDict } from "../../erc20/token";
+import { Flex } from "../common/flex";
+import { getIoPayDesktopVersionName } from "../common/on-electron-click";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import AccountSection from "./account-section";
@@ -43,6 +45,18 @@ export const inputStyle = {
 export const FormItemLabel = styled("label", {
   fontWeight: "bold"
 });
+
+export function VersionInfo(): JSX.Element {
+  return (
+    <Flex height={"40px"} width={"100%"}>
+      <span
+        style={{ width: "100%", textAlign: "right", color: colors.black80 }}
+      >
+        {getIoPayDesktopVersionName("wallet.desktop.appVersion")}
+      </span>
+    </Flex>
+  );
+}
 
 class WalletInner extends PureComponent<Props, State> {
   public state: State = {
@@ -118,14 +132,8 @@ class WalletInner extends PureComponent<Props, State> {
               )}
               {!account && this.renderNoWallet()}
             </Col>
-            <Col
-              xs={24}
-              sm={24}
-              md={12}
-              lg={10}
-              xl={8}
-              style={{ marginTop: 40 }}
-            >
+            <Col xs={24} sm={24} md={12} lg={10} xl={8}>
+              <VersionInfo />
               <AccountSection createNew={createNew} />
             </Col>
           </Row>
