@@ -71,6 +71,7 @@ render.key.contract: 合约
 render.key.data: 数据
 render.key.recipient: 接受者
 render.key.payload: 负载
+render.key.payloadViewType: 查看类型
 render.key.type: 奖励类型
 render.key.depositToRewardingFund: depositToRewardingFund
 render.value.grantReward: 赠款奖励

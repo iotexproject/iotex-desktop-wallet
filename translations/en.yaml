@@ -317,6 +317,7 @@ render.key.owner: owner
 render.key.ownerETH: 'Owner (Eth)'
 render.key.parentHeightOffset: parentHeightOffset
 render.key.payload: Payload
+render.key.payloadViewType: 'View Type'
 render.key.pendingNonce: Pending Nonce
 render.key.previousTransfer: 'previous Transfer'
 render.key.previousTransferBlockHeight: 'previous Transfer Block Height'
