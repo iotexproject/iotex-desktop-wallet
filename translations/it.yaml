@@ -410,7 +410,7 @@ footer.launch: Lancio
 footer.subscribe_success: 'Iscrizione avvenuta con successo'
 account.actionHistory: 'Cronologia delle azioni'
 home.stats.tps: 'TPS Attuali / Picco'
-home.stats.candidates: 'Delegati al Consenso / Candidati'
+home.stats.candidates: Delegati
 home.stats.productivity: 'Produttività media'
 home.stats.votes: Voti
 home.stats.map: Cartina

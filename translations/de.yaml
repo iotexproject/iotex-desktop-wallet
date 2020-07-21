@@ -410,7 +410,7 @@ footer.launch: Start
 footer.subscribe_success: 'Erfolgreich angemeldet'
 account.actionHistory: Aktionsverlauf
 home.stats.tps: 'Aktuelle TPS / Peak'
-home.stats.candidates: IoTeX-Konsensdelegierte
+home.stats.candidates: Delegierte
 home.stats.productivity: 'Durchschnittliche Produktivität'
 home.stats.votes: Stimmen
 home.stats.map: Anzeigen

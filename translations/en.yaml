@@ -214,7 +214,7 @@ home.IOTXPrice: 'IOTX PRICE'
 home.marketCap: MARKETCAP
 home.producer: PRODUCER
 home.stats.actions: Actions
-home.stats.candidates: 'Consensus Delegates / Delegates'
+home.stats.candidates: Delegates
 home.stats.currentEpoch: 'Current Epoch'
 home.stats.day: Day
 home.stats.energyConsumption: 'Daily Energy Consumption'
