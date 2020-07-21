@@ -383,6 +383,18 @@ export const GET_ACTION_DETAILS_BY_HASH = gql`
   }
 `;
 
+export const GET_ACTION_DETAILS_STATUS_BY_HASH = gql`
+  query getActions($actionHash: String!) {
+    receipt: getReceiptByAction(actionHash: $actionHash) {
+      receiptInfo {
+        receipt {
+          status
+        }
+      }
+    }
+  }
+`;
+
 export const ACTION_EXISTS_BY_HASH = gql`
   query getActions($byHash: GetActionsByHashRequest) {
     getActions(byHash: $byHash) {

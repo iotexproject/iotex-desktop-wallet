@@ -209,6 +209,7 @@ export const ActionTable: React.FC<IActionTable> = ({
         }
         const actions =
           get<Array<ActionInfo>>(data || {}, "getActions.actionInfo") || [];
+
         return (
           <Table
             loading={{
