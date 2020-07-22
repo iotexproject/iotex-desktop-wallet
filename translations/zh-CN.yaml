@@ -289,7 +289,7 @@ new-wallet.warn.do-not-lose: 不要丢失私钥！
 new-wallet.warn.do-not-share: 不要分享私钥！
 new-wallet.warn.backup: 进行备份!
 topbar.wallet: 钱包
-topbar.wallet.web: 网络钱包
+topbar.wallet.web: 网页钱包
 topbar.wallet.ioPayMobile: 'ioPay 移动'
 topbar.wallet.ioPayDesktop: 'ioPay 桌面'
 render.key.actionFee: 操作费
