@@ -276,6 +276,8 @@ new-wallet.warn.do-not-lose: 'Non perdere la chiave privata!'
 new-wallet.warn.do-not-share: 'Non condividere la chiave privata!'
 new-wallet.warn.backup: 'Fai un backup!'
 topbar.wallet: Portafoglio
+topbar.wallet.web: 'Portafoglio Web'
+topbar.wallet.ioPay: ioPay
 render.key.actionFee: 'Commissione dell''Azione'
 block.show_more: 'Mostra di più'
 block.show_less: 'Mostra meno'
