@@ -138,6 +138,30 @@ export const TopBar = connect(
       );
     };
 
+    public renderWallets = (hasShadow: boolean) => {
+      return (
+        <TopbarExtMenu
+          hasShadow={hasShadow}
+          name={t("topbar.wallet")}
+          routes={[
+            {
+              name: t("topbar.wallet.ioPayMobile"),
+              path: "https://iopay.iotex.io"
+            },
+            {
+              name: t("topbar.wallet.ioPayDesktop"),
+              path: "https://iopay.iotex.io/desktop"
+            },
+            {
+              name: t("topbar.wallet.web"),
+              path: "https://iotexscan.io/wallet"
+            }
+          ]}
+          onClick={this.hideMobileMenu}
+        />
+      );
+    };
+
     public renderBlockchain = (hasShadow: boolean) => {
       return (
         <TopbarExtMenu
@@ -247,9 +271,7 @@ export const TopBar = connect(
                 >
                   {t("topbar.voting")}
                 </BrandLinkExternalUrl>
-                <BrandLink to="/wallet/transfer" onClick={this.hideMobileMenu}>
-                  {t("topbar.wallet")}
-                </BrandLink>
+                {this.renderWallets(true)}
                 <CommonMargin />
                 <CommonMargin />
                 <CommonMargin />
@@ -373,11 +395,6 @@ const menuItem: StyleObject = {
     padding: "16px 0 16px 0"
   }
 };
-// const A = styled("a", menuItem);
-const BrandLink = styled(Link, {
-  ...menuItem,
-  [media.toWide]: {}
-});
 const BrandLinkExternalUrl = styled("a", {
   ...menuItem,
   [media.toWide]: {}
