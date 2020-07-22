@@ -70,7 +70,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
           <span
             key={1}
             className="ellipsis-text"
-            style={{ maxWidth: "10vw", minWidth: 100 }}
+            style={{ maxWidth: "10vw", minWidth: 100, textTransform: "none" }}
           >
             {address}
           </span>
