@@ -277,7 +277,8 @@ new-wallet.warn.do-not-share: 'Gib niemandem deinen privaten Schlüssel!'
 new-wallet.warn.backup: 'Erstelle dir ein Backup!'
 topbar.wallet: Wallet
 topbar.wallet.web: 'Web Wallet'
-topbar.wallet.ioPay: ioPay
+topbar.wallet.ioPayMobile: 'ioPay Mobiltelefon'
+topbar.wallet.ioPayDesktop: 'ioPay Desktop'
 render.key.actionFee: Gebühr
 block.show_more: 'Mehr anzeigen'
 block.show_less: 'Weniger anzeigen'

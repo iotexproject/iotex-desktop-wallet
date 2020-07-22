@@ -403,7 +403,8 @@ topbar.tools: TOOLS
 topbar.voting: VOTING
 topbar.wallet: WALLET
 topbar.wallet.web: 'Web Wallet'
-topbar.wallet.ioPay: ioPay
+topbar.wallet.ioPayMobile: 'ioPay Mobile'
+topbar.wallet.ioPayDesktop: 'ioPay Desktop'
 topbar.xrc20Transfer: XRC20 TOKEN TRANSFERS
 topbar.xrc721Transfer: XRC721 TOKEN TRANSFERS
 topbar.tokens: XRC20 TOKENS

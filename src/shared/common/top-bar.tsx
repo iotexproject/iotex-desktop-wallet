@@ -145,12 +145,16 @@ export const TopBar = connect(
           name={t("topbar.wallet")}
           routes={[
             {
-              name: t("topbar.wallet.web"),
-              path: "https://iotexscan.io/wallet"
+              name: t("topbar.wallet.ioPayMobile"),
+              path: "https://iopay.iotex.io"
             },
             {
-              name: t("topbar.wallet.ioPay"),
-              path: "https://iopay.iotex.io"
+              name: t("topbar.wallet.ioPayDesktop"),
+              path: "https://iopay.iotex.io/desktop"
+            },
+            {
+              name: t("topbar.wallet.web"),
+              path: "https://iotexscan.io/wallet"
             }
           ]}
           onClick={this.hideMobileMenu}
