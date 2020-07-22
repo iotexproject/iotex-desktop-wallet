@@ -93,7 +93,7 @@ export class WhitelistSetting extends React.Component<Props, State> {
                 <Checkbox name="origin" disabled={true}>
                   <span>
                     <span style={{ marginRight: 10 }}>
-                      {origin} > {method}
+                      {origin} &gt; {method}
                     </span>
                     <CopyButtonClipboardComponent
                       icon="copy"

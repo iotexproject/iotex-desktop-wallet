@@ -49,7 +49,7 @@
   "author": "Tian Pan (https://tianpan.co)",
   "license": "Apache",
   "devDependencies": {
-    "copy-webpack-plugin": "5.0.3",
+    "copy-webpack-plugin": "5.1.1",
     "electron": "9.1.0",
     "electron-builder": "22.4.1",
     "electron-devtools-installer": "2.2.4",
