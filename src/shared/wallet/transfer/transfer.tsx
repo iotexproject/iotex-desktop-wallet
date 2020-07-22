@@ -282,7 +282,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             {getFieldDecorator("dataInHex", {
               rules: rulesMap.dataIndex
             })(
-              <Input style={inputStyle} placeholder="0x1234" name="dataInHex" />
+              <Input style={inputStyle} placeholder="1234" name="dataInHex" />
             )}
           </Form.Item>
         )}
