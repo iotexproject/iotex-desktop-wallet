@@ -138,6 +138,7 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
         get(record, "action.core.settleDeposit.amount") ||
         get(record, "action.core.createPlumChain.amount") ||
         get(record, "action.core.plumCreateDeposit.amount") ||
+        get(record, "action.core.grantReward.amount") ||
         "";
       if (!amount) {
         return "-";
