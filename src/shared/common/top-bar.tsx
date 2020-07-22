@@ -26,7 +26,7 @@ import { TopbarExtMenu } from "./topbar-ext-menu";
 const globalState = isBrowser && JsonGlobal("state");
 const LanguageSwitcherMenu = () => {
   return (
-    <Row className="language-switcher">
+    <Row className="language-switcher" style={{ marginLeft: "1em" }}>
       <LanguageSwitcher
         supportedLanguages={[
           Languages.EN,
@@ -279,7 +279,6 @@ export const TopBar = connect(
               </HiddenOnMobile>
             </Flex>
             <Flex>
-              <LanguageSwitcherMenu />
               <HamburgerBtn
                 onClick={this.displayMobileMenu}
                 displayMobileMenu={displayMobileMenu}
@@ -289,6 +288,7 @@ export const TopBar = connect(
               <CrossBtn displayMobileMenu={displayMobileMenu}>
                 <Cross />
               </CrossBtn>
+              <LanguageSwitcherMenu />
             </Flex>
           </Bar>
           {this.renderMobileMenu()}
