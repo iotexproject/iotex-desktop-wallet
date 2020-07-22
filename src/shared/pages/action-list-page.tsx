@@ -100,7 +100,7 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
     }
   },
   {
-    title: t("action.type"),
+    title: <TypeSpan />,
     dataIndex: "name",
     width: "3vw",
     render: (_: string, record: ActionInfo, __: number): JSX.Element => {
@@ -290,7 +290,7 @@ const getActionByTypeColumns = (): Array<ColumnProps<IActionByTypeInfo>> => [
     )
   },
   {
-    title: t("action.type"),
+    title: <TypeSpan />,
     dataIndex: "actType",
     width: "5vw",
     render: (text): JSX.Element => {
@@ -443,6 +443,12 @@ const ActionListPage = withRouter(
       </>
     );
   }
+);
+
+const TypeSpan = () => (
+  <div style={{ minWidth: "45px" }}>
+    <span>{t("action.type")}</span>
+  </div>
 );
 
 export { ActionListPage };
