@@ -22,6 +22,7 @@ const apolloClientConfig = {
   uri: apiGatewayUrl
 };
 
+// tslint:disable-next-line:no-console
 console.log("----apiGatewayUrl---", apiGatewayUrl);
 
 const fetch = unfetch.bind(window);

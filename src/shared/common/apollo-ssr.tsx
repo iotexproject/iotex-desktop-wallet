@@ -33,7 +33,9 @@ export async function apolloSSR(
   ctx: koa.Context,
   { VDom, reducer, clientScript }: Opts
 ): Promise<string> {
+  // tslint:disable-next-line:no-console
   console.log("-apollo-ssr-", `${ctx.origin}${ROUTE_PREFIX}/api-gateway/`);
+  // tslint:disable-next-line:no-console
   console.log("-ctx.origin-", ctx.origin, ctx.originalUrl);
   ctx.setState(
     "base.apiGatewayUrl",
