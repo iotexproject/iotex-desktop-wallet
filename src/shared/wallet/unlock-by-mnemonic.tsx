@@ -83,6 +83,7 @@ class UnlockByMnemonicInner extends PureComponent<
               ]
             })(
               <Input
+                autoComplete="off"
                 className="form-input"
                 placeholder={t("input.error.mnemonic.placeholder")}
                 name="mnemonicPhrase"
