@@ -63,7 +63,6 @@ module.exports = {
       "https://web-bp-testnet.herokuapp.com/api-gateway/",
       "https://api.github.com/",
       "https://iotexscan.io/",
-      "http://iotexscan.io/",
       "https://testnet.iotexscan.io/",
       "https://analytics.iotexscan.io/",
       "https://iotex-analytics-testnet.herokuapp.com/",
