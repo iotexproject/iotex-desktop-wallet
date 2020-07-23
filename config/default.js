@@ -4,6 +4,7 @@ config();
 module.exports = {
   project: "iotex-explorer",
   server: {
+    cdnBase: "",
     routePrefix: "",
     port: process.env.PORT || 4004,
     staticDir: "./dist",
