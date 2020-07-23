@@ -22,6 +22,8 @@ const apolloClientConfig = {
   uri: apiGatewayUrl
 };
 
+console.log("----apiGatewayUrl---", apiGatewayUrl);
+
 const fetch = unfetch.bind(window);
 
 const MAX_CONCURRENT_REQUEST = 5;
