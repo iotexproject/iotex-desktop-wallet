@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Dict } from "../common/types";
 import { VerticalTableRender } from "../common/vertical-table";
 import { GET_ACTION_DETAILS_STATUS_BY_HASH } from "../queries";
-
+import { colors } from "../common/styles/style-color";
 export interface IActionsDetails {
   receipt?: {
     receiptInfo: {
@@ -38,15 +38,17 @@ const ActionHashRenderer: VerticalTableRender<string> = ({ value }) => {
               return null;
             }
             const status = parseStatus(data || {});
-            if (loading || status === "Success") {
+            if (loading || `${status}`.match(/success/i)) {
               return null;
             }
             return (
-              <Icon
-                type="info-circle"
-                theme="filled"
-                style={{ color: "#EE3423" }}
-              />
+              <>
+                <Icon
+                  type="exclamation-circle"
+                  style={{ color: colors.warning }}
+                />
+                &nbsp;
+              </>
             );
           }}
         </Query>
