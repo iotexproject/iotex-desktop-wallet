@@ -38,7 +38,7 @@ account.why: 'Why save your private key?'
 account.rank: "Rank"
 account.nameTag: "Name Tag"
 account.percentage: "Percentage"
-account.txnCount: "Txn Count"
+account.txnCount: "Number of Actions"
 account.balance.hide: Hide Balance
 account.balance.show: Show Balance
 action.action: Action
@@ -93,7 +93,7 @@ action.types.out: OUT
 action.types.self: SELF
 action_details.hash: "Action Hash: ${actionHash}"
 address.address: Address
-address.balance: balance
+address.balance: Balance
 address.name: "Name Tag"
 address.nonce: nonce
 address.pendingNonce: pendingNonce
