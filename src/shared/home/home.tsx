@@ -85,12 +85,11 @@ class HomeComponent extends Component<Props, State> {
               }}
             >
               <>
-                I{" "}
                 <Icon
                   component={IoTeXExplorer}
-                  style={{ padding: "0px 6px" }}
+                  style={{ padding: "0px 8px" }}
                 />{" "}
-                {"TeX.Explorer"}
+                {"IoTeX.Explorer"}
               </>
             </Row>
             <Row type="flex" justify="center" align="middle">
