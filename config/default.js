@@ -69,7 +69,8 @@ module.exports = {
       "https://analytics.iotexscan.io/",
       "https://iotex-analytics-testnet.herokuapp.com/",
       "wss://local.get-scatter.com:64102/",
-      "https://testnet.iotexscan.io/api-gateway/"
+      "https://testnet.iotexscan.io/api-gateway/",
+      ...(process.env.API_GATEWAY_URL ? [process.env.API_GATEWAY_URL] : []),
     ],
     "child-src": ["self"],
     "font-src": [
