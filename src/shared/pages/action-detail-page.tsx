@@ -265,7 +265,7 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
                       );
                     }
                   },
-                  maxRowsCount: 7
+                  maxRowsCount: 11
                 }}
               />
             </ContentPadding>

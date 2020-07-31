@@ -74,6 +74,7 @@ function VerticalTable<T = any>(props: IVerticalTableProps<T>): JSX.Element {
       {t(expanded ? "common.show_less" : "common.show_more")}
     </LinkButton>
   );
+  const totalRowCount = dataSource.length;
 
   return (
     <div className={`vertical-table ${className || ""}`} style={style}>
@@ -123,7 +124,7 @@ function VerticalTable<T = any>(props: IVerticalTableProps<T>): JSX.Element {
               </Row>
             );
           })}
-          {maxRowsCount && (
+          {maxRowsCount && maxRowsCount < totalRowCount && (
             <Row
               role="main"
               onClick={() => {
