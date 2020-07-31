@@ -77,7 +77,8 @@
       true,
       "check-format",
       "allow-pascal-case",
-      "ban-keywords"
+      "ban-keywords",
+      "allow-snake-case"
     ],
     "function-name": [
       true,

@@ -830,6 +830,7 @@ type TokenMetadata {
   logo: String!
   type: String!
   symbol: String
+  image_urls: [String!]
 }
 
 type Transfer {
