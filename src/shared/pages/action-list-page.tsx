@@ -46,6 +46,10 @@ export function getAddress(record: ActionInfo): string {
     get(record, "action.core.stakeTransferOwnership.voterAddress") ||
     get(record, "action.core.stakeCreate.candidateName") ||
     get(record, "action.core.stakeChangeCandidate.candidateName") ||
+    (get(record, "action.core.stakeAddDeposit.bucketIndex") &&
+      t("action.to.bucket", {
+        bucketIndex: get(record, "action.core.stakeAddDeposit.bucketIndex")
+      })) ||
     "";
   if (!addr) {
     return "-";
@@ -139,6 +143,7 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
         get(record, "action.core.createPlumChain.amount") ||
         get(record, "action.core.plumCreateDeposit.amount") ||
         get(record, "action.core.grantReward.amount") ||
+        get(record, "action.core.stakeAddDeposit.amount") ||
         "";
       if (!amount) {
         return "-";

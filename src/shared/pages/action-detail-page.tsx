@@ -71,6 +71,7 @@ export interface IActionsDetails {
 
 export type GetActionDetailsResponse = QueryResult<IActionsDetails>;
 
+// tslint:disable-next-line:max-func-body-length
 const parseActionDetails = (data: IActionsDetails) => {
   // destruct receipt info
   const { blkHeight, gasConsumed, status, logs, contractAddress }: Dict =
@@ -125,19 +126,39 @@ const parseActionDetails = (data: IActionsDetails) => {
     return true;
   });
 
+  const toSources: Dict = {
+    execution,
+    transfer,
+    stakeTransferOwnership,
+    stakeAddDeposit,
+    stakeCreate
+  };
+
+  let to = {};
+  Object.keys(toSources).every(key => {
+    if (toSources[key]) {
+      const value: Dict = {};
+      value[key] = toSources[key];
+      if (key === "execution") {
+        value.contractAddress = contractAddress;
+      }
+      to = { to: value };
+      return false;
+    }
+    return true;
+  });
+
   return {
     status,
     blkHeight,
     timestamp,
     from,
-    ...(execution ? { to: { execution, contractAddress } } : {}),
-    ...(transfer ? { to: { transfer } } : {}),
-    ...(stakeTransferOwnership ? { to: { stakeTransferOwnership } } : {}),
-    ...(stakeCreate ? { to: { stakeCreate } } : {}),
+    ...to,
     ...(transfer ? { payload: { transfer } } : {}),
     payloadViewType: "UTF-8",
     ...(execution ? { evmTransfer: actHash, value: execution.amount } : {}),
     ...(transfer ? { value: transfer.amount } : {}),
+    ...(stakeAddDeposit ? { value: stakeAddDeposit.amount } : {}),
     ...actionType,
     fee: `${fromRau(`${gasConsumed * Number(gasPrice)}`, "Iotx")} IOTX`,
     gasLimit: Number(gasLimit).toLocaleString(),

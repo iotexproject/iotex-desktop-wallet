@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import {
   Execution,
   GrantReward,
+  StakeAddDeposit,
   StakeChangeCandidate,
   StakeCreate,
   StakeTransferOwnership,
@@ -51,6 +52,18 @@ const DelegateNameRenderer: VerticalTableRender<
     <Row type="flex" justify="start" align="middle">
       <Col span={24}>
         <LinkButton>{candidateName}</LinkButton>
+      </Col>
+    </Row>
+  );
+};
+
+const CommonTextRenderer: VerticalTableRender<{ text: string }> = ({
+  value: { text }
+}) => {
+  return (
+    <Row type="flex" justify="start" align="middle">
+      <Col span={24}>
+        <LinkButton>{text}</LinkButton>
       </Col>
     </Row>
   );
@@ -131,6 +144,7 @@ const ReceiptAddressRenderer: VerticalTableRender<{
   stakeCreate?: StakeCreate;
   stakeChangeCandidate?: StakeChangeCandidate;
   contractAddress?: string;
+  stakeAddDeposit?: StakeAddDeposit;
 }> = ({
   value: {
     execution,
@@ -138,7 +152,8 @@ const ReceiptAddressRenderer: VerticalTableRender<{
     contractAddress,
     stakeTransferOwnership,
     stakeCreate,
-    stakeChangeCandidate
+    stakeChangeCandidate,
+    stakeAddDeposit
   }
 }) => {
   return (
@@ -153,6 +168,15 @@ const ReceiptAddressRenderer: VerticalTableRender<{
       {stakeCreate && <DelegateNameRenderer value={stakeCreate} />}
       {stakeChangeCandidate && (
         <DelegateNameRenderer value={stakeChangeCandidate} />
+      )}
+      {stakeAddDeposit && (
+        <CommonTextRenderer
+          value={{
+            text: t("action.to.bucket", {
+              bucketIndex: `${stakeAddDeposit.bucketIndex}`
+            })
+          }}
+        />
       )}
     </>
   );

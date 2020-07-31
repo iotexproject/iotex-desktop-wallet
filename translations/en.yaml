@@ -91,6 +91,7 @@ action.type: Type
 action.types.in: IN
 action.types.out: OUT
 action.types.self: SELF
+action.to.bucket:  "Bucket #${bucketIndex}"
 action_details.hash: "Action Hash: ${actionHash}"
 address.address: Address
 address.balance: Balance
