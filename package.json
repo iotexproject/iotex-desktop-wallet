@@ -185,7 +185,7 @@
     "iotex-react-block-producers": "2.8.4",
     "iotex-react-language-dropdown": "2.4.0",
     "iotex-testnet-token-metadata": "^1.0.5",
-    "iotex-token-metadata": "^1.0.6",
+    "iotex-token-metadata": "^1.0.8",
     "is-browser": "2.1.0",
     "is-electron": "2.2.0",
     "isomorphic-unfetch": "3.0.0",

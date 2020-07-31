@@ -61,6 +61,8 @@ export class TokenMetadata {
   public type: string;
   @Field(_ => String, { nullable: true })
   public symbol?: string;
+  @Field(_ => [String], { nullable: true })
+  public image_urls?: Array<string>;
 }
 
 @ArgsType()

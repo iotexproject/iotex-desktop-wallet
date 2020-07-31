@@ -6,7 +6,10 @@ import { Dict } from "onefx/lib/types";
 import React from "react";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
-import { VerticalTableRender } from "../common/vertical-table";
+import {
+  numberWithCommas,
+  VerticalTableRender
+} from "../common/vertical-table";
 import { XRC20TokenBalanceTag } from "../common/xrc20-token";
 
 const AccountBalanceRenderer: VerticalTableRender<Dict> = ({
@@ -17,10 +20,7 @@ const AccountBalanceRenderer: VerticalTableRender<Dict> = ({
     (isBrowser && JsonGlobal("state").base.defaultERC20Tokens) || [];
   return (
     <>
-      <Tag>{`${fromRau(balance, "iotx").replace(
-        /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,
-        ","
-      )} IOTX`}</Tag>
+      <Tag>{`${numberWithCommas(fromRau(balance, "iotx"))} IOTX`}</Tag>
       {xrc20tokens.map((token: string) => (
         <span key={`balance-${token}`}>
           <XRC20TokenBalanceTag contract={token} address={address} />

@@ -6,6 +6,14 @@ import React, { CSSProperties, useState } from "react";
 import { LinkButton } from "./buttons";
 import { SpinPreloader } from "./spin-preloader";
 
+export function numberWithCommas(n: string): string {
+  const parts = n.toString().split(".");
+  return (
+    parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+    (parts[1] ? `.${parts[1]}` : "")
+  );
+}
+
 export interface IVerticalTableKeyPair<T> {
   key: string;
   value: T;
