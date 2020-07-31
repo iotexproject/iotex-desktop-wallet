@@ -3,10 +3,10 @@ import { get } from "dottie";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import { Link } from "react-router-dom";
+import { colors } from "../common/styles/style-color";
 import { Dict } from "../common/types";
 import { VerticalTableRender } from "../common/vertical-table";
 import { GET_ACTION_DETAILS_STATUS_BY_HASH } from "../queries";
-import { colors } from "../common/styles/style-color";
 export interface IActionsDetails {
   receipt?: {
     receiptInfo: {
