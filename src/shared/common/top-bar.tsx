@@ -49,7 +49,8 @@ const multiChain: {
   ];
 } = {
   current: (isBrowser && globalState.base.multiChain.current) || "MAINNET",
-  chains: (isBrowser && globalState.base.chainArray) || [
+  // @ts-ignore
+  chains: [
     {
       name: "MAINNET",
       url: "https://iotexscan.io/"
@@ -272,7 +273,6 @@ export const TopBar = connect(
                   {t("topbar.voting")}
                 </BrandLinkExternalUrl>
                 {this.renderWallets(true)}
-                <CommonMargin />
                 <CommonMargin />
                 <CommonMargin />
                 {this.renderNetSelector(true)}
