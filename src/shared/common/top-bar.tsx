@@ -41,15 +41,12 @@ const LanguageSwitcherMenu = () => {
 
 const multiChain: {
   current: string;
-  chains: [
-    {
-      name: string;
-      url: string;
-    }
-  ];
+  chains: Array<{
+    name: string;
+    url: string;
+  }>;
 } = {
   current: (isBrowser && globalState.base.multiChain.current) || "MAINNET",
-  // @ts-ignore
   chains: [
     {
       name: "MAINNET",
