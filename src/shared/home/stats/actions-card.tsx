@@ -25,7 +25,7 @@ export const ActionsCard = (): JSX.Element => {
           }
         }
       `}
-      pollInterval={10000}
+      pollInterval={15000}
     >
       {({ error, loading, data, stopPolling }: QueryResult) => {
         const showLoading = loading || !!error;

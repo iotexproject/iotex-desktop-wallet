@@ -1,8 +1,12 @@
 import Col from "antd/lib/col";
+import notification from "antd/lib/notification";
 import Row from "antd/lib/row";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
+import { Query, QueryResult } from "react-apollo";
+import { webBpApolloClient } from "../common/apollo-client";
+import { GET_BP_STATS } from "../queries";
 import { ActionsCard } from "./stats/actions-card";
 import { CandidatesCard } from "./stats/candidates-card";
 import { MapCard } from "./stats/map-card";
@@ -19,18 +23,38 @@ export const StatsArea = (): JSX.Element => {
             <Col xs={24} sm={24} md={12}>
               <ActionsCard />
             </Col>
-            <Col xs={12} sm={12} md={6}>
-              <CandidatesCard />
-            </Col>
-            <Col xs={12} sm={12} md={6}>
-              <StakedVotesCard />
-            </Col>
-            <Col xs={24} sm={24} md={12}>
-              <ProductivityCard />
-            </Col>
-            <Col xs={24} sm={24} md={12}>
-              <VotesCard />
-            </Col>
+            <Query
+              query={GET_BP_STATS}
+              ssr={false}
+              client={webBpApolloClient}
+              pollInterval={15000}
+            >
+              {(queryResult: QueryResult) => {
+                const { loading, error, stopPolling } = queryResult;
+                if (error && !loading) {
+                  notification.error({
+                    message: `failed to query bp stats in Stats Area: ${error}`
+                  });
+                  stopPolling();
+                }
+                return (
+                  <>
+                    <Col xs={12} sm={12} md={6}>
+                      <CandidatesCard {...queryResult} />
+                    </Col>
+                    <Col xs={12} sm={12} md={6}>
+                      <StakedVotesCard {...queryResult} />
+                    </Col>
+                    <Col xs={24} sm={24} md={12}>
+                      <ProductivityCard {...queryResult} />
+                    </Col>
+                    <Col xs={24} sm={24} md={12}>
+                      <VotesCard {...queryResult} />
+                    </Col>
+                  </>
+                );
+              }}
+            </Query>
           </Row>
         </Col>
         <Col xs={24} sm={24} md={24} lg={8}>
