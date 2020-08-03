@@ -16,6 +16,7 @@ import { LinkButton } from "../common/buttons";
 import { translateFn } from "../common/from-now";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
+import { numberWithCommas } from "../common/vertical-table";
 import { GET_BLOCK_METAS, GET_LATEST_HEIGHT } from "../queries";
 import { Page } from "./page";
 
@@ -64,7 +65,7 @@ const getBlockListColumns = (): Array<ColumnProps<BlockMeta>> => [
     dataIndex: "transferAmount",
     width: "20vw",
     render(text: string, _: BlockMeta, __: number): string {
-      return `${fromRau(text || "0", "IOTX")} IOTX`;
+      return `${numberWithCommas(fromRau(text || "0", "IOTX"))} IOTX`;
     }
   }
 ];

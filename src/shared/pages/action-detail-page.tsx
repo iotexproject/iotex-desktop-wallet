@@ -20,6 +20,7 @@ import { NotFound } from "../common/not-found";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { Dict } from "../common/types";
+import { numberWithCommas } from "../common/vertical-table";
 import { GET_ACTION_DETAILS_BY_HASH } from "../queries";
 import { CommonRenderer } from "../renderer";
 
@@ -160,17 +161,17 @@ const parseActionDetails = (data: IActionsDetails) => {
     ...(transfer ? { value: transfer.amount } : {}),
     ...(stakeAddDeposit ? { value: stakeAddDeposit.amount } : {}),
     ...actionType,
-    fee: `${fromRau(`${gasConsumed * Number(gasPrice)}`, "Iotx")} IOTX`,
+    fee: `${numberWithCommas(
+      fromRau(`${gasConsumed * Number(gasPrice)}`, "Iotx")
+    )} IOTX`,
     gasLimit: Number(gasLimit).toLocaleString(),
-    gasPrice: `${Number(gasPrice).toLocaleString()} (${fromRau(
-      gasPrice,
-      "Qev"
+    gasPrice: `${Number(gasPrice).toLocaleString()} (${numberWithCommas(
+      fromRau(gasPrice, "Qev")
     )} Qev)`,
     ...(depositToRewardingFund
       ? {
-          depositToRewardingFund: `${fromRau(
-            depositToRewardingFund.amount,
-            "Iotx"
+          depositToRewardingFund: `${numberWithCommas(
+            fromRau(depositToRewardingFund.amount, "Iotx")
           )} IOTX`
         }
       : {}),

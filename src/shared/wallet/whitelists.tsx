@@ -2,8 +2,8 @@ import { styled } from "onefx/lib/styletron-react";
 import React from "react";
 
 import Divider from "antd/lib/divider";
-import Form from "antd/lib/form";
 import { FormComponentProps } from "antd/lib/form";
+import Form from "antd/lib/form";
 import { WrappedFormUtils } from "antd/lib/form/Form";
 import Input from "antd/lib/input";
 import InputNumber from "antd/lib/input-number";
@@ -17,6 +17,7 @@ import { CommonMargin } from "../common/common-margin";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { Flex } from "../common/flex";
 import { colors } from "../common/styles/style-color";
+import { numberWithCommas } from "../common/vertical-table";
 import { WhitelistConfig, whitelistService } from "./whitelist";
 
 const P = styled("p", {
@@ -275,7 +276,9 @@ class WhitelistTable extends React.Component<
           deadline,
           amount
         } = this.props.dataSource[index];
-        const updatedAmount = row.amount ? `${row.amount} IOTX` : amount;
+        const updatedAmount = row.amount
+          ? `${numberWithCommas(row.amount)} IOTX`
+          : amount;
         const updatedDeadline = row.deadline
           ? Date.now() + row.deadline * 60 * 60 * 1000
           : deadline;

@@ -24,6 +24,7 @@ import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { getIoPayDesktopVersionName } from "../../common/on-electron-click";
 import { rulesMap } from "../../common/rules";
+import { numberWithCommas } from "../../common/vertical-table";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import {
   GasLimitFormInputItem,
@@ -230,10 +231,7 @@ class TransferForm extends React.PureComponent<Props, State> {
       >
         {getFieldDecorator("amount", {
           initialValue: 1,
-          normalize: value =>
-            `${value}`
-              .replace(/(,*)/g, "")
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+          normalize: value => numberWithCommas(`${value}`),
           rules: rulesMap.transactionAmount
         })(
           <Input
@@ -304,7 +302,7 @@ class TransferForm extends React.PureComponent<Props, State> {
               ...inputStyle
             }}
           >
-            {`${this.state.gasCostLimit} IOTX`}
+            {`${numberWithCommas(this.state.gasCostLimit)} IOTX`}
           </div>
         </Form.Item>
         {

@@ -10,6 +10,7 @@ import Helmet from "react-helmet";
 import { analyticsClient } from "../common/apollo-client";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
+import { numberWithCommas } from "../common/vertical-table";
 import { GET_CHAIN_META, GET_TOP_HOLDERS } from "../queries";
 import { GET_ACCOUNT } from "../queries";
 import { AccountAddressRenderer } from "../renderer/account-address-renderer";
@@ -49,7 +50,7 @@ const getAccountListColumns = (): Array<ColumnProps<TopHolderInfo>> => [
       __: number
     ): JSX.Element | string => {
       const balance = fromRau(record.balance, "iotx");
-      return `${balance} IOTX`;
+      return `${numberWithCommas(balance)} IOTX`;
     }
   },
   {

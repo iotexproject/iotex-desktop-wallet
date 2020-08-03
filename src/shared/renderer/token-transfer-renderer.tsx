@@ -11,7 +11,10 @@ import { Query, QueryResult } from "react-apollo";
 import { analyticsClient } from "../common/apollo-client";
 import { LinkButton } from "../common/buttons";
 import { colors } from "../common/styles/style-color";
-import { VerticalTableRender } from "../common/vertical-table";
+import {
+  numberWithCommas,
+  VerticalTableRender
+} from "../common/vertical-table";
 import { GET_ANALYTICS_EVM_TRANSFERS } from "../queries";
 
 const TokenTransferRenderer: VerticalTableRender<string> = ({ value }) => {
@@ -53,7 +56,9 @@ const TokenTransferRenderer: VerticalTableRender<string> = ({ value }) => {
                   </Col>
                   <Col>
                     {t("transfer.for", {
-                      value: `${fromRau(quantity, "iotx")} (IOTX)`
+                      value: `${numberWithCommas(
+                        fromRau(quantity, "iotx")
+                      )} (IOTX)`
                     })}
                   </Col>
                 </Row>
