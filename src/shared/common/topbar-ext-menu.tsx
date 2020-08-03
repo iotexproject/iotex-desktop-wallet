@@ -1,4 +1,7 @@
 import AntIcon from "antd/lib/icon";
+// @ts-ignore
+import window from "global/window";
+import { t } from "onefx/lib/iso-i18n";
 import { MouseEventHandler, useState } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -102,16 +105,26 @@ export function TopbarExtMenu({
       >
         <SubMenuIcon className="fas fa-caret-up" />
         {routes.map(
-          (r: { name: string | JSX.Element; path: string }, i: number) =>
-            r.path.startsWith("http") ? (
-              <ExternalSubMenuA key={i} href={r.path}>
+          (r: { name: string | JSX.Element; path: string }, i: number) => {
+            const isChainLink =
+              typeof r.name === "string" &&
+              [t("MAINNET"), t("TESTNET")].includes(r.name);
+
+            const externalLink =
+              isChainLink && window.location
+                ? `${r.path.slice(0, -1)}${window.location.pathname}`
+                : r.path;
+
+            return r.path.startsWith("http") ? (
+              <ExternalSubMenuA key={i} href={externalLink}>
                 {r.name}
               </ExternalSubMenuA>
             ) : (
               <SubMenuA key={i} to={r.path} onClick={onClick}>
                 {r.name}
               </SubMenuA>
-            )
+            );
+          }
         )}
       </SubMenu>
     </A>
