@@ -18,11 +18,12 @@ export const VotesCard = (): JSX.Element => {
       client={webBpApolloClient}
       pollInterval={10000}
     >
-      {({ data, loading, error }: QueryResult) => {
+      {({ data, loading, error, stopPolling }: QueryResult) => {
         if (error) {
           notification.error({
             message: `failed to get bp stats in VodesCard: ${error}`
           });
+          stopPolling();
         }
         const {
           totalVotes = 0,
