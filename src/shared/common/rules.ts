@@ -66,7 +66,7 @@ export const rules: Rules = {
   amount: {
     type: "number",
     transform: (value: string) => {
-      return new BigNumber(value);
+      return new BigNumber(value.replace(/(,*)/g, ""));
     },
     validator: (_, value: BigNumber, callback) => {
       if (value instanceof BigNumber && value.isGreaterThanOrEqualTo(0)) {
