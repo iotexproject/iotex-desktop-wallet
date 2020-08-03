@@ -230,6 +230,10 @@ class TransferForm extends React.PureComponent<Props, State> {
       >
         {getFieldDecorator("amount", {
           initialValue: 1,
+          normalize: value =>
+            `${value}`
+              .replace(/(,*)/g, "")
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
           rules: rulesMap.transactionAmount
         })(
           <Input
