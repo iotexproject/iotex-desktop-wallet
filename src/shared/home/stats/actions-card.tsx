@@ -27,12 +27,13 @@ export const ActionsCard = (): JSX.Element => {
       `}
       pollInterval={10000}
     >
-      {({ error, loading, data }: QueryResult) => {
+      {({ error, loading, data, stopPolling }: QueryResult) => {
         const showLoading = loading || !!error;
         if (error) {
           notification.error({
             message: `failed to query bp candidate in ActionsCard: ${error}`
           });
+          stopPolling();
         }
         const numberOfActions =
           (data && data.chainMeta && data.chainMeta.numActions) || 0;
