@@ -104,7 +104,20 @@ function createWindow() {
       submenu: [
         {
           label: "About " + name,
-          role: "about"
+          click() {
+            let child = new BrowserWindow({
+              width: 280,
+              height: 180,
+              parent: mainWindow,
+              minimizable: false,
+              maximizable: false,
+              resizable: false,
+              alwaysOnTop: true
+            });
+            child.removeMenu();
+
+            child.loadFile(path.resolve(__dirname, "about.html"));
+          }
         },
         {
           label: "Search or Report Issues",

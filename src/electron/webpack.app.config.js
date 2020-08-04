@@ -54,6 +54,8 @@ const base = env => {
       new FriendlyErrorsWebpackPlugin({ clearConsole: env === "development" }),
       new CopyPlugin([
         { from: "./src/index.html" },
+        { from: "./src/about.html" },
+        { from: "./src/icon.png" },
         { from: "../../dist/stylesheets/main.css" },
         { from: "../../dist/antd.css" }
       ])
