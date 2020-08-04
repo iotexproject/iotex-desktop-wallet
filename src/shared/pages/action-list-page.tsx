@@ -24,6 +24,7 @@ import { translateFn } from "../common/from-now";
 import { actionsTypes, getActionType } from "../common/get-action-type";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
+import { numberWithCommas } from "../common/vertical-table";
 import {
   GET_ACTIONS,
   GET_ANALYTICS_ACTIONS_BY_TYPE,
@@ -148,7 +149,8 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
       if (!amount) {
         return "-";
       }
-      return `${fromRau(amount, "IOTX")} IOTX`;
+
+      return `${numberWithCommas(fromRau(amount, "IOTX"))} IOTX`;
     }
   },
   {
@@ -319,7 +321,7 @@ const getActionByTypeColumns = (): Array<ColumnProps<IActionByTypeInfo>> => [
   {
     title: t("action.amount"),
     dataIndex: "amount",
-    render: text => `${fromRau(text, "IOTX")} IOTX`
+    render: text => `${numberWithCommas(fromRau(text, "IOTX"))} IOTX`
   },
   {
     title: t("render.key.fee"),

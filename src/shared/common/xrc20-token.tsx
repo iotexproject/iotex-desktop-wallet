@@ -113,14 +113,15 @@ const XRC20TokenValue: React.FC<{ contract: string; value: BigNumber }> = ({
         const tokenTransfered = value.dividedBy(
           new BigNumber(`1e${info.decimals}`)
         );
-        setBalance(`${tokenTransfered} ${info.symbol}`);
+
+        setBalance(`${numberWithCommas(`${tokenTransfered}`)} ${info.symbol}`);
       } else {
-        setBalance(`${fromRau(`${value}`, "Iotx")} IOTX`);
+        setBalance(`${numberWithCommas(fromRau(`${value}`, "Iotx"))} IOTX`);
       }
     })
     .catch(() => {
       // failback to native
-      setBalance(`${fromRau(`${value}`, "Iotx")} IOTX`);
+      setBalance(`${numberWithCommas(fromRau(`${value}`, "Iotx"))} IOTX`);
     });
   const [balance, setBalance] = useState("");
   return <span>{balance}</span>;

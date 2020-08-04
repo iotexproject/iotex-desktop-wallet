@@ -24,6 +24,7 @@ import { toRau } from "iotex-antenna/lib/account/utils";
 import { Query, QueryResult } from "react-apollo";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
+import { numberWithCommas } from "../../common/vertical-table";
 import { COMPILE_SOLIDITY, GET_SOLC_VERSIONS } from "../../queries";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
@@ -111,7 +112,7 @@ class DeployFormInner extends Component<DeployProps, State> {
     const dataSource = {
       address: address,
       data: byteCode,
-      amount: `${Number(amount).toLocaleString()} IOTX`,
+      amount: `${numberWithCommas(Number(amount).toLocaleString())} IOTX`,
       price: toRau(gasPrice, "Qev"),
       limit: gasLimit
     };

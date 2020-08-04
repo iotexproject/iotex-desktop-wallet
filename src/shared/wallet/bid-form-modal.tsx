@@ -12,6 +12,7 @@ import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Token } from "../../erc20/token";
 import { colors } from "../common/styles/style-color";
+import { numberWithCommas } from "../common/vertical-table";
 
 export interface IBidFormProps {
   onCancel(): void;
@@ -129,11 +130,14 @@ class BidForm extends React.PureComponent<IBidFormProps> {
                     role="main"
                     onClick={() => {
                       this.setState({
-                        initialValue: fromRau(this.state.maxBidAmount, "IoTx")
+                        initialValue: numberWithCommas(
+                          fromRau(this.state.maxBidAmount, "IoTx")
+                        )
                       });
                     }}
-                  >{`${fromRau(this.state.maxBidAmount, "IoTx") ||
-                    "0"} IOTX`}</strong>
+                  >{`${numberWithCommas(
+                    fromRau(this.state.maxBidAmount, "IoTx")
+                  ) || "0"} IOTX`}</strong>
                 </small>
               )}
             </div>
