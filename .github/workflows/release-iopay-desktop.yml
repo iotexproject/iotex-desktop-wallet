@@ -2,12 +2,12 @@
 
 name: Release ioPay Desktop
 
-# Controls when the action will run. Triggers the workflow on push 
+# Controls when the action will run. Triggers the workflow on push
 # events but only for the tags
 on:
   release:
     types: [published]
-  
+
   # for testing. will delete when check in
   pull_request:
     branches: [master]
@@ -18,7 +18,7 @@ jobs:
   build:
     name: Create Release
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -28,8 +28,8 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: "10"        
-    
+        node-version: "10"
+
     - name: Cache Node.js modules
       uses: actions/cache@v2
       with:
@@ -37,15 +37,15 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-          
+
     - name: Install dependencies
       run: npm install
-    
+
     - name: Install depenedencies in electron
       run: |
         cd src/electron/
         npm install
-    
+
     - name: Build
       run: |
         pwd
@@ -54,10 +54,10 @@ jobs:
         ls ../../dist/
         CSC_LINK=${{secrets.CERT_FILE}} CSC_KEY_PASSWORD=${{secrets.CERT_PASS}} APPLEID=${{secrets.APPLE_ID}} APPLEIDPASS=${{secrets.APPLE_PASS}} npm run build
         ls dist/*
-        
+
     - name: upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: iopay-desktop-release
-        path: cd src/electron/dist/ioPay*
-        
+        path: src/electron/dist/ioPay*
+
