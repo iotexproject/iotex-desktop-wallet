@@ -155,7 +155,9 @@ const parseActionDetails = (data: IActionsDetails) => {
     timestamp,
     from,
     ...to,
-    ...(transfer ? { payload: { transfer } } : {}),
+    ...(transfer
+      ? { payload: { transfer } }
+      : { payload: { transfer: { payload: "" } } }),
     payloadViewType: "UTF-8",
     ...(execution ? { evmTransfer: actHash, value: execution.amount } : {}),
     ...(transfer ? { value: transfer.amount } : {}),
@@ -287,7 +289,7 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
                       );
                     }
                   },
-                  maxRowsCount: 11
+                  maxRowsCount: 20
                 }}
               />
             </ContentPadding>
