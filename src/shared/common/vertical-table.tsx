@@ -74,7 +74,7 @@ function VerticalTable<T = any>(props: IVerticalTableProps<T>): JSX.Element {
       {t(expanded ? "common.show_less" : "common.show_more")}
     </LinkButton>
   );
-  const totalRowCount = dataSource.length;
+  const totalRowCount = Object.keys(objectSource).length;
 
   return (
     <div className={`vertical-table ${className || ""}`} style={style}>
