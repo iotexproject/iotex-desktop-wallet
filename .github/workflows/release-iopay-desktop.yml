@@ -47,6 +47,8 @@ jobs:
         npm install
 
     - name: Build
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
         pwd
         npm run build
