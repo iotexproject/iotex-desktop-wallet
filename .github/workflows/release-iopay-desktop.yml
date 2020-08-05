@@ -50,6 +50,8 @@ jobs:
     
     - name: Build
       run: |
+        pwd 
+        cd src/electron/
         CSC_LINK=${{secrets.CERT_FILE}} CSC_KEY_PASSWORD=${{secrets.CERT_PASS}} APPLEID=${{secrets.APPLE_ID}} APPLEIDPASS=${{secrets.APPLE_PASS}} npm run build
         ls dist/*
         
@@ -57,5 +59,5 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: iopay-desktop-release
-        path: dist/ioPay*
+        path: cd src/electron/dist/ioPay*
         
