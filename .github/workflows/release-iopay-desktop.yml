@@ -39,7 +39,7 @@ jobs:
           ${{ runner.os }}-node-
           
     - name: Install dependencies
-      run: npm install
+      run: NODE_ENV=development npm install
     
     - name: Install depenedencies in electron
       run: |
