@@ -15,7 +15,7 @@ export interface DecodeData {
 }
 
 export function decode(
-  abi: string,
+  abi: string | object,
   data: string,
   contractAddress: string = "io1p99pprm79rftj4r6kenfjcp8jkp6zc6mytuah5"
 ): DecodeData {
@@ -25,7 +25,7 @@ export function decode(
   }
   const method = data.substr(0, 8);
 
-  const ABI = JSON.parse(abi);
+  const ABI = typeof abi === "string" ? JSON.parse(abi) : abi;
   const erc20: ERC20 = ERC20.create(contractAddress, getAntenna().iotx, ABI);
 
   const contractAbi = erc20.contract.getABI() as AbiByFunc;
@@ -61,7 +61,7 @@ export function decode(
           ).string();
         }
         // @ts-ignore
-        values[method.inputsNames[i]] = params[i];
+        values[methodDef.inputsNames[i]] = params[i];
       }
 
       return {
