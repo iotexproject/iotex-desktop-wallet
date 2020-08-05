@@ -9,7 +9,7 @@ ipcRenderer.on("process_env", (event, message) => {
   if (message.NODE_ENV !== "development") {
     _pkginfo = {
       version: message.version,
-      license: message.license
+      author: message.author
     };
   } else {
     _pkginfo = JSON.parse(
@@ -17,9 +17,11 @@ ipcRenderer.on("process_env", (event, message) => {
     );
   }
   const appVersion = _pkginfo.version;
-  const license = _pkginfo.license;
+  const copyRight = `Copyright © ${new Date().getFullYear()} ${
+    _pkginfo.author
+  }`;
   document.getElementById(
     "version"
   ).innerHTML = `Version ${appVersion} (${appVersion})`;
-  document.getElementById("copyright").innerHTML = license;
+  document.getElementById("copyright").innerHTML = copyRight;
 });

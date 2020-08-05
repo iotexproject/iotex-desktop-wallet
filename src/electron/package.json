@@ -46,8 +46,8 @@
       "sign": false
     }
   },
-  "author": "Tian Pan (https://tianpan.co)",
-  "license": "Copyright © 2020 IoTeX Foundation",
+  "author": "IoTeX Foundation",
+  "license": "Apache",
   "devDependencies": {
     "copy-webpack-plugin": "5.0.3",
     "electron": "8.0.0",

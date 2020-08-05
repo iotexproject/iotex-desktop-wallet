@@ -52,8 +52,8 @@ const base = env => {
         "process.env": {
           GLOBAL_STATE: JSON.stringify(globalState),
           NODE_ENV: JSON.stringify(env),
-          license: JSON.stringify(pkg.license),
-          version: JSON.stringify(pkg.version)
+          version: JSON.stringify(pkg.version),
+          author: JSON.stringify(pkg.author)
         }
       }),
       new FriendlyErrorsWebpackPlugin({ clearConsole: env === "development" }),
