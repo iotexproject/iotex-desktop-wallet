@@ -47,7 +47,7 @@
     }
   },
   "author": "Tian Pan (https://tianpan.co)",
-  "license": "Apache",
+  "license": "Copyright © 2020 IoTeX Foundation",
   "devDependencies": {
     "copy-webpack-plugin": "5.0.3",
     "electron": "8.0.0",
@@ -69,6 +69,7 @@
     "config": "^3.1.0",
     "electron-is-dev": "^1.1.0",
     "electron-log": "4.2.2",
+    "electron-root-path": "^1.0.16",
     "electron-updater": "^4.0.6",
     "fs": "0.0.1-security",
     "global": "4.4.0",
