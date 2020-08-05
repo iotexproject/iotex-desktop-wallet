@@ -13,6 +13,7 @@ import { analyticsClient } from "../../common/apollo-client";
 import { assetURL } from "../../common/asset-url";
 import { colors } from "../../common/styles/style-color";
 import { CompAreaChart } from "../charts/area-chart";
+import moment from "moment";
 
 const fontFamily = "'Heebo',sans-serif,Microsoft YaHei !important";
 const Styles = {
@@ -113,10 +114,15 @@ export const MapCard = (): JSX.Element => {
           }
           return null;
         }
-        const mapdata = Object.keys(data).map((name, i) => ({
-          name: `Day ${days[i]}`,
-          value: data[name].numberOfActions.count
-        }));
+        const mapdata = Object.keys(data).map((name, i) => {
+          const date = new Date();
+          date.setDate(date.getDate() - days[i]);
+          const dateStr = moment(date).format("MM-DD");
+          return {
+            name: dateStr,
+            value: data[name].numberOfActions.count
+          };
+        });
         return (
           <Spin
             spinning={loading}
