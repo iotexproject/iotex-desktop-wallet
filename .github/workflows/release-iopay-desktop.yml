@@ -32,9 +32,6 @@ jobs:
       with:
         node-version: "10"        
     
-    - name: Install dependencies
-      run: npm install
-    
     - name: Cache Node.js modules
       uses: actions/cache@v2
       with:
@@ -42,7 +39,10 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-      
+          
+    - name: Install dependencies
+      run: npm install
+    
     - name: Install depenedencies in electron
       run: |
         cd src/electron/
