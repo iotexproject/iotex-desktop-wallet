@@ -52,7 +52,6 @@ const base = env => {
         "process.env": {
           GLOBAL_STATE: JSON.stringify(globalState),
           NODE_ENV: JSON.stringify(env),
-          copyRight: JSON.stringify(pkg.copyRight),
           version: JSON.stringify(pkg.version),
           author: JSON.stringify(pkg.author)
         }

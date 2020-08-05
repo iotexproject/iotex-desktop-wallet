@@ -9,7 +9,6 @@ ipcRenderer.on("process_env", (event, message) => {
   if (message.NODE_ENV !== "development") {
     _pkginfo = {
       version: message.version,
-      copyRight: message.copyRight,
       author: message.author
     };
   } else {
@@ -18,7 +17,9 @@ ipcRenderer.on("process_env", (event, message) => {
     );
   }
   const appVersion = _pkginfo.version;
-  const copyRight = _pkginfo.author || _pkginfo.copyRight || "";
+  const copyRight = `Copyright © ${new Date().getFullYear()} ${
+    _pkginfo.author
+  }`;
   document.getElementById(
     "version"
   ).innerHTML = `Version ${appVersion} (${appVersion})`;
