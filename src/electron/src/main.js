@@ -112,11 +112,17 @@ function createWindow() {
               minimizable: false,
               maximizable: false,
               resizable: false,
-              alwaysOnTop: true
+              alwaysOnTop: true,
+              webPreferences: {
+                enableRemoteModule: true,
+                nodeIntegration: true
+              }
             });
             child.removeMenu();
-
             child.loadFile(path.resolve(__dirname, "about.html"));
+            child.webContents.on("did-finish-load", () => {
+              child.webContents.send("process_env", process.env);
+            });
           }
         },
         {
