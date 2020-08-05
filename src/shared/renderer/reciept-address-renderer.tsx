@@ -87,6 +87,7 @@ const ExecutionRenderer: VerticalTableRender<{
   if (!contractAddr) {
     return null;
   }
+
   try {
     decodedData = Token.getToken(contractAddr).decode(`${data}`);
   } catch (error) {
