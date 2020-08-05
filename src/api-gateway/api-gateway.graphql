@@ -591,7 +591,7 @@ type Query {
   getSolcVersions: [SolcVersion!]!
   compileSolidity(source: String!, version: String!): [Contract!]!
   addressMeta(address: String!): AddressMeta!
-  tokenMetadata(provider: ProviderType!, type: String): [TokenMetadata!]!
+  tokenMetadata(provider: ProviderType!, type: TokenType): [TokenMetadata!]!
 }
 
 type ReadContractResponse {
@@ -831,6 +831,11 @@ type TokenMetadata {
   type: String!
   symbol: String
   image_urls: [String!]
+}
+
+enum TokenType {
+  xrc20
+  xrc721
 }
 
 type Transfer {
