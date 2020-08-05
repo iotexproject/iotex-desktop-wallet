@@ -50,7 +50,7 @@ jobs:
       run: |
         pwd 
         cd src/electron/
-        ls ../../
+        ls ../../dist/
         CSC_LINK=${{secrets.CERT_FILE}} CSC_KEY_PASSWORD=${{secrets.CERT_PASS}} APPLEID=${{secrets.APPLE_ID}} APPLEIDPASS=${{secrets.APPLE_PASS}} npm run build
         ls dist/*
         
