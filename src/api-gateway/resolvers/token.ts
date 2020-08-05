@@ -47,6 +47,12 @@ export enum ProviderType {
   testnet = "testnet"
 }
 
+export enum TokenType {
+  xrc20 = "xrc20",
+  xrc721 = "xrc721"
+}
+
+registerEnumType(TokenType, { name: "TokenType" });
 registerEnumType(ProviderType, { name: "ProviderType" });
 
 @ObjectType()
@@ -69,8 +75,8 @@ export class TokenMetadata {
 export class GetTokenMetadataRequset {
   @Field(_ => ProviderType)
   public provider: ProviderType;
-  @Field(_ => String, { nullable: true })
-  public type: string;
+  @Field(_ => TokenType, { nullable: true })
+  public type: TokenType;
 }
 
 @Resolver()
