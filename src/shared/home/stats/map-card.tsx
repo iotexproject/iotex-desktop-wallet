@@ -83,8 +83,8 @@ export const MapButton = (
 
 export const MapCard = (): JSX.Element => {
   const mostRecentEpoch = LAST_EPOTCH + DIFF_HOURS;
-  const days = [];
-  for (let index = 1; index <= 30; index++) {
+  const days: Array<number> = [];
+  for (let index = 30; index >= 1; index -= 1) {
     days.push(index);
   }
   return (
@@ -114,7 +114,7 @@ export const MapCard = (): JSX.Element => {
           return null;
         }
         const mapdata = Object.keys(data).map((name, i) => ({
-          name: `Day ${i + 1}`,
+          name: `Day ${days[i]}`,
           value: data[name].numberOfActions.count
         }));
         return (
