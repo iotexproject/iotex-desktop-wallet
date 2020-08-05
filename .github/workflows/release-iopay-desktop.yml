@@ -24,8 +24,6 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-      with: 
-        fetch-depth: 0
 
     - name: Use Node.js
       uses: actions/setup-node@v1
@@ -52,6 +50,7 @@ jobs:
       run: |
         pwd 
         cd src/electron/
+        ls ../../
         CSC_LINK=${{secrets.CERT_FILE}} CSC_KEY_PASSWORD=${{secrets.CERT_PASS}} APPLEID=${{secrets.APPLE_ID}} APPLEIDPASS=${{secrets.APPLE_PASS}} npm run build
         ls dist/*
         
