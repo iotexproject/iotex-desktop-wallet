@@ -16,6 +16,7 @@ import { copyCB } from "text-to-clipboard";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { rulesMap } from "../../common/rules";
+import { numberFromCommaString } from "../../common/vertical-table";
 import { xconf, XConfKeys } from "../../common/xconf";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
@@ -185,13 +186,13 @@ class InteractFormInner extends Component<InteractProps, State> {
       }
       const {
         contractAddress,
-        amount,
         gasPrice,
         gasLimit,
         abi,
         selectedFunction,
         args = []
       } = values;
+      const amount = numberFromCommaString(values.amount);
 
       window.console.log(
         `antenna.iotx.readContractByMethod(${JSON.stringify({
@@ -244,13 +245,13 @@ class InteractFormInner extends Component<InteractProps, State> {
 
       const {
         contractAddress,
-        amount,
         gasPrice,
         gasLimit,
         abi,
         selectedFunction,
         args
       } = values;
+      const amount = numberFromCommaString(values.amount);
 
       const price = gasPrice ? toRau(gasPrice, "Qev") : undefined;
       const formatArgs = this.formatArgs(abi, selectedFunction, args);
@@ -299,7 +300,13 @@ class InteractFormInner extends Component<InteractProps, State> {
     const { fromAddress, form } = this.props;
     const { showConfirmInteract, confirmInteractFunction } = this.state;
 
-    const { recipient, amount, gasLimit, gasPrice } = form.getFieldsValue();
+    const {
+      recipient,
+      amount: commaAmount,
+      gasLimit,
+      gasPrice
+    } = form.getFieldsValue();
+    const amount = numberFromCommaString(commaAmount);
     const dataSource = {
       address: fromAddress,
       toAddress: recipient,

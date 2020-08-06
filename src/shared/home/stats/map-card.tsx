@@ -5,6 +5,7 @@ import notification from "antd/lib/notification";
 import Row from "antd/lib/row";
 import Spin from "antd/lib/spin";
 import gql from "graphql-tag";
+import moment from "moment";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { CSSProperties } from "react";
@@ -13,7 +14,6 @@ import { analyticsClient } from "../../common/apollo-client";
 import { assetURL } from "../../common/asset-url";
 import { colors } from "../../common/styles/style-color";
 import { CompAreaChart } from "../charts/area-chart";
-import moment from "moment";
 
 const fontFamily = "'Heebo',sans-serif,Microsoft YaHei !important";
 const Styles = {

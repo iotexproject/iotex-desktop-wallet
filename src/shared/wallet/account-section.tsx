@@ -35,7 +35,6 @@ import { Flex } from "../common/flex";
 import { onElectronClick } from "../common/on-electron-click";
 import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
-import { numberWithCommas } from "../common/vertical-table";
 import { xconf, XConfKeys } from "../common/xconf";
 import AddCustomTokensFormModal from "./add-custom-tokens-form-modal";
 import AuthorizedMessageFormModal from "./authorized-message-form-modal";
@@ -888,7 +887,7 @@ class AccountSection extends React.Component<Props, State> {
       return null;
     }
     const dataSource = {
-      amount: `${numberWithCommas(bidAmount)} IOTX`,
+      amount: `${bidAmount} IOTX`,
       address: account.address,
       method: "bid",
       limit: gasEstimation.gasLimit,

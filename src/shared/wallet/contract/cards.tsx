@@ -16,6 +16,7 @@ import { Flex } from "../../common/flex";
 import { formItemLayout } from "../../common/form-item-layout";
 import { rules, rulesMap } from "../../common/rules";
 import { colors } from "../../common/styles/style-color";
+import { numberWithCommas } from "../../common/vertical-table";
 import { inputStyle } from "../wallet";
 
 const { TextArea } = Input;
@@ -222,6 +223,7 @@ export function AmountFormInputItem({
     >
       {getFieldDecorator("amount", {
         initialValue: initialValue,
+        normalize: value => numberWithCommas(`${value}`),
         rules: required ? rulesMap.transactionAmount : rulesMap.interactAmount
       })(<Input className="form-input" addonAfter={symbol} name="amount" />)}
     </Form.Item>
