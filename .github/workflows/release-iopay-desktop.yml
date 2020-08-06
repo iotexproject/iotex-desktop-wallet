@@ -62,17 +62,3 @@ jobs:
       with:
         name: iopay-desktop-release
         path: src/electron/dist/ioPay*
-
-    - name: Create Release
-      id: create_release
-      uses: ncipollo/release-action@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        artifacts: iopay-desktop-release.zip
-        allowUpdates: true
-        commit: master
-        tag: auto_build
-        token: ${{ secrets.GITHUB_TOKEN }}
-        draft: false
-        prerelease: false
