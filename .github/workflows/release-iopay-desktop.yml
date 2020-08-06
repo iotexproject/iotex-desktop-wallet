@@ -62,3 +62,11 @@ jobs:
       with:
         name: iopay-desktop-release
         path: src/electron/dist/ioPay*
+    - name: upload to release
+      uses: xresloader/upload-to-github-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        file: src/electron/dist/ioPay*
+        tags: true
+        draft: true
