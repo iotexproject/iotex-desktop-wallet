@@ -7,6 +7,7 @@ import { Board } from "./board";
 import { Flex } from "./flex";
 import { Column, HorizontalTable } from "./horizontal-table";
 import { ModalBody } from "./modal-body";
+import { numberWithCommas } from "./vertical-table";
 
 export interface Props {
   showModal: boolean;
@@ -51,7 +52,9 @@ export default class ConfirmContractModal extends React.Component<
               render(text: string, _: any): JSX.Element {
                 return (
                   <span>
-                    <h1 style={{ display: "inline" }}>{text}</h1>{" "}
+                    <h1 style={{ display: "inline" }}>
+                      {numberWithCommas(text)}
+                    </h1>{" "}
                   </span>
                 );
               }
