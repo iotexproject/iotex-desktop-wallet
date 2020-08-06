@@ -5,6 +5,7 @@ name: Release ioPay Desktop
 # Controls when the action will run. Triggers the workflow on push
 # events but only for the tags
 on:
+
   push:
     branches: [master]
   # for testing. will delete when check in
@@ -55,10 +56,16 @@ jobs:
         ls ../../dist/
         CSC_LINK=${{secrets.CERT_FILE}} CSC_KEY_PASSWORD=${{secrets.CERT_PASS}} APPLEID=${{secrets.APPLE_ID}} APPLEIDPASS=${{secrets.APPLE_PASS}} npm run build
         ls dist/*
-        npm run publish
 
     - name: upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: iopay-desktop-release
         path: src/electron/dist/ioPay*
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: "src/electron/dist/ioPay*"
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
