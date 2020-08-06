@@ -131,7 +131,14 @@ const ExecutionRenderer: VerticalTableRender<{
             </>
           ) : (
             <>
-              <span style={{ textTransform: "uppercase" }}>
+              <span
+                style={{
+                  textTransform: "uppercase",
+                  overflow: "hidden",
+                  display: "block",
+                  textOverflow: "ellipsis"
+                }}
+              >
                 <Icon type="enter" style={{ transform: "rotateY(180deg)" }} />
                 {`${t("render.key.method")}: `}
               </span>
