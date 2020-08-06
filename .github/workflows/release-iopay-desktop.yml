@@ -70,3 +70,4 @@ jobs:
         file: src/electron/dist/ioPay*
         tags: true
         draft: true
+        prerelease: true
