@@ -24,7 +24,10 @@ import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { getIoPayDesktopVersionName } from "../../common/on-electron-click";
 import { rulesMap } from "../../common/rules";
-import { numberWithCommas } from "../../common/vertical-table";
+import {
+  numberWithCommas,
+  numberFromCommaString
+} from "../../common/vertical-table";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import {
   GasLimitFormInputItem,
@@ -362,11 +365,14 @@ class TransferForm extends React.PureComponent<Props, State> {
       symbol,
       dataInHex
     } = form.getFieldsValue();
+
     const tokenSymbol = symbol === "iotx" ? "IOTX" : tokens[symbol].symbol;
     const dataSource: { [index: string]: string } = {
       address: address,
       toAddress: recipient,
-      amount: `${new BigNumber(amount).toString()} ${tokenSymbol}`,
+      amount: `${numberWithCommas(
+        new BigNumber(numberFromCommaString(amount)).toString()
+      )} ${tokenSymbol}`,
       limit: gasLimit,
       price: `${toRau(gasPrice, "Qev")} (${gasPrice} Qev)`
     };
