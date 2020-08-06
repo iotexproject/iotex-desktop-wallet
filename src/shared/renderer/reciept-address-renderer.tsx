@@ -109,7 +109,14 @@ const ExecutionRenderer: VerticalTableRender<{
         <ContracAddressRenderer value={contractAddr} />
       </Col>
       <Col span={24}>
-        <small className="auto-spacing">
+        <small
+          className="auto-spacing"
+          style={{
+            display: "block",
+            overflow: "hidden",
+            textOverflow: "ellipsis"
+          }}
+        >
           {method.match(/transfer/i) ? (
             <>
               <span style={{ textTransform: "uppercase" }}>
@@ -131,14 +138,7 @@ const ExecutionRenderer: VerticalTableRender<{
             </>
           ) : (
             <>
-              <span
-                style={{
-                  textTransform: "uppercase",
-                  overflow: "hidden",
-                  display: "block",
-                  textOverflow: "ellipsis"
-                }}
-              >
+              <span style={{ textTransform: "uppercase" }}>
                 <Icon type="enter" style={{ transform: "rotateY(180deg)" }} />
                 {`${t("render.key.method")}: `}
               </span>
