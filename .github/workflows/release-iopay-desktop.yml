@@ -22,48 +22,48 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: "10"
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10"
 
-    - name: Cache Node.js modules
-      uses: actions/cache@v2
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Install depenedencies in electron
-      run: |
-        cd src/electron/
-        npm install
+      - name: Install depenedencies in electron
+        run: |
+          cd src/electron/
+          npm install
 
-    - name: Build
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        npm run build
-        cd src/electron/
-        CSC_LINK=${{secrets.CERT_FILE}} CSC_KEY_PASSWORD=${{secrets.CERT_PASS}} APPLEID=${{secrets.APPLE_ID}} APPLEIDPASS=${{secrets.APPLE_PASS}} npm run build
+      - name: Build
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm run build
+          cd src/electron/
+          CSC_LINK=${{secrets.CERT_FILE}} CSC_KEY_PASSWORD=${{secrets.CERT_PASS}} APPLEID=${{secrets.APPLE_ID}} APPLEIDPASS=${{secrets.APPLE_PASS}} npm run build
 
-    - name: upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: iopay-desktop-release
-        path: src/electron/dist/ioPay*
-    - name: Upload builds to release
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: ${{ github.ref }}
-        files: src/electron/dist/ioPay*
-        draft: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      - name: upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: iopay-desktop-release
+          path: src/electron/dist/ioPay*
+      - name: Upload builds to release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          files: src/electron/dist/ioPay*
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
