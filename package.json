@@ -170,7 +170,7 @@
     "dateformat": "3.0.3",
     "dayjs": "1.8.17",
     "dotenv": "8.2.0",
-    "dottie": "2.0.1",
+    "dottie": "2.0.2",
     "export-from-json": "1.1.4",
     "form-serialize": "0.7.2",
     "fromnow": "3.0.1",
