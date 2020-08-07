@@ -1,6 +1,6 @@
 import Checkbox from "antd/lib/checkbox";
-import { FormComponentProps } from "antd/lib/form";
 import Form from "antd/lib/form";
+import { FormComponentProps } from "antd/lib/form";
 import { WrappedFormUtils } from "antd/lib/form/Form";
 import InputNumber from "antd/lib/input-number";
 // @ts-ignore
@@ -11,6 +11,7 @@ import { Board } from "../common/board";
 import { CommonMargin } from "../common/common-margin";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { colors } from "../common/styles/style-color";
+import { numberWithCommas } from "../common/vertical-table";
 import { whitelistService } from "./whitelist";
 
 type Props = FormComponentProps & {
@@ -109,7 +110,7 @@ export class WhitelistSetting extends React.Component<Props, State> {
               {getFieldDecorator("amount", {
                 valuePropName: "checked",
                 initialValue: true
-              })(<Checkbox name="amount">{amount}</Checkbox>)}
+              })(<Checkbox name="amount">{numberWithCommas(amount)}</Checkbox>)}
             </Form.Item>
 
             <Form.Item label={t("wallet.whitelist.recipient")}>

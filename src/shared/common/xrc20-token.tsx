@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { Token } from "../../erc20/token";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
 import { GetTokenMetadataMap } from "./common-metadata";
+import { numberWithCommas } from "./vertical-table";
 
 const XRC20TokenName: React.FC<{ contract: string }> = ({ contract }) => {
   const token = Token.getToken(contract);
@@ -97,9 +98,7 @@ const XRC20TokenBalanceTag: React.FC<{ contract: string; address: string }> = ({
       setBalance("");
     });
   const [balance, setBalance] = useState("");
-  return balance ? (
-    <Tag>{balance.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}</Tag>
-  ) : null;
+  return balance ? <Tag>{numberWithCommas(balance)}</Tag> : null;
 };
 
 const XRC20TokenValue: React.FC<{ contract: string; value: BigNumber }> = ({
@@ -114,14 +113,15 @@ const XRC20TokenValue: React.FC<{ contract: string; value: BigNumber }> = ({
         const tokenTransfered = value.dividedBy(
           new BigNumber(`1e${info.decimals}`)
         );
-        setBalance(`${tokenTransfered} ${info.symbol}`);
+
+        setBalance(`${numberWithCommas(`${tokenTransfered}`)} ${info.symbol}`);
       } else {
-        setBalance(`${fromRau(`${value}`, "Iotx")} IOTX`);
+        setBalance(`${numberWithCommas(fromRau(`${value}`, "Iotx"))} IOTX`);
       }
     })
     .catch(() => {
       // failback to native
-      setBalance(`${fromRau(`${value}`, "Iotx")} IOTX`);
+      setBalance(`${numberWithCommas(fromRau(`${value}`, "Iotx"))} IOTX`);
     });
   const [balance, setBalance] = useState("");
   return <span>{balance}</span>;

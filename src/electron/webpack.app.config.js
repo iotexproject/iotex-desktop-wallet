@@ -5,6 +5,9 @@ const nodeExternals = require("webpack-node-externals");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const webpack = require("webpack");
+const { join } = require("path");
+const { rootPath } = require("electron-root-path");
+const pkg = require(join(rootPath, "package.json"));
 
 const translateEnvToMode = env => {
   if (env === "production") {
@@ -48,12 +51,17 @@ const base = env => {
       new webpack.DefinePlugin({
         "process.env": {
           GLOBAL_STATE: JSON.stringify(globalState),
-          NODE_ENV: JSON.stringify(env)
+          NODE_ENV: JSON.stringify(env),
+          version: JSON.stringify(pkg.version),
+          author: JSON.stringify(pkg.author)
         }
       }),
       new FriendlyErrorsWebpackPlugin({ clearConsole: env === "development" }),
       new CopyPlugin([
         { from: "./src/index.html" },
+        { from: "./src/about.html" },
+        { from: "./src/about.js" },
+        { from: "./src/icon.png" },
         { from: "../../dist/stylesheets/main.css" },
         { from: "../../dist/antd.css" }
       ])

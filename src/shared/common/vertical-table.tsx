@@ -6,6 +6,21 @@ import React, { CSSProperties, useState } from "react";
 import { LinkButton } from "./buttons";
 import { SpinPreloader } from "./spin-preloader";
 
+export function numberWithCommas(n: string): string {
+  return n
+    .toString()
+    .replace(/\,/g, "")
+    .split(".")
+    .map((part, index) =>
+      index === 0 ? part.replace(/\B(?=(\d{3})+(?!\d))/g, ",") : part
+    )
+    .join(".");
+}
+
+export function numberFromCommaString(n: string): string {
+  return n.toString().replace(/\,/g, "");
+}
+
 export interface IVerticalTableKeyPair<T> {
   key: string;
   value: T;
@@ -66,6 +81,7 @@ function VerticalTable<T = any>(props: IVerticalTableProps<T>): JSX.Element {
       {t(expanded ? "common.show_less" : "common.show_more")}
     </LinkButton>
   );
+  const totalRowCount = Object.keys(objectSource).length;
 
   return (
     <div className={`vertical-table ${className || ""}`} style={style}>
@@ -115,7 +131,7 @@ function VerticalTable<T = any>(props: IVerticalTableProps<T>): JSX.Element {
               </Row>
             );
           })}
-          {maxRowsCount && (
+          {maxRowsCount && maxRowsCount < totalRowCount && (
             <Row
               role="main"
               onClick={() => {

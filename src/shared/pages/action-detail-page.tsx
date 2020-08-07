@@ -20,6 +20,7 @@ import { NotFound } from "../common/not-found";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { Dict } from "../common/types";
+import { numberWithCommas } from "../common/vertical-table";
 import { GET_ACTION_DETAILS_BY_HASH } from "../queries";
 import { CommonRenderer } from "../renderer";
 
@@ -71,6 +72,7 @@ export interface IActionsDetails {
 
 export type GetActionDetailsResponse = QueryResult<IActionsDetails>;
 
+// tslint:disable-next-line:max-func-body-length
 const parseActionDetails = (data: IActionsDetails) => {
   // destruct receipt info
   const { blkHeight, gasConsumed, status, logs, contractAddress }: Dict =
@@ -125,31 +127,53 @@ const parseActionDetails = (data: IActionsDetails) => {
     return true;
   });
 
+  const toSources: Dict = {
+    execution,
+    transfer,
+    stakeTransferOwnership,
+    stakeAddDeposit,
+    stakeCreate
+  };
+
+  let to = {};
+  Object.keys(toSources).every(key => {
+    if (toSources[key]) {
+      const value: Dict = {};
+      value[key] = toSources[key];
+      if (key === "execution") {
+        value.contractAddress = contractAddress;
+      }
+      to = { to: value };
+      return false;
+    }
+    return true;
+  });
+
   return {
     status,
     blkHeight,
     timestamp,
     from,
-    ...(execution ? { to: { execution, contractAddress } } : {}),
-    ...(transfer ? { to: { transfer } } : {}),
-    ...(stakeTransferOwnership ? { to: { stakeTransferOwnership } } : {}),
-    ...(stakeCreate ? { to: { stakeCreate } } : {}),
-    ...(transfer ? { payload: { transfer } } : {}),
+    ...to,
+    ...(transfer
+      ? { payload: { transfer } }
+      : { payload: { transfer: { payload: "" } } }),
     payloadViewType: "UTF-8",
     ...(execution ? { evmTransfer: actHash, value: execution.amount } : {}),
     ...(transfer ? { value: transfer.amount } : {}),
+    ...(stakeAddDeposit ? { value: stakeAddDeposit.amount } : {}),
     ...actionType,
-    fee: `${fromRau(`${gasConsumed * Number(gasPrice)}`, "Iotx")} IOTX`,
+    fee: `${numberWithCommas(
+      fromRau(`${gasConsumed * Number(gasPrice)}`, "Iotx")
+    )} IOTX`,
     gasLimit: Number(gasLimit).toLocaleString(),
-    gasPrice: `${Number(gasPrice).toLocaleString()} (${fromRau(
-      gasPrice,
-      "Qev"
+    gasPrice: `${Number(gasPrice).toLocaleString()} (${numberWithCommas(
+      fromRau(gasPrice, "Qev")
     )} Qev)`,
     ...(depositToRewardingFund
       ? {
-          depositToRewardingFund: `${fromRau(
-            depositToRewardingFund.amount,
-            "Iotx"
+          depositToRewardingFund: `${numberWithCommas(
+            fromRau(depositToRewardingFund.amount, "Iotx")
           )} IOTX`
         }
       : {}),
@@ -229,7 +253,7 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
           }
 
           return (
-            <ContentPadding>
+            <ContentPadding style={{ marginBottom: 8 }}>
               <CardDetails
                 title={t("action_details.hash", { actionHash: hash })}
                 titleToCopy={hash}
@@ -265,7 +289,7 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
                       );
                     }
                   },
-                  maxRowsCount: 7
+                  maxRowsCount: 20
                 }}
               />
             </ContentPadding>

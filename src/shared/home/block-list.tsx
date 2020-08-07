@@ -309,10 +309,14 @@ export const BlockList = (props: { height: string }): JSX.Element => {
             {({
               error,
               loading,
-              data
+              data,
+              stopPolling
             }: QueryResult<{
               chainMeta: { height: string };
             }>): JSX.Element | null => {
+              if (error && !loading) {
+                stopPolling();
+              }
               if (
                 error ||
                 loading ||

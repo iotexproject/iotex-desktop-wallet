@@ -18,7 +18,7 @@ export const TPSCard = (): JSX.Element => {
       query={GET_ANALYTICS_TPS}
       ssr={false}
       client={analyticsClient}
-      pollInterval={10000}
+      pollInterval={15000}
     >
       {({ data, loading, error }: QueryResult) => {
         if (error) {

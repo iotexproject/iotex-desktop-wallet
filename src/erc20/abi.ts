@@ -1,3 +1,5 @@
+import { Dict } from "../shared/common/types";
+
 export const ABI = [
   {
     constant: true,
@@ -1626,3 +1628,602 @@ export const N2E_ABI = [
     type: "function"
   }
 ];
+
+export const HERMES_ABI = [
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "",
+        type: "bytes32"
+      }
+    ],
+    name: "distributedAmount",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "multisender",
+    outputs: [
+      {
+        name: "",
+        type: "address"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "addrs",
+        type: "address[]"
+      }
+    ],
+    name: "removeAddressesFromWhitelist",
+    outputs: [
+      {
+        name: "success",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "addr",
+        type: "address"
+      }
+    ],
+    name: "removeAddressFromWhitelist",
+    outputs: [
+      {
+        name: "success",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "analyticsEndpoint",
+    outputs: [
+      {
+        name: "",
+        type: "string"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    name: "endEpochs",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "addr",
+        type: "address"
+      }
+    ],
+    name: "addAddressToWhitelist",
+    outputs: [
+      {
+        name: "success",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "",
+        type: "bytes32"
+      }
+    ],
+    name: "distributedCount",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        name: "",
+        type: "address"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "",
+        type: "address"
+      }
+    ],
+    name: "whitelist",
+    outputs: [
+      {
+        name: "",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "",
+        type: "address"
+      }
+    ],
+    name: "forwardService",
+    outputs: [
+      {
+        name: "nonce",
+        type: "uint256"
+      },
+      {
+        name: "destination",
+        type: "address"
+      },
+      {
+        name: "startEpoch",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "",
+        type: "bytes32"
+      },
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    name: "distributions",
+    outputs: [
+      {
+        name: "distributedCount",
+        type: "uint256"
+      },
+      {
+        name: "amount",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "",
+        type: "bytes32"
+      },
+      {
+        name: "",
+        type: "address"
+      }
+    ],
+    name: "recipientEpochTracker",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "minTips",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "addrs",
+        type: "address[]"
+      }
+    ],
+    name: "addAddressesToWhitelist",
+    outputs: [
+      {
+        name: "success",
+        type: "bool"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "newOwner",
+        type: "address"
+      }
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        name: "_multisendAddress",
+        type: "address"
+      },
+      {
+        name: "_minTips",
+        type: "uint256"
+      },
+      {
+        name: "_analyticsEndpoint",
+        type: "string"
+      }
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "constructor"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        name: "owner",
+        type: "address"
+      },
+      {
+        indexed: true,
+        name: "alternative",
+        type: "address"
+      },
+      {
+        indexed: false,
+        name: "epoch",
+        type: "uint256"
+      }
+    ],
+    name: "RegisterForwardService",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        name: "owner",
+        type: "address"
+      }
+    ],
+    name: "DeregisterForwardService",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        name: "startEpoch",
+        type: "uint256"
+      },
+      {
+        indexed: false,
+        name: "endEpoch",
+        type: "uint256"
+      },
+      {
+        indexed: true,
+        name: "delegateName",
+        type: "bytes32"
+      },
+      {
+        indexed: false,
+        name: "numOfRecipients",
+        type: "uint256"
+      },
+      {
+        indexed: false,
+        name: "totalAmount",
+        type: "uint256"
+      }
+    ],
+    name: "Distribute",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        name: "endEpoch",
+        type: "uint256"
+      },
+      {
+        indexed: false,
+        name: "delegateNames",
+        type: "bytes32[]"
+      }
+    ],
+    name: "CommitDistributions",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        name: "addr",
+        type: "address"
+      }
+    ],
+    name: "WhitelistedAddressAdded",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        name: "addr",
+        type: "address"
+      }
+    ],
+    name: "WhitelistedAddressRemoved",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        name: "previousOwner",
+        type: "address"
+      },
+      {
+        indexed: true,
+        name: "newOwner",
+        type: "address"
+      }
+    ],
+    name: "OwnershipTransferred",
+    type: "event"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "owner",
+        type: "address"
+      },
+      {
+        name: "nonce",
+        type: "uint256"
+      },
+      {
+        name: "startEpoch",
+        type: "uint256"
+      },
+      {
+        name: "signature",
+        type: "bytes"
+      }
+    ],
+    name: "registerForwardService",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "owner",
+        type: "address"
+      },
+      {
+        name: "nonce",
+        type: "uint256"
+      },
+      {
+        name: "signature",
+        type: "bytes"
+      }
+    ],
+    name: "deregisterForwardService",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "getEndEpochCount",
+    outputs: [
+      {
+        name: "",
+        type: "uint256"
+      }
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_multisendAddress",
+        type: "address"
+      }
+    ],
+    name: "setMultisendAddress",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_minTips",
+        type: "uint256"
+      }
+    ],
+    name: "setMinTips",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_endpoint",
+        type: "string"
+      }
+    ],
+    name: "setAnalyticsEndpoint",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "delegateName",
+        type: "bytes32"
+      },
+      {
+        name: "endEpoch",
+        type: "uint256"
+      },
+      {
+        name: "recipients",
+        type: "address[]"
+      },
+      {
+        name: "amounts",
+        type: "uint256[]"
+      }
+    ],
+    name: "distributeRewards",
+    outputs: [],
+    payable: true,
+    stateMutability: "payable",
+    type: "function"
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "endEpoch",
+        type: "uint256"
+      },
+      {
+        name: "delegateNames",
+        type: "bytes32[]"
+      }
+    ],
+    name: "commitDistributions",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  }
+];
+
+export const contractABIs: Dict = {
+  hermes: HERMES_ABI,
+  bid: BID_ABI,
+  n2e: N2E_ABI
+};

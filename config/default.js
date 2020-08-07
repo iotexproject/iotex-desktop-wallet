@@ -40,7 +40,9 @@ module.exports = {
     },
     mongoose: {
       uri: process.env.MONGODB_URI
-    }
+    },
+    iotexscanApiGatewayUrl:
+      process.env.API_GATEWAY_URL || "http://localhost:4004/api-gateway/"
   },
   analytics: {
     googleTid: "UA-111756489-2"

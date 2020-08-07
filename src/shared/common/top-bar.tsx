@@ -41,15 +41,13 @@ const LanguageSwitcherMenu = () => {
 
 const multiChain: {
   current: string;
-  chains: [
-    {
-      name: string;
-      url: string;
-    }
-  ];
+  chains: Array<{
+    name: string;
+    url: string;
+  }>;
 } = {
   current: (isBrowser && globalState.base.multiChain.current) || "MAINNET",
-  chains: (isBrowser && globalState.base.chainArray) || [
+  chains: [
     {
       name: "MAINNET",
       url: "https://iotexscan.io/"
@@ -272,7 +270,6 @@ export const TopBar = connect(
                   {t("topbar.voting")}
                 </BrandLinkExternalUrl>
                 {this.renderWallets(true)}
-                <CommonMargin />
                 <CommonMargin />
                 <CommonMargin />
                 {this.renderNetSelector(true)}

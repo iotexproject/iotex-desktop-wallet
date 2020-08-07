@@ -24,6 +24,7 @@ import { translateFn } from "../common/from-now";
 import { actionsTypes, getActionType } from "../common/get-action-type";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
+import { numberWithCommas } from "../common/vertical-table";
 import {
   GET_ACTIONS,
   GET_ANALYTICS_ACTIONS_BY_TYPE,
@@ -46,6 +47,10 @@ export function getAddress(record: ActionInfo): string {
     get(record, "action.core.stakeTransferOwnership.voterAddress") ||
     get(record, "action.core.stakeCreate.candidateName") ||
     get(record, "action.core.stakeChangeCandidate.candidateName") ||
+    (get(record, "action.core.stakeAddDeposit.bucketIndex") &&
+      t("action.to.bucket", {
+        bucketIndex: get(record, "action.core.stakeAddDeposit.bucketIndex")
+      })) ||
     "";
   if (!addr) {
     return "-";
@@ -139,11 +144,13 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
         get(record, "action.core.createPlumChain.amount") ||
         get(record, "action.core.plumCreateDeposit.amount") ||
         get(record, "action.core.grantReward.amount") ||
+        get(record, "action.core.stakeAddDeposit.amount") ||
         "";
       if (!amount) {
         return "-";
       }
-      return `${fromRau(amount, "IOTX")} IOTX`;
+
+      return `${numberWithCommas(fromRau(amount, "IOTX"))} IOTX`;
     }
   },
   {
@@ -314,7 +321,7 @@ const getActionByTypeColumns = (): Array<ColumnProps<IActionByTypeInfo>> => [
   {
     title: t("action.amount"),
     dataIndex: "amount",
-    render: text => `${fromRau(text, "IOTX")} IOTX`
+    render: text => `${numberWithCommas(fromRau(text, "IOTX"))} IOTX`
   },
   {
     title: t("render.key.fee"),

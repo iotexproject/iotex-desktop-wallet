@@ -35,7 +35,7 @@ export async function apolloSSR(
 ): Promise<string> {
   ctx.setState(
     "base.apiGatewayUrl",
-    `${ctx.origin}${ROUTE_PREFIX}/api-gateway/`
+    `${config.get("gateways.iotexscanApiGatewayUrl")}`
   );
 
   const apolloClient = new ApolloClient({

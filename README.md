@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/iotexproject/iotex-explorer.svg?style=svg)](https://circleci.com/gh/iotexproject/iotex-explorer)
+![all tests](https://github.com/iotexproject/iotex-explorer/workflows/all%20tests/badge.svg)
 
 # iotex-explorer
 

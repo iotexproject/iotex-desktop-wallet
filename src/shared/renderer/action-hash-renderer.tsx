@@ -3,10 +3,10 @@ import { get } from "dottie";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import { Link } from "react-router-dom";
+import { colors } from "../common/styles/style-color";
 import { Dict } from "../common/types";
 import { VerticalTableRender } from "../common/vertical-table";
 import { GET_ACTION_DETAILS_STATUS_BY_HASH } from "../queries";
-
 export interface IActionsDetails {
   receipt?: {
     receiptInfo: {
@@ -38,15 +38,17 @@ const ActionHashRenderer: VerticalTableRender<string> = ({ value }) => {
               return null;
             }
             const status = parseStatus(data || {});
-            if (loading || status === "Success") {
+            if (loading || `${status}`.match(/success/i)) {
               return null;
             }
             return (
-              <Icon
-                type="info-circle"
-                theme="filled"
-                style={{ color: "#EE3423" }}
-              />
+              <>
+                <Icon
+                  type="exclamation-circle"
+                  style={{ color: colors.warning }}
+                />
+                &nbsp;
+              </>
             );
           }}
         </Query>

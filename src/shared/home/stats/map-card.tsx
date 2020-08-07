@@ -5,6 +5,7 @@ import notification from "antd/lib/notification";
 import Row from "antd/lib/row";
 import Spin from "antd/lib/spin";
 import gql from "graphql-tag";
+import moment from "moment";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { CSSProperties } from "react";
@@ -83,8 +84,8 @@ export const MapButton = (
 
 export const MapCard = (): JSX.Element => {
   const mostRecentEpoch = LAST_EPOTCH + DIFF_HOURS;
-  const days = [];
-  for (let index = 1; index <= 30; index++) {
+  const days: Array<number> = [];
+  for (let index = 30; index >= 1; index -= 1) {
     days.push(index);
   }
   return (
@@ -113,10 +114,15 @@ export const MapCard = (): JSX.Element => {
           }
           return null;
         }
-        const mapdata = Object.keys(data).map((name, i) => ({
-          name: `Day ${i + 1}`,
-          value: data[name].numberOfActions.count
-        }));
+        const mapdata = Object.keys(data).map((name, i) => {
+          const date = new Date();
+          date.setDate(date.getDate() - days[i]);
+          const dateStr = moment(date).format("MM-DD");
+          return {
+            name: dateStr,
+            value: data[name].numberOfActions.count
+          };
+        });
         return (
           <Spin
             spinning={loading}
