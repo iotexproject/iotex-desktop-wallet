@@ -186,6 +186,7 @@ confirmation.bucketIndex: 'Bucket Index'
 confirmation.voterAddress: 'Voter Address'
 confirmation.ownerAddress: 'Owner Address'
 confirmation.candidate: 'Candidate'
+confirmation.toContract: 'To Contract'
 copy.copied: Copied
 copy.copyToClipboard: 'Copy ${field} to clipboard'
 copy.scan: 'Scan the QR code'
