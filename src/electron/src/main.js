@@ -104,7 +104,26 @@ function createWindow() {
       submenu: [
         {
           label: "About " + name,
-          role: "about"
+          click() {
+            let child = new BrowserWindow({
+              width: 280,
+              height: 180,
+              parent: mainWindow,
+              minimizable: false,
+              maximizable: false,
+              resizable: false,
+              alwaysOnTop: true,
+              webPreferences: {
+                enableRemoteModule: true,
+                nodeIntegration: true
+              }
+            });
+            child.removeMenu();
+            child.loadFile(path.resolve(__dirname, "about.html"));
+            child.webContents.on("did-finish-load", () => {
+              child.webContents.send("process_env", process.env);
+            });
+          }
         },
         {
           label: "Search or Report Issues",

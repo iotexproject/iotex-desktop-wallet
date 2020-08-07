@@ -24,7 +24,7 @@ import { toRau } from "iotex-antenna/lib/account/utils";
 import { Query, QueryResult } from "react-apollo";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
-import { numberWithCommas } from "../../common/vertical-table";
+import { numberFromCommaString } from "../../common/vertical-table";
 import { COMPILE_SOLIDITY, GET_SOLC_VERSIONS } from "../../queries";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import { getAntenna } from "../get-antenna";
@@ -107,12 +107,18 @@ class DeployFormInner extends Component<DeployProps, State> {
     const { form, address } = this.props;
     const { showConfirmation } = this.state;
 
-    const { byteCode, gasLimit, gasPrice, amount } = form.getFieldsValue();
+    const {
+      byteCode,
+      gasLimit,
+      gasPrice,
+      amount: commaAmount
+    } = form.getFieldsValue();
+    const amount = numberFromCommaString(commaAmount);
 
     const dataSource = {
       address: address,
       data: byteCode,
-      amount: `${numberWithCommas(Number(amount).toLocaleString())} IOTX`,
+      amount: `${Number(amount).toLocaleString()} IOTX`,
       price: toRau(gasPrice, "Qev"),
       limit: gasLimit
     };
@@ -142,7 +148,8 @@ class DeployFormInner extends Component<DeployProps, State> {
       }
 
       const { constructorArgs } = this.state;
-      const { byteCode, amount, gasLimit, gasPrice, abi } = value;
+      const { byteCode, gasLimit, gasPrice, abi } = value;
+      const amount = numberFromCommaString(value.amount);
       const trimmed0xHex = String(byteCode).replace(/^0x/, "");
 
       const args = constructorArgs.map(arg => value[`ctor${arg.name}`]);

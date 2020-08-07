@@ -47,6 +47,12 @@ export enum ProviderType {
   testnet = "testnet"
 }
 
+export enum TokenType {
+  xrc20 = "xrc20",
+  xrc721 = "xrc721"
+}
+
+registerEnumType(TokenType, { name: "TokenType" });
 registerEnumType(ProviderType, { name: "ProviderType" });
 
 @ObjectType()
@@ -69,6 +75,8 @@ export class TokenMetadata {
 export class GetTokenMetadataRequset {
   @Field(_ => ProviderType)
   public provider: ProviderType;
+  @Field(_ => TokenType, { nullable: true })
+  public type: TokenType;
 }
 
 @Resolver()
@@ -97,12 +105,18 @@ export class TokenMetaResolver {
   }
 
   @Query(_ => [TokenMetadata])
-  public async tokenMetadatas(@Args()
+  public async tokenMetadata(@Args()
   {
-    provider
+    provider,
+    type
   }: GetTokenMetadataRequset): Promise<Array<TokenMetadata>> {
-    return provider === "mainnet"
-      ? this.tokenMetadataList
-      : this.testTokenMetadataList;
+    const list =
+      provider === "mainnet"
+        ? this.tokenMetadataList
+        : this.testTokenMetadataList;
+    if (type) {
+      return list.filter(i => i.type === type);
+    }
+    return list;
   }
 }

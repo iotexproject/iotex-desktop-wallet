@@ -24,7 +24,10 @@ import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { getIoPayDesktopVersionName } from "../../common/on-electron-click";
 import { rulesMap } from "../../common/rules";
-import { numberWithCommas } from "../../common/vertical-table";
+import {
+  numberFromCommaString,
+  numberWithCommas
+} from "../../common/vertical-table";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import {
   GasLimitFormInputItem,
@@ -84,14 +87,8 @@ class TransferForm extends React.PureComponent<Props, State> {
           showConfirmTransfer: false
         });
       }
-      const {
-        recipient,
-        amount,
-        gasLimit,
-        gasPrice,
-        dataInHex,
-        symbol
-      } = value;
+      const { recipient, gasLimit, gasPrice, dataInHex, symbol } = value;
+      const amount = numberFromCommaString(value.amount);
 
       const customToken = symbol.match(/iotx/) ? null : Token.getToken(symbol);
 
@@ -110,6 +107,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             gasPrice: price
           })})`
         );
+
         try {
           txHash = await antenna.iotx.sendTransfer({
             from: address,
@@ -362,11 +360,14 @@ class TransferForm extends React.PureComponent<Props, State> {
       symbol,
       dataInHex
     } = form.getFieldsValue();
+
     const tokenSymbol = symbol === "iotx" ? "IOTX" : tokens[symbol].symbol;
     const dataSource: { [index: string]: string } = {
       address: address,
       toAddress: recipient,
-      amount: `${new BigNumber(amount).toString()} ${tokenSymbol}`,
+      amount: `${new BigNumber(
+        numberFromCommaString(amount)
+      ).toString()} ${tokenSymbol}`,
       limit: gasLimit,
       price: `${toRau(gasPrice, "Qev")} (${gasPrice} Qev)`
     };

@@ -7,11 +7,18 @@ import { LinkButton } from "./buttons";
 import { SpinPreloader } from "./spin-preloader";
 
 export function numberWithCommas(n: string): string {
-  const parts = n.toString().split(".");
-  return (
-    parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-    (parts[1] ? `.${parts[1]}` : "")
-  );
+  return n
+    .toString()
+    .replace(/\,/g, "")
+    .split(".")
+    .map((part, index) =>
+      index === 0 ? part.replace(/\B(?=(\d{3})+(?!\d))/g, ",") : part
+    )
+    .join(".");
+}
+
+export function numberFromCommaString(n: string): string {
+  return n.toString().replace(/\,/g, "");
 }
 
 export interface IVerticalTableKeyPair<T> {
@@ -74,7 +81,7 @@ function VerticalTable<T = any>(props: IVerticalTableProps<T>): JSX.Element {
       {t(expanded ? "common.show_less" : "common.show_more")}
     </LinkButton>
   );
-  const totalRowCount = dataSource.length;
+  const totalRowCount = Object.keys(objectSource).length;
 
   return (
     <div className={`vertical-table ${className || ""}`} style={style}>
