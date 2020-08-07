@@ -16,12 +16,12 @@ import {
   StakeTransferOwnership,
   Transfer
 } from "../../api-gateway/resolvers/antenna-types";
-import { HERMES_ABI } from "../../erc20/abi";
+import { contractABIs } from "../../erc20/abi";
 import { Token } from "../../erc20/token";
 import { LinkButton } from "../common/buttons";
 import { VerticalTableRender } from "../common/vertical-table";
 import { XRC20TokenValue } from "../common/xrc20-token";
-import { decode } from "../wallet/decode-contract-data";
+import { decode, DecodeData } from "../wallet/decode-contract-data";
 import { ContracAddressRenderer } from "./contract-address-renderer";
 import { WalletAddressRenderer } from "./wallet-address-renderer";
 
@@ -82,7 +82,7 @@ const ExecutionRenderer: VerticalTableRender<{
     contractAddress
   }
 }) => {
-  let decodedData;
+  let decodedData: DecodeData | null = null;
   const contractAddr = contract || contractAddress;
   if (!contractAddr) {
     return null;
@@ -91,14 +91,22 @@ const ExecutionRenderer: VerticalTableRender<{
   try {
     decodedData = Token.getToken(contractAddr).decode(`${data}`);
   } catch (error) {
-    try {
-      decodedData = decode(HERMES_ABI, `${data}`, contractAddr);
-    } catch (error) {
-      window.console.log(`Decode data failed!`);
-    }
+    Object.keys(contractABIs).every(name => {
+      try {
+        decodedData = decode(contractABIs[name], `${data}`, contractAddr);
+        // tslint:disable-next-line:no-empty
+      } catch (error) {
+        decodedData = null;
+      }
+      if (decodedData && decodedData.data) {
+        return false;
+      }
+      return true;
+    });
   }
 
   if (!decodedData) {
+    window.console.log(`Decode data failed! contractAddr: ${contractAddr}`);
     return <ContracAddressRenderer value={contractAddr} />;
   }
   const method = (decodedData && decodedData.method) || "";
@@ -117,7 +125,7 @@ const ExecutionRenderer: VerticalTableRender<{
             textOverflow: "ellipsis"
           }}
         >
-          {method.match(/transfer/i) ? (
+          {method.match(/transfer/i) && decodedData.data ? (
             <>
               <span style={{ textTransform: "uppercase" }}>
                 <Icon type="enter" style={{ transform: "rotateY(180deg)" }} />
