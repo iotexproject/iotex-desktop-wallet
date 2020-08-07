@@ -1,3 +1,5 @@
+import { Dict } from "../shared/common/types";
+
 export const ABI = [
   {
     constant: true,
@@ -2219,3 +2221,9 @@ export const HERMES_ABI = [
     type: "function"
   }
 ];
+
+export const contractABIs: Dict = {
+  hermes: HERMES_ABI,
+  bid: BID_ABI,
+  n2e: N2E_ABI
+};
