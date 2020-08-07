@@ -73,7 +73,7 @@ class UnlockByLedgerInner extends PureComponent<
           style={{
             maxHeight: "64px"
           }}
-          src={assetURL("connect-ledger.png")}
+          src={assetURL("/connect-ledger.png")}
           alt="connect ledger"
         />
 
