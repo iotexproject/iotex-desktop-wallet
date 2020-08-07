@@ -60,6 +60,7 @@ jobs:
           path: src/electron/dist/ioPay*
       - name: Upload builds to release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: ${{ github.ref }}
           files: src/electron/dist/ioPay*
