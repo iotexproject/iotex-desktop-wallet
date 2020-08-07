@@ -7,10 +7,9 @@ name: Release ioPay Desktop
 on:
   release:
     types: [published]
-
   # for testing. will delete when check in
-  pull_request:
-    branches: [master]
+  # pull_request:
+  #   branches: [master]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
