@@ -171,7 +171,11 @@ export const BlockCard = (props: IBlockCardContentProps): JSX.Element => {
 };
 
 export const BlockListPlaceHolder = (props: { count: number }) => {
-  const blocks = [...Array(props.count)];
+  // @ts-ignore
+  const blocks = [];
+  for (let index = 0; index < props.count; index++) {
+    blocks.push(undefined);
+  }
   return (
     <>
       {blocks.map((block, index) => (
@@ -269,6 +273,8 @@ const BlockListStyles: { [index: string]: CSSProperties } = {
 };
 
 export const BlockList = (props: { height: string }): JSX.Element => {
+  // @ts-ignore
+  const blockListArray = [undefined, undefined, undefined, undefined];
   return (
     <div
       style={{
@@ -282,7 +288,7 @@ export const BlockList = (props: { height: string }): JSX.Element => {
         style={{ padding: 10, paddingBottom: 20 }}
         className="dots"
       >
-        {[...Array(4)].map((_, i) => (
+        {blockListArray.map((_, i) => (
           <Col key={`dot-${i}`} style={BlockListStyles.dot} />
         ))}
       </Row>
