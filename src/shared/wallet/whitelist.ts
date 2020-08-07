@@ -2,9 +2,11 @@ import { fromRau } from "iotex-antenna/lib/account/utils";
 import { Envelop } from "iotex-antenna/lib/action/envelop";
 import { IExecution, ITransfer } from "iotex-antenna/lib/rpc-method/types";
 
+import { getActionTypeInEnvelop } from "../common/get-action-type";
+import { Dict } from "../common/types";
 import { numberWithCommas } from "../common/vertical-table";
 import { xconf, XConfKeys } from "../common/xconf";
-import { decode } from "./decode-contract-data";
+import { decodeData } from "./decode-contract-data";
 import { getAntenna } from "./get-antenna";
 
 export interface DataSource {
@@ -20,14 +22,12 @@ export interface DataSource {
 
 export function getDataSource(
   envelop: Envelop,
-  fromAddress: string,
-  // tslint:disable-next-line: no-any
-  abi: { [key: number]: any }
+  fromAddress: string
 ): DataSource {
   const { gasPrice = "", gasLimit = "", transfer = null, execution = null } =
     envelop || {};
 
-  const dataSource: Partial<DataSource> = {
+  const dataSource: Partial<DataSource & Dict> = {
     address: fromAddress,
     limit: gasLimit,
     price: `${gasPrice} (${fromRau(gasPrice, "Qev")} Qev)`
@@ -45,11 +45,29 @@ export function getDataSource(
     dataSource.toContract = contract;
     dataSource.amount = `${numberWithCommas(fromRau(amount, "IOTX"))} IOTX`;
     dataSource.dataInHex = `${Buffer.from(data as Buffer).toString("hex")}`;
+  } else {
+    Object.assign(dataSource, getActionTypeInEnvelop(envelop));
+    if (dataSource.amount) {
+      dataSource.amount = `${numberWithCommas(
+        fromRau(dataSource.amount, "IOTX")
+      )} IOTX`;
+    }
+    if (dataSource.stakedAmount) {
+      dataSource.stakedAmount = `${numberWithCommas(
+        fromRau(dataSource.stakedAmount, "IOTX")
+      )} IOTX`;
+    }
+    if (Object.keys(dataSource).includes("autoStake")) {
+      dataSource.autoStake = Boolean(dataSource.autoStake) ? "Yes" : "No";
+    }
   }
 
   if (dataSource.dataInHex) {
-    const { method = "" } = decode(JSON.stringify(abi), dataSource.dataInHex);
-    dataSource.method = method;
+    const decodedData = decodeData(dataSource.dataInHex);
+    const { method = "" } = decodedData || {};
+    if (method) {
+      dataSource.method = method;
+    }
   }
 
   return dataSource as DataSource;

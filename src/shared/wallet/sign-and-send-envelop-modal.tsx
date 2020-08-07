@@ -8,7 +8,6 @@ import { t } from "onefx/lib/iso-i18n";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
-import { N2E_ABI } from "../../erc20/abi";
 import ConfirmContractModal from "../common/confirm-contract-modal";
 import { getAntenna } from "./get-antenna";
 import {
@@ -124,7 +123,7 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
       this.props.envelop,
       this.props.fromAddress
     );
-    const dataSource = getDataSource(envelop, this.props.fromAddress, N2E_ABI);
+    const dataSource = getDataSource(envelop, this.props.fromAddress);
     const { origin } = this.props;
     const isInWhitelistsAndUnexpired = whitelistService.isInWhitelistsAndUnexpired(
       Date.now(),
