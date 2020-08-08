@@ -16,12 +16,10 @@ import {
   StakeTransferOwnership,
   Transfer
 } from "../../api-gateway/resolvers/antenna-types";
-import { contractABIs } from "../../erc20/abi";
-import { Token } from "../../erc20/token";
 import { LinkButton } from "../common/buttons";
 import { VerticalTableRender } from "../common/vertical-table";
 import { XRC20TokenValue } from "../common/xrc20-token";
-import { decode, DecodeData } from "../wallet/decode-contract-data";
+import { decodeData } from "../wallet/decode-contract-data";
 import { ContracAddressRenderer } from "./contract-address-renderer";
 import { WalletAddressRenderer } from "./wallet-address-renderer";
 
@@ -82,29 +80,11 @@ const ExecutionRenderer: VerticalTableRender<{
     contractAddress
   }
 }) => {
-  let decodedData: DecodeData | null = null;
   const contractAddr = contract || contractAddress;
   if (!contractAddr) {
     return null;
   }
-
-  try {
-    decodedData = Token.getToken(contractAddr).decode(`${data}`);
-  } catch (error) {
-    Object.keys(contractABIs).every(name => {
-      try {
-        decodedData = decode(contractABIs[name], `${data}`, contractAddr);
-        // tslint:disable-next-line:no-empty
-      } catch (error) {
-        decodedData = null;
-      }
-      if (decodedData && decodedData.data) {
-        return false;
-      }
-      return true;
-    });
-  }
-
+  const decodedData = decodeData(data, contractAddr);
   if (!decodedData) {
     window.console.log(`Decode data failed! contractAddr: ${contractAddr}`);
     return <ContracAddressRenderer value={contractAddr} />;
