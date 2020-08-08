@@ -169,7 +169,7 @@
     "config": "3.2.4",
     "css-animation": "2.0.4",
     "dateformat": "3.0.3",
-    "dayjs": "1.8.17",
+    "dayjs": "1.8.32",
     "dotenv": "8.2.0",
     "dottie": "2.0.2",
     "export-from-json": "1.1.4",
