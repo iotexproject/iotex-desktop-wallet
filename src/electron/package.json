@@ -1,6 +1,6 @@
 {
   "name": "ioPay",
-  "version": "1.0-rc",
+  "version": "1.0.0",
   "description": "IoTeX Wallet App",
   "main": "dist/app/main.js",
   "scripts": {
