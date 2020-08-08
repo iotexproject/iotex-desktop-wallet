@@ -50,6 +50,7 @@ export type MyConfig = Config & {
   enableSignIn: boolean;
   apiGatewayUrl: string;
   analyticsApiGatewayUrl: string;
+  siteVersion: string;
 };
 
 const defaultConfig: Config = {
