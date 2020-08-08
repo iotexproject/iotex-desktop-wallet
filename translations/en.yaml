@@ -177,7 +177,7 @@ confirmation.method: Method
 confirmation.owner: Owner
 confirmation.price: 'Gas price'
 confirmation.toAddress: 'To addresss'
-confirmation.candidateName: 'Candidate Name'
+confirmation.candidateName: 'Delegate Name'
 confirmation.stakedAmount: 'Staked Amount'
 confirmation.stakedDuration: 'Staked Duration'
 confirmation.autoStake: 'Auto-Stake'
@@ -185,7 +185,7 @@ confirmation.payload: 'Payload'
 confirmation.bucketIndex: 'Bucket Index'
 confirmation.voterAddress: 'Voter Address'
 confirmation.ownerAddress: 'Owner Address'
-confirmation.candidate: 'Candidate'
+confirmation.candidate: 'Delegate'
 confirmation.toContract: 'To Contract'
 copy.copied: Copied
 copy.copyToClipboard: 'Copy ${field} to clipboard'
