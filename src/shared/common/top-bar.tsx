@@ -129,6 +129,10 @@ export const TopBar = connect(
             {
               name: t("topbar.analytics_playground"),
               path: "https://analytics.iotexscan.io/"
+            },
+            {
+              name: t("topbar.submit_a_bug_report"),
+              path: "https://github.com/iotexproject/iotex-explorer/issues/new"
             }
           ]}
           onClick={this.hideMobileMenu}

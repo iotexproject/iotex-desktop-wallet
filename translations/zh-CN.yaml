@@ -400,6 +400,7 @@ account.availableForBid: 您可用于出价的余额：
 erc20.execution.error.lowGasInput: Gas输入过低!
 erc20.execution.error.notEnoughBalance: '您没有足够的 IOTX余额来执行该操作!'
 topbar.explorer_playground: 'Explorer 场地'
+topbar.submit_a_bug_report: '提交错误报告'
 topbar.analytics_playground: 分析场地
 wallet.lock.title: 锁上钱包
 wallet.lock.cutdown: 您的钱包将在10分钟内被锁上。是否要继续使用它？
