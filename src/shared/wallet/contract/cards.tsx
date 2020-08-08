@@ -60,8 +60,14 @@ export const CardFunction = ({
             style={{ margin: "20px" }}
           />
         </Link>
-        <h3 style={{ fontSize: "1.2em", fontWeight: "bold" }}>{title}</h3>
-        <p style={{ color: colors.black60 }}>{description}</p>
+        <h3 style={{ fontSize: "1.2em", fontWeight: "bold", marginBottom: 0 }}>
+          {title}
+        </h3>
+        {description && (
+          <p style={{ color: colors.black60, marginTop: "0.5em" }}>
+            {description}
+          </p>
+        )}
         {moreUrl && (
           <Link to={moreUrl} style={{ color: colors.secondary }}>
             <Flex alignItems={"end"}>
