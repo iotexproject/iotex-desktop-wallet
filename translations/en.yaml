@@ -393,6 +393,7 @@ topbar.blocks: BLOCKS
 topbar.brand: IoTeX
 topbar.dashboard: DASHBOARD
 topbar.explorer_playground: 'EXPLORER PLAYGROUND'
+topbar.submit_a_bug_report: 'SUBMIT A BUG REPORT'
 topbar.goback_home: 'GO BACK HOME'
 topbar.graphql_doc: 'GraphQL DOC'
 topbar.graphql_playground: 'GraphQL PLAYGROUND'
