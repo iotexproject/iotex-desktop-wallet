@@ -184,7 +184,7 @@
     "https": "1.0.0",
     "iotex-antenna": "0.29.1",
     "iotex-react-block-producers": "2.8.4",
-    "iotex-react-language-dropdown": "2.4.0",
+    "iotex-react-language-dropdown": "2.4.3",
     "iotex-testnet-token-metadata": "1.0.5",
     "iotex-token-metadata": "1.0.8",
     "is-browser": "2.1.0",
