@@ -2,11 +2,11 @@
 import Avatar from "antd/lib/avatar";
 import Button from "antd/lib/button";
 import Input from "antd/lib/input";
+import isBrowser from "is-browser";
 import { assetURL } from "onefx/lib/asset-url";
 import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
-import isBrowser from "is-browser";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
 import { colors } from "./styles/style-color";
