@@ -183,7 +183,7 @@
     "graphql-type-json": "0.3.2",
     "https": "1.0.0",
     "iotex-antenna": "0.29.1",
-    "iotex-react-block-producers": "2.8.4",
+    "iotex-react-block-producers": "2.9.0",
     "iotex-react-language-dropdown": "2.4.0",
     "iotex-testnet-token-metadata": "1.0.5",
     "iotex-token-metadata": "1.0.8",
