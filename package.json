@@ -96,7 +96,7 @@
     "gulp-less": "4.0.1",
     "gulp-livereload": "4.0.1",
     "gulp-nodemon": "2.4.2",
-    "gulp-sass": "4.0.2",
+    "gulp-sass": "4.1.0",
     "husky": "2.4.1",
     "nyc": "14.1.1",
     "plugin-error": "1.0.1",
