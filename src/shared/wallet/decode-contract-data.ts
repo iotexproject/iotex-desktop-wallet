@@ -6,6 +6,8 @@ import {
 } from "iotex-antenna/lib/contract/abi-to-byte";
 import { fromBytes } from "iotex-antenna/lib/crypto/address";
 import { ERC20 } from "../../erc20";
+import { contractABIs } from "../../erc20/abi";
+import { Token } from "../../erc20/token";
 import { Dict } from "../common/types";
 import { getAntenna } from "./get-antenna";
 
@@ -15,7 +17,7 @@ export interface DecodeData {
 }
 
 export function decode(
-  abi: string | object,
+  abi: string | Dict,
   data: string,
   contractAddress: string = "io1p99pprm79rftj4r6kenfjcp8jkp6zc6mytuah5"
 ): DecodeData {
@@ -73,4 +75,27 @@ export function decode(
 
   window.console.warn("can not found method");
   return { method: data, data: undefined };
+}
+
+export function decodeData(
+  data: string | Buffer,
+  contractAddress: string = "io1p99pprm79rftj4r6kenfjcp8jkp6zc6mytuah5"
+): DecodeData | undefined {
+  let decodedData: DecodeData | undefined;
+  try {
+    decodedData = Token.getToken(contractAddress).decode(`${data}`);
+  } catch (error) {
+    Object.keys(contractABIs).every(name => {
+      try {
+        decodedData = decode(contractABIs[name], `${data}`, contractAddress);
+      } catch (error) {
+        decodedData = undefined;
+      }
+      if (decodedData && decodedData.data) {
+        return false;
+      }
+      return true;
+    });
+  }
+  return decodedData;
 }

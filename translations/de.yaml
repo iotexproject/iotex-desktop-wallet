@@ -24,7 +24,7 @@ block.timestamp: Alter
 block.num_actions: Aktionen
 block.producer_address: Produzent
 block.transfer_amount: Überweisungsbetrag
-block.tx_root: Tx-Root
+block.tx_root: Action-Root
 block.receipt_root: Receipt-Root
 block.delta_state_digest: 'Zusammenfassung des Delta-Zustandes'
 action.type: Typ
@@ -47,7 +47,7 @@ render.key.timestamp: Alter
 render.key.numActions: Aktionen
 render.key.producerAddress: Produzent
 render.key.transferAmount: 'Betrag überweisen'
-render.key.txRoot: Tx-Root
+render.key.txRoot: Action-Root
 render.key.receiptRoot: Receipt-Root
 render.key.deltaStateDigest: 'Zusammenfassung des Delta-Zustandes'
 render.key.actHash: Hash
@@ -239,16 +239,16 @@ wallet.confirm.contract.yes: 'Ja, Transaktion ausführen!'
 wallet.confirm.contract.cancel: 'Nein, abbrechen!'
 wallet.contract.interaction.success: 'Senden der Transaktion erfolgreich'
 wallet.contract.interaction.success.p1: 'Deine Anfrage wurde an das Netzwerk gesendet. Das bedeutet aber nicht, dass es auf der Blockchain geminet wurde. Die Bestätigung dauert in der Regel einige Sekunden.'
-wallet.contract.interaction.success.p2: 'Du kannst den Status jetzt prüfen, indem du auf die folgende Schaltfläche klickst oder deinen TX-Hash speicherst und den Status später prüfst.'
+wallet.contract.interaction.success.p2: 'Du kannst den Status jetzt prüfen, indem du auf die folgende Schaltfläche klickst oder deinen Action-Hash speicherst und den Status später prüfst.'
 wallet.contract.interaction.success.p3: 'Dein Hash'
 wallet.contract.button.check: 'Status prüfen'
 wallet.contract.button.new: 'Neue IOTX & Token senden'
 wallet.transactions.send: 'Transaktion senden'
 broadcast.success: 'Transaktion erfolgreich durchgeführt'
-broadcast.warn.one: 'Deine TX wurde an das Netzwerk gesendet. Das bedeutet aber nicht, dass es schon auf der Blockkette geminet wurde. Es dauert meist einige Sekunden, bis dies bestätigt wird.'
-broadcast.warn.two: 'Du kannst den Status jetzt überprüfen, indem du auf die folgende Schaltfläche klickst, oder deinen TX-Hash speichern und den Status später überprüfen.'
-broadcast.warn.three: 'Dein TX-Hash:'
-broadcast.button.check: 'TX-Status prüfen'
+broadcast.warn.one: 'Deine Action wurde an das Netzwerk gesendet. Das bedeutet aber nicht, dass es schon auf der Blockkette geminet wurde. Es dauert meist einige Sekunden, bis dies bestätigt wird.'
+broadcast.warn.two: 'Du kannst den Status jetzt überprüfen, indem du auf die folgende Schaltfläche klickst, oder deinen Action-Hash speichern und den Status später überprüfen.'
+broadcast.warn.three: 'Dein Action-Hash:'
+broadcast.button.check: 'Action-Status prüfen'
 broadcast.fail: 'Transaktion fehlgeschlagen'
 broadcast.fail.network: 'Die Transaktion konnte nicht an das Netzwerk gesendet werden'
 broadcast.error.message: 'Fehlermeldung:'
@@ -383,6 +383,7 @@ account.availableForBid: 'Dein Guthaben für Gebote beträgt:'
 erc20.execution.error.lowGasInput: 'Gas-Input zu gering!'
 erc20.execution.error.notEnoughBalance: 'Dein IOTX-Guthaben reicht nicht aus, um die Transaktion auszuführen!'
 topbar.explorer_playground: 'Explorer Playground'
+topbar.submit_a_bug_report: 'SUBMIT A BUG REPORT'
 topbar.analytics_playground: 'Analytics Playground'
 wallet.lock.title: 'Wallet verschließen'
 wallet.lock.cutdown: 'Deine Wallet wird in zehn Minuten verschlossen. Willst du sie weiter verwenden?'

@@ -23,4 +23,5 @@ export function setConfigs(server: MyServer, ctx: koa.Context): void {
     server.config.analyticsApiGatewayUrl
   );
   ctx.setState("base.enableSignIn", server.config.enableSignIn);
+  ctx.setState("siteVersion", server.config.siteVersion);
 }

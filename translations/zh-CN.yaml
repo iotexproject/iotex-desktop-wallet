@@ -26,7 +26,7 @@ block.timestamp: 年龄
 block.num_actions: 操作
 block.producer_address: 生产者
 block.transfer_amount: 转账总额
-block.tx_root: 'Tx Root'
+block.tx_root: 'Action Root'
 block.receipt_root: 收据根
 block.delta_state_digest: 状态增量摘要
 action.type: 类型
@@ -58,7 +58,7 @@ render.key.timestamp: 年龄
 render.key.numActions: 操作
 render.key.producerAddress: 生产者
 render.key.transferAmount: 转账总额
-render.key.txRoot: 'Tx Root'
+render.key.txRoot: 'Action Root'
 render.key.receiptRoot: 接收Root
 render.key.deltaStateDigest: 增值收据的摘要
 render.key.actHash: 哈希
@@ -260,7 +260,7 @@ wallet.transactions.send: 发送交易
 broadcast.success: 已成功广播交易记录
 broadcast.warn.one: 您的TX已经广播到网络。这并不意味着它已在区块链上开采。通常需要几秒钟才能确认。
 broadcast.warn.two: 您可以通过单击以下按钮立即检查状态，或保存TX哈希值并稍后检查状态
-broadcast.warn.three: '您的 TX 哈希值:'
+broadcast.warn.three: '您的 Action 哈希值:'
 broadcast.button.check: 检查TX状态
 broadcast.fail: 无法广播交易记录
 broadcast.fail.network: 交易记录无法广播到网络
@@ -400,6 +400,7 @@ account.availableForBid: 您可用于出价的余额：
 erc20.execution.error.lowGasInput: Gas输入过低!
 erc20.execution.error.notEnoughBalance: '您没有足够的 IOTX余额来执行该操作!'
 topbar.explorer_playground: 'Explorer 场地'
+topbar.submit_a_bug_report: '提交错误报告'
 topbar.analytics_playground: 分析场地
 wallet.lock.title: 锁上钱包
 wallet.lock.cutdown: 您的钱包将在10分钟内被锁上。是否要继续使用它？

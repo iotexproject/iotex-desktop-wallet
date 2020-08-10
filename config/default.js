@@ -121,5 +121,8 @@ module.exports = {
     "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw",
     "io14j96vg9pkx28htpgt2jx0tf3v9etpg4j9h384m"
   ],
-  enableSignIn: false
+  enableSignIn: false,
+  siteVersion: `(build ${process.env.HEROKU_RELEASE_VERSION || "DEV"} ${String(
+    process.env.HEROKU_SLUG_COMMIT || ""
+  ).substr(0, 7)} )`
 };

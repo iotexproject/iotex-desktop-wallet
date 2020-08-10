@@ -7,12 +7,13 @@ import { Board } from "./board";
 import { Flex } from "./flex";
 import { Column, HorizontalTable } from "./horizontal-table";
 import { ModalBody } from "./modal-body";
+import { Dict } from "./types";
 import { numberWithCommas } from "./vertical-table";
 
 export interface Props {
   showModal: boolean;
   confirmContractOk: Function;
-  dataSource: { [key: string]: any };
+  dataSource: Dict;
   confirmLoading?: boolean;
   title?: string;
   okText?: string;
@@ -40,9 +41,19 @@ export default class ConfirmContractModal extends React.Component<
       toContract,
       dataInHex,
       method,
-      owner
+      owner,
+      ...others
     } = this.props.dataSource;
 
+    const extra: Array<Column<any>> = [];
+    Object.keys(others).forEach(key => {
+      if (!["limit", "price", "address"].includes(key)) {
+        extra.push({
+          title: t(`confirmation.${key}`),
+          dataIndex: key
+        });
+      }
+    });
     return [
       ...(amount
         ? [
@@ -112,7 +123,8 @@ export default class ConfirmContractModal extends React.Component<
               dataIndex: "dataInHex"
             }
           ]
-        : [])
+        : []),
+      ...extra
     ];
   }
 

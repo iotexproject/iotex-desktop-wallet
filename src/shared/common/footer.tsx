@@ -2,14 +2,19 @@
 import Avatar from "antd/lib/avatar";
 import Button from "antd/lib/button";
 import Input from "antd/lib/input";
+import isBrowser from "is-browser";
 import { assetURL } from "onefx/lib/asset-url";
 import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
+// @ts-ignore
+import JsonGlobal from "safe-json-globals/get";
 import { colors } from "./styles/style-color";
 import { media } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
 import { TOP_BAR_HEIGHT } from "./top-bar";
+
+const state = isBrowser && JsonGlobal("state");
 
 export const FOOTER_HEIGHT = 325;
 
@@ -145,7 +150,10 @@ export function Footer(): JSX.Element {
       </Align>
       <FooterBottom>
         <span>
-          <span>© {`${new Date().getFullYear()}`} IoTeX</span>
+          <span>
+            © {`${new Date().getFullYear()}`} IoTeX{" "}
+            {isBrowser && state.siteVersion}
+          </span>
           <Team href={"https://iotex.io/policy"}>{t("footer.policy")}</Team>
         </span>
       </FooterBottom>

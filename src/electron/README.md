@@ -23,6 +23,25 @@ To build it in production
 npm run build
 ```
 
+## Release
+
+run the following command in your local machine.
+
+```
+git tag vx.y.z
+git push origin vx.y.z
+```
+
+This create a new tag in github, which triggers action to start building desktop wallet and creating a release.
+
+After the action is completed (takes about 20mins), a new release is created.
+
+## Release steps
+
+1. use tag to create a new draft release
+2. download the app and allow 2-3 days testing from the team
+3. publish the draft release
+
 ## Deep Link Integration
 
 ```text
