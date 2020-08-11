@@ -168,7 +168,7 @@ common.show_less: Show Less
 common.show_more: Show More
 common.transactions: Total Actions
 common.xrc20Transactions: XRC20 Actions
-common.xrc721Transactions: XRC20 Actions
+common.xrc721Transactions: NFT Actions
 confirmation.amount: Amount
 confirmation.data: Data
 confirmation.fromAddress: 'From address'

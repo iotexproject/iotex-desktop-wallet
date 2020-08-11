@@ -17,6 +17,7 @@ import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { XRC20TokenBalance, XRC20TokenValue } from "../common/xrc20-token";
 import {
+  GET_ANALYTICS_XRC721_ACTIONS_BY_ADDRESS,
   GET_ANALYTICS_XRC721_ACTIONS_BY_CONTRACT,
   GET_ANALYTICS_XRC721_ACTIONS_BY_PAGE,
   GET_ANALYTICS_XRC721_CONTRACT_HOLDERS
@@ -143,15 +144,25 @@ const getXRC721HoldersListColumns = (): Array<
 
 export interface IXRC721ActionTable {
   address?: string;
+  accountAddress?: string;
 }
 
 export const XRC721ActionTable: React.FC<IXRC721ActionTable> = ({
-  address = ""
+  address = "",
+  accountAddress = ""
 }) => {
-  const query = address
+  const query = accountAddress
+    ? GET_ANALYTICS_XRC721_ACTIONS_BY_ADDRESS
+    : address
     ? GET_ANALYTICS_XRC721_ACTIONS_BY_CONTRACT
     : GET_ANALYTICS_XRC721_ACTIONS_BY_PAGE;
-  const variables = address
+  const variables = accountAddress
+    ? {
+        page: 0,
+        numPerPage: PAGE_SIZE,
+        address: accountAddress
+      }
+    : address
     ? {
         page: 0,
         numPerPage: PAGE_SIZE,
@@ -198,7 +209,13 @@ export const XRC721ActionTable: React.FC<IXRC721ActionTable> = ({
             }}
             size="middle"
             onChange={pagination => {
-              const updatevariables = address
+              const updatevariables = accountAddress
+                ? {
+                    page: (pagination.current && pagination.current - 1) || 0,
+                    numPerPage: PAGE_SIZE,
+                    accountAddress
+                  }
+                : address
                 ? {
                     page: (pagination.current && pagination.current - 1) || 0,
                     numPerPage: PAGE_SIZE,
