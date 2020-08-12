@@ -155,7 +155,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
                 </Tabs.TabPane>
                 <Tabs.TabPane
                   tab={t("common.xrc721Transactions")}
-                  key="xrcxrc721_transactions"
+                  key="xrc721_transactions"
                 >
                   <XRC721ActionTable accountAddress={address} />
                 </Tabs.TabPane>
