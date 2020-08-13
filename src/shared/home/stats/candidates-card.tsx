@@ -34,7 +34,7 @@ export const CandidatesCard = (props: QueryResult): JSX.Element => {
     <StatsCard
       title={t("home.stats.candidates")}
       titleStyle={{
-        backgroundImage: `url(${assetURL("/icon_overview_Delegates.png")})`
+        backgroundImage: `url(${assetURL("icon_overview_Delegates.png")})`
       }}
       value={consensusDelegateCount}
       loading={showLoading}

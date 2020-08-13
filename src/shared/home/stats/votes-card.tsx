@@ -27,7 +27,7 @@ export const VotesCard = (props: QueryResult): JSX.Element => {
       title={t("home.stats.votes")}
       loading={showLoading}
       titleStyle={{
-        backgroundImage: `url(${assetURL("/icon_overview_Delegates.png")})`
+        backgroundImage: `url(${assetURL("icon_overview_Delegates.png")})`
       }}
       value={Math.round(totalVotes)}
       prefix={
