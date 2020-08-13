@@ -85,7 +85,7 @@ export const MapButton = (
 export const MapCard = (): JSX.Element => {
   const mostRecentEpoch = LAST_EPOTCH + DIFF_HOURS;
   const days: Array<number> = [];
-  for (let index = 30; index >= 1; index -= 1) {
+  for (let index = 30; index >= 2; index -= 1) {
     days.push(index);
   }
   return (
