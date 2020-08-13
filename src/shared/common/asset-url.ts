@@ -9,7 +9,7 @@ export function initAssetURL(manifest: any = {}): void {
 
 export function assetURL(filename: string): string {
   if (isElectron()) {
-    return `https://iotexscan.io${filename}`;
+    return `https://iotexscan.io/${filename}`;
   }
 
   const manifestFile = m[filename];
