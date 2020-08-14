@@ -59,11 +59,11 @@ const TokenTransferRenderer: VerticalTableRender<{
                     <Icon type="caret-right" />
                   </Col>
                   <Col>{t("render.key.from")}</Col>
-                  <Col style={{ maxWidth: "25%" }} className="ellipsis-text">
+                  <Col style={{ maxWidth: 340 }} className="ellipsis-text">
                     <LinkButton href={`/address/${from}`}>{from}</LinkButton>
                   </Col>
                   <Col>{t("render.key.to")}</Col>
-                  <Col style={{ maxWidth: "25%" }} className="ellipsis-text">
+                  <Col style={{ maxWidth: 340 }} className="ellipsis-text">
                     <LinkButton href={`/address/${to}`}>{to}</LinkButton>
                   </Col>
                   <Col>
