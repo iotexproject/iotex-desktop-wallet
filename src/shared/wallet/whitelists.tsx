@@ -148,7 +148,13 @@ class WhitelistTable extends React.Component<
   private getColumns(): Array<CustomColumnProps<Record>> {
     return [
       {
-        title: t("wallet.whitelist.title_origin"),
+        title: (
+          <div style={{ textAlign: "center" }}>
+            {t("wallet.whitelist.title_origin")}/
+            <br />
+            {t("wallet.whitelist.title_method")}
+          </div>
+        ),
         dataIndex: "origin",
         width: "20%",
         align: "center",
@@ -171,7 +177,13 @@ class WhitelistTable extends React.Component<
         )
       },
       {
-        title: t("wallet.whitelist.title_amount"),
+        title: (
+          <div style={{ textAlign: "center" }}>
+            {t("wallet.whitelist.title_amount")}
+            <br />
+            (IOTX)
+          </div>
+        ),
         dataIndex: "amount",
         width: "20%",
         align: "center",
@@ -386,6 +398,7 @@ export class Whitelists extends React.Component<Props, State> {
             {t("wallet.whitelist.state")}
           </span>
           <Switch
+            style={{ textTransform: "uppercase" }}
             checkedChildren={t("wallet.whitelist.enabled")}
             unCheckedChildren={t("wallet.whitelist.disabled")}
             checked={this.state.checked}
