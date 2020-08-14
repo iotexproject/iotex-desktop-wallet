@@ -220,7 +220,7 @@
     "reflect-metadata": "0.1.13",
     "safe-json-globals": "2.1.0",
     "shader": "1.0.0",
-    "solc": "0.5.13",
+    "solc": "0.7.0",
     "styletron-engine-atomic": "1.4.4",
     "styletron-react": "5.2.7",
     "text-to-clipboard": "3.0.5",
