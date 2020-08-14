@@ -215,7 +215,7 @@
     "react-router-breadcrumbs-hoc": "3.2.0",
     "react-router-dom": "5.2.0",
     "recharts": "1.8.5",
-    "redux": "4.0.1",
+    "redux": "4.0.5",
     "redux-thunk": "2.3.0",
     "reflect-metadata": "0.1.13",
     "safe-json-globals": "2.1.0",
