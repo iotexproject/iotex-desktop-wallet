@@ -226,7 +226,7 @@
     "text-to-clipboard": "3.0.5",
     "ts-node": "8.10.2",
     "tslint-react": "4.1.0",
-    "type-graphql": "0.17.5",
+    "type-graphql": "0.17.6",
     "typescript": "3.4.5",
     "uuid": "3.3.3",
     "validator": "12.2.0",
