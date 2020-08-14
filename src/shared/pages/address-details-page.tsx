@@ -24,6 +24,7 @@ import { GET_ACCOUNT } from "../queries";
 import { AddressDetailRenderer } from "../renderer";
 import { ActionTable } from "./action-list-page";
 import { XRC20ActionTable } from "./xrc20-action-list-page";
+import { XRC721ActionTable } from "./xrc721-action-list-page";
 
 export interface IActionsDetails {
   action: GetActionsResponse;
@@ -151,6 +152,12 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
                   key="xrc_transactions"
                 >
                   <XRC20ActionTable address={address} />
+                </Tabs.TabPane>
+                <Tabs.TabPane
+                  tab={t("common.xrc721Transactions")}
+                  key="xrc721_transactions"
+                >
+                  <XRC721ActionTable accountAddress={address} />
                 </Tabs.TabPane>
                 <Tabs.TabPane
                   tab={t("common.contract_transactions")}

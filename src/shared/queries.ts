@@ -706,6 +706,25 @@ export const GET_ANALYTICS_XRC721_ACTIONS_BY_CONTRACT = gql`
   }
 `;
 
+export const GET_ANALYTICS_XRC721_ACTIONS_BY_ADDRESS = gql`
+  query($address: String!, $page: Int!, $numPerPage: Int!) {
+    xrc721 {
+      data: byAddress(address: $address, page: $page, numPerPage: $numPerPage) {
+        exist
+        xrc721 {
+          contract
+          hash
+          timestamp
+          from
+          to
+          quantity
+        }
+        count
+      }
+    }
+  }
+`;
+
 export const GET_ANALYTICS_CONTRACT_ACTIONS = gql`
   query contractActions($address: String!, $pagination: Pagination!) {
     action {

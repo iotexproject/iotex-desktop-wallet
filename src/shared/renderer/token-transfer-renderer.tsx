@@ -10,6 +10,7 @@ import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import { analyticsClient } from "../common/apollo-client";
 import { LinkButton } from "../common/buttons";
+import { GetTokenMetadataMap } from "../common/common-metadata";
 import { colors } from "../common/styles/style-color";
 import {
   numberWithCommas,
@@ -17,12 +18,23 @@ import {
 } from "../common/vertical-table";
 import { GET_ANALYTICS_EVM_TRANSFERS } from "../queries";
 
-const TokenTransferRenderer: VerticalTableRender<string> = ({ value }) => {
+const TokenTransferRenderer: VerticalTableRender<{
+  actHash: string;
+  to?: { to: { execution?: { contract: string } } };
+}> = ({ value: { actHash, to } }) => {
+  const tokenMetadataMap = GetTokenMetadataMap();
+  let unit = "(IOTX)";
+  if (to && to.to && to.to.execution && to.to.execution.contract) {
+    const tokenInfo = tokenMetadataMap[to.to.execution.contract];
+    if (tokenInfo && tokenInfo.type === "xrc721") {
+      unit = `${tokenInfo.symbol} (${tokenInfo.name})`;
+    }
+  }
   return (
     <Query
       ssr={false}
       client={analyticsClient}
-      query={GET_ANALYTICS_EVM_TRANSFERS(value)}
+      query={GET_ANALYTICS_EVM_TRANSFERS(actHash)}
     >
       {({ data, error }: QueryResult) => {
         if (error && !error.message.match(/not\s+exist/i)) {
@@ -47,18 +59,18 @@ const TokenTransferRenderer: VerticalTableRender<string> = ({ value }) => {
                     <Icon type="caret-right" />
                   </Col>
                   <Col>{t("render.key.from")}</Col>
-                  <Col style={{ maxWidth: "25%" }} className="ellipsis-text">
+                  <Col style={{ maxWidth: 340 }} className="ellipsis-text">
                     <LinkButton href={`/address/${from}`}>{from}</LinkButton>
                   </Col>
                   <Col>{t("render.key.to")}</Col>
-                  <Col style={{ maxWidth: "25%" }} className="ellipsis-text">
+                  <Col style={{ maxWidth: 340 }} className="ellipsis-text">
                     <LinkButton href={`/address/${to}`}>{to}</LinkButton>
                   </Col>
                   <Col>
                     {t("transfer.for", {
                       value: `${numberWithCommas(
                         fromRau(quantity, "iotx")
-                      )} (IOTX)`
+                      )} ${unit}`
                     })}
                   </Col>
                 </Row>

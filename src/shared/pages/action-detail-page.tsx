@@ -159,7 +159,9 @@ const parseActionDetails = (data: IActionsDetails) => {
       ? { payload: { transfer } }
       : { payload: { transfer: { payload: "" } } }),
     payloadViewType: "UTF-8",
-    ...(execution ? { evmTransfer: actHash, value: execution.amount } : {}),
+    ...(execution
+      ? { evmTransfer: { actHash, to }, value: execution.amount }
+      : {}),
     ...(transfer ? { value: transfer.amount } : {}),
     ...(stakeAddDeposit ? { value: stakeAddDeposit.amount } : {}),
     ...actionType,
