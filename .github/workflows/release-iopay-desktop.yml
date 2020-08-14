@@ -60,13 +60,14 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: iopay-desktop-release
-          path: src/electron/dist/ioPay*
+          path: src/electron/dist/*
+          
       - name: Upload builds to release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: ${{ github.ref }}
-          files: src/electron/dist/ioPay*
+          files: src/electron/dist/*
           draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
