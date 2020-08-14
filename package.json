@@ -212,7 +212,7 @@
     "react-outside-click-handler": "1.2.3",
     "react-redux": "7.2.1",
     "react-router": "5.2.0",
-    "react-router-breadcrumbs-hoc": "3.2.0",
+    "react-router-breadcrumbs-hoc": "3.3.0",
     "react-router-dom": "5.2.0",
     "recharts": "1.8.5",
     "redux": "4.0.1",
