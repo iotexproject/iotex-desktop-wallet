@@ -149,11 +149,11 @@ class WhitelistTable extends React.Component<
     return [
       {
         title: (
-          <div
-            dangerouslySetInnerHTML={{
-              __html: t("wallet.whitelist.title_origin")
-            }}
-          />
+          <div style={{ textAlign: "center" }}>
+            {t("wallet.whitelist.title_origin")}/
+            <br />
+            {t("wallet.whitelist.title_method")}
+          </div>
         ),
         dataIndex: "origin",
         width: "20%",
@@ -178,11 +178,11 @@ class WhitelistTable extends React.Component<
       },
       {
         title: (
-          <div
-            dangerouslySetInnerHTML={{
-              __html: t("wallet.whitelist.title_amount")
-            }}
-          />
+          <div style={{ textAlign: "center" }}>
+            {t("wallet.whitelist.title_amount")}
+            <br />
+            (IOTX)
+          </div>
         ),
         dataIndex: "amount",
         width: "20%",

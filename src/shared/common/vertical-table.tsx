@@ -18,7 +18,9 @@ export function numberWithCommas(n: string): string {
 }
 
 export function numberFromCommaString(n: string): string {
-  if (!n) return n;
+  if (!n) {
+    return n;
+  }
   return n.toString().replace(/\,/g, "");
 }
 
