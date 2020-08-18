@@ -524,7 +524,7 @@ class DeployFormInner extends Component<DeployProps, State> {
         </Form.Item>
         <AmountFormInputItem form={form} initialValue={0} />
         <GasPriceFormInputItem form={form} />
-        <GasLimitFormInputItem form={form} />
+        <GasLimitFormInputItem form={form} initialValue={1000000} />
         {this.renderConstructorArgsForm()}
         {/*
           // @ts-ignore */}
