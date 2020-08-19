@@ -4,6 +4,7 @@ import Button from "antd/lib/button";
 import { FormComponentProps } from "antd/lib/form";
 import Form from "antd/lib/form/Form";
 import Input from "antd/lib/input";
+import { Link } from "react-router-dom";
 import Select from "antd/lib/select";
 // @ts-ignore
 import window from "global/window";
@@ -199,14 +200,8 @@ class DeployFormInner extends Component<DeployProps, State> {
   };
 
   private readonly deployNewContract: JSX.Element = (
-    <Button
-      onClick={() => {
-        this.setState({
-          broadcast: null
-        });
-      }}
-    >
-      {t("wallet.transfer.sendNew")}
+    <Button>
+      <Link to="/wallet/smart-contract">{t("wallet.transfer.startOver")}</Link>
     </Button>
   );
 

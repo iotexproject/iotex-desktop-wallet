@@ -254,6 +254,7 @@ broadcast.fail.network: 'La transazione non è stata trasmessa alla rete'
 broadcast.error.message: 'Messaggio di errore:'
 broadcast.suggested.action: 'Azioni suggerite:'
 wallet.transfer.sendNew: 'Nuovo invio'
+wallet.transfer.startOver: Ricominciare
 render.key.nonce: nonce
 wallet.vote.title: 'Vota delegato'
 wallet.vote.content: 'Aiuta IoTeX a costruire una rete più solida'
