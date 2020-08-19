@@ -262,7 +262,6 @@ export const TopBar = connect(
               <HiddenOnMobile>
                 <CommonMargin />
                 <CommonMargin />
-                <CommonMargin />
                 {this.renderBlockchain(true)}
                 {this.renderToken(true)}
                 {this.renderTools(true)}
@@ -275,7 +274,7 @@ export const TopBar = connect(
                 </BrandLinkExternalUrl>
                 {this.renderWallets(true)}
                 <CommonMargin />
-                <CommonMargin />
+
                 {this.renderNetSelector(true)}
               </HiddenOnMobile>
             </Flex>
@@ -315,7 +314,7 @@ const Bar = styled("div", {
   ...contentPadding,
   boxSizing: "border-box",
   boxShadow: "0",
-  [media.toWide]: {
+  [media.mediaHeaderWide]: {
     position: "fixed"
   }
 });
@@ -335,7 +334,7 @@ function HamburgerBtn({
     },
     color: colors.white,
     display: "none!important",
-    [media.toWide]: {
+    [media.mediaHeaderWide]: {
       display: "flex!important",
       ...(displayMobileMenu ? { display: "none!important" } : {})
     },
@@ -366,7 +365,7 @@ function CrossBtn({
     },
     color: colors.white,
     display: "none!important",
-    [media.toWide]: {
+    [media.mediaHeaderWide]: {
       display: "none!important",
       ...(displayMobileMenu ? { display: "flex!important" } : {})
     },
@@ -390,7 +389,7 @@ const menuItem: StyleObject = {
   },
   transition,
   padding: "0 20px",
-  [media.toWide]: {
+  [media.mediaHeaderWide]: {
     boxSizing: "border-box",
     width: "100%",
     padding: "16px 0 16px 0"
@@ -426,7 +425,8 @@ const Dropdown = styled("div", {
 
 const HiddenOnMobile = styled("div", {
   display: "flex!important",
-  [media.toWide]: {
+  flex: 1,
+  [media.mediaHeaderWide]: {
     display: "none!important"
   }
 });
