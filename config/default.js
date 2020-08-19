@@ -98,7 +98,7 @@ module.exports = {
   analyticsApiGatewayUrl:
     process.env.CURRENT_CHAIN_NAME == "testnet"
       ? "https://iotex-analytics-testnet.herokuapp.com/query"
-      : "https://analytics.iotexscan.io/query",
+      : (process.env.ANALYTICS_API_GATEWAY_URL || "https://analytics.iotexscan.io/query"),
   multiChain: {
     current: process.env.CURRENT_CHAIN_NAME || "mainnet",
     chains: [
