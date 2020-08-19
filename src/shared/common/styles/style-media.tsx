@@ -11,7 +11,9 @@ export const media = {
   desk: `@media only screen and (min-width: ${LAP_WIDTH}px) and (max-width: 1279px)`,
   deskWide: "@media only screen and (min-width: 1280px)",
   media1024: "@media only screen and (max-width: 1023px)",
-  mediaHeaderWide: "@media only screen and (max-width: 1500px)",
+  mediaHeaderWide:
+    "@media only screen and (max-width: 1500px) and (min-width: 1280px)",
+  mediaHeaderDeskTopMin: "@media only screen and (max-width: 1180px)",
   toWide: `@media only screen and (max-width: ${WIDE_WIDTH - 1}px)`
 };
 

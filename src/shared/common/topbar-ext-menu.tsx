@@ -17,6 +17,9 @@ const SubMenuIcon = styled("i", {
   color: "#fff",
   [media.mediaHeaderWide]: {
     display: "none !important"
+  },
+  [media.mediaHeaderDeskTopMin]: {
+    display: "none !important"
   }
 });
 
@@ -32,6 +35,11 @@ const SubMenuA = styled(Link, {
     boxSizing: "border-box",
     width: "100%",
     padding: "5px"
+  },
+  [media.mediaHeaderDeskTopMin]: {
+    boxSizing: "border-box",
+    width: "100%",
+    padding: "5px"
   }
 });
 
@@ -44,6 +52,11 @@ const ExternalSubMenuA = styled("a", {
     color: colors.primary
   },
   [media.mediaHeaderWide]: {
+    boxSizing: "border-box",
+    width: "100%",
+    padding: "5px"
+  },
+  [media.mediaHeaderDeskTopMin]: {
     boxSizing: "border-box",
     width: "100%",
     padding: "5px"
@@ -64,6 +77,16 @@ const SubMenu = styled("div", (props: { shadow: string }) => ({
   lineHeight: "35px",
   transition: "opacity 0.3s linear",
   [media.mediaHeaderWide]: {
+    position: "relative",
+    padding: "5px",
+    borderTop: "none",
+    color: "#fff",
+    left: "20px",
+    lineHeight: "25px",
+    marginBottom: "-13px",
+    backgroundColor: colors.nav01
+  },
+  [media.mediaHeaderDeskTopMin]: {
     position: "relative",
     padding: "5px",
     borderTop: "none",
@@ -141,6 +164,11 @@ const menuItem = {
   padding: "0 20px",
   textTransform: "capitalize",
   [media.mediaHeaderWide]: {
+    boxSizing: "border-box",
+    width: "100%",
+    padding: "16px 0 16px 0"
+  },
+  [media.mediaHeaderDeskTopMin]: {
     boxSizing: "border-box",
     width: "100%",
     padding: "16px 0 16px 0"

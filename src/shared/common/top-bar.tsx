@@ -316,6 +316,9 @@ const Bar = styled("div", {
   boxShadow: "0",
   [media.mediaHeaderWide]: {
     position: "fixed"
+  },
+  [media.mediaHeaderDeskTopMin]: {
+    position: "fixed"
   }
 });
 
@@ -335,6 +338,10 @@ function HamburgerBtn({
     color: colors.white,
     display: "none!important",
     [media.mediaHeaderWide]: {
+      display: "flex!important",
+      ...(displayMobileMenu ? { display: "none!important" } : {})
+    },
+    [media.mediaHeaderDeskTopMin]: {
       display: "flex!important",
       ...(displayMobileMenu ? { display: "none!important" } : {})
     },
@@ -369,6 +376,10 @@ function CrossBtn({
       display: "none!important",
       ...(displayMobileMenu ? { display: "flex!important" } : {})
     },
+    [media.mediaHeaderDeskTopMin]: {
+      display: "none!important",
+      ...(displayMobileMenu ? { display: "flex!important" } : {})
+    },
     cursor: "pointer",
     justifyContent: "center",
     alignItems: "center",
@@ -393,11 +404,17 @@ const menuItem: StyleObject = {
     boxSizing: "border-box",
     width: "100%",
     padding: "16px 0 16px 0"
+  },
+  [media.mediaHeaderDeskTopMin]: {
+    boxSizing: "border-box",
+    width: "100%",
+    padding: "16px 0 16px 0"
   }
 };
 const BrandLinkExternalUrl = styled("a", {
   ...menuItem,
-  [media.toWide]: {}
+  [media.mediaHeaderWide]: {},
+  [media.mediaHeaderDeskTopMin]: {}
 });
 // @ts-ignore
 const StyledLink = styled(Link, menuItem);
@@ -427,6 +444,9 @@ const HiddenOnMobile = styled("div", {
   display: "flex!important",
   flex: 1,
   [media.mediaHeaderWide]: {
+    display: "none!important"
+  },
+  [media.mediaHeaderDeskTopMin]: {
     display: "none!important"
   }
 });
