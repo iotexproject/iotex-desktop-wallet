@@ -66,7 +66,7 @@ module.exports = {
       "https://api.github.com/",
       "https://iotexscan.io/",
       "https://testnet.iotexscan.io/",
-      "https://analytics.iotexscan.io/",
+      process.env.ANALYTICS_API_GATEWAY_URL || "https://analytics.iotexscan.io/",
       "https://iotex-analytics-testnet.herokuapp.com/",
       "wss://local.get-scatter.com:64102/",
       "https://testnet.iotexscan.io/api-gateway/"
