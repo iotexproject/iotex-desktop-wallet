@@ -267,6 +267,7 @@ broadcast.fail.network: 交易记录无法广播到网络
 broadcast.error.message: '错误消息:'
 broadcast.suggested.action: '建议的操作:'
 wallet.transfer.sendNew: 发送新的
+wallet.transfer.startOver: 重来
 render.key.nonce: nonce
 wallet.vote.title: 为代表投票
 wallet.vote.content: '帮助 IoTeX 构建更强大的网络'
