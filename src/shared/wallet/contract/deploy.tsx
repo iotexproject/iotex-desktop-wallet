@@ -4,10 +4,10 @@ import Button from "antd/lib/button";
 import { FormComponentProps } from "antd/lib/form";
 import Form from "antd/lib/form/Form";
 import Input from "antd/lib/input";
-import { Link } from "react-router-dom";
 import Select from "antd/lib/select";
 // @ts-ignore
 import window from "global/window";
+import { Link } from "react-router-dom";
 // @ts-ignore
 
 // @ts-ignore
