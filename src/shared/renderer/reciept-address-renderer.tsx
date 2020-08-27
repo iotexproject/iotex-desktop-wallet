@@ -22,6 +22,7 @@ import { XRC20TokenValue } from "../common/xrc20-token";
 import { decodeData } from "../wallet/decode-contract-data";
 import { ContracAddressRenderer } from "./contract-address-renderer";
 import { WalletAddressRenderer } from "./wallet-address-renderer";
+import { validateAddress } from "iotex-antenna/lib/account/utils";
 
 const TransferRenderer: VerticalTableRender<Transfer> = ({
   value: { recipient }
@@ -122,11 +123,7 @@ const ExecutionRenderer: VerticalTableRender<{
               </span>
               <Link
                 to={`/${
-                  String(decodedData.data._to)
-                    .toLowerCase()
-                    .startsWith("io")
-                    ? "address"
-                    : "action"
+                  validateAddress(decodedData.data._to) ? "address" : "action"
                 }/${decodedData.data._to}`}
                 className="wordwrap"
               >
