@@ -39,6 +39,7 @@ class UnlockByLedgerInner extends PureComponent<
         try {
           const proxy = await getTransportProxy();
           const publicKey = await proxy.getPublicKey([44, 304, 0, 0, 0]);
+
           if (!publicKey) {
             return;
           }
@@ -47,10 +48,10 @@ class UnlockByLedgerInner extends PureComponent<
             publicKey,
             proxy
           );
-
           const antenna = getAntenna(true, ledgerPlugin);
+
           const account = antenna.iotx.accounts.addressToAccount(
-            publicKeyToAddress(publicKey.toString("hex"))
+            publicKeyToAddress(Buffer.from(publicKey).toString("hex"))
           );
           this.props.dispatch(setAccount(account, true));
         } catch (e) {
