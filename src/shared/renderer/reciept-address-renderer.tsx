@@ -120,7 +120,16 @@ const ExecutionRenderer: VerticalTableRender<{
               <span>
                 {t("render.key.to")} <Icon type="caret-right" />
               </span>
-              <Link to={`/action/${decodedData.data._to}`} className="wordwrap">
+              <Link
+                to={`/${
+                  String(decodedData.data._to)
+                    .toLowerCase()
+                    .startsWith("io")
+                    ? "address"
+                    : "action"
+                }/${decodedData.data._to}`}
+                className="wordwrap"
+              >
                 {decodedData.data._to}
               </Link>
             </>
