@@ -20,6 +20,7 @@ type PropTypes = {
 
 const AUTO = "auto";
 
+// @ts-ignore
 export function Flex({
   children,
   column = false,
@@ -34,6 +35,7 @@ export function Flex({
   justifyContent,
   ...otherProps
 }: PropTypes): JSX.Element {
+  // @ts-ignore
   const StyledDiv = styled("div", {
     display: "flex",
     "-webkit-box-flex": 1,
@@ -58,6 +60,7 @@ export function Flex({
   return <StyledDiv>{children}</StyledDiv>;
 }
 
+// @ts-ignore
 export const CenterFlex = styled("div", {
   display: "flex",
   "-webkit-box-flex": 1,
