@@ -4,6 +4,7 @@ import Row from "antd/lib/row";
 import BigNumber from "bignumber.js";
 // @ts-ignore
 import window from "global/window";
+import { validateAddress } from "iotex-antenna/lib/account/utils";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -22,7 +23,6 @@ import { XRC20TokenValue } from "../common/xrc20-token";
 import { decodeData } from "../wallet/decode-contract-data";
 import { ContracAddressRenderer } from "./contract-address-renderer";
 import { WalletAddressRenderer } from "./wallet-address-renderer";
-import { validateAddress } from "iotex-antenna/lib/account/utils";
 
 const TransferRenderer: VerticalTableRender<Transfer> = ({
   value: { recipient }
