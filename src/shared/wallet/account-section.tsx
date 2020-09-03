@@ -481,6 +481,7 @@ class AccountSection extends React.Component<Props, State> {
         authMessage: null,
         gasEstimation
       });
+      this.onSyncAccount();
     } catch (error) {
       notification.error({ message: error.message });
     }
