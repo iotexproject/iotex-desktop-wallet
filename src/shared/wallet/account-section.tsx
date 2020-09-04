@@ -44,6 +44,7 @@ import GenerateAuthorizedMessageFormModal from "./generate-authorized-message-fo
 import { getAntenna } from "./get-antenna";
 import { setAccount, setTokens } from "./wallet-actions";
 import { IRPCProvider, IWalletState } from "./wallet-reducer";
+import AccountLogoutModal from "./account-logout-modal";
 
 const DISCORD_URL = "https://discord.gg/4z3BTcd";
 const VOTING_URL = "https://member.iotex.io";
@@ -226,6 +227,7 @@ class AccountSection extends React.Component<Props, State> {
         <div className="centered-text">
           <p>{t("account.empty.unlock")}</p>
         </div>
+        <AccountLogoutModal />
       </Card>
     );
   };
@@ -823,6 +825,7 @@ class AccountSection extends React.Component<Props, State> {
         {this.renderActionBar()}
         {this.renderCustomTokenForm()}
         {this.renderClaimConfirmation()}
+        <AccountLogoutModal />
       </Card>
     );
   };

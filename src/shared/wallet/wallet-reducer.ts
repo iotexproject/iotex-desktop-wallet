@@ -106,6 +106,7 @@ export interface IWalletState {
   defaultNetworkTokens: Array<string>;
   lockAt?: number; // milliseconds to lock wallet. 0: never lock. 1: never to reset it;
   isLockDelayed?: boolean;
+  showUnlockModal?: boolean;
 }
 
 export const walletReducer = (
@@ -114,14 +115,16 @@ export const walletReducer = (
     defaultNetworkTokens: [],
     tokens: {},
     lockAt: 0,
-    isLockDelayed: false
+    isLockDelayed: false,
+    showUnlockModal: false
   },
   action: WalletAction
 ) => {
   switch (action.type) {
     case "SET_ACCOUNT":
       const { account, hideExport } = action.payload;
-      return { ...state, account, hideExport };
+      const showUnlockModal = !!state.account && !account;
+      return { ...state, account, hideExport, showUnlockModal };
     case "ADD_CUSTOM_RPC":
       const { customRPC } = action.payload;
       if (!customRPC) {

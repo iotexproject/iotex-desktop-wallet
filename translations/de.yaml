@@ -435,3 +435,6 @@ wallet.sign.confirm: 'Yes, sign transaction'
 topbar.searchAddress: 'Search an address, block, hash...'
 home.stats.progressEpoch: 'Progress of Epoch'
 action.pending: 'IoTeX Pending Action'
+ok: OK
+wallet.logout.success: "Sie haben Ihre aktuelle Brieftasche erfolgreich abgemeldet."
+wallet.logout.login_to_another: "Bitte wählen Sie eine andere Brieftasche zum Entsperren aus."

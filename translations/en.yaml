@@ -591,4 +591,7 @@ wallet.write.contract.title: Warining
 wallet.desktop.app: 'ioPay Desktop v${appVersion}'
 wallet.desktop.appVersion: 'Version: ${appVersion}'
 wallet.send-receive.title: 'Send and Receive IOTX'
+ok: OK
+wallet.logout.success: "You have successfully logged out your current wallet."
+wallet.logout.login_to_another: "Please select another wallet to unlock."
 meta.description.desktop: 'Interact with Smart Contracts and the Blockchain'
