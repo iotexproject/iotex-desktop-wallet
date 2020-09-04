@@ -700,6 +700,7 @@ class AccountSection extends React.Component<Props, State> {
           pagination={false}
           showHeader={false}
           rowKey={record => record.symbol}
+          bodyStyle={{ overflowX: "auto" }}
         />
       </SpinPreloader>
     );
