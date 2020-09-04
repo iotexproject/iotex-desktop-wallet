@@ -19,6 +19,7 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { XRC20TokenBalance, XRC20TokenValue } from "../common/xrc20-token";
 import {
   GET_ANALYTICS_CONTRACT_HOLDERS,
+  GET_ANALYTICS_XRC20_ACTIONS_BY_ADDRESS,
   GET_ANALYTICS_XRC20_ACTIONS_BY_CONTRACT,
   GET_ANALYTICS_XRC20_ACTIONS_BY_PAGE
 } from "../queries";
@@ -165,26 +166,31 @@ const getXrc20HoldersListColumns = (): Array<ColumnProps<IXRC20HolderInfo>> => [
 
 export interface IXRC20ActionTable {
   address?: string;
+  byContract?: string;
 }
 
 export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
-  address = ""
+  address = "",
+  byContract = ""
 }) => {
-  const query = address
+  const query = byContract
     ? GET_ANALYTICS_XRC20_ACTIONS_BY_CONTRACT
+    : address
+    ? GET_ANALYTICS_XRC20_ACTIONS_BY_ADDRESS
     : GET_ANALYTICS_XRC20_ACTIONS_BY_PAGE;
-  const variables = address
-    ? {
-        page: 0,
-        numPerPage: PAGE_SIZE,
-        address
-      }
-    : {
-        pagination: {
-          skip: 0,
-          first: PAGE_SIZE
+  const variables =
+    address || byContract
+      ? {
+          page: 1,
+          numPerPage: PAGE_SIZE,
+          address: byContract ? byContract : address
         }
-      };
+      : {
+          pagination: {
+            skip: 0,
+            first: PAGE_SIZE
+          }
+        };
   return (
     <Query
       query={query}
@@ -221,20 +227,21 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
             }}
             size="middle"
             onChange={pagination => {
-              const updatevariables = address
-                ? {
-                    page: (pagination.current && pagination.current - 1) || 0,
-                    numPerPage: PAGE_SIZE,
-                    address
-                  }
-                : {
-                    pagination: {
-                      skip: pagination.current
-                        ? (pagination.current - 1) * PAGE_SIZE
-                        : 0,
-                      first: PAGE_SIZE
+              const updatevariables =
+                address || byContract
+                  ? {
+                      page: pagination.current || 1,
+                      numPerPage: PAGE_SIZE,
+                      address: byContract ? byContract : address
                     }
-                  };
+                  : {
+                      pagination: {
+                        skip: pagination.current
+                          ? (pagination.current - 1) * PAGE_SIZE
+                          : 0,
+                        first: PAGE_SIZE
+                      }
+                    };
               fetchMore({
                 // @ts-ignore
                 variables: updatevariables,
@@ -335,7 +342,7 @@ const XRC20ActionListPage: React.FC<
       <ContentPadding>
         <Tabs defaultActiveKey="1">
           <TabPane tab={t("pages.token")} key="1">
-            <XRC20ActionTable address={address} />
+            <XRC20ActionTable byContract={address} />
           </TabPane>
           {address && (
             <TabPane tab={t("pages.tokenHolders")} key="2">
