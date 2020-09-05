@@ -122,7 +122,7 @@ class WalletInner extends PureComponent<Props, State> {
             gutter={30}
             style={{ margin: "40px 0px" }}
           >
-            <Col xs={24} sm={24} md={12} lg={14} xl={16}>
+            <Col xs={24} sm={24} md={12} lg={14} xl={14}>
               {account && (
                 <WalletTabs
                   address={account.address}
@@ -132,7 +132,7 @@ class WalletInner extends PureComponent<Props, State> {
               )}
               {!account && this.renderNoWallet()}
             </Col>
-            <Col xs={24} sm={24} md={12} lg={10} xl={8}>
+            <Col xs={24} sm={24} md={12} lg={10} xl={10}>
               <VersionInfo />
               <AccountSection createNew={createNew} />
             </Col>

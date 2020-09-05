@@ -664,10 +664,33 @@ export const GET_ANALYTICS_XRC721_ACTIONS_BY_PAGE = gql`
   }
 `;
 
-export const GET_ANALYTICS_XRC20_ACTIONS_BY_CONTRACT = gql`
+export const GET_ANALYTICS_XRC20_ACTIONS_BY_ADDRESS = gql`
   query($address: String!, $page: Int!, $numPerPage: Int!) {
     xrc20 {
       data: byAddress(address: $address, page: $page, numPerPage: $numPerPage) {
+        exist
+        xrc20 {
+          contract
+          hash
+          timestamp
+          from
+          to
+          quantity
+        }
+        count
+      }
+    }
+  }
+`;
+
+export const GET_ANALYTICS_XRC20_ACTIONS_BY_CONTRACT = gql`
+  query($address: String!, $page: Int!, $numPerPage: Int!) {
+    xrc20 {
+      data: byContractAddress(
+        address: $address
+        page: $page
+        numPerPage: $numPerPage
+      ) {
         exist
         xrc20 {
           contract
