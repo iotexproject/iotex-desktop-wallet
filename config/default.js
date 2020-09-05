@@ -66,10 +66,11 @@ module.exports = {
       "https://api.github.com/",
       "https://iotexscan.io/",
       "https://testnet.iotexscan.io/",
-      process.env.ANALYTICS_API_GATEWAY_URL || "https://analytics.iotexscan.io/",
+      process.env.ANALYTICS_API_GATEWAY_URL ||
+        "https://analytics.iotexscan.io/",
       "https://iotex-analytics-testnet.herokuapp.com/",
       "wss://local.get-scatter.com:64102/",
-      "https://testnet.iotexscan.io/api-gateway/"
+      process.env.API_GATEWAY_URL || "http://localhost:4004/api-gateway/"
     ],
     "child-src": ["self"],
     "font-src": [
@@ -98,7 +99,8 @@ module.exports = {
   analyticsApiGatewayUrl:
     process.env.CURRENT_CHAIN_NAME == "testnet"
       ? "https://iotex-analytics-testnet.herokuapp.com/query"
-      : (process.env.ANALYTICS_API_GATEWAY_URL || "https://analytics.iotexscan.io/query"),
+      : process.env.ANALYTICS_API_GATEWAY_URL ||
+        "https://analytics.iotexscan.io/query",
   multiChain: {
     current: process.env.CURRENT_CHAIN_NAME || "mainnet",
     chains: [
