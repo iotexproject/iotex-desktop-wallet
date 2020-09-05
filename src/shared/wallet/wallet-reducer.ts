@@ -115,16 +115,14 @@ export const walletReducer = (
     defaultNetworkTokens: [],
     tokens: {},
     lockAt: 0,
-    isLockDelayed: false,
-    showUnlockModal: false
+    isLockDelayed: false
   },
   action: WalletAction
 ) => {
   switch (action.type) {
     case "SET_ACCOUNT":
       const { account, hideExport } = action.payload;
-      const showUnlockModal = !!state.account && !account;
-      return { ...state, account, hideExport, showUnlockModal };
+      return { ...state, account, hideExport };
     case "ADD_CUSTOM_RPC":
       const { customRPC } = action.payload;
       if (!customRPC) {

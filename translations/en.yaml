@@ -29,6 +29,7 @@ account.responsible: 'You are responsible for your security.'
 account.rpc.nameHolder: 'My RPC'
 account.save: 'Save your private key to access your wallet later'
 account.switchAccount: 'Switch Account'
+account.switchWallet: 'Switch Wallet'
 account.testnet.token: IOTX
 account.token.addCustom: 'Custom Tokens'
 account.token.notfound: 'Token not found!'

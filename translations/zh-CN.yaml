@@ -365,6 +365,7 @@ wallet.transfer.send-xrc20: '发送 XRC20 通证'
 input.error.xrc20_address.length: XRC20通证地址长度必须为41
 account.refresh: 刷新余额
 account.switchAccount: 切换帐户
+account.switchWallet: 切换钱包
 account.token.addCustom: 自定义通证
 account.token.notfound: 未找到通证！
 account.joinDiscord: '加入 Discord'
