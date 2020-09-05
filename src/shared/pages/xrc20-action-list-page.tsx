@@ -16,7 +16,12 @@ import { FlexLink } from "../common/flex-link";
 import { translateFn } from "../common/from-now";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
-import { XRC20TokenBalance, XRC20TokenValue } from "../common/xrc20-token";
+import {
+  XRC20TokenAddress,
+  XRC20TokenBalance,
+  XRC20TokenName,
+  XRC20TokenValue
+} from "../common/xrc20-token";
 import {
   GET_ANALYTICS_CONTRACT_HOLDERS,
   GET_ANALYTICS_XRC20_ACTIONS_BY_ADDRESS,
@@ -104,6 +109,22 @@ const getXrc20ActionListColumns = ({
             value={new BigNumber(text)}
           />
         );
+      }
+    },
+    {
+      title: t("token.name"),
+      dataIndex: "name",
+      width: "20vw",
+      render: (record: IXRC20ActionInfo): JSX.Element | string => {
+        return <XRC20TokenName contract={record.contract} />;
+      }
+    },
+    {
+      title: t("token.address"),
+      dataIndex: "tokenAddress",
+      width: "20vw",
+      render: (record: IXRC20ActionInfo): JSX.Element | string => {
+        return <XRC20TokenAddress contract={record.contract} />;
       }
     },
     {

@@ -1,12 +1,15 @@
 import Tag from "antd/lib/tag";
 import BigNumber from "bignumber.js";
-import { fromRau } from "iotex-antenna/lib/account/utils";
+import { get } from "dottie";
+import { fromRau, validateAddress } from "iotex-antenna/lib/account/utils";
 import React, { useState } from "react";
+import { Query, QueryResult } from "react-apollo";
 import { Token } from "../../erc20/token";
+import { GET_ADDRESS_META } from "../queries";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
+import { LinkButton } from "./buttons";
 import { GetTokenMetadataMap } from "./common-metadata";
 import { numberWithCommas } from "./vertical-table";
-
 const XRC20TokenName: React.FC<{ contract: string }> = ({ contract }) => {
   const token = Token.getToken(contract);
   token
@@ -127,10 +130,52 @@ const XRC20TokenValue: React.FC<{ contract: string; value: BigNumber }> = ({
   return <span>{balance}</span>;
 };
 
+const XRC20TokenAddress: React.FC<{ contract: string }> = ({ contract }) => {
+  const token = Token.getToken(contract);
+  const [tokenAddress, setTokenAddress] = useState("");
+  token
+    .getBasicTokenInfo()
+    .then(info => {
+      if (info && info.symbol) {
+        setTokenAddress(`${info.name} (${info.symbol})`);
+      }
+    })
+    .catch(() => {
+      setTokenAddress("");
+    });
+  if (!validateAddress(tokenAddress)) {
+    return <LinkButton>{tokenAddress}</LinkButton>;
+  }
+  return (
+    <Query
+      query={GET_ADDRESS_META}
+      variables={{ tokenAddress }}
+      errorPolicy="ignore"
+    >
+      {({ data, error }: QueryResult<{ name: string }>) => {
+        if (error) {
+          return (
+            <LinkButton href={`/token/${tokenAddress}`}>
+              {tokenAddress}
+            </LinkButton>
+          );
+        }
+        const { name = tokenAddress } = get(data || {}, "addressMeta") || {};
+        return (
+          <LinkButton href={`/token/${tokenAddress}`}>
+            {name || tokenAddress}
+          </LinkButton>
+        );
+      }}
+    </Query>
+  );
+};
+
 export {
   XRC20TokenName,
   XRC20TokenBalance,
   XRC20TokenUnit,
   XRC20TokenValue,
-  XRC20TokenBalanceTag
+  XRC20TokenBalanceTag,
+  XRC20TokenAddress
 };
