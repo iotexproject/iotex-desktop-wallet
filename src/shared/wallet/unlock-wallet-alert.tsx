@@ -32,7 +32,7 @@ const UnlockWallet = ({
     <>
       {children}
       <Modal
-        title={t("wallet.unlock_alert.title")}
+        title={t("account.switchWallet")}
         visible={isVisible}
         onCancel={() => setIsVisible(false)}
         footer={
@@ -42,11 +42,14 @@ const UnlockWallet = ({
             href="#"
             onClick={() => setIsVisible(false)}
           >
-            {t("wallet.unlock_alert.confirm")}
+            {t("ok")}
           </Button>
         }
       >
-        <p>{t("wallet.unlock_alert.tip")}</p>
+        <p>
+          {t("wallet.logout.success")}&nbsp;
+          {t("wallet.logout.login_to_another")}
+        </p>
       </Modal>
     </>
   );

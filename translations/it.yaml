@@ -352,6 +352,7 @@ wallet.transfer.send-xrc20: 'Invia token ERC20'
 input.error.xrc20_address.length: 'L''indirizzo del token ERC20 deve essere lungo 41 caratteri'
 account.refresh: 'Aggiorna i saldi'
 account.switchAccount: 'Cambia account'
+account.switchWallet: 'Cambia portafoglio'
 account.token.addCustom: 'Token personalizzati'
 account.token.notfound: 'Token non trovato!'
 account.joinDiscord: 'Server Discord'
@@ -435,3 +436,6 @@ wallet.sign.confirm: 'Sì, firma la transazione'
 topbar.searchAddress: 'Cerca indirizzo, blocco, hash...'
 home.stats.progressEpoch: 'Progress of Epoch'
 action.pending: 'IoTeX Pending Action'
+ok: OK
+wallet.logout.success: "Hai disconnesso con successo il tuo portafoglio attuale."
+wallet.logout.login_to_another: "Seleziona un altro portafoglio da sbloccare."
