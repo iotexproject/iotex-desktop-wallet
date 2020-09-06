@@ -121,6 +121,7 @@ const getXrc20ActionListColumns = ({
               name={metadata.name}
               symbol={metadata.symbol}
               logo={metadata.logo}
+              contract={record.contract}
             />
           );
         } else {
