@@ -66,19 +66,25 @@ const loadSolc = async (ver: string): Promise<any> => {
 let solcVersions: Array<{ name: string; version: string }> = [];
 const solcVersionDict: { [version: string]: string } = {};
 const syncSolcVersions = async () => {
-  const res = await fetch("https://ethereum.github.io/solc-bin/bin/list.json");
-  const { releases } = await res.json();
-  solcVersions = Object.keys(releases).map(version => {
-    solcVersionDict[version] = `${releases[version]}`.replace(
-      /soljson-|\.js$/gi,
-      ""
+  try {
+    const res = await fetch(
+      "https://ethereum.github.io/solc-bin/bin/list.json"
     );
-    return {
-      name: version,
-      version: solcVersionDict[version]
-    };
-  });
-  setTimeout(syncSolcVersions, 3600000);
+    const { releases } = await res.json();
+    solcVersions = Object.keys(releases).map(version => {
+      solcVersionDict[version] = `${releases[version]}`.replace(
+        /soljson-|\.js$/gi,
+        ""
+      );
+      return {
+        name: version,
+        version: solcVersionDict[version]
+      };
+    });
+    setTimeout(syncSolcVersions, 3600000);
+  } catch (error) {
+    // console.log(error);
+  }
 };
 syncSolcVersions();
 
