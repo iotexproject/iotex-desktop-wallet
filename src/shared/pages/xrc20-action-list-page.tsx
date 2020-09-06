@@ -17,7 +17,6 @@ import { translateFn } from "../common/from-now";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import {
-  XRC20TokenAddress,
   XRC20TokenBalance,
   XRC20TokenName,
   XRC20TokenValue
@@ -109,14 +108,6 @@ const getXrc20ActionListColumns = ({
             value={new BigNumber(text)}
           />
         );
-      }
-    },
-    {
-      title: t("token.address"),
-      dataIndex: "tokenAddress",
-      width: "20vw",
-      render: (record: IXRC20ActionInfo): JSX.Element | string => {
-        return <XRC20TokenAddress contract={record.contract} />;
       }
     },
     {
