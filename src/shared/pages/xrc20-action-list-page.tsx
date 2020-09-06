@@ -112,14 +112,6 @@ const getXrc20ActionListColumns = ({
       }
     },
     {
-      title: t("token.name"),
-      dataIndex: "name",
-      width: "20vw",
-      render: (record: IXRC20ActionInfo): JSX.Element | string => {
-        return <XRC20TokenName contract={record.contract} />;
-      }
-    },
-    {
       title: t("token.address"),
       dataIndex: "tokenAddress",
       width: "20vw",
@@ -141,7 +133,7 @@ const getXrc20ActionListColumns = ({
             />
           );
         } else {
-          return "";
+          return <XRC20TokenName contract={record.contract} />;
         }
       }
     }
