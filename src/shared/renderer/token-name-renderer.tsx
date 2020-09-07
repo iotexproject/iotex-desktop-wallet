@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Token } from "../../erc20/token";
+import React from "react";
 import { LinkButton } from "../common/buttons";
 interface InputProps {
   name: string;
@@ -8,37 +7,22 @@ interface InputProps {
   style?: React.CSSProperties;
   contract?: string;
 }
-const TokenNameRenderer = (prop: InputProps) => {
-  const [address, setAddress] = useState("");
-  const getTemplate = () => {
-    return (
-      <div style={{ display: "flex", alignItems: "center", ...prop.style }}>
-        {prop.logo && (
+const TokenNameRenderer = (props: InputProps) => {
+  return (
+    <LinkButton href={props.contract}>
+      <div style={{ display: "flex", alignItems: "center", ...props.style }}>
+        {props.logo && (
           <img
-            src={`/image/token/${prop.logo}`}
+            src={`/image/token/${props.logo}`}
             alt="ico"
             style={{ width: "13px", height: "13px" }}
           />
         )}
-        <span style={{ marginLeft: "2px" }}>{name}</span>
-        {prop.symbol && <span>({prop.symbol})</span>}
+        <span style={{ marginLeft: "2px" }}>{props.name}</span>
+        {props.symbol && <span>({props.symbol})</span>}
       </div>
-    );
-  };
-  if (!!prop.contract) {
-    const token = Token.getToken(prop.contract);
-    token
-      .getBasicTokenInfo()
-      .then(info => {
-        setAddress(info.tokenAddress);
-      })
-      .catch(() => {
-        setAddress("");
-      });
-    return <LinkButton href={address}>{getTemplate()}</LinkButton>;
-  } else {
-    return getTemplate();
-  }
+    </LinkButton>
+  );
 };
 
 export { TokenNameRenderer };
