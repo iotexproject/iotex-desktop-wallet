@@ -8,6 +8,7 @@ topbar.home: Home
 not_found.bar: 'Nicht gefunden'
 not_found.title: Oops!
 not_found.info: 'Wir können die Seite nicht finden...'
+network.disconnected: 'Die Verbindung zum Internet ist nicht möglich'
 candidate.delegate_name: 'Name des Delegierten'
 candidate.status: Status
 candidate.live_votes: 'Aktuelle Stimmen'
