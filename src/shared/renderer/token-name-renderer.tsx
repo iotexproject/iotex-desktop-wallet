@@ -1,28 +1,27 @@
 import React from "react";
-
-const TokenNameRenderer = ({
-  name,
-  symbol,
-  logo,
-  style
-}: {
+import { LinkButton } from "../common/buttons";
+interface InputProps {
   name: string;
   symbol?: string;
   logo?: string;
-  style?: React.CSSProperties
-}) => {
+  style?: React.CSSProperties;
+  contract?: string;
+}
+const TokenNameRenderer = (props: InputProps) => {
   return (
-    <div style={{ display: "flex", alignItems: "center",...style }}>
-      {logo && (
-        <img
-          src={`/image/token/${logo}`}
-          alt="ico"
-          style={{ width: "13px", height: "13px" }}
-        />
-      )}
-      <span style={{ marginLeft: "2px" }}>{name}</span>
-      {symbol && <span>({symbol})</span>}
-    </div>
+    <LinkButton href={props.contract}>
+      <div style={{ display: "flex", alignItems: "center", ...props.style }}>
+        {props.logo && (
+          <img
+            src={`/image/token/${props.logo}`}
+            alt="ico"
+            style={{ width: "13px", height: "13px" }}
+          />
+        )}
+        <span style={{ marginLeft: "2px" }}>{props.name}</span>
+        {props.symbol && <span>({props.symbol})</span>}
+      </div>
+    </LinkButton>
   );
 };
 
