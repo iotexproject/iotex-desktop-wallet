@@ -96,9 +96,9 @@ class TransferForm extends React.PureComponent<Props, State> {
     }
   }
   public componentWillUnmount(): void {
-    this.setState = (state: State, callback: () => void) => {
-      return;
-    };
+    // this.setState = (state: State, callback: () => void) => {
+    //   return;
+    // };
     window.removeEventListener("offline", () => {
       // Remove listener when component destroy.
     });
