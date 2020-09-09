@@ -69,12 +69,7 @@ class TransferForm extends React.PureComponent<Props, State> {
     this.updateGasCostLimit(this.props.form);
   }
   public isDisconnected(): boolean {
-    return !navigator.onLine;
-  }
-  public componentWillUnmount(): void {
-    window.removeEventListener("offline", () => {
-      // Remove listener when component destroy.
-    });
+    return navigator.onLine;
   }
 
   public sendTransfer = async (status: boolean) => {
@@ -323,6 +318,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             type="primary"
             loading={sending}
             onClick={this.showConfirmTransfer}
+            disabled={this.isDisconnected()}
           >
             {t("wallet.transactions.send")}
           </Button>
