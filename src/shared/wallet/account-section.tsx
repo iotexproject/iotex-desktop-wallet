@@ -102,6 +102,9 @@ class AccountSection extends React.Component<Props, State> {
     claimableAmount: 0,
     showBalance: false
   };
+  public get tagClassName(): string {
+    return !this.state.claimable ? "ant-btn disabled" : "ant-btn";
+  }
 
   private pollAccountInterval: number | undefined;
 
@@ -522,7 +525,7 @@ class AccountSection extends React.Component<Props, State> {
         >
           {
             // @ts-ignore
-            <Button
+            <a
               type="primary"
               style={{
                 borderTopLeftRadius: 4,
@@ -530,10 +533,11 @@ class AccountSection extends React.Component<Props, State> {
                 boxShadow: "none"
               }}
               onClick={this.onClaimClickHandle(token)}
-              disabled={!this.state.claimable}
+              className={this.tagClassName}
+              href={""}
             >
               {t("account.claim")}
-            </Button>
+            </a>
           }
         </Dropdown.Button>
       </Badge>
