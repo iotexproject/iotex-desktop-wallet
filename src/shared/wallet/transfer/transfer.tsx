@@ -53,7 +53,6 @@ type State = {
   showConfirmTransfer: boolean;
   showDataHex: boolean;
   gasCostLimit: string;
-  disconnected: boolean;
 };
 
 class TransferForm extends React.PureComponent<Props, State> {
@@ -63,42 +62,16 @@ class TransferForm extends React.PureComponent<Props, State> {
     broadcast: null,
     showConfirmTransfer: false,
     showDataHex: true,
-    gasCostLimit: "",
-    disconnected: true
+    gasCostLimit: ""
   };
 
   public componentDidMount(): void {
     this.updateGasCostLimit(this.props.form);
-    this.checkConnect();
   }
-  public checkConnect(): void {
-    if (isElectron()) {
-      window.addEventListener("offline", () => {
-        this.setState({
-          disconnected: true
-        });
-        notification.error({
-          message: t("network.disconnected"),
-          duration: 5
-        });
-      });
-    } else {
-      const disconnected = !window.navigator.onLine;
-      this.setState({
-        disconnected: disconnected
-      });
-      if (disconnected) {
-        notification.error({
-          message: t("network.disconnected"),
-          duration: 5
-        });
-      }
-    }
+  public isDisconnected(): boolean {
+    return !navigator.onLine;
   }
   public componentWillUnmount(): void {
-    // this.setState = (state: State, callback: () => void) => {
-    //   return;
-    // };
     window.removeEventListener("offline", () => {
       // Remove listener when component destroy.
     });
@@ -197,7 +170,14 @@ class TransferForm extends React.PureComponent<Props, State> {
     });
   };
 
-  public showConfirmTransfer = () => {
+  public showConfirmTransfer = async () => {
+    if (this.isDisconnected()) {
+      notification.error({
+        message: t("network.disconnected"),
+        duration: 5
+      });
+      return;
+    }
     this.props.form.validateFields(err => {
       if (err) {
         return;
@@ -343,7 +323,6 @@ class TransferForm extends React.PureComponent<Props, State> {
             type="primary"
             loading={sending}
             onClick={this.showConfirmTransfer}
-            disabled={this.state.disconnected}
           >
             {t("wallet.transactions.send")}
           </Button>
