@@ -280,6 +280,7 @@ new-wallet.warn.secure: 'Secure it like the millions of dollars it may one day b
 new-wallet.warn.stolen: 'Your funds will be stolen if you use this file on a malicious/phishing site.'
 not_found.bar: 'Not Found'
 not_found.info: 'We cannot find the page for you...'
+network.disconnected: 'Can not connecting to internet...'
 not_found.title: Oops!
 page_navs.block: "Block #${height}"
 pages.token: Token Transfers
