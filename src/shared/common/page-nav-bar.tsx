@@ -14,12 +14,7 @@ const PageNav: React.FC<{ items: Array<JSX.Element | string> }> = ({
   return (
     <ContentPadding style={{ margin: "16px 0" }}>
       <Row type="flex" justify="space-between" align="top" gutter={20}>
-        <Col
-          xs={24}
-          sm={24}
-          md={16}
-          style={{ marginBottom: "16px", textTransform: "uppercase" }}
-        >
+        <Col xs={24} sm={24} md={16} style={{ marginBottom: "16px" }}>
           <Breadcrumb separator=">" className="wordwrap">
             <Breadcrumb.Item>
               <Link to="/" style={{ whiteSpace: "nowrap" }}>

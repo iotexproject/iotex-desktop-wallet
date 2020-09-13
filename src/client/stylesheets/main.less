@@ -568,10 +568,12 @@ span.ellipsis-text {
 }
 
 .wordwrap {
-  white-space: pre-wrap;
-  white-space: -moz-pre-wrap;
-  white-space: -o-pre-wrap;
+  white-space: nowrap;
+  white-space: -moz-nowrap;
+  white-space: -o-nowrap;
   word-break: break-all;
+  text-overflow: clip;
+  overflow: hidden;
 }
 
 .bg-light {
