@@ -4,9 +4,9 @@ import { fromRau } from "iotex-antenna/lib/account/utils";
 import React, { useState } from "react";
 import { Token } from "../../erc20/token";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
+import { LinkButton } from "./buttons";
 import { GetTokenMetadataMap } from "./common-metadata";
 import { numberWithCommas } from "./vertical-table";
-
 const XRC20TokenName: React.FC<{ contract: string }> = ({ contract }) => {
   const token = Token.getToken(contract);
   token
@@ -15,12 +15,14 @@ const XRC20TokenName: React.FC<{ contract: string }> = ({ contract }) => {
       if (info && info.symbol) {
         setName(`${info.name} (${info.symbol})`);
       }
+      setAddress(info.tokenAddress);
     })
     .catch(() => {
       setName("");
     });
   const [name, setName] = useState("");
-  return <span>{name}</span>;
+  const [address, setAddress] = useState("");
+  return <LinkButton href={`/token/${address}`}>{name}</LinkButton>;
 };
 
 const XRC20TokenUnit: React.FC<{ contract: string }> = ({ contract }) => {

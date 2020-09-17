@@ -10,6 +10,7 @@ topbar.top_accounts: IOTX余额最高账户
 not_found.bar: 未找到
 not_found.title: 糟糕!
 not_found.info: 找不到页面...
+network.disconnected: '无法连接到互联网'
 candidate.delegate_name: 节点名称
 candidate.status: 状态
 candidate.live_votes: 实时投票

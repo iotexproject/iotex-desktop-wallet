@@ -16,7 +16,11 @@ import { FlexLink } from "../common/flex-link";
 import { translateFn } from "../common/from-now";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
-import { XRC20TokenBalance, XRC20TokenValue } from "../common/xrc20-token";
+import {
+  XRC20TokenBalance,
+  XRC20TokenName,
+  XRC20TokenValue
+} from "../common/xrc20-token";
 import {
   GET_ANALYTICS_CONTRACT_HOLDERS,
   GET_ANALYTICS_XRC20_ACTIONS_BY_ADDRESS,
@@ -117,10 +121,11 @@ const getXrc20ActionListColumns = ({
               name={metadata.name}
               symbol={metadata.symbol}
               logo={metadata.logo}
+              contract={record.contract}
             />
           );
         } else {
-          return "";
+          return <XRC20TokenName contract={record.contract} />;
         }
       }
     }
