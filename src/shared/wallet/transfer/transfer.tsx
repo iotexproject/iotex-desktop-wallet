@@ -69,7 +69,7 @@ class TransferForm extends React.PureComponent<Props, State> {
     this.updateGasCostLimit(this.props.form);
   }
   public isDisconnected(): boolean {
-    return navigator.onLine;
+    return !navigator.onLine;
   }
 
   public sendTransfer = async (status: boolean) => {
