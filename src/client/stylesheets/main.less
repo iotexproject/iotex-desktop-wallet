@@ -372,9 +372,31 @@ input {
   padding-bottom: 32px !important;
 }
 
-.claimButton > .ant-btn:first-child {
-  padding: 0 !important;
-  border: 0 !important;
+.claimButton {
+  button:nth-child(1) {
+    border-width: 0 !important;
+  }
+  .ant-btn:first-child {
+    padding: 0 !important;
+  }
+  a {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    box-shadow: none;
+    box-sizing: border-box;
+    width: 55px;
+    background: #fff !important;
+    border: 1px solid #d9d9d9 !important;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    &.disabled {
+      pointer-events: none;
+      cursor: not-allowed;
+      border: 1px solid #d9d9d9 !important;
+    }
+  }
 }
 text.recharts-text.recharts-cartesian-axis-tick-value {
   font-size: 12px;
@@ -546,10 +568,12 @@ span.ellipsis-text {
 }
 
 .wordwrap {
-  white-space: pre-wrap;
-  white-space: -moz-pre-wrap;
-  white-space: -o-pre-wrap;
+  white-space: nowrap;
+  white-space: -moz-nowrap;
+  white-space: -o-nowrap;
   word-break: break-all;
+  text-overflow: clip;
+  overflow: hidden;
 }
 
 .bg-light {

@@ -1,12 +1,11 @@
-import Icon from "antd/lib/icon";
-import notification from "antd/lib/notification";
-import Select from "antd/lib/select";
-
 import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
+import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
+import notification from "antd/lib/notification";
+import Select from "antd/lib/select";
 import BigNumber from "bignumber.js";
 import { Account } from "iotex-antenna/lib/account/account";
 import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
@@ -68,6 +67,9 @@ class TransferForm extends React.PureComponent<Props, State> {
 
   public componentDidMount(): void {
     this.updateGasCostLimit(this.props.form);
+  }
+  public isDisconnected(): boolean {
+    return !navigator.onLine;
   }
 
   public sendTransfer = async (status: boolean) => {
@@ -163,7 +165,14 @@ class TransferForm extends React.PureComponent<Props, State> {
     });
   };
 
-  public showConfirmTransfer = () => {
+  public showConfirmTransfer = async () => {
+    if (this.isDisconnected()) {
+      notification.error({
+        message: t("network.disconnected"),
+        duration: 5
+      });
+      return;
+    }
     this.props.form.validateFields(err => {
       if (err) {
         return;
@@ -309,6 +318,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             type="primary"
             loading={sending}
             onClick={this.showConfirmTransfer}
+            disabled={this.isDisconnected()}
           >
             {t("wallet.transactions.send")}
           </Button>
