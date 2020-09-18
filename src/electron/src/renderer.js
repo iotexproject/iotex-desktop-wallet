@@ -107,6 +107,14 @@ window.sign = function(path, message) {
   return result.signature.toString("hex");
 };
 
+window.signMessage = function(path, message) {
+  const result = ipcRenderer.sendSync("signMessage", path, message);
+  if (result.code !== 0x9000) {
+    throw new Error(result.message);
+  }
+  return result.signature.toString("hex");
+};
+
 ipcRenderer.on("query", function(event, query) {
   const actionEvent = {
     type: "QUERY_PARAMS",
