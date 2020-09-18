@@ -15,8 +15,8 @@ export const contentPadding = {
   paddingLeft: "6.6vw",
   paddingRight: "6.6vw",
   [media.deskWide]: {
-    paddingLeft: "16vw",
-    paddingRight: "16vw"
+    paddingLeft: "8vw",
+    paddingRight: "8vw"
   }
 };
 
