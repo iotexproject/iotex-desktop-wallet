@@ -337,10 +337,10 @@ export class IoTeXLedgerApp {
     }, processErrorResponse);
   }
 
-  // tslint:disable-next-line:no-any
   public async signMessage(
     path: Array<number>,
     message: Uint8Array
+    // tslint:disable-next-line:no-any
   ): Promise<any> {
     const chunks = signGetChunks(path, message);
     return this.signSendChunk(
