@@ -6,7 +6,8 @@ const INS = {
   PUBLIC_KEY_SECP256K1: 0x01,
   SIGN_SECP256K1: 0x02,
   SHOW_ADDR_SECP256K1: 0x03,
-  GET_ADDR_SECP256K1: 0x04
+  GET_ADDR_SECP256K1: 0x04,
+  SIGN_PERSONAL_MESSAGE: 0x05
 };
 
 const ERROR_DESCRIPTION = {
@@ -233,13 +234,9 @@ class IoTeXLedgerApp {
       }, processErrorResponse);
   }
 
-  async signSendChunk(chunkIdx, chunkNum, chunk) {
+  async signSendChunk(type, chunkIdx, chunkNum, chunk) {
     return this.transport
-      .send(CLA, INS.SIGN_SECP256K1, chunkIdx, chunkNum, chunk, [
-        0x9000,
-        0x6a80,
-        0x6986
-      ])
+      .send(CLA, type, chunkIdx, chunkNum, chunk, [0x9000, 0x6a80, 0x6986])
       .then(response => {
         const errorCodeData = response.slice(-2);
         const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
@@ -267,30 +264,72 @@ class IoTeXLedgerApp {
 
   async sign(path, message) {
     const chunks = signGetChunks(path, message);
-    return this.signSendChunk(1, chunks.length, chunks[0]).then(
-      async response => {
-        let result = {
-          code: response.code,
-          message: response.message,
-          signature: null
-        };
+    return this.signSendChunk(
+      INS.SIGN_SECP256K1,
+      1,
+      chunks.length,
+      chunks[0]
+    ).then(async response => {
+      let result = {
+        code: response.code,
+        message: response.message,
+        signature: null
+      };
 
-        for (let i = 1; i < chunks.length; i += 1) {
-          // eslint-disable-next-line no-await-in-loop
-          result = await this.signSendChunk(1 + i, chunks.length, chunks[i]);
-          if (result.code !== 0x9000) {
-            break;
-          }
+      for (let i = 1; i < chunks.length; i += 1) {
+        // eslint-disable-next-line no-await-in-loop
+        result = await this.signSendChunk(
+          INS.SIGN_SECP256K1,
+          1 + i,
+          chunks.length,
+          chunks[i]
+        );
+        if (result.code !== 0x9000) {
+          break;
         }
+      }
 
-        return {
-          code: result.code,
-          message: result.message,
-          signature: result.signature
-        };
-      },
-      processErrorResponse
-    );
+      return {
+        code: result.code,
+        message: result.message,
+        signature: result.signature
+      };
+    }, processErrorResponse);
+  }
+
+  async signMessage(path, message) {
+    const chunks = signGetChunks(path, message);
+    return this.signSendChunk(
+      INS.SIGN_PERSONAL_MESSAGE,
+      1,
+      chunks.length,
+      chunks[0]
+    ).then(async response => {
+      let result = {
+        code: response.code,
+        message: response.message,
+        signature: null
+      };
+
+      for (let i = 1; i < chunks.length; i += 1) {
+        // eslint-disable-next-line no-await-in-loop
+        result = await this.signSendChunk(
+          INS.SIGN_PERSONAL_MESSAGE,
+          1 + i,
+          chunks.length,
+          chunks[i]
+        );
+        if (result.code !== 0x9000) {
+          break;
+        }
+      }
+
+      return {
+        code: result.code,
+        message: result.message,
+        signature: result.signature
+      };
+    }, processErrorResponse);
   }
 }
 

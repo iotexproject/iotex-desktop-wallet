@@ -9,6 +9,7 @@ import { IoTeXLedgerApp } from ".";
 export interface TransportProxy {
   getPublicKey(path: Array<number>): Promise<Buffer>;
   sign(path: Array<number>, message: Uint8Array): Promise<Buffer>;
+  signMessage(path: Array<number>, message: Uint8Array): Promise<Buffer>;
 }
 
 export class WebUSBTransportProxy implements TransportProxy {
@@ -33,6 +34,20 @@ export class WebUSBTransportProxy implements TransportProxy {
     }
     return result.signature;
   }
+
+  public async signMessage(
+    path: Array<number>,
+    message: Uint8Array
+  ): Promise<Buffer> {
+    const transport = await TransportWebUSB.create();
+    const app = new IoTeXLedgerApp(transport);
+    const result = await app.signMessage(path, message);
+    await transport.close();
+    if (result.code !== 0x9000) {
+      throw new Error(result.message);
+    }
+    return result.signature;
+  }
 }
 
 class TransportNodeHidProxy {
@@ -42,6 +57,14 @@ class TransportNodeHidProxy {
 
   public async sign(path: Array<number>, message: Uint8Array): Promise<Buffer> {
     const signature = window.sign(path, message);
+    return Buffer.from(signature, "hex");
+  }
+
+  public async signMessage(
+    path: Array<number>,
+    message: Uint8Array
+  ): Promise<Buffer> {
+    const signature = window.signMessage(path, message);
     return Buffer.from(signature, "hex");
   }
 }
@@ -72,6 +95,15 @@ export class LedgerPlugin implements SignerPlugin {
       Buffer.from(this.publicKey),
       Buffer.from(signed)
     );
+  }
+
+  public async signMessage(
+    data: string | Buffer | Uint8Array
+  ): Promise<Buffer> {
+    // @ts-ignore
+    // tslint:disable-next-line:no-unnecessary-local-variable
+    const result = await this.proxy.signMessage(this.path, data);
+    return result;
   }
 }
 
