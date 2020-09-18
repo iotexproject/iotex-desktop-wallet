@@ -25,7 +25,7 @@ npm run build
 
 ## How To Release
 
-1. bump the version of ioPay desktop in `/src/electron/package.json`
+1. bump the version of ioPay desktop in [`/src/electron/package.json`](https://github.com/iotexproject/iotex-explorer/blob/master/src/electron/package.json)
 
 2. push a new tag of version by running the following command in your local machine
 
