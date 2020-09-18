@@ -23,18 +23,30 @@ To build it in production
 npm run build
 ```
 
-## Release
+## How To Release
 
-run the following command in your local machine.
+1. bump the version of ioPay desktop in `/src/electron/package.json`
+
+2. push a new tag of version by running the following command in your local machine
 
 ```
 git tag vx.y.z
 git push origin vx.y.z
 ```
 
-This create a new tag in github, which triggers action to start building desktop wallet and creating a release.
+in case you pushed wrong tag, you can remove it this way
+1. remove tag locally
+```
+git tag -d [tagname]
+```
+2. remove tag in remote github repo
+```
+git push --delete origin [tagname]
+```
 
-After the action is completed (takes about 20mins), a new release is created.
+After a new tag pushed to github, github action will start building desktop wallet and creating a draft release.
+
+The building takes about 20mins. 
 
 ## Release steps
 
