@@ -49,8 +49,10 @@ export function SignInner({
               (acct && acct.privateKey) || ""
             );
             if (reqId !== undefined) {
+              // @ts-ignore
               window.signed(reqId, signed.toString("hex"));
             }
+            // @ts-ignore
             setSignedMsg(signed.toString("hex"));
           });
         }}
