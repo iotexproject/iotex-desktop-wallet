@@ -289,6 +289,18 @@ function createWindow() {
     await transport.close();
     event.returnValue = result;
   });
+
+  ipcMain.on("signMessage", async (event, path, message) => {
+    const transport = await TransportNodeHid.create();
+    const app = new IoTeXLedgerApp(transport);
+    try {
+      const result = await app.signMessage(path, message);
+      await transport.close();
+      event.returnValue = result;
+    } catch (e) {
+      console.log(e);
+    }
+  });
 }
 
 // This method will be called when Electron has finished

@@ -1,5 +1,6 @@
 import Button from "antd/lib/button";
 import Form, { FormComponentProps } from "antd/lib/form/Form";
+import { RemoteAccount } from "iotex-antenna/lib/account/account";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -50,9 +51,12 @@ class UnlockByLedgerInner extends PureComponent<
           );
           const antenna = getAntenna(true, ledgerPlugin);
 
-          const account = antenna.iotx.accounts.addressToAccount(
-            publicKeyToAddress(Buffer.from(publicKey).toString("hex"))
+          const account = new RemoteAccount(
+            publicKeyToAddress(Buffer.from(publicKey).toString("hex")),
+            ledgerPlugin
           );
+          antenna.iotx.accounts.addAccount(account);
+
           this.props.dispatch(setAccount(account, true));
         } catch (e) {
           this.setState({
