@@ -257,7 +257,7 @@ input.error.xrc721_address.length: 'XRC721 Token address has to be of length 41'
 meta.description: 'Exploring IoTeX blockchain Address, Actions, and Smart Contracts.'
 meta.title: 'Blockchain Explorer - IoTeX'
 multiChain.chains.custom: 'Custom RPC'
-multiChain.chains.mainnet: 'Main IoTeX Network'
+multiChain.chains.mainnet: 'IoTeX Main Network'
 multiChain.chains.testnet: 'IoTeX Test Network'
 navigation.action: Action List
 navigation.action_detail: Action Detail
