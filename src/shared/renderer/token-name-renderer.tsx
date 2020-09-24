@@ -6,10 +6,11 @@ interface InputProps {
   logo?: string;
   style?: React.CSSProperties;
   contract?: string;
+  link?: string;
 }
 const TokenNameRenderer = (props: InputProps) => {
   return (
-    <LinkButton href={props.contract}>
+    <LinkButton href={props.link || props.contract}>
       <div style={{ display: "flex", alignItems: "center", ...props.style }}>
         {props.logo && (
           <img
