@@ -14,12 +14,11 @@ export function getAntenna(initial?: boolean, signer?: SignerPlugin): Antenna {
     return injectedWindow.antenna;
   }
   if (isElectron()) {
-    injectedWindow.antenna = new Antenna(
-      "https://iotexscan.io/iotex-core-proxy",
-      { signer: signer }
-    );
+    injectedWindow.antenna = new Antenna("https://api.mainnet.iotex.one:443", {
+      signer: signer
+    });
   } else {
-    injectedWindow.antenna = new Antenna("/iotex-core-proxy", {
+    injectedWindow.antenna = new Antenna("https://api.mainnet.iotex.one:443", {
       ...(USE_WS_SIGNER
         ? {
             signer: signer || new WsSignerPlugin()

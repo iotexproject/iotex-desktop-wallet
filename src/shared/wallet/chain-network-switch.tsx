@@ -37,7 +37,7 @@ const getDefaultNetworkTokens = async (
 
 export const setProviderNetwork = (url: string) => {
   if (isBrowser) {
-    getAntenna().iotx.setProvider(`${url}iotex-core-proxy`);
+    getAntenna().iotx.setProvider("https://api.mainnet.iotex.one:443");
     setApolloClientEndpoint(`${url}api-gateway/`);
   }
 };
