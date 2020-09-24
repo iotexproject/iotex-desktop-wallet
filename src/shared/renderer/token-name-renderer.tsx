@@ -9,8 +9,9 @@ interface InputProps {
   link?: string;
 }
 const TokenNameRenderer = (props: InputProps) => {
+  const href = props.link || props.contract;
   return (
-    <LinkButton href={props.link || props.contract}>
+    <LinkButton href={href}>
       <div style={{ display: "flex", alignItems: "center", ...props.style }}>
         {props.logo && (
           <img
