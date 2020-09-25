@@ -47,12 +47,12 @@ export const setCurrentProviderNetwork = () => {
   //@ts-ignore
   const network = chains.find(chain => chain.name === current);
   window.console.log(network);
-  getAntenna().iotx.setProvider(network.coreUrl);
+  getAntenna().iotx.setProvider(network.coreApi);
 };
 
 export const setProviderNetwork = (network: IRPCProvider) => {
   if (isBrowser) {
-    getAntenna().iotx.setProvider(network.coreUrl);
+    getAntenna().iotx.setProvider(network.coreApi);
     setApolloClientEndpoint(`${network.url}api-gateway/`);
   }
 };
@@ -74,10 +74,10 @@ export const ChainNetworkSwitchComponent = (
     {
       name: "custom",
       url: "",
-      coreUrl: ""
+      coreApi: ""
     }
   ].forEach(chain => {
-    const key = `${chain.name}:${chain.coreUrl}`;
+    const key = `${chain.name}:${chain.coreApi}`;
     availableNetworks[key] = chain;
   });
   if (isBrowser && !network && defaultNetwork) {
