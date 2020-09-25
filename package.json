@@ -34,8 +34,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged",
-      "pre-push": "npm t"
+      "pre-commit": "pretty-quick --staged"
     }
   },
   "nyc": {
