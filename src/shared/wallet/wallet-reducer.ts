@@ -68,6 +68,7 @@ export const signParamsReducer = (state: {} = {}, action: SignParamAction) => {
 export interface IRPCProvider {
   name: string;
   url: string;
+  coreUrl: string;
 }
 
 export function actionClearSignMsg(): { type: "CLEAR_SIGN_MSG" } {
