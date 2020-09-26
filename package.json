@@ -174,7 +174,7 @@
     "graphql-tag": "2.11.0",
     "https": "1.0.0",
     "iotex-antenna": "0.30.1",
-    "iotex-react-block-producers": "2.9.0",
+    "iotex-react-block-producers": "2.9.5",
     "iotex-react-language-dropdown": "2.4.3",
     "iotex-testnet-token-metadata": "^1.0.8",
     "iotex-token-metadata": "^1.1.5",
