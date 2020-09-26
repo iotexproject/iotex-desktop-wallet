@@ -1,6 +1,6 @@
 ![all tests](https://github.com/iotexproject/iotex-explorer/workflows/all%20tests/badge.svg)
 
-# iotex-explorer
+# IoTeX Explorer
 
 iotex-explorer is a frontend website for [iotex-core blockchain](https://github.com/iotexproject/iotex-core).
 
@@ -11,6 +11,13 @@ Or deploy your own instance on Heroku.
 <a href="https://heroku.com/deploy?template=https://github.com/iotexproject/iotex-explorer">
   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
 </a>
+
+
+# ioPay Desktop
+
+Looking for ioPay Desktop V1? 
+
+It's located at [src/electron](src/electron)
 
 ## Getting Started
 

@@ -34,8 +34,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged",
-      "pre-push": "npm t"
+      "pre-commit": "pretty-quick --staged"
     }
   },
   "nyc": {
@@ -213,7 +212,7 @@
     "ts-node": "8.10.2",
     "tslint-react": "4.1.0",
     "type-graphql": "0.17.5",
-    "typescript": "3.4.5",
+    "typescript": "~3.8.0",
     "uuid": "3.3.3",
     "ws": "^7.3.1"
   },
