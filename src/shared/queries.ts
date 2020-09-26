@@ -767,10 +767,10 @@ export const GET_ANALYTICS_CONTRACT_ACTIONS = gql`
 `;
 
 export const GET_ANALYTICS_CONTRACT_HOLDERS = gql`
-  query tokenHolders($tokenAddress: String!) {
+  query tokenHolders($tokenAddress: String!, $skip: Int!, $first: Int!) {
     xrc20 {
       tokenHolderAddresses(tokenAddress: $tokenAddress) {
-        addresses
+        addresses(pagination: { skip: $skip, first: $first })
         count
       }
     }
