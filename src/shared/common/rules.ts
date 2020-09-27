@@ -158,7 +158,7 @@ export const rules: Rules = {
     validator: (_, value, callback) => {
       if (
         `${value}`.match(
-          /((https?|ftp):\/\/)?(([^:\n\r]+):([^@\n\r]+)@)?((www\.)?([^/\n\r]+))\/?([^?\n\r]+)?\??([^#\n\r]*)?#?([^\n\r]*)/i
+          /(http|ws)(s?):\/\/((\w|\d)+(\-\w|\.)?){1,}(\w|\d)(\:\d+)?$/g
         )
       ) {
         callback();
