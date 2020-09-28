@@ -748,9 +748,14 @@ class AccountSection extends React.Component<Props, State> {
               {t("account.actionHistory")}
             </Link>
           ) : (
-            <Link to={`/address/${account.address}`}>
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href={`${(network !== undefined && network.url) ||
+                "https://iotexscan.io/"}address/${account.address}`}
+            >
               {t("account.actionHistory")}
-            </Link>
+            </a>
           )}
         </Col>
       </Row>
