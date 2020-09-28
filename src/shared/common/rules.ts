@@ -158,7 +158,7 @@ export const rules: Rules = {
     validator: (_, value, callback) => {
       if (
         `${value}`.match(
-          /([a-zA-Z]+):\/\/([^:\/?#\s]+)+(:\d+)?(\/[^?#\s]+)?(\?[^#\s]+)?(#[^\s]+)?/i
+          /(http|ws)(s?):\/\/((\w|\d)+(\-\w|\.)?){1,}(\w|\d)(\:\d+)?$/g
         )
       ) {
         callback();
