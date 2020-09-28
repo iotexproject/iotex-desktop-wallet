@@ -23,7 +23,7 @@ import {
 
 import Antenna from "iotex-antenna";
 
-const antenna = new Antenna("http://localhost:4004/iotex-core-proxy");
+const antenna = new Antenna("https://api.mainnet.iotex.one:443");
 
 type PathParamsType = {};
 
