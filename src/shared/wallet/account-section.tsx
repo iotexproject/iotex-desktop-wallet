@@ -5,13 +5,12 @@ import Button from "antd/lib/button";
 import Card from "antd/lib/card";
 import Col from "antd/lib/col";
 import Dropdown from "antd/lib/dropdown";
+import Icon from "antd/lib/icon";
 import Menu from "antd/lib/menu";
 import notification from "antd/lib/notification";
 import Row from "antd/lib/row";
 import Table from "antd/lib/table";
 import Tooltip from "antd/lib/tooltip";
-
-import Icon from "antd/lib/icon";
 import BigNumber from "bignumber.js";
 // @ts-ignore
 import window from "global/window";
@@ -42,6 +41,7 @@ import BidFormModal from "./bid-form-modal";
 import { ChainNetworkSwitch } from "./chain-network-switch";
 import GenerateAuthorizedMessageFormModal from "./generate-authorized-message-form-modal";
 import { getAntenna } from "./get-antenna";
+import { toPrecisionFloor } from "./precisionFloor";
 import { setAccount, setTokens } from "./wallet-actions";
 import { IRPCProvider, IWalletState } from "./wallet-reducer";
 
@@ -682,7 +682,9 @@ class AccountSection extends React.Component<Props, State> {
           10
         ),
         tokenAddress: "io1jw6eckew7wak75j7vzxldd5ma88n9pxkajecrw",
-        balance: new BigNumber(accountMeta.balance),
+        balance: new BigNumber(
+          toPrecisionFloor(accountMeta.balance, { format: "0,0.[0000000000]" })
+        ),
         decimals: new BigNumber(0),
         name: "IOETH"
       });
