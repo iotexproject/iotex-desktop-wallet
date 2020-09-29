@@ -122,6 +122,7 @@ const getXrc20ActionListColumns = ({
               symbol={metadata.symbol}
               logo={metadata.logo}
               contract={record.contract}
+              link={`/token/${record.contract}`}
             />
           );
         } else {
@@ -273,7 +274,9 @@ export const XRC20HoldersTable: React.FC<IXRC20ActionTable> = ({
     <Query
       query={GET_ANALYTICS_CONTRACT_HOLDERS}
       variables={{
-        tokenAddress: address
+        tokenAddress: address,
+        skip: offset,
+        first: PAGE_SIZE
       }}
       notifyOnNetworkStatusChange={true}
       ssr={false}
@@ -292,9 +295,10 @@ export const XRC20HoldersTable: React.FC<IXRC20ActionTable> = ({
           ) || [];
         const numHolders =
           get<number>(data || {}, "xrc20.tokenHolderAddresses.count") || 0;
-        const holdersPage = holders
-          .slice(offset, offset + PAGE_SIZE)
-          .map(addr => ({ address: addr, contract: address }));
+        const holdersPage = holders.map(addr => ({
+          address: addr,
+          contract: address
+        }));
         return (
           <Table
             loading={{

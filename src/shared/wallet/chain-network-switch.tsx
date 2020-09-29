@@ -6,6 +6,8 @@ import React, { useState } from "react";
 // @ts-ignore
 import isBrowser from "is-browser";
 import { connect, DispatchProp } from "react-redux";
+//@ts-ignore
+import JsonGlobal from "safe-json-globals/get";
 import { Token } from "../../erc20/token";
 import { setApolloClientEndpoint } from "../common/apollo-client";
 import AddCustomRpcFormModal from "./add-custom-rpc-form-modal";
@@ -13,8 +15,12 @@ import { getAntenna } from "./get-antenna";
 import { addCustomRPC, setNetwork } from "./wallet-actions";
 import { IRPCProvider } from "./wallet-reducer";
 
+const state = isBrowser && JsonGlobal("state");
 export interface IChainNetworkSwitchComponentProps extends DispatchProp {
-  multiChain: { current: string; chains: Array<{ name: string; url: string }> };
+  multiChain: {
+    current: string;
+    chains: Array<IRPCProvider>;
+  };
   customRPCs: Array<IRPCProvider>;
   network: IRPCProvider;
   defaultERC20Tokens: Array<string>;
@@ -35,10 +41,19 @@ const getDefaultNetworkTokens = async (
   return defaultTokens.filter((_, i) => supportStatus[i]);
 };
 
-export const setProviderNetwork = (url: string) => {
+export const setCurrentProviderNetwork = () => {
+  const multiChain = isBrowser && state.base.multiChain;
+  const { current, chains } = multiChain;
+  //@ts-ignore
+  const network = chains.find(chain => chain.name === current);
+  window.console.log(network);
+  getAntenna().iotx.setProvider(network.coreApi);
+};
+
+export const setProviderNetwork = (network: IRPCProvider) => {
   if (isBrowser) {
-    getAntenna().iotx.setProvider(`${url}iotex-core-proxy`);
-    setApolloClientEndpoint(`${url}api-gateway/`);
+    getAntenna().iotx.setProvider(network.coreApi);
+    setApolloClientEndpoint(`${network.url}api-gateway/`);
   }
 };
 
@@ -58,30 +73,32 @@ export const ChainNetworkSwitchComponent = (
     ...customRPCs,
     {
       name: "custom",
-      url: ""
+      url: "",
+      coreApi: ""
     }
   ].forEach(chain => {
-    const key = `${chain.name}:${chain.url}`;
+    const key = `${chain.name}:${chain.coreApi}`;
     availableNetworks[key] = chain;
   });
   if (isBrowser && !network && defaultNetwork) {
-    setProviderNetwork(`${defaultNetwork.url}`);
+    setProviderNetwork(defaultNetwork);
     getDefaultNetworkTokens(defaultERC20Tokens).then(supportTokens => {
       dispatch(setNetwork(defaultNetwork, supportTokens));
     });
   }
+
   const [isShowForm, showForm] = useState(false);
   return (
     <>
       <Select
-        value={`${currentNetwork.name}:${currentNetwork.url}`}
+        value={`${currentNetwork.name}`}
         className="chain-network-switch"
         style={{ width: "100%" }}
         onSelect={async (value: string) => {
           if (value === "custom:") {
             showForm(true);
           } else {
-            setProviderNetwork(`${availableNetworks[value].url}`);
+            setProviderNetwork(availableNetworks[value]);
             const supportTokens = await getDefaultNetworkTokens(
               defaultERC20Tokens
             );
@@ -99,7 +116,7 @@ export const ChainNetworkSwitchComponent = (
         onCancel={() => showForm(false)}
         onOK={async (network: IRPCProvider) => {
           dispatch(addCustomRPC(network));
-          setProviderNetwork(`${network.url}`);
+          setProviderNetwork(network);
           const supportTokens = await getDefaultNetworkTokens(
             defaultERC20Tokens
           );

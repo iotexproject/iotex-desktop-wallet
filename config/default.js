@@ -30,7 +30,7 @@ module.exports = {
       enabled: true,
       level: "debug"
     },
-    iotexAntenna: process.env.IOTEX_CORE || "35.239.122.109:80",
+    iotexAntenna: process.env.IOTEX_CORE || "https://api.testnet.iotex.one:443",
     sendgridApiKey:
       process.env.SENDGRID_API_KEY ||
       "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",
@@ -70,7 +70,9 @@ module.exports = {
         "https://analytics.iotexscan.io/",
       "https://iotex-analytics-testnet.herokuapp.com/",
       "wss://local.get-scatter.com:64102/",
-      process.env.API_GATEWAY_URL || "http://localhost:4004/api-gateway/"
+      process.env.API_GATEWAY_URL || "http://localhost:4004/api-gateway/",
+      "https://api.mainnet.iotex.one",
+      "https://api.testnet.iotex.one"
     ],
     "child-src": ["self"],
     "font-src": [
@@ -106,11 +108,13 @@ module.exports = {
     chains: [
       {
         name: "mainnet",
-        url: "https://iotexscan.io/"
+        url: "https://iotexscan.io/",
+        coreApi: "https://api.mainnet.iotex.one:443"
       },
       {
         name: "testnet",
-        url: "https://testnet.iotexscan.io/"
+        url: "https://testnet.iotexscan.io/",
+        coreApi: "https://api.testnet.iotex.one:443"
       }
     ]
   },
