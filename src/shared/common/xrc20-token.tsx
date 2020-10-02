@@ -1,6 +1,6 @@
-import Tag from "antd/lib/tag";
-import Spin from "antd/lib/spin";
 import Icon from "antd/lib/icon";
+import Spin from "antd/lib/spin";
+import Tag from "antd/lib/tag";
 import BigNumber from "bignumber.js";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import React, { useState } from "react";
@@ -90,7 +90,7 @@ const XRC20TokenBalanceTag: React.FC<{
   contract: string;
   address: string;
   loading?: boolean;
-  done?: () => void;
+  done?(): void;
   symbol?: string;
 }> = ({ contract, address, loading, done, symbol }) => {
   const [balance, setBalance] = useState("");
@@ -98,18 +98,26 @@ const XRC20TokenBalanceTag: React.FC<{
   token
     .getInfo(address)
     .then(info => {
-      if (done) done();
+      if (done) {
+        done();
+      }
       if (info) {
         setBalance(`${info.balanceString} ${info.symbol || symbol}`);
       }
     })
     .catch(() => {
-      if (done) done();
+      if (done) {
+        done();
+      }
       setBalance("");
     });
 
-  if (loading) return <Spin indicator={<Icon type="loading" spin={true} />} />;
-  if (balance) return <Tag>{numberWithCommas(balance)}</Tag>;
+  if (loading) {
+    return <Spin indicator={<Icon type="loading" spin={true} />} />;
+  }
+  if (balance) {
+    return <Tag>{numberWithCommas(balance)}</Tag>;
+  }
   return null;
 };
 
