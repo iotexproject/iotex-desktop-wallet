@@ -26,15 +26,15 @@ const AccountBalanceRenderer: VerticalTableRender<Dict> = ({
     return tokenMetadataMap[key];
   });
   const optTokenList: Array<{
-    label: "xrc20" | "xrc721";
+    label: "XRC20" | "XRC721";
     list: Array<TokenMetadata>;
   }> = [
     {
-      label: "xrc20",
+      label: "XRC20",
       list: []
     },
     {
-      label: "xrc721",
+      label: "XRC721",
       list: []
     }
   ];
@@ -46,30 +46,30 @@ const AccountBalanceRenderer: VerticalTableRender<Dict> = ({
     }
   });
   const getTokenAddr = (value: string) => value.split(".").shift() || "";
-  const [loading, setLoading] = useState(false);
-  const [tokenVal, setTokenVal] = useState(
-    allTokenList[0] && allTokenList[0].logo
-      ? getTokenAddr(allTokenList[0].logo)
-      : ""
+  const [loading, setLoading] = useState(true);
+  const [toeknInfo, setTokenInfo] = useState(
+    (allTokenList[0] && allTokenList[0]) || {}
   );
 
   const handleChange = (value: string) => {
     setLoading(true);
     if (value) {
-      setTokenVal(getTokenAddr(value));
+      const item = allTokenList.find(token => token.logo === value);
+      if (item) setTokenInfo(item);
     }
   };
 
   const BalanceTag = () => {
-    if (!tokenVal) return <span>-</span>;
+    if (!toeknInfo.logo) return <span>-</span>;
     return (
       <XRC20TokenBalanceTag
-        contract={tokenVal}
+        contract={getTokenAddr(toeknInfo.logo)}
         address={address}
         loading={loading}
         done={() => {
           setLoading(false);
         }}
+        symbol={toeknInfo.symbol}
       />
     );
   };
