@@ -1,21 +1,29 @@
+import Card from "antd/lib/card";
+import Col from "antd/lib/col";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
+import Row from "antd/lib/row";
 import Table, { ColumnProps } from "antd/lib/table";
 import Tabs from "antd/lib/tabs";
 import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { t } from "onefx/lib/iso-i18n";
+import { styled } from "onefx/lib/styletron-react";
 import React, { useState } from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
+import { Link } from "react-router-dom";
+import { Token } from "../../erc20/token";
 import { AddressName } from "../common/address-name";
 import { analyticsClient } from "../common/apollo-client";
 import { GetTokenMetadataMap } from "../common/common-metadata";
 import { FlexLink } from "../common/flex-link";
 import { translateFn } from "../common/from-now";
 import { PageNav } from "../common/page-nav-bar";
+import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
+import { numberWithCommas } from "../common/vertical-table";
 import {
   XRC20TokenBalance,
   XRC20TokenName,
@@ -326,6 +334,173 @@ export const XRC20HoldersTable: React.FC<IXRC20ActionTable> = ({
   );
 };
 
+const BasicInfoCard: React.FC<{ tokenAddress: string }> = ({
+  tokenAddress = ""
+}): JSX.Element | null => {
+  if (!tokenAddress.startsWith("io")) {
+    return null;
+  }
+  const [totalSupply, setTotalSupply] = useState("");
+  const [symbol, setSymbol] = useState("");
+  const [contractAddr, setContractAddr] = useState("");
+  const [decimals, setDecimals] = useState("");
+
+  const token = Token.getToken(tokenAddress);
+  token
+    .getBasicTokenInfo()
+    .then(res => {
+      setTotalSupply(`${res.totalSupply}`);
+      setSymbol(res.symbol);
+      setContractAddr(res.contractAddress);
+      setDecimals(res.decimals.toString());
+    })
+    .catch(() => {
+      setTotalSupply("-");
+      setSymbol("-");
+      setContractAddr("-");
+      setDecimals("-");
+    });
+  return (
+    <Row
+      type="flex"
+      justify="space-between"
+      align="top"
+      gutter={36}
+      style={{ marginBottom: "36px" }}
+    >
+      <Col xs={24} sm={24} md={12}>
+        <Card
+          title={
+            <span style={{ color: "#333", fontWeight: 400 }}>
+              {`${t("token.address.overview")} `}
+              <span
+                style={{ color: "#666", fontWeight: 400, fontSize: "14px" }}
+              >
+                [XRC20]
+              </span>
+            </span>
+          }
+          bordered={false}
+          className="shadow-card shadow-card-top"
+        >
+          <p>
+            <OverviewKey>{t("token.address.total_supply")} </OverviewKey>
+            <OverviewVal>{`${numberWithCommas(
+              totalSupply
+            )} ${symbol}`}</OverviewVal>
+          </p>
+          <p>
+            <OverviewKey>{t("token.address.holders")} </OverviewKey>
+            <Totalholders tokenAddress={tokenAddress} />
+          </p>
+          <p>
+            <OverviewKey>{t("token.address.transfer")} </OverviewKey>
+            <TotalTransfers tokenAddress={tokenAddress} />
+          </p>
+        </Card>
+      </Col>
+      <Col xs={24} sm={24} md={12}>
+        <Card
+          title={
+            <span style={{ color: "#333", fontWeight: 400 }}>
+              {t("token.address.profile_summary")}
+            </span>
+          }
+          bordered={false}
+          className="shadow-card"
+        >
+          <p>
+            <OverviewKey>{t("token.address.contract")}</OverviewKey>
+            <Link to={`/token/${contractAddr}`}>{contractAddr}</Link>
+          </p>
+          <p>
+            <OverviewKey>{t("token.address.decimals")}</OverviewKey>
+            <OverviewVal>{decimals}</OverviewVal>
+          </p>
+        </Card>
+      </Col>
+    </Row>
+  );
+};
+
+const Totalholders: React.FC<{ tokenAddress: string }> = ({
+  tokenAddress = ""
+}): JSX.Element | null => {
+  return (
+    <Query
+      query={GET_ANALYTICS_CONTRACT_HOLDERS}
+      variables={{
+        tokenAddress,
+        skip: 1,
+        first: 1
+      }}
+      notifyOnNetworkStatusChange={true}
+      ssr={false}
+      client={analyticsClient}
+    >
+      {({ data, loading, error }: QueryResult) => {
+        if (error) {
+          notification.error({
+            message: `Failed to query totalholders number: ${error}`
+          });
+        }
+        if (loading) {
+          return null;
+        }
+        const numHolders =
+          get<number>(data || {}, "xrc20.tokenHolderAddresses.count") || 0;
+        return (
+          <OverviewVal>{`${numberWithCommas(
+            String(numHolders)
+          )} address`}</OverviewVal>
+        );
+      }}
+    </Query>
+  );
+};
+
+const TotalTransfers: React.FC<{ tokenAddress: string }> = ({
+  tokenAddress = ""
+}): JSX.Element | null => {
+  return (
+    <Query
+      query={GET_ANALYTICS_XRC20_ACTIONS_BY_CONTRACT}
+      notifyOnNetworkStatusChange={true}
+      ssr={false}
+      client={analyticsClient}
+      variables={{
+        page: 1,
+        numPerPage: 1,
+        address: tokenAddress
+      }}
+    >
+      {({ data, loading, error }: QueryResult) => {
+        if (error) {
+          notification.error({
+            message: `Failed to query totalTransfers number: ${error}`
+          });
+        }
+        if (loading) {
+          return null;
+        }
+        const numActions = get<number>(data || {}, "xrc20.data.count") || 0;
+        return <OverviewVal>{numberWithCommas(`${numActions}`)}</OverviewVal>;
+      }}
+    </Query>
+  );
+};
+
+const OverviewKey = styled("span", () => ({
+  display: "inline-block",
+  width: "100px",
+  color: colors.text01
+}));
+
+const OverviewVal = styled("span", () => ({
+  display: "inline-block",
+  color: "#666"
+}));
+
 const XRC20ActionListPage: React.FC<
   RouteComponentProps<{ address: string }>
 > = ({
@@ -349,6 +524,7 @@ const XRC20ActionListPage: React.FC<
         ]}
       />
       <ContentPadding>
+        <BasicInfoCard tokenAddress={address} />
         <Tabs defaultActiveKey="1">
           <TabPane tab={t("pages.token")} key="1">
             <XRC20ActionTable byContract={address} />

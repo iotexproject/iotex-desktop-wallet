@@ -1,19 +1,19 @@
-import Tag from "antd/lib/tag";
-import Select from "antd/lib/select";
 import Divider from "antd/lib/divider";
+import Select from "antd/lib/select";
+import Tag from "antd/lib/tag";
 import BigNumber from "bignumber.js";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { Dict } from "onefx/lib/types";
 import React, { useState } from "react";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
+import { TokenMetadata } from "../../api-gateway/resolvers/token";
+import { GetTokenMetadataMap } from "../common/common-metadata";
 import {
   numberWithCommas,
   VerticalTableRender
 } from "../common/vertical-table";
 import { XRC20TokenBalanceTag } from "../common/xrc20-token";
-import { GetTokenMetadataMap } from "../common/common-metadata";
-import { TokenMetadata } from "../../api-gateway/resolvers/token";
 
 const { Option, OptGroup } = Select;
 
@@ -61,7 +61,9 @@ const AccountBalanceRenderer: VerticalTableRender<Dict> = ({
   };
 
   const BalanceTag = () => {
-    if (!tokenVal) return <span>-</span>;
+    if (!tokenVal) {
+      return <span>-</span>;
+    }
     return (
       <XRC20TokenBalanceTag
         contract={tokenVal}

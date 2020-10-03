@@ -34,6 +34,8 @@ export interface ITokenBasicInfo {
   symbol: string;
   name: string;
   decimals: BigNumber;
+  totalSupply: string;
+  contractAddress: string;
 }
 
 export interface IERC20TokenDict {
@@ -148,20 +150,27 @@ export class Token {
       {}
     );
     if (!cache[api.address]) {
-      const [name, symbol, decimals] = await Promise.all<
+      const [name, symbol, decimals, totalSupply] = await Promise.all<
         string,
         string,
+        BigNumber,
         BigNumber
       >([
         api.name(api.address),
         api.symbol(api.address),
-        api.decimals(api.address)
+        api.decimals(api.address),
+        api.totalSupply(api.address)
       ]);
+      const totalSupplyString = totalSupply
+        .dividedBy(new BigNumber(`1e${decimals.toNumber()}`))
+        .toString(10);
       cache[api.address] = {
         tokenAddress: this.api.address,
         decimals,
         symbol,
-        name
+        name,
+        totalSupply: totalSupplyString,
+        contractAddress: api.contract.getAddress() || ""
       };
       xconf.setConf(XConfKeys.TOKENS_BASIC_INFOS, cache);
     }

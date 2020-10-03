@@ -457,3 +457,10 @@ action.pending: 'IoTeX Pending Action'
 ok: 好
 wallet.logout.success: "您已成功注销当前的钱包."
 wallet.logout.login_to_another: "请选择另一个钱包进行解锁."
+token.address.overview: '总览'
+token.address.total_supply: '总供给:'
+token.address.holders: '持有人:'
+token.address.transfer: '转账:'
+token.address.profile_summary: '概况'
+token.address.contract: '合约:'
+token.address.decimals: 'Decimals:'
