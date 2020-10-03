@@ -91,7 +91,9 @@ const XRC20TokenBalanceTag: React.FC<{
   address: string;
   loading?: boolean;
   done?(): void;
-}> = ({ contract, address, loading, done }) => {
+  symbol?: string;
+}> = ({ contract, address, loading, done, symbol }) => {
+  const [balance, setBalance] = useState("");
   const token = Token.getToken(contract);
   token
     .getInfo(address)
@@ -99,8 +101,8 @@ const XRC20TokenBalanceTag: React.FC<{
       if (done) {
         done();
       }
-      if (info && info.symbol) {
-        setBalance(`${info.balanceString} ${info.symbol}`);
+      if (info) {
+        setBalance(`${info.balanceString} ${info.symbol || symbol}`);
       }
     })
     .catch(() => {
@@ -109,7 +111,6 @@ const XRC20TokenBalanceTag: React.FC<{
       }
       setBalance("");
     });
-  const [balance, setBalance] = useState("");
   if (loading) {
     return <Spin indicator={<Icon type="loading" spin={true} />} />;
   }
