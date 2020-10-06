@@ -18,6 +18,7 @@ import {
   Transfer
 } from "../../api-gateway/resolvers/antenna-types";
 import { LinkButton } from "../common/buttons";
+import { Flex } from "../common/flex";
 import { VerticalTableRender } from "../common/vertical-table";
 import { XRC20TokenValue } from "../common/xrc20-token";
 import { decodeData } from "../wallet/decode-contract-data";
@@ -91,6 +92,7 @@ const ExecutionRenderer: VerticalTableRender<{
     return <ContracAddressRenderer value={contractAddr} />;
   }
   const method = (decodedData && decodedData.method) || "";
+  const params = (decodedData && decodedData.data) || {};
 
   return (
     <Row type="flex" justify="start" align="top" gutter={20}>
@@ -137,6 +139,30 @@ const ExecutionRenderer: VerticalTableRender<{
                 {`${t("render.key.method")}: `}
               </span>
               <span>{method}</span>
+              {Object.keys(params).length > 0 &&
+                Object.keys(params).length <= 10 && (
+                  <Flex
+                    column={true}
+                    alignItems={"baseline"}
+                    alignContent={"baseline"}
+                  >
+                    {Object.keys(params).map((key, index) => {
+                      // const start = index===0?"(":"";
+                      // const end = index===Object.keys(params).length-1?")":"";
+                      // return <span key={index}>{`${start}${key}: ${params[key]}${end}`}</span>;
+                      return (
+                        <span key={index}>
+                          &nbsp;&nbsp;
+                          <Icon
+                            type="enter"
+                            style={{ transform: "rotateY(180deg)" }}
+                          />
+                          {`${key}: ${params[key]}`}
+                        </span>
+                      );
+                    })}
+                  </Flex>
+                )}
             </>
           )}
         </small>
