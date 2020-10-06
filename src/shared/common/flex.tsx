@@ -48,7 +48,7 @@ export function Flex({
     "-webkit-justify-content": center ? "center" : "space-between",
     boxSizing: "border-box",
     flexWrap: nowrap ? "nowrap" : "wrap",
-    alignContent: alignContent || center ? "center" : "space-between",
+    alignContent: alignContent || (center ? "center" : "space-between"),
     alignItems: alignItems || "center",
     width,
     height,
