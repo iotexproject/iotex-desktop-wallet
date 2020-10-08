@@ -359,14 +359,10 @@ const BasicInfoCard: React.FC<{
       <Col xs={24} sm={24} md={12}>
         <Card
           title={
-            <span style={{ color: "#333", fontWeight: 400 }}>
+            <BasicInfoCardTitle>
               {`${t("token.address.overview")} `}
-              <span
-                style={{ color: "#666", fontWeight: 400, fontSize: "14px" }}
-              >
-                [XRC20]
-              </span>
-            </span>
+              <BasicInfoCardSubTitle>[XRC20]</BasicInfoCardSubTitle>
+            </BasicInfoCardTitle>
           }
           bordered={false}
           className="shadow-card shadow-card-top"
@@ -390,9 +386,9 @@ const BasicInfoCard: React.FC<{
       <Col xs={24} sm={24} md={12}>
         <Card
           title={
-            <span style={{ color: "#333", fontWeight: 400 }}>
+            <BasicInfoCardTitle>
               {t("token.address.profile_summary")}
-            </span>
+            </BasicInfoCardTitle>
           }
           bordered={false}
           className="shadow-card"
@@ -478,6 +474,17 @@ const TotalTransfers: React.FC<{ tokenAddress: string }> = ({
   );
 };
 
+const BasicInfoCardTitle = styled("span", () => ({
+  color: colors.text01,
+  fontWeight: 400
+}));
+
+const BasicInfoCardSubTitle = styled("span", () => ({
+  color: colors.text02,
+  fontWeight: 400,
+  fontSize: "13px"
+}));
+
 const OverviewKey = styled("span", () => ({
   display: "inline-block",
   width: "100px",
@@ -486,7 +493,18 @@ const OverviewKey = styled("span", () => ({
 
 const OverviewVal = styled("span", () => ({
   display: "inline-block",
-  color: "#666"
+  color: colors.text02
+}));
+
+const TokenInfoTitle = styled("span", () => ({
+  color: colors.text01,
+  fontSize: "24px",
+  margin: "0 8px"
+}));
+
+const TokenInfoSubTitle = styled("span", () => ({
+  color: colors.text02,
+  fontSize: "18px"
 }));
 
 const XRC20ActionListPage: React.FC<
@@ -568,10 +586,8 @@ const XRC20ActionListPage: React.FC<
               }}
             />
           ) : null}
-          <span style={{ color: "#333", fontSize: 24, margin: "0 8px" }}>
-            Token
-          </span>
-          <span style={{ color: "#666", fontSize: 18 }}>{baseInfo.name}</span>
+          <TokenInfoTitle>Token</TokenInfoTitle>
+          <TokenInfoSubTitle>{baseInfo.name}</TokenInfoSubTitle>
         </div>
         <Divider />
         <BasicInfoCard

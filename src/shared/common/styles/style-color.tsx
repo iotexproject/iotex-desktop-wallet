@@ -12,6 +12,7 @@ export const colors = {
   black10: "#F7F7F7",
 
   text01: "#333333",
+  text02: "#666666",
   white: "#fff",
   topbarColor: "#fff",
 
