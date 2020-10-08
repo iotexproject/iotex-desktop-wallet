@@ -1,5 +1,6 @@
 import Card from "antd/lib/card";
 import Col from "antd/lib/col";
+import Divider from "antd/lib/divider";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
 import Row from "antd/lib/row";
@@ -334,32 +335,19 @@ export const XRC20HoldersTable: React.FC<IXRC20ActionTable> = ({
   );
 };
 
-const BasicInfoCard: React.FC<{ tokenAddress: string }> = ({
-  tokenAddress = ""
+const BasicInfoCard: React.FC<{
+  tokenAddress: string;
+  totalSupply: string;
+  symbol: string;
+  contractAddr: string;
+  decimals: string;
+}> = ({
+  tokenAddress = "",
+  totalSupply,
+  symbol,
+  contractAddr,
+  decimals
 }): JSX.Element | null => {
-  if (!tokenAddress.startsWith("io")) {
-    return null;
-  }
-  const [totalSupply, setTotalSupply] = useState("");
-  const [symbol, setSymbol] = useState("");
-  const [contractAddr, setContractAddr] = useState("");
-  const [decimals, setDecimals] = useState("");
-
-  const token = Token.getToken(tokenAddress);
-  token
-    .getBasicTokenInfo()
-    .then(res => {
-      setTotalSupply(`${res.totalSupply}`);
-      setSymbol(res.symbol);
-      setContractAddr(res.contractAddress);
-      setDecimals(res.decimals.toString());
-    })
-    .catch(() => {
-      setTotalSupply("-");
-      setSymbol("-");
-      setContractAddr("-");
-      setDecimals("-");
-    });
   return (
     <Row
       type="flex"
@@ -452,7 +440,7 @@ const Totalholders: React.FC<{ tokenAddress: string }> = ({
         return (
           <OverviewVal>{`${numberWithCommas(
             String(numHolders)
-          )} address`}</OverviewVal>
+          )} addresses`}</OverviewVal>
         );
       }}
     </Query>
@@ -508,9 +496,53 @@ const XRC20ActionListPage: React.FC<
     params: { address }
   }
 }): JSX.Element => {
+  const [totalSupply, setTotalSupply] = useState("");
+  const [contractAddr, setContractAddr] = useState("");
+  const [decimals, setDecimals] = useState("");
+  const [baseInfo, setBaseInfo] = useState<{
+    name: string;
+    logo: string;
+    symbol: string;
+  }>({
+    name: "",
+    logo: "",
+    symbol: ""
+  });
+
+  const token = Token.getToken(address);
+  token
+    .getBasicTokenInfo()
+    .then(res => {
+      setTotalSupply(`${res.totalSupply}`);
+      setContractAddr(res.contractAddress);
+      setDecimals(res.decimals.toString());
+    })
+    .catch(() => {
+      setTotalSupply("-");
+      setContractAddr("-");
+      setDecimals("-");
+    });
+
+  const tokenMetadataMap = GetTokenMetadataMap();
+  const metadata = tokenMetadataMap[address];
+  if (metadata) {
+    const { name, logo, symbol } = metadata;
+    if (!baseInfo.name) {
+      setBaseInfo({
+        name,
+        logo,
+        symbol
+      });
+    }
+  }
+
   return (
     <>
-      <Helmet title={`${t("pages.token")} - ${t("meta.description")}`} />
+      <Helmet
+        title={`${baseInfo.name} (${baseInfo.symbol}) ${t(
+          "pages.tokenTracker"
+        )} | iotexscan`}
+      />
       <PageNav
         items={[
           <FlexLink
@@ -524,7 +556,31 @@ const XRC20ActionListPage: React.FC<
         ]}
       />
       <ContentPadding>
-        <BasicInfoCard tokenAddress={address} />
+        <div>
+          {baseInfo.logo ? (
+            <img
+              src={`/image/token/${baseInfo.logo}`}
+              alt="ico"
+              style={{
+                width: "26px",
+                height: "26px",
+                verticalAlign: "text-bottom"
+              }}
+            />
+          ) : null}
+          <span style={{ color: "#333", fontSize: 24, margin: "0 8px" }}>
+            Token
+          </span>
+          <span style={{ color: "#666", fontSize: 18 }}>{baseInfo.name}</span>
+        </div>
+        <Divider />
+        <BasicInfoCard
+          tokenAddress={address}
+          totalSupply={totalSupply}
+          symbol={baseInfo.symbol}
+          contractAddr={contractAddr}
+          decimals={decimals}
+        />
         <Tabs defaultActiveKey="1">
           <TabPane tab={t("pages.token")} key="1">
             <XRC20ActionTable byContract={address} />
