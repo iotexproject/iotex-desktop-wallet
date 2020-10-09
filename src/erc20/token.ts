@@ -149,7 +149,7 @@ export class Token {
       XConfKeys.TOKENS_BASIC_INFOS,
       {}
     );
-    if (!cache[api.address]) {
+    if (!cache[api.address] || !cache[api.address].totalSupply) {
       const [name, symbol, decimals, totalSupply] = await Promise.all<
         string,
         string,
