@@ -111,7 +111,6 @@ const XRC20TokenBalanceTag: React.FC<{
       }
       setBalance("");
     });
-
   if (loading) {
     return <Spin indicator={<Icon type="loading" spin={true} />} />;
   }

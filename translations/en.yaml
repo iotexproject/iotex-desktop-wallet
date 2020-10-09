@@ -597,3 +597,10 @@ ok: OK
 wallet.logout.success: "You have successfully logged out your current wallet."
 wallet.logout.login_to_another: "Please select another wallet to unlock."
 meta.description.desktop: 'Interact with Smart Contracts and the Blockchain'
+token.address.overview: 'Overview'
+token.address.total_supply: 'Total Supply:'
+token.address.holders: 'Holders:'
+token.address.transfer: 'Transfer:'
+token.address.profile_summary: 'Profile Summary'
+token.address.contract: 'Contract:'
+token.address.decimals: 'Decimals:'
