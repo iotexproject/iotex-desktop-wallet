@@ -136,13 +136,26 @@ ipcRenderer.on("sign", function(event, payload) {
 });
 
 ipcRenderer.on("GET_ACCOUNTS", function(event, payload) {
-  const accounts = window.getAntenna().iotx.accounts;
-  let filtered = [];
-  if (accounts && accounts[0]) {
-    const { address } = accounts[0];
-    filtered = [{ address }];
+  if (
+    Object.prototype.toString.call(payload) === "[object Object]" ||
+    Object.keys(payload).includes("reqId")
+  ) {
+    const accounts = window.getAntenna().iotx.accounts;
+    let filtered = [];
+    if (accounts && accounts[0]) {
+      const { address } = accounts[0];
+      filtered = [{ address }];
+    }
+    try {
+      const reqId = JSON.parse(payload).reqId;
+      const response = JSON.stringify({ reqId, accounts: filtered });
+      ipcRenderer.send(`signed-${reqId}`, response);
+    } catch (err) {
+      console.warn(`Error: ${err}, error in parse to JSON`);
+    }
+  } else {
+    console.warn(
+      `TypeError: ${payload} is not a Object that includes property 'reqId' !`
+    );
   }
-  const reqId = JSON.parse(payload).reqId;
-  const response = JSON.stringify({ reqId, accounts: filtered });
-  ipcRenderer.send(`signed-${reqId}`, response);
 });
