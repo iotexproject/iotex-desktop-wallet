@@ -137,7 +137,7 @@ ipcRenderer.on("sign", function(event, payload) {
 
 ipcRenderer.on("GET_ACCOUNTS", function(event, payload) {
   if (
-    Object.prototype.toString.call(payload) === "[object Object]" ||
+    Object.prototype.toString.call(payload) === "[object Object]" &&
     Object.keys(payload).includes("reqId")
   ) {
     const accounts = window.getAntenna().iotx.accounts;
