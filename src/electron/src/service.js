@@ -7,6 +7,12 @@ let mainWindow;
 function onConnection(ws) {
   console.log("connected");
   ws.on("message", function message(received) {
+    if (
+      received instanceof Error ||
+      Object.prototype.toString.call(received) === "[object Error]"
+    ) {
+      return;
+    }
     let json = {};
     try {
       json = JSON.parse(received);
