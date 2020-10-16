@@ -47,7 +47,12 @@ export default class ConfirmContractModal extends React.Component<
 
     const extra: Array<Column<any>> = [];
     Object.keys(others).forEach(key => {
-      if (!["limit", "price", "address"].includes(key)) {
+      if (
+        (!["limit", "price", "address"].includes(key) &&
+          typeof others[key] === "string") ||
+        typeof others[key] === "number" ||
+        typeof others[key] === "boolean"
+      ) {
         extra.push({
           title: t(`confirmation.${key}`),
           dataIndex: key
