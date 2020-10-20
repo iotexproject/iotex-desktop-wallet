@@ -34,7 +34,7 @@ function convertHexToUTF8(hex: string): string {
   return new Buffer(hex, "hex").toString("utf8");
 }
 
-interface LogObject {
+export interface LogObject {
   [key: string]: LogObject;
 }
 
@@ -98,7 +98,7 @@ const parseActionDetails = (data: IActionsDetails) => {
     candidateUpdate
   }: Dict = get(data, "action.actionInfo.0.action.core") || {};
 
-  const { timestamp, actHash }: Dict = get(data, "action.actionInfo.0") || {};
+  const { timestamp }: Dict = get(data, "action.actionInfo.0") || {};
 
   const { senderPubKey }: Dict = get(data, "action.actionInfo.0.action") || {};
 
@@ -160,7 +160,7 @@ const parseActionDetails = (data: IActionsDetails) => {
       : { payload: { transfer: { payload: "" } } }),
     payloadViewType: "UTF-8",
     ...(execution
-      ? { evmTransfer: { actHash, to }, value: execution.amount }
+      ? { evmTransfer: removeTypeName(logs), value: execution.amount }
       : {}),
     ...(transfer ? { value: transfer.amount } : {}),
     ...(stakeAddDeposit ? { value: stakeAddDeposit.amount } : {}),
