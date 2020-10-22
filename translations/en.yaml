@@ -398,6 +398,7 @@ token.name: Name
 token.token: Token
 token.address: Address
 topbar.actions: ACTIONS
+topbar.actions.byBucketIndex: Bucket
 topbar.analytics_playground: 'ANALYTICS PLAYGROUND'
 topbar.blockchain: BLOCKCHAIN
 topbar.blocks: BLOCKS

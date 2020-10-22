@@ -22,6 +22,7 @@ import { ActionListPage } from "./pages/action-list-page";
 import { AddressDetailsPage } from "./pages/address-details-page";
 import { BlockDetailPage } from "./pages/block-detail-page";
 import { BlockListPage } from "./pages/block-list-page";
+import { BucketActionListPage } from "./pages/bucket-action-list-page";
 import { XRC20ActionListPage } from "./pages/xrc20-action-list-page";
 import { XRC20TokenListPage } from "./pages/xrc20-token-list-page";
 import { XRC721ActionListPage } from "./pages/xrc721-action-list-page";
@@ -96,6 +97,11 @@ export class App extends Component<Props> {
               <Route
                 path="/explorer-playground"
                 component={() => <ExplorerPlayground isExplorer={true} />}
+              />
+              <Route
+                exact={true}
+                path="/bucket/:bucketIndex"
+                component={BucketActionListPage}
               />
               <Route component={NotFound} />
             </Switch>
