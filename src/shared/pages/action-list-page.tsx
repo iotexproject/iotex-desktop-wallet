@@ -26,6 +26,7 @@ import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { numberWithCommas } from "../common/vertical-table";
 import {
+  GET_ACTION_BY_BUCKET_INDEX,
   GET_ACTIONS,
   GET_ANALYTICS_ACTIONS_BY_TYPE,
   GET_CHAIN_META
@@ -329,14 +330,21 @@ const getActionByTypeColumns = (): Array<ColumnProps<IActionByTypeInfo>> => [
     render: text => text
   }
 ];
-export const ActionTableByType: FC<{ actionType: string }> = ({
-  actionType
-}) => {
+export const ActionTableByType: FC<{
+  actionType?: string;
+  bucketIndex?: number;
+}> = ({ actionType, bucketIndex }) => {
+  const variables = bucketIndex ? { bucketIndex } : { type: actionType };
+  const by = bucketIndex ? "byBucketIndex" : "byType";
+  const query = bucketIndex
+    ? GET_ACTION_BY_BUCKET_INDEX
+    : GET_ANALYTICS_ACTIONS_BY_TYPE;
+
   return (
     <Query
-      query={GET_ANALYTICS_ACTIONS_BY_TYPE}
+      query={query}
       variables={{
-        type: actionType,
+        ...variables,
         pagination: {
           skip: 0,
           first: PAGE_SIZE
@@ -352,7 +360,11 @@ export const ActionTableByType: FC<{ actionType: string }> = ({
         error
       }: QueryResult<{
         action: {
-          byType: {
+          byType?: {
+            count: number;
+            actions: Array<IActionByTypeInfo>;
+          };
+          byBucketIndex?: {
             count: number;
             actions: Array<IActionByTypeInfo>;
           };
@@ -363,14 +375,10 @@ export const ActionTableByType: FC<{ actionType: string }> = ({
             message: `failed to query actions in ActionTable: ${error}`
           });
         }
-        const actions =
-          (data &&
-            data.action &&
-            data.action.byType &&
-            data.action.byType.actions) ||
-          [];
-        const numActions =
-          data && data.action && data.action.byType && data.action.byType.count;
+
+        const actions = get(data || {}, `action.${by}.actions`, []);
+        const numActions = get(data || {}, `action.${by}.count`, 0);
+
         return (
           <Table
             loading={{
