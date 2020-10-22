@@ -4,7 +4,7 @@ import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
-import { ActionTableByType } from "./action-list-page";
+import { AnalyticActionTable } from "./action-list-page";
 import { Page } from "./page";
 
 export const BucketActionListPage: React.FC<
@@ -30,7 +30,7 @@ export const BucketActionListPage: React.FC<
         <Page
           header={`${t("topbar.actions.byBucketIndex")} ${bucketIndexNumber}`}
         >
-          <ActionTableByType bucketIndex={bucketIndexNumber} />
+          <AnalyticActionTable bucketIndex={bucketIndexNumber} />
         </Page>
       </ContentPadding>
     </>

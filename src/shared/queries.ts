@@ -766,7 +766,7 @@ export const GET_ANALYTICS_CONTRACT_ACTIONS = gql`
   }
 `;
 
-export const GET_ACTION_BY_BUCKET_INDEX = gql`
+export const GET_ACTIONS_BY_BUCKET_INDEX = gql`
   query action($bucketIndex: Int!, $pagination: Pagination!) {
     action {
       byBucketIndex(bucketIndex: $bucketIndex) {

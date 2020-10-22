@@ -26,8 +26,8 @@ import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { numberWithCommas } from "../common/vertical-table";
 import {
-  GET_ACTION_BY_BUCKET_INDEX,
   GET_ACTIONS,
+  GET_ACTIONS_BY_BUCKET_INDEX,
   GET_ANALYTICS_ACTIONS_BY_TYPE,
   GET_CHAIN_META
 } from "../queries";
@@ -253,7 +253,7 @@ export const ActionTable: React.FC<IActionTable> = ({
   );
 };
 
-export interface IActionByTypeInfo {
+export interface IAnalyticActionInfo {
   actHash: string;
   blkHash: string;
   timeStamp: string;
@@ -264,7 +264,9 @@ export interface IActionByTypeInfo {
   gasFee: string;
 }
 
-const getActionByTypeColumns = (): Array<ColumnProps<IActionByTypeInfo>> => [
+const getAnalyticActionColumns = (): Array<
+  ColumnProps<IAnalyticActionInfo>
+> => [
   {
     title: t("action.hash"),
     dataIndex: "actHash",
@@ -330,14 +332,14 @@ const getActionByTypeColumns = (): Array<ColumnProps<IActionByTypeInfo>> => [
     render: text => text
   }
 ];
-export const ActionTableByType: FC<{
+export const AnalyticActionTable: FC<{
   actionType?: string;
   bucketIndex?: number;
 }> = ({ actionType, bucketIndex }) => {
   const variables = bucketIndex ? { bucketIndex } : { type: actionType };
   const by = bucketIndex ? "byBucketIndex" : "byType";
   const query = bucketIndex
-    ? GET_ACTION_BY_BUCKET_INDEX
+    ? GET_ACTIONS_BY_BUCKET_INDEX
     : GET_ANALYTICS_ACTIONS_BY_TYPE;
 
   return (
@@ -362,11 +364,11 @@ export const ActionTableByType: FC<{
         action: {
           byType?: {
             count: number;
-            actions: Array<IActionByTypeInfo>;
+            actions: Array<IAnalyticActionInfo>;
           };
           byBucketIndex?: {
             count: number;
-            actions: Array<IActionByTypeInfo>;
+            actions: Array<IAnalyticActionInfo>;
           };
         };
       }>) => {
@@ -387,7 +389,7 @@ export const ActionTableByType: FC<{
             }}
             rowKey="actHash"
             dataSource={actions}
-            columns={getActionByTypeColumns()}
+            columns={getAnalyticActionColumns()}
             style={{ width: "100%" }}
             scroll={{ x: "auto" }}
             pagination={{
@@ -429,7 +431,7 @@ const ActionListPage = withRouter(
         <PageNav items={[t("topbar.actions")]} />
         <ContentPadding>
           <Page header={t("topbar.actions")}>
-            {actionType && <ActionTableByType actionType={actionType} />}
+            {actionType && <AnalyticActionTable actionType={actionType} />}
             {!actionType && (
               <Query query={GET_CHAIN_META}>
                 {({
