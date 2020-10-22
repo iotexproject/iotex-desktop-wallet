@@ -21,6 +21,7 @@ const getXrc20TokenListColumns = (): Array<ColumnProps<TokenMetadata>> => [
           name={text}
           symbol={record.symbol}
           logo={record.logo}
+          link={`/token/${record.address}`}
         />
       );
     }
