@@ -60,6 +60,7 @@ module.exports = {
     "frame-src": ["self"],
     "connect-src": [
       "self",
+      "https://www.google-analytics.com/",
       "https://api.coinmarketcap.com/v1/ticker/iotex/",
       "https://member.iotex.io/api-gateway/",
       "https://web-bp-testnet.herokuapp.com/api-gateway/",
