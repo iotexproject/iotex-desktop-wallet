@@ -6,9 +6,9 @@ import { ReceiptAddressRenderer } from "./reciept-address-renderer";
 import { StatusRenderer } from "./status-renderer";
 import { TextCopyRenderer } from "./text-copy-renderer";
 import { TextAreaRenderer } from "./textarea-renderer";
-import { TokenTransferRenderer } from "./token-transfer-renderer";
 import { TransferPayloadRenderer } from "./transfer-payload-renderer";
 import { WalletAddressRenderer } from "./wallet-address-renderer";
+import { Xrc20TransferRenderer } from "./xrc20-transfer-renderer";
 
 const CommonRenderer = {
   status: StatusRenderer,
@@ -20,7 +20,7 @@ const CommonRenderer = {
   value: IOTXValueRenderer,
   logs: TextAreaRenderer,
   data: TextAreaRenderer,
-  evmTransfer: TokenTransferRenderer
+  evmTransfer: Xrc20TransferRenderer
 };
 
 const AddressDetailRenderer = {

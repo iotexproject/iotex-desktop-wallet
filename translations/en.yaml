@@ -356,6 +356,7 @@ render.key.txRoot: 'Action Root'
 render.key.type: 'Reward Type'
 render.key.value: Value
 render.key.depositToRewardingFund: depositToRewardingFund
+render.key.provider: Provider
 render.value.execution: Execution
 render.value.grantReward: 'Grant Reward'
 render.value.deposit: 'Deposit'
