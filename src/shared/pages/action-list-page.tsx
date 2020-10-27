@@ -27,6 +27,7 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { numberWithCommas } from "../common/vertical-table";
 import {
   GET_ACTIONS,
+  GET_ACTIONS_BY_BUCKET_INDEX,
   GET_ANALYTICS_ACTIONS_BY_TYPE,
   GET_CHAIN_META
 } from "../queries";
@@ -252,7 +253,7 @@ export const ActionTable: React.FC<IActionTable> = ({
   );
 };
 
-export interface IActionByTypeInfo {
+export interface IAnalyticActionInfo {
   actHash: string;
   blkHash: string;
   timeStamp: string;
@@ -263,7 +264,9 @@ export interface IActionByTypeInfo {
   gasFee: string;
 }
 
-const getActionByTypeColumns = (): Array<ColumnProps<IActionByTypeInfo>> => [
+const getAnalyticActionColumns = (): Array<
+  ColumnProps<IAnalyticActionInfo>
+> => [
   {
     title: t("action.hash"),
     dataIndex: "actHash",
@@ -329,14 +332,21 @@ const getActionByTypeColumns = (): Array<ColumnProps<IActionByTypeInfo>> => [
     render: text => text
   }
 ];
-export const ActionTableByType: FC<{ actionType: string }> = ({
-  actionType
-}) => {
+export const AnalyticActionTable: FC<{
+  actionType?: string;
+  bucketIndex?: number;
+}> = ({ actionType, bucketIndex }) => {
+  const variables = bucketIndex ? { bucketIndex } : { type: actionType };
+  const by = bucketIndex ? "byBucketIndex" : "byType";
+  const query = bucketIndex
+    ? GET_ACTIONS_BY_BUCKET_INDEX
+    : GET_ANALYTICS_ACTIONS_BY_TYPE;
+
   return (
     <Query
-      query={GET_ANALYTICS_ACTIONS_BY_TYPE}
+      query={query}
       variables={{
-        type: actionType,
+        ...variables,
         pagination: {
           skip: 0,
           first: PAGE_SIZE
@@ -352,9 +362,13 @@ export const ActionTableByType: FC<{ actionType: string }> = ({
         error
       }: QueryResult<{
         action: {
-          byType: {
+          byType?: {
             count: number;
-            actions: Array<IActionByTypeInfo>;
+            actions: Array<IAnalyticActionInfo>;
+          };
+          byBucketIndex?: {
+            count: number;
+            actions: Array<IAnalyticActionInfo>;
           };
         };
       }>) => {
@@ -363,14 +377,10 @@ export const ActionTableByType: FC<{ actionType: string }> = ({
             message: `failed to query actions in ActionTable: ${error}`
           });
         }
-        const actions =
-          (data &&
-            data.action &&
-            data.action.byType &&
-            data.action.byType.actions) ||
-          [];
-        const numActions =
-          data && data.action && data.action.byType && data.action.byType.count;
+
+        const actions = get(data || {}, `action.${by}.actions`, []);
+        const numActions = get(data || {}, `action.${by}.count`, 0);
+
         return (
           <Table
             loading={{
@@ -379,7 +389,7 @@ export const ActionTableByType: FC<{ actionType: string }> = ({
             }}
             rowKey="actHash"
             dataSource={actions}
-            columns={getActionByTypeColumns()}
+            columns={getAnalyticActionColumns()}
             style={{ width: "100%" }}
             scroll={{ x: "auto" }}
             pagination={{
@@ -421,7 +431,7 @@ const ActionListPage = withRouter(
         <PageNav items={[t("topbar.actions")]} />
         <ContentPadding>
           <Page header={t("topbar.actions")}>
-            {actionType && <ActionTableByType actionType={actionType} />}
+            {actionType && <AnalyticActionTable actionType={actionType} />}
             {!actionType && (
               <Query query={GET_CHAIN_META}>
                 {({

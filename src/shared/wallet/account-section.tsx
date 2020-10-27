@@ -672,21 +672,11 @@ class AccountSection extends React.Component<Props, State> {
           10
         ),
         tokenAddress: "",
-        balance: new BigNumber(accountMeta.balance),
-        decimals: new BigNumber(0),
-        name: "IOTX"
-      });
-      dataSource.push({
-        symbol: "ioETH",
-        balanceString: new BigNumber(fromRau(accountMeta.balance, "")).toString(
-          10
-        ),
-        tokenAddress: "io1jw6eckew7wak75j7vzxldd5ma88n9pxkajecrw",
         balance: new BigNumber(
           toPrecisionFloor(accountMeta.balance, { format: "0,0.[0000000000]" })
         ),
         decimals: new BigNumber(0),
-        name: "IOETH"
+        name: "IOTX"
       });
     }
 

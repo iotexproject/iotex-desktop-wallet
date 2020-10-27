@@ -766,6 +766,26 @@ export const GET_ANALYTICS_CONTRACT_ACTIONS = gql`
   }
 `;
 
+export const GET_ACTIONS_BY_BUCKET_INDEX = gql`
+  query action($bucketIndex: Int!, $pagination: Pagination!) {
+    action {
+      byBucketIndex(bucketIndex: $bucketIndex) {
+        count
+        actions(pagination: $pagination) {
+          actHash
+          blkHash
+          timeStamp
+          actType
+          sender
+          recipient
+          amount
+          gasFee
+        }
+      }
+    }
+  }
+`;
+
 export const GET_ANALYTICS_CONTRACT_HOLDERS = gql`
   query tokenHolders($tokenAddress: String!, $skip: Int!, $first: Int!) {
     xrc20 {
