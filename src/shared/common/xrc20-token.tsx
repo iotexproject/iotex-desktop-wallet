@@ -4,7 +4,7 @@ import Tag from "antd/lib/tag";
 import BigNumber from "bignumber.js";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import React, { useState } from "react";
-import { Token } from "../../erc20/token";
+import { getTokenAmountBN, Token } from "../../erc20/token";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
 import { LinkButton } from "./buttons";
 import { GetTokenMetadataMap } from "./common-metadata";
@@ -129,11 +129,11 @@ const XRC20TokenValue: React.FC<{ contract: string; value: BigNumber }> = ({
     .getBasicTokenInfo()
     .then(info => {
       if (info && info.symbol) {
-        const tokenTransfered = value.dividedBy(
-          new BigNumber(`1e${info.decimals}`)
+        const tokenTransferred = getTokenAmountBN(
+          value,
+          info.decimals.toString()
         );
-
-        setBalance(`${numberWithCommas(`${tokenTransfered}`)} ${info.symbol}`);
+        setBalance(`${numberWithCommas(`${tokenTransferred}`)} ${info.symbol}`);
       } else {
         setBalance(`${numberWithCommas(fromRau(`${value}`, "Iotx"))} IOTX`);
       }

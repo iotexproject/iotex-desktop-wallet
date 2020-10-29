@@ -1,5 +1,7 @@
 import Select from "antd/lib/select";
 // @ts-ignore
+import window from "global/window";
+// @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import React, { useState } from "react";
 
@@ -44,10 +46,12 @@ const getDefaultNetworkTokens = async (
 export const setCurrentProviderNetwork = () => {
   const multiChain = isBrowser && state.base.multiChain;
   const { current, chains } = multiChain;
-  //@ts-ignore
-  const network = chains.find(chain => chain.name === current);
+  // @ts-ignore
+  const network = (chains || []).find(chain => chain.name === current);
   window.console.log(network);
-  getAntenna().iotx.setProvider(network.coreApi);
+  if (network) {
+    getAntenna().iotx.setProvider(network.coreApi);
+  }
 };
 
 export const setProviderNetwork = (network: IRPCProvider) => {

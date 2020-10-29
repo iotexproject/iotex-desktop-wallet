@@ -129,10 +129,8 @@ export class Token {
       api.symbol(walletAddress),
       api.decimals(walletAddress)
     ]);
-    const balanceString = balance
-      .dividedBy(new BigNumber(`1e${decimals.toNumber()}`))
-      .toString(10);
-
+    const balanceStringBn = getTokenAmountBN(balance, decimals.toNumber());
+    const balanceString = balanceStringBn.toString(10);
     return {
       tokenAddress: this.api.address,
       balance,
@@ -161,9 +159,9 @@ export class Token {
         api.decimals(api.address),
         api.totalSupply(api.address)
       ]);
-      const totalSupplyString = totalSupply
-        .dividedBy(new BigNumber(`1e${decimals.toNumber()}`))
-        .toString(10);
+
+      const totalSupplyBn = getTokenAmountBN(totalSupply, decimals.toString());
+      const totalSupplyString = totalSupplyBn.toString(10);
       cache[api.address] = {
         tokenAddress: this.api.address,
         decimals,
@@ -288,4 +286,21 @@ export function getNonce(msg: string, address?: string): BigNumber {
     throw new Error(`invalid token address ${matches[2]}`);
   }
   return new BigNumber(matches[1], 10);
+}
+
+export function getTokenAmountBN(
+  value: BigNumber,
+  decimals: string | number
+): BigNumber {
+  BigNumber.config({ DECIMAL_PLACES: 2, ROUNDING_MODE: BigNumber.ROUND_DOWN });
+  let amount = value.dividedBy(new BigNumber(`1e${decimals}`));
+  if (value.gt(0) && amount.eq(0)) {
+    BigNumber.config({ DECIMAL_PLACES: 4 });
+    amount = value.dividedBy(new BigNumber(`1e${decimals}`));
+    if (amount.eq(0)) {
+      BigNumber.config({ DECIMAL_PLACES: 6 });
+      amount = value.dividedBy(new BigNumber(`1e${decimals}`));
+    }
+  }
+  return amount;
 }

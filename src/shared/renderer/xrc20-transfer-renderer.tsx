@@ -8,7 +8,7 @@ import { fromBytes } from "iotex-antenna/lib/crypto/address";
 import { t } from "onefx/lib/iso-i18n";
 import { Dict } from "onefx/lib/types";
 import React, { useEffect, useMemo, useState } from "react";
-import { Token } from "../../erc20/token";
+import { getTokenAmountBN, Token } from "../../erc20/token";
 import { LinkButton } from "../common/buttons";
 import { colors } from "../common/styles/style-color";
 import {
@@ -16,8 +16,6 @@ import {
   VerticalTableRender
 } from "../common/vertical-table";
 import { LogObject } from "../pages/action-detail-page";
-
-const EMPTY_ADDRESS = "io1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqd39ym7";
 
 const KNOWN_TOPICS: Dict = {
   ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef: "Transfer",
@@ -40,10 +38,7 @@ export const decodeLogAmount = (encoded: string) => {
 export const decodeByType = (encoded: string, type: string) => {
   const params = ethereumjs.rawDecode([type], Buffer.from(encoded, "hex"));
   if (type === "address") {
-    const address = fromBytes(
-      Buffer.from(params[0].toString(), "hex")
-    ).string();
-    return address !== EMPTY_ADDRESS ? address : "";
+    return fromBytes(Buffer.from(params[0].toString(), "hex")).string();
   }
   return params[0];
 };
@@ -74,9 +69,9 @@ const Xrc20TransferRenderer: VerticalTableRender<
             const dataString = data.toString();
             const amount = decodeLogAmount(dataString);
             const amountString = useMemo(() => {
-              return new BigNumber(amount)
-                .dividedBy(new BigNumber(`1e${decimals}`))
-                .toString(10);
+              return getTokenAmountBN(new BigNumber(amount), decimals).toString(
+                10
+              );
             }, [amount, decimals]);
 
             const from = decodeTopicAddress(topics[1].toString());
@@ -124,9 +119,10 @@ const Xrc20TransferRenderer: VerticalTableRender<
             const iotxAmount = decodeLogAmount(topics[2]);
             const tokenAmount = decodeLogAmount(topics[3]);
             const tokenAmountString = useMemo(() => {
-              return new BigNumber(tokenAmount)
-                .dividedBy(new BigNumber(`1e${decimals}`))
-                .toString(10);
+              return getTokenAmountBN(
+                new BigNumber(tokenAmount),
+                decimals
+              ).toString(10);
             }, [tokenAmount, decimals]);
 
             return (
