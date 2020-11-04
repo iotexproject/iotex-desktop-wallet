@@ -301,6 +301,10 @@ export function getTokenAmountBN(
       BigNumber.config({ DECIMAL_PLACES: 6 });
       amount = value.dividedBy(new BigNumber(`1e${decimals}`));
     }
+    if (amount.eq(0)) {
+      BigNumber.config({ DECIMAL_PLACES: 8 });
+      amount = value.dividedBy(new BigNumber(`1e${decimals}`));
+    }
   }
   return amount;
 }

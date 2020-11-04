@@ -132,7 +132,7 @@ const XRC20TokenValue: React.FC<{ contract: string; value: BigNumber }> = ({
         const tokenTransferred = getTokenAmountBN(
           value,
           info.decimals.toString()
-        );
+        ).toString(10);
         setBalance(`${numberWithCommas(`${tokenTransferred}`)} ${info.symbol}`);
       } else {
         setBalance(`${numberWithCommas(fromRau(`${value}`, "Iotx"))} IOTX`);
