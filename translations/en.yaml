@@ -101,6 +101,7 @@ address.nonce: nonce
 address.pendingNonce: pendingNonce
 address_details.address: "Address: ${address}"
 address_details.share_address: Share this address
+address.select_token: Select Token
 block.block: Block
 block.blocks: Blocks
 block.delta_state_digest: 'Digest of Delta State'
