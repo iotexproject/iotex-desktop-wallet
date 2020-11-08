@@ -3,6 +3,7 @@ import Select from "antd/lib/select";
 import Tag from "antd/lib/tag";
 import BigNumber from "bignumber.js";
 import { fromRau } from "iotex-antenna/lib/account/utils";
+import { t } from "onefx/lib/iso-i18n";
 import { Dict } from "onefx/lib/types";
 import React, { useState } from "react";
 // @ts-ignore
@@ -50,7 +51,6 @@ const AccountBalanceRenderer: VerticalTableRender<Dict> = ({
   const [toeknInfo, setTokenInfo] = useState(
     (allTokenList[0] && allTokenList[0]) || {}
   );
-
   const handleChange = (value: string) => {
     setLoading(true);
     if (value) {
@@ -85,7 +85,7 @@ const AccountBalanceRenderer: VerticalTableRender<Dict> = ({
       {allTokenList && allTokenList.length ? (
         <span style={{ marginLeft: 8 }}>
           <Select
-            placeholder="Select Token"
+            placeholder={t("address.select_token")}
             defaultValue={allTokenList[0].logo}
             style={{ width: 175, marginRight: "8px" }}
             onChange={handleChange}
@@ -99,7 +99,15 @@ const AccountBalanceRenderer: VerticalTableRender<Dict> = ({
                       <Option
                         key={`${item.name}_${item.symbol}`}
                         value={item.logo}
-                      >{`${item.name}(${item.symbol})`}</Option>
+                      >
+                        <img
+                          style={{ marginRight: "4px" }}
+                          width="15px"
+                          src={`/image/token/${item.logo}`}
+                          alt={item.symbol}
+                        />
+                        {`${item.name}(${item.symbol})`}
+                      </Option>
                     );
                   })}
                 </OptGroup>
