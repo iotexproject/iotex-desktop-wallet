@@ -51,7 +51,6 @@ const AccountBalanceRenderer: VerticalTableRender<Dict> = ({
   const [toeknInfo, setTokenInfo] = useState(
     (allTokenList[0] && allTokenList[0]) || {}
   );
-
   const handleChange = (value: string) => {
     setLoading(true);
     if (value) {
