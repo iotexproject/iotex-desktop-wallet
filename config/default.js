@@ -61,6 +61,7 @@ module.exports = {
     "connect-src": [
       "self",
       "https://www.google-analytics.com/",
+      "https://stats.g.doubleclick.net/",
       "https://api.coinmarketcap.com/v1/ticker/iotex/",
       "https://member.iotex.io/api-gateway/",
       "https://web-bp-testnet.herokuapp.com/api-gateway/",
@@ -89,6 +90,7 @@ module.exports = {
       "self",
       "unsafe-eval",
       "https://www.google-analytics.com/",
+      "https://stats.g.doubleclick.net/",
       "https://translate.google.com/",
       "https://translate.googleapis.com/",
       "https://ethereum.github.io/solc-bin/bin/",
