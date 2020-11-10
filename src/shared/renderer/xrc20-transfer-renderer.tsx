@@ -16,7 +16,8 @@ const Xrc20TransferRenderer: VerticalTableRender<
               contractAddress={contractAddress}
               topics={topics}
               data={data}
-              key={`token-transfer-${index}`}
+              rowKey={`token-transfer-${index}`}
+              key={`token-row-${index}`}
             />
           );
         })}

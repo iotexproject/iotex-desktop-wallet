@@ -44,8 +44,8 @@ const TokenTransferRow: React.FC<{
   contractAddress: LogObject;
   topics: Array<string>;
   data: LogObject;
-  key: string;
-}> = ({ contractAddress, topics, data, key }) => {
+  rowKey: string;
+}> = ({ contractAddress, topics, data, rowKey }) => {
   const contractAddr = contractAddress.toString();
   const [symbol, setSymbol] = useState("");
   const [decimals, setDecimals] = useState(0);
@@ -59,8 +59,12 @@ const TokenTransferRow: React.FC<{
     Token.getToken(contractAddr)
       .getInfo(contractAddr)
       .then(({ decimals, symbol }) => {
-        setDecimals(decimals.toNumber());
-        setSymbol(symbol);
+        setDecimals(decimals.toNumber() || 18);
+        setSymbol(symbol || "IOTX");
+      })
+      .catch(_ => {
+        setSymbol("IOTX");
+        setDecimals(18);
       });
   }, [contractAddr]);
 
@@ -85,7 +89,7 @@ const TokenTransferRow: React.FC<{
 
   return (
     <Row
-      key={key}
+      key={rowKey}
       type="flex"
       justify="start"
       align="top"
