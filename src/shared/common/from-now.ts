@@ -1,13 +1,17 @@
-import fn from "fromnow";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(relativeTime);
+dayjs.extend(utc);
 
 export function fromNow(ts: Timestamp | undefined): string {
   if (!ts) {
     return "";
   }
-  return fn(new Date(ts.seconds * 1000), { max: 1, suffix: true });
+  return dayjs.utc(ts.seconds * 1000).fromNow();
 }
 
 export function translateFn(ts: Timestamp): string {
@@ -29,5 +33,5 @@ export function translateFn(ts: Timestamp): string {
   keyMessage.map(value => {
     text = text.replace(value, t(`time.fn.${value.replace(" ", "")}`));
   });
-  return text;
+  return text.replace(/an?/, "1");
 }
