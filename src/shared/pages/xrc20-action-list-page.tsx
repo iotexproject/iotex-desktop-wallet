@@ -553,14 +553,10 @@ const XRC20ActionListPage: React.FC<
       });
     }
   }
-
+  const prefix = baseInfo.name ? `${baseInfo.name} (${baseInfo.symbol})` : "";
   return (
     <>
-      <Helmet
-        title={`${baseInfo.name} (${baseInfo.symbol}) ${t(
-          "pages.tokenTracker"
-        )} | iotexscan`}
-      />
+      <Helmet title={`${prefix} ${t("pages.tokenTracker")} | iotexscan`} />
       <PageNav
         items={[
           <FlexLink

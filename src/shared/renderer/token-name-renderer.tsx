@@ -20,8 +20,9 @@ const TokenNameRenderer = (props: InputProps) => {
             style={{ width: "13px", height: "13px" }}
           />
         )}
-        <span style={{ marginLeft: "2px" }}>{props.name}</span>
-        {props.symbol && <span>({props.symbol})</span>}
+        <span style={{ marginLeft: "2px", whiteSpace: "nowrap" }}>{`${
+          props.name
+        } (${props.symbol || ""})`}</span>
       </div>
     </LinkButton>
   );
