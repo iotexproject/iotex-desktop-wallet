@@ -42,7 +42,8 @@ action.action: Aktion
 action.sender: Absender
 action.recipient: Empfänger
 title.action: Aktion
-render.key.height: Blockhöhe
+render.key.height: Zyklus
+render.key.epochNum: Epoch Number
 render.key.hash: Hash
 render.key.timestamp: Alter
 render.key.numActions: Aktionen

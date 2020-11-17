@@ -54,6 +54,7 @@ action.sender: 发送方
 action.recipient: 接收方
 title.action: 操作
 render.key.height: 高度
+render.key.epochNum: 周期
 render.key.hash: 哈希
 render.key.timestamp: 年龄
 render.key.numActions: 操作

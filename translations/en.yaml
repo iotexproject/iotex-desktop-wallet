@@ -288,6 +288,7 @@ pages.token: Token Transfers
 pages.tokenHolders: Token Holders
 pages.tokenTracker: Token Tracker
 render.key.actHash: Hash
+render.key.epochNum: Epoch Number
 render.key.actionData: Data
 render.key.actionFee: 'Action Fee'
 render.key.actionType: Type
