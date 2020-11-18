@@ -87,7 +87,12 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
   {
     title: t("block.timestamp"),
     dataIndex: "timestamp",
-    render: (_, { timestamp }) => translateFn(timestamp)
+    width: "20%",
+    render: (_, { timestamp }) => (
+      <div style={{ maxWidth: "10vw", minWidth: 100 }}>
+        {translateFn(timestamp)}
+      </div>
+    )
   },
   {
     title: t("action.sender"),
@@ -276,7 +281,7 @@ const getAnalyticActionColumns = (): Array<
   {
     title: t("block.timestamp"),
     dataIndex: "timeStamp",
-    width: "8vw",
+    width: "15vw",
     render: (_, { timeStamp }) => (
       <span
         className="ellipsis-text"

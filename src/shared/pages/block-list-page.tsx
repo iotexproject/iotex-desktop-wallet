@@ -40,7 +40,11 @@ const getBlockListColumns = (): Array<ColumnProps<BlockMeta>> => [
     dataIndex: "timestamp",
     width: "15vw",
     render(_: string, record: BlockMeta, __: number): JSX.Element {
-      return <span>{translateFn(record.timestamp)}</span>;
+      return (
+        <span style={{ maxWidth: "10vw", minWidth: 100 }}>
+          {translateFn(record.timestamp)}
+        </span>
+      );
     }
   },
   {

@@ -40,8 +40,12 @@ const getEvmTransferListColumns = (): Array<ColumnProps<IEvmTransferInfo>> => [
   {
     title: t("block.timestamp"),
     dataIndex: "timestamp",
-    render: (_, { timeStamp }) =>
-      translateFn({ seconds: Number(timeStamp), nanos: 0 })
+    width: "15vw",
+    render: (_, { timeStamp }) => (
+      <div style={{ maxWidth: "10vw", minWidth: 100 }}>
+        {translateFn({ seconds: Number(timeStamp), nanos: 0 })}
+      </div>
+    )
   },
   {
     title: t("action.from"),

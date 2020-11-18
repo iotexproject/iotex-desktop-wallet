@@ -73,8 +73,11 @@ const getXrc20ActionListColumns = ({
       title: t("block.timestamp"),
       dataIndex: "timestamp",
       width: "20vw",
-      render: (_, { timestamp }) =>
-        translateFn({ seconds: Number(timestamp), nanos: 0 })
+      render: (_, { timestamp }) => (
+        <div style={{ maxWidth: "10vw", minWidth: 100 }}>
+          {translateFn({ seconds: Number(timestamp), nanos: 0 })}
+        </div>
+      )
     },
     {
       title: t("action.sender"),
@@ -84,7 +87,7 @@ const getXrc20ActionListColumns = ({
         return (
           <span
             className="ellipsis-text"
-            style={{ maxWidth: "10vw", minWidth: 100 }}
+            style={{ maxWidth: "13vw", minWidth: 100 }}
           >
             <AddressName address={text} />
           </span>

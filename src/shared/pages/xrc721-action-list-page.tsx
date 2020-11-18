@@ -55,8 +55,11 @@ const getXrc721ActionListColumns = (): Array<
     title: t("block.timestamp"),
     dataIndex: "timestamp",
     width: "20vw",
-    render: (_, { timestamp }) =>
-      translateFn({ seconds: Number(timestamp), nanos: 0 })
+    render: (_, { timestamp }) => (
+      <div style={{ maxWidth: "10vw", minWidth: 100 }}>
+        {translateFn({ seconds: Number(timestamp), nanos: 0 })}
+      </div>
+    )
   },
   {
     title: t("action.sender"),
