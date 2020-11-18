@@ -66,7 +66,7 @@ const getEpochNum = (height: number) => {
     return 0;
   }
   if (!epochConfig.dardanellesOn || height <= epochConfig.dardanellesHeight) {
-    return Math.ceil(
+    return Math.floor(
       (height - 1) / epochConfig.numDelegates / epochConfig.numSubEpochs + 1
     );
   }
@@ -77,7 +77,7 @@ const getEpochNum = (height: number) => {
       epochConfig.numSubEpochs +
     1;
 
-  return Math.ceil(
+  return Math.floor(
     dardanellesEpoch +
       (height - epochConfig.dardanellesHeight) /
         epochConfig.numDelegates /
