@@ -76,15 +76,10 @@ const getEpochNum = (height: number) => {
       epochConfig.numDelegates /
       epochConfig.numSubEpochs +
     1;
-  let middleHeight =
-    (dardanellesEpoch - 1) *
-      epochConfig.numDelegates *
-      epochConfig.numSubEpochs +
-    1;
 
   return Math.ceil(
     dardanellesEpoch +
-      (height - middleHeight) /
+      (height - epochConfig.dardanellesHeight) /
         epochConfig.numDelegates /
         epochConfig.numSubEpochsDardanelles
   );
