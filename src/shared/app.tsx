@@ -23,6 +23,7 @@ import { AddressDetailsPage } from "./pages/address-details-page";
 import { BlockDetailPage } from "./pages/block-detail-page";
 import { BlockListPage } from "./pages/block-list-page";
 import { BucketActionListPage } from "./pages/bucket-action-list-page";
+import { BucketListPage } from "./pages/bucket-list-page";
 import { XRC20ActionListPage } from "./pages/xrc20-action-list-page";
 import { XRC20TokenListPage } from "./pages/xrc20-token-list-page";
 import { XRC721ActionListPage } from "./pages/xrc721-action-list-page";
@@ -63,6 +64,7 @@ export class App extends Component<Props> {
               />
               <Route exact={true} path="/action" component={ActionListPage} />
               <Route exact={true} path="/account" component={AccountListPage} />
+              <Route exact={true} path="/bucket" component={BucketListPage} />
               <Route
                 exact={true}
                 path="/tokens"

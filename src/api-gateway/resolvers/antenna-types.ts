@@ -15,6 +15,7 @@ import {
   IGrantReward,
   ILog,
   IMerkleRoot,
+  IPaginationParam,
   IPutBlock,
   IReadStateResponse,
   IReceipt,
@@ -33,6 +34,7 @@ import {
 import {
   ArgsType,
   Field,
+  GraphQLISODateTime,
   InputType,
   Int,
   ObjectType,
@@ -927,4 +929,42 @@ export class GetEpochMetaResponse implements IGetEpochMetaResponse {
     description: "GetEpochMetaResponse blockProducersInfo"
   })
   public blockProducersInfo: Array<BlockProducerInfo>;
+}
+
+@ArgsType()
+export class PaginationParam implements IPaginationParam {
+  @Field(_ => Int)
+  public offset: number;
+  @Field(_ => Int)
+  public limit: number;
+}
+
+@ObjectType()
+export class Bucket {
+  @Field(_ => Int, { description: "Bucket index" })
+  public index: number;
+  @Field(_ => String, { description: "Bucket candidateAddress" })
+  public candidateAddress: string;
+  @Field(_ => String, { description: "Bucket stakedAmount" })
+  public stakedAmount: string;
+  @Field(_ => Int, { description: "Bucket stakedDuration" })
+  public stakedDuration: number;
+  @Field(_ => GraphQLISODateTime, { description: "Bucket createTime" })
+  public createTime: Date | undefined;
+  @Field(_ => GraphQLISODateTime, { description: "Bucket stakeStartTime" })
+  public stakeStartTime: Date | undefined;
+  @Field(_ => GraphQLISODateTime, { description: "Bucket unstakeStartTime" })
+  public unstakeStartTime: Date | undefined;
+  @Field(_ => Boolean)
+  public autoStake: boolean;
+  @Field(_ => String, { description: "Bucket owner" })
+  public owner: string;
+}
+
+@ObjectType({ description: "Properties of a GetBucketsResponse" })
+export class GetBucketsResponse {
+  @Field(_ => [Bucket], { description: "GetBucketsResponse bucketsList" })
+  public bucketsList: Array<Bucket>;
+  @Field(_ => Int, { description: "GetBucketsResponse bucketCount" })
+  public bucketCount: number;
 }

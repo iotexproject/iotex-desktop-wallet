@@ -2,6 +2,11 @@
 import { ClientResponse } from "@sendgrid/client/src/response";
 import RpcMethod from "iotex-antenna/lib/rpc-method/node-rpc-method";
 import {
+  IReadStakingDataMethodName,
+  IReadStakingDataMethodToBuffer,
+  IReadStakingDataRequestToBuffer
+} from "iotex-antenna/lib/rpc-method/types";
+import {
   Arg,
   Args,
   Ctx,
@@ -9,8 +14,8 @@ import {
   Resolver,
   ResolverInterface
 } from "type-graphql";
+import { toBuckets } from "../../shared/common/staking";
 import {
-  // ActionInfo,
   ChainMeta,
   EstimateGasForActionRequest,
   EstimateGasForActionResponse,
@@ -19,10 +24,12 @@ import {
   GetActionsResponse,
   GetBlockMetasRequest,
   GetBlockMetasResponse,
+  GetBucketsResponse,
   GetEpochMetaRequest,
   GetEpochMetaResponse,
   GetReceiptByActionResponse,
   GetServerMetaResponse,
+  PaginationParam,
   ReadContractRequest,
   ReadContractResponse,
   ReadStateRequest,
@@ -159,5 +166,52 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     @Ctx() { gateways }: ICtx
   ): Promise<GetEpochMetaResponse> {
     return gateways.antenna.getEpochMeta({ epochNumber });
+  }
+
+  @Query(_ => GetBucketsResponse, {
+    description: "get bucket list with pagination"
+  })
+  public async getBuckets(
+    @Args(_ => PaginationParam)
+    pagination: PaginationParam,
+    @Ctx()
+    { gateways }: ICtx
+  ): Promise<GetBucketsResponse> {
+    const state = await gateways.antenna.readState({
+      protocolID: Buffer.from("staking"),
+      methodName: IReadStakingDataMethodToBuffer({
+        method: IReadStakingDataMethodName.BUCKETS
+      }),
+      arguments: [
+        IReadStakingDataRequestToBuffer({
+          buckets: { pagination }
+        })
+      ],
+      height: ""
+    });
+
+    // NOT_FOUND method for now
+    // TODO use it when BUCKETS_COUNT ready
+    /*
+    const bucketCountState = await gateways.antenna.readState({
+      protocolID: Buffer.from("staking"),
+      methodName: IReadStakingDataMethodToBuffer({
+        method: IReadStakingDataMethodName.BUCKETS_COUNT,
+      }),
+      arguments: [
+        IReadStakingDataRequestToBuffer({
+          bucketsCount:{},
+        }),
+      ],
+      height: "",
+    });
+    const bucketCount = (new BigNumber(bucketCountState.data.toString())).toNumber();
+    */
+    const BUCKET_COUNT = 1000;
+    const bucketsList = toBuckets(state.data);
+    return {
+      bucketsList,
+      bucketCount: BUCKET_COUNT
+    };
   }
 }

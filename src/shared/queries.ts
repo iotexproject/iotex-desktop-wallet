@@ -831,6 +831,25 @@ export const GET_TOP_HOLDERS = gql`
   }
 `;
 
+export const GET_BUCKETS = gql`
+  query($limit: Int!, $offset: Int!) {
+    getBuckets(limit: $limit, offset: $offset) {
+      bucketCount
+      bucketsList {
+        index
+        candidateAddress
+        stakedAmount
+        stakedDuration
+        createTime
+        stakeStartTime
+        unstakeStartTime
+        autoStake
+        owner
+      }
+    }
+  }
+`;
+
 export const GET_XRC20_TOKENS = gql`
   query($pagination: Pagination!) {
     xrc20 {
