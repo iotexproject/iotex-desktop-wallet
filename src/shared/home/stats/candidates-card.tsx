@@ -15,9 +15,7 @@ export const CandidatesCard = (props: QueryResult): JSX.Element => {
       productivityBase: number;
     }>;
   } = data || {};
-  const consensusDelegateCount = bpCandidates.filter(
-    a => a.category === "CONSENSUS_DELEGATE" && a.productivityBase > 0
-  ).length;
+  const consensusDelegateCount = 36;
   const candidatesCount = bpCandidates.length;
   const showLoading = loading || !!error;
 
