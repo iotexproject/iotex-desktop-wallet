@@ -1,24 +1,18 @@
 // @ts-ignore
 import notification from "antd/lib/notification";
-import { fromRau } from "iotex-antenna/lib/account/utils";
+import BigNumber from "bignumber.js";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import { analyticsClient } from "../../common/apollo-client";
 import { assetURL } from "../../common/asset-url";
 import { colors } from "../../common/styles/style-color";
+import { Dict } from "../../common/types";
 import { GET_ANALYTICS_BP_STATS } from "../../queries";
 import { CompCirclePercentChart } from "../charts/circle-chart";
 import StatsCard from "./stats-card";
 
-export const StakedVotesCard = (props: QueryResult): JSX.Element => {
-  const { data } = props;
-  const {
-    totalVotedStakes = 0
-  }: {
-    totalVotedStakes: number;
-  } = (data && data.stats) || {};
-
+export const StakedVotesCard = (_: QueryResult): JSX.Element => {
   return (
     <Query query={GET_ANALYTICS_BP_STATS} ssr={false} client={analyticsClient}>
       {({ data, loading, error }: QueryResult) => {
@@ -28,27 +22,27 @@ export const StakedVotesCard = (props: QueryResult): JSX.Element => {
           });
         }
         const {
-          totalCirculatingSupply = "0"
+          totalCirculatingSupply = "0",
+          votingResultMeta
         }: {
           totalCirculatingSupply: string;
+          votingResultMeta: Dict;
         } = (data && data.chain) || {};
 
-        const totalCirculatingSupplyIOTX = fromRau(
-          totalCirculatingSupply,
-          "iotx"
+        const { votedTokens = 0 } = votingResultMeta || {};
+        const totalVotedStakes = new BigNumber(votedTokens);
+        const totalCirculatingSupplyIOTX = new BigNumber(
+          totalCirculatingSupply
         );
-        const totalCirculatingSupplyIOTXNumber = Number(
-          totalCirculatingSupplyIOTX
-        );
-        const percent =
-          totalCirculatingSupplyIOTXNumber > 0
-            ? Number(
-                (
-                  (totalVotedStakes / totalCirculatingSupplyIOTXNumber) *
-                  100
-                ).toFixed(2)
-              )
-            : 0;
+
+        const percent = totalCirculatingSupplyIOTX.gt(0)
+          ? Number(
+              totalVotedStakes
+                .div(totalCirculatingSupplyIOTX)
+                .multipliedBy(100)
+                .toFixed(2)
+            )
+          : 0;
 
         const showLoading = loading || !!error;
         return (
