@@ -1,0 +1,1850 @@
+{
+    "meta.title": {
+        "translation": "IoTeX 区块浏览器"
+    },
+    "meta.description": {
+        "translation": "探索IoTeX区块链地址，操作和智能合约。"
+    },
+    "topbar.brand": {
+        "translation": "品牌"
+    },
+    "topbar.blockchain": {
+        "translation": "区块链"
+    },
+    "topbar.blocks": {
+        "translation": "区块"
+    },
+    "topbar.actions": {
+        "translation": "行动"
+    },
+    "topbar.home": {
+        "translation": "首页"
+    },
+    "not_found.bar": {
+        "translation": "未找到"
+    },
+    "not_found.title": {
+        "translation": "糟糕!"
+    },
+    "not_found.info": {
+        "translation": "找不到页面..."
+    },
+    "candidate.delegate_name": {
+        "translation": "节点名称"
+    },
+    "candidate.status": {
+        "translation": "状态"
+    },
+    "candidate.live_votes": {
+        "translation": "实时投票"
+    },
+    "candidate.percent": {
+        "translation": "得票率"
+    },
+    "candidates.election.ELECTED": {
+        "translation": "当选"
+    },
+    "candidates.election.NOT_ELECTED": {
+        "translation": "未当选"
+    },
+    "candidates.election.UNQUALIFIED": {
+        "translation": "未当选"
+    },
+    "candidates.election.explain": {
+        "translation": "节点必须质押至少<b> 120万 IOTX <\/b>并获得<b> 200万IOTX <\/b>以上的总票数才能成为正式的全民节点。"
+    },
+    "block.block": {
+        "translation": "区块"
+    },
+    "block.blocks": {
+        "translation": "区块"
+    },
+    "block.height": {
+        "translation": "高度"
+    },
+    "block.hash": {
+        "translation": "哈希"
+    },
+    "block.timestamp": {
+        "translation": "年龄"
+    },
+    "block.num_actions": {
+        "translation": "操作"
+    },
+    "block.producer_address": {
+        "translation": "生产者"
+    },
+    "block.transfer_amount": {
+        "translation": "转账总额"
+    },
+    "block.tx_root": {
+        "translation": "Tx Root"
+    },
+    "block.receipt_root": {
+        "translation": "收据根"
+    },
+    "block.delta_state_digest": {
+        "translation": "状态增量摘要"
+    },
+    "action.type": {
+        "translation": "类型"
+    },
+    "action.type.transfer": {
+        "translation": "传递"
+    },
+    "action.type.grant_reward": {
+        "translation": "授予的奖励"
+    },
+    "action.type.execution": {
+        "translation": "执行"
+    },
+    "action.data": {
+        "translation": "数据"
+    },
+    "topbar.graphql_playground": {
+        "translation": "GraphQL 测试区"
+    },
+    "topbar.graphql_doc": {
+        "translation": "GraphQL 文档"
+    },
+    "action.hash": {
+        "translation": "哈希"
+    },
+    "action.block_hash": {
+        "translation": "区块"
+    },
+    "action.amount": {
+        "translation": "总量"
+    },
+    "action.action": {
+        "translation": "行动"
+    },
+    "action.sender": {
+        "translation": "发送方"
+    },
+    "action.recipient": {
+        "translation": "接收方"
+    },
+    "title.action": {
+        "translation": "操作"
+    },
+    "render.key.height": {
+        "translation": "高度"
+    },
+    "render.key.hash": {
+        "translation": "哈希"
+    },
+    "render.key.timestamp": {
+        "translation": "年龄"
+    },
+    "render.key.numActions": {
+        "translation": "操作"
+    },
+    "render.key.producerAddress": {
+        "translation": "生产者"
+    },
+    "render.key.transferAmount": {
+        "translation": "转账总额"
+    },
+    "render.key.txRoot": {
+        "translation": "Tx Root"
+    },
+    "render.key.receiptRoot": {
+        "translation": "接收Root"
+    },
+    "render.key.deltaStateDigest": {
+        "translation": "增值收据的摘要"
+    },
+    "render.key.actHash": {
+        "translation": "哈希"
+    },
+    "render.key.blkHash": {
+        "translation": "区块"
+    },
+    "render.key.actionType": {
+        "translation": "类型"
+    },
+    "render.key.actionData": {
+        "translation": "数据"
+    },
+    "render.key.sender": {
+        "translation": "发送方"
+    },
+    "render.key.amount": {
+        "translation": "总量"
+    },
+    "render.key.contract": {
+        "translation": "合约"
+    },
+    "render.key.data": {
+        "translation": "数据"
+    },
+    "render.key.recipient": {
+        "translation": "接受者"
+    },
+    "render.key.payload": {
+        "translation": "负载"
+    },
+    "render.key.type": {
+        "translation": "奖励类型"
+    },
+    "render.value.grantReward": {
+        "translation": "赠款奖励"
+    },
+    "render.value.execution": {
+        "translation": "执行"
+    },
+    "render.value.transfer": {
+        "translation": "转移"
+    },
+    "action.type.grantReward": {
+        "translation": "获得奖励"
+    },
+    "action.type.depositToRewardingFund": {
+        "translation": "存到奖励基金"
+    },
+    "action.type.claimFromRewardingFund": {
+        "translation": "从奖励基金获取奖励"
+    },
+    "action.type.startSubChain": {
+        "translation": "开始子链"
+    },
+    "action.type.stopSubChain": {
+        "translation": "停止子链"
+    },
+    "action.type.putBlock": {
+        "translation": "放置区块"
+    },
+    "action.type.createDeposit": {
+        "translation": "创建保证金"
+    },
+    "action.type.settleDeposit": {
+        "translation": "设置保证金"
+    },
+    "action.type.createPlumChain": {
+        "translation": "创建PlumChain"
+    },
+    "action.type.terminatePlumChain": {
+        "translation": "终止PlumChain"
+    },
+    "action.type.plumPutBlock": {
+        "translation": "plum 放置块"
+    },
+    "action.type.plumCreateDeposit": {
+        "translation": "plum 创建存款"
+    },
+    "action.type.plumStartExit": {
+        "translation": "plum开始退出"
+    },
+    "action.type.plumChallengeExit": {
+        "translation": "plum质疑退出"
+    },
+    "action.type.plumResponseChallengeExit": {
+        "translation": "plum响应质疑退出"
+    },
+    "action.type.plumFinalizeExit": {
+        "translation": "plum完成退出"
+    },
+    "action.type.plumSettleDeposit": {
+        "translation": "plum处理存款"
+    },
+    "action.type.plumTransfer": {
+        "translation": "plum 转移"
+    },
+    "action.type.putPollResult": {
+        "translation": "投票结果"
+    },
+    "render.key.chainID": {
+        "translation": "链ID"
+    },
+    "render.key.securityDeposit": {
+        "translation": "安全保证金"
+    },
+    "render.key.operationDeposit": {
+        "translation": "运营保证金"
+    },
+    "render.key.startHeight": {
+        "translation": "开始高度"
+    },
+    "render.key.parentHeightOffset": {
+        "translation": "父集高度抵消"
+    },
+    "render.key.stopHeight": {
+        "translation": "停止高度"
+    },
+    "render.key.subChainAddress": {
+        "translation": "子链地址"
+    },
+    "render.key.roots": {
+        "translation": "根"
+    },
+    "render.key.index": {
+        "translation": "指数"
+    },
+    "render.key.previousTransfer": {
+        "translation": "之前的交易"
+    },
+    "render.key.previousTransferBlockProof": {
+        "translation": "之前交易的区块证明"
+    },
+    "render.key.previousTransferBlockHeight": {
+        "translation": "之前交易的区块高度"
+    },
+    "render.key.exitTransfer": {
+        "translation": "退出交易"
+    },
+    "render.key.exitTransferBlockProof": {
+        "translation": "退出传输块证明"
+    },
+    "render.key.exitTransferBlockHeight": {
+        "translation": "退出传输块高度"
+    },
+    "render.key.challengeTransfer": {
+        "translation": "质疑传输"
+    },
+    "render.key.challengeTransferBlockProof": {
+        "translation": "质疑传输块证明"
+    },
+    "render.key.challengeTransferBlockHeight": {
+        "translation": "质疑传输块高度"
+    },
+    "render.key.responseTransfer": {
+        "translation": "响应传输"
+    },
+    "render.key.responseTransferBlockProof": {
+        "translation": "响应传输块证明"
+    },
+    "render.key.coinID": {
+        "translation": "通证 ID"
+    },
+    "render.key.denomination": {
+        "translation": "面额"
+    },
+    "render.key.owner": {
+        "translation": "持有者"
+    },
+    "render.key.candidates": {
+        "translation": "候选人"
+    },
+    "topbar.search": {
+        "translation": "按地址\/公钥\/哈希\/高度进行搜索"
+    },
+    "coming_soon.title": {
+        "translation": "即将到来"
+    },
+    "coming_soon.bar": {
+        "translation": "即将到来"
+    },
+    "action.actions": {
+        "translation": "操作"
+    },
+    "address.address": {
+        "translation": "地址"
+    },
+    "title.overview": {
+        "translation": "概述"
+    },
+    "title.actionList": {
+        "translation": "操作列表"
+    },
+    "copy.copied": {
+        "translation": "已复制"
+    },
+    "copy.toClipboard": {
+        "translation": "将地址复制到剪贴板"
+    },
+    "input.error.private_key.invalid": {
+        "translation": "请输入您的私钥"
+    },
+    "input.error.private_key.length": {
+        "translation": "私钥的长度必须为 72"
+    },
+    "wallet.unlock.new.title": {
+        "translation": "请注意"
+    },
+    "wallet.unlock.new.p1": {
+        "translation": "我们不会将您的私钥存储在服务器上。仅在您的浏览器上处理生成私钥。"
+    },
+    "wallet.unlock.new.p2": {
+        "translation": "备份您的私钥,因为您将使用它访问您的钱包。如果您丢失了私钥,则无法恢复。"
+    },
+    "unlock-wallet.title": {
+        "translation": "解锁您的钱包"
+    },
+    "unlock-wallet.warn.message": {
+        "translation": "请仔细检查 URL 和 SSL 证书。它应该在 URL 栏中显示https:\/\/www.iotexscan.io。"
+    },
+    "wallet.account.enterPrivateKey": {
+        "translation": "私钥"
+    },
+    "wallet.account.placehold.privateKey": {
+        "translation": "将您的私钥粘贴到此处"
+    },
+    "account.empty.unlock": {
+        "translation": "解锁您的钱包,查看细节!"
+    },
+    "unlock-wallet.no-wallet": {
+        "translation": "还没有IoTeX钱包吗？"
+    },
+    "unlock-wallet.create": {
+        "translation": "创建一个新钱包"
+    },
+    "unlock-wallet.main-chain": {
+        "translation": "请转到主链创建一个钱包。"
+    },
+    "render.key.gasPrice": {
+        "translation": "Gas 价格"
+    },
+    "render.key.overview": {
+        "translation": "概述"
+    },
+    "render.value.rewardType.BlockReward": {
+        "translation": "块奖励"
+    },
+    "render.value.rewardType.EpochReward": {
+        "translation": "Epoch奖励"
+    },
+    "home.producer": {
+        "translation": "生产者"
+    },
+    "home.blockHeight": {
+        "translation": "块高度"
+    },
+    "home.currentTPS": {
+        "translation": "当前TPS"
+    },
+    "home.IOTXPrice": {
+        "translation": "IOTX 价格"
+    },
+    "home.marketCap": {
+        "translation": "市值"
+    },
+    "time.fn.years": {
+        "translation": "年"
+    },
+    "time.fn.year": {
+        "translation": "年"
+    },
+    "time.fn.months": {
+        "translation": "月"
+    },
+    "time.fn.month": {
+        "translation": "月"
+    },
+    "time.fn.days": {
+        "translation": "天"
+    },
+    "time.fn.day": {
+        "translation": "日"
+    },
+    "time.fn.hours": {
+        "translation": "小时"
+    },
+    "time.fn.hour": {
+        "translation": "小时"
+    },
+    "time.fn.minutes": {
+        "translation": "分钟"
+    },
+    "time.fn.minute": {
+        "translation": "分钟"
+    },
+    "time.fn.ago": {
+        "translation": "前"
+    },
+    "time.fn.justnow": {
+        "translation": "刚刚"
+    },
+    "address.balance": {
+        "translation": "余额"
+    },
+    "address.nonce": {
+        "translation": "nonce"
+    },
+    "address.pendingNonce": {
+        "translation": "待定 Nonce"
+    },
+    "wallet.unlock.new.yes": {
+        "translation": "我明白，继续"
+    },
+    "wallet.account.unlock": {
+        "translation": "解锁"
+    },
+    "title.receipt": {
+        "translation": "收据"
+    },
+    "render.key.returnValue": {
+        "translation": "返回值"
+    },
+    "render.key.status": {
+        "translation": "状态"
+    },
+    "render.key.blkHeight": {
+        "translation": "区块高度"
+    },
+    "render.key.gasConsumed": {
+        "translation": "消耗的 gas"
+    },
+    "render.key.contractAddress": {
+        "translation": "合约地址"
+    },
+    "render.key.logs": {
+        "translation": "日志"
+    },
+    "wallet.title.wallet": {
+        "translation": "钱包"
+    },
+    "wallet.contract.title": {
+        "translation": "合约"
+    },
+    "wallet.contract.learn": {
+        "translation": "了解更多信息"
+    },
+    "wallet.contract.chooseFunction": {
+        "translation": "请选择一个行动。"
+    },
+    "wallet.contract.interactWith": {
+        "translation": "与智能合约交互"
+    },
+    "wallet.contract.deployContract": {
+        "translation": "部署合约"
+    },
+    "wallet.contract.interactWith.desc": {
+        "translation": "这是一个描述句子。这是一个描述句子。"
+    },
+    "wallet.contract.deployContract.desc": {
+        "translation": "这是一个描述句子。这是一个描述句子。"
+    },
+    "button.backHome": {
+        "translation": "返回主页"
+    },
+    "wallet.account.raw": {
+        "translation": "帐户地址"
+    },
+    "wallet.account.private": {
+        "translation": "私钥"
+    },
+    "wallet.account.addressPlaceHolder": {
+        "translation": "IoTeX 地址..."
+    },
+    "new-wallet.copy": {
+        "translation": "复制"
+    },
+    "new-wallet.created": {
+        "translation": "钱包创建了！保存你的"
+    },
+    "new-wallet.privateKey": {
+        "translation": "私钥"
+    },
+    "new-wallet.warn.cant-recover": {
+        "translation": "如果丢失它就无法恢复。"
+    },
+    "new-wallet.warn.stolen": {
+        "translation": "如果您在恶意\/网上诱骗网站上使用此文件，您的资金将被盗。"
+    },
+    "new-wallet.warn.secure": {
+        "translation": "像有朝一日可能值数百万美元一样保护它。"
+    },
+    "new-wallet.button.unlock": {
+        "translation": "我明白，解锁钱包"
+    },
+    "account.why": {
+        "translation": "为什么要保存私钥？"
+    },
+    "account.save": {
+        "translation": "保存您的私钥以便以后访问您的钱包"
+    },
+    "account.pay-attention": {
+        "translation": "请注意"
+    },
+    "account.not-hold": {
+        "translation": "IoTeX.io不会为您保留钥匙。我们无法访问帐户恢复密钥，也无法撤消交易。"
+    },
+    "account.protect": {
+        "translation": "保护你的密钥并始终检查是否正在使用正确的URL。"
+    },
+    "account.responsible": {
+        "translation": "你对自己的安全负责。"
+    },
+    "account.wallet": {
+        "translation": "钱包"
+    },
+    "account.change": {
+        "translation": "更改钱包"
+    },
+    "account.testnet.token": {
+        "translation": "IOTX"
+    },
+    "account.address": {
+        "translation": "帐户地址"
+    },
+    "account.transaction-history": {
+        "translation": "转到交易记录"
+    },
+    "wallet.write.contract.title": {
+        "translation": "警告"
+    },
+    "wallet.write.contract.ok": {
+        "translation": "生成事务"
+    },
+    "wallet.write.contract.p1": {
+        "translation": "你即将"
+    },
+    "wallet.write.contract.p1.b": {
+        "translation": "在合约上执行函数。"
+    },
+    "wallet.write.contract.p2": {
+        "translation": "它将部署在以下网络中"
+    },
+    "wallet.write.contract.p3": {
+        "translation": "要发送的金额。在大多数情况下，你应该将其保留为 0。"
+    },
+    "wallet.contract.back": {
+        "translation": "回到行动页"
+    },
+    "wallet.interact.access": {
+        "translation": "访问"
+    },
+    "wallet.interact.title": {
+        "translation": "与智能合约交互"
+    },
+    "wallet.input.to": {
+        "translation": "接受者地址"
+    },
+    "wallet.input.nonce": {
+        "translation": "Nonce"
+    },
+    "wallet.input.gasPrice": {
+        "translation": "Gas 价格"
+    },
+    "wallet.input.gasLimit": {
+        "translation": "Gas 限制"
+    },
+    "wallet.input.abi": {
+        "translation": "ABI \/ JSON 接口"
+    },
+    "wallet.input.byteCode": {
+        "translation": "字节代码"
+    },
+    "wallet.input.solidity": {
+        "translation": "Solidity（可选）"
+    },
+    "wallet.input.contractAddress": {
+        "translation": "合约地址"
+    },
+    "wallet.deploy.generateAbiAndByteCode": {
+        "translation": "生成 ABI 和字节代码"
+    },
+    "wallet.deploy.title": {
+        "translation": "部署合约"
+    },
+    "wallet.deploy.broadcast.fail": {
+        "translation": "请稍后再尝试发送智能合约"
+    },
+    "wallet.deploy.send-new": {
+        "translation": "发送新合约"
+    },
+    "wallet.deploy.detail-title": {
+        "translation": "你即将部署..."
+    },
+    "wallet.deploy.deploy": {
+        "translation": "部署合约"
+    },
+    "wallet.deploy.signTransaction": {
+        "translation": "签署交易"
+    },
+    "wallet.placeholder.solidity": {
+        "translation": "pragma solidity ^0.4.23; ..."
+    },
+    "wallet.placeholder.abi": {
+        "translation": "..."
+    },
+    "wallet.placeholder.byteCode": {
+        "translation": "0x1234 ..."
+    },
+    "wallet.placeholder.contractAddress": {
+        "translation": "io..."
+    },
+    "wallet.tab.transfer": {
+        "translation": "发送 ${token}"
+    },
+    "wallet.tab.vote": {
+        "translation": "为代表投票"
+    },
+    "wallet.tab.contract": {
+        "translation": "智能合约"
+    },
+    "wallet.input.amount": {
+        "translation": "数量"
+    },
+    "wallet.choice.input.data": {
+        "translation": "数据（可选）"
+    },
+    "wallet.input.dib": {
+        "translation": "十六进制数据"
+    },
+    "wallet.input.generate": {
+        "translation": "生成交易"
+    },
+    "wall.input.gasLimit-help": {
+        "translation": "演示钱包中的 gas 限制始终为 0。"
+    },
+    "wallet.transfer.title": {
+        "translation": "发送 IOTX"
+    },
+    "wallet.error.required": {
+        "translation": "该字段为必填"
+    },
+    "wallet.error.number": {
+        "translation": "该字段应为数字"
+    },
+    "wallet.confirm.contract.title": {
+        "translation": "你即将发送..."
+    },
+    "wallet.confirm.contract.p1": {
+        "translation": "执行此项操作后,您的账户余额是  <b>${remain}<\/b> IOTX"
+    },
+    "wallet.confirm.contract.p2": {
+        "translation": "你确定要进行此操作么?"
+    },
+    "wallet.confirm.contract.yes": {
+        "translation": "确认"
+    },
+    "wallet.confirm.contract.cancel": {
+        "translation": "取消"
+    },
+    "wallet.contract.interaction.success": {
+        "translation": "已成功广播请求"
+    },
+    "wallet.contract.interaction.success.p1": {
+        "translation": "你的请求已广播到网络。这并不意味着它在区块链上被挖掘。确认通常需要几秒钟。"
+    },
+    "wallet.contract.interaction.success.p2": {
+        "translation": "你可以通过单击以下按钮立即检查状态，或保存TX哈希值并稍后检查状态"
+    },
+    "wallet.contract.interaction.success.p3": {
+        "translation": "你的行动的哈希值:"
+    },
+    "wallet.contract.button.check": {
+        "translation": "检查行动的状态"
+    },
+    "wallet.contract.button.new": {
+        "translation": "发送新的 IOTX 和通证"
+    },
+    "wallet.transactions.send": {
+        "translation": "发送交易"
+    },
+    "broadcast.success": {
+        "translation": "已成功广播交易记录"
+    },
+    "broadcast.warn.one": {
+        "translation": "您的TX已经广播到网络。这并不意味着它已在区块链上开采。通常需要几秒钟才能确认。"
+    },
+    "broadcast.warn.two": {
+        "translation": "您可以通过单击以下按钮立即检查状态，或保存TX哈希值并稍后检查状态"
+    },
+    "broadcast.warn.three": {
+        "translation": "您的 TX 哈希值:"
+    },
+    "broadcast.button.check": {
+        "translation": "检查TX状态"
+    },
+    "broadcast.fail": {
+        "translation": "无法广播交易记录"
+    },
+    "broadcast.fail.network": {
+        "translation": "交易记录无法广播到网络"
+    },
+    "broadcast.error.message": {
+        "translation": "错误消息:"
+    },
+    "broadcast.suggested.action": {
+        "translation": "建议的操作:"
+    },
+    "wallet.transfer.sendNew": {
+        "translation": "发送新的"
+    },
+    "render.key.nonce": {
+        "translation": "nonce"
+    },
+    "wallet.vote.title": {
+        "translation": "为代表投票"
+    },
+    "wallet.vote.content": {
+        "translation": "帮助 IoTeX 构建更强大的网络"
+    },
+    "wallet.vote.button": {
+        "translation": "在member.iotex.io上投票"
+    },
+    "wallet.missing_solidity_pragma": {
+        "translation": "不正确的结合度"
+    },
+    "wallet.cannot_find_solidity_version": {
+        "translation": "无法加载稳定版本"
+    },
+    "input.error.raw_address.length": {
+        "translation": "IOTX地址长度必须为41"
+    },
+    "candidate.productivity": {
+        "translation": "生产率"
+    },
+    "candidates.election.consensus_delegates": {
+        "translation": "IoTeX 共识代表"
+    },
+    "candidates.election.delegates": {
+        "translation": "IoTeX 代表"
+    },
+    "candidates.election.delegates_candidates": {
+        "translation": "IoTeX代表候选人"
+    },
+    "wallet.interact.invalidABI": {
+        "translation": "无效的JSON ABI"
+    },
+    "wallet.interact.abiTemplate": {
+        "translation": "[{“type”：“contructor”，“inputs”：[{“name”：“param1”，“type”：“uint256”，“indexed”：true}]，“name”：“Event”}，{ “type”：“function”，“inputs”：[{“name”：“a”，“type”：“uint256”}]，“name”：“foo”，“outputs”：[{“name”： “a”，“type”：“uint256”}]}]"
+    },
+    "wallet.interact.contract": {
+        "translation": "与智能合约交互"
+    },
+    "abi.input": {
+        "translation": "输入"
+    },
+    "abi.return": {
+        "translation": "返回"
+    },
+    "wallet.abi.read": {
+        "translation": "读取合约"
+    },
+    "wallet.abi.write": {
+        "translation": "写合约"
+    },
+    "new-wallet.warn.do-not-lose": {
+        "translation": "不要丢失私钥！"
+    },
+    "new-wallet.warn.do-not-share": {
+        "translation": "不要分享私钥！"
+    },
+    "new-wallet.warn.backup": {
+        "translation": "进行备份!"
+    },
+    "topbar.wallet": {
+        "translation": "钱包"
+    },
+    "render.key.actionFee": {
+        "translation": "操作费"
+    },
+    "block.show_more": {
+        "translation": "显示更多"
+    },
+    "block.show_less": {
+        "translation": "显示更少"
+    },
+    "new-wallet.download": {
+        "translation": "下载密钥库文件 (UTC \/ JSON)"
+    },
+    "wallet.cannot_load_solidity_version": {
+        "translation": "无法加载稳定版本"
+    },
+    "new-wallet.save_keystore": {
+        "translation": "<div> <p class=\"wallet-title\" style=\"display: inline-block;\">保存<\/p> <p class=\"private-key\">密钥库文件<\/p> <\/div>"
+    },
+    "wallet.input.password": {
+        "translation": "密码"
+    },
+    "input.error.password.too_weak": {
+        "translation": "密码太弱。"
+    },
+    "unlock_by_keystore_file.never_upload": {
+        "translation": "我们从不在服务器上上传或存储您的私钥。此处的密钥库文件在本地处理。"
+    },
+    "wallet.input.keystore": {
+        "translation": "密钥库文件"
+    },
+    "unlock-wallet.by_keystore": {
+        "translation": "通过密钥库"
+    },
+    "unlock-wallet.by_private_key": {
+        "translation": "通过私钥"
+    },
+    "unlock_by_keystore_file.select_file": {
+        "translation": "选择文件"
+    },
+    "input.error.keystore.required": {
+        "translation": "需要密钥库文件。"
+    },
+    "input.error.keystore.invalid": {
+        "translation": "密钥库文件无效。"
+    },
+    "input.error.keystore.failed_to_derive": {
+        "translation": "密钥派生失败。可能是密码错误。"
+    },
+    "block.success": {
+        "translation": "成功"
+    },
+    "block.failure": {
+        "translation": "失败"
+    },
+    "action.copy_link": {
+        "translation": "复制链接"
+    },
+    "action.email": {
+        "translation": "电子邮件"
+    },
+    "action.share_this_action": {
+        "translation": "共享此操作"
+    },
+    "action.click_send_email": {
+        "translation": "点击发送电子邮件"
+    },
+    "unlock_by_keystore_file.browse_file": {
+        "translation": "浏览文件......"
+    },
+    "copy.scan": {
+        "translation": "扫描二维码"
+    },
+    "topbar.goback_home": {
+        "translation": "回到主页"
+    },
+    "topbar.voting": {
+        "translation": "投票"
+    },
+    "topbar.dashboard": {
+        "translation": "显示板"
+    },
+    "topbar.tools": {
+        "translation": "工具"
+    },
+    "footer.policy": {
+        "translation": "使用条款和隐私政策"
+    },
+    "footer.enter_email": {
+        "translation": "输入电子邮件获取Iotex更新"
+    },
+    "footer.subscribe": {
+        "translation": "订阅"
+    },
+    "home.blocklist.ofActions": {
+        "translation": "操作"
+    },
+    "signin_modal.wallet": {
+        "translation": "IoTeX钱包"
+    },
+    "signin_modal.sign_in": {
+        "translation": "登录IoTeX钱包"
+    },
+    "signin_modal.download": {
+        "translation": "还没有安装？下载"
+    },
+    "topbar.sign_in": {
+        "translation": "登录"
+    },
+    "candidates.delegate_list": {
+        "translation": "节点列表"
+    },
+    "candidates.rank": {
+        "translation": "排名"
+    },
+    "candidates.election.NOT_EQUIPPED": {
+        "translation": "未提供"
+    },
+    "candidates.election.ONLINE": {
+        "translation": "在线"
+    },
+    "candidates.election.OFFLINE": {
+        "translation": "离线"
+    },
+    "footer.subscribe.success": {
+        "translation": "订阅成功！"
+    },
+    "footer.subscribe.failed": {
+        "translation": "订阅失败，请稍后再试！"
+    },
+    "wallet.contract.executeParameter": {
+        "translation": "合约执行参数"
+    },
+    "wallet.input.fromErc20": {
+        "translation": "ERC20通证地址"
+    },
+    "wallet.input.getInfo": {
+        "translation": "获取信息"
+    },
+    "wallet.erc20.title": {
+        "translation": "发送VITA"
+    },
+    "wallet.tab.erc20": {
+        "translation": "ERC20"
+    },
+    "wallet.input.balance": {
+        "translation": "余额"
+    },
+    "wallet.transfer.send-erc20": {
+        "translation": "发送ERC20通证"
+    },
+    "input.error.erc20_address.length": {
+        "translation": "ERC20通证地址长度必须为41"
+    },
+    "wallet.bytecode.copy": {
+        "translation": "复制字节代码"
+    },
+    "render.key.to": {
+        "translation": "到"
+    },
+    "render.key.tokens": {
+        "translation": "通证已被转移"
+    },
+    "account.erc20.addCustom": {
+        "translation": "您的通证"
+    },
+    "wallet.input.type": {
+        "translation": "类型"
+    },
+    "account.erc20.notfound": {
+        "translation": "未找到通证！"
+    },
+    "multiChain.chains.mainnet": {
+        "translation": "IoTeX主网"
+    },
+    "multiChain.chains.testnet": {
+        "translation": "IoTeX测试网络"
+    },
+    "multiChain.chains.custom": {
+        "translation": "自定义RPC"
+    },
+    "wallet.input.name": {
+        "translation": "名称"
+    },
+    "wallet.input.url": {
+        "translation": "网址"
+    },
+    "account.addCustomRPC": {
+        "translation": "添加自定义RPC"
+    },
+    "account.rpc.nameHolder": {
+        "translation": "我的RPC"
+    },
+    "input.error.url.invalid": {
+        "translation": "无效的网址"
+    },
+    "input.error.rpc.invalid": {
+        "translation": "无法连接到网络提供商！"
+    },
+    "wallet.input.fromXrc20": {
+        "translation": "XRC20 通证地址"
+    },
+    "wallet.tab.xrc20": {
+        "translation": "XRC20"
+    },
+    "wallet.transfer.send-xrc20": {
+        "translation": "发送 XRC20 通证"
+    },
+    "input.error.xrc20_address.length": {
+        "translation": "XRC20通证地址长度必须为41"
+    },
+    "account.refresh": {
+        "translation": "刷新余额"
+    },
+    "account.switchAccount": {
+        "translation": "切换帐户"
+    },
+    "account.token.addCustom": {
+        "translation": "自定义通证"
+    },
+    "account.token.notfound": {
+        "translation": "未找到通证！"
+    },
+    "account.joinDiscord": {
+        "translation": "加入 Discord"
+    },
+    "account.claim": {
+        "translation": "领取"
+    },
+    "confirmation.amount": {
+        "translation": "数量"
+    },
+    "confirmation.fromAddress": {
+        "translation": "来源地址"
+    },
+    "confirmation.toAddress": {
+        "translation": "目标地址"
+    },
+    "confirmation.toContract": {
+        "translation": "目标合约"
+    },
+    "confirmation.limit": {
+        "translation": "Gas 限制"
+    },
+    "confirmation.price": {
+        "translation": "Gas 价格"
+    },
+    "confirmation.data": {
+        "translation": "数据"
+    },
+    "confirmation.method": {
+        "translation": "方法"
+    },
+    "input.error.bytes.invalid": {
+        "translation": "无效字节代码"
+    },
+    "render.key.ownerETH": {
+        "translation": "持有者"
+    },
+    "account.claimAs": {
+        "translation": "代领奖励"
+    },
+    "confirmation.owner": {
+        "translation": "持有者"
+    },
+    "account.claimAs.authorizedMessage": {
+        "translation": "身份验证专用消息"
+    },
+    "account.claimAs.authorizedTemplate": {
+        "translation": "{\n  \"address\": \"0x497...\",\n  \"msg\": \"1I authorize 0x0123...\",\n  \"sig\": \"0xfa076d068...\",\n  \"version\": \"2\"\n}"
+    },
+    "account.error.invalidAuthorizedMessage": {
+        "translation": "身份验证专用消息无效！"
+    },
+    "render.key.method": {
+        "translation": "方法"
+    },
+    "account.claimAs.generateAuthMessage": {
+        "translation": "生成身份验证消息"
+    },
+    "account.claimAs.authMessage": {
+        "translation": "验证消息"
+    },
+    "account.claimAs.generate": {
+        "translation": "生成"
+    },
+    "account.claimAs.close": {
+        "translation": "关闭"
+    },
+    "account.bid": {
+        "translation": "出价"
+    },
+    "account.error.notEnoughBalance": {
+        "translation": "您没有足够的 IOTX余额来执行该操作!"
+    },
+    "account.placeBid": {
+        "translation": "对 VITA 出价"
+    },
+    "render.key.gasLimit": {
+        "translation": "Gas 限制"
+    },
+    "account.availableForBid": {
+        "translation": "您可用于出价的余额："
+    },
+    "erc20.execution.error.lowGasInput": {
+        "translation": "Gas输入过低!"
+    },
+    "erc20.execution.error.notEnoughBalance": {
+        "translation": "您没有足够的 IOTX余额来执行该操作!"
+    },
+    "topbar.explorer_playground": {
+        "translation": "Explorer 场地"
+    },
+    "topbar.analytics_playground": {
+        "translation": "分析场地"
+    },
+    "wallet.lock.title": {
+        "translation": "锁上钱包"
+    },
+    "wallet.lock.cutdown": {
+        "translation": "您的钱包将在10分钟内被锁上。是否要继续使用它？"
+    },
+    "wallet.lock.btn.know": {
+        "translation": "我知道"
+    },
+    "wallet.lock.btn.yes": {
+        "translation": "是的，忽视上锁"
+    },
+    "wallet.lock.btn.no": {
+        "translation": "锁上它"
+    },
+    "wallet.transfer.broadcast.fail": {
+        "translation": "增加gas限制并再试一次！"
+    },
+    "wallet.tab.keystore": {
+        "translation": "导出密钥库"
+    },
+    "wallet.tab.keystore.title": {
+        "translation": "保存密钥库文件"
+    },
+    "action.notFound": {
+        "translation": "抱歉，我们无法找到此交易的哈希地址"
+    },
+    "footer.resource": {
+        "translation": "资源"
+    },
+    "footer.lauch": {
+        "translation": "发布"
+    },
+    "footer.roadmap": {
+        "translation": "路线图"
+    },
+    "footer.research_paper": {
+        "translation": "研究论文"
+    },
+    "footer.announcements": {
+        "translation": "公告"
+    },
+    "footer.delegates_program": {
+        "translation": "节点项目"
+    },
+    "footer.charity_program": {
+        "translation": "慈善项目"
+    },
+    "footer.develop": {
+        "translation": "开发"
+    },
+    "footer.github": {
+        "translation": "Github"
+    },
+    "footer.documentations": {
+        "translation": "文献"
+    },
+    "footer.libraries_tools": {
+        "translation": "工具库"
+    },
+    "footer.explorer": {
+        "translation": "Exploer"
+    },
+    "footer.wallet": {
+        "translation": "钱包"
+    },
+    "footer.about_us": {
+        "translation": "关于我们"
+    },
+    "footer.team": {
+        "translation": "团队"
+    },
+    "footer.forum": {
+        "translation": "论坛"
+    },
+    "footer.support": {
+        "translation": "技术支持"
+    },
+    "footer.launch": {
+        "translation": "发布"
+    },
+    "footer.subscribe_success": {
+        "translation": "成功订阅"
+    },
+    "account.actionHistory": {
+        "translation": "操作历史记录"
+    },
+    "home.stats.tps": {
+        "translation": "当前 TPS\/Peak"
+    },
+    "home.stats.candidates": {
+        "translation": "共识代表\/候选人"
+    },
+    "home.stats.productivity": {
+        "translation": "平均生产力"
+    },
+    "home.stats.votes": {
+        "translation": "投票"
+    },
+    "home.stats.map": {
+        "translation": "地图"
+    },
+    "home.stats.energyConsumption": {
+        "translation": "每日能源消耗"
+    },
+    "home.stats.numberOfAddresses": {
+        "translation": "地址数量"
+    },
+    "home.stats.numberOfTransactions": {
+        "translation": "交易数量"
+    },
+    "home.stats.day": {
+        "translation": "日"
+    },
+    "home.stats.actions": {
+        "translation": "交易"
+    },
+    "unlock-wallet.by_ledger": {
+        "translation": "连接Ledger"
+    },
+    "unlock_by_ledger.message": {
+        "translation": "单击以下按钮来继续使用Ledger。"
+    },
+    "unlock-by-ledger.pluginDevice": {
+        "translation": "请插入Ledger设备，然后重试。"
+    },
+    "unlock-by-ledger.warnTitle": {
+        "translation": "无法连接到设备"
+    },
+    "wallet.sign.envelop_title": {
+        "translation": "交易签署"
+    },
+    "wallet.sign.envelop_msg": {
+        "translation": "您确定要签署此交易吗？"
+    },
+    "wallet.sign.confirm": {
+        "translation": "是的，签署交易"
+    },
+    "topbar.searchAddress": {
+        "translation": "搜索地址\/区块\/哈希..."
+    },
+    "home.stats.progressEpoch": {
+        "translation": "Epoch进展"
+    },
+    "action.pending": {
+        "translation": "IoTeX待处理操作"
+    },
+    "input.error.mnemonic.invalid": {
+        "translation": "请输入您的助记词"
+    },
+    "input.error.mnemonic.length": {
+        "translation": "助记词必须有12个单词"
+    },
+    "input.error.mnemonic.label": {
+        "translation": "助记词"
+    },
+    "input.error.mnemonic.placeholder": {
+        "translation": "在此处粘贴助记词"
+    },
+    "unlock-wallet.by_mnemonic": {
+        "translation": "按助记词"
+    },
+    "wallet.input.gasCostLimit": {
+        "translation": "Gas费用限制"
+    },
+    "wallet.error.number-ge1": {
+        "translation": "该字段应大于或等于1。"
+    },
+    "block.Success": {
+        "translation": "成功"
+    },
+    "block.Failure": {
+        "translation": "失败"
+    },
+    "block.ErrUnknown": {
+        "translation": "失败 [未知]"
+    },
+    "block.ErrOutOfGas": {
+        "translation": "失败[无gas可执行]"
+    },
+    "block.ErrCodeStoreOutOfGas": {
+        "translation": "失败[没有足够的资源部署-没有足够的资源来存储代码]"
+    },
+    "block.ErrDepth": {
+        "translation": "故障 [超过最大呼叫深度]"
+    },
+    "block.ErrContractAddressCollision": {
+        "translation": "失败[合同地址冲突]"
+    },
+    "block.ErrNoCompatibleInterpreter": {
+        "translation": "失败[没有兼容的解释器]"
+    },
+    "block.ErrExecutionReverted": {
+        "translation": "失败 [恢复执行]"
+    },
+    "block.ErrMaxCodeSizeExceeded": {
+        "translation": "失败 [超过最大代码大小]"
+    },
+    "block.ErrWriteProtection": {
+        "translation": "失败[写入保护]"
+    },
+    "footer.announcemenets": {
+        "translation": "公告"
+    },
+    "new-wallet.mnemonic": {
+        "translation": "助记词"
+    },
+    "new-wallet.save_mnemonic": {
+        "translation": "<div><p class=\"wallet-title\" style=\"display: inline-block;\">保存你的<\/p><p class=\"private-key\">助记词<\/p><\/div>"
+    },
+    "wallet.whitelist.intro": {
+        "translation": "通过将操作列入白名单，您不必再为您信任的应用程序批准操作。将动作列入白名单时，您会看到每个动作和值旁边都会出现复选框。"
+    },
+    "wallet.whitelist.title": {
+        "translation": "白名单配置"
+    },
+    "wallet.whitelist.add": {
+        "translation": "添加到白名单"
+    },
+    "wallet.whitelist.cancel": {
+        "translation": "取消"
+    },
+    "wallet.whitelist.action": {
+        "translation": "此 $[操作] 操作 $[来源] 将列入白名单"
+    },
+    "wallet.whitelist.amount": {
+        "translation": "此值无需弹出即可更改"
+    },
+    "wallet.whitelist.recipient": {
+        "translation": "如果收据更改，您必须再次批准此操作"
+    },
+    "wallet.whitelist.duration": {
+        "translation": "此设置将在指定时间后过期"
+    },
+    "wallet.whitelist.forbidden": {
+        "translation": "不再显示此模式"
+    },
+    "wallet.sign_and_send.success": {
+        "translation": "请求已成功发送，交易代码为$ {actionHash}"
+    },
+    "wallet.whitelist.cancel_addition": {
+        "translation": "取消添加至白名单"
+    },
+    "wallet.whitelist": {
+        "translation": "白名单"
+    },
+    "wallet.whitelist.state": {
+        "translation": "白名单状态"
+    },
+    "wallet.whitelist.enabled": {
+        "translation": "启用"
+    },
+    "wallet.whitelist.disabled": {
+        "translation": "禁用"
+    },
+    "wallet.whitelist.title_origin": {
+        "translation": "来源\/途径"
+    },
+    "wallet.whitelist.title_amount": {
+        "translation": "金额（IOTX）"
+    },
+    "wallet.whitelist.title_recipient": {
+        "translation": "接受者"
+    },
+    "wallet.whitelist.title_remain": {
+        "translation": "保持"
+    },
+    "wallet.whitelist.operation.save": {
+        "translation": "保存"
+    },
+    "wallet.whitelist.operation.cancel": {
+        "translation": "取消"
+    },
+    "wallet.whitelist.operation.delete": {
+        "translation": "删除"
+    },
+    "wallet.whitelist.operation.edit": {
+        "translation": "编辑"
+    },
+    "wallet.whitelist.title_operation": {
+        "translation": "操作"
+    },
+    "wallet.whitelist.operation.alert": {
+        "translation": "确认取消？"
+    },
+    "wallet.unlock_alert.title": {
+        "translation": "第一步、解锁钱包"
+    },
+    "wallet.unlock_alert.tip": {
+        "translation": "请先解锁您的钱包，然后再执行其他操作。"
+    },
+    "wallet.unlock_alert.confirm": {
+        "translation": "了解"
+    },
+    "address.name": {
+        "translation": "名称标签"
+    },
+    "navigation.address": {
+        "translation": "地址列表"
+    },
+    "navigation.action": {
+        "translation": "交易清单"
+    },
+    "navigation.action_detail": {
+        "translation": "交易详情"
+    },
+    "navigation.block": {
+        "translation": "区块列表"
+    },
+    "render.key.balance": {
+        "translation": "余额"
+    },
+    "render.key.name": {
+        "translation": "名称标签"
+    },
+    "new-wallet.showPrivateKey": {
+        "translation": "显示私钥"
+    },
+    "new-wallet.export_keystore": {
+        "translation": "导出密钥库文件（UTC \/ JSON）"
+    },
+    "render.key.from": {
+        "translation": "从"
+    },
+    "render.key.value": {
+        "translation": "值"
+    },
+    "render.key.fee": {
+        "translation": "Gas费用"
+    },
+    "copy.copyToClipboard": {
+        "translation": "将$ {field}复制到剪贴板"
+    },
+    "render.key.inputData": {
+        "translation": "输入数据"
+    },
+    "action_details.hash": {
+        "translation": "交易哈希：$ {actionHash}"
+    },
+    "common.show_more": {
+        "translation": "显示更多"
+    },
+    "common.show_less": {
+        "translation": "简约显示"
+    },
+    "common.address": {
+        "translation": "地址"
+    },
+    "share_link.email_body": {
+        "translation": "查看此站点$ {href}"
+    },
+    "share_link.email_subject": {
+        "translation": "在IoTeX区块链上检查此区块哈希"
+    },
+    "render.key.evmTransfer": {
+        "translation": "通证已被转移"
+    },
+    "transfer.for": {
+        "translation": "对于$ {value}"
+    },
+    "address_details.address": {
+        "translation": "地址：$ {address}"
+    },
+    "address_details.share_address": {
+        "translation": "共享此地址"
+    },
+    "render.key.nametag": {
+        "translation": "名称标签"
+    },
+    "render.key.pendingNonce": {
+        "translation": "待处理操作"
+    },
+    "common.transactions": {
+        "translation": "交易"
+    },
+    "common.xrc20Transactions": {
+        "translation": "XRC20交易"
+    },
+    "block_details.hash": {
+        "translation": "块哈希： $[哈希]"
+    },
+    "page_navs.block": {
+        "translation": "区块＃$ {height}"
+    },
+    "action.types.in": {
+        "translation": "在"
+    },
+    "action.types.out": {
+        "translation": "出"
+    },
+    "action.types.self": {
+        "translation": "我的"
+    },
+    "pages.token": {
+        "translation": "通证转移"
+    },
+    "token.xrc20": {
+        "translation": "XRC-20"
+    },
+    "topbar.xrc20Transfer": {
+        "translation": "XRC20通证转移"
+    },
+    "home.stats.currentEpoch": {
+        "translation": "当前Epoch"
+    },
+    "wallet.contract.loadindSolc": {
+        "translation": "正在载入人机验证..."
+    },
+    "candidate.delegate_badges": {
+        "translation": "徽章"
+    },
+    "action.from": {
+        "translation": "从"
+    },
+    "common.contract_transactions": {
+        "translation": "合约交易"
+    },
+    "account.rank": {
+        "translation": "排名"
+    },
+    "account.nameTag": {
+        "translation": "名称标签"
+    },
+    "account.percentage": {
+        "translation": "百分比"
+    },
+    "account.txnCount": {
+        "translation": "Txn计数"
+    },
+    "topbar.accounts": {
+        "translation": "帐户"
+    },
+    "topbar.top_accounts": {
+        "translation": "按 IOTX 余额 排名显示帐户"
+    },
+    "wallet.input.solVersion": {
+        "translation": "版本"
+    },
+    "wallet.placeholder.compile": {
+        "translation": "选择编译器版本"
+    },
+    "pages.tokenTracker": {
+        "translation": "通证追踪器"
+    },
+    "token.name": {
+        "translation": "名称"
+    },
+    "token.address": {
+        "translation": "地址"
+    },
+    "topbar.tokens": {
+        "translation": "XRC20通证"
+    },
+    "topbar.tokensMenu": {
+        "translation": "通证"
+    },
+    "pages.tokenHolders": {
+        "translation": "持有人："
+    },
+    "render.key.address": {
+        "translation": "地址"
+    },
+    "render.key.depositToRewardingFund": {
+        "translation": "存款奖励基金"
+    },
+    "render.value.deposit": {
+        "translation": "保证金"
+    },
+    "candidates.election.PROBATION": {
+        "translation": "延迟"
+    },
+    "common.xrc721Transactions": {
+        "translation": "XRC20交易"
+    },
+    "input.error.xrc721_address.length": {
+        "translation": "XRC721通证地址长度必须为41位"
+    },
+    "token.xrc721": {
+        "translation": "XRC-721"
+    },
+    "topbar.xrc721Transfer": {
+        "translation": "XRC721通证转账"
+    },
+    "topbar.xrc721Tokens": {
+        "translation": "XRC721通证"
+    },
+    "wallet.input.fromXrc721": {
+        "translation": "XRC721通证地址"
+    },
+    "wallet.tab.xrc721": {
+        "translation": "XRC721"
+    },
+    "wallet.transfer.send-xrc721": {
+        "translation": "发送XRC721通证"
+    },
+    "home.stats.stakedVotes": {
+        "translation": "质押投票"
+    },
+    "home.stats.balanceCard": {
+        "translation": "流通通证总数"
+    },
+    "unlock_by_ledger.error": {
+        "translation": "无法连接到分类帐：$ {message}"
+    },
+    "action.type.stakeCreate": {
+        "translation": "创建质押"
+    },
+    "action.type.stakeUnstake": {
+        "translation": "解除质押"
+    },
+    "action.type.stakeWithdraw": {
+        "translation": "赎回质押"
+    },
+    "action.type.stakeAddDeposit": {
+        "translation": "增加质押额"
+    },
+    "action.type.stakeRestake": {
+        "translation": "重新质押"
+    },
+    "action.type.stakeChangeCandidate": {
+        "translation": "候选质押变更"
+    },
+    "action.type.stakeTransferOwnership": {
+        "translation": "转让质押所有权"
+    },
+    "action.type.candidateRegister": {
+        "translation": "候选登记表"
+    },
+    "action.type.candidateUpdate": {
+        "translation": "更新候选"
+    },
+    "render.value.stakeCreate": {
+        "translation": "创建质押"
+    },
+    "render.value.stakeUnstake": {
+        "translation": "解除质押"
+    },
+    "render.value.stakeWithdraw": {
+        "translation": "赎回质押"
+    },
+    "render.value.stakeAddDeposit": {
+        "translation": "增加质押额"
+    },
+    "render.value.stakeRestake": {
+        "translation": "重新质押"
+    },
+    "render.value.stakeChangeCandidate": {
+        "translation": "候选质押变更"
+    },
+    "render.value.candidateRegister": {
+        "translation": "候选登记表"
+    },
+    "render.value.candidateUpdate": {
+        "translation": "更新候选"
+    },
+    "render.value.stakeTransferOwnership": {
+        "translation": "转让质押所有权"
+    },
+    "candidates.badge_info.hermes.title": {
+        "translation": "Hermes节点"
+    },
+    "candidates.badge_info.hermes.content": {
+        "translation": "通过Hermes自动分配奖励"
+    },
+    "candidates.badge_info.genesis.title": {
+        "translation": "Delegate Since Day 1"
+    },
+    "candidates.badge_info.genesis.content": {
+        "translation": "加入以生成起源块"
+    },
+    "candidates.badge_info.ambassador.title": {
+        "translation": "节点大使"
+    },
+    "candidates.badge_info.ambassador.content": {
+        "translation": "IoTeX社区官方大使"
+    },
+    "wallet.sign.success": {
+        "translation": "签名成功！"
+    },
+    "wallet.sign_msg": {
+        "translation": "签名消息"
+    },
+    "token.token": {
+        "translation": "代币"
+    },
+    "wallet.desktop.app": {
+        "translation": "ioPay Desktop v $ {appVersion}"
+    },
+    "wallet.send-receive.title": {
+        "translation": "发送和接收IOTX"
+    },
+    "meta.description.desktop": {
+        "translation": "与智能合约、区块链交互"
+    },
+    "account.balance.hide": {
+        "translation": "隐藏余额"
+    },
+    "account.balance.show": {
+        "translation": "余额显示"
+    },
+    "wallet.desktop.appVersion": {
+        "translation": "版本：$ {appVersion}"
+    },
+    "render.key.payloadViewType": {
+        "translation": "查看类型"
+    },
+    "topbar.wallet.web": {
+        "translation": "网页钱包"
+    },
+    "topbar.wallet.ioPayMobile": {
+        "translation": "ioPay 手机版"
+    },
+    "topbar.wallet.ioPayDesktop": {
+        "translation": "ioPay桌面版"
+    },
+    "action.to.bucket": {
+        "translation": "投票包索引"
+    },
+    "topbar.submit_a_bug_report": {
+        "translation": "提交错误报告"
+    },
+    "confirmation.candidateName": {
+        "translation": "节点名称"
+    },
+    "confirmation.stakedAmount": {
+        "translation": "质押总数"
+    },
+    "confirmation.stakedDuration": {
+        "translation": "质押期限"
+    },
+    "confirmation.autoStake": {
+        "translation": "自动质押"
+    },
+    "confirmation.payload": {
+        "translation": "负载"
+    },
+    "confirmation.bucketIndex": {
+        "translation": "投票包索引"
+    },
+    "confirmation.voterAddress": {
+        "translation": "投票人地址"
+    },
+    "confirmation.ownerAddress": {
+        "translation": "持有者地址"
+    },
+    "confirmation.candidate": {
+        "translation": "节点列表"
+    },
+    "wallet.whitelist.title_method": {
+        "translation": "途径"
+    },
+    "wallet.transfer.startOver": {
+        "translation": "开始质押"
+    },
+    "account.switchWallet": {
+        "translation": "切换钱包"
+    },
+    "ok": {
+        "translation": "确定"
+    },
+    "wallet.logout.success": {
+        "translation": "成功质押!"
+    },
+    "wallet.logout.login_to_another": {
+        "translation": "请选择其他钱包解锁。"
+    },
+    "network.disconnected": {
+        "translation": "无法连接到网络..."
+    },
+    "token.address.overview": {
+        "translation": "总览"
+    },
+    "token.address.total_supply": {
+        "translation": "总质押"
+    },
+    "token.address.holders": {
+        "translation": "持有人："
+    },
+    "token.address.transfer": {
+        "translation": "转账："
+    },
+    "token.address.profile_summary": {
+        "translation": "配置文件摘要"
+    },
+    "token.address.contract": {
+        "translation": "合约"
+    },
+    "token.address.decimals": {
+        "translation": "小数点："
+    },
+    "topbar.actions.byBucketIndex": {
+        "translation": "投票包"
+    },
+    "render.key.provider": {
+        "translation": "供应商"
+    },
+    "address.select_token": {
+        "translation": "选择Token"
+    },
+    "candidate.epoch_progress": {
+        "translation": "Epoch进度"
+    }
+}
