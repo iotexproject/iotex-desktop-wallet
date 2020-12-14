@@ -454,12 +454,12 @@ wallet.whitelist.intro: 通过将操作列入白名单，您不必再为您信�
 wallet.whitelist.title: 白名单配置
 wallet.whitelist.add: 添加到白名单
 wallet.whitelist.cancel: 取消
-wallet.whitelist.action: '此 $[操作] 操作 $[来源] 将列入白名单'
+wallet.whitelist.action: '此 ${action}操作 ${origin} 将列入白名单'
 wallet.whitelist.amount: 此值无需弹出即可更改
 wallet.whitelist.recipient: 如果收据更改，您必须再次批准此操作
 wallet.whitelist.duration: 此设置将在指定时间后过期
 wallet.whitelist.forbidden: 不再显示此模式
-wallet.sign_and_send.success: '请求已成功发送，交易代码为$ {actionHash}'
+wallet.sign_and_send.success: '请求已成功发送，交易代码为${actionHash}'
 wallet.whitelist.cancel_addition: 取消添加至白名单
 wallet.whitelist: 白名单
 wallet.whitelist.state: 白名单状态
@@ -490,24 +490,24 @@ new-wallet.export_keystore: '导出密钥库文件（UTC / JSON）'
 render.key.from: 从
 render.key.value: 值
 render.key.fee: Gas费用
-copy.copyToClipboard: '将$ {field}复制到剪贴板'
+copy.copyToClipboard: '将${field}复制到剪贴板'
 render.key.inputData: 输入数据
-action_details.hash: '交易哈希：$ {actionHash}'
+action_details.hash: '交易哈希：${actionHash}'
 common.show_more: 显示更多
 common.show_less: 简约显示
 common.address: 地址
-share_link.email_body: '查看此站点$ {href}'
+share_link.email_body: '查看此站点 ${href}'
 share_link.email_subject: 在IoTeX区块链上检查此区块哈希
 render.key.evmTransfer: 通证已被转移
-transfer.for: '对于$ {value}'
-address_details.address: '地址：$ {address}'
+transfer.for: '对于${value}'
+address_details.address: '地址：${address}'
 address_details.share_address: 共享此地址
 render.key.nametag: 名称标签
 render.key.pendingNonce: 待处理操作
 common.transactions: 交易
 common.xrc20Transactions: XRC20交易
-block_details.hash: '块哈希： $[哈希]'
-page_navs.block: '区块＃$ {height}'
+block_details.hash: '块哈希： ${hash}'
+page_navs.block: '区块＃${height}'
 action.types.in: 在
 action.types.out: 出
 action.types.self: 我的
@@ -537,7 +537,7 @@ render.key.address: 地址
 render.key.depositToRewardingFund: 存款奖励基金
 render.value.deposit: 保证金
 candidates.election.PROBATION: 延迟
-common.xrc721Transactions: XRC20交易
+common.xrc721Transactions: XRC721交易
 input.error.xrc721_address.length: XRC721通证地址长度必须为41位
 token.xrc721: XRC-721
 topbar.xrc721Transfer: XRC721通证转账
@@ -547,7 +547,7 @@ wallet.tab.xrc721: XRC721
 wallet.transfer.send-xrc721: 发送XRC721通证
 home.stats.stakedVotes: 质押投票
 home.stats.balanceCard: 流通通证总数
-unlock_by_ledger.error: '无法连接到分类帐：$ {message}'
+unlock_by_ledger.error: '无法连接到分类帐：${message}'
 action.type.stakeCreate: 创建质押
 action.type.stakeUnstake: 解除质押
 action.type.stakeWithdraw: 赎回质押
@@ -575,17 +575,17 @@ candidates.badge_info.ambassador.content: IoTeX社区官方大使
 wallet.sign.success: 签名成功！
 wallet.sign_msg: 签名消息
 token.token: 代币
-wallet.desktop.app: 'ioPay Desktop v $ {appVersion}'
+wallet.desktop.app: 'ioPay Desktop v ${appVersion}'
 wallet.send-receive.title: 发送和接收IOTX
 meta.description.desktop: 与智能合约、区块链交互
 account.balance.hide: 隐藏余额
 account.balance.show: 余额显示
-wallet.desktop.appVersion: '版本：$ {appVersion}'
+wallet.desktop.appVersion: '版本：${appVersion}'
 render.key.payloadViewType: 查看类型
 topbar.wallet.web: 网页钱包
 topbar.wallet.ioPayMobile: 'ioPay 手机版'
 topbar.wallet.ioPayDesktop: ioPay桌面版
-action.to.bucket: 投票包索引
+action.to.bucket: '投票包 #${bucketIndex}'
 topbar.submit_a_bug_report: 提交错误报告
 confirmation.candidateName: 节点名称
 confirmation.stakedAmount: 质押总数
