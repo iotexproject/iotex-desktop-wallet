@@ -17,7 +17,7 @@ const ActionToRenderer: VerticalTableRender<string> = ({ value }) => {
       {({ data, error, loading }: GetActionDetailsResponse) => {
         if (error) {
           notification.error({
-            message: `failed to query action details by hash in ActionFeeRenderer: ${error}`
+            message: `failed to query action details by hash in action-contract-render: ${error}`
           });
         }
         if (!data || loading) {
