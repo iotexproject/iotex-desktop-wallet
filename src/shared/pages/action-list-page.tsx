@@ -121,7 +121,6 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
     width: "10vw",
     render: (_: string, record: ActionInfo): JSX.Element | string => {
       const receipt = getAddress(record);
-
       return receipt !== "-" ? (
         <span
           className="ellipsis-text"
@@ -130,7 +129,7 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
           <AddressName address={receipt} />
         </span>
       ) : (
-        <ActionToRenderer value={record.actHash} />
+        <ActionToRenderer value={record} />
       );
     }
   },
