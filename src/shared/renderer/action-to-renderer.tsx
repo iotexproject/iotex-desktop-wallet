@@ -5,11 +5,11 @@ import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query } from "react-apollo";
 import { ActionInfo } from "../../api-gateway/resolvers/antenna-types";
+import { AddressName } from "../common/address-name";
 import { LinkButton } from "../common/buttons";
 import { VerticalTableRender } from "../common/vertical-table";
 import { GetActionDetailsResponse } from "../pages/action-detail-page";
 import { GET_ACTION_DETAILS_BY_HASH } from "../queries";
-import { AddressName } from "../common/address-name";
 
 const ActionToRenderer: VerticalTableRender<ActionInfo> = ({ value }) => {
   return (
