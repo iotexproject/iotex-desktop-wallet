@@ -3,10 +3,11 @@ import { get } from "dottie";
 import { IReceipt } from "iotex-antenna/lib/rpc-method/types";
 import React from "react";
 import { Query } from "react-apollo";
-import { AddressName } from "../common/address-name";
+import { LinkButton } from "../common/buttons";
 import { VerticalTableRender } from "../common/vertical-table";
 import { GetActionDetailsResponse } from "../pages/action-detail-page";
 import { GET_ACTION_DETAILS_BY_HASH } from "../queries";
+import { t } from "onefx/lib/iso-i18n";
 
 const ActionToRenderer: VerticalTableRender<string> = ({ value }) => {
   return (
@@ -30,7 +31,9 @@ const ActionToRenderer: VerticalTableRender<string> = ({ value }) => {
             className="ellipsis-text"
             style={{ maxWidth: "10vw", minWidth: 100 }}
           >
-            <AddressName address={contractAddress} />
+            <LinkButton href={`/address/${contractAddress}`}>
+              {t("action.method.contract_creation")}
+            </LinkButton>
           </span>
         ) : (
           contractAddress
