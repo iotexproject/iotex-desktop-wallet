@@ -3,14 +3,14 @@ meta.description: 探索IoTeX区块链地址，操作和智能合约。
 topbar.brand: 品牌
 topbar.blockchain: 区块链
 topbar.blocks: 区块
-topbar.actions: 行动
+topbar.actions: 交易
 topbar.home: 首页
 not_found.bar: 未找到
 not_found.title: 糟糕!
 not_found.info: 找不到页面...
 candidate.delegate_name: 节点名称
 candidate.status: 状态
-candidate.live_votes: 实时投票
+candidate.live_votes: 实时得票
 candidate.percent: 得票率
 candidates.election.ELECTED: 当选
 candidates.election.NOT_ELECTED: 未当选
@@ -20,15 +20,15 @@ block.block: 区块
 block.blocks: 区块
 block.height: 高度
 block.hash: 哈希
-block.timestamp: 年龄
-block.num_actions: 操作
+block.timestamp: 时间
+block.num_actions: 交易
 block.producer_address: 生产者
 block.transfer_amount: 转账总额
 block.tx_root: 'Tx Root'
 block.receipt_root: 收据根
 block.delta_state_digest: 状态增量摘要
 action.type: 类型
-action.type.transfer: 传递
+action.type.transfer: 转账
 action.type.grant_reward: 授予的奖励
 action.type.execution: 执行
 action.data: 数据
@@ -36,15 +36,15 @@ topbar.graphql_playground: 'GraphQL 测试区'
 topbar.graphql_doc: 'GraphQL 文档'
 action.hash: 哈希
 action.block_hash: 区块
-action.amount: 总量
+action.amount: 数量
 action.action: 行动
 action.sender: 发送方
 action.recipient: 接收方
 title.action: 操作
 render.key.height: 高度
 render.key.hash: 哈希
-render.key.timestamp: 年龄
-render.key.numActions: 操作
+render.key.timestamp: 时间
+render.key.numActions: 交易
 render.key.producerAddress: 生产者
 render.key.transferAmount: 转账总额
 render.key.txRoot: 'Tx Root'
@@ -55,7 +55,7 @@ render.key.blkHash: 区块
 render.key.actionType: 类型
 render.key.actionData: 数据
 render.key.sender: 发送方
-render.key.amount: 总量
+render.key.amount: 数量
 render.key.contract: 合约
 render.key.data: 数据
 render.key.recipient: 接受者
@@ -63,7 +63,7 @@ render.key.payload: 负载
 render.key.type: 奖励类型
 render.value.grantReward: 赠款奖励
 render.value.execution: 执行
-render.value.transfer: 转移
+render.value.transfer: 转账
 action.type.grantReward: 获得奖励
 action.type.depositToRewardingFund: 存到奖励基金
 action.type.claimFromRewardingFund: 从奖励基金获取奖励
@@ -81,7 +81,7 @@ action.type.plumChallengeExit: plum质疑退出
 action.type.plumResponseChallengeExit: plum响应质疑退出
 action.type.plumFinalizeExit: plum完成退出
 action.type.plumSettleDeposit: plum处理存款
-action.type.plumTransfer: 'plum 转移'
+action.type.plumTransfer: 'plum 转账'
 action.type.putPollResult: 投票结果
 render.key.chainID: 链ID
 render.key.securityDeposit: 安全保证金
@@ -110,7 +110,7 @@ render.key.candidates: 候选人
 topbar.search: 按地址/公钥/哈希/高度进行搜索
 coming_soon.title: 即将到来
 coming_soon.bar: 即将到来
-action.actions: 操作
+action.actions: 交易
 address.address: 地址
 title.overview: 概述
 title.actionList: 操作列表
@@ -122,10 +122,10 @@ wallet.unlock.new.title: 请注意
 wallet.unlock.new.p1: 我们不会将您的私钥存储在服务器上。仅在您的浏览器上处理生成私钥。
 wallet.unlock.new.p2: '备份您的私钥,因为您将使用它访问您的钱包。如果您丢失了私钥,则无法恢复。'
 unlock-wallet.title: 解锁您的钱包
-unlock-wallet.warn.message: '请仔细检查 URL 和 SSL 证书。它应该在 URL 栏中显示https://www.iotexscan.io。'
+unlock-wallet.warn.message: '请再次检查URL和SSL证书，在你的URL栏里应该显示：https://www.iotexscan.io'
 wallet.account.enterPrivateKey: 私钥
 wallet.account.placehold.privateKey: 将您的私钥粘贴到此处
-account.empty.unlock: '解锁您的钱包,查看细节!'
+account.empty.unlock: 登录钱包，查看详情！
 unlock-wallet.no-wallet: 还没有IoTeX钱包吗？
 unlock-wallet.create: 创建一个新钱包
 unlock-wallet.main-chain: 请转到主链创建一个钱包。
@@ -261,7 +261,7 @@ wallet.missing_solidity_pragma: 不正确的结合度
 wallet.cannot_find_solidity_version: 无法加载稳定版本
 input.error.raw_address.length: IOTX地址长度必须为41
 candidate.productivity: 生产率
-candidates.election.consensus_delegates: 'IoTeX 共识代表'
+candidates.election.consensus_delegates: IoTeX共识节点
 candidates.election.delegates: 'IoTeX 代表'
 candidates.election.delegates_candidates: IoTeX代表候选人
 wallet.interact.invalidABI: '无效的JSON ABI'
@@ -283,10 +283,10 @@ wallet.cannot_load_solidity_version: 无法加载稳定版本
 new-wallet.save_keystore: '<div> <p class="wallet-title" style="display: inline-block;">保存</p> <p class="private-key">密钥库文件</p> </div>'
 wallet.input.password: 密码
 input.error.password.too_weak: 密码太弱。
-unlock_by_keystore_file.never_upload: 我们从不在服务器上上传或存储您的私钥。此处的密钥库文件在本地处理。
+unlock_by_keystore_file.never_upload: 我们从不在服务器上上传或存储您的私钥。这里的密钥库文件将在本地处理。
 wallet.input.keystore: 密钥库文件
-unlock-wallet.by_keystore: 通过密钥库
-unlock-wallet.by_private_key: 通过私钥
+unlock-wallet.by_keystore: 密钥库
+unlock-wallet.by_private_key: 私钥
 unlock_by_keystore_file.select_file: 选择文件
 input.error.keystore.required: 需要密钥库文件。
 input.error.keystore.invalid: 密钥库文件无效。
@@ -301,7 +301,7 @@ unlock_by_keystore_file.browse_file: 浏览文件......
 copy.scan: 扫描二维码
 topbar.goback_home: 回到主页
 topbar.voting: 投票
-topbar.dashboard: 显示板
+topbar.dashboard: 仪表盘
 topbar.tools: 工具
 footer.policy: 使用条款和隐私政策
 footer.enter_email: 输入电子邮件获取Iotex更新
@@ -378,8 +378,8 @@ render.key.gasLimit: 'Gas 限制'
 account.availableForBid: 您可用于出价的余额：
 erc20.execution.error.lowGasInput: Gas输入过低!
 erc20.execution.error.notEnoughBalance: '您没有足够的 IOTX余额来执行该操作!'
-topbar.explorer_playground: 'Explorer 场地'
-topbar.analytics_playground: 分析场地
+topbar.explorer_playground: 探索
+topbar.analytics_playground: 分析
 wallet.lock.title: 锁上钱包
 wallet.lock.cutdown: 您的钱包将在10分钟内被锁上。是否要继续使用它？
 wallet.lock.btn.know: 我知道
@@ -408,7 +408,7 @@ footer.forum: 论坛
 footer.support: 技术支持
 footer.launch: 发布
 footer.subscribe_success: 成功订阅
-account.actionHistory: 操作历史记录
+account.actionHistory: 交易历史
 home.stats.tps: '当前 TPS/Peak'
 home.stats.candidates: 共识代表/候选人
 home.stats.productivity: 平均生产力
@@ -524,7 +524,7 @@ account.nameTag: 名称标签
 account.percentage: 百分比
 account.txnCount: Txn计数
 topbar.accounts: 帐户
-topbar.top_accounts: '按 IOTX 余额 排名显示帐户'
+topbar.top_accounts: IOTX账户余额排行
 wallet.input.solVersion: 版本
 wallet.placeholder.compile: 选择编译器版本
 pages.tokenTracker: 通证追踪器
@@ -575,7 +575,7 @@ candidates.badge_info.ambassador.content: IoTeX社区官方大使
 wallet.sign.success: 签名成功！
 wallet.sign_msg: 签名消息
 token.token: 代币
-wallet.desktop.app: 'ioPay Desktop v ${appVersion}'
+wallet.desktop.app: 'ioPay 桌面版 v ${appVersion}'
 wallet.send-receive.title: 发送和接收IOTX
 meta.description.desktop: 与智能合约、区块链交互
 account.balance.hide: 隐藏余额
