@@ -34,6 +34,7 @@ import {
 import { ActionFeeRenderer } from "../renderer/action-fee-renderer";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { Page } from "./page";
+import { ActionToRenderer } from "../renderer/action-to-renderer";
 const PAGE_SIZE = 15;
 
 export function getAddress(record: ActionInfo): string {
@@ -128,7 +129,7 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
           <AddressName address={receipt} />
         </span>
       ) : (
-        receipt
+        <ActionToRenderer value={record} />
       );
     }
   },
