@@ -141,6 +141,33 @@ type BlockProducerInfo {
   production: Int!
 }
 
+type Bucket {
+  # Bucket index
+  index: Int!
+
+  # Bucket candidateAddress
+  candidateAddress: String!
+
+  # Bucket stakedAmount
+  stakedAmount: String!
+
+  # Bucket stakedDuration
+  stakedDuration: Int!
+
+  # Bucket createTime
+  createTime: DateTime!
+
+  # Bucket stakeStartTime
+  stakeStartTime: DateTime!
+
+  # Bucket unstakeStartTime
+  unstakeStartTime: DateTime!
+  autoStake: Boolean!
+
+  # Bucket owner
+  owner: String!
+}
+
 # JS Buffer or Uint8Array
 scalar Buffer
 
@@ -245,6 +272,9 @@ input CreatePlumChainInput {
   TBD: Boolean
 }
 
+# The javascript `Date` as string. Type represents date and time as the ISO Date string.
+scalar DateTime
+
 type DepositToRewardingFund {
   amount: String!
   data: Buffer!
@@ -320,6 +350,15 @@ input GetBlockMetasByIndexRequest {
 
 type GetBlockMetasResponse {
   blkMetas: [BlockMeta!]!
+}
+
+# Properties of a GetBucketsResponse
+type GetBucketsResponse {
+  # GetBucketsResponse bucketsList
+  bucketsList: [Bucket!]!
+
+  # GetBucketsResponse bucketCount
+  bucketCount: Int!
 }
 
 # Properties of a GetEpochMetaResponse
@@ -590,6 +629,9 @@ type Query {
 
   # get epoch meta
   getEpochMeta(epochNumber: Int!): GetEpochMetaResponse!
+
+  # get bucket list with pagination
+  getBuckets(offset: Int!, limit: Int!): GetBucketsResponse!
   health: String!
 
   # Total supply for the native IOTX token

@@ -165,6 +165,7 @@ candidates.badge_info.ambassador.content: Official IoTeX Community Ambassador
 coming_soon.bar: 'coming soon'
 coming_soon.title: 'Coming Soon...'
 common.address: Address
+common.buckets: Buckets
 common.contract_transactions: Contract Actions
 common.show_less: Show Less
 common.show_more: Show More

@@ -25,6 +25,7 @@ import { AddressDetailRenderer } from "../renderer";
 import { ActionTable } from "./action-list-page";
 import { XRC20ActionTable } from "./xrc20-action-list-page";
 import { XRC721ActionTable } from "./xrc721-action-list-page";
+import { BucketListTable } from "../components/bucket-list-table";
 
 export interface IActionsDetails {
   action: GetActionsResponse;
@@ -164,6 +165,9 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
                   key="contract_transactions"
                 >
                   <EvmTransfersTable address={address} />
+                </Tabs.TabPane>
+                <Tabs.TabPane tab={t("common.buckets")} key="buckets">
+                  <BucketListTable address={address} />
                 </Tabs.TabPane>
               </Tabs>
             </ContentPadding>
