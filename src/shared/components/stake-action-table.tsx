@@ -132,7 +132,7 @@ export const StakeActionTable: React.FC<IStakeActionTable> = ({
             onChange={pagination => {
               fetchMore({
                 variables: {
-                  address,
+                  voter,
                   pagination: {
                     skip: Math.max(
                       ((pagination.current || 1) - 1) * PAGE_SIZE,
