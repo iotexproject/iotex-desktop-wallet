@@ -15,7 +15,7 @@ import { IOTXValueRenderer } from "../renderer/iotx-value-renderer";
 
 const PAGE_SIZE = 15;
 
-export interface IEvmTransferInfo {
+export interface IStakeActionInfo {
   from: string;
   to: string;
   quantity: string;
@@ -24,7 +24,7 @@ export interface IEvmTransferInfo {
   timeStamp: string;
 }
 
-const getStakeActionListColumns = (): Array<ColumnProps<IEvmTransferInfo>> => [
+const getStakeActionListColumns = (): Array<ColumnProps<IStakeActionInfo>> => [
   {
     title: t("action.hash"),
     dataIndex: "actHash",
