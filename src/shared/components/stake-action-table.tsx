@@ -110,9 +110,8 @@ export const StakeActionTable: React.FC<IStakeActionTable> = ({
           });
         }
         const actions =
-          get<Array<IEvmTransferInfo>>(data || {}, "action.evm.evmTransfers") ||
-          [];
-        const numActions = get<number>(data || {}, "action.evm.count") || 0;
+          get<Array<IStakeActionInfo>>(data || {}, "action.data.action") || [];
+        const numActions = get<number>(data || {}, "action.data.count") || 0;
         return (
           <Table
             loading={{
