@@ -599,6 +599,7 @@ type Query {
   getSolcVersions: [SolcVersion!]!
   compileSolidity(source: String!, version: String!): [Contract!]!
   addressMeta(address: String!): AddressMeta!
+  addressMetas: [AddressMeta!]!
   tokenMetadata(provider: ProviderType!, type: TokenType): [TokenMetadata!]!
 }
 

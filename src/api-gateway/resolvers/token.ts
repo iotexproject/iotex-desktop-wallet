@@ -38,7 +38,14 @@ export class AddressResolver {
         name: meta.name
       };
     }
-    throw new Error("Not exists!");
+    return {
+      name: ""
+    };
+  }
+
+  @Query(_ => [AddressMeta])
+  public async addressMetas(): Promise<Array<AddressMeta>> {
+    return addressMeta;
   }
 }
 
