@@ -2,6 +2,7 @@ import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
 import Table, { ColumnProps } from "antd/lib/table";
 import { get } from "dottie";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
@@ -45,7 +46,7 @@ const getStakeActionListColumns = (): Array<ColumnProps<IStakeActionInfo>> => [
   },
   {
     title: t("action.from"),
-    dataIndex: "from",
+    dataIndex: "sender",
     width: "10vw",
     render: (text: string): JSX.Element | string => {
       return (
@@ -60,7 +61,7 @@ const getStakeActionListColumns = (): Array<ColumnProps<IStakeActionInfo>> => [
   },
   {
     title: t("render.key.to"),
-    dataIndex: "to",
+    dataIndex: "recipient",
     width: "10vw",
     render: (text: string): JSX.Element | string => {
       return (
@@ -75,10 +76,15 @@ const getStakeActionListColumns = (): Array<ColumnProps<IStakeActionInfo>> => [
   },
   {
     title: t("action.amount"),
-    dataIndex: "quantity",
+    dataIndex: "amount",
     render(text: string): JSX.Element {
       return <IOTXValueRenderer value={text} />;
     }
+  },
+  {
+    title: t("render.key.fee"),
+    dataIndex: "gasFee",
+    render: text => fromRau(text, "IOTX")
   }
 ];
 
@@ -110,8 +116,9 @@ export const StakeActionTable: React.FC<IStakeActionTable> = ({
           });
         }
         const actions =
-          get<Array<IStakeActionInfo>>(data || {}, "action.data.action") || [];
-        const numActions = get<number>(data || {}, "action.data.count") || 0;
+          get<Array<IStakeActionInfo>>(data || {}, "action.byVoter.actions") ||
+          [];
+        const numActions = get<number>(data || {}, "action.byVoter.count") || 0;
         return (
           <Table
             loading={{
