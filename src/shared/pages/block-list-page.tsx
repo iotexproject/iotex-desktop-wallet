@@ -4,8 +4,8 @@ import Table, { ColumnProps } from "antd/lib/table";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { t } from "onefx/lib/iso-i18n";
-import React from "react";
-import { Query, QueryResult } from "react-apollo";
+import React, {useEffect, useRef, useState} from "react";
+import {Query, QueryResult} from "react-apollo";
 import Helmet from "react-helmet";
 import {
   BlockMeta,
@@ -17,8 +17,10 @@ import { translateFn } from "../common/from-now";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { numberWithCommas } from "../common/vertical-table";
-import { GET_BLOCK_METAS, GET_LATEST_HEIGHT } from "../queries";
+import {GET_BLOCK_METAS, GET_LATEST_HEIGHT} from "../queries";
 import { Page } from "./page";
+import Button from "antd/lib/button";
+import {CSVLink} from "react-csv";
 
 const PAGE_SIZE = 15;
 
@@ -70,7 +72,7 @@ const getBlockListColumns = (): Array<ColumnProps<BlockMeta>> => [
   }
 ];
 
-const getBlockMetasData = (): JSX.Element => {
+const getBlockMetasData = (fetchBlockMetas: (blockMetas: Array<BlockMeta>) => void): JSX.Element => {
   return (
     <Query query={GET_LATEST_HEIGHT}>
       {({ data, error }: QueryResult<{ chainMeta: { height: number } }>) => {
@@ -111,6 +113,9 @@ const getBlockMetasData = (): JSX.Element => {
                 // reorder
                 blkMetas = blkMetas.sort((a, b) => b.height - a.height);
               }
+
+              fetchBlockMetas(blkMetas);
+
               return (
                 <Table
                   loading={{
@@ -159,13 +164,83 @@ const getBlockMetasData = (): JSX.Element => {
   );
 };
 
+interface ICSVData {
+  height: string
+  timestamp: string
+  numActions: string
+  producerAddress: string
+  transferAmount: string
+}
+
+const ExportAction: React.FC<{
+  blockMetas: Array<BlockMeta> | undefined
+}> = ({ blockMetas}) => {
+
+  const csvInstance = useRef<any | null>(null);
+  const [csvData, setCsvData] = useState<Array<ICSVData>>([]);
+
+  useEffect(() => {
+    if (csvData.length > 0) {
+      setTimeout(() => {
+        csvInstance.current.link.click()
+      }, 1000)
+    }
+  }, [csvData]);
+
+  const handleExport = async () => {
+
+    const data = blockMetas?.map(meta => {
+      return {
+        height: `${meta.height}`,
+        timestamp: translateFn(meta.timestamp),
+        numActions: `${meta.numActions}`,
+        producerAddress: meta.producerAddress,
+        transferAmount: `${numberWithCommas(fromRau(meta.transferAmount || "0", "IOTX"))} IOTX`,
+      }
+    });
+
+    if (data) {
+      setCsvData(data)
+    }
+  };
+
+  const headers = [
+    { label: `${t("block.height")}`, key: "height" },
+    { label: `${t("block.timestamp")}`, key: "timestamp" },
+    { label: `${t("block.num_actions")}`, key: "numActions" },
+    { label: `${t("block.producer_address")}`, key: "producerAddress" },
+    { label: `${t("block.transfer_amount")}`, key: "transferAmount" }
+  ];
+
+  return <div style={{display: "flex", alignItems: "center"}}>
+    {t("block.blocks")}
+    <Button
+      size="small"
+      type="primary"
+      style={{marginLeft: 10}}
+      onClick={handleExport}>{t("action.export")}</Button>
+    <CSVLink
+      data={csvData}
+      headers={headers}
+      filename={t("topbar.blocks")}
+      ref={csvInstance}/>
+  </div>
+};
+
 const BlockListPage: React.FC = (): JSX.Element => {
+
+  const [blockMetas, setBlockMetas] = useState<Array<BlockMeta>>();
+
+  const fetchBlockMetas = (blockMetas: Array<BlockMeta>) => {
+    setBlockMetas(blockMetas)
+  };
+
   return (
     <>
       <Helmet title={`${t("block.blocks")} - ${t("meta.description")}`} />
       <PageNav items={[t("topbar.blocks")]} />
       <ContentPadding>
-        <Page header={t("block.blocks")}>{getBlockMetasData()}</Page>
+        <Page header={<ExportAction blockMetas={blockMetas}/>}>{getBlockMetasData(fetchBlockMetas)}</Page>
       </ContentPadding>
     </>
   );
