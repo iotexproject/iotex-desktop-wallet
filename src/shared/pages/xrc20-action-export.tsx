@@ -19,13 +19,13 @@ const ExportXRC20Action: React.FC<ExportType> = forwardRef<{excExport(): void},E
   actions}, ref) =>
 {
 
-  const csvInstance = useRef<any>(null);
+  const csvInstance = useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
   const [csvData, setCsvData] = useState<Array<ICSVData>>([]);
 
   useEffect(() => {
     if (csvData.length > 0) {
       setTimeout(() => {
-        csvInstance.current.link.click()
+        csvInstance.current?.link.click()
       }, 1000)
     }
   }, [csvData]);

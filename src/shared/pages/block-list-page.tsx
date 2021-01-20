@@ -1,3 +1,4 @@
+import Button from "antd/lib/button";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
 import Table, { ColumnProps } from "antd/lib/table";
@@ -6,6 +7,7 @@ import { fromRau } from "iotex-antenna/lib/account/utils";
 import { t } from "onefx/lib/iso-i18n";
 import React, {useEffect, useRef, useState} from "react";
 import {Query, QueryResult} from "react-apollo";
+import {CSVLink} from "react-csv";
 import Helmet from "react-helmet";
 import {
   BlockMeta,
@@ -19,8 +21,6 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { numberWithCommas } from "../common/vertical-table";
 import {GET_BLOCK_METAS, GET_LATEST_HEIGHT} from "../queries";
 import { Page } from "./page";
-import Button from "antd/lib/button";
-import {CSVLink} from "react-csv";
 
 const PAGE_SIZE = 15;
 
@@ -176,13 +176,13 @@ const ExportAction: React.FC<{
   blockMetas: Array<BlockMeta> | undefined
 }> = ({ blockMetas}) => {
 
-  const csvInstance = useRef<any | null>(null);
+  const csvInstance = useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
   const [csvData, setCsvData] = useState<Array<ICSVData>>([]);
 
   useEffect(() => {
     if (csvData.length > 0) {
       setTimeout(() => {
-        csvInstance.current.link.click()
+        csvInstance.current?.link.click()
       }, 1000)
     }
   }, [csvData]);

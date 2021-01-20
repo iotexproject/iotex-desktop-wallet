@@ -157,35 +157,27 @@ export const XRC721ActionTable: React.FC<IXRC721ActionTable> = forwardRef<{handl
     : address
     ? GET_ANALYTICS_XRC721_ACTIONS_BY_CONTRACT
     : GET_ANALYTICS_XRC721_ACTIONS_BY_PAGE;
-  const variables = accountAddress
-    ? {
+  const variables = accountAddress ? {
         page: 0,
         numPerPage: PAGE_SIZE,
         address: accountAddress
-      }
-    : address
-    ? {
+      } : address ? {
         page: 0,
         numPerPage: PAGE_SIZE,
         address
-      }
-    : {
+      } : {
         pagination: {
           skip: 0,
           first: PAGE_SIZE
         }
       };
-
   const exportInstance = useRef<{excExport(): void}>(null);
-
   useImperativeHandle(ref, () => ({
     handleExport
   }));
-
   const handleExport = () => {
     exportInstance.current?.excExport()
   };
-
   return (
     <Query
       query={query}
@@ -228,14 +220,11 @@ export const XRC721ActionTable: React.FC<IXRC721ActionTable> = forwardRef<{handl
                     page: (pagination.current && pagination.current - 1) || 0,
                     numPerPage: PAGE_SIZE,
                     accountAddress
-                  }
-                  : address
-                    ? {
+                  } : address ? {
                       page: (pagination.current && pagination.current - 1) || 0,
                       numPerPage: PAGE_SIZE,
                       address
-                    }
-                    : {
+                    } : {
                       pagination: {
                         skip: pagination.current
                           ? (pagination.current - 1) * PAGE_SIZE

@@ -14,7 +14,43 @@ import {GET_ACTION_DETAILS_BY_HASH} from "../queries";
 import {IActionsDetails} from "./action-detail-page";
 import {getAddress} from "./action-list-page";
 
-type ExportType = WithApolloClient<{}> & {actions: Array<ActionInfo> | null, refInstance: Ref<any>}
+const translateAmount = (action: ActionInfo) => {
+  const amount: string =
+    get(action, "action.core.execution.amount") ||
+    get(action, "action.core.grantReward.amount") ||
+    get(action, "action.core.transfer.amount") ||
+    get(action, "action.core.createDeposit.amount") ||
+    get(action, "action.core.settleDeposit.amount") ||
+    get(action, "action.core.createPlumChain.amount") ||
+    get(action, "action.core.plumCreateDeposit.amount") ||
+    get(action, "action.core.grantReward.amount") ||
+    get(action, "action.core.stakeAddDeposit.amount") ||
+    "";
+  if (!amount) {
+    return "-";
+  }
+
+  return `${numberWithCommas(fromRau(amount, "IOTX"))} IOTX`;
+};
+
+const resolveFee = (data: IActionsDetails) => {
+  const { gasPrice = "0" } =
+  get<IActionCore>(data, "action.actionInfo.0.action.core") || {};
+  const { gasConsumed = 0 } =
+  get<IReceipt>(data, "receipt.receiptInfo.receipt") || {};
+  return `${numberWithCommas(
+    fromRau(`${gasConsumed * Number(gasPrice)}`, "Iotx")
+  )}`
+};
+
+const resolveAddress = (data: IActionsDetails) => {
+  const { contractAddress } =
+  get<IReceipt>(data, "receipt.receiptInfo.receipt") || {};
+
+  return contractAddress
+};
+
+type ExportType = WithApolloClient<{}> & {actions: Array<ActionInfo> | null, refInstance: Ref<{excExport(): void}>}
 
 interface ICSVData {
   hash: string
@@ -32,7 +68,7 @@ const Export: React.FC<ExportType> = ({
   refInstance}) =>
 {
 
-  const csvInstance = useRef<any>(null);
+  const csvInstance = useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
   const [csvData, setCsvData] = useState<Array<ICSVData>>([]);
   const [tagData, setTagData] = useState<Array<ActionInfo> | null>(null);
 
@@ -43,7 +79,7 @@ const Export: React.FC<ExportType> = ({
   useEffect(() => {
     if (csvData.length > 0) {
       setTimeout(() => {
-        csvInstance.current.link.click()
+        csvInstance.current?.link.click()
       }, 1000)
     }
   }, [csvData]);
@@ -61,42 +97,6 @@ const Export: React.FC<ExportType> = ({
       } as GetActionsByHashRequest
     });
     return res.data
-  };
-
-  const resolveFee = (data: IActionsDetails) => {
-    const { gasPrice = "0" } =
-    get<IActionCore>(data, "action.actionInfo.0.action.core") || {};
-    const { gasConsumed = 0 } =
-    get<IReceipt>(data, "receipt.receiptInfo.receipt") || {};
-    return `${numberWithCommas(
-      fromRau(`${gasConsumed * Number(gasPrice)}`, "Iotx")
-    )}`
-  };
-
-  const resolveAddress = (data: IActionsDetails) => {
-    const { contractAddress } =
-    get<IReceipt>(data, "receipt.receiptInfo.receipt") || {};
-
-    return contractAddress
-  };
-
-  const translateAmount = (action: ActionInfo) => {
-    const amount: string =
-      get(action, "action.core.execution.amount") ||
-      get(action, "action.core.grantReward.amount") ||
-      get(action, "action.core.transfer.amount") ||
-      get(action, "action.core.createDeposit.amount") ||
-      get(action, "action.core.settleDeposit.amount") ||
-      get(action, "action.core.createPlumChain.amount") ||
-      get(action, "action.core.plumCreateDeposit.amount") ||
-      get(action, "action.core.grantReward.amount") ||
-      get(action, "action.core.stakeAddDeposit.amount") ||
-      "";
-    if (!amount) {
-      return "-";
-    }
-
-    return `${numberWithCommas(fromRau(amount, "IOTX"))} IOTX`;
   };
 
   const excExport = async () => {
@@ -144,11 +144,10 @@ const Export: React.FC<ExportType> = ({
           setCsvData(data);
         })
       } else {
-        csvInstance.current.link.click();
+        csvInstance.current?.link?.click();
       }
     }
   };
-
 
   const headers = [
     { label: `${t("action.hash")}`, key: "hash" },

@@ -36,8 +36,8 @@ import { ActionFeeRenderer } from "../renderer/action-fee-renderer";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { ActionToRenderer } from "../renderer/action-to-renderer";
 import { ExportAction } from "./action-export";
-import { Page } from "./page";
 import {ExportAnalyticAction} from "./analytic-action-export";
+import { Page } from "./page";
 
 const PAGE_SIZE = 15;
 
