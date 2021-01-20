@@ -1,10 +1,10 @@
 import {t} from "onefx/lib/iso-i18n";
-import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from "react";
+import React, {Ref, useEffect, useImperativeHandle, useRef, useState} from "react";
 import {CSVLink} from "react-csv";
 import {translateFn} from "../common/from-now";
 import {IEvmTransferInfo} from "../components/evm-transfer-table";
 
-type ExportType = {actions: Array<IEvmTransferInfo> | null}
+type ExportType = {actions: Array<IEvmTransferInfo> | null, refInstance?: Ref<{excExport(): void}>}
 
 interface ICSVData {
   hash: string
@@ -15,8 +15,8 @@ interface ICSVData {
   amount: string
 }
 
-const ExportEvmAction: React.FC<ExportType> = forwardRef<{excExport(): void},ExportType>(({
-  actions}, ref) =>
+const ExportEvmAction: React.FC<ExportType> = ({
+  actions, refInstance}) =>
 {
 
   const csvInstance = useRef<CSVLink & HTMLAnchorElement & { link?: HTMLAnchorElement }>(null);
@@ -30,7 +30,7 @@ const ExportEvmAction: React.FC<ExportType> = forwardRef<{excExport(): void},Exp
     }
   }, [csvData]);
 
-  useImperativeHandle(ref, () => ({
+  useImperativeHandle(refInstance, () => ({
     excExport
   }));
 
@@ -66,6 +66,6 @@ const ExportEvmAction: React.FC<ExportType> = forwardRef<{excExport(): void},Exp
     headers={headers}
     filename={t("common.contract_transactions")}
     ref={csvInstance}/>
-});
+};
 
 export default ExportEvmAction

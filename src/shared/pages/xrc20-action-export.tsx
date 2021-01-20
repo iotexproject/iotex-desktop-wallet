@@ -1,10 +1,10 @@
 import {t} from "onefx/lib/iso-i18n";
-import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from "react";
+import React, { Ref, useEffect, useImperativeHandle, useRef, useState} from "react";
 import {CSVLink} from "react-csv";
 import {translateFn} from "../common/from-now";
 import {IXRC20ActionInfo} from "./xrc20-action-list-page";
 
-type ExportType = {actions: Array<IXRC20ActionInfo> | null}
+type ExportType = {actions: Array<IXRC20ActionInfo> | null, refInstance?: Ref<{excExport(): void}>}
 
 interface ICSVData {
   hash: string
@@ -15,8 +15,8 @@ interface ICSVData {
   token: string
 }
 
-const ExportXRC20Action: React.FC<ExportType> = forwardRef<{excExport(): void},ExportType>(({
-  actions}, ref) =>
+const ExportXRC20Action: React.FC<ExportType> = ({
+  actions, refInstance}) =>
 {
 
   const csvInstance = useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
@@ -30,7 +30,7 @@ const ExportXRC20Action: React.FC<ExportType> = forwardRef<{excExport(): void},E
     }
   }, [csvData]);
 
-  useImperativeHandle(ref, () => ({
+  useImperativeHandle(refInstance, () => ({
     excExport
   }));
 
@@ -66,6 +66,6 @@ const ExportXRC20Action: React.FC<ExportType> = forwardRef<{excExport(): void},E
     headers={headers}
     filename={t("common.xrc20Transactions")}
     ref={csvInstance}/>
-});
+};
 
 export default ExportXRC20Action

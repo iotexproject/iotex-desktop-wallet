@@ -177,25 +177,25 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
                 }}
               >
                 <Tabs.TabPane tab={t("common.transactions")} key="transactions">
-                  <ActionTable ref={exportActionInstance} numActions={numActions} address={address}/>
+                  <ActionTable refInstance={exportActionInstance} numActions={numActions} address={address}/>
                 </Tabs.TabPane>
                 <Tabs.TabPane
                   tab={t("common.xrc20Transactions")}
                   key="xrc_transactions"
                 >
-                  <XRC20ActionTable ref={exportXRC20ActionInstance} address={address} />
+                  <XRC20ActionTable refInstance={exportXRC20ActionInstance} address={address} />
                 </Tabs.TabPane>
                 <Tabs.TabPane
                   tab={t("common.xrc721Transactions")}
                   key="xrc721_transactions"
                 >
-                  <XRC721ActionTable ref={exportXRC721ActionInstance} accountAddress={address} />
+                  <XRC721ActionTable refInstance={exportXRC721ActionInstance} accountAddress={address} />
                 </Tabs.TabPane>
                 <Tabs.TabPane
                   tab={t("common.contract_transactions")}
                   key="contract_transactions"
                 >
-                  <EvmTransfersTable ref={exportEvmActionInstance} address={address} />
+                  <EvmTransfersTable refInstance={exportEvmActionInstance} address={address} />
                 </Tabs.TabPane>
               </Tabs>
             </ContentPadding>

@@ -1,10 +1,10 @@
 import {t} from "onefx/lib/iso-i18n";
-import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from "react";
+import React, {forwardRef, MutableRefObject, useEffect, useImperativeHandle, useRef, useState} from "react";
 import {CSVLink} from "react-csv";
 import {translateFn} from "../common/from-now";
 import {IXRC721ActionInfo} from "./xrc721-action-list-page";
 
-type ExportType = {actions: Array<IXRC721ActionInfo> | null}
+type ExportType = {actions: Array<IXRC721ActionInfo> | null, cRef: MutableRefObject<{excExport(): void} | null>}
 
 interface ICSVData {
   hash: string

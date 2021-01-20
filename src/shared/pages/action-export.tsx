@@ -3,7 +3,7 @@ import {fromRau} from "iotex-antenna/lib/account/utils";
 import {publicKeyToAddress} from "iotex-antenna/lib/crypto/crypto";
 import {IActionCore, IReceipt} from "iotex-antenna/lib/rpc-method/types";
 import {t} from "onefx/lib/iso-i18n";
-import React, {forwardRef, Ref, useEffect, useImperativeHandle, useRef, useState} from "react";
+import React, { Ref, useEffect, useImperativeHandle, useRef, useState} from "react";
 import {withApollo, WithApolloClient} from "react-apollo";
 import {CSVLink} from "react-csv";
 import {ActionInfo, GetActionsByHashRequest} from "../../api-gateway/resolvers/antenna-types";
@@ -50,7 +50,7 @@ const resolveAddress = (data: IActionsDetails) => {
   return contractAddress
 };
 
-type ExportType = WithApolloClient<{}> & {actions: Array<ActionInfo> | null, refInstance: Ref<{excExport(): void}>}
+type ExportType = WithApolloClient<{}> & {actions: Array<ActionInfo> | null, refInstance?: Ref<{excExport(): void}>}
 
 interface ICSVData {
   hash: string
@@ -62,7 +62,7 @@ interface ICSVData {
   fee: string
 }
 
-const Export: React.FC<ExportType> = ({
+const ExportAction: React.FC<ExportType> = ({
   client,
   actions,
   refInstance}) =>
@@ -166,12 +166,4 @@ const Export: React.FC<ExportType> = ({
     ref={csvInstance}/>
 };
 
-const ApolloComponent = withApollo(Export);
-
-export const ExportAction: React.FC<{actions:  Array<ActionInfo> | null}> =
-  forwardRef<{excExport(): void},{actions:  Array<ActionInfo> | null}>(({
-  actions
-}, ref) => {
-  return <ApolloComponent actions={actions} refInstance={ref}/>
-});
-
+export default withApollo(ExportAction);

@@ -10,7 +10,7 @@ import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
-import React, {forwardRef, useImperativeHandle, useRef, useState} from "react";
+import React, { Ref, useImperativeHandle, useRef, useState} from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
@@ -183,12 +183,14 @@ const getXrc20HoldersListColumns = (): Array<ColumnProps<IXRC20HolderInfo>> => [
 export interface IXRC20ActionTable {
   address?: string;
   byContract?: string;
+  refInstance?: Ref<{handleExport(): void}>
 }
 
-export const XRC20ActionTable: React.FC<IXRC20ActionTable> = forwardRef<{handleExport(): void}, IXRC20ActionTable>(({
+export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
   address = "",
-  byContract = ""
-}, ref) => {
+  byContract = "",
+  refInstance
+}) => {
   const query = byContract
     ? GET_ANALYTICS_XRC20_ACTIONS_BY_CONTRACT
     : address
@@ -210,7 +212,7 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = forwardRef<{handleE
 
   const exportInstance = useRef<{excExport(): void}>(null);
 
-  useImperativeHandle(ref, () => ({
+  useImperativeHandle(refInstance, () => ({
     handleExport
   }));
 
@@ -237,7 +239,7 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = forwardRef<{handleE
         const numActions = get<number>(data || {}, "xrc20.data.count");
         return (
           <>
-            <ExportXRC20Action ref={exportInstance} actions={actions}/>
+            <ExportXRC20Action refInstance={exportInstance} actions={actions}/>
             <Table
               loading={{
                 spinning: loading,
@@ -287,7 +289,7 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = forwardRef<{handleE
       }}
     </Query>
   );
-});
+};
 
 export const XRC20HoldersTable: React.FC<IXRC20ActionTable> = ({
   address = ""

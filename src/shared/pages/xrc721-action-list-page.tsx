@@ -5,7 +5,7 @@ import Tabs from "antd/lib/tabs";
 import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { t } from "onefx/lib/iso-i18n";
-import React, {forwardRef, useImperativeHandle, useRef, useState} from "react";
+import React, { Ref, useImperativeHandle, useRef, useState} from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
@@ -146,12 +146,14 @@ const getXRC721HoldersListColumns = (): Array<
 export interface IXRC721ActionTable {
   address?: string;
   accountAddress?: string;
+  refInstance?: Ref<{handleExport(): void}>
 }
 
-export const XRC721ActionTable: React.FC<IXRC721ActionTable> = forwardRef<{handleExport(): void}, IXRC721ActionTable>(({
+export const XRC721ActionTable: React.FC<IXRC721ActionTable> = ({
   address = "",
-  accountAddress = ""
-}, ref) => {
+  accountAddress = "",
+  refInstance
+}) => {
   const query = accountAddress
     ? GET_ANALYTICS_XRC721_ACTIONS_BY_ADDRESS
     : address
@@ -172,7 +174,7 @@ export const XRC721ActionTable: React.FC<IXRC721ActionTable> = forwardRef<{handl
         }
       };
   const exportInstance = useRef<{excExport(): void}>(null);
-  useImperativeHandle(ref, () => ({
+  useImperativeHandle(refInstance, () => ({
     handleExport
   }));
   const handleExport = () => {
@@ -197,7 +199,7 @@ export const XRC721ActionTable: React.FC<IXRC721ActionTable> = forwardRef<{handl
         const numActions = get<number>(data || {}, "xrc721.data.count");
         return (
           <>
-            <ExportXRC721Action ref={exportInstance} actions={actions}/>
+            <ExportXRC721Action cRef={exportInstance} actions={actions}/>
             <Table
               loading={{
                 spinning: loading,
@@ -249,7 +251,7 @@ export const XRC721ActionTable: React.FC<IXRC721ActionTable> = forwardRef<{handl
       }}
     </Query>
   );
-});
+};
 
 export const XRC721HoldersTable: React.FC<IXRC721ActionTable> = ({
   address = ""

@@ -1,10 +1,10 @@
 import moment from "moment";
 import {t} from "onefx/lib/iso-i18n";
-import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from "react";
+import React, {Ref, useEffect, useImperativeHandle, useRef, useState} from "react";
 import {CSVLink} from "react-csv";
 import {IAnalyticActionInfo} from "./action-list-page";
 
-type ExportType = {actions: Array<IAnalyticActionInfo> | null}
+type ExportType = {actions: Array<IAnalyticActionInfo> | null, refInstance?: Ref<{excExport(): void}>}
 
 interface ICSVData {
   hash: string
@@ -16,8 +16,8 @@ interface ICSVData {
   fee: string
 }
 
-export const ExportAnalyticAction: React.FC<ExportType> = forwardRef<{excExport(): void},ExportType>(({
-  actions}, ref) =>
+export const ExportAnalyticAction: React.FC<ExportType> = ({
+  actions,refInstance}) =>
 {
 
   const csvInstance = useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
@@ -32,7 +32,7 @@ export const ExportAnalyticAction: React.FC<ExportType> = forwardRef<{excExport(
     }
   }, [csvData]);
 
-  useImperativeHandle(ref, () => ({
+  useImperativeHandle(refInstance, () => ({
     excExport
   }));
 
@@ -70,4 +70,4 @@ export const ExportAnalyticAction: React.FC<ExportType> = forwardRef<{excExport(
     headers={headers}
     filename={t("topbar.actions")}
     ref={csvInstance}/>
-});
+};
