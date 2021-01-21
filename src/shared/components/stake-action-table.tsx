@@ -60,21 +60,6 @@ const getStakeActionListColumns = (): Array<ColumnProps<IStakeActionInfo>> => [
     }
   },
   {
-    title: t("render.key.to"),
-    dataIndex: "recipient",
-    width: "10vw",
-    render: (text: string): JSX.Element | string => {
-      return (
-        <span
-          className="ellipsis-text"
-          style={{ maxWidth: "10vw", minWidth: 100 }}
-        >
-          <AddressName address={text} />
-        </span>
-      );
-    }
-  },
-  {
     title: t("action.amount"),
     dataIndex: "amount",
     render(text: string): JSX.Element {
