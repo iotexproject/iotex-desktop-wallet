@@ -609,4 +609,3 @@ token.address.contract: 'Contract:'
 token.address.decimals: 'Decimals:'
 candidate.epoch_progress: Epoch Progress
 action.method.contract_creation: Contract Creation
-action.export: export

@@ -7,11 +7,10 @@ import { fromRau } from "iotex-antenna/lib/account/utils";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import { GetChainMetaResponse } from "iotex-antenna/protogen/proto/api/api_pb";
 import { t } from "onefx/lib/iso-i18n";
-import React, {FC, Ref, useImperativeHandle, useRef} from "react";
+import React, { FC } from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 
-import Button from "antd/lib/button";
 import List from "antd/lib/list";
 import moment from "moment";
 import { withRouter } from "react-router";
@@ -34,11 +33,8 @@ import {
 } from "../queries";
 import { ActionFeeRenderer } from "../renderer/action-fee-renderer";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
-import { ActionToRenderer } from "../renderer/action-to-renderer";
-import ExportAction from "./action-export";
-import {ExportAnalyticAction} from "./analytic-action-export";
 import { Page } from "./page";
-
+import { ActionToRenderer } from "../renderer/action-to-renderer";
 const PAGE_SIZE = 15;
 
 export function getAddress(record: ActionInfo): string {
@@ -170,26 +166,23 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
 export interface IActionTable {
   address?: string;
   numActions: number;
-  refInstance?: Ref<{handleExport(): void}>
 }
-
 export const ActionTable: React.FC<IActionTable> = ({
   numActions,
-  address,
-  refInstance
+  address
 }) => {
   const start = Math.max(numActions - PAGE_SIZE, 0);
   const count = PAGE_SIZE;
-    const getVariables = (
-      start: number,
-      count: number
-    ): {
-      byIndex?: {
-        start: number;
-        count: number;
-      };
-      byAddr?: {
-        address: string;
+  const getVariables = (
+    start: number,
+    count: number
+  ): {
+    byIndex?: {
+      start: number;
+      count: number;
+    };
+    byAddr?: {
+      address: string;
       start: number;
       count: number;
     };
@@ -205,15 +198,6 @@ export const ActionTable: React.FC<IActionTable> = ({
       : {
           byIndex: { start: start || 0, count: count || 0 }
         };
-  };
-
-  const exportInstance = useRef<{excExport(): void}>(null);
-  useImperativeHandle(refInstance, () => ({
-    handleExport
-  }));
-
-  const handleExport = () => {
-    exportInstance.current?.excExport()
   };
 
   return (
@@ -236,41 +220,34 @@ export const ActionTable: React.FC<IActionTable> = ({
         const actions =
           get<Array<ActionInfo>>(data || {}, "getActions.actionInfo") || [];
 
-        // fetchActions?.call(null, actions);
-
-        // console.log('ActionTable -->');
-
         return (
-          <>
-            <ExportAction refInstance={exportInstance} actions={actions}/>
-            <Table
-              loading={{
-                spinning: loading,
-                indicator: <Icon type="loading" />
-              }}
-              rowKey="actHash"
-              dataSource={actions}
-              columns={getActionListColumns()}
-              style={{ width: "100%" }}
-              scroll={{ x: "auto" }}
-              pagination={{
-                pageSize: count,
-                total: numActions,
-                showQuickJumper: true
-              }}
-              size="middle"
-              onChange={pagination => {
-                const current = pagination.current || 1;
-                const cStart = Math.max(start - (current - 1) * count, 0);
-                fetchMore({
-                  variables: getVariables(cStart, count),
-                  updateQuery: (_, { fetchMoreResult }) => {
-                    return fetchMoreResult || {};
-                  }
-                });
-              }}
-            />
-          </>
+          <Table
+            loading={{
+              spinning: loading,
+              indicator: <Icon type="loading" />
+            }}
+            rowKey="actHash"
+            dataSource={actions}
+            columns={getActionListColumns()}
+            style={{ width: "100%" }}
+            scroll={{ x: "auto" }}
+            pagination={{
+              pageSize: count,
+              total: numActions,
+              showQuickJumper: true
+            }}
+            size="middle"
+            onChange={pagination => {
+              const current = pagination.current || 1;
+              const cStart = Math.max(start - (current - 1) * count, 0);
+              fetchMore({
+                variables: getVariables(cStart, count),
+                updateQuery: (_, { fetchMoreResult }) => {
+                  return fetchMoreResult || {};
+                }
+              });
+            }}
+          />
         );
       }}
     </Query>
@@ -356,14 +333,10 @@ const getAnalyticActionColumns = (): Array<
     render: text => text
   }
 ];
-
-type AnalyticActionTableProp = {
+export const AnalyticActionTable: FC<{
   actionType?: string;
   bucketIndex?: number;
-  refInstance?: Ref<{handleExport(): void}>
-}
-export const AnalyticActionTable: FC<AnalyticActionTableProp> =
-    ({ actionType, bucketIndex ,refInstance}) => {
+}> = ({ actionType, bucketIndex }) => {
   const variables = bucketIndex ? { bucketIndex } : { type: actionType };
   const by = bucketIndex ? "byBucketIndex" : "byType";
   const query = bucketIndex
@@ -409,91 +382,57 @@ export const AnalyticActionTable: FC<AnalyticActionTableProp> =
         const actions = get(data || {}, `action.${by}.actions`, []);
         const numActions = get(data || {}, `action.${by}.count`, 0);
 
-        const exportInstance = useRef<{excExport(): void}>(null);
-
-        useImperativeHandle(refInstance, () => ({
-          handleExport
-        }));
-
-        const handleExport = () => {
-          exportInstance.current?.excExport()
-        };
-
         return (
-          <>
-            <ExportAnalyticAction refInstance={exportInstance} actions={actions}/>
-            <Table
-              loading={{
-                spinning: loading,
-                indicator: <Icon type="loading" />
-              }}
-              rowKey="actHash"
-              dataSource={actions}
-              columns={getAnalyticActionColumns()}
-              style={{ width: "100%" }}
-              scroll={{ x: "auto" }}
-              pagination={{
-                pageSize: PAGE_SIZE,
-                total: numActions,
-                showQuickJumper: true
-              }}
-              size="middle"
-              onChange={pagination => {
-                const current = Math.max(pagination.current || 1, 1);
-                fetchMore({
-                  // @ts-ignore
-                  updateQuery: (_, { fetchMoreResult }) => {
-                    return fetchMoreResult || {};
-                  },
-                  variables: {
-                    type: actionType,
-                    pagination: {
-                      skip: (current - 1) * PAGE_SIZE,
-                      first: PAGE_SIZE
-                    }
+          <Table
+            loading={{
+              spinning: loading,
+              indicator: <Icon type="loading" />
+            }}
+            rowKey="actHash"
+            dataSource={actions}
+            columns={getAnalyticActionColumns()}
+            style={{ width: "100%" }}
+            scroll={{ x: "auto" }}
+            pagination={{
+              pageSize: PAGE_SIZE,
+              total: numActions,
+              showQuickJumper: true
+            }}
+            size="middle"
+            onChange={pagination => {
+              const current = Math.max(pagination.current || 1, 1);
+              fetchMore({
+                // @ts-ignore
+                updateQuery: (_, { fetchMoreResult }) => {
+                  return fetchMoreResult || {};
+                },
+                variables: {
+                  type: actionType,
+                  pagination: {
+                    skip: (current - 1) * PAGE_SIZE,
+                    first: PAGE_SIZE
                   }
-                });
-              }}
-            />
-          </>
+                }
+              });
+            }}
+          />
         );
       }}
     </Query>
   );
 };
 
-const PageHeader: React.FC<{
-  click? (): void
-}> = ({ click }) => {
-
-  return <div style={{display: "flex", alignItems: "center"}}>
-    {t("topbar.actions")}
-    <Button
-      size="small"
-      type="primary"
-      style={{marginLeft: 10}}
-      onClick={click}>{t("action.export")}</Button>
-  </div>
-};
-
 const ActionListPage = withRouter(
   ({ location }): JSX.Element => {
     const actionType =
       new URLSearchParams(location.search).get("actionType") || "";
-
-    const exportInstance = useRef<{handleExport(): void}>(null);
-
-    const exportAction = () => {
-      exportInstance.current?.handleExport()
-    };
-
     return (
       <>
         <Helmet title={`${t("topbar.actions")} - ${t("meta.description")}`} />
         <PageNav items={[t("topbar.actions")]} />
         <ContentPadding>
-          <Page header={<PageHeader click={exportAction}/>}>
-            {actionType && <AnalyticActionTable refInstance={exportInstance} actionType={actionType} />}
+          <Page header={t("topbar.actions")}>
+            {actionType && <AnalyticActionTable actionType={actionType} />}
             {!actionType && (
               <Query query={GET_CHAIN_META}>
                 {({
@@ -513,7 +452,7 @@ const ActionListPage = withRouter(
                     get(data, "chainMeta.numActions"),
                     10
                   );
-                  return <ActionTable refInstance={exportInstance} numActions={numActions}/>;
+                  return <ActionTable numActions={numActions} />;
                 }}
               </Query>
             )}

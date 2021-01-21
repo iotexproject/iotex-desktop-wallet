@@ -5,7 +5,7 @@ import Tabs from "antd/lib/tabs";
 import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { t } from "onefx/lib/iso-i18n";
-import React, { Ref, useImperativeHandle, useRef, useState} from "react";
+import React, { useState } from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
@@ -24,7 +24,6 @@ import {
 } from "../queries";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
-import ExportXRC721Action from "./xrc721-action-export";
 const { TabPane } = Tabs;
 
 const PAGE_SIZE = 15;
@@ -146,40 +145,35 @@ const getXRC721HoldersListColumns = (): Array<
 export interface IXRC721ActionTable {
   address?: string;
   accountAddress?: string;
-  refInstance?: Ref<{handleExport(): void}>
 }
 
 export const XRC721ActionTable: React.FC<IXRC721ActionTable> = ({
   address = "",
-  accountAddress = "",
-  refInstance
+  accountAddress = ""
 }) => {
   const query = accountAddress
     ? GET_ANALYTICS_XRC721_ACTIONS_BY_ADDRESS
     : address
     ? GET_ANALYTICS_XRC721_ACTIONS_BY_CONTRACT
     : GET_ANALYTICS_XRC721_ACTIONS_BY_PAGE;
-  const variables = accountAddress ? {
+  const variables = accountAddress
+    ? {
         page: 0,
         numPerPage: PAGE_SIZE,
         address: accountAddress
-      } : address ? {
+      }
+    : address
+    ? {
         page: 0,
         numPerPage: PAGE_SIZE,
         address
-      } : {
+      }
+    : {
         pagination: {
           skip: 0,
           first: PAGE_SIZE
         }
       };
-  const exportInstance = useRef<{excExport(): void}>(null);
-  useImperativeHandle(refInstance, () => ({
-    handleExport
-  }));
-  const handleExport = () => {
-    exportInstance.current?.excExport()
-  };
   return (
     <Query
       query={query}
@@ -198,55 +192,55 @@ export const XRC721ActionTable: React.FC<IXRC721ActionTable> = ({
           get<Array<IXRC721ActionInfo>>(data || {}, "xrc721.data.xrc721") || [];
         const numActions = get<number>(data || {}, "xrc721.data.count");
         return (
-          <>
-            <ExportXRC721Action cRef={exportInstance} actions={actions}/>
-            <Table
-              loading={{
-                spinning: loading,
-                indicator: <Icon type="loading" />
-              }}
-              rowKey="hash"
-              dataSource={actions}
-              columns={getXrc721ActionListColumns()}
-              style={{ width: "100%" }}
-              scroll={{ x: "auto" }}
-              pagination={{
-                pageSize: PAGE_SIZE,
-                total: numActions,
-                showQuickJumper: true
-              }}
-              size="middle"
-              onChange={pagination => {
-                const updatevariables = accountAddress
-                  ? {
+          <Table
+            loading={{
+              spinning: loading,
+              indicator: <Icon type="loading" />
+            }}
+            rowKey="hash"
+            dataSource={actions}
+            columns={getXrc721ActionListColumns()}
+            style={{ width: "100%" }}
+            scroll={{ x: "auto" }}
+            pagination={{
+              pageSize: PAGE_SIZE,
+              total: numActions,
+              showQuickJumper: true
+            }}
+            size="middle"
+            onChange={pagination => {
+              const updatevariables = accountAddress
+                ? {
                     page: (pagination.current && pagination.current - 1) || 0,
                     numPerPage: PAGE_SIZE,
                     accountAddress
-                  } : address ? {
-                      page: (pagination.current && pagination.current - 1) || 0,
-                      numPerPage: PAGE_SIZE,
-                      address
-                    } : {
-                      pagination: {
-                        skip: pagination.current
-                          ? (pagination.current - 1) * PAGE_SIZE
-                          : 0,
-                        first: PAGE_SIZE
-                      }
-                    };
-                fetchMore({
-                  // @ts-ignore
-                  variables: updatevariables,
-                  updateQuery: (prev, { fetchMoreResult }) => {
-                    if (!fetchMoreResult) {
-                      return prev;
-                    }
-                    return fetchMoreResult;
                   }
-                });
-              }}
-            />
-          </>
+                : address
+                ? {
+                    page: (pagination.current && pagination.current - 1) || 0,
+                    numPerPage: PAGE_SIZE,
+                    address
+                  }
+                : {
+                    pagination: {
+                      skip: pagination.current
+                        ? (pagination.current - 1) * PAGE_SIZE
+                        : 0,
+                      first: PAGE_SIZE
+                    }
+                  };
+              fetchMore({
+                // @ts-ignore
+                variables: updatevariables,
+                updateQuery: (prev, { fetchMoreResult }) => {
+                  if (!fetchMoreResult) {
+                    return prev;
+                  }
+                  return fetchMoreResult;
+                }
+              });
+            }}
+          />
         );
       }}
     </Query>
