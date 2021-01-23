@@ -73,7 +73,7 @@ function removeTypeName(obj: LogObject): LogObject {
 export interface IActionsDetails {
   action?: GetActionsResponse;
   receipt?: GetReceiptByActionResponse;
-  evmTransfers: Array<IEvmTransferInfo>;
+  evmTransfers?: Array<IEvmTransferInfo>;
 }
 
 export type GetActionDetailsResponse = QueryResult<IActionsDetails>;
@@ -189,7 +189,7 @@ const parseActionDetails = (data: IActionsDetails) => {
       : {}),
     nonce,
     ...(execution ? { evmTransfer: removeTypeName(logs) } : {}),
-    evmTransfers,
+    ...(evmTransfers && evmTransfers.length > 0 ? { evmTransfers } : {}),
     ...(execution ? { data: execution.data.toString() } : {}),
     logs: removeTypeName(logs)
   };
@@ -205,7 +205,7 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
   BigNumber.config({ DECIMAL_PLACES: 8, ROUNDING_MODE: BigNumber.ROUND_DOWN });
   const { hash } = props.match.params;
   const [state, setState] = useState<IData>({ payloadViewType: "UTF-8" });
-  const [evmTransfers, setEvmTransfers] = useState<Array<IEvmTransferInfo>>([]);
+  const [evmTransfers, setEvmTransfers] = useState<Array<IEvmTransferInfo>>();
   if (!hash || hash.length !== 64) {
     return <NotFound />;
   }

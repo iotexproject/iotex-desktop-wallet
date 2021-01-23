@@ -12,9 +12,9 @@ import { t } from "onefx/lib/iso-i18n";
 import { LinkButton } from "../common/buttons";
 import BigNumber from "bignumber.js";
 
-const TokenEvmTransferRenderer: VerticalTableRender<
-  Array<IEvmTransferInfo>
-> = ({ value }) => {
+const EvmTransferRenderer: VerticalTableRender<Array<IEvmTransferInfo>> = ({
+  value
+}) => {
   return (
     <>
       {value.map(i => {
@@ -62,4 +62,4 @@ const TokenEvmTransferRenderer: VerticalTableRender<
   );
 };
 
-export { TokenEvmTransferRenderer };
+export { EvmTransferRenderer };

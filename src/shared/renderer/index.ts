@@ -6,7 +6,7 @@ import { ReceiptAddressRenderer } from "./reciept-address-renderer";
 import { StatusRenderer } from "./status-renderer";
 import { TextCopyRenderer } from "./text-copy-renderer";
 import { TextAreaRenderer } from "./textarea-renderer";
-import { TokenEvmTransferRenderer } from "./token-evmTransfer-render";
+import { EvmTransferRenderer } from "./evm-transfer-render";
 import { TransferPayloadRenderer } from "./transfer-payload-renderer";
 import { WalletAddressRenderer } from "./wallet-address-renderer";
 import { Xrc20TransferRenderer } from "./xrc20-transfer-renderer";
@@ -22,7 +22,7 @@ const CommonRenderer = {
   logs: TextAreaRenderer,
   data: TextAreaRenderer,
   evmTransfer: Xrc20TransferRenderer,
-  evmTransfers: TokenEvmTransferRenderer
+  evmTransfers: EvmTransferRenderer
 };
 
 const AddressDetailRenderer = {
