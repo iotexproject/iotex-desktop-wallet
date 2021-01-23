@@ -6,7 +6,7 @@ import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import isBrowser from "is-browser";
 import omit from "lodash.omit";
 import { t } from "onefx/lib/iso-i18n";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
@@ -21,8 +21,13 @@ import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { Dict } from "../common/types";
 import { numberWithCommas } from "../common/vertical-table";
-import { GET_ACTION_DETAILS_BY_HASH } from "../queries";
+import {
+  GET_ACTION_DETAILS_BY_HASH,
+  GET_ANALYTICS_EVM_TRANSFERS
+} from "../queries";
 import { CommonRenderer } from "../renderer";
+import { analyticsClient } from "../common/apollo-client";
+import { IEvmTransferInfo } from "../components/evm-transfer-table";
 
 const { Option } = Select;
 
@@ -68,15 +73,21 @@ function removeTypeName(obj: LogObject): LogObject {
 export interface IActionsDetails {
   action?: GetActionsResponse;
   receipt?: GetReceiptByActionResponse;
+  evmTransfers: Array<IEvmTransferInfo>;
 }
 
 export type GetActionDetailsResponse = QueryResult<IActionsDetails>;
 
 // tslint:disable-next-line:max-func-body-length
 const parseActionDetails = (data: IActionsDetails) => {
+  const { evmTransfers } = data;
   // destruct receipt info
-  const { blkHeight, gasConsumed, status, logs, contractAddress }: Dict =
+  const { blkHeight, gasConsumed, status, logs }: Dict =
     get(data, "receipt.receiptInfo.receipt") || {};
+
+  const contractAddress: string | null =
+    get(data, "receipt.receiptInfo.receipt.contractAddress") ||
+    get(data, "action.actionInfo.0.action.core.execution.contract");
 
   // destruct action core info
   const {
@@ -159,9 +170,6 @@ const parseActionDetails = (data: IActionsDetails) => {
       ? { payload: { transfer } }
       : { payload: { transfer: { payload: "" } } }),
     payloadViewType: "UTF-8",
-    ...(execution
-      ? { evmTransfer: removeTypeName(logs) }
-      : {}),
     ...(transfer ? { value: transfer.amount } : {}),
     ...(stakeAddDeposit ? { value: stakeAddDeposit.amount } : {}),
     ...actionType,
@@ -180,6 +188,8 @@ const parseActionDetails = (data: IActionsDetails) => {
         }
       : {}),
     nonce,
+    ...(execution ? { evmTransfer: removeTypeName(logs) } : {}),
+    evmTransfers,
     ...(execution ? { data: execution.data.toString() } : {}),
     logs: removeTypeName(logs)
   };
@@ -195,9 +205,23 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
   BigNumber.config({ DECIMAL_PLACES: 8, ROUNDING_MODE: BigNumber.ROUND_DOWN });
   const { hash } = props.match.params;
   const [state, setState] = useState<IData>({ payloadViewType: "UTF-8" });
+  const [evmTransfers, setEvmTransfers] = useState<Array<IEvmTransferInfo>>([]);
   if (!hash || hash.length !== 64) {
     return <NotFound />;
   }
+  useEffect(() => {
+    analyticsClient
+      .query({
+        query: GET_ANALYTICS_EVM_TRANSFERS(hash)
+      })
+      .then(datas => {
+        const data = get(datas, "data.action.byHash.evmTransfers");
+        if (data) {
+          //@ts-ignore
+          setEvmTransfers(data);
+        }
+      });
+  }, []);
   return (
     <>
       <Helmet title={`IoTeX ${t("action.action")} ${hash}`} />
@@ -216,6 +240,7 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
         ]}
       />
       <Query
+        ssr={false}
         errorPolicy="ignore"
         query={GET_ACTION_DETAILS_BY_HASH}
         variables={{ actionHash: hash, checkingPending: true }}
@@ -228,7 +253,8 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
           if (data && data.action) {
             stopPolling();
           }
-          let details = parseActionDetails(data || {});
+          let details = parseActionDetails({ ...data, evmTransfers } || {});
+
           const actionUrl = `${
             isBrowser ? location.origin : ""
           }/action/${hash}`;

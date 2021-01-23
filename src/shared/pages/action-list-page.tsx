@@ -218,6 +218,7 @@ export const ActionTable: React.FC<IActionTable> = ({
 
   return (
     <Query
+      ssr={false}
       query={GET_ACTIONS}
       variables={getVariables(start, count)}
       notifyOnNetworkStatusChange={true}
