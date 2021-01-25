@@ -1,3 +1,4 @@
+import Button from "antd/lib/button";
 import notification from "antd/lib/notification";
 import Tabs from "antd/lib/tabs";
 import { get } from "dottie";
@@ -5,7 +6,7 @@ import { get } from "dottie";
 import window from "global/window";
 import isBrowser from "is-browser";
 import { t } from "onefx/lib/iso-i18n";
-import React from "react";
+import React, {useRef, useState} from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
@@ -22,7 +23,7 @@ import { ContentPadding } from "../common/styles/style-padding";
 import { EvmTransfersTable } from "../components/evm-transfer-table";
 import { GET_ACCOUNT } from "../queries";
 import { AddressDetailRenderer } from "../renderer";
-import { ActionTable } from "./action-list-page";
+import {ActionTable} from "./action-list-page";
 import { XRC20ActionTable } from "./xrc20-action-list-page";
 import { XRC721ActionTable } from "./xrc721-action-list-page";
 import { StakeActionTable } from "../components/stake-action-table";
@@ -63,6 +64,32 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
   if (!address) {
     return null;
   }
+
+  const [tabKey, setTabKey] = useState<string>("transactions");
+
+  const exportActionInstance = useRef<{handleExport(): void}>(null);
+  const exportXRC20ActionInstance = useRef<{handleExport(): void}>(null);
+  const exportXRC721ActionInstance = useRef<{handleExport(): void}>(null);
+  const exportEvmActionInstance = useRef<{handleExport(): void}>(null);
+
+  const exportAction = () => {
+    switch (tabKey) {
+      case "transactions":
+        exportActionInstance.current?.handleExport();
+        break;
+      case "xrc_transactions":
+        exportXRC20ActionInstance.current?.handleExport();
+        break;
+      case "xrc721_transactions":
+        exportXRC721ActionInstance.current?.handleExport();
+        break;
+      case "contract_transactions":
+        exportEvmActionInstance.current?.handleExport();
+        break;
+      default:
+    }
+  };
+
   return (
     <>
       <Helmet title={`IoTeX ${t("address.address")} ${address}`} />
@@ -137,34 +164,39 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
                   valueRenderMap: AddressDetailRenderer
                 }}
               />
+              <Button
+                size="small"
+                type="primary"
+                onClick={exportAction}>{t("action.export")}</Button>
               <Tabs
                 size="large"
                 className="card-shadow"
                 defaultActiveKey={hashRoute}
                 onChange={key => {
                   history.replace(`#${key}`);
+                  setTabKey(key)
                 }}
               >
                 <Tabs.TabPane tab={t("common.transactions")} key="transactions">
-                  <ActionTable numActions={numActions} address={address} />
+                  <ActionTable refInstance={exportActionInstance} numActions={numActions} address={address}/>
                 </Tabs.TabPane>
                 <Tabs.TabPane
                   tab={t("common.xrc20Transactions")}
                   key="xrc_transactions"
                 >
-                  <XRC20ActionTable address={address} />
+                  <XRC20ActionTable refInstance={exportXRC20ActionInstance} address={address} />
                 </Tabs.TabPane>
                 <Tabs.TabPane
                   tab={t("common.xrc721Transactions")}
                   key="xrc721_transactions"
                 >
-                  <XRC721ActionTable accountAddress={address} />
+                  <XRC721ActionTable refInstance={exportXRC721ActionInstance} accountAddress={address} />
                 </Tabs.TabPane>
                 <Tabs.TabPane
                   tab={t("common.contract_transactions")}
                   key="contract_transactions"
                 >
-                  <EvmTransfersTable address={address} />
+                  <EvmTransfersTable refInstance={exportEvmActionInstance} address={address} />
                 </Tabs.TabPane>
                 <Tabs.TabPane
                   tab={t("common.stake_actions")}

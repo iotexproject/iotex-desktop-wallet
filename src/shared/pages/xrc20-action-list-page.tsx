@@ -10,7 +10,7 @@ import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
-import React, { useState } from "react";
+import React, { Ref, useImperativeHandle, useRef, useState} from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
@@ -38,6 +38,7 @@ import {
 } from "../queries";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
+import ExportXRC20Action from "./xrc20-action-export";
 
 const { TabPane } = Tabs;
 
@@ -182,11 +183,13 @@ const getXrc20HoldersListColumns = (): Array<ColumnProps<IXRC20HolderInfo>> => [
 export interface IXRC20ActionTable {
   address?: string;
   byContract?: string;
+  refInstance?: Ref<{handleExport(): void}>
 }
 
 export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
   address = "",
-  byContract = ""
+  byContract = "",
+  refInstance
 }) => {
   const query = byContract
     ? GET_ANALYTICS_XRC20_ACTIONS_BY_CONTRACT
@@ -206,6 +209,16 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
             first: PAGE_SIZE
           }
         };
+
+  const exportInstance = useRef<{excExport(): void}>(null);
+
+  useImperativeHandle(refInstance, () => ({
+    handleExport
+  }));
+
+  const handleExport = () => {
+    exportInstance.current?.excExport()
+  };
   return (
     <Query
       query={query}
@@ -225,31 +238,33 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
           get<Array<IXRC20ActionInfo>>(data || {}, "xrc20.data.xrc20") || [];
         const numActions = get<number>(data || {}, "xrc20.data.count");
         return (
-          <Table
-            loading={{
-              spinning: loading,
-              indicator: <Icon type="loading" />
-            }}
-            rowKey="hash"
-            dataSource={actions}
-            columns={getXrc20ActionListColumns({ tokenMetadataMap })}
-            style={{ width: "100%" }}
-            scroll={{ x: "auto" }}
-            pagination={{
-              pageSize: PAGE_SIZE,
-              total: numActions,
-              showQuickJumper: true
-            }}
-            size="middle"
-            onChange={pagination => {
-              const updatevariables =
-                address || byContract
-                  ? {
+          <>
+            <ExportXRC20Action refInstance={exportInstance} actions={actions}/>
+            <Table
+              loading={{
+                spinning: loading,
+                indicator: <Icon type="loading" />
+              }}
+              rowKey="hash"
+              dataSource={actions}
+              columns={getXrc20ActionListColumns({ tokenMetadataMap })}
+              style={{ width: "100%" }}
+              scroll={{ x: "auto" }}
+              pagination={{
+                pageSize: PAGE_SIZE,
+                total: numActions,
+                showQuickJumper: true
+              }}
+              size="middle"
+              onChange={pagination => {
+                const updatevariables =
+                  address || byContract
+                    ? {
                       page: pagination.current || 1,
                       numPerPage: PAGE_SIZE,
                       address: byContract ? byContract : address
                     }
-                  : {
+                    : {
                       pagination: {
                         skip: pagination.current
                           ? (pagination.current - 1) * PAGE_SIZE
@@ -257,18 +272,19 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
                         first: PAGE_SIZE
                       }
                     };
-              fetchMore({
-                // @ts-ignore
-                variables: updatevariables,
-                updateQuery: (prev, { fetchMoreResult }) => {
-                  if (!fetchMoreResult) {
-                    return prev;
+                fetchMore({
+                  // @ts-ignore
+                  variables: updatevariables,
+                  updateQuery: (prev, { fetchMoreResult }) => {
+                    if (!fetchMoreResult) {
+                      return prev;
+                    }
+                    return fetchMoreResult;
                   }
-                  return fetchMoreResult;
-                }
-              });
-            }}
-          />
+                });
+              }}
+            />
+          </>
         );
       }}
     </Query>
