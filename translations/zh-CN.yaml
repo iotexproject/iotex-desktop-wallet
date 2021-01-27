@@ -3,17 +3,14 @@ meta.description: 探索IoTeX区块链地址，操作和智能合约。
 topbar.brand: 品牌
 topbar.blockchain: 区块链
 topbar.blocks: 区块
-topbar.actions: 事务
+topbar.actions: 交易
 topbar.home: 首页
-topbar.accounts: 账户
-topbar.top_accounts: IOTX余额最高账户
 not_found.bar: 未找到
 not_found.title: 糟糕!
 not_found.info: 找不到页面...
-network.disconnected: '无法连接到互联网'
 candidate.delegate_name: 节点名称
 candidate.status: 状态
-candidate.live_votes: 实时投票
+candidate.live_votes: 实时得票
 candidate.percent: 得票率
 candidates.election.ELECTED: 当选
 candidates.election.NOT_ELECTED: 未当选
@@ -23,43 +20,34 @@ block.block: 区块
 block.blocks: 区块
 block.height: 高度
 block.hash: 哈希
-block.timestamp: 年龄
-block.num_actions: 操作
+block.timestamp: 时间
+block.num_actions: 交易
 block.producer_address: 生产者
 block.transfer_amount: 转账总额
-block.tx_root: 'Action Root'
+block.tx_root: 'Tx Root'
 block.receipt_root: 收据根
 block.delta_state_digest: 状态增量摘要
 action.type: 类型
-action.type.transfer: 传递
+action.type.transfer: 转账
 action.type.grant_reward: 授予的奖励
 action.type.execution: 执行
-action.type.stakeCreate: 创建质押
-action.type.stakeUnstake: 赎回质押
-action.type.stakeWithdraw: 提取赎回
-action.type.stakeAddDeposit: 增加质押
-action.type.stakeRestake: 重新质押
-action.type.stakeChangeCandidate: 修改候选人
-action.type.stakeTransferOwnership: 转让质押桶
-action.type.candidateRegister: 注册为候选人
-action.type.candidateUpdate: 更新资料
 action.data: 数据
 topbar.graphql_playground: 'GraphQL 测试区'
 topbar.graphql_doc: 'GraphQL 文档'
 action.hash: 哈希
 action.block_hash: 区块
-action.amount: 总量
-action.action: 事务
+action.amount: 数量
+action.action: 行动
 action.sender: 发送方
 action.recipient: 接收方
 title.action: 操作
 render.key.height: 高度
 render.key.hash: 哈希
-render.key.timestamp: 年龄
-render.key.numActions: 操作
+render.key.timestamp: 时间
+render.key.numActions: 交易
 render.key.producerAddress: 生产者
 render.key.transferAmount: 转账总额
-render.key.txRoot: 'Action Root'
+render.key.txRoot: 'Tx Root'
 render.key.receiptRoot: 接收Root
 render.key.deltaStateDigest: 增值收据的摘要
 render.key.actHash: 哈希
@@ -67,25 +55,23 @@ render.key.blkHash: 区块
 render.key.actionType: 类型
 render.key.actionData: 数据
 render.key.sender: 发送方
-render.key.amount: 总量
+render.key.amount: 数量
 render.key.contract: 合约
 render.key.data: 数据
 render.key.recipient: 接受者
 render.key.payload: 负载
-render.key.payloadViewType: 查看类型
 render.key.type: 奖励类型
 render.key.depositToRewardingFund: depositToRewardingFund
 render.key.bucketIndex: 序号
 render.key.duration: 质押期限
 render.key.createTime: 创建日期
 render.key.stakeStartTime: 质押日期
-render.key.unstakeStartTime: 解押日期
+render.key.unstakeStartTime: 赎回日期
 render.key.autoStake: 自动质押
 render.key.stakeDuration: '${stakeDuration} 天'
 render.value.grantReward: 赠款奖励
 render.value.execution: 执行
-render.value.transfer: 转移
-render.value.deposit: 保证金
+render.value.transfer: 转账
 action.type.grantReward: 获得奖励
 action.type.depositToRewardingFund: 存到奖励基金
 action.type.claimFromRewardingFund: 从奖励基金获取奖励
@@ -103,7 +89,7 @@ action.type.plumChallengeExit: plum质疑退出
 action.type.plumResponseChallengeExit: plum响应质疑退出
 action.type.plumFinalizeExit: plum完成退出
 action.type.plumSettleDeposit: plum处理存款
-action.type.plumTransfer: 'plum 转移'
+action.type.plumTransfer: 'plum 转账'
 action.type.putPollResult: 投票结果
 render.key.chainID: 链ID
 render.key.securityDeposit: 安全保证金
@@ -132,9 +118,8 @@ render.key.candidates: 候选人
 topbar.search: 按地址/公钥/哈希/高度进行搜索
 coming_soon.title: 即将到来
 coming_soon.bar: 即将到来
-action.actions: 操作
+action.actions: 交易
 address.address: 地址
-address.select_token: 请选择 Token
 title.overview: 概述
 title.actionList: 操作列表
 copy.copied: 已复制
@@ -145,10 +130,10 @@ wallet.unlock.new.title: 请注意
 wallet.unlock.new.p1: 我们不会将您的私钥存储在服务器上。仅在您的浏览器上处理生成私钥。
 wallet.unlock.new.p2: '备份您的私钥,因为您将使用它访问您的钱包。如果您丢失了私钥,则无法恢复。'
 unlock-wallet.title: 解锁您的钱包
-unlock-wallet.warn.message: '请仔细检查 URL 和 SSL 证书。它应该在 URL 栏中显示https://www.iotexscan.io。'
+unlock-wallet.warn.message: '请再次检查URL和SSL证书，在你的URL栏里应该显示：https://www.iotexscan.io'
 wallet.account.enterPrivateKey: 私钥
 wallet.account.placehold.privateKey: 将您的私钥粘贴到此处
-account.empty.unlock: '解锁您的钱包,查看细节!'
+account.empty.unlock: 登录钱包，查看详情！
 unlock-wallet.no-wallet: 还没有IoTeX钱包吗？
 unlock-wallet.create: 创建一个新钱包
 unlock-wallet.main-chain: 请转到主链创建一个钱包。
@@ -188,7 +173,7 @@ render.key.logs: 日志
 wallet.title.wallet: 钱包
 wallet.contract.title: 合约
 wallet.contract.learn: 了解更多信息
-wallet.contract.chooseFunction: 请选择一个事务。
+wallet.contract.chooseFunction: 请选择一个行动。
 wallet.contract.interactWith: 与智能合约交互
 wallet.contract.deployContract: 部署合约
 wallet.contract.interactWith.desc: 这是一个描述句子。这是一个描述句子。
@@ -223,7 +208,7 @@ wallet.write.contract.p1: 你即将
 wallet.write.contract.p1.b: 在合约上执行函数。
 wallet.write.contract.p2: 它将部署在以下网络中
 wallet.write.contract.p3: '要发送的金额。在大多数情况下，你应该将其保留为 0。'
-wallet.contract.back: 回到事务页
+wallet.contract.back: 回到行动页
 wallet.interact.access: 访问
 wallet.interact.title: 与智能合约交互
 wallet.input.to: 接受者地址
@@ -264,21 +249,20 @@ wallet.confirm.contract.cancel: 取消
 wallet.contract.interaction.success: 已成功广播请求
 wallet.contract.interaction.success.p1: 你的请求已广播到网络。这并不意味着它在区块链上被挖掘。确认通常需要几秒钟。
 wallet.contract.interaction.success.p2: 你可以通过单击以下按钮立即检查状态，或保存TX哈希值并稍后检查状态
-wallet.contract.interaction.success.p3: '你的事务的哈希值:'
-wallet.contract.button.check: 检查事务的状态
+wallet.contract.interaction.success.p3: '你的行动的哈希值:'
+wallet.contract.button.check: 检查行动的状态
 wallet.contract.button.new: '发送新的 IOTX 和通证'
 wallet.transactions.send: 发送交易
 broadcast.success: 已成功广播交易记录
 broadcast.warn.one: 您的TX已经广播到网络。这并不意味着它已在区块链上开采。通常需要几秒钟才能确认。
 broadcast.warn.two: 您可以通过单击以下按钮立即检查状态，或保存TX哈希值并稍后检查状态
-broadcast.warn.three: '您的 Action 哈希值:'
+broadcast.warn.three: '您的 TX 哈希值:'
 broadcast.button.check: 检查TX状态
 broadcast.fail: 无法广播交易记录
 broadcast.fail.network: 交易记录无法广播到网络
 broadcast.error.message: '错误消息:'
 broadcast.suggested.action: '建议的操作:'
 wallet.transfer.sendNew: 发送新的
-wallet.transfer.startOver: 重来
 render.key.nonce: nonce
 wallet.vote.title: 为代表投票
 wallet.vote.content: '帮助 IoTeX 构建更强大的网络'
@@ -287,7 +271,7 @@ wallet.missing_solidity_pragma: 不正确的结合度
 wallet.cannot_find_solidity_version: 无法加载稳定版本
 input.error.raw_address.length: IOTX地址长度必须为41
 candidate.productivity: 生产率
-candidates.election.consensus_delegates: 'IoTeX 共识代表'
+candidates.election.consensus_delegates: IoTeX共识节点
 candidates.election.delegates: 'IoTeX 代表'
 candidates.election.delegates_candidates: IoTeX代表候选人
 wallet.interact.invalidABI: '无效的JSON ABI'
@@ -301,9 +285,6 @@ new-wallet.warn.do-not-lose: 不要丢失私钥！
 new-wallet.warn.do-not-share: 不要分享私钥！
 new-wallet.warn.backup: 进行备份!
 topbar.wallet: 钱包
-topbar.wallet.web: 网页钱包
-topbar.wallet.ioPayMobile: 'ioPay 移动'
-topbar.wallet.ioPayDesktop: 'ioPay 桌面'
 render.key.actionFee: 操作费
 block.show_more: 显示更多
 block.show_less: 显示更少
@@ -312,10 +293,10 @@ wallet.cannot_load_solidity_version: 无法加载稳定版本
 new-wallet.save_keystore: '<div> <p class="wallet-title" style="display: inline-block;">保存</p> <p class="private-key">密钥库文件</p> </div>'
 wallet.input.password: 密码
 input.error.password.too_weak: 密码太弱。
-unlock_by_keystore_file.never_upload: 我们从不在服务器上上传或存储您的私钥。此处的密钥库文件在本地处理。
+unlock_by_keystore_file.never_upload: 我们从不在服务器上上传或存储您的私钥。这里的密钥库文件将在本地处理。
 wallet.input.keystore: 密钥库文件
-unlock-wallet.by_keystore: 通过密钥库
-unlock-wallet.by_private_key: 通过私钥
+unlock-wallet.by_keystore: 密钥库
+unlock-wallet.by_private_key: 私钥
 unlock_by_keystore_file.select_file: 选择文件
 input.error.keystore.required: 需要密钥库文件。
 input.error.keystore.invalid: 密钥库文件无效。
@@ -330,7 +311,7 @@ unlock_by_keystore_file.browse_file: 浏览文件......
 copy.scan: 扫描二维码
 topbar.goback_home: 回到主页
 topbar.voting: 投票
-topbar.dashboard: 显示板
+topbar.dashboard: 仪表盘
 topbar.tools: 工具
 footer.policy: 使用条款和隐私政策
 footer.enter_email: 输入电子邮件获取Iotex更新
@@ -376,15 +357,10 @@ wallet.transfer.send-xrc20: '发送 XRC20 通证'
 input.error.xrc20_address.length: XRC20通证地址长度必须为41
 account.refresh: 刷新余额
 account.switchAccount: 切换帐户
-account.switchWallet: 切换钱包
 account.token.addCustom: 自定义通证
 account.token.notfound: 未找到通证！
 account.joinDiscord: '加入 Discord'
 account.claim: 领取
-account.nameTag: "标签"
-account.percentage: "百分比"
-account.txnCount: "交易次数"
-account.rank: "排名"
 confirmation.amount: 数量
 confirmation.fromAddress: 来源地址
 confirmation.toAddress: 目标地址
@@ -412,9 +388,8 @@ render.key.gasLimit: 'Gas 限制'
 account.availableForBid: 您可用于出价的余额：
 erc20.execution.error.lowGasInput: Gas输入过低!
 erc20.execution.error.notEnoughBalance: '您没有足够的 IOTX余额来执行该操作!'
-topbar.explorer_playground: 'Explorer 场地'
-topbar.submit_a_bug_report: '提交错误报告'
-topbar.analytics_playground: 分析场地
+topbar.explorer_playground: 探索
+topbar.analytics_playground: 分析
 wallet.lock.title: 锁上钱包
 wallet.lock.cutdown: 您的钱包将在10分钟内被锁上。是否要继续使用它？
 wallet.lock.btn.know: 我知道
@@ -428,14 +403,14 @@ footer.resource: 资源
 footer.lauch: 发布
 footer.roadmap: 路线图
 footer.research_paper: 研究论文
-footer.announcemenets: 公告
+footer.announcements: 公告
 footer.delegates_program: 节点项目
 footer.charity_program: 慈善项目
 footer.develop: 开发
 footer.github: Github
 footer.documentations: 文献
 footer.libraries_tools: 工具库
-footer.explorer: 探索
+footer.explorer: Exploer
 footer.wallet: 钱包
 footer.about_us: 关于我们
 footer.team: 团队
@@ -443,9 +418,9 @@ footer.forum: 论坛
 footer.support: 技术支持
 footer.launch: 发布
 footer.subscribe_success: 成功订阅
-account.actionHistory: 操作历史记录
+account.actionHistory: 交易历史
 home.stats.tps: '当前 TPS/Peak'
-home.stats.candidates: 代表
+home.stats.candidates: 共识代表/候选人
 home.stats.productivity: 平均生产力
 home.stats.votes: 投票
 home.stats.map: 地图
@@ -458,19 +433,197 @@ unlock-wallet.by_ledger: 连接Ledger
 unlock_by_ledger.message: 单击以下按钮来继续使用Ledger。
 unlock-by-ledger.pluginDevice: 请插入Ledger设备，然后重试。
 unlock-by-ledger.warnTitle: 无法连接到设备
-wallet.sign.envelop_title: 'Transaction signing'
-wallet.sign.envelop_msg: 'Are you sure you want to sign this transaction?'
-wallet.sign.confirm: 'Yes, sign transaction'
-topbar.searchAddress: 'Search an address, block, hash...'
-home.stats.progressEpoch: 'Progress of Epoch'
-action.pending: 'IoTeX Pending Action'
-ok: 好
-wallet.logout.success: "您已成功注销当前的钱包."
-wallet.logout.login_to_another: "请选择另一个钱包进行解锁."
-token.address.overview: '总览'
-token.address.total_supply: '总供给:'
-token.address.holders: '持有人:'
-token.address.transfer: '转账:'
-token.address.profile_summary: '概况'
-token.address.contract: '合约:'
-token.address.decimals: 'Decimals:'
+wallet.sign.envelop_title: 交易签署
+wallet.sign.envelop_msg: 您确定要签署此交易吗？
+wallet.sign.confirm: 是的，签署交易
+topbar.searchAddress: 搜索地址/区块/哈希...
+home.stats.progressEpoch: Epoch进展
+action.pending: IoTeX待处理操作
+input.error.mnemonic.invalid: 请输入您的助记词
+input.error.mnemonic.length: 助记词必须有12个单词
+input.error.mnemonic.label: 助记词
+input.error.mnemonic.placeholder: 在此处粘贴助记词
+unlock-wallet.by_mnemonic: 按助记词
+wallet.input.gasCostLimit: Gas费用限制
+wallet.error.number-ge1: 该字段应大于或等于1。
+block.Success: 成功
+block.Failure: 失败
+block.ErrUnknown: '失败 [未知]'
+block.ErrOutOfGas: '失败[无gas可执行]'
+block.ErrCodeStoreOutOfGas: '失败[没有足够的资源部署-没有足够的资源来存储代码]'
+block.ErrDepth: '故障 [超过最大呼叫深度]'
+block.ErrContractAddressCollision: '失败[合同地址冲突]'
+block.ErrNoCompatibleInterpreter: '失败[没有兼容的解释器]'
+block.ErrExecutionReverted: '失败 [恢复执行]'
+block.ErrMaxCodeSizeExceeded: '失败 [超过最大代码大小]'
+block.ErrWriteProtection: '失败[写入保护]'
+footer.announcemenets: 公告
+new-wallet.mnemonic: 助记词
+new-wallet.save_mnemonic: '<div><p class="wallet-title" style="display: inline-block;">保存你的</p><p class="private-key">助记词</p></div>'
+wallet.whitelist.intro: 通过将操作列入白名单，您不必再为您信任的应用程序批准操作。将动作列入白名单时，您会看到每个动作和值旁边都会出现复选框。
+wallet.whitelist.title: 白名单配置
+wallet.whitelist.add: 添加到白名单
+wallet.whitelist.cancel: 取消
+wallet.whitelist.action: '此 ${action}操作 ${origin} 将列入白名单'
+wallet.whitelist.amount: 此值无需弹出即可更改
+wallet.whitelist.recipient: 如果收据更改，您必须再次批准此操作
+wallet.whitelist.duration: 此设置将在指定时间后过期
+wallet.whitelist.forbidden: 不再显示此模式
+wallet.sign_and_send.success: '请求已成功发送，交易代码为${actionHash}'
+wallet.whitelist.cancel_addition: 取消添加至白名单
+wallet.whitelist: 白名单
+wallet.whitelist.state: 白名单状态
+wallet.whitelist.enabled: 启用
+wallet.whitelist.disabled: 禁用
+wallet.whitelist.title_origin: 来源/途径
+wallet.whitelist.title_amount: 金额（IOTX）
+wallet.whitelist.title_recipient: 接受者
+wallet.whitelist.title_remain: 保持
+wallet.whitelist.operation.save: 保存
+wallet.whitelist.operation.cancel: 取消
+wallet.whitelist.operation.delete: 删除
+wallet.whitelist.operation.edit: 编辑
+wallet.whitelist.title_operation: 操作
+wallet.whitelist.operation.alert: 确认取消？
+wallet.unlock_alert.title: 第一步、解锁钱包
+wallet.unlock_alert.tip: 请先解锁您的钱包，然后再执行其他操作。
+wallet.unlock_alert.confirm: 了解
+address.name: 名称标签
+navigation.address: 地址列表
+navigation.action: 交易清单
+navigation.action_detail: 交易详情
+navigation.block: 区块列表
+render.key.balance: 余额
+render.key.name: 名称标签
+new-wallet.showPrivateKey: 显示私钥
+new-wallet.export_keystore: '导出密钥库文件（UTC / JSON）'
+render.key.from: 从
+render.key.value: 值
+render.key.fee: Gas费用
+copy.copyToClipboard: '将${field}复制到剪贴板'
+render.key.inputData: 输入数据
+action_details.hash: '交易哈希：${actionHash}'
+common.show_more: 显示更多
+common.show_less: 简约显示
+common.address: 地址
+share_link.email_body: '查看此站点 ${href}'
+share_link.email_subject: 在IoTeX区块链上检查此区块哈希
+render.key.evmTransfer: 通证已被转移
+render.key.evmTransfers: 合约内IOTX转移
+transfer.for: '对于${value}'
+address_details.address: '地址：${address}'
+address_details.share_address: 共享此地址
+render.key.nametag: 名称标签
+render.key.pendingNonce: 待处理操作
+common.transactions: 交易
+common.xrc20Transactions: XRC20交易
+block_details.hash: '块哈希： ${hash}'
+page_navs.block: '区块＃${height}'
+action.types.in: 在
+action.types.out: 出
+action.types.self: 我的
+pages.token: 通证转移
+token.xrc20: XRC-20
+topbar.xrc20Transfer: XRC20通证转移
+home.stats.currentEpoch: 当前Epoch
+wallet.contract.loadindSolc: 正在载入人机验证...
+candidate.delegate_badges: 徽章
+action.from: 从
+common.contract_transactions: 合约交易
+account.rank: 排名
+account.nameTag: 名称标签
+account.percentage: 百分比
+account.txnCount: Txn计数
+topbar.accounts: 帐户
+topbar.top_accounts: IOTX账户余额排行
+wallet.input.solVersion: 版本
+wallet.placeholder.compile: 选择编译器版本
+pages.tokenTracker: 通证追踪器
+token.name: 名称
+token.address: 地址
+topbar.tokens: XRC20通证
+topbar.tokensMenu: 通证
+pages.tokenHolders: 持有人：
+render.key.address: 地址
+render.key.depositToRewardingFund: 存款奖励基金
+render.value.deposit: 保证金
+candidates.election.PROBATION: 延迟
+common.xrc721Transactions: XRC721交易
+input.error.xrc721_address.length: XRC721通证地址长度必须为41位
+token.xrc721: XRC-721
+topbar.xrc721Transfer: XRC721通证转账
+topbar.xrc721Tokens: XRC721通证
+wallet.input.fromXrc721: XRC721通证地址
+wallet.tab.xrc721: XRC721
+wallet.transfer.send-xrc721: 发送XRC721通证
+home.stats.stakedVotes: 质押投票
+home.stats.balanceCard: 流通通证总数
+unlock_by_ledger.error: '无法连接到分类帐：${message}'
+action.type.stakeCreate: 创建质押
+action.type.stakeUnstake: 解除质押
+action.type.stakeWithdraw: 赎回质押
+action.type.stakeAddDeposit: 增加质押额
+action.type.stakeRestake: 重新质押
+action.type.stakeChangeCandidate: 候选质押变更
+action.type.stakeTransferOwnership: 转让质押所有权
+action.type.candidateRegister: 候选登记表
+action.type.candidateUpdate: 更新候选
+render.value.stakeCreate: 创建质押
+render.value.stakeUnstake: 解除质押
+render.value.stakeWithdraw: 赎回质押
+render.value.stakeAddDeposit: 增加质押额
+render.value.stakeRestake: 重新质押
+render.value.stakeChangeCandidate: 候选质押变更
+render.value.candidateRegister: 候选登记表
+render.value.candidateUpdate: 更新候选
+render.value.stakeTransferOwnership: 转让质押所有权
+candidates.badge_info.hermes.title: Hermes节点
+candidates.badge_info.hermes.content: 通过Hermes自动分配奖励
+candidates.badge_info.genesis.title: 'Delegate Since Day 1'
+candidates.badge_info.genesis.content: 加入以生成起源块
+candidates.badge_info.ambassador.title: 节点大使
+candidates.badge_info.ambassador.content: IoTeX社区官方大使
+wallet.sign.success: 签名成功！
+wallet.sign_msg: 签名消息
+token.token: 代币
+wallet.desktop.app: 'ioPay 桌面版 v ${appVersion}'
+wallet.send-receive.title: 发送和接收IOTX
+meta.description.desktop: 与智能合约、区块链交互
+account.balance.hide: 隐藏余额
+account.balance.show: 余额显示
+wallet.desktop.appVersion: '版本：${appVersion}'
+render.key.payloadViewType: 查看类型
+topbar.wallet.web: 网页钱包
+topbar.wallet.ioPayMobile: 'ioPay 手机版'
+topbar.wallet.ioPayDesktop: ioPay桌面版
+action.to.bucket: '投票包 #${bucketIndex}'
+topbar.submit_a_bug_report: 提交错误报告
+confirmation.candidateName: 节点名称
+confirmation.stakedAmount: 质押总数
+confirmation.stakedDuration: 质押期限
+confirmation.autoStake: 自动质押
+confirmation.payload: 负载
+confirmation.bucketIndex: 投票包索引
+confirmation.voterAddress: 投票人地址
+confirmation.ownerAddress: 持有者地址
+confirmation.candidate: 节点列表
+wallet.whitelist.title_method: 途径
+wallet.transfer.startOver: 开始质押
+account.switchWallet: 切换钱包
+ok: 确定
+wallet.logout.success: 成功质押!
+wallet.logout.login_to_another: 请选择其他钱包解锁。
+network.disconnected: 无法连接到网络...
+token.address.overview: 总览
+token.address.total_supply: 总质押
+token.address.holders: 持有人：
+token.address.transfer: 转账：
+token.address.profile_summary: 配置文件摘要
+token.address.contract: 合约
+token.address.decimals: 小数点：
+topbar.actions.byBucketIndex: 投票包
+render.key.provider: 供应商
+address.select_token: 选择Token
+candidate.epoch_progress: Epoch进度
+action.method.contract_creation: 创建合约
+action.export: 导出

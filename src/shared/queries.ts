@@ -562,6 +562,11 @@ export const GET_ANALYTICS_BP_STATS = gql`
     chain {
       totalSupply
       totalCirculatingSupply
+      votingResultMeta {
+        totalCandidates
+        totalWeightedVotes
+        votedTokens
+      }
     }
   }
 `;

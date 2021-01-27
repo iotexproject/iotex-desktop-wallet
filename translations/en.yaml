@@ -308,6 +308,7 @@ render.key.data: Data
 render.key.deltaStateDigest: 'Digest of Delta State'
 render.key.denomination: denomination
 render.key.evmTransfer: Tokens Transferred
+render.key.evmTransfers: In Contract Transferred
 render.key.exitTransfer: 'exit Transfer'
 render.key.exitTransferBlockHeight: exitTransferBlockHeight
 render.key.exitTransferBlockProof: exitTransferBlockProof
@@ -617,4 +618,7 @@ token.address.transfer: 'Transfer:'
 token.address.profile_summary: 'Profile Summary'
 token.address.contract: 'Contract:'
 token.address.decimals: 'Decimals:'
+candidate.epoch_progress: Epoch Progress
+action.method.contract_creation: Contract Creation
+action.export: export
 topbar.buckets: BUCKETS
