@@ -3,6 +3,7 @@ import notification from "antd/lib/notification";
 import Table, { ColumnProps } from "antd/lib/table";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
+import moment from "moment";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
@@ -15,31 +16,102 @@ import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { numberWithCommas } from "../common/vertical-table";
 import { GET_BUCKETS } from "../queries";
-import { AccountAddressRenderer } from "../renderer/account-address-renderer";
 import { Page } from "./page";
+import { colors } from "../common/styles/style-color";
+import { AddressName } from "../common/address-name";
 
 const PAGE_SIZE = 15;
 let current = 1;
 
 const getAccountListColumns = (): Array<ColumnProps<Bucket>> => [
   {
-    title: t("account.rank"),
+    title: t("render.key.bucketIndex"),
     dataIndex: "index",
     width: "10vw"
   },
   {
-    title: t("account.address"),
+    title: t("wallet.account.delegateAddress"),
     dataIndex: "candidateAddress",
-    width: "20vw",
-    render: text => <AccountAddressRenderer value={text} />
+    width: "10vw",
+    render: text => {
+      return (
+        <span
+          className="ellipsis-text"
+          style={{ maxWidth: "10vw", minWidth: 100 }}
+        >
+          <AddressName address={text} />
+        </span>
+      );
+    }
   },
   {
-    title: t("address.balance"),
+    title: t("wallet.account.stakeAmount"),
     dataIndex: "stakedAmount",
-    width: "20vw",
+    width: "12vw",
     render: (text: string): JSX.Element | string => {
       const balance = fromRau(text, "iotx");
       return `${numberWithCommas(balance)} IOTX`;
+    }
+  },
+  {
+    title: t("render.key.duration"),
+    dataIndex: "stakedDuration",
+    width: "12vw",
+    render: duration =>
+      t("render.key.stakeDuration", { stakeDuration: duration })
+  },
+  {
+    title: t("render.key.createTime"),
+    dataIndex: "createTime",
+    width: "12vw",
+    render: date => moment(date).format("YYYY/MM/DD")
+  },
+  {
+    title: t("render.key.stakeStartTime"),
+    dataIndex: "stakeStartTime",
+    width: "12vw",
+    render: date => moment(date).format("YYYY/MM/DD")
+  },
+  {
+    title: t("render.key.unstakeStartTime"),
+    dataIndex: "unstakeStartTime",
+    width: "12vw",
+    render: date => {
+      return moment(date).valueOf() > 0 ? (
+        moment(date).format("YYYY/MM/DD")
+      ) : (
+        <span>—</span>
+      );
+    }
+  },
+  {
+    title: t("render.key.autoStake"),
+    dataIndex: "autoStake",
+    width: "10vw",
+    render: t => {
+      return t ? (
+        <Icon
+          type="check"
+          style={{ color: colors.ELECTED, fontSize: "20px" }}
+        />
+      ) : (
+        <Icon type="minus" style={{ color: colors.error, fontSize: "24px" }} />
+      );
+    }
+  },
+  {
+    title: t("confirmation.owner"),
+    dataIndex: "owner",
+    width: "10vw",
+    render: text => {
+      return (
+        <span
+          className="ellipsis-text"
+          style={{ maxWidth: "10vw", minWidth: 100 }}
+        >
+          <AddressName address={text} />
+        </span>
+      );
     }
   }
 ];
@@ -115,7 +187,7 @@ const BucketListPage: React.FC = (): JSX.Element => {
       <Helmet title={`${t("topbar.buckets")} - ${t("meta.description")}`} />
       <PageNav items={[t("address.buckets")]} />
       <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
-        <Page header={t("topbar.top_accounts")}>
+        <Page header={t("common.buckets")}>
           <BucketTable />
         </Page>
       </ContentPadding>

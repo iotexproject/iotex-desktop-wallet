@@ -75,6 +75,13 @@ render.key.payload: 负载
 render.key.payloadViewType: 查看类型
 render.key.type: 奖励类型
 render.key.depositToRewardingFund: depositToRewardingFund
+render.key.bucketIndex: 序号
+render.key.duration: 质押期限
+render.key.createTime: 创建日期
+render.key.stakeStartTime: 质押日期
+render.key.unstakeStartTime: 解押日期
+render.key.autoStake: 自动质押
+render.key.stakeDuration: '${stakeDuration} 天'
 render.value.grantReward: 赠款奖励
 render.value.execution: 执行
 render.value.transfer: 转移
@@ -188,6 +195,8 @@ wallet.contract.interactWith.desc: 这是一个描述句子。这是一个描述
 wallet.contract.deployContract.desc: 这是一个描述句子。这是一个描述句子。
 button.backHome: 返回主页
 wallet.account.raw: 帐户地址
+wallet.account.delegateAddress: 帐户地址
+wallet.account.stakeAmount: 质押金额
 wallet.account.private: 私钥
 wallet.account.addressPlaceHolder: 'IoTeX 地址...'
 new-wallet.copy: 复制
