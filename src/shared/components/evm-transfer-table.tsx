@@ -99,7 +99,7 @@ export const EvmTransfersTable: React.FC<IEvmTransferTable> = ({
   }));
 
   const handleExport = () => {
-    exportInstance.current.excExport();
+    exportInstance.current?.excExport();
   };
 
   return (

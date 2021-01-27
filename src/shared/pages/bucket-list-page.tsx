@@ -75,7 +75,7 @@ const getAccountListColumns = (): Array<ColumnProps<Bucket>> => [
   {
     title: t("render.key.unstakeStartTime"),
     dataIndex: "unstakeStartTime",
-    width: "12vw",
+    width: "14vw",
     render: date => {
       return moment(date).valueOf() > 0 ? (
         moment(date).format("YYYY/MM/DD")
@@ -87,7 +87,7 @@ const getAccountListColumns = (): Array<ColumnProps<Bucket>> => [
   {
     title: t("render.key.autoStake"),
     dataIndex: "autoStake",
-    width: "10vw",
+    width: "8vw",
     render: t => {
       return t ? (
         <Icon
