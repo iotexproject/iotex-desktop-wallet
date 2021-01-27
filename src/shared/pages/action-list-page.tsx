@@ -412,7 +412,6 @@ export const AnalyticActionTable: FC<AnalyticActionTableProp> = ({
 
         const actions = get(data || {}, `action.${by}.actions`, []);
         const numActions = get(data || {}, `action.${by}.count`, 0);
-
         const exportInstance = useRef<{ excExport(): void }>(null);
 
         useImperativeHandle(refInstance, () => ({

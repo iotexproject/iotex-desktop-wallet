@@ -12,13 +12,13 @@ import {
   Bucket,
   GetBucketsResponse
 } from "../../api-gateway/resolvers/antenna-types";
+import { AddressName } from "../common/address-name";
 import { PageNav } from "../common/page-nav-bar";
+import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import { numberWithCommas } from "../common/vertical-table";
 import { GET_BUCKETS } from "../queries";
 import { Page } from "./page";
-import { colors } from "../common/styles/style-color";
-import { AddressName } from "../common/address-name";
 
 const PAGE_SIZE = 15;
 let current = 1;

@@ -3,7 +3,6 @@ import notification from "antd/lib/notification";
 import Tabs from "antd/lib/tabs";
 import { get } from "dottie";
 // @ts-ignore
-import window from "global/window";
 import isBrowser from "is-browser";
 import { t } from "onefx/lib/iso-i18n";
 import React, { useRef, useState } from "react";
@@ -20,13 +19,13 @@ import { CardDetails } from "../common/card-details";
 import { ErrorPage } from "../common/error-page";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
+import { BucketListTable } from "../components/bucket-list-table";
 import { EvmTransfersTable } from "../components/evm-transfer-table";
 import { GET_ACCOUNT } from "../queries";
 import { AddressDetailRenderer } from "../renderer";
 import { ActionTable } from "./action-list-page";
 import { XRC20ActionTable } from "./xrc20-action-list-page";
 import { XRC721ActionTable } from "./xrc721-action-list-page";
-import { BucketListTable } from "../components/bucket-list-table";
 
 export interface IActionsDetails {
   action: GetActionsResponse;
@@ -110,23 +109,19 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
           data,
           loading,
           error
-        }: QueryResult<{
-          getAccount: GetAccountResponse;
-        }>) => {
+        }: QueryResult<{ getAccount: GetAccountResponse; }>) => {
           if (error) {
             notification.error({
               message: `failed to query account in AddressDetailsPage: ${error}`
             });
           }
           if (!loading && (!data || Object.keys(data).length === 0)) {
-            return (
-              <ErrorPage
+            return <ErrorPage
                 bg={assetURL("action-not-found.png")}
                 bar={t("not_found.bar")}
                 info={t("not_found.info")}
                 title={t("not_found.title")}
               />
-            );
           }
           let details = {};
           if (data) {
@@ -135,11 +130,8 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
           const addressUrl = `${
             isBrowser ? location.origin : ""
           }/address/${address}`;
-          const emailBody = t("share_link.email_body", {
-            href: addressUrl
-          });
-          const { numActions = 0 } =
-            get(data || {}, "getAccount.accountMeta") || {};
+          const emailBody = t("share_link.email_body", {href: addressUrl});
+          const { numActions = 0 } = get(data || {}, "getAccount.accountMeta") || {};
           const hashRoute =
             isBrowser && location.hash.includes("#")
               ? location.hash.slice(1)

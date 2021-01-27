@@ -181,9 +181,7 @@ export const XRC721ActionTable: React.FC<IXRC721ActionTable> = ({
   useImperativeHandle(refInstance, () => ({
     handleExport
   }));
-  const handleExport = () => {
-    exportInstance.current?.excExport()
-  };
+  const handleExport = () => {exportInstance.current?.excExport()};
   return (
     <Query
       query={query}
@@ -194,12 +192,9 @@ export const XRC721ActionTable: React.FC<IXRC721ActionTable> = ({
     >
       {({ data, loading, fetchMore, error }: QueryResult) => {
         if (error) {
-          notification.error({
-            message: `failed to query analytics xrc721 in XRC721ActionTable: ${error}`
-          });
+          notification.error({message: `failed to query analytics xrc721 in XRC721ActionTable: ${error}`});
         }
-        const actions =
-          get<Array<IXRC721ActionInfo>>(data || {}, "xrc721.data.xrc721") || [];
+        const actions = get<Array<IXRC721ActionInfo>>(data || {}, "xrc721.data.xrc721") || [];
         const numActions = get<number>(data || {}, "xrc721.data.count");
         return (
           <>
@@ -235,9 +230,7 @@ export const XRC721ActionTable: React.FC<IXRC721ActionTable> = ({
                     }
                   : {
                       pagination: {
-                        skip: pagination.current
-                          ? (pagination.current - 1) * PAGE_SIZE
-                          : 0,
+                        skip: pagination.current ? (pagination.current - 1) * PAGE_SIZE : 0,
                         first: PAGE_SIZE
                       }
                     };

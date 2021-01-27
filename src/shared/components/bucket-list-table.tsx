@@ -44,8 +44,7 @@ export interface IBucketTable {
   address?: string;
 }
 
-export const BucketListTable: React.FC<IBucketTable> = ({ address = "" }) => {
-  console.log("address", address);
+export const BucketListTable: React.FC<IBucketTable> = () => {
   let skip = 0;
   const first = PAGE_SIZE;
   return (

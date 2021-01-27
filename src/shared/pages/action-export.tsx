@@ -79,9 +79,7 @@ const ExportAction: React.FC<ExportType> = ({
   actions,
   refInstance
 }) => {
-  const csvInstance = useRef<
-    CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }
-  >(null);
+  const csvInstance = useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
   const [csvData, setCsvData] = useState<Array<ICSVData>>([]);
   const [tagData, setTagData] = useState<Array<ActionInfo> | null>(null);
 
@@ -113,7 +111,7 @@ const ExportAction: React.FC<ExportType> = ({
   };
 
   const excExport = async () => {
-    const data = actions.map(action => {
+    const data = actions?.map(action => {
       return {
         hash: action.actHash,
         timestamp: translateFn(action.timestamp),
@@ -126,7 +124,7 @@ const ExportAction: React.FC<ExportType> = ({
     });
 
     if (data) {
-      if (tagData.length) {
+      if (tagData?.length) {
         const temp = tagData;
         const promiseArray: Array<Promise<void>> = [];
         tagData.forEach(action => {
