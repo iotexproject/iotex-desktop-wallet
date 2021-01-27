@@ -61,7 +61,6 @@ render.key.data: 数据
 render.key.recipient: 接受者
 render.key.payload: 负载
 render.key.type: 奖励类型
-render.key.depositToRewardingFund: depositToRewardingFund
 render.key.bucketIndex: 序号
 render.key.duration: 质押期限
 render.key.createTime: 创建日期
