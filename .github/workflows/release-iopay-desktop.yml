@@ -70,3 +70,21 @@ jobs:
           draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Install aws cmd
+      - uses: chrislennon/action-aws-cli@v1.1
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      # Upload use aws command
+      - name: Upload build to s3
+        run: |
+          for i in `ls src/electron/dist/`
+          do
+              aws --endpoint-url="${S3_ENDPOINT}" s3 cp src/electron/dist/$i s3://${S3_BUCKET}/
+          done
+        env:
+          S3_BUCKET: ${{ secrets.S3_BUCKET }}
+          S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
