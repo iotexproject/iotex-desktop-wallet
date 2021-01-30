@@ -594,13 +594,19 @@ export class SetReward {
 @ObjectType()
 export class Candidate {
   @Field(_ => String)
-  public address: string;
-  @Field(_ => BufferScalar, { nullable: true })
-  public votes: Buffer | {};
-  @Field(_ => BufferScalar, { nullable: true })
-  public pubKey: Buffer | {};
+  public name: string;
+  @Field(_ => String)
+  public ownerAddress: string;
+  @Field(_ => String)
+  public operatorAddress: string;
   @Field(_ => String)
   public rewardAddress: string;
+  @Field(_ => Number)
+  public selfStakeBucketIdx: number;
+  @Field(_ => String)
+  public selfStakingTokens: string;
+  @Field(_ => String)
+  public totalWeightedVotes: string;
 }
 
 @InputType("CandidateListInput")
@@ -608,6 +614,39 @@ export class Candidate {
 export class CandidateList {
   @Field(_ => [Candidate])
   public candidates: Array<Candidate>;
+}
+
+@InputType("CandidatesResponseInput")
+@ObjectType()
+export class CandidatesResponse {
+  @Field(_ => CandidateList)
+  public getAllCandidacies: CandidateList;
+}
+
+@InputType("BpCandidateInput")
+@ObjectType()
+export class BpCandidate {
+  @Field(_ => String)
+  public id: string;
+  @Field(_ => String)
+  public name: string;
+  @Field(_ => String)
+  public website: string;
+  @Field(_ => String)
+  public logo: string;
+  @Field(_ => String)
+  public bannerUrl: string;
+  @Field(_ => String)
+  public registeredName: string;
+  @Field(_ => String)
+  public tempEthAddress: string;
+}
+
+@InputType("BpCandidateListInput")
+@ObjectType()
+export class BpCandidateResponse {
+  @Field(_ => [BpCandidate])
+  public bpCandidates: Array<BpCandidate>;
 }
 
 @InputType("PutPollResultInput")
@@ -780,9 +819,6 @@ export class ActionCore implements IActionCore {
   @Field(_ => GrantReward, { nullable: true })
   public grantReward?: GrantReward | undefined;
 
-  @Field(_ => PutPollResult, { nullable: true })
-  public putPollResult?: PutPollResult | undefined;
-
   // nsv2
   @Field(_ => StakeCreate, { nullable: true })
   public stakeCreate?: StakeCreate | undefined;
@@ -807,14 +843,17 @@ export class ActionCore implements IActionCore {
 @InputType("ActionInput")
 @ObjectType("Action")
 export class Action implements IAction {
-  @Field(_ => ActionCore)
-  public core: ActionCore | undefined;
-
   @Field(_ => BufferScalar)
   public senderPubKey: Uint8Array | string;
 
   @Field(_ => BufferScalar)
   public signature: Uint8Array | string;
+
+  @Field(_ => ActionCore)
+  public core: IActionCore | undefined;
+
+  @Field(_ => PutPollResult, { nullable: true })
+  public putPollResult?: PutPollResult | undefined;
 }
 
 @ObjectType()

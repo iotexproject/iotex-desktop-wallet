@@ -1,29 +1,79 @@
+import LoadingOutlined from "@ant-design/icons/LoadingOutlined";
+import Avatar from "antd/lib/avatar";
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
+import Spin from "antd/lib/spin";
 import Table, { ColumnProps } from "antd/lib/table";
 import { get } from "dottie";
-import { fromRau } from "iotex-antenna/lib/account/utils";
+import {fromRau, validateAddress} from "iotex-antenna/lib/account/utils";
 import moment from "moment";
 import { t } from "onefx/lib/iso-i18n";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 import {
-  Bucket,
+  BpCandidate,
+  BpCandidateResponse,
+  Bucket, Candidate, CandidatesResponse,
   GetBucketsResponse
 } from "../../api-gateway/resolvers/antenna-types";
 import { AddressName } from "../common/address-name";
+import { apolloClient, webBpApolloClient} from "../common/apollo-client";
+import {LinkButton} from "../common/buttons";
 import { PageNav } from "../common/page-nav-bar";
 import { colors } from "../common/styles/style-color";
 import { ContentPadding } from "../common/styles/style-padding";
 import { numberWithCommas } from "../common/vertical-table";
-import { GET_BUCKETS } from "../queries";
+import { GET_ALL_CANDIDACIES, GET_BP_CANDIDATES, GET_BUCKETS} from "../queries";
 import { Page } from "./page";
 
 const PAGE_SIZE = 15;
 let current = 1;
 
-const getAccountListColumns = (): Array<ColumnProps<Bucket>> => [
+interface DelegateRenderProps {
+  address: string,
+  candidates: Array<Candidate>,
+  bPCandidates: Array<BpCandidate>
+}
+
+const DelegateRender: React.FC<DelegateRenderProps> =
+  ({address,candidates,bPCandidates}) => {
+
+    const mapAddressToBpCandidate =
+    (address: string, candidates: Array<Candidate>, bPCandidates: Array<BpCandidate>)
+      : BpCandidate | null | undefined =>
+    {
+    const targetCandidate = candidates?.find((candidates) => {
+      return candidates.ownerAddress === address
+    });
+
+    if (targetCandidate) {
+      return bPCandidates?.find((bPCandidate) => {
+        return bPCandidate.registeredName === targetCandidate.name
+      });
+    }
+
+    return null
+  };
+
+  if (!validateAddress(address)) {
+    return <LinkButton href={`/address/${address}`}>{address}</LinkButton>;
+  }
+
+  const bpCandidate = mapAddressToBpCandidate(address, candidates, bPCandidates);
+
+  if (!bpCandidate) {
+    return <LinkButton href={`/address/${address}`}>{address}</LinkButton>;
+  }
+
+  return <div>
+    <Avatar src={bpCandidate?.logo} size={30}/>
+    <LinkButton href={`/address/${address}`} style={{marginLeft: "8px"}}>{bpCandidate?.name}</LinkButton>
+  </div>
+};
+
+const getAccountListColumns = (candidates: Array<Candidate>, bPCandidates: Array<BpCandidate>)
+  : Array<ColumnProps<Bucket>> => [
   {
     title: t("render.key.bucketIndex"),
     dataIndex: "index",
@@ -37,9 +87,9 @@ const getAccountListColumns = (): Array<ColumnProps<Bucket>> => [
       return (
         <span
           className="ellipsis-text"
-          style={{ maxWidth: "10vw", minWidth: 100 }}
+          style={{ maxWidth: "10vw", minWidth: 80 }}
         >
-          <AddressName address={text} />
+          <DelegateRender address={text} candidates={candidates} bPCandidates={bPCandidates}/>
         </span>
       );
     }
@@ -116,9 +166,12 @@ const getAccountListColumns = (): Array<ColumnProps<Bucket>> => [
   }
 ];
 
-export interface IBucketTable {}
+export interface IBucketTable {
+  candidates: Array<Candidate>,
+  bPCandidates: Array<BpCandidate>
+}
 
-export const BucketTable: React.FC<IBucketTable> = () => {
+export const BucketTable: React.FC<IBucketTable> = ({ candidates, bPCandidates }) => {
   let skip = 0;
   const first = PAGE_SIZE;
   return (
@@ -152,7 +205,7 @@ export const BucketTable: React.FC<IBucketTable> = () => {
             }}
             rowKey="address"
             dataSource={bucketsList}
-            columns={getAccountListColumns()}
+            columns={getAccountListColumns(candidates, bPCandidates)}
             style={{ width: "100%" }}
             scroll={{ x: "auto" }}
             pagination={{
@@ -181,6 +234,43 @@ export const BucketTable: React.FC<IBucketTable> = () => {
   );
 };
 
+const BucketTableWrapper: React.FC = () => {
+
+  const [candidates, setCandidates] = useState<Array<Candidate>>([]);
+  const [bPCandidates, setBpCandidates] = useState<Array<BpCandidate>>([]);
+  const [loading, setLoading] = useState<Boolean>(true);
+
+  useEffect(() => {
+    fetchData()
+  }, []);
+
+  const fetchData = async () => {
+    const candidatesRequest = apolloClient.query<CandidatesResponse>({
+      query: GET_ALL_CANDIDACIES,
+    }).then((res) => {
+      setCandidates(res.data.getAllCandidacies.candidates)
+    });
+    const bPCandidatesRequest = webBpApolloClient.query<BpCandidateResponse>({
+      query: GET_BP_CANDIDATES,
+    }).then(res => {
+      setBpCandidates(res.data.bpCandidates)
+    });
+
+    Promise.all([candidatesRequest, bPCandidatesRequest])
+      .finally(() => {
+        setLoading(false)
+      })
+  };
+
+  return <>
+    {loading ? <div style={{textAlign: "center", width: "100%"}}>
+        <Spin delay={500} indicator={<LoadingOutlined/>}/>
+      </div>
+      : <BucketTable candidates={candidates} bPCandidates={bPCandidates}/>}
+    </>
+};
+
+
 const BucketListPage: React.FC = (): JSX.Element => {
   return (
     <>
@@ -188,7 +278,7 @@ const BucketListPage: React.FC = (): JSX.Element => {
       <PageNav items={[t("address.buckets")]} />
       <ContentPadding style={{ paddingTop: 20, paddingBottom: 60 }}>
         <Page header={t("common.buckets")}>
-          <BucketTable />
+          <BucketTableWrapper/>
         </Page>
       </ContentPadding>
     </>

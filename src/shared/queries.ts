@@ -537,6 +537,20 @@ export const GET_BP_STATS = gql`
   }
 `;
 
+export const GET_BP_CANDIDATES = gql`
+  query bpCandidates{
+    bpCandidates {
+      id
+      name
+      website
+      logo
+      bannerUrl
+      registeredName
+      tempEthAddress
+    }
+  }
+`;
+
 export const GET_ANALYTICS_TPS = gql`
   query chain {
     chain {
@@ -850,6 +864,22 @@ export const GET_BUCKETS = gql`
         unstakeStartTime
         autoStake
         owner
+      }
+    }
+  }
+`;
+
+export const GET_ALL_CANDIDACIES = gql`
+  query {
+    getAllCandidacies {
+      candidates {
+        name
+        ownerAddress
+        operatorAddress
+        rewardAddress
+        selfStakeBucketIdx
+        selfStakingTokens
+        totalWeightedVotes
       }
     }
   }
