@@ -499,6 +499,7 @@ common.address: 地址
 share_link.email_body: '查看此站点 ${href}'
 share_link.email_subject: 在IoTeX区块链上检查此区块哈希
 render.key.evmTransfer: 通证已被转移
+render.key.evmTransfers: 合约内IOTX转移
 transfer.for: '对于${value}'
 address_details.address: '地址：${address}'
 address_details.share_address: 共享此地址

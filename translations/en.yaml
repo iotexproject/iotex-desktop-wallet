@@ -307,6 +307,7 @@ render.key.data: Data
 render.key.deltaStateDigest: 'Digest of Delta State'
 render.key.denomination: denomination
 render.key.evmTransfer: Tokens Transferred
+render.key.evmTransfers: In Contract Transferred
 render.key.exitTransfer: 'exit Transfer'
 render.key.exitTransferBlockHeight: exitTransferBlockHeight
 render.key.exitTransferBlockProof: exitTransferBlockProof
