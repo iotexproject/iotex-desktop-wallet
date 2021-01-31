@@ -3,12 +3,11 @@ import notification from "antd/lib/notification";
 import Table, { ColumnProps } from "antd/lib/table";
 import { get } from "dottie";
 import { t } from "onefx/lib/iso-i18n";
-import React, {Ref, useImperativeHandle, useRef} from "react";
+import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import { AddressName } from "../common/address-name";
 import { analyticsClient } from "../common/apollo-client";
 import { translateFn } from "../common/from-now";
-import ExportEvmAction from "../pages/evm-action-export";
 import { GET_ANALYTICS_CONTRACT_ACTIONS } from "../queries";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { BlockHashRenderer } from "../renderer/block-hash-renderer";
@@ -85,24 +84,11 @@ const getEvmTransferListColumns = (): Array<ColumnProps<IEvmTransferInfo>> => [
 
 export interface IEvmTransferTable {
   address?: string;
-  refInstance?: Ref<{handleExport(): void}>
 }
 
 export const EvmTransfersTable: React.FC<IEvmTransferTable> = ({
-  address = "",
-  refInstance
+  address = ""
 }) => {
-
-  const exportInstance = useRef<{excExport(): void}>(null);
-
-  useImperativeHandle(refInstance, () => ({
-    handleExport
-  }));
-
-  const handleExport = () => {
-    exportInstance.current?.excExport()
-  };
-
   return (
     <Query
       query={GET_ANALYTICS_CONTRACT_ACTIONS}
@@ -128,45 +114,42 @@ export const EvmTransfersTable: React.FC<IEvmTransferTable> = ({
           [];
         const numActions = get<number>(data || {}, "action.evm.count") || 0;
         return (
-          <>
-            <ExportEvmAction refInstance={exportInstance} actions={actions}/>
-            <Table
-              loading={{
-                spinning: loading,
-                indicator: <Icon type="loading" />
-              }}
-              rowKey="hash"
-              dataSource={actions}
-              columns={getEvmTransferListColumns()}
-              style={{ width: "100%" }}
-              scroll={{ x: "auto" }}
-              pagination={{
-                pageSize: PAGE_SIZE,
-                total: numActions,
-                showQuickJumper: true
-              }}
-              onChange={pagination => {
-                fetchMore({
-                  variables: {
-                    address,
-                    pagination: {
-                      skip: Math.max(
-                        ((pagination.current || 1) - 1) * PAGE_SIZE,
-                        0
-                      ),
-                      first: PAGE_SIZE
-                    }
-                  },
-                  updateQuery: (prev, { fetchMoreResult }) => {
-                    if (!fetchMoreResult) {
-                      return prev;
-                    }
-                    return fetchMoreResult;
+          <Table
+            loading={{
+              spinning: loading,
+              indicator: <Icon type="loading" />
+            }}
+            rowKey="hash"
+            dataSource={actions}
+            columns={getEvmTransferListColumns()}
+            style={{ width: "100%" }}
+            scroll={{ x: "auto" }}
+            pagination={{
+              pageSize: PAGE_SIZE,
+              total: numActions,
+              showQuickJumper: true
+            }}
+            onChange={pagination => {
+              fetchMore({
+                variables: {
+                  address,
+                  pagination: {
+                    skip: Math.max(
+                      ((pagination.current || 1) - 1) * PAGE_SIZE,
+                      0
+                    ),
+                    first: PAGE_SIZE
                   }
-                });
-              }}
-            />
-          </>
+                },
+                updateQuery: (prev, { fetchMoreResult }) => {
+                  if (!fetchMoreResult) {
+                    return prev;
+                  }
+                  return fetchMoreResult;
+                }
+              });
+            }}
+          />
         );
       }}
     </Query>
