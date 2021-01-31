@@ -237,10 +237,6 @@ export const ActionTable: React.FC<IActionTable> = ({
         const actions =
           get<Array<ActionInfo>>(data || {}, "getActions.actionInfo") || [];
 
-        // fetchActions?.call(null, actions);
-
-        // console.log('ActionTable -->');
-
         return (
           <>
             <ExportAction refInstance={exportInstance} actions={actions} />
@@ -374,6 +370,15 @@ export const AnalyticActionTable: FC<AnalyticActionTableProp> = ({
     ? GET_ACTIONS_BY_BUCKET_INDEX
     : GET_ANALYTICS_ACTIONS_BY_TYPE;
 
+  const exportInstance = useRef<{ excExport(): void }>(null);
+
+  useImperativeHandle(refInstance, () => ({
+    handleExport
+  }));
+  const handleExport = () => {
+    exportInstance.current?.excExport()
+  };
+
   return (
     <Query
       query={query}
@@ -412,15 +417,6 @@ export const AnalyticActionTable: FC<AnalyticActionTableProp> = ({
 
         const actions = get(data || {}, `action.${by}.actions`, []);
         const numActions = get(data || {}, `action.${by}.count`, 0);
-        const exportInstance = useRef<{ excExport(): void }>(null);
-
-        useImperativeHandle(refInstance, () => ({
-          handleExport
-        }));
-
-        const handleExport = () => {
-          exportInstance.current?.excExport()
-        };
 
         return (
           <>
