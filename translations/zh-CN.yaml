@@ -179,7 +179,7 @@ wallet.contract.interactWith.desc: 这是一个描述句子。这是一个描述
 wallet.contract.deployContract.desc: 这是一个描述句子。这是一个描述句子。
 button.backHome: 返回主页
 wallet.account.raw: 帐户地址
-wallet.account.delegateAddress: 帐户地址
+wallet.account.delegateAddress: 帐户名
 wallet.account.stakeAmount: 质押金额
 wallet.account.private: 私钥
 wallet.account.addressPlaceHolder: 'IoTeX 地址...'

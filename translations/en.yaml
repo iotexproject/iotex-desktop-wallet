@@ -462,7 +462,7 @@ wallet.account.enterPrivateKey: 'Private Key'
 wallet.account.placehold.privateKey: 'Paste your private key here'
 wallet.account.private: 'Private Key'
 wallet.account.raw: 'Account Address'
-wallet.account.delegateAddress: 'Delegate Address'
+wallet.account.delegateAddress: 'Delegate Name'
 wallet.account.stakeAmount: 'Stake Amount'
 wallet.account.unlock: Unlock
 wallet.bytecode.copy: 'Copy ByteCode'

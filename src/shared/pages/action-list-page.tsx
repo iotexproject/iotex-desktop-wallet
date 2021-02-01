@@ -7,7 +7,7 @@ import { fromRau } from "iotex-antenna/lib/account/utils";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import { GetChainMetaResponse } from "iotex-antenna/protogen/proto/api/api_pb";
 import { t } from "onefx/lib/iso-i18n";
-import React, { FC, Ref, useImperativeHandle, useRef } from "react";
+import React, {FC, Ref, useImperativeHandle, useRef} from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 
@@ -36,7 +36,7 @@ import { ActionFeeRenderer } from "../renderer/action-fee-renderer";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { ActionToRenderer } from "../renderer/action-to-renderer";
 import ExportAction from "./action-export";
-import { ExportAnalyticAction } from "./analytic-action-export";
+import {ExportAnalyticAction} from "./analytic-action-export";
 import { Page } from "./page";
 
 const PAGE_SIZE = 15;
@@ -170,7 +170,7 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
 export interface IActionTable {
   address?: string;
   numActions: number;
-  refInstance?: Ref<{ handleExport(): void }>;
+  refInstance?: Ref<{handleExport(): void}>
 }
 
 export const ActionTable: React.FC<IActionTable> = ({
@@ -180,16 +180,16 @@ export const ActionTable: React.FC<IActionTable> = ({
 }) => {
   const start = Math.max(numActions - PAGE_SIZE, 0);
   const count = PAGE_SIZE;
-  const getVariables = (
-    start: number,
-    count: number
-  ): {
-    byIndex?: {
-      start: number;
-      count: number;
-    };
-    byAddr?: {
-      address: string;
+    const getVariables = (
+      start: number,
+      count: number
+    ): {
+      byIndex?: {
+        start: number;
+        count: number;
+      };
+      byAddr?: {
+        address: string;
       start: number;
       count: number;
     };
@@ -207,7 +207,7 @@ export const ActionTable: React.FC<IActionTable> = ({
         };
   };
 
-  const exportInstance = useRef<{ excExport(): void }>(null);
+  const exportInstance = useRef<{excExport(): void}>(null);
   useImperativeHandle(refInstance, () => ({
     handleExport
   }));
@@ -237,9 +237,13 @@ export const ActionTable: React.FC<IActionTable> = ({
         const actions =
           get<Array<ActionInfo>>(data || {}, "getActions.actionInfo") || [];
 
+        // fetchActions?.call(null, actions);
+
+        // console.log('ActionTable -->');
+
         return (
           <>
-            <ExportAction refInstance={exportInstance} actions={actions} />
+            <ExportAction refInstance={exportInstance} actions={actions}/>
             <Table
               loading={{
                 spinning: loading,
@@ -357,26 +361,24 @@ const getAnalyticActionColumns = (): Array<
 type AnalyticActionTableProp = {
   actionType?: string;
   bucketIndex?: number;
-  refInstance?: Ref<{ handleExport(): void }>;
-};
-export const AnalyticActionTable: FC<AnalyticActionTableProp> = ({
-  actionType,
-  bucketIndex,
-  refInstance
-}) => {
+  refInstance?: Ref<{handleExport(): void}>
+}
+export const AnalyticActionTable: FC<AnalyticActionTableProp> =
+    ({ actionType, bucketIndex ,refInstance}) => {
   const variables = bucketIndex ? { bucketIndex } : { type: actionType };
   const by = bucketIndex ? "byBucketIndex" : "byType";
   const query = bucketIndex
     ? GET_ACTIONS_BY_BUCKET_INDEX
     : GET_ANALYTICS_ACTIONS_BY_TYPE;
 
-  const exportInstance = useRef<{ excExport(): void }>(null);
+  const exportInstance = useRef<{excExport(): void}>(null);
 
   useImperativeHandle(refInstance, () => ({
-    handleExport
+     handleExport
   }));
+
   const handleExport = () => {
-    exportInstance.current?.excExport()
+     exportInstance.current?.excExport()
   };
 
   return (
@@ -420,10 +422,7 @@ export const AnalyticActionTable: FC<AnalyticActionTableProp> = ({
 
         return (
           <>
-            <ExportAnalyticAction
-              refInstance={exportInstance}
-              actions={actions}
-            />
+            <ExportAnalyticAction refInstance={exportInstance} actions={actions}/>
             <Table
               loading={{
                 spinning: loading,
@@ -465,21 +464,17 @@ export const AnalyticActionTable: FC<AnalyticActionTableProp> = ({
 };
 
 const PageHeader: React.FC<{
-  click?(): void;
+  click? (): void
 }> = ({ click }) => {
-  return (
-    <div style={{ display: "flex", alignItems: "center" }}>
-      {t("topbar.actions")}
-      <Button
-        size="small"
-        type="primary"
-        style={{ marginLeft: 10 }}
-        onClick={click}
-      >
-        {t("action.export")}
-      </Button>
-    </div>
-  );
+
+  return <div style={{display: "flex", alignItems: "center"}}>
+    {t("topbar.actions")}
+    <Button
+      size="small"
+      type="primary"
+      style={{marginLeft: 10}}
+      onClick={click}>{t("action.export")}</Button>
+  </div>
 };
 
 const ActionListPage = withRouter(
@@ -487,7 +482,7 @@ const ActionListPage = withRouter(
     const actionType =
       new URLSearchParams(location.search).get("actionType") || "";
 
-    const exportInstance = useRef<{ handleExport(): void }>(null);
+    const exportInstance = useRef<{handleExport(): void}>(null);
 
     const exportAction = () => {
       exportInstance.current?.handleExport()
@@ -498,13 +493,8 @@ const ActionListPage = withRouter(
         <Helmet title={`${t("topbar.actions")} - ${t("meta.description")}`} />
         <PageNav items={[t("topbar.actions")]} />
         <ContentPadding>
-          <Page header={<PageHeader click={exportAction} />}>
-            {actionType && (
-              <AnalyticActionTable
-                refInstance={exportInstance}
-                actionType={actionType}
-              />
-            )}
+          <Page header={<PageHeader click={exportAction}/>}>
+            {actionType && <AnalyticActionTable refInstance={exportInstance} actionType={actionType} />}
             {!actionType && (
               <Query query={GET_CHAIN_META}>
                 {({
@@ -524,12 +514,7 @@ const ActionListPage = withRouter(
                     get(data, "chainMeta.numActions"),
                     10
                   );
-                  return (
-                    <ActionTable
-                      refInstance={exportInstance}
-                      numActions={numActions}
-                    />
-                  );
+                  return <ActionTable refInstance={exportInstance} numActions={numActions}/>;
                 }}
               </Query>
             )}
