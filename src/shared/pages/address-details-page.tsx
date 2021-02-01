@@ -243,7 +243,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
                 }}
               />
               <ContentWrapper
-                address={addressUrl}
+                address={address}
                 hashRoute={hashRoute}
                 numActions={numActions}
                 onTabChange={handleTabChange}/>
