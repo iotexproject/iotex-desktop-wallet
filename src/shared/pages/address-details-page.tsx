@@ -1,3 +1,4 @@
+import Button from "antd/lib/button";
 import notification from "antd/lib/notification";
 import Tabs from "antd/lib/tabs";
 import { get } from "dottie";
@@ -5,7 +6,7 @@ import { get } from "dottie";
 import window from "global/window";
 import isBrowser from "is-browser";
 import { t } from "onefx/lib/iso-i18n";
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
@@ -18,11 +19,12 @@ import { assetURL } from "../common/asset-url";
 import { CardDetails } from "../common/card-details";
 import { ErrorPage } from "../common/error-page";
 import { PageNav } from "../common/page-nav-bar";
+import {PALM_WIDTH} from "../common/styles/style-media";
 import { ContentPadding } from "../common/styles/style-padding";
 import { EvmTransfersTable } from "../components/evm-transfer-table";
 import { GET_ACCOUNT } from "../queries";
 import { AddressDetailRenderer } from "../renderer";
-import { ActionTable } from "./action-list-page";
+import {ActionTable} from "./action-list-page";
 import { XRC20ActionTable } from "./xrc20-action-list-page";
 import { XRC721ActionTable } from "./xrc721-action-list-page";
 
@@ -54,6 +56,104 @@ const parseAddressDetails = (data: { getAccount: GetAccountResponse }) => {
   };
 };
 
+interface ContentWrapperProps {
+  onTabChange(key: string): void,
+  address: string,
+  numActions: number,
+  hashRoute: string
+}
+
+const ContentWrapper: React.FC<ContentWrapperProps> = ({
+  onTabChange,
+  address,
+  numActions,
+  hashRoute
+}) => {
+
+  const [tabKey, setTabKey] = useState<string>("transactions");
+  const [showExportBtn, setShowExportBtn] = useState<boolean>(true);
+
+  const exportActionInstance = useRef<{handleExport(): void}>(null);
+  const exportXRC20ActionInstance = useRef<{handleExport(): void}>(null);
+  const exportXRC721ActionInstance = useRef<{handleExport(): void}>(null);
+  const exportEvmActionInstance = useRef<{handleExport(): void}>(null);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      if (
+        document.documentElement &&
+        document.documentElement.clientWidth < PALM_WIDTH
+      ) {
+        setShowExportBtn(false)
+      } else {
+        setShowExportBtn(true)
+      }
+    });
+  }, []);
+
+  const exportAction = () => {
+    switch (tabKey) {
+      case "transactions":
+        exportActionInstance.current?.handleExport();
+        break;
+      case "xrc_transactions":
+        exportXRC20ActionInstance.current?.handleExport();
+        break;
+      case "xrc721_transactions":
+        exportXRC721ActionInstance.current?.handleExport();
+        break;
+      case "contract_transactions":
+        exportEvmActionInstance.current?.handleExport();
+        break;
+      default:
+    }
+  };
+
+  return <div style={{position: "relative"}}>
+    <Tabs
+      size="large"
+      className="card-shadow"
+      defaultActiveKey={hashRoute}
+      onChange={key => {
+        onTabChange(key);
+        setTabKey(key)
+      }}
+    >
+      <Tabs.TabPane tab={t("common.transactions")} key="transactions">
+        <ActionTable refInstance={exportActionInstance} numActions={numActions} address={address}/>
+      </Tabs.TabPane>
+      <Tabs.TabPane
+        tab={t("common.xrc20Transactions")}
+        key="xrc_transactions"
+      >
+        <XRC20ActionTable refInstance={exportXRC20ActionInstance} address={address} />
+      </Tabs.TabPane>
+      <Tabs.TabPane
+        tab={t("common.xrc721Transactions")}
+        key="xrc721_transactions"
+      >
+        <XRC721ActionTable refInstance={exportXRC721ActionInstance} accountAddress={address} />
+      </Tabs.TabPane>
+      <Tabs.TabPane
+        tab={t("common.contract_transactions")}
+        key="contract_transactions"
+      >
+        <EvmTransfersTable refInstance={exportEvmActionInstance} address={address} />
+      </Tabs.TabPane>
+    </Tabs>
+    {
+      showExportBtn
+        ? <Button
+        size="small"
+        type="primary"
+        style={{position: "absolute", right: 10, top: 15}}
+        onClick={exportAction}>{t("action.export")}</Button>
+        : <></>
+    }
+  </div>
+
+};
+
 // tslint:disable-next-line:max-func-body-length
 const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
   props
@@ -62,6 +162,12 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
   if (!address) {
     return null;
   }
+
+  const handleTabChange = (key: string) => {
+    const { history } = props;
+    history.replace(`#${key}`);
+  };
+
   return (
     <>
       <Helmet title={`IoTeX ${t("address.address")} ${address}`} />
@@ -116,7 +222,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
             isBrowser && location.hash.includes("#")
               ? location.hash.slice(1)
               : "transactions";
-          const { history } = props;
+
           return (
             <ContentPadding>
               <CardDetails
@@ -136,36 +242,11 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
                   valueRenderMap: AddressDetailRenderer
                 }}
               />
-              <Tabs
-                size="large"
-                className="card-shadow"
-                defaultActiveKey={hashRoute}
-                onChange={key => {
-                  history.replace(`#${key}`);
-                }}
-              >
-                <Tabs.TabPane tab={t("common.transactions")} key="transactions">
-                  <ActionTable numActions={numActions} address={address} />
-                </Tabs.TabPane>
-                <Tabs.TabPane
-                  tab={t("common.xrc20Transactions")}
-                  key="xrc_transactions"
-                >
-                  <XRC20ActionTable address={address} />
-                </Tabs.TabPane>
-                <Tabs.TabPane
-                  tab={t("common.xrc721Transactions")}
-                  key="xrc721_transactions"
-                >
-                  <XRC721ActionTable accountAddress={address} />
-                </Tabs.TabPane>
-                <Tabs.TabPane
-                  tab={t("common.contract_transactions")}
-                  key="contract_transactions"
-                >
-                  <EvmTransfersTable address={address} />
-                </Tabs.TabPane>
-              </Tabs>
+              <ContentWrapper
+                address={address}
+                hashRoute={hashRoute}
+                numActions={numActions}
+                onTabChange={handleTabChange}/>
             </ContentPadding>
           );
         }}
