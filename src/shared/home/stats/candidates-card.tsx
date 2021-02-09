@@ -15,8 +15,7 @@ export const CandidatesCard = (props: QueryResult): JSX.Element => {
       productivityBase: number;
     }>;
   } = data || {};
-  const consensusDelegateCount = bpCandidates.length;
-  // const candidatesCount = bpCandidates.length;
+  const candidatesCount = bpCandidates.length;
   const showLoading = loading || !!error;
 
   return (
@@ -25,7 +24,7 @@ export const CandidatesCard = (props: QueryResult): JSX.Element => {
       titleStyle={{
         backgroundImage: `url(${assetURL("icon_overview_Delegates.png")})`
       }}
-      value={consensusDelegateCount}
+      value={candidatesCount}
       loading={showLoading}
       prefix={null}
       suffix={null}
