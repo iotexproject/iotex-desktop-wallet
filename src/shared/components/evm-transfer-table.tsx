@@ -3,7 +3,7 @@ import notification from "antd/lib/notification";
 import Table, { ColumnProps } from "antd/lib/table";
 import { get } from "dottie";
 import { t } from "onefx/lib/iso-i18n";
-import React, {Ref, useImperativeHandle, useRef} from "react";
+import React, { Ref, useImperativeHandle, useRef } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { AddressName } from "../common/address-name";
 import { analyticsClient } from "../common/apollo-client";
@@ -85,22 +85,21 @@ const getEvmTransferListColumns = (): Array<ColumnProps<IEvmTransferInfo>> => [
 
 export interface IEvmTransferTable {
   address?: string;
-  refInstance?: Ref<{handleExport(): void}>
+  refInstance?: Ref<{ handleExport(): void }>;
 }
 
 export const EvmTransfersTable: React.FC<IEvmTransferTable> = ({
   address = "",
   refInstance
 }) => {
-
-  const exportInstance = useRef<{excExport(): void}>(null);
+  const exportInstance = useRef<{ excExport(): void }>(null);
 
   useImperativeHandle(refInstance, () => ({
     handleExport
   }));
 
   const handleExport = () => {
-    exportInstance.current?.excExport()
+    exportInstance.current?.excExport();
   };
 
   return (
@@ -129,7 +128,7 @@ export const EvmTransfersTable: React.FC<IEvmTransferTable> = ({
         const numActions = get<number>(data || {}, "action.evm.count") || 0;
         return (
           <>
-            <ExportEvmAction refInstance={exportInstance} actions={actions}/>
+            <ExportEvmAction refInstance={exportInstance} actions={actions} />
             <Table
               loading={{
                 spinning: loading,

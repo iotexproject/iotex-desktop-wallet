@@ -1,25 +1,33 @@
-import {t} from "onefx/lib/iso-i18n";
-import React, {Ref, useEffect, useImperativeHandle, useRef, useState} from "react";
-import {CSVLink} from "react-csv";
-import {translateFn} from "../common/from-now";
-import {IEvmTransferInfo} from "../components/evm-transfer-table";
+import { t } from "onefx/lib/iso-i18n";
+import React, {
+  Ref,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState
+} from "react";
+import { CSVLink } from "react-csv";
+import { translateFn } from "../common/from-now";
+import { IEvmTransferInfo } from "../components/evm-transfer-table";
 
-type ExportType = {actions: Array<IEvmTransferInfo> | null, refInstance?: Ref<{excExport(): void}>}
+type ExportType = {
+  actions: Array<IEvmTransferInfo> | null;
+  refInstance?: Ref<{ excExport(): void }>;
+};
 
 interface ICSVData {
-  hash: string
-  blkHash: string
-  timestamp: string
-  sender: string
-  to: string
-  amount: string
+  hash: string;
+  blkHash: string;
+  timestamp: string;
+  sender: string;
+  to: string;
+  amount: string;
 }
 
-const ExportEvmAction: React.FC<ExportType> = ({
-  actions, refInstance}) =>
-{
-
-  const csvInstance = useRef<CSVLink & HTMLAnchorElement & { link?: HTMLAnchorElement }>(null);
+const ExportEvmAction: React.FC<ExportType> = ({ actions, refInstance }) => {
+  const csvInstance = useRef<
+    CSVLink & HTMLAnchorElement & { link?: HTMLAnchorElement }
+    >(null);
   const [csvData, setCsvData] = useState<Array<ICSVData>>([]);
 
   useEffect(() => {
@@ -35,7 +43,6 @@ const ExportEvmAction: React.FC<ExportType> = ({
   }));
 
   const excExport = async () => {
-
     const data = actions?.map(action => {
       return {
         hash: action.actHash,
@@ -44,7 +51,7 @@ const ExportEvmAction: React.FC<ExportType> = ({
         sender: action.from,
         to: action.to,
         amount: action.quantity
-      }
+      };
     });
 
     if (data) {
@@ -61,11 +68,14 @@ const ExportEvmAction: React.FC<ExportType> = ({
     { label: `${t("action.amount")}`, key: "amount" }
   ];
 
-  return <CSVLink
-    data={csvData}
-    headers={headers}
-    filename={t("common.contract_transactions")}
-    ref={csvInstance}/>
+  return (
+    <CSVLink
+      data={csvData}
+      headers={headers}
+      filename={t("common.contract_transactions")}
+      ref={csvInstance}
+    />
+  );
 };
 
-export default ExportEvmAction
+export default ExportEvmAction;

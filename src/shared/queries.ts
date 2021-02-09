@@ -537,6 +537,20 @@ export const GET_BP_STATS = gql`
   }
 `;
 
+export const GET_BP_CANDIDATES = gql`
+  query bpCandidates{
+    bpCandidates {
+      id
+      name
+      website
+      logo
+      bannerUrl
+      registeredName
+      tempEthAddress
+    }
+  }
+`;
+
 export const GET_ANALYTICS_TPS = gql`
   query chain {
     chain {
@@ -832,6 +846,41 @@ export const GET_TOP_HOLDERS = gql`
     topHolders(endEpochNumber: $endEpochNumber, pagination: $pagination) {
       address
       balance
+    }
+  }
+`;
+
+export const GET_BUCKETS = gql`
+  query($limit: Int!, $offset: Int!) {
+    getBuckets(limit: $limit, offset: $offset) {
+      bucketCount
+      bucketsList {
+        index
+        candidateAddress
+        stakedAmount
+        stakedDuration
+        createTime
+        stakeStartTime
+        unstakeStartTime
+        autoStake
+        owner
+      }
+    }
+  }
+`;
+
+export const GET_ALL_CANDIDACIES = gql`
+  query {
+    getAllCandidacies {
+      candidates {
+        name
+        ownerAddress
+        operatorAddress
+        rewardAddress
+        selfStakeBucketIdx
+        selfStakingTokens
+        totalWeightedVotes
+      }
     }
   }
 `;

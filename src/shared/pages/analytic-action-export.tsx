@@ -1,26 +1,37 @@
 import moment from "moment";
-import {t} from "onefx/lib/iso-i18n";
-import React, {Ref, useEffect, useImperativeHandle, useRef, useState} from "react";
-import {CSVLink} from "react-csv";
-import {IAnalyticActionInfo} from "./action-list-page";
+import { t } from "onefx/lib/iso-i18n";
+import React, {
+  Ref,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState
+} from "react";
+import { CSVLink } from "react-csv";
+import { IAnalyticActionInfo } from "./action-list-page";
 
-type ExportType = {actions: Array<IAnalyticActionInfo> | null, refInstance?: Ref<{excExport(): void}>}
+type ExportType = {
+  actions: Array<IAnalyticActionInfo> | null;
+  refInstance?: Ref<{ excExport(): void }>;
+};
 
 interface ICSVData {
-  hash: string
-  timestamp: string
-  sender: string
-  type: string
-  to: string
-  amount: string
-  fee: string
+  hash: string;
+  timestamp: string;
+  sender: string;
+  type: string;
+  to: string;
+  amount: string;
+  fee: string;
 }
 
 export const ExportAnalyticAction: React.FC<ExportType> = ({
-  actions,refInstance}) =>
-{
-
-  const csvInstance = useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
+  actions,
+  refInstance
+}) => {
+  const csvInstance = useRef<
+    CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }
+  >(null);
 
   const [csvData, setCsvData] = useState<Array<ICSVData>>([]);
 
@@ -37,17 +48,16 @@ export const ExportAnalyticAction: React.FC<ExportType> = ({
   }));
 
   const excExport = async () => {
-
     const data = actions?.map(action => {
       return {
         hash: action.actHash,
-        timestamp:  moment.unix(parseInt(action.timeStamp, 10)).fromNow(),
+        timestamp: moment.unix(parseInt(action.timeStamp, 10)).fromNow(),
         sender: action.sender,
         type: action.actType,
         to: action.recipient,
         amount: action.amount,
-        fee: action.gasFee,
-      }
+        fee: action.gasFee
+      };
     });
 
     if (data) {
@@ -62,12 +72,15 @@ export const ExportAnalyticAction: React.FC<ExportType> = ({
     { label: `${t("action.type")}`, key: "type" },
     { label: `${t("render.key.to")}`, key: "to" },
     { label: `${t("action.amount")}`, key: "amount" },
-    { label: `${t("render.key.fee")}`, key: "fee" },
+    { label: `${t("render.key.fee")}`, key: "fee" }
   ];
 
-  return <CSVLink
-    data={csvData}
-    headers={headers}
-    filename={t("topbar.actions")}
-    ref={csvInstance}/>
+  return (
+    <CSVLink
+      data={csvData}
+      headers={headers}
+      filename={t("topbar.actions")}
+      ref={csvInstance}
+    />
+  );
 };
