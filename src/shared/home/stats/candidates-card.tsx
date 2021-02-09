@@ -15,8 +15,8 @@ export const CandidatesCard = (props: QueryResult): JSX.Element => {
       productivityBase: number;
     }>;
   } = data || {};
-  const consensusDelegateCount = 36;
-  const candidatesCount = bpCandidates.length;
+  const consensusDelegateCount = bpCandidates.length;
+  // const candidatesCount = bpCandidates.length;
   const showLoading = loading || !!error;
 
   return (
@@ -28,7 +28,7 @@ export const CandidatesCard = (props: QueryResult): JSX.Element => {
       value={consensusDelegateCount}
       loading={showLoading}
       prefix={null}
-      suffix={`${candidatesCount}`}
+      suffix={null}
     />
   );
 };
