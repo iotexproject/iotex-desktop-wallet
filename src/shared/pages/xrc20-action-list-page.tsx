@@ -10,7 +10,7 @@ import BigNumber from "bignumber.js";
 import { get } from "dottie";
 import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
-import React, { Ref, useImperativeHandle, useRef, useState} from "react";
+import React, { Ref, useImperativeHandle, useRef, useState } from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
@@ -183,7 +183,7 @@ const getXrc20HoldersListColumns = (): Array<ColumnProps<IXRC20HolderInfo>> => [
 export interface IXRC20ActionTable {
   address?: string;
   byContract?: string;
-  refInstance?: Ref<{handleExport(): void}>
+  refInstance?: Ref<{ handleExport(): void }>;
 }
 
 export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
@@ -210,7 +210,7 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
           }
         };
 
-  const exportInstance = useRef<{excExport(): void}>(null);
+  const exportInstance = useRef<{ excExport(): void }>(null);
 
   useImperativeHandle(refInstance, () => ({
     handleExport
@@ -239,7 +239,7 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
         const numActions = get<number>(data || {}, "xrc20.data.count");
         return (
           <>
-            <ExportXRC20Action refInstance={exportInstance} actions={actions}/>
+            <ExportXRC20Action refInstance={exportInstance} actions={actions} />
             <Table
               loading={{
                 spinning: loading,
@@ -260,18 +260,18 @@ export const XRC20ActionTable: React.FC<IXRC20ActionTable> = ({
                 const updatevariables =
                   address || byContract
                     ? {
-                      page: pagination.current || 1,
-                      numPerPage: PAGE_SIZE,
-                      address: byContract ? byContract : address
-                    }
-                    : {
-                      pagination: {
-                        skip: pagination.current
-                          ? (pagination.current - 1) * PAGE_SIZE
-                          : 0,
-                        first: PAGE_SIZE
+                        page: pagination.current || 1,
+                        numPerPage: PAGE_SIZE,
+                        address: byContract ? byContract : address
                       }
-                    };
+                    : {
+                        pagination: {
+                          skip: pagination.current
+                            ? (pagination.current - 1) * PAGE_SIZE
+                            : 0,
+                          first: PAGE_SIZE
+                        }
+                      };
                 fetchMore({
                   // @ts-ignore
                   variables: updatevariables,

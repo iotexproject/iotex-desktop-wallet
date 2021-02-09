@@ -173,7 +173,8 @@ export const TopBar = connect(
             { name: t("topbar.dashboard"), path: "/" },
             { name: t("topbar.actions"), path: "/action" },
             { name: t("topbar.blocks"), path: "/block" },
-            { name: t("topbar.accounts"), path: "/account" }
+            { name: t("topbar.accounts"), path: "/account" },
+            { name: t("topbar.buckets"), path: "/bucket" }
           ]}
           onClick={this.hideMobileMenu}
         />

@@ -222,7 +222,6 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
             isBrowser && location.hash.includes("#")
               ? location.hash.slice(1)
               : "transactions";
-
           return (
             <ContentPadding>
               <CardDetails

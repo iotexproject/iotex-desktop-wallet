@@ -12,10 +12,9 @@ Or deploy your own instance on Heroku.
   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
 </a>
 
-
 # ioPay Desktop
 
-Looking for ioPay Desktop V1? 
+Looking for ioPay Desktop V1?
 
 It's located at [src/electron](src/electron)
 
@@ -105,3 +104,4 @@ Join here to contribute: https://lokalise.co/public/903185115c91ceff0cb2a0.70666
     ```
 - Commit & push your changes to your git repo.
 - Send a PR with title prefix `[ADDRESS-META]` and description of your address if you want to merge into our repo.
+- test

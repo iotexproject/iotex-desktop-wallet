@@ -2,6 +2,15 @@
 import { ClientResponse } from "@sendgrid/client/src/response";
 import RpcMethod from "iotex-antenna/lib/rpc-method/node-rpc-method";
 import {
+  IReadStakingDataMethodName,
+  IReadStakingDataMethodToBuffer,
+  IReadStakingDataRequestToBuffer
+} from "iotex-antenna/lib/rpc-method/types";
+import {
+  CandidateListV2,
+  CandidateV2
+} from "iotex-antenna/protogen/proto/types/state_data_pb";
+import {
   Arg,
   Args,
   Ctx,
@@ -9,8 +18,10 @@ import {
   Resolver,
   ResolverInterface
 } from "type-graphql";
+import { toBuckets } from "../../shared/common/staking";
 import {
-  // ActionInfo,
+  Candidate,
+  CandidateList,
   ChainMeta,
   EstimateGasForActionRequest,
   EstimateGasForActionResponse,
@@ -19,10 +30,12 @@ import {
   GetActionsResponse,
   GetBlockMetasRequest,
   GetBlockMetasResponse,
+  GetBucketsResponse,
   GetEpochMetaRequest,
   GetEpochMetaResponse,
   GetReceiptByActionResponse,
   GetServerMetaResponse,
+  PaginationParam,
   ReadContractRequest,
   ReadContractResponse,
   ReadStateRequest,
@@ -58,7 +71,8 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     @Ctx() { gateways }: ICtx
   ): Promise<GetAccountResponse> {
     // @ts-ignore
-    return gateways.antenna.getAccount({ address });
+    const res = await gateways.antenna.getAccount({ address });
+    return res as GetAccountResponse;
   }
 
   @Query(_ => GetBlockMetasResponse, {
@@ -160,4 +174,79 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
   ): Promise<GetEpochMetaResponse> {
     return gateways.antenna.getEpochMeta({ epochNumber });
   }
+
+  @Query(_ => GetBucketsResponse, {
+    description: "get bucket list with pagination"
+  })
+  public async getBuckets(
+    @Args(_ => PaginationParam)
+    pagination: PaginationParam,
+    @Ctx()
+    { gateways }: ICtx
+  ): Promise<GetBucketsResponse> {
+    const state = await gateways.antenna.readState({
+      protocolID: Buffer.from("staking"),
+      methodName: IReadStakingDataMethodToBuffer({
+        method: IReadStakingDataMethodName.BUCKETS
+      }),
+      arguments: [
+        IReadStakingDataRequestToBuffer({
+          buckets: { pagination }
+        })
+      ],
+      height: ""
+    });
+
+    const BUCKET_COUNT = 1000;
+    const bucketsList = toBuckets(state.data);
+    return {
+      bucketsList,
+      bucketCount: BUCKET_COUNT
+    };
+  }
+
+  @Query(_ => CandidateList, {
+    description: "get all Candidacies"
+  })
+  public async getAllCandidacies(@Ctx()
+  {
+    gateways
+  }: ICtx): Promise<CandidateList> {
+    const state = await gateways.antenna.readState({
+      protocolID: Buffer.from("staking"),
+      methodName: IReadStakingDataMethodToBuffer({
+        method: IReadStakingDataMethodName.CANDIDATES
+      }),
+      arguments: [
+        IReadStakingDataRequestToBuffer({
+          candidates: {
+            candName: "",
+            pagination: { offset: 0, limit: 999 }
+          }
+        })
+      ],
+      height: ""
+    });
+
+    return {
+      candidates: toCandidates(state.data)
+    };
+  }
+}
+
+function toCandidates(buffer: Buffer | {}): Array<Candidate> {
+  // @ts-ignore
+  const v2 = CandidateListV2.deserializeBinary(buffer);
+
+  return v2.getCandidatesList().map((v: CandidateV2) => {
+    return {
+      name: v.getName(),
+      ownerAddress: v.getOwneraddress(),
+      operatorAddress: v.getOperatoraddress(),
+      rewardAddress: v.getRewardaddress(),
+      selfStakeBucketIdx: v.getSelfstakebucketidx(),
+      selfStakingTokens: v.getSelfstakingtokens(),
+      totalWeightedVotes: v.getTotalweightedvotes()
+    };
+  });
 }
