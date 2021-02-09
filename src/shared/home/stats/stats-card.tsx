@@ -27,11 +27,10 @@ const StatsCard: React.FC<IStatsCardProps> = ({
   valueStyle,
   prefix,
   suffix,
-  unit = "",
-  value
+  unit = ""
 }) => {
   const [animValue, setAnimValue] = useState(0);
-  const targetValue = Number(value) || 0;
+  const targetValue = Number(suffix) || 0;
   if (targetValue !== animValue) {
     setTimeout(() => {
       setAnimValue(
@@ -90,15 +89,7 @@ const StatsCard: React.FC<IStatsCardProps> = ({
             color: colors.white
           }}
           valueRender={() => (
-            <span>
-              {`${animValue.toLocaleString()}${unit}`}
-              {suffix && (
-                <>
-                  {" / "}
-                  <small>{suffix}</small>
-                </>
-              )}
-            </span>
+            <span>{`${animValue.toLocaleString()}${unit}`}</span>
           )}
         />
       </Card>
