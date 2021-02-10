@@ -6,7 +6,7 @@ import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import isBrowser from "is-browser";
 import omit from "lodash.omit";
 import { t } from "onefx/lib/iso-i18n";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 import { RouteComponentProps } from "react-router";
@@ -15,19 +15,19 @@ import {
   GetActionsResponse,
   GetReceiptByActionResponse
 } from "../../api-gateway/resolvers/antenna-types";
-import { analyticsClient } from "../common/apollo-client";
 import { CardDetails } from "../common/card-details";
 import { NotFound } from "../common/not-found";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { Dict } from "../common/types";
 import { numberWithCommas } from "../common/vertical-table";
-import { IEvmTransferInfo } from "../components/evm-transfer-table";
 import {
   GET_ACTION_DETAILS_BY_HASH,
   GET_ANALYTICS_EVM_TRANSFERS
 } from "../queries";
 import { CommonRenderer } from "../renderer";
+import { analyticsClient } from "../common/apollo-client";
+import { IEvmTransferInfo } from "../components/evm-transfer-table";
 
 const { Option } = Select;
 

@@ -1,9 +1,9 @@
 // @ts-ignore
+import { t } from "onefx/lib/iso-i18n";
+import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
-import { t } from "onefx/lib/iso-i18n";
-import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
 

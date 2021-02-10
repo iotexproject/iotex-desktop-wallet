@@ -27,8 +27,7 @@ export async function setApiGateway(server: MyServer): Promise<void> {
       path: sdlPath,
       commentDescriptions: true
     },
-    validate: false,
-    dateScalarMode: "isoDate"
+    validate: false
   });
 
   const apollo = new ApolloServer({

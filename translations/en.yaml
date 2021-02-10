@@ -165,7 +165,6 @@ candidates.badge_info.ambassador.content: Official IoTeX Community Ambassador
 coming_soon.bar: 'coming soon'
 coming_soon.title: 'Coming Soon...'
 common.address: Address
-common.buckets: Buckets
 common.contract_transactions: Contract Actions
 common.show_less: Show Less
 common.show_more: Show More
@@ -360,13 +359,6 @@ render.key.type: 'Reward Type'
 render.key.value: Value
 render.key.depositToRewardingFund: depositToRewardingFund
 render.key.provider: Provider
-render.key.bucketIndex: Bucket Index
-render.key.duration: Stake Duration
-render.key.createTime: 'Create Time'
-render.key.stakeStartTime: 'Stake Start Time'
-render.key.unstakeStartTime: 'Unstake Start Time'
-render.key.stakeDuration: '${stakeDuration} Days'
-render.key.autoStake: 'Auto-Stake'
 render.value.execution: Execution
 render.value.grantReward: 'Grant Reward'
 render.value.deposit: 'Deposit'
@@ -462,8 +454,6 @@ wallet.account.enterPrivateKey: 'Private Key'
 wallet.account.placehold.privateKey: 'Paste your private key here'
 wallet.account.private: 'Private Key'
 wallet.account.raw: 'Account Address'
-wallet.account.delegateAddress: 'Delegate Name'
-wallet.account.stakeAmount: 'Stake Amount'
 wallet.account.unlock: Unlock
 wallet.bytecode.copy: 'Copy ByteCode'
 wallet.cannot_find_solidity_version: 'Cannot find solidity version'
@@ -621,4 +611,3 @@ token.address.decimals: 'Decimals:'
 candidate.epoch_progress: Epoch Progress
 action.method.contract_creation: Contract Creation
 action.export: export
-topbar.buckets: BUCKETS
