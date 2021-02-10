@@ -1,36 +1,24 @@
-import { t } from "onefx/lib/iso-i18n";
-import React, {
-  forwardRef,
-  MutableRefObject,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState
-} from "react";
-import { CSVLink } from "react-csv";
-import { translateFn } from "../common/from-now";
-import { IXRC721ActionInfo } from "./xrc721-action-list-page";
+import {t} from "onefx/lib/iso-i18n";
+import React, {forwardRef, MutableRefObject, useEffect, useImperativeHandle, useRef, useState} from "react";
+import {CSVLink} from "react-csv";
+import {translateFn} from "../common/from-now";
+import {IXRC721ActionInfo} from "./xrc721-action-list-page";
 
-type ExportType = {
-  actions: Array<IXRC721ActionInfo> | null;
-  cRef: MutableRefObject<{ excExport(): void } | null>;
-};
+type ExportType = {actions: Array<IXRC721ActionInfo> | null, cRef: MutableRefObject<{excExport(): void} | null>}
 
 interface ICSVData {
-  hash: string;
-  timestamp: string;
-  sender: string;
-  to: string;
-  amount: string;
+  hash: string
+  timestamp: string
+  sender: string
+  to: string
+  amount: string
 }
 
-const ExportXRC721Action: React.FC<ExportType> = forwardRef<
-  { excExport(): void },
-  ExportType
->(({ actions }, ref) => {
-  const csvInstance = useRef<
-    CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }
-  >(null);
+const ExportXRC721Action: React.FC<ExportType> = forwardRef<{excExport(): void},ExportType>(({
+  actions}, ref) =>
+{
+
+  const csvInstance = useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
   const [csvData, setCsvData] = useState<Array<ICSVData>>([]);
 
   useEffect(() => {
@@ -46,6 +34,7 @@ const ExportXRC721Action: React.FC<ExportType> = forwardRef<
   }));
 
   const excExport = async () => {
+
     const data = actions?.map(action => {
       return {
         hash: action.hash,
@@ -53,7 +42,7 @@ const ExportXRC721Action: React.FC<ExportType> = forwardRef<
         sender: action.from,
         to: action.to,
         amount: action.quantity
-      };
+      }
     });
 
     if (data) {
@@ -69,14 +58,11 @@ const ExportXRC721Action: React.FC<ExportType> = forwardRef<
     { label: `${t("action.amount")}`, key: "amount" }
   ];
 
-  return (
-    <CSVLink
-      data={csvData}
-      headers={headers}
-      filename={t("common.xrc721Transactions")}
-      ref={csvInstance}
-    />
-  );
+  return <CSVLink
+    data={csvData}
+    headers={headers}
+    filename={t("common.xrc721Transactions")}
+    ref={csvInstance}/>
 });
 
-export default ExportXRC721Action;
+export default ExportXRC721Action

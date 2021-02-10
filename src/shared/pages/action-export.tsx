@@ -1,27 +1,18 @@
-import { get } from "dottie";
-import { fromRau } from "iotex-antenna/lib/account/utils";
-import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
-import { IActionCore, IReceipt } from "iotex-antenna/lib/rpc-method/types";
-import { t } from "onefx/lib/iso-i18n";
-import React, {
-  Ref,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState
-} from "react";
-import { withApollo, WithApolloClient } from "react-apollo";
-import { CSVLink } from "react-csv";
-import {
-  ActionInfo,
-  GetActionsByHashRequest
-} from "../../api-gateway/resolvers/antenna-types";
-import { translateFn } from "../common/from-now";
-import { getActionType } from "../common/get-action-type";
-import { numberWithCommas } from "../common/vertical-table";
-import { GET_ACTION_DETAILS_BY_HASH } from "../queries";
-import { IActionsDetails } from "./action-detail-page";
-import { getAddress } from "./action-list-page";
+import {get} from "dottie";
+import {fromRau} from "iotex-antenna/lib/account/utils";
+import {publicKeyToAddress} from "iotex-antenna/lib/crypto/crypto";
+import {IActionCore, IReceipt} from "iotex-antenna/lib/rpc-method/types";
+import {t} from "onefx/lib/iso-i18n";
+import React, { Ref, useEffect, useImperativeHandle, useRef, useState} from "react";
+import {withApollo, WithApolloClient} from "react-apollo";
+import {CSVLink} from "react-csv";
+import {ActionInfo, GetActionsByHashRequest} from "../../api-gateway/resolvers/antenna-types";
+import {translateFn} from "../common/from-now";
+import {getActionType} from "../common/get-action-type";
+import {numberWithCommas} from "../common/vertical-table";
+import {GET_ACTION_DETAILS_BY_HASH} from "../queries";
+import {IActionsDetails} from "./action-detail-page";
+import {getAddress} from "./action-list-page";
 
 const translateAmount = (action: ActionInfo) => {
   const amount: string =
@@ -44,47 +35,45 @@ const translateAmount = (action: ActionInfo) => {
 
 const resolveFee = (data: IActionsDetails) => {
   const { gasPrice = "0" } =
-    get<IActionCore>(data, "action.actionInfo.0.action.core") || {};
+  get<IActionCore>(data, "action.actionInfo.0.action.core") || {};
   const { gasConsumed = 0 } =
-    get<IReceipt>(data, "receipt.receiptInfo.receipt") || {};
+  get<IReceipt>(data, "receipt.receiptInfo.receipt") || {};
   return `${numberWithCommas(
     fromRau(`${gasConsumed * Number(gasPrice)}`, "Iotx")
-  )}`;
+  )}`
 };
 
 const resolveAddress = (data: IActionsDetails) => {
   const { contractAddress } =
-    get<IReceipt>(data, "receipt.receiptInfo.receipt") || {};
+  get<IReceipt>(data, "receipt.receiptInfo.receipt") || {};
 
-  return contractAddress;
+  return contractAddress
 };
 
-type ExportType = WithApolloClient<{}> & {
-  actions: Array<ActionInfo> | null;
-  refInstance?: Ref<{ excExport(): void }>;
-};
+type ExportType = WithApolloClient<{}> & {actions: Array<ActionInfo> | null, refInstance?: Ref<{excExport(): void}>}
 
 interface ICSVData {
-  hash: string;
-  timestamp: string;
-  sender: string;
-  type: string;
-  to: string;
-  amount: string;
-  fee: string;
+  hash: string
+  timestamp: string
+  sender: string
+  type: string
+  to: string
+  amount: string
+  fee: string
 }
 
 const ExportAction: React.FC<ExportType> = ({
   client,
   actions,
-  refInstance
-}) => {
+  refInstance}) =>
+{
+
   const csvInstance = useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
   const [csvData, setCsvData] = useState<Array<ICSVData>>([]);
   const [tagData, setTagData] = useState<Array<ActionInfo> | null>(null);
 
   useEffect(() => {
-    setTagData(actions);
+    setTagData(actions)
   }, [actions]);
 
   useEffect(() => {
@@ -107,10 +96,11 @@ const ExportAction: React.FC<ExportType> = ({
         checkingPending: true
       } as GetActionsByHashRequest
     });
-    return res.data;
+    return res.data
   };
 
   const excExport = async () => {
+
     const data = actions?.map(action => {
       return {
         hash: action.actHash,
@@ -119,8 +109,8 @@ const ExportAction: React.FC<ExportType> = ({
         type: getActionType(action),
         to: getAddress(action),
         amount: translateAmount(action),
-        fee: ""
-      };
+        fee: "",
+      }
     });
 
     if (data) {
@@ -136,7 +126,7 @@ const ExportAction: React.FC<ExportType> = ({
             if (index !== -1) {
               const csvData = data[index];
               csvData.fee = resolveFee(actionDetail);
-              csvData.to = resolveAddress(actionDetail);
+              csvData.to = resolveAddress(actionDetail)
             }
 
             const rmIndex = temp.findIndex(item => {
@@ -146,13 +136,13 @@ const ExportAction: React.FC<ExportType> = ({
               temp.splice(rmIndex, 1);
             }
           });
-          promiseArray.push(p);
+          promiseArray.push(p)
         });
 
         Promise.all(promiseArray).finally(() => {
           setTagData(temp);
           setCsvData(data);
-        });
+        })
       } else {
         csvInstance.current?.link?.click();
       }
@@ -166,17 +156,14 @@ const ExportAction: React.FC<ExportType> = ({
     { label: `${t("action.type")}`, key: "type" },
     { label: `${t("render.key.to")}`, key: "to" },
     { label: `${t("action.amount")}`, key: "amount" },
-    { label: `${t("render.key.fee")}`, key: "fee" }
+    { label: `${t("render.key.fee")}`, key: "fee" },
   ];
 
-  return (
-    <CSVLink
-      data={csvData}
-      headers={headers}
-      filename={t("topbar.actions")}
-      ref={csvInstance}
-    />
-  );
+  return <CSVLink
+    data={csvData}
+    headers={headers}
+    filename={t("topbar.actions")}
+    ref={csvInstance}/>
 };
 
 export default withApollo(ExportAction);

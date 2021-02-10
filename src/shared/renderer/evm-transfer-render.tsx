@@ -1,16 +1,16 @@
-import Col from "antd/lib/col";
-import Icon from "antd/lib/icon";
-import Row from "antd/lib/row";
-import BigNumber from "bignumber.js";
-import { t } from "onefx/lib/iso-i18n";
 import React from "react";
-import { LinkButton } from "../common/buttons";
-import { colors } from "../common/styles/style-color";
 import {
   numberWithCommas,
   VerticalTableRender
 } from "../common/vertical-table";
 import { IEvmTransferInfo } from "../components/evm-transfer-table";
+import { colors } from "../common/styles/style-color";
+import Col from "antd/lib/col";
+import Row from "antd/lib/row";
+import Icon from "antd/lib/icon";
+import { t } from "onefx/lib/iso-i18n";
+import { LinkButton } from "../common/buttons";
+import BigNumber from "bignumber.js";
 
 const EvmTransferRenderer: VerticalTableRender<Array<IEvmTransferInfo>> = ({
   value
