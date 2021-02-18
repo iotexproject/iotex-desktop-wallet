@@ -6,7 +6,6 @@ import window from "global/window";
 import { Account } from "iotex-antenna/lib/account/account";
 import isElectron from "is-electron";
 import { t } from "onefx/lib/iso-i18n";
-
 // @ts-ignore
 import { styled } from "onefx/lib/styletron-react";
 import React from "react";
@@ -95,7 +94,6 @@ class WalletInner extends PureComponent<Props, State> {
   };
 
   public renderNoWallet = () => {
-    console.log('renderNoWallet')
     const { createNew } = this.state;
     const { dispatch } = this.props;
     return createNew ? (
@@ -115,7 +113,6 @@ class WalletInner extends PureComponent<Props, State> {
   }
 
   public render(): JSX.Element {
-    console.log('render')
     const { createNew } = this.state;
     const { account } = this.props;
     return (
