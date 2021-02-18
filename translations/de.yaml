@@ -124,6 +124,7 @@ wallet.unlock.new.title: Achtung!
 wallet.unlock.new.p1: 'Wir speichern deinen privaten Schlüssel niemals auf unserem Server. Die Erstellung deines privaten Schlüssels erfolgt ausschließlich in deinem Browser.'
 wallet.unlock.new.p2: 'Sichere deinen privaten Schlüssel, um später auf deine Wallet zugreifen zu können. Wenn du ihn verlierst, kann er später nicht wiederhergestellt werden.'
 unlock-wallet.title: 'Öffne deine Wallet'
+unlock-wallet.error.message: 'This tool is for developers only. Please DO NOT use this wallet for accessing your assets. Please use ioPay downloaded from its official website: https://iopay.iotex.io'
 unlock-wallet.warn.message: 'Bitte prüfe noch einmal die URL & SSL-Zertifizierung. Als URL sollte dort https://www.iotexscan.io stehen.'
 wallet.account.enterPrivateKey: 'Privater Schlüssel'
 wallet.account.placehold.privateKey: 'Trage hier deinen privaten Schlüssel ein.'

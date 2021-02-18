@@ -128,7 +128,7 @@ class WalletInner extends PureComponent<Props, State> {
               <React.Fragment>
                 <Alert
                   style={{marginLeft:'15px',marginBottom:'1em',fontSize:'16px'}}
-                  message={t("This tool is for developers only. Please DO NOT use this wallet for accessing your assets. Please use ioPay downloaded from its official website: https://iopay.iotex.io")}
+                  message={t("unlock-wallet.error.message")}
                   type="error"
                   closable={true}
                   showIcon={true}
