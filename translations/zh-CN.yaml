@@ -122,7 +122,6 @@ wallet.unlock.new.title: 请注意
 wallet.unlock.new.p1: 我们不会将您的私钥存储在服务器上。仅在您的浏览器上处理生成私钥。
 wallet.unlock.new.p2: '备份您的私钥,因为您将使用它访问您的钱包。如果您丢失了私钥,则无法恢复。'
 unlock-wallet.title: 解锁您的钱包
-unlock-wallet.error.message: 'This tool is for developers only. Please DO NOT use this wallet for accessing your assets. Please use ioPay downloaded from its official website: https://iopay.iotex.io'
 unlock-wallet.warn.message: '请再次检查URL和SSL证书，在你的URL栏里应该显示：https://www.iotexscan.io'
 wallet.account.enterPrivateKey: 私钥
 wallet.account.placehold.privateKey: 将您的私钥粘贴到此处
