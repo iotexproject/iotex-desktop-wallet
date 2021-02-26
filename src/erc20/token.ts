@@ -143,36 +143,28 @@ export class Token {
 
   public async getBasicTokenInfo(): Promise<ITokenBasicInfo> {
     const api = this.api;
-    const cache = xconf.getConf<{ [index: string]: ITokenBasicInfo }>(
-      XConfKeys.TOKENS_BASIC_INFOS,
-      {}
-    );
-    if (!cache[api.address] || !cache[api.address].totalSupply) {
-      const [name, symbol, decimals, totalSupply] = await Promise.all<
-        string,
-        string,
-        BigNumber,
-        BigNumber
-      >([
-        api.name(api.address),
-        api.symbol(api.address),
-        api.decimals(api.address),
-        api.totalSupply(api.address)
-      ]);
+    const [name, symbol, decimals, totalSupply] = await Promise.all<
+      string,
+      string,
+      BigNumber,
+      BigNumber
+    >([
+      api.name(api.address),
+      api.symbol(api.address),
+      api.decimals(api.address),
+      api.totalSupply(api.address)
+    ]);
 
-      const totalSupplyBn = getTokenAmountBN(totalSupply, decimals.toString());
-      const totalSupplyString = totalSupplyBn.toString(10);
-      cache[api.address] = {
-        tokenAddress: this.api.address,
-        decimals,
-        symbol,
-        name,
-        totalSupply: totalSupplyString,
-        contractAddress: api.contract.getAddress() || ""
-      };
-      xconf.setConf(XConfKeys.TOKENS_BASIC_INFOS, cache);
-    }
-    return cache[api.address];
+    const totalSupplyBn = getTokenAmountBN(totalSupply, decimals.toString());
+    const totalSupplyString = totalSupplyBn.toString(10);
+    return {
+      tokenAddress: this.api.address,
+      decimals,
+      symbol,
+      name,
+      totalSupply: totalSupplyString,
+      contractAddress: api.contract.getAddress() || ""
+    };
   }
 
   public async transfer(
