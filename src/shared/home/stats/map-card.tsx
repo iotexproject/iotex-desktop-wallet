@@ -15,7 +15,7 @@ import { assetURL } from "../../common/asset-url";
 import { colors } from "../../common/styles/style-color";
 import { CompAreaChart } from "../charts/area-chart";
 
-const fontFamily = "'Heebo',sans-serif,Microsoft YaHei !important";
+const fontFamily = "'Montserrat',sans-serif,Microsoft YaHei !important";
 const Styles = {
   mapBox: {
     height: 390,
