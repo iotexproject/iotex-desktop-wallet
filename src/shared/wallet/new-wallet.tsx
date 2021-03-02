@@ -126,7 +126,7 @@ class NewWallet extends React.Component<Props, State> {
               readOnly={true}
             />
           </Form.Item>
-          {this.renderSaveMnemonic()}
+          {/*{this.renderSaveMnemonic()}*/}
         </Form>
         <DownloadKeystoreForm
           privateKey={account.privateKey}
