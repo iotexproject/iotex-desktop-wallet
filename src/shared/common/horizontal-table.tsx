@@ -50,7 +50,7 @@ export class HorizontalTable extends Component<Props> {
           return (
             <React.Fragment key={index}>
               <dt>{column.title}</dt>
-              <dd>{this.renderCell(column)}</dd>
+              <dd className={"dd-custom-scroll"}>{this.renderCell(column)}</dd>
             </React.Fragment>
           );
         })}
