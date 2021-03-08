@@ -61,7 +61,7 @@ export function HtmlHead({ locale }: { locale: string }): JSX.Element {
         },
         {
           href:
-            "https://fonts.googleapis.com/css?family=Heebo:100,300,400,500,700",
+            "https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,700",
           rel: "stylesheet",
           type: "text/css"
         }
