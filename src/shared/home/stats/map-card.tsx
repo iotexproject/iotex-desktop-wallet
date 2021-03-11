@@ -88,6 +88,7 @@ export const MapCard = (): JSX.Element => {
   for (let index = 30; index >= 2; index -= 1) {
     days.push(index);
   }
+
   return (
     <Query
       ssr={false}
@@ -114,6 +115,7 @@ export const MapCard = (): JSX.Element => {
           }
           return null;
         }
+
         const mapdata = Object.keys(data).map((name, i) => {
           const date = new Date();
           date.setDate(date.getDate() - days[i]);
@@ -123,6 +125,11 @@ export const MapCard = (): JSX.Element => {
             value: data[name].numberOfActions.count
           };
         });
+
+        if (mapdata.length > 0) {
+          mapdata.splice(mapdata.length - 1, 1);
+        }
+
         return (
           <Spin
             spinning={loading}
