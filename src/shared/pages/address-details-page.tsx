@@ -27,6 +27,7 @@ import { AddressDetailRenderer } from "../renderer";
 import {ActionTable} from "./action-list-page";
 import { XRC20ActionTable } from "./xrc20-action-list-page";
 import { XRC721ActionTable } from "./xrc721-action-list-page";
+import { StakeActionTable } from "../components/stake-action-table";
 
 export interface IActionsDetails {
   action: GetActionsResponse;
@@ -139,6 +140,12 @@ const ContentWrapper: React.FC<ContentWrapperProps> = ({
         key="contract_transactions"
       >
         <EvmTransfersTable refInstance={exportEvmActionInstance} address={address} />
+      </Tabs.TabPane>
+      <Tabs.TabPane
+        tab={t("common.stake_actions")}
+        key="stake_actions"
+      >
+        <StakeActionTable voter={address} />
       </Tabs.TabPane>
     </Tabs>
     {
