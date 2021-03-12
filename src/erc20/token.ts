@@ -8,7 +8,6 @@ import isBrowser from "is-browser";
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
-import { xconf, XConfKeys } from "../shared/common/xconf";
 import { toIoTeXAddress } from "../shared/wallet/address";
 import { getAntenna } from "../shared/wallet/get-antenna";
 import { BID_ABI } from "./abi";
