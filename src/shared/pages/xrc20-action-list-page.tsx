@@ -67,62 +67,67 @@ const getXrc20ActionListColumns = ({
     {
       title: t("action.hash"),
       dataIndex: "hash",
-      width: "20vw",
+      width: "18vw",
       render: text => <ActionHashRenderer value={text} />
     },
     {
       title: t("block.timestamp"),
       dataIndex: "timestamp",
-      width: "20vw",
-      render: (_, { timestamp }) =>
-        translateFn({ seconds: Number(timestamp), nanos: 0 })
+      width: "10vw",
+      render: (_, { timestamp }) => {
+        return <div style={{ minWidth: 70 }}>
+          {translateFn({ seconds: Number(timestamp), nanos: 0 })}
+        </div>
+      }
     },
     {
       title: t("action.sender"),
       dataIndex: "from",
-      width: "20vw",
+      width: "18vw",
       render: (text: string): JSX.Element | string => {
         return (
-          <span
+          <div
             className="ellipsis-text"
-            style={{ maxWidth: "10vw", minWidth: 100 }}
+            style={{ maxWidth: "18vw", minWidth: 120 }}
           >
             <AddressName address={text} />
-          </span>
+          </div>
         );
       }
     },
     {
       title: t("render.key.to"),
       dataIndex: "to",
-      width: "20vw",
+      width: "18vw",
       render: (text: string): JSX.Element | string => {
         return (
-          <span
+          <div
             className="ellipsis-text"
-            style={{ maxWidth: "10vw", minWidth: 100 }}
+            style={{ maxWidth: "18vw", minWidth: 120 }}
           >
             <AddressName address={text} />
-          </span>
+          </div>
         );
       }
     },
     {
       title: t("action.amount"),
       dataIndex: "quantity",
-      width: "20vw",
+      width: "18vw",
       render(text: string, record: IXRC20ActionInfo, __: number): JSX.Element {
         return (
-          <XRC20TokenValue
-            contract={record.contract}
-            value={new BigNumber(text)}
-          />
+          <div style={{ maxWidth: "20vw", minWidth: 80 }}>
+            <XRC20TokenValue
+              contract={record.contract}
+              value={new BigNumber(text)}
+            />
+          </div>
         );
       }
     },
     {
       title: t("token.token"),
-      width: "20vw",
+      width: "18vw",
       render: (record: IXRC20ActionInfo): JSX.Element | string => {
         const metadata = tokenMetadataMap[record.contract];
         if (metadata) {

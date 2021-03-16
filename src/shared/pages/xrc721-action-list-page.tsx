@@ -49,25 +49,27 @@ const getXrc721ActionListColumns = (): Array<
   {
     title: t("action.hash"),
     dataIndex: "hash",
-    width: "20vw",
+    width: "22vw",
     render: text => <ActionHashRenderer value={text} />
   },
   {
     title: t("block.timestamp"),
     dataIndex: "timestamp",
-    width: "20vw",
+    width: "12vw",
     render: (_, { timestamp }) =>
-      translateFn({ seconds: Number(timestamp), nanos: 0 })
+      <div style={{ minWidth: 80 }}>
+        {translateFn({ seconds: Number(timestamp), nanos: 0 })}
+      </div>
   },
   {
     title: t("action.sender"),
     dataIndex: "from",
-    width: "20vw",
+    width: "22vw",
     render: (text: string): JSX.Element | string => {
       return (
         <span
           className="ellipsis-text"
-          style={{ maxWidth: "10vw", minWidth: 100 }}
+          style={{ maxWidth: "22vw", minWidth: 120 }}
         >
           <AddressName address={text} />
         </span>
@@ -77,12 +79,12 @@ const getXrc721ActionListColumns = (): Array<
   {
     title: t("render.key.to"),
     dataIndex: "to",
-    width: "20vw",
+    width: "22vw",
     render: (text: string): JSX.Element | string => {
       return (
         <span
           className="ellipsis-text"
-          style={{ maxWidth: "10vw", minWidth: 100 }}
+          style={{ maxWidth: "22vw", minWidth: 120 }}
         >
           <AddressName address={text} />
         </span>
@@ -92,7 +94,7 @@ const getXrc721ActionListColumns = (): Array<
   {
     title: t("action.amount"),
     dataIndex: "quantity",
-    width: "20vw",
+    width: "22vw",
     render(text: string, record: IXRC721ActionInfo, __: number): JSX.Element {
       return (
         <XRC20TokenValue

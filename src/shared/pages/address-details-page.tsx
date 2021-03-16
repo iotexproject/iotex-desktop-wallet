@@ -80,15 +80,9 @@ const ContentWrapper: React.FC<ContentWrapperProps> = ({
   const exportEvmActionInstance = useRef<{handleExport(): void}>(null);
 
   useEffect(() => {
+    setShowExportBtn(document.body.clientWidth > PALM_WIDTH);
     window.addEventListener("resize", () => {
-      if (
-        document.documentElement &&
-        document.documentElement.clientWidth < PALM_WIDTH
-      ) {
-        setShowExportBtn(false)
-      } else {
-        setShowExportBtn(true)
-      }
+      setShowExportBtn(document.body.clientWidth > PALM_WIDTH);
     });
   }, []);
 
