@@ -4,7 +4,7 @@ import Table, { ColumnProps } from "antd/lib/table";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { t } from "onefx/lib/iso-i18n";
-import React from "react";
+import React, {Ref, useImperativeHandle, useRef} from "react";
 import { Query, QueryResult } from "react-apollo";
 import { AddressName } from "../common/address-name";
 import { analyticsClient } from "../common/apollo-client";
@@ -13,16 +13,17 @@ import { GET_ANALYTICS_STAKE_ACTIONS } from "../queries";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { BlockHashRenderer } from "../renderer/block-hash-renderer";
 import { IOTXValueRenderer } from "../renderer/iotx-value-renderer";
+import StakeActionExport from "./stake-action-export"
 
 const PAGE_SIZE = 15;
 
 export interface IStakeActionInfo {
-  from: string;
-  to: string;
-  quantity: string;
   actHash: string;
   blkHash: string;
   timeStamp: string;
+  sender: string;
+  amount: string;
+  gasFee: string
 }
 
 const getStakeActionListColumns = (): Array<ColumnProps<IStakeActionInfo>> => [
@@ -45,7 +46,7 @@ const getStakeActionListColumns = (): Array<ColumnProps<IStakeActionInfo>> => [
       translateFn({ seconds: Number(timeStamp), nanos: 0 })
   },
   {
-    title: t("action.from"),
+    title: t("action.sender"),
     dataIndex: "sender",
     width: "10vw",
     render: (text: string): JSX.Element | string => {
@@ -69,17 +70,30 @@ const getStakeActionListColumns = (): Array<ColumnProps<IStakeActionInfo>> => [
   {
     title: t("render.key.fee"),
     dataIndex: "gasFee",
-    render: text => fromRau(text, "IOTX")
+    render: text => `${fromRau(text, "IOTX")} IOTX`
   }
 ];
 
 export interface IStakeActionTable {
   voter?: string;
+  refInstance?: Ref<{handleExport(): void}>
 }
 
 export const StakeActionTable: React.FC<IStakeActionTable> = ({
-  voter = ""
+  voter = "",
+  refInstance
 }) => {
+
+  const exportInstance = useRef<{excExport(): void}>(null);
+
+  useImperativeHandle(refInstance, () => ({
+    handleExport
+  }));
+
+  const handleExport = () => {
+    exportInstance.current?.excExport()
+  };
+
   return (
     <Query
       query={GET_ANALYTICS_STAKE_ACTIONS}
@@ -105,42 +119,45 @@ export const StakeActionTable: React.FC<IStakeActionTable> = ({
           [];
         const numActions = get<number>(data || {}, "action.byVoter.count") || 0;
         return (
-          <Table
-            loading={{
-              spinning: loading,
-              indicator: <Icon type="loading" />
-            }}
-            rowKey="hash"
-            dataSource={actions}
-            columns={getStakeActionListColumns()}
-            style={{ width: "100%" }}
-            scroll={{ x: "auto" }}
-            pagination={{
-              pageSize: PAGE_SIZE,
-              total: numActions,
-              showQuickJumper: true
-            }}
-            onChange={pagination => {
-              fetchMore({
-                variables: {
-                  voter,
-                  pagination: {
-                    skip: Math.max(
-                      ((pagination.current || 1) - 1) * PAGE_SIZE,
-                      0
-                    ),
-                    first: PAGE_SIZE
+          <>
+            <StakeActionExport refInstance={exportInstance} actions={actions}/>
+            <Table
+              loading={{
+                spinning: loading,
+                indicator: <Icon type="loading" />
+              }}
+              rowKey="hash"
+              dataSource={actions}
+              columns={getStakeActionListColumns()}
+              style={{ width: "100%" }}
+              scroll={{ x: "auto" }}
+              pagination={{
+                pageSize: PAGE_SIZE,
+                total: numActions,
+                showQuickJumper: true
+              }}
+              onChange={pagination => {
+                fetchMore({
+                  variables: {
+                    voter,
+                    pagination: {
+                      skip: Math.max(
+                        ((pagination.current || 1) - 1) * PAGE_SIZE,
+                        0
+                      ),
+                      first: PAGE_SIZE
+                    }
+                  },
+                  updateQuery: (prev, { fetchMoreResult }) => {
+                    if (!fetchMoreResult) {
+                      return prev;
+                    }
+                    return fetchMoreResult;
                   }
-                },
-                updateQuery: (prev, { fetchMoreResult }) => {
-                  if (!fetchMoreResult) {
-                    return prev;
-                  }
-                  return fetchMoreResult;
-                }
-              });
-            }}
-          />
+                });
+              }}
+            />
+          </>
         );
       }}
     </Query>
