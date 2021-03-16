@@ -78,6 +78,7 @@ const ContentWrapper: React.FC<ContentWrapperProps> = ({
   const exportXRC20ActionInstance = useRef<{handleExport(): void}>(null);
   const exportXRC721ActionInstance = useRef<{handleExport(): void}>(null);
   const exportEvmActionInstance = useRef<{handleExport(): void}>(null);
+  const exportStakeActionInstance = useRef<{handleExport(): void}>(null);
 
   useEffect(() => {
     setShowExportBtn(document.body.clientWidth > PALM_WIDTH);
@@ -98,6 +99,9 @@ const ContentWrapper: React.FC<ContentWrapperProps> = ({
         exportXRC721ActionInstance.current?.handleExport();
         break;
       case "contract_transactions":
+        exportEvmActionInstance.current?.handleExport();
+        break;
+      case "stake_actions":
         exportEvmActionInstance.current?.handleExport();
         break;
       default:
@@ -139,7 +143,7 @@ const ContentWrapper: React.FC<ContentWrapperProps> = ({
         tab={t("common.stake_actions")}
         key="stake_actions"
       >
-        <StakeActionTable voter={address} />
+        <StakeActionTable refInstance={exportStakeActionInstance} voter={address} />
       </Tabs.TabPane>
     </Tabs>
     {
