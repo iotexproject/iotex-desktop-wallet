@@ -50,7 +50,9 @@ const getXrc721ActionListColumns = (): Array<
     title: t("action.hash"),
     dataIndex: "hash",
     width: "22vw",
-    render: text => <ActionHashRenderer value={text} />
+    render: text => <div style={{ maxWidth: "22vw", minWidth: 100 }}>
+      <ActionHashRenderer value={text} />
+    </div>
   },
   {
     title: t("block.timestamp"),
@@ -64,12 +66,12 @@ const getXrc721ActionListColumns = (): Array<
   {
     title: t("action.sender"),
     dataIndex: "from",
-    width: "22vw",
+    width: "18vw",
     render: (text: string): JSX.Element | string => {
       return (
         <span
           className="ellipsis-text"
-          style={{ maxWidth: "22vw", minWidth: 120 }}
+          style={{ maxWidth: "18vw", minWidth: 120 }}
         >
           <AddressName address={text} />
         </span>
@@ -79,12 +81,12 @@ const getXrc721ActionListColumns = (): Array<
   {
     title: t("render.key.to"),
     dataIndex: "to",
-    width: "22vw",
+    width: "18vw",
     render: (text: string): JSX.Element | string => {
       return (
         <span
           className="ellipsis-text"
-          style={{ maxWidth: "22vw", minWidth: 120 }}
+          style={{ maxWidth: "18vw", minWidth: 120 }}
         >
           <AddressName address={text} />
         </span>
@@ -97,10 +99,12 @@ const getXrc721ActionListColumns = (): Array<
     width: "22vw",
     render(text: string, record: IXRC721ActionInfo, __: number): JSX.Element {
       return (
-        <XRC20TokenValue
-          contract={record.contract}
-          value={new BigNumber(text)}
-        />
+        <div style={{ maxWidth: "12vw", minWidth: 100 }}>
+          <XRC20TokenValue
+            contract={record.contract}
+            value={new BigNumber(text)}
+          />
+        </div>
       );
     }
   }

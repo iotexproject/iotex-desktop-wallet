@@ -83,12 +83,12 @@ const getXrc20ActionListColumns = ({
     {
       title: t("action.sender"),
       dataIndex: "from",
-      width: "18vw",
+      width: "14vw",
       render: (text: string): JSX.Element | string => {
         return (
           <div
             className="ellipsis-text"
-            style={{ maxWidth: "18vw", minWidth: 120 }}
+            style={{ maxWidth: "14vw", minWidth: 120 }}
           >
             <AddressName address={text} />
           </div>
@@ -98,12 +98,12 @@ const getXrc20ActionListColumns = ({
     {
       title: t("render.key.to"),
       dataIndex: "to",
-      width: "18vw",
+      width: "14vw",
       render: (text: string): JSX.Element | string => {
         return (
           <div
             className="ellipsis-text"
-            style={{ maxWidth: "18vw", minWidth: 120 }}
+            style={{ maxWidth: "14vw", minWidth: 120 }}
           >
             <AddressName address={text} />
           </div>
@@ -116,7 +116,7 @@ const getXrc20ActionListColumns = ({
       width: "18vw",
       render(text: string, record: IXRC20ActionInfo, __: number): JSX.Element {
         return (
-          <div style={{ maxWidth: "20vw", minWidth: 80 }}>
+          <div style={{ maxWidth: "18vw", minWidth: 100 }}>
             <XRC20TokenValue
               contract={record.contract}
               value={new BigNumber(text)}

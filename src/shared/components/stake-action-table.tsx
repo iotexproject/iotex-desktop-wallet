@@ -68,7 +68,7 @@ const getStakeActionListColumns = (): Array<ColumnProps<IStakeActionInfo>> => [
     width: "10vw",
     render(text: string): JSX.Element {
       return <div style={{ minWidth: 80 }}>
-        <IOTXValueRenderer value={text} />;
+        <IOTXValueRenderer value={text} />
       </div>
     }
   },
