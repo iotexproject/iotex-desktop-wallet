@@ -49,7 +49,7 @@ const getStakeActionListColumns = (): Array<ColumnProps<IStakeActionInfo>> => [
       </div>
   },
   {
-    title: t("action.from"),
+    title: t("action.sender"),
     dataIndex: "sender",
     width: "20vw",
     render: (text: string): JSX.Element | string => {

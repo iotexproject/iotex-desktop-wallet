@@ -3,6 +3,8 @@ import React, {Ref, useEffect, useImperativeHandle, useRef, useState} from "reac
 import {CSVLink} from "react-csv";
 import {translateFn} from "../common/from-now";
 import {IStakeActionInfo} from "./stake-action-table";
+import {fromRau} from "iotex-antenna/lib/account/utils";
+import { numberWithCommas } from "../common/vertical-table";
 
 type ExportType = {actions: Array<IStakeActionInfo> | null, refInstance?: Ref<{excExport(): void}>}
 
@@ -41,9 +43,9 @@ const ExportEvmAction: React.FC<ExportType> = ({
         hash: action.actHash,
         blkHash: action.blkHash,
         timestamp: translateFn({ seconds: Number(action.timeStamp), nanos: 0 }),
-        sender: action.from,
-        amount: action.quantity,
-        gasFee: action.quantity
+        sender: action.sender,
+        amount: `${numberWithCommas(fromRau(action.amount, "iotx"))} IOTX`,
+        gasFee: `${fromRau(action.gasFee, "IOTX")} IOTX`
       }
     });
 
@@ -56,15 +58,15 @@ const ExportEvmAction: React.FC<ExportType> = ({
     { label: `${t("action.hash")}`, key: "hash" },
     { label: `${t("action.block_hash")}`, key: "blkHash" },
     { label: `${t("block.timestamp")}`, key: "timestamp" },
-    { label: `${t("action.from")}`, key: "sender" },
-    { label: `${t("render.key.to")}`, key: "to" },
-    { label: `${t("action.amount")}`, key: "amount" }
+    { label: `${t("action.sender")}`, key: "sender" },
+    { label: `${t("action.amount")}`, key: "amount" },
+    { label: `${t("render.key.fee")}`, key: "gasFee" },
   ];
 
   return <CSVLink
     data={csvData}
     headers={headers}
-    filename={t("common.contract_transactions")}
+    filename={t("common.stake_actions")}
     ref={csvInstance}/>
 };
 
