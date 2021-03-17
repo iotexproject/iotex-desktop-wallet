@@ -102,7 +102,7 @@ const ContentWrapper: React.FC<ContentWrapperProps> = ({
         exportEvmActionInstance.current?.handleExport();
         break;
       case "stake_actions":
-        exportStakeActionInstance.current?.handleExport();
+        exportEvmActionInstance.current?.handleExport();
         break;
       default:
     }

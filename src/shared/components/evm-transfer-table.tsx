@@ -29,56 +29,62 @@ const getEvmTransferListColumns = (): Array<ColumnProps<IEvmTransferInfo>> => [
   {
     title: t("action.hash"),
     dataIndex: "actHash",
-    width: "10vw",
+    width: "20vw",
     render: text => <ActionHashRenderer value={text} />
   },
   {
     title: t("action.block_hash"),
     dataIndex: "blkHash",
-    width: "10vw",
+    width: "20vw",
     render: text => <BlockHashRenderer value={text} />
   },
   {
     title: t("block.timestamp"),
     dataIndex: "timestamp",
+    width: "10vw",
     render: (_, { timeStamp }) =>
-      translateFn({ seconds: Number(timeStamp), nanos: 0 })
+      <div style={{ minWidth: 80 }}>
+        {translateFn({ seconds: Number(timeStamp), nanos: 0 })}
+      </div>
   },
   {
     title: t("action.from"),
     dataIndex: "from",
-    width: "10vw",
+    width: "20vw",
     render: (text: string): JSX.Element | string => {
       return (
-        <span
+        <div
           className="ellipsis-text"
-          style={{ maxWidth: "10vw", minWidth: 100 }}
+          style={{ maxWidth: "20vw", minWidth: 100 }}
         >
           <AddressName address={text} />
-        </span>
+        </div>
       );
     }
   },
   {
     title: t("render.key.to"),
     dataIndex: "to",
-    width: "10vw",
+    width: "20vw",
     render: (text: string): JSX.Element | string => {
       return (
-        <span
+        <div
           className="ellipsis-text"
-          style={{ maxWidth: "10vw", minWidth: 100 }}
+          style={{ maxWidth: "20vw", minWidth: 100 }}
         >
           <AddressName address={text} />
-        </span>
+        </div>
       );
     }
   },
   {
     title: t("action.amount"),
     dataIndex: "quantity",
+    width: "10vw",
     render(text: string): JSX.Element {
-      return <IOTXValueRenderer value={text} />;
+      return <div style={{ minWidth: 80 }}>
+        <IOTXValueRenderer value={text} />
+      </div>
     }
   }
 ];
