@@ -386,5 +386,13 @@
   {
     "address": "io1puxw08ze2jnv5x4943ly273tkyth56p9k6ssv9",
     "name": "huobiwallet"
+  },
+  {
+    "address": "io1h49cfw0zcj63chk6awu08u6xem8kpr350r5p57",
+    "name": "Burndrop"
+  },
+  {
+    "address": "io1fqulsuv8p820wmr0yd39jzx0m3pnpmuzzcywh8",
+    "name": "Hermes"
   }
 ]

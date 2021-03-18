@@ -562,6 +562,11 @@ export const GET_ANALYTICS_BP_STATS = gql`
     chain {
       totalSupply
       totalCirculatingSupply
+      votingResultMeta {
+        totalCandidates
+        totalWeightedVotes
+        votedTokens
+      }
     }
   }
 `;
@@ -868,6 +873,25 @@ export const GET_ANALYTICS_ACTIONS_BY_TYPE = gql`
     action {
       byType(type: $type) {
         count
+        actions(pagination: $pagination) {
+          actHash
+          blkHash
+          timeStamp
+          actType
+          sender
+          recipient
+          amount
+          gasFee
+        }
+      }
+    }
+  }
+`;
+
+export const GET_ANALYTICS_STAKE_ACTIONS = gql`
+  query($voter: String!, $pagination: Pagination!) {
+    action {
+      byVoter(voter: $voter) {
         actions(pagination: $pagination) {
           actHash
           blkHash

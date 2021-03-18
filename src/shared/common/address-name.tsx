@@ -15,13 +15,13 @@ const AddressName: React.FC<{ address: string }> = ({ address }) => {
       variables={{ address }}
       errorPolicy="ignore"
     >
-      {({ data, error }: QueryResult<{ name: string }>) => {
-        if (error) {
+      {({ data }: QueryResult<{ name: string }>) => {
+        const { name = address } = get(data || {}, "addressMeta") || {};
+        if (!name) {
           return (
             <LinkButton href={`/address/${address}`}>{address}</LinkButton>
           );
         }
-        const { name = address } = get(data || {}, "addressMeta") || {};
         return (
           <LinkButton href={`/address/${address}`}>
             {name || address}
