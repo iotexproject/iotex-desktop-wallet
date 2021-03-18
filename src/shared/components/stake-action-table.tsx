@@ -2,30 +2,31 @@ import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
 import Table, { ColumnProps } from "antd/lib/table";
 import { get } from "dottie";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 import { t } from "onefx/lib/iso-i18n";
 import React, {Ref, useImperativeHandle, useRef} from "react";
 import { Query, QueryResult } from "react-apollo";
 import { AddressName } from "../common/address-name";
 import { analyticsClient } from "../common/apollo-client";
 import { translateFn } from "../common/from-now";
-import ExportEvmAction from "../pages/evm-action-export";
-import { GET_ANALYTICS_CONTRACT_ACTIONS } from "../queries";
+import { GET_ANALYTICS_STAKE_ACTIONS } from "../queries";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { BlockHashRenderer } from "../renderer/block-hash-renderer";
 import { IOTXValueRenderer } from "../renderer/iotx-value-renderer";
+import StakeActionExport from "./stake-action-export"
 
 const PAGE_SIZE = 15;
 
-export interface IEvmTransferInfo {
-  from: string;
-  to: string;
-  quantity: string;
+export interface IStakeActionInfo {
   actHash: string;
   blkHash: string;
   timeStamp: string;
+  sender: string;
+  amount: string;
+  gasFee: string
 }
 
-const getEvmTransferListColumns = (): Array<ColumnProps<IEvmTransferInfo>> => [
+const getStakeActionListColumns = (): Array<ColumnProps<IStakeActionInfo>> => [
   {
     title: t("action.hash"),
     dataIndex: "actHash",
@@ -48,23 +49,8 @@ const getEvmTransferListColumns = (): Array<ColumnProps<IEvmTransferInfo>> => [
       </div>
   },
   {
-    title: t("action.from"),
-    dataIndex: "from",
-    width: "20vw",
-    render: (text: string): JSX.Element | string => {
-      return (
-        <div
-          className="ellipsis-text"
-          style={{ maxWidth: "20vw", minWidth: 100 }}
-        >
-          <AddressName address={text} />
-        </div>
-      );
-    }
-  },
-  {
-    title: t("render.key.to"),
-    dataIndex: "to",
+    title: t("action.sender"),
+    dataIndex: "sender",
     width: "20vw",
     render: (text: string): JSX.Element | string => {
       return (
@@ -79,23 +65,31 @@ const getEvmTransferListColumns = (): Array<ColumnProps<IEvmTransferInfo>> => [
   },
   {
     title: t("action.amount"),
-    dataIndex: "quantity",
+    dataIndex: "amount",
     width: "10vw",
     render(text: string): JSX.Element {
       return <div style={{ minWidth: 80 }}>
         <IOTXValueRenderer value={text} />
       </div>
     }
+  },
+  {
+    title: t("render.key.fee"),
+    dataIndex: "gasFee",
+    width: "10vw",
+    render: text => <div style={{ minWidth: 80 }}>
+      {fromRau(text, "IOTX")}
+    </div>
   }
 ];
 
-export interface IEvmTransferTable {
-  address?: string;
+export interface IStakeActionTable {
+  voter?: string;
   refInstance?: Ref<{handleExport(): void}>
 }
 
-export const EvmTransfersTable: React.FC<IEvmTransferTable> = ({
-  address = "",
+export const StakeActionTable: React.FC<IStakeActionTable> = ({
+  voter = "",
   refInstance
 }) => {
 
@@ -111,9 +105,9 @@ export const EvmTransfersTable: React.FC<IEvmTransferTable> = ({
 
   return (
     <Query
-      query={GET_ANALYTICS_CONTRACT_ACTIONS}
+      query={GET_ANALYTICS_STAKE_ACTIONS}
       variables={{
-        address,
+        voter,
         pagination: {
           skip: 0,
           first: PAGE_SIZE
@@ -130,12 +124,12 @@ export const EvmTransfersTable: React.FC<IEvmTransferTable> = ({
           });
         }
         const actions =
-          get<Array<IEvmTransferInfo>>(data || {}, "action.evm.evmTransfers") ||
+          get<Array<IStakeActionInfo>>(data || {}, "action.byVoter.actions") ||
           [];
-        const numActions = get<number>(data || {}, "action.evm.count") || 0;
+        const numActions = get<number>(data || {}, "action.byVoter.count") || 0;
         return (
           <>
-            <ExportEvmAction refInstance={exportInstance} actions={actions}/>
+            <StakeActionExport refInstance={exportInstance} actions={actions}/>
             <Table
               loading={{
                 spinning: loading,
@@ -143,7 +137,7 @@ export const EvmTransfersTable: React.FC<IEvmTransferTable> = ({
               }}
               rowKey="hash"
               dataSource={actions}
-              columns={getEvmTransferListColumns()}
+              columns={getStakeActionListColumns()}
               style={{ width: "100%" }}
               scroll={{ x: "auto" }}
               pagination={{
@@ -154,7 +148,7 @@ export const EvmTransfersTable: React.FC<IEvmTransferTable> = ({
               onChange={pagination => {
                 fetchMore({
                   variables: {
-                    address,
+                    voter,
                     pagination: {
                       skip: Math.max(
                         ((pagination.current || 1) - 1) * PAGE_SIZE,

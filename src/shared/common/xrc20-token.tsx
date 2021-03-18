@@ -24,7 +24,11 @@ const XRC20TokenName: React.FC<{ contract: string }> = ({ contract }) => {
     });
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
-  return <LinkButton href={`/token/${address}`}>{name}</LinkButton>;
+  return (
+    <LinkButton href={`/token/${address}`} style={{ whiteSpace: "nowrap" }}>
+      {name}
+    </LinkButton>
+  );
 };
 
 const XRC20TokenUnit: React.FC<{ contract: string }> = ({ contract }) => {

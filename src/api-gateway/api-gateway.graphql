@@ -569,21 +569,13 @@ type Query {
   ): GetActionsResponse!
 
   # read contract
-  readContract(
-    execution: ExecutionInput!
-    callerAddress: String!
-  ): ReadContractResponse!
+  readContract(execution: ExecutionInput!, callerAddress: String!): ReadContractResponse!
 
   # sendAction
   sendAction(action: ActionInput!): SendActionResponse!
 
   # read state
-  readState(
-    protocolID: Buffer!
-    methodName: Buffer!
-    arguments: [Buffer!]!
-    height: String!
-  ): ReadStateResponse!
+  readState(protocolID: Buffer!, methodName: Buffer!, arguments: [Buffer!]!, height: String!): ReadStateResponse!
 
   # estimate gas for action
   estimateGasForAction(action: ActionInput!): EstimateGasForActionResponse!
@@ -599,6 +591,7 @@ type Query {
   getSolcVersions: [SolcVersion!]!
   compileSolidity(source: String!, version: String!): [Contract!]!
   addressMeta(address: String!): AddressMeta!
+  addressMetas: [AddressMeta!]!
   tokenMetadata(provider: ProviderType!, type: TokenType): [TokenMetadata!]!
 }
 
