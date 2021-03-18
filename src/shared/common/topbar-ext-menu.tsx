@@ -161,7 +161,7 @@ const menuItem = {
     color: colors.primary
   },
   position: "relative",
-  padding: "0 20px",
+  padding: "0 10px",
   textTransform: "capitalize",
   [media.mediaHeaderWide]: {
     boxSizing: "border-box",

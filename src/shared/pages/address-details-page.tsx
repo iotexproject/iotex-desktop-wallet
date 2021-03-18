@@ -27,6 +27,7 @@ import { AddressDetailRenderer } from "../renderer";
 import {ActionTable} from "./action-list-page";
 import { XRC20ActionTable } from "./xrc20-action-list-page";
 import { XRC721ActionTable } from "./xrc721-action-list-page";
+import { StakeActionTable } from "../components/stake-action-table";
 
 export interface IActionsDetails {
   action: GetActionsResponse;
@@ -77,17 +78,12 @@ const ContentWrapper: React.FC<ContentWrapperProps> = ({
   const exportXRC20ActionInstance = useRef<{handleExport(): void}>(null);
   const exportXRC721ActionInstance = useRef<{handleExport(): void}>(null);
   const exportEvmActionInstance = useRef<{handleExport(): void}>(null);
+  const exportStakeActionInstance = useRef<{handleExport(): void}>(null);
 
   useEffect(() => {
+    setShowExportBtn(document.body.clientWidth > PALM_WIDTH);
     window.addEventListener("resize", () => {
-      if (
-        document.documentElement &&
-        document.documentElement.clientWidth < PALM_WIDTH
-      ) {
-        setShowExportBtn(false)
-      } else {
-        setShowExportBtn(true)
-      }
+      setShowExportBtn(document.body.clientWidth > PALM_WIDTH);
     });
   }, []);
 
@@ -103,6 +99,9 @@ const ContentWrapper: React.FC<ContentWrapperProps> = ({
         exportXRC721ActionInstance.current?.handleExport();
         break;
       case "contract_transactions":
+        exportEvmActionInstance.current?.handleExport();
+        break;
+      case "stake_actions":
         exportEvmActionInstance.current?.handleExport();
         break;
       default:
@@ -139,6 +138,12 @@ const ContentWrapper: React.FC<ContentWrapperProps> = ({
         key="contract_transactions"
       >
         <EvmTransfersTable refInstance={exportEvmActionInstance} address={address} />
+      </Tabs.TabPane>
+      <Tabs.TabPane
+        tab={t("common.stake_actions")}
+        key="stake_actions"
+      >
+        <StakeActionTable refInstance={exportStakeActionInstance} voter={address} />
       </Tabs.TabPane>
     </Tabs>
     {

@@ -13,7 +13,7 @@ export const media = {
   media1024: "@media only screen and (max-width: 1023px)",
   mediaHeaderWide:
     "@media only screen and (max-width: 1500px) and (min-width: 1280px)",
-  mediaHeaderDeskTopMin: "@media only screen and (max-width: 1180px)",
+  mediaHeaderDeskTopMin: "@media only screen and (max-width: 1023px)",
   toWide: `@media only screen and (max-width: ${WIDE_WIDTH - 1}px)`
 };
 
