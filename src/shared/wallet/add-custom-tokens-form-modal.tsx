@@ -103,6 +103,7 @@ class AddCustomTokensFormModal extends React.PureComponent<
           })(
             <AutoComplete
               placeholder="io..."
+              style={{ width: "100%" }}
               dataSource={options}
               optionLabelProp="value"
             >
