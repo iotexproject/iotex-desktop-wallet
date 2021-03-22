@@ -4,7 +4,7 @@ import Modal from "antd/lib/modal";
 
 // @ts-ignore
 // tslint:disable-next-line:import-blacklist
-import { Select } from "antd";
+import { AutoComplete, Input } from "antd";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { GetTokenMetadataMap, TokenMetadata } from "../common/common-metadata";
@@ -50,6 +50,37 @@ class AddCustomTokensFormModal extends React.PureComponent<
         }
       }
     }
+
+    const options = metadataList.map(item => {
+      return (
+        <AutoComplete.Option key={item.address}>
+          <div
+            style={{
+              cursor: "pointer",
+              color: colors.primary,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center"
+            }}
+          >
+            <div style={{ width: 180, marginRight: 20 }}>
+              <img
+                src={`/image/token/${item.logo}`}
+                alt="ico"
+                style={{ width: "13px", height: "13px" }}
+              />
+              <span style={{ marginLeft: "2px", whiteSpace: "nowrap" }}>
+                {`${item.name}(${item.symbol || ""})`}
+              </span>
+            </div>
+            <div className="ellipsis-text" style={{ flex: 1 }}>
+              {item.address}
+            </div>
+          </div>
+        </AutoComplete.Option>
+      );
+    });
+
     return (
       <Modal
         title={t("account.token.addCustom")}
@@ -70,49 +101,16 @@ class AddCustomTokensFormModal extends React.PureComponent<
           {getFieldDecorator("tokenAddress", {
             rules: rulesMap.tokenAddress
           })(
-            <Select
+            <AutoComplete
               placeholder="io..."
-              style={{ width: "100%", backgroundColor: colors.black10 }}
-              defaultActiveFirstOption={false}
-              showArrow={true}
-              optionLabelProp="label"
+              style={{ width: "100%" }}
+              dataSource={options}
+              optionLabelProp="value"
             >
-              {metadataList.map(item => {
-                return (
-                  <Select.Option
-                    key={item.address}
-                    value={item.address}
-                    label={item.address}
-                  >
-                    <div
-                      style={{
-                        cursor: "pointer",
-                        color: colors.primary,
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center"
-                      }}
-                    >
-                      <div style={{ width: 180, marginRight: 20 }}>
-                        <img
-                          src={`/image/token/${item.logo}`}
-                          alt="ico"
-                          style={{ width: "13px", height: "13px" }}
-                        />
-                        <span
-                          style={{ marginLeft: "2px", whiteSpace: "nowrap" }}
-                        >
-                          {`${item.name}(${item.symbol || ""})`}
-                        </span>
-                      </div>
-                      <div className="ellipsis-text" style={{ flex: 1 }}>
-                        {item.address}
-                      </div>
-                    </div>
-                  </Select.Option>
-                );
-              })}
-            </Select>
+              <Input
+                style={{ width: "100%", backgroundColor: colors.black10 }}
+              />
+            </AutoComplete>
           )}
         </Form.Item>
       </Modal>

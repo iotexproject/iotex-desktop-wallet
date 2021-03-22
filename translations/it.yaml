@@ -43,6 +43,7 @@ action.sender: Mittente
 action.recipient: Destinatario
 title.action: Azione
 render.key.height: Altezza
+render.key.epochNum: Ciclo
 render.key.hash: Hash
 render.key.timestamp: Età
 render.key.numActions: Azioni

@@ -283,7 +283,7 @@ export function getTokenAmountBN(
   value: BigNumber,
   decimals: string | number
 ): BigNumber {
-  BigNumber.config({ DECIMAL_PLACES: 2, ROUNDING_MODE: BigNumber.ROUND_DOWN });
+  BigNumber.config({ DECIMAL_PLACES: 6, ROUNDING_MODE: BigNumber.ROUND_DOWN });
   let amount = value.dividedBy(new BigNumber(`1e${decimals}`));
   if (value.gt(0) && amount.eq(0)) {
     BigNumber.config({ DECIMAL_PLACES: 4 });
