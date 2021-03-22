@@ -17,7 +17,7 @@ import { IAuthorizedMessage, Vita } from "./vita";
 
 const state = isBrowser && JsonGlobal("state");
 const vitaTokens = isBrowser && state.base.vitaTokens;
-const tokenCacheTimeInterval = 24 * 60 * 60 * 1000;
+const TOKEN_CACHE_TIME_INTERVAL = 24 * 60 * 60 * 1000;
 
 const regex = /^([0-9]+)I authorize 0x[0-9a-fA-F]{40} to claim in (0x[0-9A-Fa-f]{40})$/;
 
@@ -153,10 +153,10 @@ export class Token {
       {}
     );
 
-    let cacheTime: number = tokenTimeCache[api.address];
+    const cacheTime: number = tokenTimeCache[api.address];
     const force =
-      !tokenTimeCache[api.address] ||
-      new Date().getTime() - cacheTime > tokenCacheTimeInterval;
+      !cacheTime ||
+      new Date().getTime() - cacheTime > TOKEN_CACHE_TIME_INTERVAL;
 
     if (force || !cache[api.address] || !cache[api.address].totalSupply) {
       const [name, symbol, decimals, totalSupply] = await Promise.all<
