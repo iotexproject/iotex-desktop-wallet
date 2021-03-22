@@ -17,6 +17,7 @@ import { IAuthorizedMessage, Vita } from "./vita";
 
 const state = isBrowser && JsonGlobal("state");
 const vitaTokens = isBrowser && state.base.vitaTokens;
+const tokenCacheTimeInterval = 24 * 60 * 60 * 1000;
 
 const regex = /^([0-9]+)I authorize 0x[0-9a-fA-F]{40} to claim in (0x[0-9A-Fa-f]{40})$/;
 
@@ -147,7 +148,14 @@ export class Token {
       XConfKeys.TOKENS_BASIC_INFOS,
       {}
     );
-    if (!cache[api.address] || !cache[api.address].totalSupply) {
+    const lastCachedTokenTime = xconf.getConf(
+      XConfKeys.LAST_CACHED_TOKEN_TIME,
+      0
+    );
+    const force =
+      !lastCachedTokenTime ||
+      new Date().getTime() - lastCachedTokenTime > tokenCacheTimeInterval;
+    if (force || !cache[api.address] || !cache[api.address].totalSupply) {
       const [name, symbol, decimals, totalSupply] = await Promise.all<
         string,
         string,
@@ -171,6 +179,7 @@ export class Token {
         contractAddress: api.contract.getAddress() || ""
       };
       xconf.setConf(XConfKeys.TOKENS_BASIC_INFOS, cache);
+      xconf.setConf(XConfKeys.LAST_CACHED_TOKEN_TIME, new Date().getTime());
     }
     return cache[api.address];
   }
