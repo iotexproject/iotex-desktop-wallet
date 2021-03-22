@@ -7,7 +7,7 @@ import { fromRau } from "iotex-antenna/lib/account/utils";
 import { publicKeyToAddress } from "iotex-antenna/lib/crypto/crypto";
 import { GetChainMetaResponse } from "iotex-antenna/protogen/proto/api/api_pb";
 import { t } from "onefx/lib/iso-i18n";
-import React, {FC, Ref, useImperativeHandle, useRef} from "react";
+import React, {FC, ReactNode, Ref, useImperativeHandle, useRef} from "react";
 import { Query, QueryResult } from "react-apollo";
 import Helmet from "react-helmet";
 
@@ -92,7 +92,12 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
   {
     title: t("block.timestamp"),
     dataIndex: "timestamp",
-    render: (_, { timestamp }) => translateFn(timestamp)
+    width: "6vw",
+    render: (_, { timestamp }) => {
+      return <div style={{ minWidth: 70}}>
+          {translateFn(timestamp)}
+        </div>
+    }
   },
   {
     title: t("action.sender"),
@@ -103,7 +108,7 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
       return (
         <span
           className="ellipsis-text"
-          style={{ maxWidth: "10vw", minWidth: 100 }}
+          style={{ maxWidth: "12vw", minWidth: 120 }}
         >
           <AddressName address={addr} />
         </span>
@@ -113,7 +118,7 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
   {
     title: <TypeSpan />,
     dataIndex: "name",
-    width: "3vw",
+    width: "5vw",
     render: (_: string, record: ActionInfo, __: number): JSX.Element => {
       return <Tag>{getActionType(record)}</Tag>;
     },
@@ -128,7 +133,7 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
       return receipt !== "-" ? (
         <span
           className="ellipsis-text"
-          style={{ maxWidth: "10vw", minWidth: 100 }}
+          style={{ maxWidth: "10vw", minWidth: 120 }}
         >
           <AddressName address={receipt} />
         </span>
@@ -140,7 +145,8 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
   {
     title: t("action.amount"),
     dataIndex: "amount",
-    render(_: string, record: ActionInfo, __: number): string {
+    width: "7vw",
+    render(_: string, record: ActionInfo, __: number): ReactNode {
       const amount: string =
         get(record, "action.core.execution.amount") ||
         get(record, "action.core.grantReward.amount") ||
@@ -156,14 +162,19 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
         return "-";
       }
 
-      return `${numberWithCommas(fromRau(amount, "IOTX"))} IOTX`;
+      return <div style={{ minWidth: 80 }}>
+        {`${numberWithCommas(fromRau(amount, "IOTX"))} IOTX`}
+      </div>;
     }
   },
   {
     title: t("render.key.fee"),
     dataIndex: "gasfee",
+    width: "7vw",
     render: (_: string, record: ActionInfo, __: number): JSX.Element => {
-      return <ActionFeeRenderer value={record.actHash} />;
+      return <div style={{ minWidth: 80 }}>
+        <ActionFeeRenderer value={record.actHash} />
+      </div>
     }
   }
 ];

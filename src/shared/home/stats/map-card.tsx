@@ -123,6 +123,11 @@ export const MapCard = (): JSX.Element => {
             value: data[name].numberOfActions.count
           };
         });
+
+        if (mapdata.length > 0) {
+          mapdata.splice(mapdata.length - 1, 1);
+        }
+
         return (
           <Spin
             spinning={loading}

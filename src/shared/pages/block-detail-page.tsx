@@ -53,6 +53,38 @@ const parseBlockDetails = (data: BlockMeta) => {
   };
 };
 
+const epochConfig = {
+  dardanellesOn: true,
+  dardanellesHeight: 1816201,
+  numDelegates: 24,
+  numSubEpochs: 15,
+  numSubEpochsDardanelles: 30
+};
+
+const getEpochNum = (height: number) => {
+  if (height === 0) {
+    return 0;
+  }
+  if (!epochConfig.dardanellesOn || height <= epochConfig.dardanellesHeight) {
+    return Math.floor(
+      (height - 1) / epochConfig.numDelegates / epochConfig.numSubEpochs + 1
+    );
+  }
+
+  let dardanellesEpoch =
+    (epochConfig.dardanellesHeight - 1) /
+      epochConfig.numDelegates /
+      epochConfig.numSubEpochs +
+    1;
+
+  return Math.floor(
+    dardanellesEpoch +
+      (height - epochConfig.dardanellesHeight) /
+        epochConfig.numDelegates /
+        epochConfig.numSubEpochsDardanelles
+  );
+};
+
 const BlockNotFound: React.FC = () => {
   return (
     <ErrorPage
@@ -114,10 +146,12 @@ const BlockDetailPage: React.FC<RouteComponentProps<{ height: string }>> = (
             }
             return <BlockNotFound />;
           }
+
           const blockMeta: BlockMeta = get(
             data || {},
             "getBlockMetas.blkMetas.0"
           );
+
           const details = parseBlockDetails(blockMeta || {});
           const blkHash = (blockMeta && blockMeta.hash) || "";
           const blockUrl = `${
@@ -126,6 +160,12 @@ const BlockDetailPage: React.FC<RouteComponentProps<{ height: string }>> = (
           const emailBody = t("share_link.email_body", {
             href: blockUrl
           });
+
+          let sourceDetail = {
+            epochNum: getEpochNum(details.height),
+            ...details
+          };
+
           return (
             <ContentPadding>
               <CardDetails
@@ -139,7 +179,7 @@ const BlockDetailPage: React.FC<RouteComponentProps<{ height: string }>> = (
                 vtable={{
                   loading: loading,
                   style: { width: "100%" },
-                  objectSource: details,
+                  objectSource: sourceDetail,
                   headerRender: text => `${t(`render.key.${text}`)}: `,
                   valueRenderMap: BlockDetailRenderer
                 }}

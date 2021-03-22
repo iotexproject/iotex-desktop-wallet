@@ -10,6 +10,7 @@ import { EvmTransferRenderer } from "./evm-transfer-render";
 import { TransferPayloadRenderer } from "./transfer-payload-renderer";
 import { WalletAddressRenderer } from "./wallet-address-renderer";
 import { Xrc20TransferRenderer } from "./xrc20-transfer-renderer";
+import { BlockEpochNumRenderer } from "./block-epoch-num-renderer";
 
 const CommonRenderer = {
   status: StatusRenderer,
@@ -33,6 +34,7 @@ const AddressDetailRenderer = {
 
 const BlockDetailRenderer = {
   height: BlockHeightRenderer,
+  epochNum: BlockEpochNumRenderer,
   timestamp: AgeRenderer,
   producerAddress: WalletAddressRenderer,
   transferAmount: IOTXValueRenderer,
