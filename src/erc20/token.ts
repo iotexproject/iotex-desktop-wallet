@@ -148,13 +148,16 @@ export class Token {
       XConfKeys.TOKENS_BASIC_INFOS,
       {}
     );
-    const lastCachedTokenTime = xconf.getConf(
+    const tokenTimeCache = xconf.getConf<{ [index: string]: number }>(
       XConfKeys.LAST_CACHED_TOKEN_TIME,
-      0
+      {}
     );
+
+    let cacheTime: number = tokenTimeCache[api.address];
     const force =
-      !lastCachedTokenTime ||
-      new Date().getTime() - lastCachedTokenTime > tokenCacheTimeInterval;
+      !tokenTimeCache[api.address] ||
+      new Date().getTime() - cacheTime > tokenCacheTimeInterval;
+
     if (force || !cache[api.address] || !cache[api.address].totalSupply) {
       const [name, symbol, decimals, totalSupply] = await Promise.all<
         string,
@@ -178,8 +181,9 @@ export class Token {
         totalSupply: totalSupplyString,
         contractAddress: api.contract.getAddress() || ""
       };
+      tokenTimeCache[api.address] = new Date().getTime();
       xconf.setConf(XConfKeys.TOKENS_BASIC_INFOS, cache);
-      xconf.setConf(XConfKeys.LAST_CACHED_TOKEN_TIME, new Date().getTime());
+      xconf.setConf(XConfKeys.LAST_CACHED_TOKEN_TIME, tokenTimeCache);
     }
     return cache[api.address];
   }
