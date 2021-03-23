@@ -32,6 +32,7 @@ account.switchAccount: 'Switch Account'
 account.switchWallet: 'Switch Wallet'
 account.testnet.token: IOTX
 account.token.addCustom: 'Custom Tokens'
+account.token.addToken: 'Add Token'
 account.token.notfound: 'Token not found!'
 account.transaction-history: 'Go to action history'
 account.wallet: Wallet
@@ -501,6 +502,7 @@ wallet.input.contractAddress: "Contract address"
 wallet.input.dib: 'Data Hex'
 wallet.input.fromErc20: 'ERC20 Token address'
 wallet.input.fromXrc20: 'XRC20 Token address'
+wallet.input.search: 'Search'
 wallet.input.fromXrc721: 'XRC721 Token address'
 wallet.input.gasCostLimit: "Gas Cost Limit"
 wallet.input.gasLimit: "Gas Limit"
