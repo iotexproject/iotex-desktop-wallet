@@ -680,6 +680,14 @@ class AccountSection extends React.Component<Props, State> {
       });
     }
 
+    const dataSource01 = dataSource.filter((item) => {
+      return item.symbol === "IOTX" || Token.getToken(item.tokenAddress).isVita()
+    });
+
+    const dataSource02 = dataSource.filter((item) => {
+      return item.symbol !== "IOTX" && !Token.getToken(item.tokenAddress).isVita()
+    });
+
     const spinning = isLoading || !network;
     const displayBalanceText = showBalance
       ? t("account.balance.hide")
@@ -702,7 +710,39 @@ class AccountSection extends React.Component<Props, State> {
           </Button>
         </Flex>
         <Table
-          dataSource={dataSource}
+          dataSource={dataSource01}
+          columns={columns}
+          pagination={false}
+          showHeader={false}
+          rowKey={record => record.symbol}
+          bodyStyle={{ overflowX: "auto" }}
+        />
+        <div
+          style={{
+            padding: "10px 18px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            borderBottom: `1px solid ${colors.black40}`
+          }}
+        >
+          <strong>{t("wallet.account.XRC20_tokens")}</strong>
+          <span
+            style={{
+              cursor: "pointer",
+              fontSize: 12,
+              display: "block",
+              padding: "4px 8px",
+              borderRadius: 4,
+              color: "white",
+              backgroundColor: colors.deltaUp }}
+            onClick={() => this.showCustomTokensForm()}
+          >
+            {t("account.token.addToken")}
+          </span>
+        </div>
+        <Table
+          dataSource={dataSource02}
           columns={columns}
           pagination={false}
           showHeader={false}
@@ -794,12 +834,6 @@ class AccountSection extends React.Component<Props, State> {
               onClick={() => dispatch(setAccount())}
             >
               <Icon type="retweet" /> {t("account.switchAccount")}
-            </Col>
-            <Col
-              style={{ cursor: "pointer", fontSize: 13 }}
-              onClick={() => this.showCustomTokensForm()}
-            >
-              <Icon type="plus" /> {t("account.token.addCustom")}
             </Col>
           </Row>
           <Row
