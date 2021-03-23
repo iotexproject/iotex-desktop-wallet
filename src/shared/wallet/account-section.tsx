@@ -727,19 +727,20 @@ class AccountSection extends React.Component<Props, State> {
           }}
         >
           <strong>{t("wallet.account.XRC20_tokens")}</strong>
-          <span
+          <Button
             style={{
-              cursor: "pointer",
               fontSize: 12,
               display: "block",
-              padding: "4px 8px",
-              borderRadius: 4,
+              height: 26,
+              borderRadius: 40,
+              border: "none",
               color: "white",
+              boxShadow: "none",
               backgroundColor: colors.deltaUp }}
             onClick={() => this.showCustomTokensForm()}
           >
             {t("account.token.addToken")}
-          </span>
+          </Button>
         </div>
         <Table
           dataSource={dataSource02}
