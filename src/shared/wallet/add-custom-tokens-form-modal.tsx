@@ -4,18 +4,21 @@ import Modal from "antd/lib/modal";
 
 // @ts-ignore
 // tslint:disable-next-line:import-blacklist
-import {AutoComplete, Input, message} from "antd";
+import {AutoComplete, Input} from "antd";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
-import { GetTokenMetadataMap, TokenMetadata } from "../common/common-metadata";
+import {connect, DispatchProp} from "react-redux";
+import { TokenMetadata } from "../common/common-metadata";
 import { rulesMap } from "../common/rules";
 import { colors } from "../common/styles/style-color";
+import {IRPCProvider, IWalletState} from "./wallet-reducer";
 
-export interface IAddCustomTokensFormModalProps {
+export interface IAddCustomTokensFormModalProps extends DispatchProp {
   onOK(tokenAddress: string): void;
   onCancel(): void;
   visible?: boolean;
   form: WrappedFormUtils;
+  network?: IRPCProvider
 }
 class AddCustomTokensFormModal extends React.PureComponent<
   IAddCustomTokensFormModalProps
@@ -51,9 +54,12 @@ class AddCustomTokensFormModal extends React.PureComponent<
     })
   };
 
-  public componentDidMount(): void {
+  public componentWillReceiveProps(nextProps: IAddCustomTokensFormModalProps): void {
+    if (this.props.network?.url === nextProps.network?.url) {
+      return
+    }
     const list: Array<TokenMetadata> = [];
-    const tokenMetadataMap = GetTokenMetadataMap();
+    const tokenMetadataMap = AddCustomTokensFormModal.getTokenMetadata(nextProps.network);
     if (tokenMetadataMap) {
       for (const [k, v] of Object.entries(tokenMetadataMap)) {
         if (v.type === "xrc20") {
@@ -67,6 +73,14 @@ class AddCustomTokensFormModal extends React.PureComponent<
       metadataList: list,
       options: options
     })
+  }
+
+  public static getTokenMetadata(network?: IRPCProvider): { [key: string]: TokenMetadata } {
+    if (network?.name === "mainnet") {
+      return require("iotex-token-metadata");
+    } else {
+      return require("iotex-testnet-token-metadata");
+    }
   }
 
   private renderOption(dataList: Array<TokenMetadata>): Array<JSX.Element> {
@@ -84,7 +98,7 @@ class AddCustomTokensFormModal extends React.PureComponent<
           >
             <div style={{ width: 180, marginRight: 20 }}>
               <img
-                src={`https://iotexscan.io/image/token/${item.logo}`}
+                src={`${this.props.network ? this.props.network.url : "https://iotexscan.io/"}image/token/${item.logo}`}
                 alt="ico"
                 style={{ width: "13px", height: "13px" }}
               />
@@ -143,7 +157,17 @@ class AddCustomTokensFormModal extends React.PureComponent<
   }
 }
 
+const mapStateToProps = (state: {
+  wallet: IWalletState;
+}): {
+  network?: IRPCProvider;
+} => ({
+  network: (state.wallet || {}).network
+});
+
 const AddCustomRPCFormModalCom = Form.create<IAddCustomTokensFormModalProps>()(
   AddCustomTokensFormModal
 );
-export default AddCustomRPCFormModalCom;
+
+export default connect(mapStateToProps)(AddCustomRPCFormModalCom)
+
