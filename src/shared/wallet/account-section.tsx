@@ -660,7 +660,7 @@ class AccountSection extends React.Component<Props, State> {
 
   public renderBalance(): JSX.Element | null {
     const { tokenInfos, accountMeta, isLoading, showBalance } = this.state;
-    const { network } = this.props;
+    const { network, defaultNetworkTokens } = this.props;
     const dataSource = Object.keys(tokenInfos)
       .map(addr => tokenInfos[addr])
       .filter(tokenInfo => tokenInfo && tokenInfo.symbol);
@@ -680,12 +680,15 @@ class AccountSection extends React.Component<Props, State> {
       });
     }
 
-    const dataSource01 = dataSource.filter((item) => {
-      return item.symbol === "IOTX" || Token.getToken(item.tokenAddress).isVita()
-    });
+    const dataSourceHeader: Array<ITokenInfo> = [];
+    const dataSourceContent: Array<ITokenInfo> = [];
 
-    const dataSource02 = dataSource.filter((item) => {
-      return item.symbol !== "IOTX" && !Token.getToken(item.tokenAddress).isVita()
+    dataSource.forEach(item => {
+      if (!item.tokenAddress || defaultNetworkTokens.indexOf(item.tokenAddress) >= 0) {
+        dataSourceHeader.push(item)
+      } else {
+        dataSourceContent.push(item)
+      }
     });
 
     const spinning = isLoading || !network;
@@ -710,7 +713,7 @@ class AccountSection extends React.Component<Props, State> {
           </Button>
         </Flex>
         <Table
-          dataSource={dataSource01}
+          dataSource={dataSourceHeader}
           columns={columns}
           pagination={false}
           showHeader={false}
@@ -743,7 +746,7 @@ class AccountSection extends React.Component<Props, State> {
           </Button>
         </div>
         <Table
-          dataSource={dataSource02}
+          dataSource={dataSourceContent}
           columns={columns}
           pagination={false}
           showHeader={false}
