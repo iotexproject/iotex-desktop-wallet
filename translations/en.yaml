@@ -457,6 +457,7 @@ wallet.account.enterPrivateKey: 'Private Key'
 wallet.account.placehold.privateKey: 'Paste your private key here'
 wallet.account.private: 'Private Key'
 wallet.account.raw: 'Account Address'
+wallet.account.XRC20_tokens: 'XRC20 Tokens'
 wallet.account.unlock: Unlock
 wallet.bytecode.copy: 'Copy ByteCode'
 wallet.cannot_find_solidity_version: 'Cannot find solidity version'
