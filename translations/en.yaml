@@ -32,6 +32,7 @@ account.switchAccount: 'Switch Account'
 account.switchWallet: 'Switch Wallet'
 account.testnet.token: IOTX
 account.token.addCustom: 'Custom Tokens'
+account.token.addToken: 'Add Token'
 account.token.notfound: 'Token not found!'
 account.transaction-history: 'Go to action history'
 account.wallet: Wallet
@@ -456,6 +457,7 @@ wallet.account.enterPrivateKey: 'Private Key'
 wallet.account.placehold.privateKey: 'Paste your private key here'
 wallet.account.private: 'Private Key'
 wallet.account.raw: 'Account Address'
+wallet.account.XRC20_tokens: 'XRC20 Tokens'
 wallet.account.unlock: Unlock
 wallet.bytecode.copy: 'Copy ByteCode'
 wallet.cannot_find_solidity_version: 'Cannot find solidity version'
