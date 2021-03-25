@@ -503,6 +503,7 @@ wallet.input.contractAddress: "Contract address"
 wallet.input.dib: 'Data Hex'
 wallet.input.fromErc20: 'ERC20 Token address'
 wallet.input.fromXrc20: 'XRC20 Token address'
+wallet.input.search: 'Search'
 wallet.input.fromXrc721: 'XRC721 Token address'
 wallet.input.gasCostLimit: "Gas Cost Limit"
 wallet.input.gasLimit: "Gas Limit"
