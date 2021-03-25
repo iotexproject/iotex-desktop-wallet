@@ -660,7 +660,7 @@ class AccountSection extends React.Component<Props, State> {
 
   public renderBalance(): JSX.Element | null {
     const { tokenInfos, accountMeta, isLoading, showBalance } = this.state;
-    const { network } = this.props;
+    const { network, defaultNetworkTokens } = this.props;
     const dataSource = Object.keys(tokenInfos)
       .map(addr => tokenInfos[addr])
       .filter(tokenInfo => tokenInfo && tokenInfo.symbol);
@@ -679,6 +679,17 @@ class AccountSection extends React.Component<Props, State> {
         name: "IOTX"
       });
     }
+
+    const dataSourceHeader: Array<ITokenInfo> = [];
+    const dataSourceContent: Array<ITokenInfo> = [];
+
+    dataSource.forEach(item => {
+      if (!item.tokenAddress || defaultNetworkTokens.indexOf(item.tokenAddress) >= 0) {
+        dataSourceHeader.push(item)
+      } else {
+        dataSourceContent.push(item)
+      }
+    });
 
     const spinning = isLoading || !network;
     const displayBalanceText = showBalance
@@ -702,7 +713,40 @@ class AccountSection extends React.Component<Props, State> {
           </Button>
         </Flex>
         <Table
-          dataSource={dataSource}
+          dataSource={dataSourceHeader}
+          columns={columns}
+          pagination={false}
+          showHeader={false}
+          rowKey={record => record.symbol}
+          bodyStyle={{ overflowX: "auto" }}
+        />
+        <div
+          style={{
+            padding: "10px 18px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            borderBottom: `1px solid ${colors.black40}`
+          }}
+        >
+          <strong>{t("wallet.account.XRC20_tokens")}</strong>
+          <Button
+            style={{
+              fontSize: 12,
+              display: "block",
+              height: 26,
+              borderRadius: 40,
+              border: "none",
+              color: "white",
+              boxShadow: "none",
+              backgroundColor: colors.deltaUp }}
+            onClick={() => this.showCustomTokensForm()}
+          >
+            {t("account.token.addToken")}
+          </Button>
+        </div>
+        <Table
+          dataSource={dataSourceContent}
           columns={columns}
           pagination={false}
           showHeader={false}
@@ -794,12 +838,6 @@ class AccountSection extends React.Component<Props, State> {
               onClick={() => dispatch(setAccount())}
             >
               <Icon type="retweet" /> {t("account.switchAccount")}
-            </Col>
-            <Col
-              style={{ cursor: "pointer", fontSize: 13 }}
-              onClick={() => this.showCustomTokensForm()}
-            >
-              <Icon type="plus" /> {t("account.token.addCustom")}
             </Col>
           </Row>
           <Row
