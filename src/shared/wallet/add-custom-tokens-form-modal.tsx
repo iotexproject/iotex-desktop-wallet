@@ -132,6 +132,12 @@ class AddCustomTokensFormModal extends React.PureComponent<
       >
         <Form.Item
           label={t("wallet.input.search")}
+          style={{
+            display: "flex",
+            justifyContent: "left",
+            alignItems: "flex-start",
+            flexDirection: "column"
+          }}
           wrapperCol={{
             xs: 24
           }}
