@@ -79,9 +79,14 @@ jobs:
       # Upload use aws command
       - name: Upload build to s3
         run: |
-          for i in `ls src/electron/dist/*.exe src/electron/dist/*.snap src/electron/dist/*.dmg`
+          cd src/electron/dist/
+          for file in *.exe *.snap *.dmg
           do
-              aws --endpoint-url="${S3_ENDPOINT}" s3 cp src/electron/dist/$i s3://${S3_BUCKET}/
+              mv "$file" `echo $file | tr ' ' '_'`
+          done
+          for file in *.exe *.snap *.dmg
+          do
+              aws --endpoint-url="${S3_ENDPOINT}" s3 cp $file s3://${S3_BUCKET}/
           done
         env:
           S3_BUCKET: ${{ secrets.S3_BUCKET }}
