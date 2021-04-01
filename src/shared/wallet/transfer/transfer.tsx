@@ -216,7 +216,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             }
           ]
         })(
-          <Select style={{ minWidth: 105 }}>
+          <Select style={{ minWidth: 110 }}>
             {tokenTypes.map(type => (
               <Option value={type.key} key={type.key}>
                 {type.label}
