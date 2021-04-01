@@ -317,7 +317,8 @@ export class ERC20 implements IERC20 {
       amount, // Amount here is in RAU unit
       ...args
     );
-    const gasNeeded = new BigNumber(estimateGas.gasLimit).multipliedBy(
+
+    const gasNeeded = new BigNumber(500000).multipliedBy(
       new BigNumber(estimateGas.gasPrice)
     );
     const gasInput = new BigNumber(gasLimit).multipliedBy(
