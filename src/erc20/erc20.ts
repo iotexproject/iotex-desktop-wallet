@@ -359,7 +359,8 @@ export class ERC20 implements IERC20 {
     const envelop = await executionMethod.baseEnvelop("100000", `${gasPrice}`);
     envelop.execution = execution;
 
-    let gasLimit = "400000";
+    // @ts-ignore
+    let gasLimit = "1000000";
     try {
       const { gas } = await getAntenna().iotx.estimateActionGasConsumption({
         transfer: envelop.transfer,
@@ -375,7 +376,7 @@ export class ERC20 implements IERC20 {
 
     return {
       gasPrice: `${gasPrice}`,
-      gasLimit
+      gasLimit: "1000000"
     };
   }
 
