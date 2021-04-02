@@ -47,8 +47,8 @@ export interface IAuthorizedMessage {
 
 export class Vita extends ERC20 implements IVita {
   public async claim(account: Account): Promise<string> {
-    const { gasLimit, gasPrice } = await this.estimateClaimGas(account);
-    return this.executeMethod("claim", account, gasPrice, gasLimit, "0");
+    const { gasLimit } = await this.estimateClaimGas(account);
+    return this.executeMethod("claim", account, "1000000", gasLimit, "0");
   }
 
   public async estimateClaimGas(account: Account): Promise<IGasEstimation> {
