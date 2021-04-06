@@ -8,8 +8,8 @@ let _pkginfo = {};
 ipcRenderer.on("process_env", (event, message) => {
   if (message.NODE_ENV !== "development") {
     _pkginfo = {
-      version: message.version,
-      author: message.author
+      version: message.npm_package_version,
+      author: message.npm_package_author_name
     };
   } else {
     _pkginfo = JSON.parse(
