@@ -2,7 +2,6 @@
 import Avatar from "antd/lib/avatar";
 import Button from "antd/lib/button";
 import Input from "antd/lib/input";
-import isBrowser from "is-browser";
 import { assetURL } from "onefx/lib/asset-url";
 import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
@@ -13,8 +12,6 @@ import { colors } from "./styles/style-color";
 import { media } from "./styles/style-media";
 import { contentPadding } from "./styles/style-padding";
 import { TOP_BAR_HEIGHT } from "./top-bar";
-
-const state = isBrowser && JsonGlobal("state");
 
 export const FOOTER_HEIGHT = 325;
 
