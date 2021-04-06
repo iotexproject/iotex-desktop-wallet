@@ -150,10 +150,7 @@ export function Footer(): JSX.Element {
       </Align>
       <FooterBottom>
         <span>
-          <span>
-            © {`${new Date().getFullYear()}`} IoTeX{" "}
-            {isBrowser && state.siteVersion}
-          </span>
+          <span>© {`${new Date().getFullYear()}`} IoTeX </span>
           <Team href={"https://iotex.io/policy"}>{t("footer.policy")}</Team>
         </span>
       </FooterBottom>
