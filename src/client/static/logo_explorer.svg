@@ -46,7 +46,7 @@
         <path id="Shape-5" data-name="Shape" d="M1253.39.358c3.24,0,5.04,1.073,5.4,3.4a6.355,6.355,0,0,1-1.98,5.723L1149.29,117.85l112.37,117.314a6.356,6.356,0,0,1,1.98,5.723c-.36,2.146-2.16,3.4-5.39,3.4h-48.01a16.6,16.6,0,0,1-6.65-1.073,11.03,11.03,0,0,1-4.5-3.756l-86.48-90.131-86.85,90.131a13.762,13.762,0,0,1-4.67,3.756,16.423,16.423,0,0,1-6.83,1.073H968.767c-3.057,0-4.675-1.073-5.034-3.4a6.359,6.359,0,0,1,1.977-5.723l115.25-119.1L977.038,9.478a7.353,7.353,0,0,1-1.8-5.723c.18-2.146,1.978-3.4,5.214-3.4h48.006a13.723,13.723,0,0,1,6.65,1.252,12.079,12.079,0,0,1,4.5,3.577l76.41,80.832,80.91-80.832a13.677,13.677,0,0,1,4.5-3.577,13.774,13.774,0,0,1,6.65-1.252Z" fill="url(#linear-gradient-5)"/>
       </g>
       <path id="Line-2" d="M832.813,516h234" transform="translate(2708.406 -625.876) rotate(90)" fill="none" stroke="#00d8c4" stroke-linecap="square" stroke-width="10" fill-rule="evenodd"/>
-      <text id="community" transform="translate(2266.537 438.436)" fill="#49ddcb" font-size="251" font-family="Heebo-Regular, Heebo"><tspan x="0" y="0">Explorer</tspan></text>
+      <text id="community" transform="translate(2266.537 438.436)" fill="#49ddcb" font-size="251" font-family="Montserrat-Regular, Montserrat"><tspan x="0" y="0">Explorer</tspan></text>
       <g id="Group-2" data-name="Group">
         <path id="Shape-6" data-name="Shape" d="M414.659.436V156L549.892,78.327Z" fill="url(#linear-gradient-6)"/>
         <path id="Shape-7" data-name="Shape" d="M549.892,78.327V233.891L685.126,156Z" opacity="0.9" fill="url(#linear-gradient-7)"/>

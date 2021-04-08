@@ -1,4 +1,4 @@
-const fontFamily = "'Heebo',sans-serif,Microsoft YaHei !important";
+const fontFamily = "'Montserrat',sans-serif,Microsoft YaHei !important";
 
 export const fonts = {
   body: {

@@ -45,5 +45,6 @@ export enum XConfKeys {
   TOKENS_BASIC_INFOS = "tokens_basic_info",
   LAST_INTERACT_CONTRACT = "last_interact_contract",
   WHITELISTS = "whitelists",
-  IS_WHITELIST_ENABLE = "is_whitelist_enable"
+  IS_WHITELIST_ENABLE = "is_whitelist_enable",
+  LAST_CACHED_TOKEN_TIME = "last_cached_token_time"
 }

@@ -15,9 +15,6 @@ export const CandidatesCard = (props: QueryResult): JSX.Element => {
       productivityBase: number;
     }>;
   } = data || {};
-  const consensusDelegateCount = bpCandidates.filter(
-    a => a.category === "CONSENSUS_DELEGATE" && a.productivityBase > 0
-  ).length;
   const candidatesCount = bpCandidates.length;
   const showLoading = loading || !!error;
 
@@ -27,10 +24,10 @@ export const CandidatesCard = (props: QueryResult): JSX.Element => {
       titleStyle={{
         backgroundImage: `url(${assetURL("icon_overview_Delegates.png")})`
       }}
-      value={consensusDelegateCount}
+      value={candidatesCount}
       loading={showLoading}
       prefix={null}
-      suffix={`${candidatesCount}`}
+      suffix={null}
     />
   );
 };

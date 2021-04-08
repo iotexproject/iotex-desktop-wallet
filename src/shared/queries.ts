@@ -887,3 +887,22 @@ export const GET_ANALYTICS_ACTIONS_BY_TYPE = gql`
     }
   }
 `;
+
+export const GET_ANALYTICS_STAKE_ACTIONS = gql`
+  query($voter: String!, $pagination: Pagination!) {
+    action {
+      byVoter(voter: $voter) {
+        actions(pagination: $pagination) {
+          actHash
+          blkHash
+          timeStamp
+          actType
+          sender
+          recipient
+          amount
+          gasFee
+        }
+      }
+    }
+  }
+`;

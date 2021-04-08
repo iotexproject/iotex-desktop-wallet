@@ -6,9 +6,11 @@ import { ReceiptAddressRenderer } from "./reciept-address-renderer";
 import { StatusRenderer } from "./status-renderer";
 import { TextCopyRenderer } from "./text-copy-renderer";
 import { TextAreaRenderer } from "./textarea-renderer";
+import { EvmTransferRenderer } from "./evm-transfer-render";
 import { TransferPayloadRenderer } from "./transfer-payload-renderer";
 import { WalletAddressRenderer } from "./wallet-address-renderer";
 import { Xrc20TransferRenderer } from "./xrc20-transfer-renderer";
+import { BlockEpochNumRenderer } from "./block-epoch-num-renderer";
 
 const CommonRenderer = {
   status: StatusRenderer,
@@ -20,7 +22,8 @@ const CommonRenderer = {
   value: IOTXValueRenderer,
   logs: TextAreaRenderer,
   data: TextAreaRenderer,
-  evmTransfer: Xrc20TransferRenderer
+  evmTransfer: Xrc20TransferRenderer,
+  evmTransfers: EvmTransferRenderer
 };
 
 const AddressDetailRenderer = {
@@ -31,6 +34,7 @@ const AddressDetailRenderer = {
 
 const BlockDetailRenderer = {
   height: BlockHeightRenderer,
+  epochNum: BlockEpochNumRenderer,
   timestamp: AgeRenderer,
   producerAddress: WalletAddressRenderer,
   transferAmount: IOTXValueRenderer,
