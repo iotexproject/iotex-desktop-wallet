@@ -72,9 +72,20 @@ class SignAndSendEnvelopModalInner extends Component<Props, State> {
     } else {
       signed = await antenna.iotx.signer.signOnly(this.envelop);
     }
-    const { actionHash } = await getAntenna().iotx.sendAction({
+    const [res, err] = await getAntenna().iotx.sendAction({
       action: signed.action()
-    });
+    }).then(res => [res, null]).catch(err => [null, err]);
+
+    if (err) {
+      message.error(err.message);
+      return
+    }
+
+    if (!res) {
+      return
+    }
+
+    const { actionHash } = res;
 
     if (window.signed && !this.sendList.includes(reqId as number)) {
       window.signed(reqId, JSON.stringify({ actionHash, reqId, network }));
