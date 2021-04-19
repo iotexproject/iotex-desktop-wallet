@@ -82,7 +82,7 @@ jobs:
           cd src/electron/dist/
           for file in *.exe *.snap *.dmg
           do
-              mv "$file" `echo $file | tr ' ' '_'`
+              mv "$file" `echo $file | tr ' ' '.'`
           done
           for file in *.exe *.snap *.dmg
           do
