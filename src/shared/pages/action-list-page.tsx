@@ -32,7 +32,6 @@ import {
   GET_ANALYTICS_ACTIONS_BY_TYPE,
   GET_CHAIN_META
 } from "../queries";
-import { ActionFeeRenderer } from "../renderer/action-fee-renderer";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { ActionToRenderer } from "../renderer/action-to-renderer";
 import ExportAction from "./action-export";
