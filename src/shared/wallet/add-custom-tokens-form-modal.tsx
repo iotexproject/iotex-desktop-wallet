@@ -46,7 +46,7 @@ class AddCustomTokensFormModal extends React.PureComponent<
 
   public filterOptions = (data: string) => {
     const filteredList = this.state.metadataList.filter((item) => {
-      return item.address.toUpperCase().includes(data.toUpperCase()) || item.name.toUpperCase().includes(data.toUpperCase())
+      return item.symbol.toUpperCase().includes(data.toUpperCase()) || item.name.toUpperCase().includes(data.toUpperCase())
     });
     const options = this.renderOption(filteredList);
     this.setState({
