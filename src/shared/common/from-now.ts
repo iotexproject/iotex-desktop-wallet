@@ -33,5 +33,17 @@ export function translateFn(ts: Timestamp): string {
   keyMessage.map(value => {
     text = text.replace(value, t(`time.fn.${value.replace(" ", "")}`));
   });
+  if (
+    text.includes(t(`time.fn.hour`)) ||
+    text.includes(t(`time.fn.hours`)) ||
+    text.includes(t(`time.fn.day`)) ||
+    text.includes(t(`time.fn.days`)) ||
+    text.includes(t(`time.fn.month`)) ||
+    text.includes(t(`time.fn.months`)) ||
+    text.includes(t(`time.fn.year`)) ||
+    text.includes(t(`time.fn.years`))
+  ) {
+    return text.replace(/^an?/, "1");
+  }
   return text.replace(/^an?/, "a");
 }
