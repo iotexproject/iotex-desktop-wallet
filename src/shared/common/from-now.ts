@@ -39,7 +39,7 @@ export function translateFn(ts: Timestamp): string {
     text.includes(t(`time.fn.day`)) ||
     text.includes(t(`time.fn.days`)) ||
     text.includes(t(`time.fn.month`)) ||
-    text.includes(t(`time.fn.monts`)) ||
+    text.includes(t(`time.fn.months`)) ||
     text.includes(t(`time.fn.year`)) ||
     text.includes(t(`time.fn.years`))
   ) {
