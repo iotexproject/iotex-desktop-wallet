@@ -165,7 +165,7 @@
     "config": "3.3.1",
     "cross-env": "^7.0.2",
     "dateformat": "3.0.3",
-    "dayjs": "1.8.32",
+    "dayjs": "1.10.4",
     "dotenv": "8.2.0",
     "dottie": "2.0.2",
     "export-from-json": "1.3.3",
