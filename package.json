@@ -185,7 +185,7 @@
     "koa-server-http-proxy": "0.1.0",
     "lodash.omit": "4.5.0",
     "lodash.throttle": "4.1.1",
-    "moment": "2.27.0",
+    "moment": "2.29.1",
     "node-fetch": "2.6.0",
     "numeral": "^2.0.6",
     "onefx": "2.1.0",
