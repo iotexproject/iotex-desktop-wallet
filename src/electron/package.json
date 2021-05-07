@@ -72,7 +72,7 @@
     "electron-log": "4.2.2",
     "electron-root-path": "^1.0.16",
     "electron-updater": "^4.0.6",
-    "fs": "0.0.1-security",
+    "fs": "0.0.2",
     "global": "4.4.0",
     "ipc": "0.0.1",
     "isomorphic-unfetch": "^3.0.0",
