@@ -127,7 +127,7 @@
     "@ledgerhq/hw-transport-webusb": "5.21.0",
     "@sendgrid/client": "6.5.5",
     "@types/bech32": "1.1.2",
-    "@types/config": "0.0.36",
+    "@types/config": "0.0.38",
     "@types/dateformat": "3.0.1",
     "@types/dottie": "2.0.3",
     "@types/koa": "2.0.49",
