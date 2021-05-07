@@ -125,7 +125,7 @@ export const MapCard = (): JSX.Element => {
         });
 
         if (mapdata.length > 0) {
-          mapdata.splice(mapdata.length - 1, 1);
+          mapdata.splice(mapdata.length - 3, 3);
         }
 
         return (

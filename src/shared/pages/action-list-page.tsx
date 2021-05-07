@@ -32,7 +32,6 @@ import {
   GET_ANALYTICS_ACTIONS_BY_TYPE,
   GET_CHAIN_META
 } from "../queries";
-import { ActionFeeRenderer } from "../renderer/action-fee-renderer";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { ActionToRenderer } from "../renderer/action-to-renderer";
 import ExportAction from "./action-export";
@@ -167,16 +166,6 @@ const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
       </div>;
     }
   },
-  {
-    title: t("render.key.fee"),
-    dataIndex: "gasfee",
-    width: "7vw",
-    render: (_: string, record: ActionInfo, __: number): JSX.Element => {
-      return <div style={{ minWidth: 80 }}>
-        <ActionFeeRenderer value={record.actHash} />
-      </div>
-    }
-  }
 ];
 export interface IActionTable {
   address?: string;
