@@ -2559,6 +2559,13 @@
   resolved "https://registry.npm.taobao.org/@types/range-parser/download/@types/range-parser-1.2.3.tgz?cache=0&sync_timestamp=1605055243791&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Frange-parser%2Fdownload%2F%40types%2Frange-parser-1.2.3.tgz#7ee330ba7caafb98090bece86a5ee44115904c2c"
   integrity sha1-fuMwunyq+5gJC+zoal7kQRWQTCw=
 
+"@types/react-csv@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@types/react-csv/-/react-csv-1.1.1.tgz#003f6de5a46e4f64712f97e5509a4b3f2df9a8b1"
+  integrity sha512-sP8AxGrFJ/kb7ygFpGkssdD/vKSTqdZDJbw3pJKTCa1C0UoT+0+rdUWy2fZqvhvvdpHG+OCJ4G8O7OZqVIa+BA==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-dom@16.9.8":
   version "16.9.8"
   resolved "https://registry.npm.taobao.org/@types/react-dom/download/@types/react-dom-16.9.8.tgz#fe4c1e11dfc67155733dfa6aa65108b4971cb423"
@@ -4136,12 +4143,12 @@ aws4@^1.8.0:
   resolved "https://registry.npm.taobao.org/aws4/download/aws4-1.11.0.tgz?cache=0&sync_timestamp=1604101230105&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Faws4%2Fdownload%2Faws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha1-1h9G2DslGSUOJ4Ta9bCUeai0HFk=
 
-axios@0.19.2:
-  version "0.19.2"
-  resolved "https://registry.npm.taobao.org/axios/download/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
-  integrity sha1-PqNsXYgY0NX4qKl6bTa4bNwAyyc=
+axios@0.21.1:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
   dependencies:
-    follow-redirects "1.5.10"
+    follow-redirects "^1.10.0"
 
 babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
   version "6.26.0"
@@ -6500,7 +6507,7 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.8:
   dependencies:
     ms "2.0.0"
 
-debug@3.1.0, debug@=3.1.0, debug@~3.1.0:
+debug@3.1.0, debug@~3.1.0:
   version "3.1.0"
   resolved "https://registry.npm.taobao.org/debug/download/debug-3.1.0.tgz?cache=0&sync_timestamp=1603284220908&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdebug%2Fdownload%2Fdebug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
   integrity sha1-W7WgZyYotkFJVmuhaBnmFRjGcmE=
@@ -7957,17 +7964,15 @@ focus-lock@^0.6.3:
   resolved "https://registry.npm.taobao.org/focus-lock/download/focus-lock-0.6.8.tgz#61985fadfa92f02f2ee1d90bc738efaf7f3c9f46"
   integrity sha1-YZhfrfqS8C8u4dkLxzjvr388n0Y=
 
-follow-redirects@1.5.10:
-  version "1.5.10"
-  resolved "https://registry.npm.taobao.org/follow-redirects/download/follow-redirects-1.5.10.tgz?cache=0&sync_timestamp=1597058070545&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffollow-redirects%2Fdownload%2Ffollow-redirects-1.5.10.tgz#7b7a9f9aea2fdff36786a94ff643ed07f4ff5e2a"
-  integrity sha1-e3qfmuov3/NnhqlP9kPtB/T/Xio=
-  dependencies:
-    debug "=3.1.0"
-
 follow-redirects@^1.0.0:
   version "1.13.0"
   resolved "https://registry.npm.taobao.org/follow-redirects/download/follow-redirects-1.13.0.tgz?cache=0&sync_timestamp=1597058070545&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffollow-redirects%2Fdownload%2Ffollow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"
   integrity sha1-tC6Nk6Kn7qXtiGM2dtZZe8jjhNs=
+
+follow-redirects@^1.10.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.0.tgz#f5d260f95c5f8c105894491feee5dc8993b402fe"
+  integrity sha512-0vRwd7RKQBTt+mgu87mtYeofLFZpTas2S9zY+jIeuLJMNvudIgF52nr19q40HOwH5RrhWIPuj9puybzSJiRrVg==
 
 for-each@^0.3.3:
   version "0.3.3"
@@ -9499,19 +9504,19 @@ iotex-react-language-dropdown@2.4.3:
   resolved "https://registry.npm.taobao.org/iotex-react-language-dropdown/download/iotex-react-language-dropdown-2.4.3.tgz#02c4b449012899a4d1c8724a80d13c86d0c99aeb"
   integrity sha1-AsS0SQEomaTRyHJKgNE8htDJmus=
 
-iotex-testnet-token-metadata@^1.0.8:
+iotex-testnet-token-metadata@latest:
   version "1.0.8"
-  resolved "https://registry.npm.taobao.org/iotex-testnet-token-metadata/download/iotex-testnet-token-metadata-1.0.8.tgz#194df1bff9f8700e59f7ee38d2ef7f6fd5a82b19"
-  integrity sha1-GU3xv/n4cA5Z9+440u9/b9WoKxk=
+  resolved "https://registry.yarnpkg.com/iotex-testnet-token-metadata/-/iotex-testnet-token-metadata-1.0.8.tgz#194df1bff9f8700e59f7ee38d2ef7f6fd5a82b19"
+  integrity sha512-XbhhL4OV+jRJwPDH6/Xe3gIxW+OdklmxvGnwfaVesa5jjiO05np87ErLYT4Fnprv3ZnUvYTDPnFrNQ9iMx4m9w==
   dependencies:
     fs "0.0.1-security"
     path "^0.12.7"
     tape "^5.0.1"
 
-iotex-token-metadata@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.npm.taobao.org/iotex-token-metadata/download/iotex-token-metadata-1.2.0.tgz#edd12f83c64c1d0139294534aeabf27a3fd6d9a9"
-  integrity sha1-7dEvg8ZMHQE5KUU0rqvyej/W2ak=
+iotex-token-metadata@1.2.8:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/iotex-token-metadata/-/iotex-token-metadata-1.2.8.tgz#5400012bf48e4cdff85c7ebd8445515fe9d972f0"
+  integrity sha512-bZOcz8bfemx+Tqxs2tsoibmVW5S3YmWsmsOnD67aX/yWbeGG/aLxWhx72TWIlMjo54hXNV2PIp83n2eAFwPaHA==
   dependencies:
     fs "0.0.1-security"
     path "^0.12.7"
@@ -13837,6 +13842,11 @@ react-clientside-effect@^1.2.0:
   integrity sha1-YhL7DgeyBOcUWB3VGZJgPRrMyDc=
   dependencies:
     "@babel/runtime" "^7.0.0"
+
+react-csv@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-csv/-/react-csv-2.0.3.tgz#f5d17a3c71107d9bcbe580049350200debdc042a"
+  integrity sha512-exyAdFLAxtuM4wNwLYrlKyPYLiJ7e0mv9tqPAd3kq+k1CiJFtznevR3yP0icv5q/y200w+lzNgi7TQn1Wrhu0w==
 
 react-dev-utils@^9.0.0:
   version "9.1.0"
