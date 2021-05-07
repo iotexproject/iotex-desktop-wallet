@@ -143,7 +143,7 @@
     "@types/react-helmet": "5.0.16",
     "@types/react-outside-click-handler": "1.2.0",
     "@types/react-redux": "7.1.9",
-    "@types/react-router": "5.1.8",
+    "@types/react-router": "5.1.14",
     "@types/react-router-dom": "4.3.5",
     "@types/styletron-react": "5.0.2",
     "@types/uuid": "3.4.6",
