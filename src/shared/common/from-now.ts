@@ -41,7 +41,7 @@ export function translateFn(ts: Timestamp): string {
     text.includes(t(`time.fn.month`)) ||
     text.includes(t(`time.fn.monts`)) ||
     text.includes(t(`time.fn.year`)) ||
-    text.includes(t(`time.fn.year`))
+    text.includes(t(`time.fn.years`))
   ) {
     return text.replace(/^an?/, "1");
   }
