@@ -125,7 +125,7 @@
     "@babel/preset-typescript": "7.10.4",
     "@babel/register": "7.10.5",
     "@ledgerhq/hw-transport-webusb": "5.21.0",
-    "@sendgrid/client": "6.5.5",
+    "@sendgrid/client": "7.4.3",
     "@types/bech32": "1.1.2",
     "@types/config": "0.0.36",
     "@types/dateformat": "3.0.1",
