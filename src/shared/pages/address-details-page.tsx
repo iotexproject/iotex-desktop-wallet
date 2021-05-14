@@ -4,6 +4,7 @@ import Tabs from "antd/lib/tabs";
 import { get } from "dottie";
 // @ts-ignore
 import window from "global/window";
+import {fromBytes} from "iotex-antenna/lib/crypto/address";
 import isBrowser from "is-browser";
 import { t } from "onefx/lib/iso-i18n";
 import React, {useEffect, useRef, useState} from "react";
@@ -22,12 +23,12 @@ import { PageNav } from "../common/page-nav-bar";
 import {PALM_WIDTH} from "../common/styles/style-media";
 import { ContentPadding } from "../common/styles/style-padding";
 import { EvmTransfersTable } from "../components/evm-transfer-table";
+import { StakeActionTable } from "../components/stake-action-table";
 import { GET_ACCOUNT } from "../queries";
 import { AddressDetailRenderer } from "../renderer";
 import {ActionTable} from "./action-list-page";
 import { XRC20ActionTable } from "./xrc20-action-list-page";
 import { XRC721ActionTable } from "./xrc721-action-list-page";
-import { StakeActionTable } from "../components/stake-action-table";
 
 export interface IActionsDetails {
   action: GetActionsResponse;
@@ -164,8 +165,17 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
   props
 ): JSX.Element | null => {
   const { address } = props.match.params;
+
+  let iotexAddress = address;
+  let web3Address: string;
+
   if (!address) {
     return null;
+  }
+
+  if (address.startsWith("0x")) {
+    iotexAddress = fromBytes(Buffer.from(String(address).replace(/^0x/, ""), "hex")).string();
+    web3Address = address;
   }
 
   const handleTabChange = (key: string) => {
@@ -173,22 +183,29 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
     history.replace(`#${key}`);
   };
 
+  const addressConverter = () => (
+    <div>
+      <div>Iotex {t("address_details.address", { address: iotexAddress })}</div>
+      {web3Address ?  <div>Web3 {t("address_details.address", { address: web3Address })}</div> : null}
+    </div>
+  );
+
   return (
     <>
-      <Helmet title={`IoTeX ${t("address.address")} ${address}`} />
+      <Helmet title={`IoTeX ${t("address.address")} ${iotexAddress}`} />
       <PageNav
         items={[
-          t("address.address"),
+          `Iotex ${t("address.address")}`,
           <span
             key={1}
             className="ellipsis-text"
             style={{ maxWidth: "10vw", minWidth: 100, textTransform: "none" }}
           >
-            {address}
+            {iotexAddress}
           </span>
         ]}
       />
-      <Query errorPolicy="ignore" query={GET_ACCOUNT} variables={{ address }}>
+      <Query errorPolicy="ignore" query={GET_ACCOUNT} variables={{ address: iotexAddress }}>
         {({
           data,
           loading,
@@ -217,7 +234,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
           }
           const addressUrl = `${
             isBrowser ? location.origin : ""
-          }/address/${address}`;
+          }/address/${iotexAddress}`;
           const emailBody = t("share_link.email_body", {
             href: addressUrl
           });
@@ -231,8 +248,8 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
           return (
             <ContentPadding>
               <CardDetails
-                title={`${t("address_details.address", { address })}`}
-                titleToCopy={address}
+                title={addressConverter()}
+                titleToCopy={iotexAddress}
                 share={{
                   link: addressUrl,
                   emailSubject: t("share_link.email_subject"),
@@ -248,7 +265,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
                 }}
               />
               <ContentWrapper
-                address={address}
+                address={iotexAddress}
                 hashRoute={hashRoute}
                 numActions={numActions}
                 onTabChange={handleTabChange}/>

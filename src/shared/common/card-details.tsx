@@ -6,7 +6,7 @@ import { IShareCallOutProps, ShareCallout } from "./share-callout";
 import { IVerticalTableProps, VerticalTable } from "./vertical-table";
 
 const CardDetails: React.FC<{
-  title: string;
+  title: string | JSX.Element;
   share: IShareCallOutProps;
   vtable?: IVerticalTableProps;
   titleToCopy?: string;
