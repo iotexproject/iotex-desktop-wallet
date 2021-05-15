@@ -185,7 +185,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
 
   const addressConverter = () => (
     <div>
-      <div>Iotex {t("address_details.address", { address: iotexAddress })}</div>
+      <div>IoTeX {t("address_details.address", { address: iotexAddress })}</div>
       {web3Address ?  <div>Web3 {t("address_details.address", { address: web3Address })}</div> : null}
     </div>
   );
@@ -195,7 +195,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
       <Helmet title={`IoTeX ${t("address.address")} ${iotexAddress}`} />
       <PageNav
         items={[
-          `Iotex ${t("address.address")}`,
+          t("address.address"),
           <span
             key={1}
             className="ellipsis-text"
