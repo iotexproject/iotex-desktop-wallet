@@ -17,7 +17,7 @@ export const handleSearch = async (
   const { history, client } = props;
   const value = query.trim();
 
-  if (value.match(/^io[a-z0-9]{39}$/)) {
+  if (value.match(/^io[a-z0-9]{39}$/) || value.match(/^0x[A-Za-z0-9]+$/)) {
     return history.push(`/address/${value}`);
   }
 
