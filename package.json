@@ -177,7 +177,7 @@
     "iotex-antenna": "0.30.1",
     "iotex-react-block-producers": "2.9.5",
     "iotex-react-language-dropdown": "2.4.3",
-    "iotex-testnet-token-metadata": "latest",
+    "iotex-testnet-token-metadata": "1.2.9",
     "iotex-token-metadata": "1.2.8",
     "is-browser": "2.1.0",
     "is-electron": "2.2.0",
