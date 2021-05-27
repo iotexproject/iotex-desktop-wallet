@@ -5,7 +5,7 @@ import Table, { ColumnProps } from "antd/lib/table";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { t } from "onefx/lib/iso-i18n";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState, useMemo} from "react";
 import {Query, QueryResult} from "react-apollo";
 import {CSVLink} from "react-csv";
 import Helmet from "react-helmet";
@@ -235,12 +235,14 @@ const BlockListPage: React.FC = (): JSX.Element => {
     setBlockMetas(blockMetas)
   };
 
+  const BlockMetasDataGetter: JSX.Element = useMemo(() => getBlockMetasData(fetchBlockMetas), [])
+
   return (
     <>
       <Helmet title={`${t("block.blocks")} - ${t("meta.description")}`} />
       <PageNav items={[t("topbar.blocks")]} />
       <ContentPadding>
-        <Page header={<ExportAction blockMetas={blockMetas}/>}>{getBlockMetasData(fetchBlockMetas)}</Page>
+        <Page header={<ExportAction blockMetas={blockMetas}/>}>{BlockMetasDataGetter}</Page>
       </ContentPadding>
     </>
   );
