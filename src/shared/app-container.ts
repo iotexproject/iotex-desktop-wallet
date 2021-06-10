@@ -6,6 +6,7 @@ import { App } from "./app";
 type Props = {
   googleTid: string;
   locale: string;
+  toEthAddress: boolean
 };
 
 const connected = connect(
@@ -15,11 +16,13 @@ const connected = connect(
       analytics: {
         googleTid: string;
       };
+      toEthAddress: boolean
     };
   }): Props => {
     return {
       googleTid: state.base.analytics.googleTid,
-      locale: state.base.locale
+      locale: state.base.locale,
+      toEthAddress: state.base.toEthAddress
     };
   }
 )(App);

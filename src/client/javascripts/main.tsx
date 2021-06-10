@@ -14,6 +14,7 @@ import {
   signParamsReducer,
   walletReducer
 } from "../../shared/wallet/wallet-reducer";
+import {baseReducer} from "./base-reducer";
 
 type Opts = {
   reducer: Reducer;
@@ -28,7 +29,7 @@ clientReactRender({
     </ApolloProvider>
   ),
   reducer: combineReducers<{}>({
-    base: noopReducer,
+    base: baseReducer,
     apolloState: noopReducer,
     apolloAnalyticsState: noopReducer,
     webBpApolloState: noopReducer,

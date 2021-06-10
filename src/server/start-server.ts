@@ -48,6 +48,7 @@ export type MyConfig = Config & {
   defaultERC20Tokens: object;
   webBpApiGatewayUrl: string;
   enableSignIn: boolean;
+  toEthAddress: boolean;
   apiGatewayUrl: string;
   analyticsApiGatewayUrl: string;
   siteVersion: string;

@@ -6,12 +6,13 @@ import { LanguageSwitcher } from "iotex-react-language-dropdown/lib/language-swi
 import isBrowser from "is-browser";
 import { t } from "onefx/lib/iso-i18n";
 import { styled, StyleObject } from "onefx/lib/styletron-react";
-import React, { Component } from "react";
+import React, {Component, useState} from "react";
 import OutsideClickHandler from "react-outside-click-handler";
-import { connect } from "react-redux";
+import {connect, DispatchProp} from "react-redux";
 import { Link } from "react-router-dom";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
+import {setSwitchAddress} from "../../client/javascripts/base-actions";
 import { assetURL } from "./asset-url";
 import { CommonMargin } from "./common-margin";
 import { Logo as Icon } from "./icon";
@@ -38,6 +39,53 @@ const LanguageSwitcherMenu = () => {
     </Row>
   );
 };
+
+const AddressConverterSwitcher = (props: { onSwitch(s: boolean): void, toEthAddress: boolean }) => {
+
+  const [toEthAddress, setShowIoAddress] = useState(props.toEthAddress);
+
+  // @ts-ignore
+  const convertAddress = (e) => {
+    setShowIoAddress(!toEthAddress);
+    props.onSwitch(!toEthAddress);
+    e.stopPropagation()
+  };
+
+  return (
+    <AddressSwitcherContainer onClick={convertAddress}>
+      {/* tslint:disable-next-line:use-simple-attributes */}
+      <AddressSwitcherItem
+        style={{ background: toEthAddress ? "" : "#50B1A0" }}>
+        io
+      </AddressSwitcherItem>
+      {/* tslint:disable-next-line:use-simple-attributes */}
+      <AddressSwitcherItem
+        style={{ background: toEthAddress ? "#89A8F2" : "" }}>
+        0x
+      </AddressSwitcherItem>
+    </AddressSwitcherContainer>
+  );
+};
+
+const AddressSwitcherContainer = styled("div", {
+  display: "inline-block",
+  width: "4rem",
+  height: "1.3rem",
+  lineHeight: "1.3rem",
+  background: colors.black85,
+  borderRadius: "0.125rem",
+  cursor: "pointer",
+});
+
+const AddressSwitcherItem = styled("div", {
+  display: "inline-block",
+  width: "2rem",
+  height: "1.3rem",
+  lineHeight: "1.3rem",
+  color: "white",
+  textAlign: "center",
+  cursor: "pointer"
+});
 
 const multiChain: {
   current: string;
@@ -72,15 +120,16 @@ type State = {
   displayMobileMenu: boolean;
 };
 
-type Props = { loggedIn: boolean; locale: string; grafanaLink: string };
+type Props = { loggedIn: boolean; locale: string; grafanaLink: string, toEthAddress: boolean } & DispatchProp;
 
 export const TopBar = connect(
   (state: {
-    base: { userId?: string; locale: string; grafanaLink: string };
+    base: { userId?: string; locale: string; grafanaLink: string, toEthAddress: boolean };
   }) => ({
     loggedIn: Boolean(state.base.userId),
     locale: state.base.locale,
-    grafanaLink: state.base.grafanaLink
+    grafanaLink: state.base.grafanaLink,
+    toEthAddress: state.base.toEthAddress,
   })
 )(
   class TopBarInner extends Component<Props, State> {
@@ -106,7 +155,7 @@ export const TopBar = connect(
 
     public displayMobileMenu = () => {
       this.setState({
-        displayMobileMenu: true
+        displayMobileMenu: true,
       });
     };
 
@@ -288,7 +337,15 @@ export const TopBar = connect(
               <CrossBtn displayMobileMenu={displayMobileMenu}>
                 <Cross />
               </CrossBtn>
-              <LanguageSwitcherMenu />
+
+              <Flex style={{ alignItems: "center", justifyContent: "center" }}>
+                <AddressConverterSwitcher
+                  toEthAddress={this.props.toEthAddress}
+                  onSwitch={(s) => {
+                    this.props.dispatch(setSwitchAddress(s))
+                  }}/>
+                <LanguageSwitcherMenu />
+              </Flex>
             </Flex>
           </Bar>
           {this.renderMobileMenu()}
