@@ -60,8 +60,12 @@ class AddCustomTokensFormModal extends React.PureComponent<
       return
     }
 
+    let tokenUrl = "https://iopay-wallet.iotex.io/api/tokenMetadata/testnet";
+    if (nextProps.network?.name === "mainnet") {
+      tokenUrl = "https://iopay-wallet.iotex.io/api/tokenMetadata/mainnet"
+    }
     axios({
-      url: "https://iopay-wallet.iotex.io/api/tokenMetadata/mainnet",
+      url: tokenUrl,
       method: "GET"
     })
       .then(res => {
