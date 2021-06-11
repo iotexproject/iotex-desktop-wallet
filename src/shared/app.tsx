@@ -32,6 +32,7 @@ import { Wallet } from "./wallet/wallet";
 type Props = {
   googleTid: string;
   locale: string;
+  toEthAddress: boolean
 } & RouteComponentProps;
 
 export class App extends Component<Props> {
@@ -41,6 +42,7 @@ export class App extends Component<Props> {
 
   public render(): JSX.Element {
     const { locale } = this.props;
+
     return (
       <RootStyle>
         <HtmlHead locale={locale} />
