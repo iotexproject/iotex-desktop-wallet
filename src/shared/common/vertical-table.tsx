@@ -33,6 +33,7 @@ export interface IVerticalTableRendererProps<T> {
   value: T;
   record?: IVerticalTableKeyPair<T>;
   index?: number;
+  toEthAddress?: boolean
 }
 
 export type VerticalTableRender<T> = React.FC<IVerticalTableRendererProps<T>>;

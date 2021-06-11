@@ -27,6 +27,7 @@ module.exports = {
       enableSignIn: false,
       apiGatewayUrl: "https://iotexscan.io/api-gateway/",
       locale: "en",
+      address: "io",
       csrfToken: "itiKEcT0-ZQfe54u8YdmJn0MAXxZKKKIxqKg",
       translations
     },
