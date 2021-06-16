@@ -591,29 +591,6 @@ const XRC20ActionListPage: React.FC<
         ]}
       />
       <ContentPadding>
-        <div>
-          {baseInfo.logo ? (
-            <img
-              src={`/image/token/${baseInfo.logo}`}
-              alt="ico"
-              style={{
-                width: "26px",
-                height: "26px",
-                verticalAlign: "text-bottom"
-              }}
-            />
-          ) : null}
-          <TokenInfoTitle>Token</TokenInfoTitle>
-          <TokenInfoSubTitle>{baseInfo.name}</TokenInfoSubTitle>
-        </div>
-        <Divider />
-        <BasicInfoCard
-          tokenAddress={address}
-          totalSupply={totalSupply}
-          symbol={baseInfo.symbol}
-          contractAddr={contractAddr}
-          decimals={decimals}
-        />
         <Tabs defaultActiveKey="1">
           <TabPane tab={t("pages.token")} key="1">
             <XRC20ActionTable byContract={address} />
