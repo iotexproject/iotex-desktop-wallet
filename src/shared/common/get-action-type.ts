@@ -46,3 +46,7 @@ export function getActionTypeInEnvelop(envelop: Envelop): Dict {
   }
   return {};
 }
+
+export function getActionTypes(infos: ActionInfo[]): string {
+  return infos.map(item => getActionType(item)).join(",");
+}
