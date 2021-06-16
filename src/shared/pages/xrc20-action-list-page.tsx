@@ -8,7 +8,6 @@ import Table, { ColumnProps } from "antd/lib/table";
 import Tabs from "antd/lib/tabs";
 import BigNumber from "bignumber.js";
 import { get } from "dottie";
-import { fromBytes } from "iotex-antenna/lib/crypto/address";
 import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import React, { Ref, useImperativeHandle, useRef, useState} from "react";
@@ -548,9 +547,7 @@ const XRC20ActionListPage: React.FC<
     logo: "",
     symbol: ""
   });
-  if (address.startsWith("0x")) {
-    address = fromBytes(Buffer.from(String(address).replace(/^0x/, ""), "hex")).string();
-  }
+
   const token = Token.getToken(address);
   token
     .getBasicTokenInfo()
