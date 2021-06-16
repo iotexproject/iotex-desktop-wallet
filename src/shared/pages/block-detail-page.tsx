@@ -66,7 +66,7 @@ const parseBlockDetails = (data: BlockMeta) => {
             return null;
           }
           const actionInfos =
-            (get(data, "getActions.actionInfo") as ActionInfo[]) || [];
+            (get(data, "getActions.actionInfo") || []) as ActionInfo[];
           const actionTypes: string = getActionTypes(actionInfos);
           return <span>{actionTypes}</span>;
         }}
