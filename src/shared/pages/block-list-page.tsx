@@ -5,21 +5,24 @@ import Table, { ColumnProps } from "antd/lib/table";
 import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { t } from "onefx/lib/iso-i18n";
-import React, {useEffect, useRef, useState, useMemo} from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { Query, QueryResult } from "react-apollo";
 import { CSVLink } from "react-csv";
 import Helmet from "react-helmet";
 import {
   BlockMeta,
-  GetBlockMetasResponse
+  GetBlockMetasResponse,
+  GetActionsByBlockRequest,
+  ActionInfo
 } from "../../api-gateway/resolvers/antenna-types";
 import { AddressName } from "../common/address-name";
 import { LinkButton } from "../common/buttons";
 import { translateFn } from "../common/from-now";
+import { getActionTypes } from "../common/get-action-type";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
 import { numberWithCommas } from "../common/vertical-table";
-import {GET_BLOCK_METAS, GET_LATEST_HEIGHT} from "../queries";
+import { GET_BLOCK_METAS, GET_LATEST_HEIGHT, GET_ACTIONS_BY_BLK } from "../queries";
 import { Page } from "./page";
 
 const PAGE_SIZE = 15;
@@ -48,7 +51,23 @@ const getBlockListColumns = (): Array<ColumnProps<BlockMeta>> => [
   {
     title: t("block.num_actions"),
     dataIndex: "numActions",
-    width: "10vw"
+    width: "10vw",
+    render(_: string, record: BlockMeta, __: number): JSX.Element {
+      return (
+        <Query query={GET_ACTIONS_BY_BLK} variables={{ byBlk: { blkHash: record.hash, start: 0, count: record.numActions } as GetActionsByBlockRequest }}>
+          {
+            ({ data }: QueryResult<{ getActions: { actionInfo: ActionInfo[] } }>) => {
+              if (!data) {
+                return null
+              }
+              const actionInfos = get(data, "getActions.actionInfo") as ActionInfo[] || []
+              const actionTypes: string = getActionTypes(actionInfos)
+              return <span>{actionTypes}</span>
+            }
+          }
+        </Query>
+      )
+    }
   },
   {
     title: t("block.producer_address"),
@@ -174,7 +193,7 @@ interface ICSVData {
 
 const ExportAction: React.FC<{
   blockMetas: Array<BlockMeta> | undefined
-}> = ({ blockMetas}) => {
+}> = ({ blockMetas }) => {
 
   const csvInstance = useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null);
   const [csvData, setCsvData] = useState<Array<ICSVData>>([]);
@@ -212,18 +231,18 @@ const ExportAction: React.FC<{
     { label: `${t("block.transfer_amount")}`, key: "transferAmount" }
   ];
 
-  return <div style={{display: "flex", alignItems: "center"}}>
+  return <div style={{ display: "flex", alignItems: "center" }}>
     {t("block.blocks")}
     <Button
       size="small"
       type="primary"
-      style={{marginLeft: 10}}
+      style={{ marginLeft: 10 }}
       onClick={handleExport}>{t("action.export")}</Button>
     <CSVLink
       data={csvData}
       headers={headers}
       filename={t("topbar.blocks")}
-      ref={csvInstance}/>
+      ref={csvInstance} />
   </div>
 };
 
@@ -242,7 +261,7 @@ const BlockListPage: React.FC = (): JSX.Element => {
       <Helmet title={`${t("block.blocks")} - ${t("meta.description")}`} />
       <PageNav items={[t("topbar.blocks")]} />
       <ContentPadding>
-        <Page header={<ExportAction blockMetas={blockMetas}/>}>{BlockMetasDataGetter}</Page>
+        <Page header={<ExportAction blockMetas={blockMetas} />}>{BlockMetasDataGetter}</Page>
       </ContentPadding>
     </>
   );
