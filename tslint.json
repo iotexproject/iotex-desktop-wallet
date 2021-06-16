@@ -41,6 +41,7 @@
     "no-shadowed-variable": false,
     "no-import-side-effect": false,
     "no-reserved-keywords": false,
+    "no-parameter-reassignment": false,
     "react-this-binding-issue": false,
     "no-submodule-imports": false,
     "quotemark": [true, "double", "jsx-double"],
