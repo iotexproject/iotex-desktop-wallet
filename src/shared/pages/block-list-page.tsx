@@ -60,7 +60,7 @@ const getBlockListColumns = (): Array<ColumnProps<BlockMeta>> => [
               if (!data) {
                 return null
               }
-              const actionInfos = (get(data, "getActions.actionInfo")  || []) as ActionInfo[]
+              const actionInfos = (get<ActionInfo[]>(data, "getActions.actionInfo")  || []) as ActionInfo[]
               const actionTypes: string = getActionTypes(actionInfos)
               return <span>{actionTypes}</span>
             }
