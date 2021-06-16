@@ -22,3 +22,13 @@ export const GetTokenMetadataMap = () => {
   }
   return metadatasMap;
 };
+
+export interface AppTokenMetadata {
+  address: string;
+  decimals: number;
+  description: string;
+  logo: string;
+  name: string;
+  type: string;
+  symbol: string
+}

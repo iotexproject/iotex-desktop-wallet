@@ -6,8 +6,8 @@ import { get } from "dottie";
 import { fromRau } from "iotex-antenna/lib/account/utils";
 import { t } from "onefx/lib/iso-i18n";
 import React, {useEffect, useRef, useState, useMemo} from "react";
-import {Query, QueryResult} from "react-apollo";
-import {CSVLink} from "react-csv";
+import { Query, QueryResult } from "react-apollo";
+import { CSVLink } from "react-csv";
 import Helmet from "react-helmet";
 import {
   BlockMeta,

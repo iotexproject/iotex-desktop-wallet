@@ -5,10 +5,11 @@ import Modal from "antd/lib/modal";
 // @ts-ignore
 // tslint:disable-next-line:import-blacklist
 import {AutoComplete, Input} from "antd";
+import axios from "axios";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import {connect, DispatchProp} from "react-redux";
-import { TokenMetadata } from "../common/common-metadata";
+import {AppTokenMetadata} from "../common/common-metadata";
 import { rulesMap } from "../common/rules";
 import { colors } from "../common/styles/style-color";
 import {IRPCProvider, IWalletState} from "./wallet-reducer";
@@ -23,7 +24,7 @@ export interface IAddCustomTokensFormModalProps extends DispatchProp {
 class AddCustomTokensFormModal extends React.PureComponent<
   IAddCustomTokensFormModalProps
 > {
-  public state: { confirming: boolean, metadataList: Array<TokenMetadata>, options: Array<JSX.Element> } = {
+  public state: { confirming: boolean, metadataList: Array<AppTokenMetadata>, options: Array<JSX.Element> } = {
     confirming: false,
     metadataList: [],
     options: []
@@ -58,32 +59,34 @@ class AddCustomTokensFormModal extends React.PureComponent<
     if (this.props.network?.url === nextProps.network?.url) {
       return
     }
-    const list: Array<TokenMetadata> = [];
-    const tokenMetadataMap = AddCustomTokensFormModal.getTokenMetadata(nextProps.network);
-    if (tokenMetadataMap) {
-      for (const [k, v] of Object.entries(tokenMetadataMap)) {
-        if (v.type === "xrc20") {
-          v.address = k;
-          list.push(v);
-        }
-      }
+
+    let tokenUrl = "https://iopay-wallet.iotex.io/api/tokenMetadata/testnet";
+    if (nextProps.network?.name === "mainnet") {
+      tokenUrl = "https://iopay-wallet.iotex.io/api/tokenMetadata/mainnet"
     }
-    const options = this.renderOption(list);
-    this.setState({
-      metadataList: list,
-      options: options
+    axios({
+      url: tokenUrl,
+      method: "GET"
     })
+      .then(res => {
+        // tslint:disable-next-line:no-any
+        const data = res.data as Array<AppTokenMetadata>;
+        const list: Array<AppTokenMetadata> = [];
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].type === "xrc20") {
+            list.push(data[i]);
+          }
+        }
+        const options = this.renderOption(list);
+        this.setState({
+          metadataList: list,
+          options: options
+        })
+      })
+      .catch()
   }
 
-  public static getTokenMetadata(network?: IRPCProvider): { [key: string]: TokenMetadata } {
-    if (network?.name === "mainnet") {
-      return require("iotex-token-metadata");
-    } else {
-      return require("iotex-testnet-token-metadata");
-    }
-  }
-
-  private renderOption(dataList: Array<TokenMetadata>): Array<JSX.Element> {
+  private renderOption(dataList: Array<AppTokenMetadata>): Array<JSX.Element> {
     return dataList.map(item => {
       return (
         <AutoComplete.Option key={item.address}>
@@ -98,7 +101,7 @@ class AddCustomTokensFormModal extends React.PureComponent<
           >
             <div style={{ width: 180, marginRight: 20 }}>
               <img
-                src={`${this.props.network ? this.props.network.url : "https://iotexscan.io/"}image/token/${item.logo}`}
+                src={item.logo}
                 alt="ico"
                 style={{ width: "13px", height: "13px" }}
               />
