@@ -14,14 +14,17 @@ import {
   BlockMeta,
   GetActionsResponse,
   GetBlockMetasResponse,
-  GetReceiptByActionResponse
+  GetReceiptByActionResponse,
+  GetActionsByBlockRequest,
+  ActionInfo
 } from "../../api-gateway/resolvers/antenna-types";
 import { CardDetails } from "../common/card-details";
 import { ErrorPage } from "../common/error-page";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
-import { GET_BLOCK_METAS } from "../queries";
+import { GET_BLOCK_METAS, GET_ACTIONS_BY_BLK } from "../queries";
 import { BlockDetailRenderer } from "../renderer";
+import { getActionTypes } from "../common/get-action-type";
 
 export interface IActionsDetails {
   action: GetActionsResponse;
@@ -33,6 +36,7 @@ export type GetActionDetailsResponse = QueryResult<IActionsDetails>;
 const parseBlockDetails = (data: BlockMeta) => {
   const {
     height,
+    hash,
     timestamp,
     numActions,
     producerAddress,
@@ -44,7 +48,30 @@ const parseBlockDetails = (data: BlockMeta) => {
   return {
     height,
     timestamp,
-    numActions,
+    numActions: (
+      <Query
+        query={GET_ACTIONS_BY_BLK}
+        variables={{
+          byBlk: {
+            blkHash: hash,
+            start: 0,
+            count: numActions
+          } as GetActionsByBlockRequest
+        }}
+      >
+        {({
+          data
+        }: QueryResult<{ getActions: { actionInfo: ActionInfo[] } }>) => {
+          if (!data) {
+            return null;
+          }
+          const actionInfos =
+            (get(data, "getActions.actionInfo") as ActionInfo[]) || [];
+          const actionTypes: string = getActionTypes(actionInfos);
+          return <span>{actionTypes}</span>;
+        }}
+      </Query>
+    ),
     producerAddress,
     transferAmount,
     txRoot,
