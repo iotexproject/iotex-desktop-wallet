@@ -14,14 +14,20 @@ import {
   BlockMeta,
   GetActionsResponse,
   GetBlockMetasResponse,
-  GetReceiptByActionResponse
+  GetReceiptByActionResponse,
+  ActionInfo
 } from "../../api-gateway/resolvers/antenna-types";
 import { CardDetails } from "../common/card-details";
 import { ErrorPage } from "../common/error-page";
 import { PageNav } from "../common/page-nav-bar";
 import { ContentPadding } from "../common/styles/style-padding";
-import { GET_BLOCK_METAS } from "../queries";
+import { GET_BLOCK_METAS, GET_ACTIONS_BY_BLK } from "../queries";
 import { BlockDetailRenderer } from "../renderer";
+import Icon from "antd/lib/icon";
+import Table, { ColumnProps } from "antd/lib/table";
+import { hashColumn, senderColumn, toColumn, amountColumn, TypeSpan } from './action-list-page'
+import Tag from "antd/lib/tag";
+import { getActionType } from "../common/get-action-type";
 
 export interface IActionsDetails {
   action: GetActionsResponse;
@@ -29,6 +35,82 @@ export interface IActionsDetails {
 }
 
 export type GetActionDetailsResponse = QueryResult<IActionsDetails>;
+
+type ActionListTableProps = {
+   hash: string;
+   numActions: string | number
+}
+
+const nameColumn = {
+  title: <TypeSpan />,
+  dataIndex: "name",
+  width: "5vw",
+  render: (_: string, record: ActionInfo, __: number): JSX.Element => {
+    return <Tag>{getActionType(record)}</Tag>;
+  }
+}
+
+const ActionTable : React.FC<ActionListTableProps> = ({
+  numActions,
+  hash,
+}) => {
+  const start = 0;
+  const count = numActions;
+  const columns: Array<ColumnProps<ActionInfo>> = [
+    hashColumn,
+    senderColumn,
+    nameColumn,
+    toColumn,
+    amountColumn
+  ]
+
+  return (
+    <Query
+      ssr={false}
+      query={GET_ACTIONS_BY_BLK}
+      variables={{
+        byBlk: {
+          start,
+          count,
+          blkHash: hash
+        }
+      }}
+      notifyOnNetworkStatusChange={true}
+    >
+      {({
+        data,
+        loading,
+        error
+      }: QueryResult<{ getActions: GetActionsResponse }>) => {
+        if (error) {
+          notification.error({
+            message: `failed to query actions in ActionTable: ${error}`
+          });
+        }
+        const actions =
+          get<Array<ActionInfo>>(data || {}, "getActions.actionInfo") || [];
+
+        return (
+          <>
+            <Table
+              loading={{
+                spinning: loading,
+                indicator: <Icon type="loading" />
+              }}
+              pagination={false}
+              rowKey="actHash"
+              dataSource={actions}
+              columns={columns}
+              style={{ width: "100%" }}
+              size="middle"
+            />
+          </>
+        );
+      }}
+    </Query>
+  );
+};
+
 
 const parseBlockDetails = (data: BlockMeta) => {
   const {
@@ -39,7 +121,7 @@ const parseBlockDetails = (data: BlockMeta) => {
     transferAmount,
     txRoot,
     receiptRoot,
-    deltaStateDigest
+    deltaStateDigest,
   } = data;
   return {
     height,
@@ -49,7 +131,7 @@ const parseBlockDetails = (data: BlockMeta) => {
     transferAmount,
     txRoot,
     receiptRoot,
-    deltaStateDigest
+    deltaStateDigest,
   };
 };
 
@@ -154,6 +236,7 @@ const BlockDetailPage: React.FC<RouteComponentProps<{ height: string }>> = (
 
           const details = parseBlockDetails(blockMeta || {});
           const blkHash = (blockMeta && blockMeta.hash) || "";
+          const numActions = blockMeta?.numActions || 0
           const blockUrl = `${
             isBrowser ? location.origin : ""
           }/block/${height}`;
@@ -167,7 +250,7 @@ const BlockDetailPage: React.FC<RouteComponentProps<{ height: string }>> = (
           };
 
           return (
-            <ContentPadding>
+            <ContentPadding style={{paddingBottom: '24px'}}>
               <CardDetails
                 title={t("block_details.hash", { hash: blkHash })}
                 titleToCopy={blkHash}
@@ -184,6 +267,7 @@ const BlockDetailPage: React.FC<RouteComponentProps<{ height: string }>> = (
                   valueRenderMap: BlockDetailRenderer
                 }}
               />
+              <ActionTable hash={blkHash} numActions={numActions}/>
             </ContentPadding>
           );
         }}

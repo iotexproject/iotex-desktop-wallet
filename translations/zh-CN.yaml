@@ -62,6 +62,7 @@ render.key.data: 数据
 render.key.recipient: 接受者
 render.key.payload: 负载
 render.key.type: 奖励类型
+render.key.actionList: 交易列表
 render.value.grantReward: 赠款奖励
 render.value.execution: 执行
 render.value.transfer: 转账
