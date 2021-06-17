@@ -81,91 +81,109 @@ const filterTypeDropDown = () => (
   </div>
 );
 
-const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
-  {
-    title: t("action.hash"),
-    dataIndex: "actHash",
-    width: "12vw",
-    render: text => <ActionHashRenderer value={text} />
-  },
-  {
-    title: t("block.timestamp"),
-    dataIndex: "timestamp",
-    width: "6vw",
-    render: (_, { timestamp }) => {
-      return <div style={{ minWidth: 70}}>
-          {translateFn(timestamp)}
-        </div>
-    }
-  },
-  {
-    title: t("action.sender"),
-    dataIndex: "sender",
-    width: "12vw",
-    render(_: string, record: ActionInfo, __: number): JSX.Element {
-      const addr = publicKeyToAddress(String(record.action.senderPubKey));
-      return (
-        <span
-          className="ellipsis-text"
-          style={{ maxWidth: "12vw", minWidth: 120 }}
-        >
-          <AddressName address={addr} />
-        </span>
-      );
-    }
-  },
-  {
-    title: <TypeSpan />,
-    dataIndex: "name",
-    width: "5vw",
-    render: (_: string, record: ActionInfo, __: number): JSX.Element => {
-      return <Tag>{getActionType(record)}</Tag>;
-    },
-    filterDropdown: filterTypeDropDown
-  },
-  {
-    title: t("render.key.to"),
-    dataIndex: "to",
-    width: "10vw",
-    render: (_: string, record: ActionInfo): JSX.Element | string => {
-      const receipt = getAddress(record);
-      return receipt !== "-" ? (
-        <span
-          className="ellipsis-text"
-          style={{ maxWidth: "10vw", minWidth: 120 }}
-        >
-          <AddressName address={receipt} />
-        </span>
-      ) : (
-        <ActionToRenderer value={record} />
-      );
-    }
-  },
-  {
-    title: t("action.amount"),
-    dataIndex: "amount",
-    width: "7vw",
-    render(_: string, record: ActionInfo, __: number): ReactNode {
-      const amount: string =
-        get(record, "action.core.execution.amount") ||
-        get(record, "action.core.grantReward.amount") ||
-        get(record, "action.core.transfer.amount") ||
-        get(record, "action.core.createDeposit.amount") ||
-        get(record, "action.core.settleDeposit.amount") ||
-        get(record, "action.core.createPlumChain.amount") ||
-        get(record, "action.core.plumCreateDeposit.amount") ||
-        get(record, "action.core.grantReward.amount") ||
-        get(record, "action.core.stakeAddDeposit.amount") ||
-        "";
-      if (!amount) {
-        return "-";
-      }
+export const TypeSpan = () => (
+  <div style={{ minWidth: "45px" }}>
+    <span>{t("action.type")}</span>
+  </div>
+);
 
-      return <div style={{ minWidth: 80 }}>
-        {`${numberWithCommas(fromRau(amount, "IOTX"))} IOTX`}
-      </div>;
-    }
+export const hashColumn = {
+  title: t("action.hash"),
+  dataIndex: "actHash",
+  width: "12vw",
+  render: (text: string) => <ActionHashRenderer value={text} />
+}
+
+export const timestampColumn = {
+  title: t("block.timestamp"),
+  dataIndex: "timestamp",
+  width: "6vw",
+  render: (_: string, { timestamp }: ActionInfo) => {
+    return <div style={{ minWidth: 70}}>
+        {translateFn(timestamp)}
+      </div>
+  }
+}
+
+export const senderColumn = {
+  title: t("action.sender"),
+  dataIndex: "sender",
+  width: "12vw",
+  render(_: string, record: ActionInfo, __: number): JSX.Element {
+    const addr = publicKeyToAddress(String(record.action.senderPubKey));
+    return (
+      <span
+        className="ellipsis-text"
+        style={{ maxWidth: "12vw", minWidth: 120 }}
+      >
+        <AddressName address={addr} />
+      </span>
+    );
+  }
+}
+
+export const nameColumn = {
+  title: <TypeSpan />,
+  dataIndex: "name",
+  width: "5vw",
+  render: (_: string, record: ActionInfo, __: number): JSX.Element => {
+    return <Tag>{getActionType(record)}</Tag>;
   },
+  filterDropdown: filterTypeDropDown
+}
+
+export const toColumn = {
+  title: t("render.key.to"),
+  dataIndex: "to",
+  width: "10vw",
+  render: (_: string, record: ActionInfo): JSX.Element | string => {
+    const receipt = getAddress(record);
+    return receipt !== "-" ? (
+      <span
+        className="ellipsis-text"
+        style={{ maxWidth: "10vw", minWidth: 120 }}
+      >
+        <AddressName address={receipt} />
+      </span>
+    ) : (
+      <ActionToRenderer value={record} />
+    );
+  }
+}
+
+export const amountColumn =  {
+  title: t("action.amount"),
+  dataIndex: "amount",
+  width: "7vw",
+  render(_: string, record: ActionInfo, __: number): ReactNode {
+    const amount: string =
+      get(record, "action.core.execution.amount") ||
+      get(record, "action.core.grantReward.amount") ||
+      get(record, "action.core.transfer.amount") ||
+      get(record, "action.core.createDeposit.amount") ||
+      get(record, "action.core.settleDeposit.amount") ||
+      get(record, "action.core.createPlumChain.amount") ||
+      get(record, "action.core.plumCreateDeposit.amount") ||
+      get(record, "action.core.grantReward.amount") ||
+      get(record, "action.core.stakeAddDeposit.amount") ||
+      "";
+    if (!amount) {
+      return "-";
+    }
+
+    return <div style={{ minWidth: 80 }}>
+      {`${numberWithCommas(fromRau(amount, "IOTX"))} IOTX`}
+    </div>;
+  }
+}
+
+const getActionListColumns = (): Array<ColumnProps<ActionInfo>> => [
+  hashColumn,
+  timestampColumn,
+  senderColumn,
+  nameColumn,
+  toColumn,
+  amountColumn,
 ];
 export interface IActionTable {
   address?: string;
@@ -289,7 +307,7 @@ export interface IAnalyticActionInfo {
   gasFee: string;
 }
 
-const getAnalyticActionColumns = (): Array<
+export const getAnalyticActionColumns = (): Array<
   ColumnProps<IAnalyticActionInfo>
 > => [
   {
@@ -525,10 +543,5 @@ const ActionListPage = withRouter(
   }
 );
 
-const TypeSpan = () => (
-  <div style={{ minWidth: "45px" }}>
-    <span>{t("action.type")}</span>
-  </div>
-);
 
 export { ActionListPage };
