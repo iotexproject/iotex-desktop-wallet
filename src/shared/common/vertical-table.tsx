@@ -33,7 +33,7 @@ export interface IVerticalTableRendererProps<T> {
   value: T;
   record?: IVerticalTableKeyPair<T>;
   index?: number;
-  toEthAddress?: boolean;
+  toEthAddress?: boolean
 }
 
 export type VerticalTableRender<T> = React.FC<IVerticalTableRendererProps<T>>;
@@ -104,7 +104,7 @@ function VerticalTable<T = any>(props: IVerticalTableProps<T>): JSX.Element {
                 ? ""
                 : (valRender &&
                     valRender({ value: record.value, record, index })) ||
-                  record.value;
+                  `${record.value}`;
             return (
               <Row key={`vtable-row-${index}`}>
                 {index > 0 && (

@@ -64,7 +64,6 @@ render.key.recipient: Empfänger
 render.key.payload: Nutzlast
 render.key.payloadViewType: Ansichtstyp
 render.key.type: Belohnungstyp
-render.key.actionList: Action List
 render.value.grantReward: 'Belohnung gewähren'
 render.value.execution: Ausführung
 render.value.transfer: Transfer

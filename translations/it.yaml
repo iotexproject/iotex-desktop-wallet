@@ -64,7 +64,6 @@ render.key.recipient: Destinatario
 render.key.payload: Payload
 render.key.payloadViewType: 'Visualizza tipo'
 render.key.type: 'Tipo di ricompensa'
-render.key.actionList: Action List
 render.value.grantReward: 'Concedi Ricompensa'
 render.value.execution: Esecuzione
 render.value.transfer: Trasferimento
