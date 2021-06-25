@@ -381,6 +381,7 @@ erc20.execution.error.lowGasInput: Gas输入过低!
 erc20.execution.error.notEnoughBalance: '您没有足够的 IOTX余额来执行该操作!'
 topbar.explorer_playground: 探索
 topbar.analytics_playground: 分析
+topbar.address_converter: 地址转换器
 wallet.lock.title: 锁上钱包
 wallet.lock.cutdown: 您的钱包将在10分钟内被锁上。是否要继续使用它？
 wallet.lock.btn.know: 我知道
