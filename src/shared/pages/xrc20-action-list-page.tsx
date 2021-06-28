@@ -39,6 +39,7 @@ import {
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
 import ExportXRC20Action from "./xrc20-action-export";
+import { validateAddress } from 'iotex-antenna/lib/account/utils';
 
 const { TabPane } = Tabs;
 
@@ -300,6 +301,11 @@ export const XRC20HoldersTable: React.FC<IXRC20ActionTable> = ({
   address = ""
 }) => {
   const [offset, setOffset] = useState(0);
+
+  if (!validateAddress(address)) {
+    return null;
+  }
+
   return (
     <Query
       query={GET_ANALYTICS_CONTRACT_HOLDERS}
@@ -431,6 +437,11 @@ const BasicInfoCard: React.FC<{
 const Totalholders: React.FC<{ tokenAddress: string }> = ({
   tokenAddress = ""
 }): JSX.Element | null => {
+
+  if (!validateAddress(tokenAddress)) {
+    return null;
+  }
+
   return (
     <Query
       query={GET_ANALYTICS_CONTRACT_HOLDERS}
