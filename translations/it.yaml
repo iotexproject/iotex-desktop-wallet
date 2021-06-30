@@ -389,6 +389,7 @@ erc20.execution.error.notEnoughBalance: 'Il tuo saldo IOTX non è sufficiente pe
 topbar.explorer_playground: 'Dati Explorer (GraphQL)'
 topbar.submit_a_bug_report: 'INVIA UNA SEGNALAZIONE DI BUG'
 topbar.analytics_playground: 'Dati Analitici (GraphQL)'
+topbar.address_converter: 'Address Converter'
 wallet.lock.title: 'Blocco Portafoglio'
 wallet.lock.cutdown: 'Il tuo portafoglio sarà bloccato tra 10 minuti. Vuoi continuare a usarlo?'
 wallet.lock.btn.know: 'Io so'

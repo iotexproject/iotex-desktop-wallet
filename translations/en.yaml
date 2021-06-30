@@ -405,6 +405,7 @@ token.address: Address
 topbar.actions: ACTIONS
 topbar.actions.byBucketIndex: Bucket
 topbar.analytics_playground: 'ANALYTICS PLAYGROUND'
+topbar.address_converter: 'ADDRESS CONVERTER'
 topbar.blockchain: BLOCKCHAIN
 topbar.blocks: BLOCKS
 topbar.brand: IoTeX

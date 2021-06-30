@@ -182,6 +182,10 @@ export const TopBar = connect(
             {
               name: t("topbar.submit_a_bug_report"),
               path: "https://github.com/iotexproject/iotex-explorer/issues/new"
+            },
+            {
+              name: t("topbar.address_converter"),
+              path: "https://member.iotex.io/tools/address-convert"
             }
           ]}
           onClick={this.hideMobileMenu}
