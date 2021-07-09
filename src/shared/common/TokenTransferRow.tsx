@@ -13,6 +13,7 @@ import { LogObject } from "../pages/action-detail-page";
 import { LinkButton } from "./buttons";
 import { colors } from "./styles/style-color";
 import { numberWithCommas } from "./vertical-table";
+import { AddressName } from "./address-name";
 
 export const KNOWN_TOPICS: Dict = {
   ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef: "Transfer",
@@ -107,7 +108,7 @@ const TokenTransferRow: React.FC<{
         <>
           <Col>{t("render.key.from")}</Col>
           <Col style={{ maxWidth: 340 }} className="ellipsis-text">
-            <LinkButton href={`/address/${from}`}>{from}</LinkButton>
+            <AddressName address={from}/>
           </Col>
         </>
       )}
@@ -115,7 +116,7 @@ const TokenTransferRow: React.FC<{
         <>
           <Col>{t("render.key.to")}</Col>
           <Col style={{ maxWidth: 340 }} className="ellipsis-text">
-            <LinkButton href={`/address/${to}`}>{to}</LinkButton>
+          <AddressName address={to}/>
           </Col>
         </>
       )}

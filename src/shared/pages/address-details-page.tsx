@@ -26,6 +26,7 @@ import { EvmTransfersTable } from "../components/evm-transfer-table";
 import { StakeActionTable } from "../components/stake-action-table";
 import { GET_ACCOUNT } from "../queries";
 import { AddressDetailRenderer } from "../renderer";
+import { convertAddress as convertAddressByToEth ,useConvertAddress } from "../utils/util"
 import {ActionTable} from "./action-list-page";
 import { XRC20ActionTable } from "./xrc20-action-list-page";
 import { XRC721ActionTable } from "./xrc721-action-list-page";
@@ -165,6 +166,8 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
   props
 ): JSX.Element | null => {
   const { address } = props.match.params;
+  const convertAddress = useConvertAddress()
+  const convertedAddress = convertAddress(address)
 
   let iotexAddress = address;
   let web3Address: string;
@@ -174,9 +177,13 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
   }
 
   if (address.startsWith("0x")) {
-    iotexAddress = fromBytes(Buffer.from(String(address).replace(/^0x/, ""), "hex")).string();
+    iotexAddress = convertAddressByToEth(false, address)
     web3Address = address;
+  } else {
+    web3Address = convertAddressByToEth(true, address)
   }
+
+
 
   const handleTabChange = (key: string) => {
     const { history } = props;
@@ -192,7 +199,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
 
   return (
     <>
-      <Helmet title={`IoTeX ${t("address.address")} ${iotexAddress}`} />
+      <Helmet title={`IoTeX ${t("address.address")} ${address}`} />
       <PageNav
         items={[
           t("address.address"),
@@ -201,7 +208,7 @@ const AddressDetailsPage: React.FC<RouteComponentProps<{ address: string }>> = (
             className="ellipsis-text"
             style={{ maxWidth: "10vw", minWidth: 100, textTransform: "none" }}
           >
-            {iotexAddress}
+            {convertedAddress}
           </span>
         ]}
       />
