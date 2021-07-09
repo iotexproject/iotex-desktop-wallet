@@ -1,8 +1,11 @@
+import Icon from "antd/lib/icon";
 import { get } from "dottie";
 import { validateAddress } from "iotex-antenna/lib/account/utils";
+import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Query, QueryResult } from "react-apollo";
 import {connect} from "react-redux";
+import { CopyToClipboard } from "../common/copy-to-clipboard";
 import { GET_ADDRESS_META } from "../queries";
 import {convertAddress} from "../utils/util";
 import { LinkButton } from "./buttons";
@@ -51,4 +54,26 @@ const AddressName = connect(
 )(Address);
 
 
-export { AddressName };
+const CopyAddress = connect(
+  (state: {
+    base: {
+      toEthAddress: boolean
+    };
+  }): Props => {
+    return {
+      toEthAddress: state.base.toEthAddress
+    };
+  }
+)(({value, toEthAddress}: {value: string, toEthAddress: boolean}) => {
+  return (
+    <CopyToClipboard
+    text={convertAddress(toEthAddress, value)}
+    title={t("copy.copyToClipboard", { field: t("common.address") })}
+  >
+    <Icon type="copy" />
+  </CopyToClipboard>
+  )
+});
+
+
+export { AddressName, CopyAddress };

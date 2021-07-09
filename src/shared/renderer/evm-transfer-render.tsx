@@ -1,16 +1,16 @@
+import Col from "antd/lib/col";
+import Icon from "antd/lib/icon";
+import Row from "antd/lib/row";
+import BigNumber from "bignumber.js";
+import { t } from "onefx/lib/iso-i18n";
 import React from "react";
+import { AddressName } from "../common/address-name";
+import { colors } from "../common/styles/style-color";
 import {
   numberWithCommas,
   VerticalTableRender
 } from "../common/vertical-table";
 import { IEvmTransferInfo } from "../components/evm-transfer-table";
-import { colors } from "../common/styles/style-color";
-import Col from "antd/lib/col";
-import Row from "antd/lib/row";
-import Icon from "antd/lib/icon";
-import { t } from "onefx/lib/iso-i18n";
-import { LinkButton } from "../common/buttons";
-import BigNumber from "bignumber.js";
 
 const EvmTransferRenderer: VerticalTableRender<Array<IEvmTransferInfo>> = ({
   value
@@ -36,7 +36,7 @@ const EvmTransferRenderer: VerticalTableRender<Array<IEvmTransferInfo>> = ({
               <>
                 <Col>{t("render.key.from")}</Col>
                 <Col style={{ maxWidth: 340 }} className="ellipsis-text">
-                  <LinkButton href={`/address/${from}`}>{from}</LinkButton>
+                   <AddressName address={from}/>
                 </Col>
               </>
             )}
@@ -44,7 +44,7 @@ const EvmTransferRenderer: VerticalTableRender<Array<IEvmTransferInfo>> = ({
               <>
                 <Col>{t("render.key.to")}</Col>
                 <Col style={{ maxWidth: 340 }} className="ellipsis-text">
-                  <LinkButton href={`/address/${to}`}>{to}</LinkButton>
+                <AddressName address={to}/>
                 </Col>
               </>
             )}
