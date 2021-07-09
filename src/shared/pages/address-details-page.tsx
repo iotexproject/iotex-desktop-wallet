@@ -4,7 +4,6 @@ import Tabs from "antd/lib/tabs";
 import { get } from "dottie";
 // @ts-ignore
 import window from "global/window";
-import {fromBytes} from "iotex-antenna/lib/crypto/address";
 import isBrowser from "is-browser";
 import { t } from "onefx/lib/iso-i18n";
 import React, {useEffect, useRef, useState} from "react";
