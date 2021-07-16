@@ -14,15 +14,18 @@ import isElectron from "is-electron";
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
+import {styled} from "onefx/lib/styletron-react";
 import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+import {AccountMeta} from "../../../api-gateway/resolvers/antenna-types";
 import { ITokenInfoDict, Token } from "../../../erc20/token";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { getIoPayDesktopVersionName } from "../../common/on-electron-click";
 import { rulesMap } from "../../common/rules";
+import {colors} from "../../common/styles/style-color";
 import {
   numberFromCommaString,
   numberWithCommas
@@ -45,6 +48,7 @@ type Props = {
 } & RouteComponentProps;
 
 type State = {
+  accountMeta: AccountMeta | undefined;
   sending: boolean;
   txHash: string;
   broadcast: {
@@ -55,8 +59,18 @@ type State = {
   gasCostLimit: string;
 };
 
+const MAXBtn = styled("div", {
+  color: colors.primary,
+  position: "absolute",
+  top: 0,
+  left: "53%",
+  zIndex: 999,
+  cursor: "pointer"
+});
+
 class TransferForm extends React.PureComponent<Props, State> {
   public state: State = {
+    accountMeta: undefined,
     sending: false,
     txHash: "",
     broadcast: null,
@@ -71,6 +85,18 @@ class TransferForm extends React.PureComponent<Props, State> {
   public isDisconnected(): boolean {
     return !navigator.onLine;
   }
+
+  public getAccount = async (account: Account) => {
+    if (!account) {
+      return;
+    }
+    const addressRes = await getAntenna().iotx.getAccount({
+      address: account.address
+    });
+    if (addressRes) {
+      this.setState({ accountMeta: addressRes.accountMeta });
+    }
+  };
 
   public sendTransfer = async (status: boolean) => {
     const antenna = getAntenna();
@@ -188,12 +214,7 @@ class TransferForm extends React.PureComponent<Props, State> {
     const { getFieldDecorator } = form;
     const { Option } = Select;
     const { tokens = {} } = this.props;
-    const tokenTypes = [
-      {
-        label: "IOTX",
-        key: "iotx"
-      }
-    ];
+    const tokenTypes: Array<{label: string, key: string}> = [];
     Object.keys(tokens).forEach(addr => {
       const info = tokens[addr];
       if (info) {
@@ -206,7 +227,7 @@ class TransferForm extends React.PureComponent<Props, State> {
     return (
       <>
         {getFieldDecorator("symbol", {
-          initialValue: tokenTypes[0].key,
+          initialValue: "",
           rules: [
             {
               validator: (_, value, callback) => {
@@ -229,8 +250,11 @@ class TransferForm extends React.PureComponent<Props, State> {
   }
 
   public renderAmountFormItem(): JSX.Element {
-    const { form } = this.props;
+    const { form, tokens = {} } = this.props;
     const { getFieldDecorator } = form;
+    const { symbol } = form.getFieldsValue();
+    const token = tokens[symbol];
+
     return (
       <Form.Item
         label={<FormItemLabel>{t("wallet.input.amount")} </FormItemLabel>}
@@ -248,6 +272,13 @@ class TransferForm extends React.PureComponent<Props, State> {
             name="amount"
           />
         )}
+        <MAXBtn
+          onClick={() => {
+            if (token) {
+              form.setFieldsValue({ amount: token.balanceString })
+            }
+          }}
+        >{t("wallet.input.max")}</MAXBtn>
       </Form.Item>
     );
   }
@@ -371,7 +402,7 @@ class TransferForm extends React.PureComponent<Props, State> {
       dataInHex
     } = form.getFieldsValue();
 
-    const tokenSymbol = symbol === "iotx" ? "IOTX" : tokens[symbol].symbol;
+    const tokenSymbol = symbol === "iotx" ? "IOTX" : tokens[symbol] ? tokens[symbol].symbol : "IOTX";
     const dataSource: { [index: string]: string } = {
       address: address,
       toAddress: recipient,
