@@ -9,6 +9,7 @@ import Select from "antd/lib/select";
 import BigNumber from "bignumber.js";
 import { Account } from "iotex-antenna/lib/account/account";
 import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
+import {fromBytes} from "iotex-antenna/lib/crypto/address";
 import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -228,6 +229,34 @@ class TransferForm extends React.PureComponent<Props, State> {
     );
   }
 
+  public renderRecipientFormItem(): JSX.Element {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+    return <Form.Item
+      label={<FormItemLabel>{t("wallet.input.to")}</FormItemLabel>}
+      {...formItemLayout}
+    >
+      {getFieldDecorator("recipient", {
+        getValueFromEvent: (event: React.FormEvent<HTMLInputElement>) => {
+          const address = event.currentTarget.value.trim();
+          if (address.startsWith("0x")) {
+            return fromBytes(Buffer.from(String(address).replace(/^0x/, ""), "hex")).string()
+          }
+          return event.currentTarget.value.trim()
+        },
+        rules: rulesMap.address
+      })(
+        <Input
+          placeholder="io... or 0x..."
+          style={inputStyle}
+          name="recipient"
+          addonAfter={<Icon type="wallet" />}
+        />
+      )}
+    </Form.Item>
+  }
+
+
   public renderAmountFormItem(): JSX.Element {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -263,23 +292,7 @@ class TransferForm extends React.PureComponent<Props, State> {
           this.updateGasCostLimit(form);
         }}
       >
-        <Form.Item
-          label={<FormItemLabel>{t("wallet.input.to")}</FormItemLabel>}
-          {...formItemLayout}
-        >
-          {getFieldDecorator("recipient", {
-            getValueFromEvent: (event: React.FormEvent<HTMLInputElement>) =>
-              event.currentTarget.value.trim(),
-            rules: rulesMap.address
-          })(
-            <Input
-              placeholder="io..."
-              style={inputStyle}
-              name="recipient"
-              addonAfter={<Icon type="wallet" />}
-            />
-          )}
-        </Form.Item>
+        {this.renderRecipientFormItem()}
         {this.renderAmountFormItem()}
         <GasPriceFormInputItem form={form} />
         <GasLimitFormInputItem form={form} />
