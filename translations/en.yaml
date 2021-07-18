@@ -517,6 +517,7 @@ wallet.input.nonce: Nonce
 wallet.input.password: Password
 wallet.input.solidity: "Solidity (optional)"
 wallet.input.to: 'Recipient address'
+wallet.input.max: 'max'
 wallet.input.type: Type
 wallet.input.url: Url
 wallet.input.solVersion: Version
