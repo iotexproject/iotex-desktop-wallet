@@ -337,11 +337,11 @@ class TransferForm extends React.PureComponent<Props, State> {
           addonAfter={<AddressConverterButton onSwitch={(s) => {
             let address = getFieldValue("recipient");
             if (s) {
-              if (address.startsWith("0x")) {
+              if (address && address.startsWith("0x")) {
                 address = fromBytes(Buffer.from(String(address).replace(/^0x/, ""), "hex")).string()
               }
             } else {
-              if (address.startsWith("io")) {
+              if (address && address.startsWith("io")) {
                 address = fromString(address).stringEth()
               }
             }
