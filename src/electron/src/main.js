@@ -56,7 +56,7 @@ function createWindow() {
   (function openDevTools() {
     const env = process.env.NODE_ENV;
 
-    if (env === "development") {
+    if (env !== "development") {
       const {
         default: installExtension,
         REACT_DEVELOPER_TOOLS,
