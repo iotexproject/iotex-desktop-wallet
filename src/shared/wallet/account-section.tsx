@@ -158,7 +158,7 @@ class AccountSection extends React.Component<Props, State> {
 
   public getTokensInfo = async () => {
     const { account, dispatch, defaultNetworkTokens } = this.props;
-    const { accountCheckID } = this.state;
+    const { accountCheckID, accountMeta } = this.state;
     if (!account) {
       return;
     }
@@ -172,6 +172,22 @@ class AccountSection extends React.Component<Props, State> {
     const tokenInfos = await Promise.all(
       tokenAddresses.map(addr => Token.getToken(addr).getInfo(account.address))
     );
+
+    if (accountMeta) {
+      tokenInfos.unshift({
+        symbol: "IOTX",
+        balanceString: new BigNumber(fromRau(accountMeta.balance, "")).toString(
+          10
+        ),
+        tokenAddress: "",
+        balance: new BigNumber(
+          toPrecisionFloor(accountMeta.balance, { format: "0,0.[0000000000]" })
+        ),
+        decimals: new BigNumber(0),
+        name: "IOTX"
+      });
+    }
+
     const newTokenInfos: ITokenInfoDict = {};
     tokenInfos.forEach(info => {
       if (info && info.symbol) {
@@ -659,27 +675,12 @@ class AccountSection extends React.Component<Props, State> {
   }
 
   public renderBalance(): JSX.Element | null {
-    const { tokenInfos, accountMeta, isLoading, showBalance } = this.state;
+    const { tokenInfos, isLoading, showBalance } = this.state;
     const { network, defaultNetworkTokens } = this.props;
     const dataSource = Object.keys(tokenInfos)
       .map(addr => tokenInfos[addr])
       .filter(tokenInfo => tokenInfo && tokenInfo.symbol);
     const columns = this.getColumns();
-    if (accountMeta) {
-      dataSource.unshift({
-        symbol: "IOTX",
-        balanceString: new BigNumber(fromRau(accountMeta.balance, "")).toString(
-          10
-        ),
-        tokenAddress: "",
-        balance: new BigNumber(
-          toPrecisionFloor(accountMeta.balance, { format: "0,0.[0000000000]" })
-        ),
-        decimals: new BigNumber(0),
-        name: "IOTX"
-      });
-    }
-
     const dataSourceHeader: Array<ITokenInfo> = [];
     const dataSourceContent: Array<ITokenInfo> = [];
 
