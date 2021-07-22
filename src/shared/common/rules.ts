@@ -171,6 +171,7 @@ export const rules: Rules = {
 
 export const rulesMap = {
   address: [rules.required, rules.addressLength],
+  recipientAddr: [rules.required],
   tokenAddress: [rules.required, rules.tokenAddressLength],
   transactionAmount: [rules.required, rules.amount],
   interactAmount: [rules.amount],

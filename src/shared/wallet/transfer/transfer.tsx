@@ -2,20 +2,21 @@ import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
 import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
-import Icon from "antd/lib/icon";
 import Input from "antd/lib/input";
 import notification from "antd/lib/notification";
 import Select from "antd/lib/select";
 import BigNumber from "bignumber.js";
 import { Account } from "iotex-antenna/lib/account/account";
-import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
-import {fromBytes} from "iotex-antenna/lib/crypto/address";
+import {fromRau, toRau} from "iotex-antenna/lib/account/utils";
+import {fromBytes, fromString} from "iotex-antenna/lib/crypto/address";
 import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
+import {styled} from "onefx/lib/styletron-react";
 import * as React from "react";
+import {useEffect, useState} from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
@@ -24,6 +25,7 @@ import ConfirmContractModal from "../../common/confirm-contract-modal";
 import { formItemLayout } from "../../common/form-item-layout";
 import { getIoPayDesktopVersionName } from "../../common/on-electron-click";
 import { rulesMap } from "../../common/rules";
+import {colors} from "../../common/styles/style-color";
 import {
   numberFromCommaString,
   numberWithCommas
@@ -54,6 +56,63 @@ type State = {
   showConfirmTransfer: boolean;
   showDataHex: boolean;
   gasCostLimit: string;
+  isIoAddr: boolean
+};
+
+const AddressSwitcherContainer = styled("div", {
+  display: "inline-block",
+  width: "3rem",
+  height: "1.3rem",
+  lineHeight: "1.3rem",
+  borderRadius: "0.125rem",
+  cursor: "pointer",
+});
+
+const AddressSwitcherItem = styled("div", {
+  display: "inline-block",
+  width: "1.5rem",
+  height: "1.3rem",
+  lineHeight: "1.3rem",
+  color: "white",
+  textAlign: "center",
+  cursor: "pointer"
+});
+
+const AddressConverterButton = (props: { onSwitch(s: boolean): void, isIoAddr: boolean }) => {
+
+  const [isIoAddr, setIsIoAddr] = useState(props.isIoAddr);
+
+  useEffect(() => {
+    setIsIoAddr(props.isIoAddr)
+  }, [props.isIoAddr]);
+
+  // @ts-ignore
+  const convertAddress = (e) => {
+    props.onSwitch(!isIoAddr);
+    setIsIoAddr(!isIoAddr);
+    e.stopPropagation()
+  };
+
+  return (
+    <AddressSwitcherContainer onClick={convertAddress}>
+      {/* tslint:disable-next-line:use-simple-attributes */}
+      <AddressSwitcherItem
+        style={{
+          color: isIoAddr ? colors.text01 : colors.black40,
+          fontSize: isIoAddr ? "1rem" : "0.75rem"
+        }}>
+        io
+      </AddressSwitcherItem>
+      {/* tslint:disable-next-line:use-simple-attributes */}
+      <AddressSwitcherItem
+        style={{
+          color: isIoAddr ? colors.black40 : colors.text01,
+          fontSize: isIoAddr ? "0.75rem" : "1rem"
+        }}>
+        0x
+      </AddressSwitcherItem>
+    </AddressSwitcherContainer>
+  );
 };
 
 class TransferForm extends React.PureComponent<Props, State> {
@@ -63,7 +122,8 @@ class TransferForm extends React.PureComponent<Props, State> {
     broadcast: null,
     showConfirmTransfer: false,
     showDataHex: true,
-    gasCostLimit: ""
+    gasCostLimit: "",
+    isIoAddr: true
   };
 
   public componentDidMount(): void {
@@ -231,7 +291,8 @@ class TransferForm extends React.PureComponent<Props, State> {
 
   public renderRecipientFormItem(): JSX.Element {
     const { form } = this.props;
-    const { getFieldDecorator } = form;
+    const { getFieldDecorator, getFieldValue, setFieldsValue } = form;
+
     return <Form.Item
       label={<FormItemLabel>{t("wallet.input.to")}</FormItemLabel>}
       {...formItemLayout}
@@ -240,17 +301,38 @@ class TransferForm extends React.PureComponent<Props, State> {
         getValueFromEvent: (event: React.FormEvent<HTMLInputElement>) => {
           const address = event.currentTarget.value.trim();
           if (address.startsWith("0x")) {
+            this.setState({
+              isIoAddr: true
+            });
             return fromBytes(Buffer.from(String(address).replace(/^0x/, ""), "hex")).string()
           }
-          return event.currentTarget.value.trim()
+          return address
         },
-        rules: rulesMap.address
+        rules: rulesMap.recipientAddr
       })(
+        // tslint:disable-next-line:use-simple-attributes
         <Input
-          placeholder="io... or 0x..."
+          placeholder={this.state.isIoAddr ? "io..." : "0x..."}
           style={inputStyle}
           name="recipient"
-          addonAfter={<Icon type="wallet" />}
+          addonAfter={<AddressConverterButton onSwitch={(s) => {
+            let address = getFieldValue("recipient");
+            if (s) {
+              if (address.startsWith("0x")) {
+                address = fromBytes(Buffer.from(String(address).replace(/^0x/, ""), "hex")).string()
+              }
+            } else {
+              if (address.startsWith("io")) {
+                address = fromString(address).stringEth()
+              }
+            }
+            setFieldsValue({
+              recipient: address
+            });
+            this.setState({
+              isIoAddr: s
+            });
+          }} isIoAddr={this.state.isIoAddr} />}
         />
       )}
     </Form.Item>
@@ -387,7 +469,9 @@ class TransferForm extends React.PureComponent<Props, State> {
     const tokenSymbol = symbol === "iotx" ? "IOTX" : tokens[symbol].symbol;
     const dataSource: { [index: string]: string } = {
       address: address,
-      toAddress: recipient,
+      toAddress: recipient?.startsWith("0x")
+        ? fromBytes(Buffer.from(String(recipient).replace(/^0x/, ""), "hex")).string()
+        : recipient,
       amount: `${new BigNumber(
         numberFromCommaString(amount)
       ).toString()} ${tokenSymbol}`,
