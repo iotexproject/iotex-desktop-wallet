@@ -8,7 +8,6 @@ import Select from "antd/lib/select";
 import BigNumber from "bignumber.js";
 import { Account } from "iotex-antenna/lib/account/account";
 import {fromRau, toRau} from "iotex-antenna/lib/account/utils";
-import {fromBytes, fromString} from "iotex-antenna/lib/crypto/address";
 import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -31,6 +30,7 @@ import {
   numberFromCommaString,
   numberWithCommas
 } from "../../common/vertical-table";
+import {convertAddress} from "../../utils/util";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import {
   GasLimitFormInputItem,
@@ -38,7 +38,7 @@ import {
 } from "../contract/cards";
 import { getAntenna } from "../get-antenna";
 import { FormItemLabel, inputStyle } from "../wallet";
-import { IWalletState } from "../wallet-reducer";
+import {IRPCProvider, IWalletState} from "../wallet-reducer";
 
 type Props = {
   form: WrappedFormUtils;
@@ -46,6 +46,7 @@ type Props = {
   chainId?: number;
   updateWalletInfo?: Function;
   tokens?: ITokenInfoDict;
+  network?: IRPCProvider;
 } & RouteComponentProps;
 
 type State = {
@@ -141,6 +142,15 @@ class TransferForm extends React.PureComponent<Props, State> {
   public componentDidMount(): void {
     this.updateGasCostLimit(this.props.form);
   }
+
+  public componentDidUpdate(prevProps: Readonly<Props>): void {
+    if (prevProps.network !== this.props.network) {
+      this.props.form.setFieldsValue({
+        symbol: ""
+      })
+    }
+  }
+
   public isDisconnected(): boolean {
     return !navigator.onLine;
   }
@@ -176,8 +186,7 @@ class TransferForm extends React.PureComponent<Props, State> {
       }
       const { recipient, gasLimit, gasPrice, dataInHex, symbol } = value;
       const amount = numberFromCommaString(value.amount);
-
-      const customToken = symbol.match(/iotx/) ? null : Token.getToken(symbol);
+      const customToken = symbol === "" ? null : Token.getToken(symbol);
 
       const price = gasPrice ? toRau(gasPrice, "Qev") : undefined;
 
@@ -323,7 +332,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             this.setState({
               isIoAddr: true
             });
-            return fromBytes(Buffer.from(String(address).replace(/^0x/, ""), "hex")).string()
+            return convertAddress(false, address)
           }
           return address
         },
@@ -336,15 +345,7 @@ class TransferForm extends React.PureComponent<Props, State> {
           name="recipient"
           addonAfter={<AddressConverterButton onSwitch={(s) => {
             let address = getFieldValue("recipient");
-            if (s) {
-              if (address && address.startsWith("0x")) {
-                address = fromBytes(Buffer.from(String(address).replace(/^0x/, ""), "hex")).string()
-              }
-            } else {
-              if (address && address.startsWith("io")) {
-                address = fromString(address).stringEth()
-              }
-            }
+            address = convertAddress(!s, address);
             setFieldsValue({
               recipient: address
             });
@@ -362,7 +363,7 @@ class TransferForm extends React.PureComponent<Props, State> {
     const { form, tokens = {} } = this.props;
     const { getFieldDecorator } = form;
     const { symbol } = form.getFieldsValue();
-    const token = tokens[symbol];
+    const token = tokens[symbol ? symbol : ""];
 
     return (
       <Form.Item
@@ -498,7 +499,7 @@ class TransferForm extends React.PureComponent<Props, State> {
     const dataSource: { [index: string]: string } = {
       address: address,
       toAddress: recipient?.startsWith("0x")
-        ? fromBytes(Buffer.from(String(recipient).replace(/^0x/, ""), "hex")).string()
+        ? convertAddress(false, recipient)
         : recipient,
       amount: `${new BigNumber(
         numberFromCommaString(amount)
@@ -569,9 +570,14 @@ class TransferForm extends React.PureComponent<Props, State> {
 
 const mapStateToProps = (state: {
   wallet: IWalletState;
-}): { account?: Account; tokens?: ITokenInfoDict } => ({
+}): {
+  account?: Account;
+  tokens?: ITokenInfoDict;
+  network?: IRPCProvider;
+} => ({
   account: (state.wallet || {}).account,
-  tokens: (state.wallet || {}).tokens || {}
+  tokens: (state.wallet || {}).tokens || {},
+  network: (state.wallet || {}).network,
 });
 
 const TransferFormComp = Form.create<Props>()(TransferForm);
