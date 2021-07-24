@@ -14,6 +14,9 @@ import { rulesMap } from "../common/rules";
 import { colors } from "../common/styles/style-color";
 import {IRPCProvider, IWalletState} from "./wallet-reducer";
 
+const TEST_URL = "https://iopay-wallet.iotex.io/api/tokenMetadata/testnet";
+const MAIN_URL = "https://iopay-wallet.iotex.io/api/tokenMetadata/mainnet";
+
 export interface IAddCustomTokensFormModalProps extends DispatchProp {
   onOK(tokenAddress: string): void;
   onCancel(): void;
@@ -24,7 +27,7 @@ export interface IAddCustomTokensFormModalProps extends DispatchProp {
 class AddCustomTokensFormModal extends React.PureComponent<
   IAddCustomTokensFormModalProps
 > {
-  public state: { confirming: boolean, metadataList: Array<AppTokenMetadata>, options: Array<JSX.Element> } = {
+  public state: { confirming: boolean, metadataList: Array<AppTokenMetadata>, options: Array<AppTokenMetadata> } = {
     confirming: false,
     metadataList: [],
     options: []
@@ -49,20 +52,22 @@ class AddCustomTokensFormModal extends React.PureComponent<
     const filteredList = this.state.metadataList.filter((item) => {
       return item.symbol.toUpperCase().includes(data.toUpperCase()) || item.name.toUpperCase().includes(data.toUpperCase())
     });
-    const options = this.renderOption(filteredList);
     this.setState({
-      options: options
+      options: filteredList
     })
   };
 
   public componentWillReceiveProps(nextProps: IAddCustomTokensFormModalProps): void {
-    if (this.props.network?.url === nextProps.network?.url) {
+    if (this.props.network?.url !== nextProps.network?.url) {
       return
     }
+    this.getTokenList(nextProps.network?.name)
+  }
 
-    let tokenUrl = "https://iopay-wallet.iotex.io/api/tokenMetadata/testnet";
-    if (nextProps.network?.name === "mainnet") {
-      tokenUrl = "https://iopay-wallet.iotex.io/api/tokenMetadata/mainnet"
+  private getTokenList = (network?: String) => {
+    let tokenUrl = TEST_URL;
+    if (network === "mainnet") {
+      tokenUrl = MAIN_URL
     }
     axios({
       url: tokenUrl,
@@ -77,17 +82,15 @@ class AddCustomTokensFormModal extends React.PureComponent<
             list.push(data[i]);
           }
         }
-        const options = this.renderOption(list);
         this.setState({
           metadataList: list,
-          options: options
         })
       })
       .catch()
-  }
+  };
 
-  private renderOption(dataList: Array<AppTokenMetadata>): Array<JSX.Element> {
-    return dataList.map(item => {
+  private renderOption(): Array<JSX.Element> {
+    return this.state.options.map(item => {
       return (
         <AutoComplete.Option key={item.address}>
           <div
@@ -151,9 +154,12 @@ class AddCustomTokensFormModal extends React.PureComponent<
             <AutoComplete
               placeholder="io..."
               style={{ width: "100%" }}
-              dataSource={this.state.options}
+              dataSource={this.renderOption()}
               optionLabelProp="value"
               onSearch={this.filterOptions}
+              onFocus={() => {
+                this.filterOptions("")
+              }}
             >
               <Input
                 style={{ width: "100%", backgroundColor: colors.black10 }}
