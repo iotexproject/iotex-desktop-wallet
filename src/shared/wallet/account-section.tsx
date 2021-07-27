@@ -632,7 +632,7 @@ class AccountSection extends React.Component<Props, State> {
             return this.renderSymbol(
               token.symbol,
               VOTING_URL,
-              "wallet.vote.title"
+              "wallet.vote.tips"
             );
           }
           if (!Token.getToken(token.tokenAddress).isVita()) {
