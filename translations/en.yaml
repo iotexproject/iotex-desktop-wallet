@@ -570,6 +570,7 @@ wallet.unlock_alert.title: Unlock Wallet First
 wallet.vote.button: 'Vote on member.iotex.io'
 wallet.vote.content: 'Help IoTeX Build A Stronger Network'
 wallet.vote.title: 'Vote for delegate'
+wallet.vote.tips: 'Stake your tokens'
 wallet.whitelist.action: 'This ${action} action from ${origin} will be whitelisted'
 wallet.whitelist.add: Add To Whitelist
 wallet.whitelist.amount: This value will be able to change without a popup

@@ -385,7 +385,11 @@ class TransferForm extends React.PureComponent<Props, State> {
         {
           token &&
           <MAXBtn
-            onClick={() => { form.setFieldsValue({ amount: token.balanceString }) }}
+            onClick={() => {
+              form.setFieldsValue({
+                amount: parseFloat(token.balanceString) - parseFloat(this.state.gasCostLimit)
+              })
+            }}
           >{t("wallet.input.max")}</MAXBtn>
         }
       </Form.Item>
