@@ -364,7 +364,6 @@ class TransferForm extends React.PureComponent<Props, State> {
     const { getFieldDecorator } = form;
     const { symbol } = form.getFieldsValue();
     const token = tokens[symbol ? symbol : ""];
-    const { gasLimit, gasPrice } = form.getFieldsValue();
 
     return (
       <Form.Item
