@@ -181,6 +181,10 @@ export function GasPriceFormInputItem({
   );
 }
 
+
+export const IOTX_GAS_LIMIT = 100000;
+export const XRC20_GAS_LIMIT = 500000;
+
 export function GasLimitFormInputItem({
   form,
   initialValue
@@ -196,7 +200,7 @@ export function GasLimitFormInputItem({
       label={<FormItemLabel>{t("wallet.input.gasLimit")}</FormItemLabel>}
     >
       {getFieldDecorator("gasLimit", {
-        initialValue: initialValue || 100000,
+        initialValue: initialValue || IOTX_GAS_LIMIT,
         rules: rulesMap.gasLimit
       })(
         <Input

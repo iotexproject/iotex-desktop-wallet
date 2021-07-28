@@ -34,7 +34,7 @@ import {convertAddress} from "../../utils/util";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import {
   GasLimitFormInputItem,
-  GasPriceFormInputItem
+  GasPriceFormInputItem, IOTX_GAS_LIMIT, XRC20_GAS_LIMIT
 } from "../contract/cards";
 import { getAntenna } from "../get-antenna";
 import { FormItemLabel, inputStyle } from "../wallet";
@@ -297,11 +297,11 @@ class TransferForm extends React.PureComponent<Props, State> {
       const token = tokens[value];
       if (token.symbol === "IOTX") {
         form.setFieldsValue({
-          gasLimit: 100000
+          gasLimit: IOTX_GAS_LIMIT
         })
       } else {
         form.setFieldsValue({
-          gasLimit: 500000
+          gasLimit: XRC20_GAS_LIMIT
         })
       }
     };
