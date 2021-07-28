@@ -8,10 +8,15 @@ Check our site hosted at [https://iotexscan.io](https://iotexscan.io).
 
 Or deploy your own instance on Heroku.
 
+<div>
 <a href="https://heroku.com/deploy?template=https://github.com/iotexproject/iotex-explorer">
-  <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
+  <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy" height="36px">
 </a>
 
+<a href="https://iotex.io/devdiscord" target="_blank">
+  <img src="https://github.com/iotexproject/halogrants/blob/880eea4af074b082a75608c7376bd7a8eaa1ac21/img/btn-discord.svg" height="36px">
+</a>
+</div>
 
 # ioPay Desktop
 
