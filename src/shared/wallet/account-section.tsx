@@ -168,7 +168,10 @@ class AccountSection extends React.Component<Props, State> {
       []
     );
 
-    tokenAddresses = [...defaultNetworkTokens, ...tokenAddresses];
+    tokenAddresses = Array.from<string>(new Set([...defaultNetworkTokens, ...tokenAddresses]));
+
+    tokenAddresses = tokenAddresses.filter(value => value !== "");
+
     const tokenInfos = await Promise.all(
       tokenAddresses.map(addr => Token.getToken(addr).getInfo(account.address))
     );
