@@ -196,7 +196,7 @@ export function GasLimitFormInputItem({
       label={<FormItemLabel>{t("wallet.input.gasLimit")}</FormItemLabel>}
     >
       {getFieldDecorator("gasLimit", {
-        initialValue: initialValue || 500000,
+        initialValue: initialValue || 100000,
         rules: rulesMap.gasLimit
       })(
         <Input

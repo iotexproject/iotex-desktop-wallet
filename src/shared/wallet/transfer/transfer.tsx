@@ -292,6 +292,20 @@ class TransferForm extends React.PureComponent<Props, State> {
         });
       }
     });
+
+    const onOptionChange = (value: string) => {
+      const token = tokens[value];
+      if (token.symbol === "IOTX") {
+        form.setFieldsValue({
+          gasLimit: 100000
+        })
+      } else {
+        form.setFieldsValue({
+          gasLimit: 500000
+        })
+      }
+    };
+
     return (
       <>
         {getFieldDecorator("symbol", {
@@ -305,7 +319,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             }
           ]
         })(
-          <Select style={{ minWidth: 110 }}>
+          <Select style={{ minWidth: 110 }} onChange={onOptionChange}>
             {tokenTypes.map(type => (
               <Option value={type.key} key={type.key}>
                 {type.label}
@@ -365,6 +379,18 @@ class TransferForm extends React.PureComponent<Props, State> {
     const { symbol } = form.getFieldsValue();
     const token = tokens[symbol ? symbol : ""];
 
+    const calculateMax = () => {
+      if (token.symbol === "IOTX") {
+        form.setFieldsValue({
+          amount: parseFloat(token.balanceString) - 0.01
+        })
+      } else {
+        form.setFieldsValue({
+          amount: parseFloat(token.balanceString)
+        })
+      }
+    };
+
     return (
       <Form.Item
         label={<FormItemLabel>{t("wallet.input.amount")} </FormItemLabel>}
@@ -385,11 +411,7 @@ class TransferForm extends React.PureComponent<Props, State> {
         {
           token &&
           <MAXBtn
-            onClick={() => {
-              form.setFieldsValue({
-                amount: parseFloat(token.balanceString) - parseFloat(this.state.gasCostLimit)
-              })
-            }}
+            onClick={calculateMax}
           >{t("wallet.input.max")}</MAXBtn>
         }
       </Form.Item>
