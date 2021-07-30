@@ -40,6 +40,7 @@ import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
 import ExportXRC20Action from "./xrc20-action-export";
 import { validateAddress } from 'iotex-antenna/lib/account/utils';
+import {useConvertAddress } from "../utils/util"
 
 const { TabPane } = Tabs;
 
@@ -558,6 +559,8 @@ const XRC20ActionListPage: React.FC<
     logo: "",
     symbol: ""
   });
+  const convertAddress = useConvertAddress()
+  const convertedAddress = convertAddress(address)
 
   const token = Token.getToken(address);
   token
@@ -597,7 +600,7 @@ const XRC20ActionListPage: React.FC<
             text={t("topbar.tokens")}
           />,
           ...(address
-            ? [<TokenNameRenderer key={`token-${address}`} name={address} />]
+            ? [<TokenNameRenderer key={`token-${address}`} name={convertedAddress} />]
             : [])
         ]}
       />
@@ -622,7 +625,7 @@ const XRC20ActionListPage: React.FC<
           tokenAddress={address}
           totalSupply={totalSupply}
           symbol={baseInfo.symbol}
-          contractAddr={contractAddr}
+          contractAddr={convertAddress(contractAddr)}
           decimals={decimals}
         />
         <Tabs defaultActiveKey="1">

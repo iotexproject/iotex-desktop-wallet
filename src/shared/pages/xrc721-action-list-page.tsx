@@ -24,6 +24,7 @@ import {
 } from "../queries";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
+import { useConvertAddress } from "../utils/util";
 import ExportXRC721Action from "./xrc721-action-export";
 const { TabPane } = Tabs;
 
@@ -323,6 +324,7 @@ const XRC721ActionListPage: React.FC<
     params: { address }
   }
 }): JSX.Element => {
+  const convertAddress = useConvertAddress()
   return (
     <>
       <Helmet title={`${t("pages.token")} - ${t("meta.description")}`} />
@@ -335,7 +337,7 @@ const XRC721ActionListPage: React.FC<
           />,
           ...(address
             ? // @ts-ignore
-              [<TokenNameRenderer key={`token-${address}`} name={address} />]
+              [<TokenNameRenderer key={`token-${address}`} name={convertAddress(address)} />]
             : [])
         ]}
       />
