@@ -3,20 +3,20 @@ import BigNumber from "bignumber.js";
 import ethereumjs from "ethereumjs-abi";
 // @ts-ignore
 import window from "global/window";
-import { Account } from "iotex-antenna/lib/account/account";
-import { ExecutionMethod } from "iotex-antenna/lib/action/method";
-import { ABIDefinition } from "iotex-antenna/lib/contract/abi";
+import {Account} from "iotex-antenna/lib/account/account";
+import {ExecutionMethod} from "iotex-antenna/lib/action/method";
+import {ABIDefinition} from "iotex-antenna/lib/contract/abi";
 import {
   getArgTypes,
   getHeaderHash
 } from "iotex-antenna/lib/contract/abi-to-byte";
-import { Contract } from "iotex-antenna/lib/contract/contract";
-import { fromBytes } from "iotex-antenna/lib/crypto/address";
-import { IRpcMethod } from "iotex-antenna/lib/rpc-method/types";
+import {Contract} from "iotex-antenna/lib/contract/contract";
+import {fromBytes} from "iotex-antenna/lib/crypto/address";
+import {IRpcMethod} from "iotex-antenna/lib/rpc-method/types";
 // @ts-ignore
-import { t } from "onefx/lib/iso-i18n";
-import { getAntenna } from "../shared/wallet/get-antenna";
-import { ABI } from "./abi";
+import {t} from "onefx/lib/iso-i18n";
+import {getAntenna} from "../shared/wallet/get-antenna";
+import {ABI} from "./abi";
 
 const GAS_LIMIT_MULTIPLIED_BY = 3;
 
@@ -288,7 +288,7 @@ export class ERC20 implements IERC20 {
     // Needed for debug purpose.
     window.console.log(`executeMethod`, {
       method,
-      account: { ...account, privateKey: "****" },
+      account: {...account, privateKey: "****"},
       gasPrice,
       gasLimit,
       amount,
@@ -311,15 +311,17 @@ export class ERC20 implements IERC20 {
     // tslint:disable-next-line
     ...args: Array<any>
   ): Promise<boolean> {
-    const estimateGas = await this.estimateExecutionGas(
+    const estimateGas = await this.contract.etismateGas(
+      account.address,
+      amount,
       method,
-      account,
-      amount, // Amount here is in RAU unit
       ...args
     );
 
-    const gasNeeded = new BigNumber(500000).multipliedBy(
-      new BigNumber(estimateGas.gasPrice)
+    const estimateGasPrice = await getAntenna().iotx.suggestGasPrice({});
+
+    const gasNeeded = new BigNumber(estimateGas).multipliedBy(
+      new BigNumber(estimateGasPrice.gasPrice)
     );
     const gasInput = new BigNumber(gasLimit).multipliedBy(
       new BigNumber(gasPrice)
@@ -327,7 +329,7 @@ export class ERC20 implements IERC20 {
     if (gasInput.isLessThan(gasNeeded)) {
       throw new Error(t("erc20.execution.error.lowGasInput"));
     }
-    const { accountMeta } = await getAntenna().iotx.getAccount({
+    const {accountMeta} = await getAntenna().iotx.getAccount({
       address: account.address
     });
     if (!accountMeta) {
@@ -355,14 +357,14 @@ export class ERC20 implements IERC20 {
       account,
       execution
     );
-    const { gasPrice } = await getAntenna().iotx.suggestGasPrice({});
+    const {gasPrice} = await getAntenna().iotx.suggestGasPrice({});
     const envelop = await executionMethod.baseEnvelop("100000", `${gasPrice}`);
     envelop.execution = execution;
 
     // @ts-ignore
     let gasLimit = "1000000";
     try {
-      const { gas } = await getAntenna().iotx.estimateActionGasConsumption({
+      const {gas} = await getAntenna().iotx.estimateActionGasConsumption({
         transfer: envelop.transfer,
         execution: envelop.execution,
         callerAddress: account.address

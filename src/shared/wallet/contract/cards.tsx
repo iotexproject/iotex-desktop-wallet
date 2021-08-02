@@ -181,9 +181,7 @@ export function GasPriceFormInputItem({
   );
 }
 
-
-export const IOTX_GAS_LIMIT = 100000;
-export const XRC20_GAS_LIMIT = 500000;
+export const IOTX_GAS_LIMIT = 50000;
 
 export function GasLimitFormInputItem({
   form,

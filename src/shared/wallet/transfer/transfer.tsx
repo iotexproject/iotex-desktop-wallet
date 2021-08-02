@@ -15,7 +15,7 @@ import { t } from "onefx/lib/iso-i18n";
 import Helmet from "onefx/lib/react-helmet";
 import {styled} from "onefx/lib/styletron-react";
 import * as React from "react";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
@@ -34,7 +34,7 @@ import {convertAddress} from "../../utils/util";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import {
   GasLimitFormInputItem,
-  GasPriceFormInputItem, IOTX_GAS_LIMIT, XRC20_GAS_LIMIT
+  GasPriceFormInputItem, IOTX_GAS_LIMIT
 } from "../contract/cards";
 import { getAntenna } from "../get-antenna";
 import { FormItemLabel, inputStyle } from "../wallet";
@@ -229,7 +229,7 @@ class TransferForm extends React.PureComponent<Props, State> {
           `customToken.transfer(
                 ${recipient},
                 ${tokenAmount.toFixed(0)},
-                <account>,
+                ${account},
                 ${gasPriceRau},
                 ${gasLimit}
               )`
@@ -282,6 +282,7 @@ class TransferForm extends React.PureComponent<Props, State> {
     const { getFieldDecorator } = form;
     const { Option } = Select;
     const { tokens = {} } = this.props;
+    const { amount } = form.getFieldsValue();
     const tokenTypes: Array<{label: string, key: string}> = [];
     Object.keys(tokens).forEach(addr => {
       const info = tokens[addr];
@@ -293,17 +294,8 @@ class TransferForm extends React.PureComponent<Props, State> {
       }
     });
 
-    const onOptionChange = (value: string) => {
-      const token = tokens[value];
-      if (token.symbol === "IOTX") {
-        form.setFieldsValue({
-          gasLimit: IOTX_GAS_LIMIT
-        })
-      } else {
-        form.setFieldsValue({
-          gasLimit: XRC20_GAS_LIMIT
-        })
-      }
+    const onOptionChange = async (value: string) => {
+      this.estimateGasLimit(value, amount);
     };
 
     return (
@@ -372,6 +364,24 @@ class TransferForm extends React.PureComponent<Props, State> {
     </Form.Item>
   }
 
+  // tslint:disable-next-line:typedef
+  private async estimateGasLimit(contractAddress: string, amount: string) {
+    const {form, tokens = {}, account} = this.props;
+    const token = tokens[contractAddress ? contractAddress : ""];
+    if (token.symbol === "IOTX") {
+      form.setFieldsValue({
+        gasLimit: IOTX_GAS_LIMIT
+      })
+    }
+
+    if (token.symbol !== "IOTX" && account && amount) {
+      const erc20Token = Token.getToken(contractAddress);
+      const gasLimit = await erc20Token.estimateTransferGas(account, `${Math.ceil(parseFloat(amount))}`);
+      form.setFieldsValue({gasLimit})
+    }
+
+    this.updateGasCostLimit(this.props.form);
+  }
 
   public renderAmountFormItem(): JSX.Element {
     const { form, tokens = {} } = this.props;
@@ -380,15 +390,10 @@ class TransferForm extends React.PureComponent<Props, State> {
     const token = tokens[symbol ? symbol : ""];
 
     const calculateMax = () => {
-      if (token.symbol === "IOTX") {
-        form.setFieldsValue({
-          amount: parseFloat(token.balanceString) - 0.01
-        })
-      } else {
-        form.setFieldsValue({
-          amount: parseFloat(token.balanceString)
-        })
-      }
+      this.estimateGasLimit(symbol, token.balanceString);
+      form.setFieldsValue({
+        amount: parseFloat(token.balanceString) - parseFloat(this.state.gasCostLimit)
+      });
     };
 
     return (
@@ -405,6 +410,9 @@ class TransferForm extends React.PureComponent<Props, State> {
             className="form-input"
             placeholder="1"
             addonAfter={this.renderSelectTokenSymbol()}
+            onChange={(e) => {
+              this.estimateGasLimit(symbol, e.target.value)
+            }}
             name="amount"
           />
         )}
@@ -419,9 +427,10 @@ class TransferForm extends React.PureComponent<Props, State> {
   }
 
   public renderTransferForm = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-    const { sending } = this.state;
+    const {form} = this.props;
+    const {getFieldDecorator} = form;
+    const {sending} = this.state;
+
     return (
       <Form
         layout="vertical"
@@ -431,8 +440,8 @@ class TransferForm extends React.PureComponent<Props, State> {
       >
         {this.renderRecipientFormItem()}
         {this.renderAmountFormItem()}
-        <GasPriceFormInputItem form={form} />
-        <GasLimitFormInputItem form={form} />
+        <GasPriceFormInputItem form={form}/>
+        <GasLimitFormInputItem form={form}/>
         {this.state.showDataHex && (
           <Form.Item
             label={<FormItemLabel>{t("wallet.input.dib")}</FormItemLabel>}
@@ -441,7 +450,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             {getFieldDecorator("dataInHex", {
               rules: rulesMap.dataIndex
             })(
-              <Input style={inputStyle} placeholder="1234" name="dataInHex" />
+              <Input style={inputStyle} placeholder="1234" name="dataInHex"/>
             )}
           </Form.Item>
         )}
