@@ -3,9 +3,9 @@ import BigNumber from "bignumber.js";
 import ethereumjs from "ethereumjs-abi";
 // @ts-ignore
 import window from "global/window";
-import { Account } from "iotex-antenna/lib/account/account";
-import { ExecutionMethod } from "iotex-antenna/lib/action/method";
-import { ABIDefinition } from "iotex-antenna/lib/contract/abi";
+import {Account} from "iotex-antenna/lib/account/account";
+import {ExecutionMethod} from "iotex-antenna/lib/action/method";
+import {ABIDefinition} from "iotex-antenna/lib/contract/abi";
 import {
   getArgTypes,
   getHeaderHash
@@ -311,15 +311,17 @@ export class ERC20 implements IERC20 {
     // tslint:disable-next-line
     ...args: Array<any>
   ): Promise<boolean> {
-    const estimateGas = await this.estimateExecutionGas(
+    const estimateGas = await this.contract.etismateGas(
+      account.address,
+      amount,
       method,
-      account,
-      amount, // Amount here is in RAU unit
       ...args
     );
 
-    const gasNeeded = new BigNumber(500000).multipliedBy(
-      new BigNumber(estimateGas.gasPrice)
+    const estimateGasPrice = await getAntenna().iotx.suggestGasPrice({});
+
+    const gasNeeded = new BigNumber(estimateGas).multipliedBy(
+      new BigNumber(estimateGasPrice.gasPrice)
     );
     const gasInput = new BigNumber(gasLimit).multipliedBy(
       new BigNumber(gasPrice)

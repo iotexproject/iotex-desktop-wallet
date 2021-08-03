@@ -40,5 +40,8 @@
   "compileOnSave": false,
   "awesomeTypescriptLoaderOptions": {
     "transpileOnly": true
+  },
+  "linterOptions": {
+    "exclude": ["node_modules/**"]
   }
 }

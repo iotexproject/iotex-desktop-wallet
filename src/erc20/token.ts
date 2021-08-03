@@ -205,6 +205,10 @@ export class Token {
     throw new Error(`Token ${this.api.address} is not Vita!`);
   }
 
+  public async estimateTransferGas(account: Account, amount: string): Promise<number> {
+    return this.api.contract.etismateGas(account.address, "0", "transfer", account.address, amount)
+  }
+
   public async estimateClaimGas(account: Account): Promise<IGasEstimation> {
     if (this.api instanceof Vita) {
       return this.api.estimateClaimGas(account);

@@ -105,6 +105,7 @@ export class AntennaResolver implements ResolverInterface<() => ChainMeta> {
     @Ctx()
     { gateways }: ICtx
   ): Promise<GetActionsResponse> {
+    // @ts-ignore
     const antennaAction = await gateways.antenna.getActions(input);
     antennaAction.actionInfo.reverse();
     return antennaAction;
