@@ -15,7 +15,7 @@ import { t } from "onefx/lib/iso-i18n";
 import Helmet from "onefx/lib/react-helmet";
 import {styled} from "onefx/lib/styletron-react";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
@@ -427,10 +427,9 @@ class TransferForm extends React.PureComponent<Props, State> {
   }
 
   public renderTransferForm = () => {
-    const {form} = this.props;
-    const {getFieldDecorator} = form;
-    const {sending} = this.state;
-
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+    const { sending } = this.state;
     return (
       <Form
         layout="vertical"
@@ -440,8 +439,8 @@ class TransferForm extends React.PureComponent<Props, State> {
       >
         {this.renderRecipientFormItem()}
         {this.renderAmountFormItem()}
-        <GasPriceFormInputItem form={form}/>
-        <GasLimitFormInputItem form={form}/>
+        <GasPriceFormInputItem form={form} />
+        <GasLimitFormInputItem form={form} />
         {this.state.showDataHex && (
           <Form.Item
             label={<FormItemLabel>{t("wallet.input.dib")}</FormItemLabel>}
@@ -450,7 +449,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             {getFieldDecorator("dataInHex", {
               rules: rulesMap.dataIndex
             })(
-              <Input style={inputStyle} placeholder="1234" name="dataInHex"/>
+              <Input style={inputStyle} placeholder="1234" name="dataInHex" />
             )}
           </Form.Item>
         )}
