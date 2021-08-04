@@ -24,7 +24,7 @@ import {
 } from "../queries";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
-import { useConvertAddress } from "../utils/util";
+import { useConvertAddress, convertAddress as convertAddressByToEth } from "../utils/util";
 import ExportXRC721Action from "./xrc721-action-export";
 const { TabPane } = Tabs;
 
@@ -325,6 +325,9 @@ const XRC721ActionListPage: React.FC<
   }
 }): JSX.Element => {
   const convertAddress = useConvertAddress()
+  if (address && address.startsWith("0x")) {
+    address = convertAddressByToEth(false, address)
+  }
   return (
     <>
       <Helmet title={`${t("pages.token")} - ${t("meta.description")}`} />

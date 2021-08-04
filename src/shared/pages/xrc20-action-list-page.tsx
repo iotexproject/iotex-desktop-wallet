@@ -40,7 +40,7 @@ import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
 import ExportXRC20Action from "./xrc20-action-export";
 import { validateAddress } from 'iotex-antenna/lib/account/utils';
-import {useConvertAddress } from "../utils/util"
+import {useConvertAddress, convertAddress as  convertAddressByToEth} from "../utils/util"
 
 const { TabPane } = Tabs;
 
@@ -561,7 +561,9 @@ const XRC20ActionListPage: React.FC<
   });
   const convertAddress = useConvertAddress()
   const convertedAddress = convertAddress(address)
-
+  if (address && address.startsWith("0x")) {
+    address = convertAddressByToEth(false, address)
+  }
   const token = Token.getToken(address);
   token
     .getBasicTokenInfo()
