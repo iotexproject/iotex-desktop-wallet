@@ -4,7 +4,7 @@
 import { styled } from "onefx/lib/styletron-react";
 import React, { Component } from "react";
 import { RouteComponentProps, Switch } from "react-router";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { Footer, FOOTER_ABOVE } from "./common/footer";
 // @ts-ignore
 import initGoogleAnalytics from "./common/google-analytics";
@@ -32,7 +32,7 @@ import { Wallet } from "./wallet/wallet";
 type Props = {
   googleTid: string;
   locale: string;
-  toEthAddress: boolean
+  toEthAddress: boolean;
 } & RouteComponentProps;
 
 export class App extends Component<Props> {
@@ -60,9 +60,10 @@ export class App extends Component<Props> {
               <Route exact={true} path="/block" component={BlockListPage} />
               <Route
                 exact={true}
-                path="/action/:hash"
+                path="/tx/:hash"
                 component={ActionDetailPage}
               />
+              <Redirect exact={true} path="/action/:hash" to="/tx/:hash" />
               <Route exact={true} path="/action" component={ActionListPage} />
               <Route exact={true} path="/account" component={AccountListPage} />
               <Route
