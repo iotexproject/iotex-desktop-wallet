@@ -24,7 +24,7 @@ import {
 } from "../queries";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
-import { useConvertAddress, convertAddress as convertAddressByToEth } from "../utils/util";
+import { convertAddress as convertAddressByToEth, useConvertAddress } from "../utils/util";
 import ExportXRC721Action from "./xrc721-action-export";
 const { TabPane } = Tabs;
 
@@ -321,9 +321,10 @@ const XRC721ActionListPage: React.FC<
   RouteComponentProps<{ address: string }>
 > = ({
   match: {
-    params: { address }
+    params
   }
 }): JSX.Element => {
+  let address = params.address
   const convertAddress = useConvertAddress()
   if (address && address.startsWith("0x")) {
     address = convertAddressByToEth(false, address)
