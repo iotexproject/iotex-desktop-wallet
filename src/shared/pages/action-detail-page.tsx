@@ -203,11 +203,18 @@ const ActionDetailPage: React.FC<RouteComponentProps<{ hash: string }>> = (
   props
 ): JSX.Element => {
   BigNumber.config({ DECIMAL_PLACES: 8, ROUNDING_MODE: BigNumber.ROUND_DOWN });
-  const { hash } = props.match.params;
+  let { hash }: { hash: string } = props.match.params;
   const [state, setState] = useState<IData>({ payloadViewType: "UTF-8" });
   const [evmTransfers, setEvmTransfers] = useState<Array<IEvmTransferInfo>>();
-  if (!hash || hash.length !== 64) {
+  if (
+    !hash ||
+    (hash.length !== 64 && !hash.startsWith("0x")) ||
+    (hash.length !== 66 && hash.startsWith("0x"))
+  ) {
     return <NotFound />;
+  }
+  if (hash.startsWith("0x")) {
+    hash = hash.substring(2);
   }
   useEffect(() => {
     analyticsClient

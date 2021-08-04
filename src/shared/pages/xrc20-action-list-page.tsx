@@ -8,6 +8,7 @@ import Table, { ColumnProps } from "antd/lib/table";
 import Tabs from "antd/lib/tabs";
 import BigNumber from "bignumber.js";
 import { get } from "dottie";
+import { validateAddress } from "iotex-antenna/lib/account/utils";
 import { t } from "onefx/lib/iso-i18n";
 import { styled } from "onefx/lib/styletron-react";
 import React, { Ref, useImperativeHandle, useRef, useState} from "react";
@@ -38,9 +39,8 @@ import {
 } from "../queries";
 import { ActionHashRenderer } from "../renderer/action-hash-renderer";
 import { TokenNameRenderer } from "../renderer/token-name-renderer";
+import {convertAddress as  convertAddressByToEth, useConvertAddress} from "../utils/util"
 import ExportXRC20Action from "./xrc20-action-export";
-import { validateAddress } from 'iotex-antenna/lib/account/utils';
-import {useConvertAddress } from "../utils/util"
 
 const { TabPane } = Tabs;
 
@@ -544,7 +544,7 @@ const XRC20ActionListPage: React.FC<
   RouteComponentProps<{ address: string }>
 > = ({
   match: {
-    params: { address }
+    params
   }
 }): JSX.Element => {
   const [totalSupply, setTotalSupply] = useState("");
@@ -559,9 +559,12 @@ const XRC20ActionListPage: React.FC<
     logo: "",
     symbol: ""
   });
+  let address = params.address
   const convertAddress = useConvertAddress()
   const convertedAddress = convertAddress(address)
-
+  if (address && address.startsWith("0x")) {
+    address = convertAddressByToEth(false, address)
+  }
   const token = Token.getToken(address);
   token
     .getBasicTokenInfo()
