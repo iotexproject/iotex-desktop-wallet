@@ -101,7 +101,7 @@ const AddressConverterButton = (props: { onSwitch(s: boolean): void, isIoAddr: b
       {/* tslint:disable-next-line:use-simple-attributes */}
       <AddressSwitcherItem
         style={{
-          color: isIoAddr ? colors.text01 : colors.black40,
+          color: isIoAddr ? colors.text01 : colors.black80,
           fontSize: isIoAddr ? "1rem" : "0.75rem"
         }}>
         io
@@ -109,7 +109,7 @@ const AddressConverterButton = (props: { onSwitch(s: boolean): void, isIoAddr: b
       {/* tslint:disable-next-line:use-simple-attributes */}
       <AddressSwitcherItem
         style={{
-          color: isIoAddr ? colors.black40 : colors.text01,
+          color: isIoAddr ? colors.black80 : colors.text01,
           fontSize: isIoAddr ? "0.75rem" : "1rem"
         }}>
         0x
@@ -189,6 +189,9 @@ class TransferForm extends React.PureComponent<Props, State> {
       const customToken = symbol === "" ? null : Token.getToken(symbol);
 
       const price = gasPrice ? toRau(gasPrice, "Qev") : undefined;
+      const toAddress = recipient?.startsWith("0x")
+        ? convertAddress(false, recipient)
+        : recipient;
 
       this.setState({ sending: true, showConfirmTransfer: false });
       let txHash = "";
@@ -196,7 +199,7 @@ class TransferForm extends React.PureComponent<Props, State> {
         window.console.log(
           `antenna.iotx.sendTransfer(${JSON.stringify({
             from: address,
-            to: recipient,
+            to: toAddress,
             value: toRau(amount, "Iotx"),
             payload: dataInHex,
             gasLimit: gasLimit || undefined,
@@ -207,7 +210,7 @@ class TransferForm extends React.PureComponent<Props, State> {
         try {
           txHash = await antenna.iotx.sendTransfer({
             from: address,
-            to: recipient,
+            to: toAddress,
             value: toRau(amount, "Iotx"),
             payload: dataInHex,
             gasLimit: gasLimit || undefined,
@@ -227,7 +230,7 @@ class TransferForm extends React.PureComponent<Props, State> {
         const gasPriceRau = toRau(gasPrice, "Qev");
         window.console.log(
           `customToken.transfer(
-                ${recipient},
+                ${toAddress},
                 ${tokenAmount.toFixed(0)},
                 ${account},
                 ${gasPriceRau},
@@ -236,7 +239,7 @@ class TransferForm extends React.PureComponent<Props, State> {
         );
         try {
           txHash = await customToken.transfer(
-            recipient,
+            toAddress,
             tokenAmount,
             account,
             gasPriceRau,
@@ -334,12 +337,9 @@ class TransferForm extends React.PureComponent<Props, State> {
       {getFieldDecorator("recipient", {
         getValueFromEvent: (event: React.FormEvent<HTMLInputElement>) => {
           const address = event.currentTarget.value.trim();
-          if (address.startsWith("0x")) {
-            this.setState({
-              isIoAddr: true
-            });
-            return convertAddress(false, address)
-          }
+          this.setState({
+            isIoAddr: address.startsWith("io")
+          });
           return address
         },
         rules: rulesMap.recipientAddr
