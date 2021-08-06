@@ -54,6 +54,10 @@ export function setServerRoutes(server: MyServer): void {
     );
   });
 
+  server.get("action-hash", "/action/:hash", (ctx: koa.Context) => {
+    ctx.redirect(`/tx/${ctx.params.hash}/`);
+  });
+
   server.get(
     "SPA",
     /^(?!\/?api-gateway\/|\/api\/.*).+$/,
