@@ -86,7 +86,7 @@ action.type.stakeWithdraw: 'Withdraw'
 action.type.stakeAddDeposit: 'Add Stake'
 action.type.stakeRestake: 'Restake'
 action.type.stakeChangeCandidate: 'Switch Candidate'
-action.type.stakeTransferOwnership: 'Reassign Bucket'
+action.type.stakeTransferOwnership: 'Transfer Bucket'
 action.type.candidateRegister: 'Delegate Register'
 action.type.candidateUpdate: 'Delegate Update'
 action.type: Type
