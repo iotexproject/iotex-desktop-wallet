@@ -63,7 +63,7 @@ export class App extends Component<Props> {
                 path="/tx/:hash"
                 component={ActionDetailPage}
               />
-              <Redirect exact={true} path="/action/:hash" to="/tx/:hash" />
+              <Redirect exact={true} from="/action/:hash" to="/tx/:hash" />
               <Route exact={true} path="/action" component={ActionListPage} />
               <Route exact={true} path="/account" component={AccountListPage} />
               <Route
