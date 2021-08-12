@@ -7,7 +7,7 @@ import notification from "antd/lib/notification";
 import Select from "antd/lib/select";
 import BigNumber from "bignumber.js";
 import { Account } from "iotex-antenna/lib/account/account";
-import {fromRau, toRau} from "iotex-antenna/lib/account/utils";
+import {fromRau, toRau, validateAddress} from "iotex-antenna/lib/account/utils";
 import isElectron from "is-electron";
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
@@ -208,6 +208,10 @@ class TransferForm extends React.PureComponent<Props, State> {
         );
 
         try {
+          if (!validateAddress(toAddress)) {
+            throw new Error(t("erc20.execution.error.invalidAddress"));
+          }
+
           txHash = await antenna.iotx.sendTransfer({
             from: address,
             to: toAddress,
@@ -285,7 +289,6 @@ class TransferForm extends React.PureComponent<Props, State> {
     const { getFieldDecorator } = form;
     const { Option } = Select;
     const { tokens = {} } = this.props;
-    const { amount } = form.getFieldsValue();
     const tokenTypes: Array<{label: string, key: string}> = [];
     Object.keys(tokens).forEach(addr => {
       const info = tokens[addr];
@@ -297,10 +300,6 @@ class TransferForm extends React.PureComponent<Props, State> {
       }
     });
 
-    const onOptionChange = async (value: string) => {
-      this.estimateGasLimit(value, amount);
-    };
-
     return (
       <>
         {getFieldDecorator("symbol", {
@@ -308,13 +307,14 @@ class TransferForm extends React.PureComponent<Props, State> {
           rules: [
             {
               validator: (_, value, callback) => {
-                this.setState({ showDataHex: !!value.match(/iotx/i) });
+                const tokenSymbol = tokens[value] ? tokens[value].symbol : "IOTX";
+                this.setState({ showDataHex: !!tokenSymbol.match(/IOTX/i) });
                 callback();
               }
             }
           ]
         })(
-          <Select style={{ minWidth: 110 }} onChange={onOptionChange}>
+          <Select style={{ minWidth: 110 }}>
             {tokenTypes.map(type => (
               <Option value={type.key} key={type.key}>
                 {type.label}
@@ -391,9 +391,15 @@ class TransferForm extends React.PureComponent<Props, State> {
 
     const calculateMax = () => {
       this.estimateGasLimit(symbol, token.balanceString);
-      form.setFieldsValue({
-        amount: parseFloat(token.balanceString) - parseFloat(this.state.gasCostLimit)
-      });
+      if (token.symbol === "IOTX") {
+        form.setFieldsValue({
+          amount: new BigNumber(token.balanceString).minus(this.state.gasCostLimit).valueOf()
+        });
+      } else {
+        form.setFieldsValue({
+          amount: parseFloat(token.balanceString)
+        });
+      }
     };
 
     return (
@@ -529,7 +535,7 @@ class TransferForm extends React.PureComponent<Props, State> {
       dataInHex
     } = form.getFieldsValue();
 
-    const tokenSymbol = symbol === "iotx" ? "IOTX" : tokens[symbol] ? tokens[symbol].symbol : "IOTX";
+    const tokenSymbol = tokens[symbol] ? tokens[symbol].symbol : "IOTX";
     const dataSource: { [index: string]: string } = {
       address: address,
       toAddress: recipient?.startsWith("0x")
@@ -542,7 +548,7 @@ class TransferForm extends React.PureComponent<Props, State> {
       price: `${toRau(gasPrice, "Qev")} (${gasPrice} Qev)`
     };
 
-    if (tokenSymbol.match(/iotx/i)) {
+    if (tokenSymbol.match(/IOTX/i)) {
       dataSource.dataInHex = `${dataInHex || " "}`; // Fix undefined and always display Data field in modal if it is needed.
     }
 
@@ -571,16 +577,27 @@ class TransferForm extends React.PureComponent<Props, State> {
 
   public render(): JSX.Element {
     const { txHash, broadcast } = this.state;
+    const { form } = this.props;
+    const { recipient } = form.getFieldsValue();
+
+    const toAddress = recipient?.startsWith("0x")
+      ? convertAddress(false, recipient)
+      : recipient;
 
     if (broadcast) {
       if (broadcast.success) {
         return <BroadcastSuccess txHash={txHash} action={this.renderSendNew} />;
       }
+
+      const msg = validateAddress(toAddress)
+        ? t("wallet.transfer.broadcast.fail", {
+          token: t("account.testnet.token")
+        })
+        : t("erc20.execution.error.invalidAddress");
+
       return (
         <BroadcastFailure
-          suggestedMessage={t("wallet.transfer.broadcast.fail", {
-            token: t("account.testnet.token")
-          })}
+          suggestedMessage={msg}
           errorMessage={""}
           action={this.renderSendNew}
         />
