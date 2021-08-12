@@ -23,15 +23,15 @@ export const useConvertAddress = () => {
   }
 };
 
-export const truncate = (fullStr, strLen, separator) => {
-  if (fullStr.length <= strLen) return fullStr;
+export const truncate = (fullStr: string, strLen: number, separator: string) => {
+  if (fullStr.length <= strLen) { return fullStr; }
 
-  separator = separator || '...';
+  const sep = separator || "...";
 
-  let sepLen = separator.length,
-    charsToShow = strLen - sepLen,
-    frontChars = Math.ceil(charsToShow / 2),
-    backChars = Math.floor(charsToShow / 2);
+  const sepLen = sep.length;
+  const charsToShow = strLen - sepLen;
+  const frontChars = Math.ceil(charsToShow / 2);
+  const backChars = Math.floor(charsToShow / 2);
 
-  return fullStr.substr(0, frontChars) + separator + fullStr.substr(fullStr.length - backChars);
+  return fullStr.substr(0, frontChars) + sep + fullStr.substr(fullStr.length - backChars);
 };
