@@ -13,6 +13,7 @@ import {AppTokenMetadata} from "../common/common-metadata";
 import { rulesMap } from "../common/rules";
 import { colors } from "../common/styles/style-color";
 import {IRPCProvider, IWalletState} from "./wallet-reducer";
+import {truncate} from "../utils/util";
 
 const TEST_URL = "https://iopay-wallet.iotex.io/api/tokenMetadata/testnet";
 const MAIN_URL = "https://iopay-wallet.iotex.io/api/tokenMetadata/mainnet";
@@ -102,7 +103,7 @@ class AddCustomTokensFormModal extends React.PureComponent<
               alignItems: "center"
             }}
           >
-            <div style={{ width: 180, marginRight: 20 }}>
+            <div style={{ marginRight: 20, flex: 1, cursor: "pointer" }}>
               <img
                 src={item.logo}
                 alt="ico"
@@ -112,8 +113,8 @@ class AddCustomTokensFormModal extends React.PureComponent<
                 {`${item.name}(${item.symbol || ""})`}
               </span>
             </div>
-            <div className="ellipsis-text" style={{ flex: 1 }}>
-              {item.address}
+            <div className="ellipsis-text" style={{ cursor: "pointer" }}>
+              {truncate(item.address, 18, "...")}
             </div>
           </div>
         </AutoComplete.Option>

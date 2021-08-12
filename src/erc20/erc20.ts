@@ -4,6 +4,7 @@ import ethereumjs from "ethereumjs-abi";
 // @ts-ignore
 import window from "global/window";
 import {Account} from "iotex-antenna/lib/account/account";
+import {validateAddress} from "iotex-antenna/lib/account/utils";
 import {ExecutionMethod} from "iotex-antenna/lib/action/method";
 import {ABIDefinition} from "iotex-antenna/lib/contract/abi";
 import {
@@ -176,6 +177,9 @@ export class ERC20 implements IERC20 {
     gasPrice: string,
     gasLimit: string
   ): Promise<string> {
+    if (!validateAddress(to)) {
+      throw new Error(t("erc20.execution.error.invalidAddress"));
+    }
     return this.executeMethod(
       "transfer",
       account,
@@ -231,6 +235,9 @@ export class ERC20 implements IERC20 {
     gasPrice: string,
     gasLimit: string
   ): Promise<string> {
+    if (!validateAddress(to)) {
+      throw new Error(t("erc20.execution.error.invalidAddress"));
+    }
     return this.executeMethod(
       "transferFrom",
       account,

@@ -196,6 +196,7 @@ copy.scan: 'Scan the QR code'
 copy.toClipboard: 'Copy address to clipboard'
 erc20.execution.error.lowGasInput: 'Gas input too low!'
 erc20.execution.error.notEnoughBalance: 'Your IoTx balance is not enough to execute the action!'
+erc20.execution.error.invalidAddress: 'Invalid IoTeX address!'
 footer.about_us: 'About Us'
 footer.announcemenets: Announcements
 footer.charity_program: 'Charity Program'
