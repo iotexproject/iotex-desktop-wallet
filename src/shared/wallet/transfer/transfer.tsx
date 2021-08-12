@@ -221,7 +221,6 @@ class TransferForm extends React.PureComponent<Props, State> {
             gasPrice: price
           });
         } catch (error) {
-          console.log("error -->", error.message);
           notification.error({
             message: `${error.message}`,
             duration: 3
@@ -309,8 +308,6 @@ class TransferForm extends React.PureComponent<Props, State> {
             {
               validator: (_, value, callback) => {
                 const tokenSymbol = tokens[value] ? tokens[value].symbol : "IOTX";
-                console.log("symbol -->", tokenSymbol);
-                console.log("symbol 2 -->", !!tokenSymbol.match(/IOTX/i));
                 this.setState({ showDataHex: !!tokenSymbol.match(/IOTX/i) });
                 callback();
               }
