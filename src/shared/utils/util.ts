@@ -35,3 +35,9 @@ export const truncate = (fullStr: string, strLen: number, separator: string) => 
 
   return fullStr.substr(0, frontChars) + sep + fullStr.substr(fullStr.length - backChars);
 };
+
+export const resolveAddress = (addr: string): string => {
+  return addr?.startsWith("0x")
+    ? convertAddress(false, addr)
+    : addr
+};

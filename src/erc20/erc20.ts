@@ -385,7 +385,7 @@ export class ERC20 implements IERC20 {
 
     return {
       gasPrice: `${gasPrice}`,
-      gasLimit: "1000000"
+      gasLimit: `${gasLimit}`
     };
   }
 

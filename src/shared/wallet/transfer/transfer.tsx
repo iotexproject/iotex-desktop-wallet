@@ -9,13 +9,14 @@ import BigNumber from "bignumber.js";
 import { Account } from "iotex-antenna/lib/account/account";
 import {fromRau, toRau, validateAddress} from "iotex-antenna/lib/account/utils";
 import isElectron from "is-electron";
+import debounce from "lodash.debounce"
 // @ts-ignore
 import { t } from "onefx/lib/iso-i18n";
 // @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
 import {styled} from "onefx/lib/styletron-react";
 import * as React from "react";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
@@ -30,11 +31,11 @@ import {
   numberFromCommaString,
   numberWithCommas
 } from "../../common/vertical-table";
-import {convertAddress} from "../../utils/util";
+import {convertAddress, resolveAddress} from "../../utils/util";
 import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
 import {
   GasLimitFormInputItem,
-  GasPriceFormInputItem, IOTX_GAS_LIMIT
+  GasPriceFormInputItem
 } from "../contract/cards";
 import { getAntenna } from "../get-antenna";
 import { FormItemLabel, inputStyle } from "../wallet";
@@ -138,6 +139,15 @@ class TransferForm extends React.PureComponent<Props, State> {
     gasCostLimit: "",
     isIoAddr: true
   };
+
+  private readonly handleDataInHexChange: (dataInHex: string) => void;
+  private readonly handleAmountChange: (amount: string) => void;
+
+  constructor(props: Props) {
+    super(props);
+    this.handleDataInHexChange = debounce(this.dataInHexChange, 800);
+    this.handleAmountChange = debounce(this.amountChange, 800)
+  }
 
   public componentDidMount(): void {
     this.updateGasCostLimit(this.props.form);
@@ -365,16 +375,27 @@ class TransferForm extends React.PureComponent<Props, State> {
   }
 
   // tslint:disable-next-line:typedef
-  private async estimateGasLimit(contractAddress: string, amount: string) {
+  private async estimateGasLimit(contractAddress: string, amount: string, dataInHex: string) {
     const {form, tokens = {}, account} = this.props;
+    const { recipient } = form.getFieldsValue();
     const token = tokens[contractAddress ? contractAddress : ""];
-    if (token.symbol === "IOTX") {
+    if (token && token.symbol === "IOTX") {
+
+      const gasRes = await getAntenna().iotx.estimateActionGasConsumption({
+        transfer: {
+          amount: toRau(amount, "Iotx"),
+          recipient: resolveAddress(recipient),
+          payload: dataInHex
+        },
+        callerAddress: account?.address || ""
+      });
+
       form.setFieldsValue({
-        gasLimit: IOTX_GAS_LIMIT
+        gasLimit: gasRes.gas
       })
     }
 
-    if (token.symbol !== "IOTX" && account && amount) {
+    if (token && token.symbol !== "IOTX" && account && amount) {
       const erc20Token = Token.getToken(contractAddress);
       const gasLimit = await erc20Token.estimateTransferGas(account, `${Math.ceil(parseFloat(amount))}`);
       form.setFieldsValue({gasLimit})
@@ -383,14 +404,21 @@ class TransferForm extends React.PureComponent<Props, State> {
     this.updateGasCostLimit(this.props.form);
   }
 
+  // tslint:disable-next-line:typedef
+  private amountChange(amount: string) {
+    const { form } = this.props;
+    const { dataInHex, symbol } = form.getFieldsValue();
+    this.estimateGasLimit(symbol, amount, dataInHex)
+  };
+
   public renderAmountFormItem(): JSX.Element {
     const { form, tokens = {} } = this.props;
     const { getFieldDecorator } = form;
-    const { symbol } = form.getFieldsValue();
+    const { symbol, dataInHex } = form.getFieldsValue();
     const token = tokens[symbol ? symbol : ""];
 
     const calculateMax = () => {
-      this.estimateGasLimit(symbol, token.balanceString);
+      this.estimateGasLimit(symbol, token.balanceString, dataInHex);
       if (token.symbol === "IOTX") {
         form.setFieldsValue({
           amount: new BigNumber(token.balanceString).minus(this.state.gasCostLimit).valueOf()
@@ -417,7 +445,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             placeholder="1"
             addonAfter={this.renderSelectTokenSymbol()}
             onChange={(e) => {
-              this.estimateGasLimit(symbol, e.target.value)
+              this.handleAmountChange(e.target.value)
             }}
             name="amount"
           />
@@ -431,6 +459,13 @@ class TransferForm extends React.PureComponent<Props, State> {
       </Form.Item>
     );
   }
+
+  // tslint:disable-next-line:typedef
+  private dataInHexChange(dataInHex: string) {
+    const { form } = this.props;
+    const { amount, symbol } = form.getFieldsValue();
+    this.estimateGasLimit(symbol, amount, dataInHex)
+  };
 
   public renderTransferForm = () => {
     const { form } = this.props;
@@ -455,7 +490,9 @@ class TransferForm extends React.PureComponent<Props, State> {
             {getFieldDecorator("dataInHex", {
               rules: rulesMap.dataIndex
             })(
-              <Input style={inputStyle} placeholder="1234" name="dataInHex" />
+              <Input style={inputStyle} placeholder="1234" name="dataInHex" onChange={(e) => {
+                this.handleDataInHexChange(e.target.value)
+              }}/>
             )}
           </Form.Item>
         )}
@@ -538,9 +575,7 @@ class TransferForm extends React.PureComponent<Props, State> {
     const tokenSymbol = tokens[symbol] ? tokens[symbol].symbol : "IOTX";
     const dataSource: { [index: string]: string } = {
       address: address,
-      toAddress: recipient?.startsWith("0x")
-        ? convertAddress(false, recipient)
-        : recipient,
+      toAddress: resolveAddress(recipient),
       amount: `${new BigNumber(
         numberFromCommaString(amount)
       ).toString()} ${tokenSymbol}`,
