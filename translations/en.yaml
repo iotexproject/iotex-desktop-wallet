@@ -249,6 +249,7 @@ input.error.mnemonic.invalid: 'Please input your mnemonic phrase'
 input.error.mnemonic.label: Mnemonic Phrase
 input.error.mnemonic.length: 'Mnemonic Phrase must have 12 words'
 input.error.mnemonic.placeholder: Paste your mnemonic phrase here
+input.error.mnemonic.wrong: 'The mnemonic phrase is wrong, please check that you typed all the words correctly.'
 input.error.password.too_weak: 'Password is too weak.'
 input.error.private_key.invalid: 'Please input your private key'
 input.error.private_key.length: 'Private key has to be of length 64'
@@ -497,6 +498,7 @@ wallet.erc20.title: 'Send VITA'
 wallet.error.number-ge1: 'This field should be greater than or equal to 1.'
 wallet.error.number: 'This field should be number.'
 wallet.error.required: 'This field is required.'
+wallet.error.network: 'You are not connected to the Internet. Please check your network settings.'
 wallet.input.abi: "ABI / JSON Interface"
 wallet.input.amount: Amount
 wallet.input.balance: 'Balance:'

@@ -12,6 +12,7 @@ import { CommonMargin } from "../common/common-margin";
 import { getAntenna } from "./get-antenna";
 import { FormItemLabel } from "./wallet";
 import { setAccount } from "./wallet-actions";
+import notification from "antd/lib/notification";
 
 export interface State {
   mnemonicPhrase: string;
@@ -39,15 +40,21 @@ class UnlockByMnemonicInner extends PureComponent<
   public unlockWallet = async () => {
     this.props.form.validateFields(async err => {
       if (!err) {
-        const { mnemonicPhrase } = this.state;
-        const antenna = getAntenna(true);
-        const code = new Mnemonic(mnemonicPhrase);
-        code.toString();
-        const xpriv = code.toHDPrivateKey();
-        const account = await antenna.iotx.accounts.privateKeyToAccount(
-          xpriv.privateKey.toString()
-        );
-        this.props.dispatch(setAccount(account));
+        try {
+          const {mnemonicPhrase} = this.state;
+          const antenna = getAntenna(true);
+          const code = new Mnemonic(mnemonicPhrase);
+          code.toString();
+          const xpriv = code.toHDPrivateKey();
+          const account = await antenna.iotx.accounts.privateKeyToAccount(
+            xpriv.privateKey.toString()
+          );
+          this.props.dispatch(setAccount(account));
+        } catch (e) {
+          notification.error({
+            message: t("input.error.mnemonic.wrong")
+          })
+        }
       }
     });
   };
