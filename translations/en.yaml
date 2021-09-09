@@ -175,11 +175,13 @@ common.xrc721Transactions: NFT Actions
 confirmation.amount: Amount
 confirmation.data: Data
 confirmation.fromAddress: 'From address'
+confirmation.fromAddress_web3: 'From address(web3)'
 confirmation.limit: 'Gas limit'
 confirmation.method: Method
 confirmation.owner: Owner
 confirmation.price: 'Gas price'
 confirmation.toAddress: 'To addresss'
+confirmation.toAddress_web3: 'To addresss(web3)'
 confirmation.candidateName: 'Delegate Name'
 confirmation.stakedAmount: 'Staked Amount'
 confirmation.stakedDuration: 'Staked Duration'

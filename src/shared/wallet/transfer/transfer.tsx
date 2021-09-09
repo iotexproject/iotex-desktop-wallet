@@ -573,9 +573,15 @@ class TransferForm extends React.PureComponent<Props, State> {
     } = form.getFieldsValue();
 
     const tokenSymbol = tokens[symbol] ? tokens[symbol].symbol : "IOTX";
+    const addressWeb3 = convertAddress(true, address);
+    const toAddress = resolveAddress(recipient);
+    const toAddressWeb3 = convertAddress(true, toAddress);
+
     const dataSource: { [index: string]: string } = {
       address: address,
-      toAddress: resolveAddress(recipient),
+      addressWeb3: addressWeb3,
+      toAddress: toAddress,
+      toAddressWeb3: toAddressWeb3,
       amount: `${new BigNumber(
         numberFromCommaString(amount)
       ).toString()} ${tokenSymbol}`,

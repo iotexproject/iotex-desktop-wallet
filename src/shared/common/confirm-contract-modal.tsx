@@ -33,11 +33,14 @@ export default class ConfirmContractModal extends React.Component<
   };
 
   // tslint:disable:no-any
+  // tslint:disable-next-line:max-func-body-length
   public getActionColumns(): Array<Column<any>> {
     // this columns was just for example.
     const {
       amount,
+      addressWeb3,
       toAddress,
+      toAddressWeb3,
       toContract,
       dataInHex,
       method,
@@ -81,11 +84,27 @@ export default class ConfirmContractModal extends React.Component<
         title: t("confirmation.fromAddress"),
         dataIndex: "address"
       },
+      ...(addressWeb3
+        ? [
+            {
+              title: t("confirmation.fromAddress_web3"),
+              dataIndex: "addressWeb3"
+            }
+          ]
+        : []),
       ...(toAddress
         ? [
             {
               title: t("confirmation.toAddress"),
               dataIndex: "toAddress"
+            }
+          ]
+        : []),
+      ...(toAddressWeb3
+        ? [
+            {
+              title: t("confirmation.toAddress_web3"),
+              dataIndex: "toAddressWeb3"
             }
           ]
         : []),
