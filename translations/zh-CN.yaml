@@ -607,7 +607,7 @@ wallet.logout.success: 成功质押!
 wallet.logout.login_to_another: 请选择其他钱包解锁。
 network.disconnected: 无法连接到网络...
 token.address.overview: 总览
-token.address.total_supply: 总质押
+token.address.total_supply: 总供应量
 token.address.holders: 持有人：
 token.address.transfer: 转账：
 token.address.profile_summary: 配置文件摘要
