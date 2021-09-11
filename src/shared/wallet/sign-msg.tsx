@@ -55,7 +55,7 @@ class SignMsg extends Component<Props> {
         <Modal
           visible={visible}
           title={t("wallet.sign_msg")}
-          okText={t("wallet.confirm.contract.yes")}
+          okText={t("wallet.sign.confirm")}
           onOk={this.onOk}
           onCancel={this.onCancel}
         >
