@@ -1,44 +1,39 @@
 import Button from "antd/lib/button";
-import Form, { WrappedFormUtils } from "antd/lib/form/Form";
+import Form, {WrappedFormUtils} from "antd/lib/form/Form";
 import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
 import Input from "antd/lib/input";
 import notification from "antd/lib/notification";
 import Select from "antd/lib/select";
 import BigNumber from "bignumber.js";
-import { Account } from "iotex-antenna/lib/account/account";
+import {Account} from "iotex-antenna/lib/account/account";
 import {fromRau, toRau, validateAddress} from "iotex-antenna/lib/account/utils";
 import isElectron from "is-electron";
 import debounce from "lodash.debounce"
 // @ts-ignore
-import { t } from "onefx/lib/iso-i18n";
+import {t} from "onefx/lib/iso-i18n";
 // @ts-ignore
 import Helmet from "onefx/lib/react-helmet";
 import {styled} from "onefx/lib/styletron-react";
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {connect} from "react-redux";
+import {withRouter} from "react-router";
+import {RouteComponentProps} from "react-router-dom";
 import {AccountMeta} from "../../../api-gateway/resolvers/antenna-types";
-import { ITokenInfoDict, Token } from "../../../erc20/token";
+import {ITokenInfoDict, Token} from "../../../erc20/token";
 import ConfirmContractModal from "../../common/confirm-contract-modal";
-import { formItemLayout } from "../../common/form-item-layout";
-import { getIoPayDesktopVersionName } from "../../common/on-electron-click";
-import { rulesMap } from "../../common/rules";
+import {CopyIconClipboardComponent} from "../../common/copy-button-clipboard";
+import {formItemLayout} from "../../common/form-item-layout";
+import {getIoPayDesktopVersionName} from "../../common/on-electron-click";
+import {rulesMap} from "../../common/rules";
 import {colors} from "../../common/styles/style-color";
-import {
-  numberFromCommaString,
-  numberWithCommas
-} from "../../common/vertical-table";
+import {numberFromCommaString, numberWithCommas} from "../../common/vertical-table";
 import {convertAddress, resolveAddress} from "../../utils/util";
-import { BroadcastFailure, BroadcastSuccess } from "../broadcast-status";
-import {
-  GasLimitFormInputItem,
-  GasPriceFormInputItem
-} from "../contract/cards";
-import { getAntenna } from "../get-antenna";
-import { FormItemLabel, inputStyle } from "../wallet";
+import {BroadcastFailure, BroadcastSuccess} from "../broadcast-status";
+import {GasLimitFormInputItem, GasPriceFormInputItem} from "../contract/cards";
+import {getAntenna} from "../get-antenna";
+import {FormItemLabel, inputStyle} from "../wallet";
 import {IRPCProvider, IWalletState} from "../wallet-reducer";
 
 type Props = {
@@ -117,6 +112,20 @@ const AddressConverterButton = (props: { onSwitch(s: boolean): void, isIoAddr: b
       </AddressSwitcherItem>
     </AddressSwitcherContainer>
   );
+};
+
+const RecipientWrapper = (props: { onSwitch(s: boolean): void, isIoAddr: boolean, address: string }) => {
+
+  const [addr, setAddr] = useState<string>(props.address);
+
+  useEffect(() => {
+    setAddr(props.address)
+  }, [props.address]);
+
+  return <div style={{ cursor: "pointer" }}>
+    <CopyIconClipboardComponent text={addr} />
+    <AddressConverterButton onSwitch={props.onSwitch} isIoAddr={props.isIoAddr}/>
+  </div>
 };
 
 const MAXBtn = styled("div", {
@@ -348,7 +357,8 @@ class TransferForm extends React.PureComponent<Props, State> {
 
   public renderRecipientFormItem(): JSX.Element {
     const { form } = this.props;
-    const { getFieldDecorator, getFieldValue, setFieldsValue } = form;
+    const { getFieldDecorator, getFieldValue, setFieldsValue, getFieldsValue } = form;
+    const { recipient } = getFieldsValue();
 
     return <Form.Item
       label={<FormItemLabel>{t("wallet.input.to")}</FormItemLabel>}
@@ -369,16 +379,17 @@ class TransferForm extends React.PureComponent<Props, State> {
           placeholder={this.state.isIoAddr ? "io..." : "0x..."}
           style={inputStyle}
           name="recipient"
-          addonAfter={<AddressConverterButton onSwitch={(s) => {
-            let address = getFieldValue("recipient");
-            address = convertAddress(!s, address);
-            setFieldsValue({
-              recipient: address
-            });
-            this.setState({
-              isIoAddr: s
-            });
-          }} isIoAddr={this.state.isIoAddr} />}
+          addonAfter={
+            <RecipientWrapper onSwitch={(s) => {
+              let address = getFieldValue("recipient");
+              address = convertAddress(!s, address);
+              setFieldsValue({
+                recipient: address
+              });
+              this.setState({
+                isIoAddr: s
+              });
+            }} isIoAddr={this.state.isIoAddr} address={recipient}/>}
         />
       )}
     </Form.Item>

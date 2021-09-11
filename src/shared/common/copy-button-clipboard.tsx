@@ -1,4 +1,3 @@
-// @ts-ignore
 import Button from "antd/lib/button";
 import Tooltip from "antd/lib/tooltip";
 // @ts-ignore
@@ -73,6 +72,65 @@ export class CopyButtonClipboardComponent extends Component<Props, State> {
           icon={icon}
           shape="circle"
           size={size}
+          onClick={() => this.copyToAddress()}
+          onMouseLeave={() => this.hideTips()}
+          onMouseOver={() => this.btnReload()}
+        />
+      </Tooltip>
+    );
+  }
+}
+
+export class CopyIconClipboardComponent extends Component<{ text: string }, State> {
+  public state: State = {
+    trigger: "hover",
+    title: t("copy.toClipboard"),
+    copied: "",
+    visible: false
+  };
+
+  private readonly copyToAddress = () => {
+    const { text } = this.props;
+    copy.copyCB(text || "");
+    this.setState({
+      trigger: "click",
+      title: t("copy.copied"),
+      copied: "copied",
+      visible: true
+    });
+  };
+
+  private readonly handleVisibleChange = (visible: boolean) => {
+    this.setState({ visible });
+  };
+
+  private readonly hideTips = () => {
+    this.setState({ copied: "", visible: false });
+  };
+
+  private readonly btnReload = () => {
+    this.setState({
+      trigger: "hover",
+      title: t("copy.toClipboard"),
+      copied: "",
+      visible: true
+    });
+  };
+
+  public render(): JSX.Element {
+    const { trigger, title, copied, visible } = this.state;
+    return (
+      <Tooltip
+        placement="top"
+        trigger={trigger}
+        title={title}
+        visible={visible}
+        onVisibleChange={this.handleVisibleChange}
+      >
+        <Button
+          className={copied}
+          icon={"copy"}
+          style={{ border: "none", background: "transparent", height: "auto", width: "auto" }}
           onClick={() => this.copyToAddress()}
           onMouseLeave={() => this.hideTips()}
           onMouseOver={() => this.btnReload()}

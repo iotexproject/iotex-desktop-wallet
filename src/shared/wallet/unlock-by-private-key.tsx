@@ -1,16 +1,15 @@
 import Button from "antd/lib/button";
-import Form, { FormComponentProps } from "antd/lib/form/Form";
-import Icon from "antd/lib/icon";
+import Form, {FormComponentProps} from "antd/lib/form/Form";
 import Input from "antd/lib/input";
-import { get } from "dottie";
+import {get} from "dottie";
 // @ts-ignore
-import { t } from "onefx/lib/iso-i18n";
-import React, { PureComponent } from "react";
-import { connect, DispatchProp } from "react-redux";
-import { CommonMargin } from "../common/common-margin";
-import { getAntenna } from "./get-antenna";
-import { FormItemLabel } from "./wallet";
-import { setAccount } from "./wallet-actions";
+import {t} from "onefx/lib/iso-i18n";
+import React, {PureComponent} from "react";
+import {connect, DispatchProp} from "react-redux";
+import {CommonMargin} from "../common/common-margin";
+import {getAntenna} from "./get-antenna";
+import {FormItemLabel} from "./wallet";
+import {setAccount} from "./wallet-actions";
 
 export interface State {
   priKey: string;
@@ -74,18 +73,14 @@ class UnlockByPrivateKeyInner extends PureComponent<
                 }
               ]
             })(
-              <Input
+              <Input.Password
                 className="form-input"
                 placeholder={t("wallet.account.placehold.privateKey")}
                 type="password"
                 name="priKey"
+                autoComplete="on"
+                allowClear={true}
                 onChange={e => this.handleInputChange(e)}
-                suffix={
-                  <Icon
-                    type="eye-invisible"
-                    style={{ color: "rgba(0,0,0,.45)" }}
-                  />
-                }
               />
             )}
           </Form.Item>
