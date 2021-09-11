@@ -162,6 +162,11 @@ class TransferForm extends React.PureComponent<Props, State> {
   }
 
   public isDisconnected(): boolean {
+    if (!navigator.onLine) {
+      notification.error({
+        message: t("wallet.error.network")
+      })
+    }
     return !navigator.onLine;
   }
 
@@ -299,6 +304,7 @@ class TransferForm extends React.PureComponent<Props, State> {
     const { getFieldDecorator } = form;
     const { Option } = Select;
     const { tokens = {} } = this.props;
+    const { amount, dataInHex } = form.getFieldsValue();
     const tokenTypes: Array<{label: string, key: string}> = [];
     Object.keys(tokens).forEach(addr => {
       const info = tokens[addr];
@@ -309,6 +315,10 @@ class TransferForm extends React.PureComponent<Props, State> {
         });
       }
     });
+
+    const onOptionChange = async (value: string) => {
+      this.estimateGasLimit(value, amount, dataInHex);
+    };
 
     return (
       <>
@@ -324,7 +334,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             }
           ]
         })(
-          <Select style={{ minWidth: 110 }}>
+          <Select style={{ minWidth: 110 }} onChange={onOptionChange}>
             {tokenTypes.map(type => (
               <Option value={type.key} key={type.key}>
                 {type.label}
