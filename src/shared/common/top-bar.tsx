@@ -1,6 +1,5 @@
 // @ts-ignore
 import Button from "antd/lib/button";
-import AntIcon from "antd/lib/icon";
 import Row from "antd/lib/row";
 import { Languages } from "iotex-react-language-dropdown";
 import { LanguageSwitcher } from "iotex-react-language-dropdown/lib/language-switcher";
