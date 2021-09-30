@@ -1,4 +1,5 @@
 // @ts-ignore
+import Button from "antd/lib/button";
 import AntIcon from "antd/lib/icon";
 import Row from "antd/lib/row";
 import { Languages } from "iotex-react-language-dropdown";
@@ -6,13 +7,13 @@ import { LanguageSwitcher } from "iotex-react-language-dropdown/lib/language-swi
 import isBrowser from "is-browser";
 import { t } from "onefx/lib/iso-i18n";
 import { styled, StyleObject } from "onefx/lib/styletron-react";
-import React, {Component, useState} from "react";
+import React, { Component, useState } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
-import {connect, DispatchProp} from "react-redux";
+import { connect, DispatchProp } from "react-redux";
 import { Link } from "react-router-dom";
 // @ts-ignore
 import JsonGlobal from "safe-json-globals/get";
-import {setSwitchAddress} from "../../client/javascripts/base-actions";
+import { setSwitchAddress } from "../../client/javascripts/base-actions";
 import { assetURL } from "./asset-url";
 import { CommonMargin } from "./common-margin";
 import { Logo as Icon } from "./icon";
@@ -40,27 +41,31 @@ const LanguageSwitcherMenu = () => {
   );
 };
 
-const AddressConverterSwitcher = (props: { onSwitch(s: boolean): void, toEthAddress: boolean }) => {
-
+const AddressConverterSwitcher = (props: {
+  onSwitch(s: boolean): void;
+  toEthAddress: boolean;
+}) => {
   const [toEthAddress, setShowIoAddress] = useState(props.toEthAddress);
 
   // @ts-ignore
-  const convertAddress = (e) => {
+  const convertAddress = e => {
     setShowIoAddress(!toEthAddress);
     props.onSwitch(!toEthAddress);
-    e.stopPropagation()
+    e.stopPropagation();
   };
 
   return (
     <AddressSwitcherContainer onClick={convertAddress}>
       {/* tslint:disable-next-line:use-simple-attributes */}
       <AddressSwitcherItem
-        style={{ background: toEthAddress ? "" : "#50B1A0" }}>
+        style={{ background: toEthAddress ? "" : "#50B1A0" }}
+      >
         io
       </AddressSwitcherItem>
       {/* tslint:disable-next-line:use-simple-attributes */}
       <AddressSwitcherItem
-        style={{ background: toEthAddress ? "#89A8F2" : "" }}>
+        style={{ background: toEthAddress ? "#89A8F2" : "" }}
+      >
         0x
       </AddressSwitcherItem>
     </AddressSwitcherContainer>
@@ -74,7 +79,7 @@ const AddressSwitcherContainer = styled("div", {
   lineHeight: "1.3rem",
   background: colors.black85,
   borderRadius: "0.125rem",
-  cursor: "pointer",
+  cursor: "pointer"
 });
 
 const AddressSwitcherItem = styled("div", {
@@ -85,6 +90,19 @@ const AddressSwitcherItem = styled("div", {
   color: "white",
   textAlign: "center",
   cursor: "pointer"
+});
+
+const V2Entry = styled("a", {
+  background: "rgba(217, 217, 217, 0.1)",
+  borderRadius: "5px",
+  width: "69px",
+  textAlign: "center",
+  fontWeight: 500,
+  fontSize: "14px",
+  lineHeight: "24px",
+  height: "24px",
+  display: "inline-block",
+  color: "#44FFB2"
 });
 
 const multiChain: {
@@ -120,16 +138,26 @@ type State = {
   displayMobileMenu: boolean;
 };
 
-type Props = { loggedIn: boolean; locale: string; grafanaLink: string, toEthAddress: boolean } & DispatchProp;
+type Props = {
+  loggedIn: boolean;
+  locale: string;
+  grafanaLink: string;
+  toEthAddress: boolean;
+} & DispatchProp;
 
 export const TopBar = connect(
   (state: {
-    base: { userId?: string; locale: string; grafanaLink: string, toEthAddress: boolean };
+    base: {
+      userId?: string;
+      locale: string;
+      grafanaLink: string;
+      toEthAddress: boolean;
+    };
   }) => ({
     loggedIn: Boolean(state.base.userId),
     locale: state.base.locale,
     grafanaLink: state.base.grafanaLink,
-    toEthAddress: state.base.toEthAddress,
+    toEthAddress: state.base.toEthAddress
   })
 )(
   class TopBarInner extends Component<Props, State> {
@@ -155,7 +183,7 @@ export const TopBar = connect(
 
     public displayMobileMenu = () => {
       this.setState({
-        displayMobileMenu: true,
+        displayMobileMenu: true
       });
     };
 
@@ -282,6 +310,16 @@ export const TopBar = connect(
               {t("topbar.wallet")}
             </StyledLink>
             {this.renderNetSelector(true)}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
+                marginTop: "12px"
+              }}
+            >
+              <V2Entry href="https://v2.iotexscan.io/">v2 beta</V2Entry>
+            </div>
           </Dropdown>
         </OutsideClickHandler>
       );
@@ -329,6 +367,15 @@ export const TopBar = connect(
                 <CommonMargin />
 
                 {this.renderNetSelector(true)}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginLeft: "24px"
+                  }}
+                >
+                  <V2Entry href="https://v2.iotexscan.io/">v2 beta</V2Entry>
+                </div>
               </HiddenOnMobile>
             </Flex>
             <Flex>
@@ -341,13 +388,13 @@ export const TopBar = connect(
               <CrossBtn displayMobileMenu={displayMobileMenu}>
                 <Cross />
               </CrossBtn>
-
               <Flex style={{ alignItems: "center", justifyContent: "center" }}>
                 <AddressConverterSwitcher
                   toEthAddress={this.props.toEthAddress}
-                  onSwitch={(s) => {
-                    this.props.dispatch(setSwitchAddress(s))
-                  }}/>
+                  onSwitch={s => {
+                    this.props.dispatch(setSwitchAddress(s));
+                  }}
+                />
                 <LanguageSwitcherMenu />
               </Flex>
             </Flex>
