@@ -142,6 +142,7 @@ type Props = {
   locale: string;
   grafanaLink: string;
   toEthAddress: boolean;
+  // tslint:disable:no-any
   location: any;
 } & DispatchProp;
 
