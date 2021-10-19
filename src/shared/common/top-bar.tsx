@@ -135,6 +135,7 @@ export const TOP_BAR_HEIGHT = 60;
 
 type State = {
   displayMobileMenu: boolean;
+  v2BetaUrl: string;
 };
 
 type Props = {
@@ -163,11 +164,16 @@ export const TopBar = connect(
     constructor(props: Props) {
       super(props);
       this.state = {
-        displayMobileMenu: false
+        displayMobileMenu: false,
+        v2BetaUrl: ""
       };
     }
 
     public componentDidMount(): void {
+      this.setState({
+        v2BetaUrl: `https://v2.iotexscan.io${window.location.pathname +
+          window.location.search}`
+      });
       window.addEventListener("resize", () => {
         if (
           document.documentElement &&
@@ -317,7 +323,7 @@ export const TopBar = connect(
                 marginTop: "12px"
               }}
             >
-              <V2Entry href="https://v2.iotexscan.io/">v2 beta</V2Entry>
+              <V2Entry href={this.state.v2BetaUrl}>v2 beta</V2Entry>
             </div>
           </Dropdown>
         </OutsideClickHandler>
@@ -373,7 +379,7 @@ export const TopBar = connect(
                     marginLeft: "24px"
                   }}
                 >
-                  <V2Entry href="https://v2.iotexscan.io/">v2 beta</V2Entry>
+                  <V2Entry href={this.state.v2BetaUrl}>v2 beta</V2Entry>
                 </div>
               </HiddenOnMobile>
             </Flex>
