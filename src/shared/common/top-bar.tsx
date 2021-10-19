@@ -295,7 +295,6 @@ export const TopBar = connect(
       }
 
       const { location } = this.props;
-      console.log("aaaaaa", location);
 
       return (
         <OutsideClickHandler onOutsideClick={this.hideMobileMenu}>
