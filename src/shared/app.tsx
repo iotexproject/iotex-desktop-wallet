@@ -41,12 +41,12 @@ export class App extends Component<Props> {
   }
 
   public render(): JSX.Element {
-    const { locale } = this.props;
+    const { locale, location } = this.props;
 
     return (
       <RootStyle>
         <HtmlHead locale={locale} />
-        <TopBar />
+        <TopBar location={location} />
         <div style={{ ...FOOTER_ABOVE }}>
           <ScrollToTop>
             <Switch>

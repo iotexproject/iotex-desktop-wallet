@@ -135,7 +135,6 @@ export const TOP_BAR_HEIGHT = 60;
 
 type State = {
   displayMobileMenu: boolean;
-  v2BetaUrl: string;
 };
 
 type Props = {
@@ -143,6 +142,8 @@ type Props = {
   locale: string;
   grafanaLink: string;
   toEthAddress: boolean;
+  // tslint:disable:no-any
+  location: any;
 } & DispatchProp;
 
 export const TopBar = connect(
@@ -164,16 +165,11 @@ export const TopBar = connect(
     constructor(props: Props) {
       super(props);
       this.state = {
-        displayMobileMenu: false,
-        v2BetaUrl: ""
+        displayMobileMenu: false
       };
     }
 
     public componentDidMount(): void {
-      this.setState({
-        v2BetaUrl: `https://v2.iotexscan.io${window.location.pathname +
-          window.location.search}`
-      });
       window.addEventListener("resize", () => {
         if (
           document.documentElement &&
@@ -298,6 +294,8 @@ export const TopBar = connect(
         return null;
       }
 
+      const { location } = this.props;
+
       return (
         <OutsideClickHandler onOutsideClick={this.hideMobileMenu}>
           <Dropdown>
@@ -323,7 +321,11 @@ export const TopBar = connect(
                 marginTop: "12px"
               }}
             >
-              <V2Entry href={this.state.v2BetaUrl}>v2 beta</V2Entry>
+              <V2Entry
+                href={`https://v2.iotexscan.io${location.pathname}${location.search}`}
+              >
+                v2 beta
+              </V2Entry>
             </div>
           </Dropdown>
         </OutsideClickHandler>
@@ -331,7 +333,7 @@ export const TopBar = connect(
     };
 
     public render(): JSX.Element {
-      const { locale } = this.props;
+      const { locale, location } = this.props;
       const displayMobileMenu = this.state.displayMobileMenu;
 
       return (
@@ -379,7 +381,11 @@ export const TopBar = connect(
                     marginLeft: "24px"
                   }}
                 >
-                  <V2Entry href={this.state.v2BetaUrl}>v2 beta</V2Entry>
+                  <V2Entry
+                    href={`https://v2.iotexscan.io${location.pathname}${location.search}`}
+                  >
+                    v2 beta
+                  </V2Entry>
                 </div>
               </HiddenOnMobile>
             </Flex>
