@@ -41,7 +41,7 @@ export async function setApiGateway(server: MyServer): Promise<void> {
     }
   });
   const gpath = "/api-gateway/";
-  apollo.applyMiddleware({ app: server.app, path: gpath });
+  apollo.applyMiddleware({ app: server.app, path: gpath, cors: true });
 
   server.get("api-total-supply", "/api/total-supply", async ctx => {
     const s = await server.gateways.analytics.fetchSupply();
