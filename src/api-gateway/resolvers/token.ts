@@ -97,7 +97,7 @@ export class TokenMetaResolver {
       this.tokenMetadataList.push({
         ...v,
         address: k,
-        logo: `https://iotexscan.io/image/token/${v.logo}`
+        logo: `https://iotexproject.iotex.io/iotex-token-metadata/master/images/${v.logo}`
       });
     }
     for (const [k, v] of Object.entries(testnetTokenMetada as {
@@ -106,7 +106,7 @@ export class TokenMetaResolver {
       this.testTokenMetadataList.push({
         ...v,
         address: k,
-        logo: `https://iotexscan.io/image/token/${v.logo}`
+        logo: `https://iotexproject.iotex.io/iotex-token-metadata/master/images/${v.logo}`
       });
     }
   }
