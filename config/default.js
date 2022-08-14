@@ -38,6 +38,7 @@ module.exports = {
       url: "/v3/contactdb/recipients",
       method: "POST"
     },
+    chainID: process.env.CHAIN_ID || 2,
     mongoose: {
       uri: process.env.MONGODB_URI
     },

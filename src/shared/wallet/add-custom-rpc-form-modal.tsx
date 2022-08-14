@@ -14,7 +14,7 @@ import { colors } from "../common/styles/style-color";
 import { FormItemLabel } from "./contract/cards";
 import { IRPCProvider } from "./wallet-reducer";
 
-const antennaTest = new Antenna("");
+const antennaTest = new Antenna("", 2);
 export interface IAddCustomRPCFormModalProps {
   onOK(network: IRPCProvider): void;
   onCancel(): void;
