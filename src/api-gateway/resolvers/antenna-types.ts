@@ -800,6 +800,8 @@ export class ActionCore implements IActionCore {
   public candidateRegister?: CandidateRegister | undefined;
   @Field(_ => CandidateBasicInfo, { nullable: true })
   public candidateUpdate?: CandidateBasicInfo | undefined;
+  @Field(_ => Int)
+  public chainID: number;
 }
 
 @InputType("ActionInput")
