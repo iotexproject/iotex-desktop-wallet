@@ -40,7 +40,7 @@ class AddCustomRPCFormModalCom extends React.PureComponent<
       try {
         antennaTest.setProvider(url);
         await antennaTest.iotx.getServerMeta({});
-        await onOK({ name, url: "", coreApi: url });
+        await onOK({ name, url: "", coreApi: url, chainId: 1});
       } catch (error) {
         notification.error({
           message: t("input.error.rpc.invalid"),

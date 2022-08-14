@@ -112,12 +112,14 @@ module.exports = {
       {
         name: "mainnet",
         url: "https://iotexscan.io/",
-        coreApi: "https://api.mainnet.iotex.one:443"
+        coreApi: "https://api.mainnet.iotex.one:443",
+        chainId: 1
       },
       {
         name: "testnet",
         url: "https://testnet.iotexscan.io/",
-        coreApi: "https://api.testnet.iotex.one:443"
+        coreApi: "https://api.testnet.iotex.one:443",
+        chainId: 2
       }
     ]
   },

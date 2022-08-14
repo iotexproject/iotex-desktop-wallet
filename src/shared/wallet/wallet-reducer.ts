@@ -69,6 +69,7 @@ export interface IRPCProvider {
   name: string;
   url: string;
   coreApi: string;
+  chainId: number;
 }
 
 export function actionClearSignMsg(): { type: "CLEAR_SIGN_MSG" } {
