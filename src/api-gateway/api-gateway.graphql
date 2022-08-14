@@ -54,6 +54,7 @@ type ActionCore {
   stakeTransferOwnership: StakeTransferOwnership
   candidateRegister: CandidateRegister
   candidateUpdate: CandidateBasicInfo
+  chainID: Int!
 }
 
 input ActionCoreInput {
@@ -91,6 +92,7 @@ input ActionCoreInput {
   stakeTransferOwnership: StakeTransferOwnershipInput
   candidateRegister: CandidateRegisterInput
   candidateUpdate: CandidateBasicInfoInput
+  chainID: Int!
 }
 
 type ActionInfo {
