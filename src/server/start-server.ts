@@ -41,6 +41,7 @@ export type MyConfig = Config & {
   gateways: {
     iotexAntenna: string;
     sendgrid: {};
+    chainID: number
   };
   bidContractAddress: string;
   vitaTokens: object;

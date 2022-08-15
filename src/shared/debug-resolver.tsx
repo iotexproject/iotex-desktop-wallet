@@ -23,7 +23,7 @@ import {
 
 import Antenna from "iotex-antenna";
 
-const antenna = new Antenna("https://api.mainnet.iotex.one:443");
+const antenna = new Antenna("https://api.mainnet.iotex.one:443", 1);
 
 type PathParamsType = {};
 

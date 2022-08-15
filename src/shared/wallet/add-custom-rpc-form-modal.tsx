@@ -14,7 +14,7 @@ import { colors } from "../common/styles/style-color";
 import { FormItemLabel } from "./contract/cards";
 import { IRPCProvider } from "./wallet-reducer";
 
-const antennaTest = new Antenna("");
+const antennaTest = new Antenna("", 2);
 export interface IAddCustomRPCFormModalProps {
   onOK(network: IRPCProvider): void;
   onCancel(): void;
@@ -40,7 +40,7 @@ class AddCustomRPCFormModalCom extends React.PureComponent<
       try {
         antennaTest.setProvider(url);
         await antennaTest.iotx.getServerMeta({});
-        await onOK({ name, url: "", coreApi: url });
+        await onOK({ name, url: "", coreApi: url, chainId: 1});
       } catch (error) {
         notification.error({
           message: t("input.error.rpc.invalid"),

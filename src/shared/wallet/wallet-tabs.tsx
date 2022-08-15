@@ -86,6 +86,7 @@ class WalletTabsInner extends Component<Props> {
   }
 
   // tslint:disable: no-any
+  // @ts-ignore
   public getActiveKey(location: H.Location<any>): string {
     let activeKey = `/wallet/transfer`;
     if (location.pathname.match(/smart-contract/)) {
