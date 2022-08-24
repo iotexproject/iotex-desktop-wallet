@@ -2,9 +2,9 @@
 
 This repo used to be iotex explorer, the V1 version of iotexscan. The updated V2 iotexscan is hosted at iotexscan.io. 
 
-This repo is still active serving the development of ioPay desktop app.
+This repo is still active serving the development of IoTeX Desktop Wallet.
 
-ioPay Desktop wallet is an electron based desktop wallet. It connects to IoTeX network using IoTeX Antenna (IoTeX Chain SDK, https://github.com/iotexproject/iotex-antenna). 
+IoTeX Desktop wallet is an electron based desktop wallet. It connects to IoTeX network using IoTeX Antenna (IoTeX Chain SDK, https://github.com/iotexproject/iotex-antenna). 
 
 To use mobile wallet, you can download from ioPay website: https://iopay.me/
 
