@@ -13,7 +13,7 @@ import JsonGlobal from "safe-json-globals/get";
 import { Token } from "../../erc20/token";
 import { setApolloClientEndpoint } from "../common/apollo-client";
 import AddCustomRpcFormModal from "./add-custom-rpc-form-modal";
-import { getAntenna } from "./get-antenna";
+import {getAntenna, IOTEX_TEST_CHAIN_ID} from "./get-antenna";
 import { addCustomRPC, setNetwork } from "./wallet-actions";
 import { IRPCProvider } from "./wallet-reducer";
 
@@ -79,7 +79,7 @@ export const ChainNetworkSwitchComponent = (
       name: "custom",
       url: "",
       coreApi: "",
-      chainId: 1
+      chainId: IOTEX_TEST_CHAIN_ID
     },
   ].forEach(chain => {
     const key = `${chain.name}:${chain.coreApi}`;

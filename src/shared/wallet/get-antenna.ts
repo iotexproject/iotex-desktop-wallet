@@ -9,7 +9,8 @@ import { setCurrentProviderNetwork } from "./chain-network-switch";
 // TODO: enable USE_WS_SIGNER to active the WsSignerPlugin
 const USE_WS_SIGNER = false;
 
-export const IOTEX_CHAIN_ID = 1;
+export const IOTEX_MAIN_CHAIN_ID = 1;
+export const IOTEX_TEST_CHAIN_ID = 2;
 
 export function getAntenna(initial?: boolean, signer?: SignerPlugin): Antenna {
   const injectedWindow: Window & { antenna?: Antenna } = window;
@@ -17,11 +18,11 @@ export function getAntenna(initial?: boolean, signer?: SignerPlugin): Antenna {
     return injectedWindow.antenna;
   }
   if (isElectron()) {
-    injectedWindow.antenna = new Antenna("https://api.mainnet.iotex.one:443", IOTEX_CHAIN_ID,{
+    injectedWindow.antenna = new Antenna("https://api.mainnet.iotex.one:443", IOTEX_MAIN_CHAIN_ID,{
       signer: signer
     });
   } else {
-    injectedWindow.antenna = new Antenna("https://api.mainnet.iotex.one:443", IOTEX_CHAIN_ID,{
+    injectedWindow.antenna = new Antenna("https://api.mainnet.iotex.one:443", IOTEX_MAIN_CHAIN_ID,{
       ...(USE_WS_SIGNER
         ? {
             signer: signer || new WsSignerPlugin()
