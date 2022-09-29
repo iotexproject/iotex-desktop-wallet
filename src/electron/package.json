@@ -1,7 +1,7 @@
 {
   "name": "IoTeX Desktop Wallet",
   "version": "1.0.20",
-  "description": "IoTeX Wallet App",
+  "description": "IoTeX Desktop Wallet",
   "main": "dist/app/main.js",
   "scripts": {
     "start": "electron src/main.js",
