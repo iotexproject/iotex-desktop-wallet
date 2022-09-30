@@ -12,8 +12,8 @@ import {connect, DispatchProp} from "react-redux";
 import {AppTokenMetadata} from "../common/common-metadata";
 import { rulesMap } from "../common/rules";
 import { colors } from "../common/styles/style-color";
-import {IRPCProvider, IWalletState} from "./wallet-reducer";
 import {truncate} from "../utils/util";
+import {IRPCProvider, IWalletState} from "./wallet-reducer";
 
 const TEST_URL = "https://iopay-wallet.iotex.io/api/tokenMetadata/testnet";
 const MAIN_URL = "https://iopay-wallet.iotex.io/api/tokenMetadata/mainnet";
@@ -65,7 +65,7 @@ class AddCustomTokensFormModal extends React.PureComponent<
     this.getTokenList(nextProps.network?.name)
   }
 
-  private getTokenList = (network?: String) => {
+  private readonly getTokenList = (network?: String) => {
     let tokenUrl = TEST_URL;
     if (network === "mainnet") {
       tokenUrl = MAIN_URL
