@@ -36,12 +36,12 @@
     "skipLibCheck": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules/**"],
+  "exclude": ["node_modules/**", "src/electron/node_modules/**"],
   "compileOnSave": false,
   "awesomeTypescriptLoaderOptions": {
     "transpileOnly": true
   },
   "linterOptions": {
-    "exclude": ["node_modules/**"]
+    "exclude": ["node_modules/**", "src/electron/node_modules/**"]
   }
 }
