@@ -1,5 +1,5 @@
-import Col from "antd/lib/grid/col";
 import Alert from "antd/lib/alert";
+import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
 // @ts-ignore
 import window from "global/window";
@@ -127,7 +127,7 @@ class WalletInner extends PureComponent<Props, State> {
             {!isElectron() && (
               <React.Fragment>
                 <Alert
-                  style={{marginLeft:'15px',marginBottom:'1em',fontSize:'16px'}}
+                  style={{marginLeft:"15px",marginBottom:"1em",fontSize:"16px"}}
                   message={t("unlock-wallet.error.message")}
                   type="error"
                   closable={true}
