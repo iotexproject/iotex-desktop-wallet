@@ -36,7 +36,7 @@
     "skipLibCheck": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules/**"],
+  "exclude": ["node_modules/@types", "node_modules/**"],
   "compileOnSave": false,
   "awesomeTypescriptLoaderOptions": {
     "transpileOnly": true
