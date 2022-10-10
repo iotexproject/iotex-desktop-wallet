@@ -10,10 +10,10 @@ import { Dict } from "onefx/lib/types";
 import React, { useEffect, useMemo, useState } from "react";
 import { getTokenAmountBN, Token } from "../../erc20/token";
 import { LogObject } from "../pages/action-detail-page";
-import { AddressName } from "./address-name";
 import { LinkButton } from "./buttons";
 import { colors } from "./styles/style-color";
 import { numberWithCommas } from "./vertical-table";
+import { AddressName } from "./address-name";
 
 export const KNOWN_TOPICS: Dict = {
   ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef: "Transfer",
@@ -108,7 +108,7 @@ const TokenTransferRow: React.FC<{
         <>
           <Col>{t("render.key.from")}</Col>
           <Col style={{ maxWidth: 340 }} className="ellipsis-text">
-            <AddressName address={from} />
+            <AddressName address={from}/>
           </Col>
         </>
       )}
@@ -116,7 +116,7 @@ const TokenTransferRow: React.FC<{
         <>
           <Col>{t("render.key.to")}</Col>
           <Col style={{ maxWidth: 340 }} className="ellipsis-text">
-            <AddressName address={to} />
+          <AddressName address={to}/>
           </Col>
         </>
       )}
