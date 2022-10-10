@@ -32,11 +32,11 @@
     "lib": ["es7", "es6", "dom", "esnext"],
     "resolveJsonModule": true,
     "types": ["node"],
-    "typeRoots": ["node_modules/@types", "src/types"],
+    "typeRoots": ["src/types"],
     "skipLibCheck": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules/**"],
+  "exclude": ["node_modules/@types", "node_modules/**"],
   "compileOnSave": false,
   "awesomeTypescriptLoaderOptions": {
     "transpileOnly": true
