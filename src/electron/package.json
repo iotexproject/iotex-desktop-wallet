@@ -1,5 +1,5 @@
 {
-  "name": "IoTeX Desktop Wallet",
+  "name": "iotex-desktop-wallet",
   "version": "1.0.20",
   "description": "IoTeX Desktop Wallet",
   "main": "dist/app/main.js",
@@ -44,7 +44,8 @@
     "afterSign": "src/notarize.js",
     "dmg": {
       "sign": false
-    }
+    },
+    "npmRebuild": false
   },
   "author": "IoTeX Foundation",
   "license": "Apache",
