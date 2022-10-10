@@ -71,7 +71,7 @@ const getEpochNum = (height: number) => {
     );
   }
 
-  const dardanellesEpoch =
+  let dardanellesEpoch =
     (epochConfig.dardanellesHeight - 1) /
       epochConfig.numDelegates /
       epochConfig.numSubEpochs +
@@ -161,7 +161,7 @@ const BlockDetailPage: React.FC<RouteComponentProps<{ height: string }>> = (
             href: blockUrl
           });
 
-          const sourceDetail = {
+          let sourceDetail = {
             epochNum: getEpochNum(details.height),
             ...details
           };

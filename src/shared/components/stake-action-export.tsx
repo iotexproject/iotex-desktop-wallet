@@ -1,10 +1,10 @@
-import {fromRau} from "iotex-antenna/lib/account/utils";
 import {t} from "onefx/lib/iso-i18n";
 import React, {Ref, useEffect, useImperativeHandle, useRef, useState} from "react";
 import {CSVLink} from "react-csv";
 import {translateFn} from "../common/from-now";
-import { numberWithCommas } from "../common/vertical-table";
 import {IStakeActionInfo} from "./stake-action-table";
+import {fromRau} from "iotex-antenna/lib/account/utils";
+import { numberWithCommas } from "../common/vertical-table";
 
 type ExportType = {actions: Array<IStakeActionInfo> | null, refInstance?: Ref<{excExport(): void}>}
 
