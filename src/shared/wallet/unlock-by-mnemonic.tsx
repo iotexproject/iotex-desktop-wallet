@@ -1,6 +1,7 @@
 import Button from "antd/lib/button";
 import Form, { FormComponentProps } from "antd/lib/form/Form";
 import Input from "antd/lib/input";
+import notification from "antd/lib/notification";
 // @ts-ignore
 import Mnemonic from "bitcore-mnemonic";
 import { get } from "dottie";
@@ -12,7 +13,6 @@ import { CommonMargin } from "../common/common-margin";
 import { getAntenna } from "./get-antenna";
 import { FormItemLabel } from "./wallet";
 import { setAccount } from "./wallet-actions";
-import notification from "antd/lib/notification";
 
 export interface State {
   mnemonicPhrase: string;
