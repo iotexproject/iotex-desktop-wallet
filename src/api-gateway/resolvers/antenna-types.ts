@@ -6,7 +6,7 @@ import {
   IBlockProducerInfo,
   ICandidateBasicInfo,
   ICandidateRegister,
-  IChainMeta,
+  IChainMeta, IClaimFromRewardingFund,
   IDepositToRewardingFund,
   IEpochData,
   IExecution,
@@ -774,7 +774,7 @@ export class ActionCore implements IActionCore {
   @Field(_ => DepositToRewardingFund, { nullable: true })
   public depositToRewardingFund?: DepositToRewardingFund | undefined;
   @Field(_ => ClaimFromRewardingFund, { nullable: true })
-  public claimFromRewardingFund?: ClaimFromRewardingFund | undefined;
+  public claimFromRewardingFund?: IClaimFromRewardingFund | undefined;
   @Field(_ => GrantReward, { nullable: true })
   public grantReward?: GrantReward | undefined;
 
@@ -808,7 +808,7 @@ export class ActionCore implements IActionCore {
 @ObjectType("Action")
 export class Action implements IAction {
   @Field(_ => ActionCore)
-  public core: ActionCore | undefined;
+  public core: IActionCore | undefined;
 
   @Field(_ => BufferScalar)
   public senderPubKey: Uint8Array | string;
