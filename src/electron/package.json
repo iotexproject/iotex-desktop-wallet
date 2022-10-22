@@ -1,6 +1,6 @@
 {
   "name": "iotex-desktop-wallet",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "IoTeX Desktop Wallet",
   "main": "dist/app/main.js",
   "scripts": {
