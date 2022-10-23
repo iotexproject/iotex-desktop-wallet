@@ -44,8 +44,7 @@
     "afterSign": "src/notarize.js",
     "dmg": {
       "sign": false
-    },
-    "npmRebuild": false
+    }
   },
   "author": "IoTeX Foundation",
   "license": "Apache",
