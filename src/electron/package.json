@@ -9,7 +9,7 @@
     "build": "npm run build:js && npm run build:electron # please specify APPLEID APPLEIDPASS",
     "build:js": "NODE_OPTIONS=\"--max-old-space-size=20148\" NODE_ENV=production webpack --config ./webpack.app.config.js",
     "build:electron": "electron-builder -mwl",
-    "publish": "electron-builder --mac --win --linux -p always # please specify APPLEID APPLEIDPASS",
+    "publish": "electron-builder --linux -p always # please specify APPLEID APPLEIDPASS",
     "lint": "eslint . --fix",
     "postinstall": "electron-rebuild;electron-builder install-app-deps"
   },
@@ -52,7 +52,7 @@
     "copy-webpack-plugin": "5.1.1",
     "cross-env": "^7.0.2",
     "electron": "6.1.0",
-    "electron-builder": "22.4.1",
+    "electron-builder": "~22.10.5",
     "electron-devtools-installer": "2.2.4",
     "electron-notarize": "1.0.0",
     "electron-rebuild": "1.11.0",
