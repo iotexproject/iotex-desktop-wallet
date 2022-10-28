@@ -8,7 +8,7 @@
     "start:dev": "cross-env NODE_ENV=development && npm start",
     "build": "npm run build:js && npm run build:electron # please specify APPLEID APPLEIDPASS",
     "build:js": "NODE_OPTIONS=\"--max-old-space-size=20148\" NODE_ENV=production webpack --config ./webpack.app.config.js",
-    "build:electron": "electron-builder -mwl",
+    "build:electron": "electron-builder -l",
     "publish": "electron-builder --linux -p always # please specify APPLEID APPLEIDPASS",
     "lint": "eslint . --fix",
     "postinstall": "electron-rebuild;electron-builder install-app-deps"
