@@ -281,7 +281,7 @@ new-wallet.warn.backup: 'Erstelle dir ein Backup!'
 topbar.wallet: Wallet
 topbar.wallet.web: 'Web Wallet'
 topbar.wallet.ioPayMobile: 'ioPay Mobiltelefon'
-topbar.wallet.ioPayDesktop: 'ioPay Desktop'
+topbar.wallet.ioPayDesktop: 'IoTeX Desktop Wallet'
 render.key.actionFee: Gebühr
 block.show_more: 'Mehr anzeigen'
 block.show_less: 'Weniger anzeigen'

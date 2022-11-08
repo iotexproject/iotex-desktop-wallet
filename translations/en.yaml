@@ -426,7 +426,7 @@ topbar.voting: VOTING
 topbar.wallet: WALLET
 topbar.wallet.web: 'Web Wallet'
 topbar.wallet.ioPayMobile: 'ioPay Mobile'
-topbar.wallet.ioPayDesktop: 'ioPay Desktop'
+topbar.wallet.ioPayDesktop: 'IoTeX Desktop Wallet'
 topbar.xrc20Transfer: XRC20 TOKEN TRANSFERS
 topbar.xrc721Transfer: XRC721 TOKEN TRANSFERS
 topbar.tokens: XRC20 TOKENS
@@ -605,7 +605,7 @@ wallet.write.contract.p1: 'You are about to'
 wallet.write.contract.p2: 'It will be deployed on the following network'
 wallet.write.contract.p3: 'Amount to send. In most cases you should leave it as 0.'
 wallet.write.contract.title: Warining
-wallet.desktop.app: 'ioPay Desktop v${appVersion}'
+wallet.desktop.app: 'IoTeX Desktop Wallet v${appVersion}'
 wallet.desktop.appVersion: 'Version: ${appVersion}'
 wallet.send-receive.title: 'Send and Receive IOTX'
 ok: OK
