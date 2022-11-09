@@ -1,6 +1,6 @@
 {
   "name": "iotex-desktop-wallet",
-  "version": "1.0.24",
+  "version": "1.0.26",
   "description": "IoTeX Desktop Wallet",
   "main": "dist/app/main.js",
   "scripts": {
@@ -18,6 +18,7 @@
     "url": "git@github.com:iotexproject/iotex-explorer.git"
   },
   "build": {
+    "productName": "IoTeX Desktop Wallet",
     "appId": "io.iotex.wallet",
     "asar": true,
     "files": [
