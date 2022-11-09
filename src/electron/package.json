@@ -18,6 +18,7 @@
     "url": "git@github.com:iotexproject/iotex-explorer.git"
   },
   "build": {
+    "productName": "IoTeX Desktop Wallet",
     "appId": "io.iotex.wallet",
     "asar": true,
     "files": [

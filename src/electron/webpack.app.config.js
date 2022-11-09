@@ -76,7 +76,7 @@ module.exports = env => {
       renderer: "./src/renderer.js"
     },
     output: {
-      filename: "IoTeX Desktop Wallet.js",
+      filename: "[name].js",
       path: path.resolve(__dirname, "./dist/app")
     }
   });
