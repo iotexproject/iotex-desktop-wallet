@@ -33,7 +33,7 @@ module.exports = {
     rules: [
       { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
       {
-        enforce: "pre",
+        // enforce: "pre",
         test: /\.js$/,
         loader: "source-map-loader",
         exclude: [
@@ -43,7 +43,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: /(node_modules)/,
+        // exclude: /(node_modules)/,
         use: {
           loader: "babel-loader",
           options: require("./babel.config")
