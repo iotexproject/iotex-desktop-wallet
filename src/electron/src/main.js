@@ -56,14 +56,14 @@ function createWindow() {
   (function openDevTools() {
     const env = process.env.NODE_ENV;
 
-    if (env === "development") {
+    if (env !== "development") {
       const {
         default: installExtension,
         REACT_DEVELOPER_TOOLS,
         REDUX_DEVTOOLS
       } = require("electron-devtools-installer");
 
-      mainWindow.webContents.openDevTools({mode:'bottom'});
+      mainWindow.webContents.openDevTools({ mode: "bottom" });
 
       const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
 

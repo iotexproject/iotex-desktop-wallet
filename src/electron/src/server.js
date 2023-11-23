@@ -19,9 +19,16 @@ function createServer(port, callback) {
 }
 
 const getCerts = async () => {
-  return fetch(
-    "https://certs.iotex.io?rand=" + Math.round(Math.random() * 100 + 1)
-  )
+  const agent = new https.Agent({
+    rejectUnauthorized: false
+  });
+  const url =
+    "https://certs.iotex.io?rand=" + Math.round(Math.random() * 100 + 1);
+  return fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    agent
+  })
     .then(res => res.json())
     .catch(err =>
       console.error(
