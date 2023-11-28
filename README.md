@@ -1,5 +1,14 @@
 # IoTeX Desktop Wallet
 
+> [!WARNING]
+> IoTeX Desktop Wallet is not being actively developed. Please consider use other wallet options
+> 1. ioPay - mobile apps to securely access your asset and dapps on IoTeX and other EVM blockchains
+> 2. metamask - add RPC endpoint and accesss your assets on IoTeX (https://iotexapi.com/)
+> 3. Ledger - use iotex app on Ledger to access IoTeX assets. Or use Ethereum app on Ledger and chainID 4689 to access IoTeX assets.
+> 4. other EVM competible wallets - trust wallet, tokenpocket, etc.
+
+IoTeX Desktop Wallet is built based on iotex explorer v1. 
+
 This repo used to be iotex explorer, the V1 version of iotexscan. The updated V2 iotexscan is hosted at iotexscan.io.
 
 This repo is still active serving the development of IoTeX Desktop Wallet.
