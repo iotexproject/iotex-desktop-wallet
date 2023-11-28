@@ -63,7 +63,7 @@ function createWindow() {
         REDUX_DEVTOOLS
       } = require("electron-devtools-installer");
 
-      mainWindow.webContents.openDevTools({mode:'bottom'});
+      mainWindow.webContents.openDevTools({ mode: "bottom" });
 
       const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
 
