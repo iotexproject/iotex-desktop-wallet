@@ -1,5 +1,10 @@
-# IoTeX Desktop Wallet
+# IoTeX Desktop Wallet [Deprecated]
 
+The IoTeX Desktop Wallet is no longer actively maintained. Please consider using alternative wallets.
+1. ioPay - support both iOS, Android https://iopay.me/
+2. Metamask + IoeX Hub - https://metamask.io/  + https://hub.iotex.io/
+
+## Summary
 This repo used to be iotex explorer, the V1 version of iotexscan. The updated V2 iotexscan is hosted at iotexscan.io.
 
 This repo is still active serving the development of IoTeX Desktop Wallet.
